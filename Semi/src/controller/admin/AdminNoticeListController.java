@@ -12,6 +12,8 @@ import javax.servlet.http.HttpServletResponse;
 import dao.board.NoticeDao;
 import dao.board.NoticeDaoImpl;
 import dto.board.Notice;
+import service.board.AdminNoticeService;
+import service.board.AdminNoticeServiceImpl;
 import service.board.NoticeService;
 import service.board.NoticeServiceImpl;
 import utils.Paging;
@@ -23,22 +25,21 @@ import utils.Paging;
 public class AdminNoticeListController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
-	private NoticeService noticeService = new NoticeServiceImpl();
-	private NoticeDao noticeDao = new NoticeDaoImpl();
+	private AdminNoticeService adminNoticeService = new AdminNoticeServiceImpl();
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
 		//----- ����¡ �۾� -----
 		// ���� ������ ��ȣ ���
-		int curPage = noticeService.getCurPage(req);
+		int curPage = adminNoticeService.getCurPage(req);
 		
 		// ����¡ ��ü
-		int totalCount = noticeService.getTotalCount();
+		int totalCount = adminNoticeService.getTotalCount();
 		
 		Paging paging = new Paging(totalCount, curPage,10); 
 		
 		// List�� ��ȸ ��� ���
-		List<Notice> list = noticeService.getPagingList(paging);
+		List<Notice> list = adminNoticeService.getPagingList(paging);
 		
 		// ��û�� ��� ��Ƽ� ������
 		req.setAttribute("noticelist", list);
