@@ -28,6 +28,7 @@ public class MainController extends HttpServlet {
 		  
 		
 		//jgjh
+		//깃을 그만 보고 싶다.
 		
 		
 		//최신콘텐츠 리스트 가져오기
