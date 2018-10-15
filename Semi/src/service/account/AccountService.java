@@ -19,6 +19,7 @@ public interface AccountService {
 		//스토리 하나 삭제할때 딸려있는 가계부 모두 삭제
 		public void deleteAccountListByStoryIdx(Story story);
 		
+		//저장하기
 		public void Write(Account account);
 		
 		public void Update(Account account);
