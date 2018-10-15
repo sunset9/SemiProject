@@ -17,6 +17,7 @@ public class Account {
 	private float origin_cost;
 	//환율적용비용
 	private float caled_cost;
+	// 쓸모없는 주석 하나
 	
 	
 	@Override
