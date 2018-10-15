@@ -26,7 +26,7 @@ public class AdminCommentListController extends HttpServlet {
 		
 		// doGet!
 		//test!!
-
+		//test22
 	
 	}
 	
