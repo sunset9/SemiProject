@@ -26,10 +26,8 @@ import service.board.NoticeServiceImpl;
 public class AdminNoticeDeleteController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	private AdminNoticeService adminNoticeService = new AdminNoticeServiceImpl();
-	private NoticeDao noticeDao = new NoticeDaoImpl();
 	private Notice notice = new Notice();
 	private NoticeFile file = new NoticeFile();
-	private NoticeFileDao noticeFileDao =  new NoticeFileDaoImpl();
    
 
 	@Override
