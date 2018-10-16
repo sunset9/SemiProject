@@ -16,7 +16,7 @@ import service.stroy.StoryServiceImpl;
 /**
  * Servlet implementation class StoryUpdateController
  */
-@WebServlet("/StoryUpdateController")
+@WebServlet("/story/update")
 public class StoryUpdateController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	
