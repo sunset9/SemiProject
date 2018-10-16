@@ -13,6 +13,14 @@
 <!-- jQuery -->
 <script type="text/javascript" src="http://code.jquery.com/jquery-2.2.4.min.js"></script>
 
+<!-- jQuery 2.2.4 -->
+<script type="text/javascript" src="http://code.jquery.com/jquery-2.2.4.min.js"></script>
+
+<!-- 부트스트랩 3.3.2 -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap-theme.min.css">
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
+
 <style type="text/css">
 .header {}
 
@@ -57,7 +65,6 @@
 		<button>새일정</button>
 	</div>
 	
-
 	<div class="loginBtn common">
 		<!-- 로그인 상태일때 -->
 	<c:if test="${login}">
@@ -69,8 +76,6 @@
 		<button id="loginBtn" onclick='location.href="/user/login";'>로그인</button>
 	</c:if>
 	</div>
-	
-	</div>
 </div>
 
 <!-- menubar -->
@@ -81,6 +86,7 @@
 	<li class="menu common"><a>공지사항</a></li>
 	<li class="menu common"><a>Q&A</a></li>
 </ul>
+
 </div>
 <!-- /menubar -->
 

@@ -13,6 +13,7 @@
 <!-- jQuery -->
 <script type="text/javascript" src="http://code.jquery.com/jquery-2.2.4.min.js"></script>
 
+<!-- 스타일 -->
 <style type="text/css">
 .header {}
 
@@ -22,7 +23,16 @@
 
 .right {float:right;}
 
+
 </style>
+.menu {
+	margin-right:80px;
+	margin-left:80px;
+	float: left;
+}
+
+</style>
+  
 </head>
 <body>
 <!-- header -->
@@ -50,7 +60,6 @@
 	<div class="newPlan common">
 		<button>새일정</button>
 	</div>
-	
 
 	<div class="loginBtn common">
 		<!-- 로그인 상태일때 -->
@@ -66,6 +75,4 @@
 	
 	</div>
 </div>
-
-
 <!-- /header -->
