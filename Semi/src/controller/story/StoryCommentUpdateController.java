@@ -13,7 +13,7 @@ import service.plan.PlanServiceImpl;
 import service.stroy.StoryService;
 import service.stroy.StoryServiceImpl;
 
-@WebServlet("/story/comm/write")
+@WebServlet("/story/comm/update")
 public class StoryCommentUpdateController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
