@@ -16,7 +16,7 @@ import service.board.QnaServiceImpl;
 
 
 
-@WebServlet("admin/qna/view")
+@WebServlet("/admin/qna/view")
 public class AdminQnaViewController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 

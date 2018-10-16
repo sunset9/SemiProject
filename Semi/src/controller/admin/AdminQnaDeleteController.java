@@ -21,7 +21,7 @@ import service.board.QnaServiceImpl;
 
 
 
-@WebServlet("admin/qna/delete")
+@WebServlet("/admin/qna/delete")
 public class AdminQnaDeleteController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	

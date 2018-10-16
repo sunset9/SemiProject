@@ -17,7 +17,7 @@ import service.board.QnaServiceImpl;
 
 
 
-@WebServlet("admin/qna/write")
+@WebServlet("/admin/qna/write")
 public class AdminQnaWriteController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 

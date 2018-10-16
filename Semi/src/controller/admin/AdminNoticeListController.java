@@ -21,7 +21,7 @@ import utils.Paging;
 
 
 
-@WebServlet("admin/notice/list")
+@WebServlet("/admin/notice/list")
 public class AdminNoticeListController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 

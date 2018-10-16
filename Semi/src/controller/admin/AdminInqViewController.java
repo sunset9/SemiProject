@@ -21,7 +21,7 @@ import service.board.InquiryService;
 import service.board.InquiryServiceImpl;
 
 
-@WebServlet("/inquiry/view")
+@WebServlet("/admin/inquiry/view")
 public class AdminInqViewController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	private AdminInquiryService admininquiryService = new AdminInquiryServiceImpl();

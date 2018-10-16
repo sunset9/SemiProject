@@ -13,7 +13,7 @@ import service.plan.PlanServiceImpl;
 import service.stroy.StoryService;
 import service.stroy.StoryServiceImpl;
 
-@WebServlet("/stoty/comment/delete")
+@WebServlet("/admin/comment/delete")
 public class AdminCommentDeleteController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
