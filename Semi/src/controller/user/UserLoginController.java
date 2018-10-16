@@ -29,7 +29,7 @@ public class UserLoginController extends HttpServlet {
 		protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 			//파라미터 처리
 			User param = userService.getParam(req,resp);
-			//System.out.println(param);
+			System.out.println(param);
 			
 			//로그인 처리
 			boolean login = userService.login(param);

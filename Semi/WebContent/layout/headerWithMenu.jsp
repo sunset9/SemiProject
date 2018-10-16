@@ -1,10 +1,17 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
+
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
+
+<!-- jQuery -->
+<script type="text/javascript" src="http://code.jquery.com/jquery-2.2.4.min.js"></script>
 
 <!-- jQuery 2.2.4 -->
 <script type="text/javascript" src="http://code.jquery.com/jquery-2.2.4.min.js"></script>
@@ -59,8 +66,15 @@
 	</div>
 	
 	<div class="loginBtn common">
-		<button>로그인</button>
-	</div>
+		<!-- 로그인 상태일때 -->
+	<c:if test="${login}">
+		<button onclick='location.href="/user/logout";'>로그아웃</button>
+	</c:if>
+	
+	<!-- 비로그인 상태일때 -->
+	<c:if test="${not login}">
+		<button id="loginBtn" onclick='location.href="/user/login";'>로그인</button>
+	</c:if>
 	</div>
 </div>
 
@@ -72,6 +86,8 @@
 	<li class="menu common"><a>공지사항</a></li>
 	<li class="menu common"><a>Q&A</a></li>
 </ul>
-</div><br>
+
+</div>
 <!-- /menubar -->
+
 <!-- /header -->

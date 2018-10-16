@@ -1,5 +1,9 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -19,6 +23,8 @@
 
 .right {float:right;}
 
+
+</style>
 .menu {
 	margin-right:80px;
 	margin-left:80px;
@@ -26,7 +32,7 @@
 }
 
 </style>
-
+  
 </head>
 <body>
 <!-- header -->
@@ -54,11 +60,19 @@
 	<div class="newPlan common">
 		<button>새일정</button>
 	</div>
-	
+
 	<div class="loginBtn common">
-		<button>로그인</button>
+		<!-- 로그인 상태일때 -->
+	<c:if test="${login}">
+		<button onclick='location.href="/user/logout";'>로그아웃</button>
+	</c:if>
+	
+	<!-- 비로그인 상태일때 -->
+	<c:if test="${not login}">
+		<button id="loginBtn" onclick='location.href="/user/login";'>로그인</button>
+	</c:if>
 	</div>
+	
 	</div>
 </div>
 <!-- /header -->
-
