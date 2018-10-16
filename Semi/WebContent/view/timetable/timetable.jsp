@@ -8,15 +8,15 @@
 <title>Insert title here</title>
 
 <!-- fullcalendar -->
-<link rel='stylesheet' href='/lib/fullcalendar/fullcalendar.css' />
-<link href='/lib/fullcalendar/fullcalendar.print.css' rel='stylesheet' media='print' />
+<link rel='stylesheet' href='/resources/timetable/fullcalendar/fullcalendar.css' />
+<link href='/resources/timetable/fullcalendar/fullcalendar.print.css' rel='stylesheet' media='print' />
 
 <script type="text/javascript" src="http://code.jquery.com/jquery-2.2.4.min.js"></script>
-<script type="text/javascript" src='/lib/jquery-ui.min.js'></script>
-<script type="text/javascript" src='/lib/moment.min.js'></script>
-<script type="text/javascript" src="/lib/fullcalendar/fullcalendar.js"></script>
-<script type="text/javascript" src="/lib/fullcalendar/scheduler.min.js"></script>
-<script src='/lib/fullcalendar/locale-all.js'></script>
+<script type="text/javascript" src='/resources/timetable/jquery-ui.min.js'></script>
+<script type="text/javascript" src='/resources/timetable/moment.min.js'></script>
+<script type="text/javascript" src="/resources/timetable/fullcalendar/fullcalendar.js"></script>
+<script type="text/javascript" src="/resources/timetable/fullcalendar/scheduler.min.js"></script>
+<script src='/resources/timetable/fullcalendar/locale-all.js'></script>
 
 <!-- 부트스트랩 -->
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
