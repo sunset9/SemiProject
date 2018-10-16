@@ -24,7 +24,7 @@ import service.board.QnaService;
 import service.board.QnaServiceImpl;
 
 
-@WebServlet("admin/qna/update")
+@WebServlet("/admin/qna/update")
 public class AdminQnaUpdateController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        

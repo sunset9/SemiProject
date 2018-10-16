@@ -16,7 +16,7 @@ import utils.Paging;
 
 
 
-@WebServlet("admin/inquiry/list")
+@WebServlet("/admin/inquiry/list")
 public class AdminInqListController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 

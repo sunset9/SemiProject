@@ -22,7 +22,7 @@ import service.board.NoticeService;
 import service.board.NoticeServiceImpl;
 
 
-@WebServlet("admin/notice/delete")
+@WebServlet("/admin/notice/delete")
 public class AdminNoticeDeleteController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	private AdminNoticeService adminNoticeService = new AdminNoticeServiceImpl();
