@@ -25,11 +25,6 @@ public class MainController extends HttpServlet {
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		//추천콘텐츠 리스트 가져오기
 		List recomPlanList = mainService.getRecommendedContents();
-		  
-		
-		//jgjh
-		//깃을 그만 보고 싶다.
-		
 		
 		//최신콘텐츠 리스트 가져오기
 		List newestPlanList = mainService.getNewestContents();
