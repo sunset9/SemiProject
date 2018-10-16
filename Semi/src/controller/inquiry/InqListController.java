@@ -32,12 +32,10 @@ public class InqListController extends HttpServlet {
 		// 전체 게시물 수 얻기 
 		int totalCount = inquiryService.getTotalCount();
 		
-		System.out.println(totalCount);
-		
 		// 페이징 객체 생성
 		Paging paging = new Paging(totalCount, curPage,10); 
 
-		System.out.println(paging);
+//		System.out.println(paging);
 		
 		//게시글 목록 MODEL로 추가 하기 
 		List<Inquiry> list = inquiryService.getPagingList(paging);
