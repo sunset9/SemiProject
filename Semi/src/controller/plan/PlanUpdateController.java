@@ -12,7 +12,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import dto.Account.Account;
 import dto.plan.Plan;
-import dto.plan.User;
+import dto.user.User;
 import dto.story.Comment;
 import dto.story.Story;
 import dto.timetable.Location;

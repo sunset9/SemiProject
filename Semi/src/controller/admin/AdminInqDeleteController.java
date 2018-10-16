@@ -19,7 +19,7 @@ import service.reply.ReplyService;
 import service.reply.ReplyServiceImpl;
 
 
-@WebServlet("admin/inquiry/delete")
+@WebServlet("/admin/inquiry/delete")
 public class AdminInqDeleteController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	

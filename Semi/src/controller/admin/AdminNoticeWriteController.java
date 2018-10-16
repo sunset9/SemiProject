@@ -17,7 +17,7 @@ import service.board.NoticeServiceImpl;
 
 
 
-@WebServlet("admin/notice/write")
+@WebServlet("/admin/notice/write")
 public class AdminNoticeWriteController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 

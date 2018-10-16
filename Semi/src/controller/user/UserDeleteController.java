@@ -29,7 +29,7 @@ public class UserDeleteController extends HttpServlet {
 	
 	@Override
 		protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-			User user = req.getSession().getAttribute();
+			// User user = (User) req.getSession().getAttribute(null);
 			//System.out.println(user);
 		
 			userService.deleteUserByEmail(user);

@@ -16,7 +16,7 @@ import utils.Paging;
 
 
 
-@WebServlet("admin/qna/list")
+@WebServlet("/admin/qna/list")
 public class AdminQnaListController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
