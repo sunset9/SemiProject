@@ -6,120 +6,137 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
-<link rel='stylesheet' href='/Cal/fullcalendar/fullcalendar.css' />
-<link href='/Cal/fullcalendar/fullcalendar.print.css' rel='stylesheet' media='print' />
-<script type="text/javascript" src='/Cal/lib/jquery.min.js'></script>
-<script type="text/javascript" src='/Cal/lib/jquery-ui.min.js'></script>
-<script type="text/javascript" src='/Cal/lib/moment.min.js'></script>
-<script type="text/javascript" src="/Cal/fullcalendar/fullcalendar.js"></script>
-<script type="text/javascript" src="/Cal/fullcalendar/scheduler.min.js"></script>
-<script src='/Cal/fullcalendar/locale-all.js'></script>
 
+<!-- fullcalendar -->
+<link rel='stylesheet' href='/resources/timetable/fullcalendar/fullcalendar.css' />
+<link href='/resources/timetable/fullcalendar/fullcalendar.print.css' rel='stylesheet' media='print' />
+
+<script type="text/javascript" src="http://code.jquery.com/jquery-2.2.4.min.js"></script>
+<script type="text/javascript" src='/resources/timetable/jquery-ui.min.js'></script>
+<script type="text/javascript" src='/resources/timetable/moment.min.js'></script>
+<script type="text/javascript" src="/resources/timetable/fullcalendar/fullcalendar.js"></script>
+<script type="text/javascript" src="/resources/timetable/fullcalendar/scheduler.min.js"></script>
+<script src='/resources/timetable/fullcalendar/locale-all.js'></script>
+
+<!-- 부트스트랩 -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    
 <script type="text/javascript">
 $(document).ready(function(){
-
-    /* initialize the external events
+	
+	/* initialize the external events
     -----------------------------------------------------------------*/
-
+    
     $('#external-events .fc-event').each(function() {
-
-      // store data so the calendar knows to render an event upon drop
-      $(this).data('event', {
-        title: $.trim($(this).text()), // use the element's text as the event title
-        stick: true // 드롭한 이벤트 고정 (false: 다음 등의 버튼 누르면 사라짐)
-      });
-
-      // make the event draggable using jQuery UI
-      $(this).draggable({
-        zIndex: 999,
-        revert: true,      // will cause the event to go back to its
-        revertDuration: 0,  //  되돌려지는 시간
-        scroll: true // true: 드래그 요소 창 밖으로 끌면 자동으로 스크롤생기면서 아래로내릴 수 있음
-      });
-
-    });
+		// store data so the calendar knows to render an event upon drop
+		$(this).data('event', {
+		  title: $.trim($(this).text()), // use the element's text as the event title
+		  stick: true // 드롭한 이벤트 고정 (false: 다음 등의 버튼 누르면 사라짐)
+		});
+		
+		// make the event draggable using jQuery UI
+		$(this).draggable({
+		  zIndex: 999,
+		  revert: true,      // will cause the event to go back to its
+		  revertDuration: 0,  //  되돌려지는 시간
+		  scroll: true // true: 드래그 요소 창 밖으로 끌면 자동으로 스크롤생기면서 아래로내릴 수 있음
+		});
+	});
 
     
-	 $('#calendar').fullCalendar({
-		  schedulerLicenseKey: 'GPL-My-Project-Is-Open-Source',
-		  height: "auto",
- 		  defaultView: 'titetable',
-	      defaultDate: '2018-04-07',
-   	      minTime: '06:00:00', 
-	      locale: 'ko',
-	      editable: true,
-	      droppable: true, // this allows things to be dropped onto the calendar
- 	      selectable: true,
-	      eventLimit: true, // allow "more" link when too many events
-	      header: {
-        	left: 'prev',
-	        right: 'next'
-	      },
-	      views: {
-    	    titetable: {
-    	      type: 'agenda',
-    	      columnHeaderFormat: 'dddd M/D',
-    	      visibleRange: function(currentDate) {
-    	    	  // 표시해주는 범위 설정
-  	    	    return {
-  	    	      start: currentDate.clone().subtract(0, 'days'),
-  	    	      end: currentDate.clone().add(3, 'days')
-  	    	    };
-  	    	  }
-    	    },
-    	  },
-	      //// uncomment this line to hide the all-day slot
-	      allDaySlot: false,
-	      events: [
-// 	        { id: '1', start: '2018-04-06', end: '2018-04-08', title: 'event 1' },
-	        { id: '2', start: '2018-04-07T10:00:00', end: '2018-04-07T14:00:00', title: 'event 2' ,description: 'This is a cool event'},
-	        { id: '3', start: '2018-04-09T14:00:00', end: '2018-04-09T17:30:00', title: 'event 3' },
-	        { id: '4', start: '2018-04-07T07:30:00', end: '2018-04-07T09:30:00', title: 'event 4' },
-	        { id: '5', start: '2018-04-08T10:00:00', end: '2018-04-08T15:00:00', title: 'event 5' }
-	      ],
-	      eventRender: function(event, element) {
-	    	    element.qtip({
-	    	      content: event.description
-	    	    });
-	    	  },
-// 	      eventConstraint: { // 이벤트 허용 범위 
-// 	    	    start: '00:00',
-// 	    	    end: '24:00'
-// 	      },
-	      eventOverlap: false, // 이벤트 겹치게 허용하지 않음
-	      dayClick: function(date, jsEvent, view, resource) {
-	        console.log(
-	          'dayClick',
-	          date.format(),
-	          resource ? resource.id : '(no resource)'
-	        );
-	      },
-	      viewRender: function (view, element)
-	      {
-	          // 표시해주고 있는 첫째날과 마지막 날
-	    	  intervalStart = view.intervalStart;
-	          intervalEnd = view.intervalEnd;
-// 	          console.log(intervalStart.format("YYYY-MM-DD"));
-// 	          console.log(intervalEnd.format("YYYY-MM-DD"));
-	          
-	          // 첫날이면 이전 버튼 숨기기
-	          if(intervalStart.format("YYYY-MM-DD") == '2018-04-07'){
-	          	$(".fc-prev-button").hide();
-	          }else{
-	        	  $(".fc-prev-button").show();
-	          }
-	      },
-	      eventRender: function(event, element, view) {
-	    	  // 날짜 별로 색상 다르게 해주기
-	    	  if(event.start.format("YYYY-MM-DD") == '2018-04-07'){
-	    	  	element.css("background-color", "green");
-	    	  }else if(event.start.format("YYYY-MM-DD") == '2018-04-08'){
-	    	  	element.css("background-color", "orange");
-	    	  }
-	    	}
-	    });
-	 $('#calendar').fullCalendar('option', 'locale', 'ko');
- 	 $('#calendar').fullCalendar('option', 'eventConstraint',{start:"00:00", end:"24:00"}) // 이벤트 허용 범위 동적으로 설정
+	$('#calendar').fullCalendar({
+		schedulerLicenseKey: 'GPL-My-Project-Is-Open-Source',
+		height: "auto",
+		 	defaultView: 'titetable',
+			defaultDate: '2018-04-07',
+			   minTime: '06:00:00', 
+			locale: 'ko',
+			editable: true,
+			droppable: true, // this allows things to be dropped onto the calendar
+			 selectable: true,
+			eventLimit: true, // allow "more" link when too many events
+			header: {
+			 	left: 'prev',
+			  right: 'next'
+			},
+		views: {
+			titetable: {
+				type: 'agenda',
+				columnHeaderFormat: 'dddd M/D',
+				visibleRange: function(currentDate) {
+				 // 표시해주는 범위 설정
+				  return {
+				    start: currentDate.clone().subtract(0, 'days'),
+				    end: currentDate.clone().add(3, 'days')
+				  }
+				}
+			   },
+		},
+		//// uncomment this line to hide the all-day slot
+		allDaySlot: false,
+		events: [
+		  // { id: '1', start: '2018-04-06', end: '2018-04-08', title: 'event 1' },
+		  { id: '2', start: '2018-04-07T10:00:00', end: '2018-04-07T14:00:00', title: 'event 2' ,description: 'This is a cool event'},
+		  { id: '3', start: '2018-04-09T14:00:00', end: '2018-04-09T17:30:00', title: 'event 3' },
+		  { id: '4', start: '2018-04-07T07:30:00', end: '2018-04-07T09:30:00', title: 'event 4' },
+		  { id: '5', start: '2018-04-08T10:00:00', end: '2018-04-08T15:00:00', title: 'event 5' }
+		],
+		eventRender: function(event, element) {
+			element.qtip({
+			  content: event.description
+			});
+		 },
+		//eventConstraint: { // 이벤트 허용 범위 
+		//    start: '00:00',
+		//	    end: '24:00'
+		//},
+		eventOverlap: false, // 이벤트 겹치게 허용하지 않음
+		dayClick: function(date, jsEvent, view, resource) {
+			console.log(
+			  'dayClick',
+			  date.format(),
+			  resource ? resource.id : '(no resource)'
+			);
+		},
+		// 일정 선택하면 x표시 뜨도록
+		eventMouseover: function( event, jsEvent, view ){
+			console.log($(".fc-time-grid-event.fc-v-event.fc-event.fc-start.fc-end.fc-draggable.fc-resizable", this));
+// 			$(".fc-time-grid-event.fc-v-event.fc-event.fc-start.fc-end.fc-draggable.fc-resizable", this).prepend("<div></div>");
+// 			$(".fc-time-grid-event.fc-v-event.fc-event.fc-start.fc-end.fc-draggable.fc-resizable", this).prepend("<span style='float: right' class=\"glyphicon glyphicon-remove\"></span>");
+// 			$(".fc-time-grid-event.fc-v-event.fc-event.fc-start.fc-end.fc-draggable.fc-resizable", this).prepend("<span style='float: right' class=\"glyphicon glyphicon-remove\"></span>");
+			$(".fc-content",this).prepend("<span style='float: right' class=\"glyphicon glyphicon-remove\"></span>");
+		},
+		// 마우스 때면 x표시 사라지도록
+		eventMouseout: function( event, jsEvent, view ){
+			$(".fc-time-grid-event span.glyphicon.glyphicon-remove").remove();
+		},
+		viewRender: function (view, element)
+		{
+			// 표시해주고 있는 첫째날과 마지막 날
+			intervalStart = view.intervalStart;
+			intervalEnd = view.intervalEnd;
+			// console.log(intervalStart.format("YYYY-MM-DD"));
+			// console.log(intervalEnd.format("YYYY-MM-DD"));
+			
+			// 첫날이면 이전 버튼 숨기기
+			if(intervalStart.format("YYYY-MM-DD") == '2018-04-07'){
+				$(".fc-prev-button").hide();
+			}else{
+			 $(".fc-prev-button").show();
+			}
+		},
+		eventRender: function(event, element, view) {
+			// 날짜 별로 색상 다르게 해주기
+			if(event.start.format("YYYY-MM-DD") == '2018-04-07'){
+				element.css("background-color", "green");
+			}else if(event.start.format("YYYY-MM-DD") == '2018-04-08'){
+				element.css("background-color", "orange");
+			}
+		}
+	});
+	$('#calendar').fullCalendar('option', 'locale', 'ko');
+ 	$('#calendar').fullCalendar('option', 'eventConstraint',{start:"00:00", end:"24:00"}) // 이벤트 허용 범위 동적으로 설정
 	
 });
 </script>
