@@ -10,7 +10,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import dto.plan.Plan;
-import dto.plan.User;
+import dto.user.User;
 import dto.timetable.Location;
 import dto.timetable.Timetable;
 import service.plan.PlanService;
