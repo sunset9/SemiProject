@@ -45,7 +45,7 @@ public class InqListController extends HttpServlet {
 		req.setAttribute("paging", paging);
 
 		// VIEW 페이지 지정
-		req.getRequestDispatcher("/inquiry/inquiryList.jsp").forward(req, resp);
+		req.getRequestDispatcher("/inquiry/list.jsp").forward(req, resp);
 		
 		
 

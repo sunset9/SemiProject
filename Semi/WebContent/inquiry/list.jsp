@@ -8,15 +8,22 @@
 
 <script type="text/javascript">
 $(document).ready(function() {
+	$("table").on("click","tr",function(){
+		var inq_idx = $(this).children("td").eq(0).text();
+		
+		$(location).attr("href","/inquiry/view?inq_idx="+inq_idx);
+		
+	});
 	
-})
+});
 </script>
 
 
 <div>
-<h3> 문의 사항 </h3>
+<div>
+<h3> 문의 사항 </h3> <button id ="myInq">내 문의</button><button id ="inqWrite">문의 하기</button>
 <hr>
-
+</div>
 <table class="table table-hover table-striped table-condensed">
 <thead>
 <tr>
@@ -33,7 +40,7 @@ $(document).ready(function() {
 <c:forEach items ="${inquirylist }" var = "inq">
 <tr>
 <td>${inq.inq_idx }</td>
-<td>${inq.title }</td>
+<td><a href="/inquiry/view?inq_idx=${inq.inq_idx }">${inq.title }</a></td>
 <td>${inq.user_idx }</td>
 <td>${inq.answer }</td>
 <td>${inq.hit }</td>
