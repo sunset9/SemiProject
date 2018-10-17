@@ -13,6 +13,7 @@ import dao.board.InqFileDao;
 import dao.board.InqFileDaoImpl;
 import dao.board.ReplyDao;
 import dao.board.ReplyDaoImpl;
+import dto.board.InqFile;
 import dto.board.Inquiry;
 import dto.board.Reply;
 import service.board.InquiryService;
@@ -29,23 +30,36 @@ public class InqViewController extends HttpServlet {
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		req.setCharacterEncoding("utf-8");
 
-		// ÆÄ¶ó¹ÌÅÍ ¹Ş¾Æ¿À±â
+		// ìš”ì²­íŒŒë¼ë¯¸í„° ëª¨ë¸ì— ë‹´ê¸° 
 		Inquiry inquiry = inquiryService.getParam(req, resp);
 
-		
-		// »ó¼¼È­¸é º¸±â 
+		// ê²Œì‹œê¸€ ìƒì„¸ ì¡°íšŒ  
 		inquiry = inquiryService.view(inquiry);
 		
-		// ´ñ±Û ¸ñ·Ï ºÒ·¯¿À±â
-		List<Reply> list = replyDao.selectInqByInqIdx(inquiry);
+		// ê²Œì‹œê¸€ì— ê´€ë ¨ëœ ëŒ“ê¸€ ë¦¬ìŠ¤íŠ¸ ë¶ˆëŸ¬ì˜¤ê¸°
+		List<Reply> repList = replyDao.selectInqByInqIdx(inquiry);
 		
-		// ÆÄÀÏ ¸ñ·Ï ºÒ·¯¿À±â
-		fileDao.selectByInqIdx(inquiry);
+		// ê²Œì‹œê¸€ì— ê´€ë ¨ëœ ì‚¬ì§„ ë¶ˆëŸ¬ì˜¤ê¸°
+		InqFile inqFile = fileDao.selectByInqIdx(inquiry);
 		
-		// ¸ğµ¨¿¡ ´ã¾Æ¼­ Àü´ŞÇÏ±â 
+		// ê²Œì‹œê¸€ ëª¨ë¸ ì „ë‹¬
 		req.setAttribute("inquiry", inquiry);
 		
+		System.out.println(inquiry);
 		
-		req.getRequestDispatcher("").forward(req, resp);
+		// ê¸€ ì‘ì„±ì ì´ë©”ì¼ ì „ë‹¬
+		req.setAttribute("writerEmail", inquiryService.getEmail(inquiry));
+		
+		// ê¸€ ì‘ì„±ì ë‹‰ë„¤ì„ ì „ë‹¬
+		req.setAttribute("writerNick", inquiryService.getNick(inquiry));
+		
+		// ì²¨ë¶€íŒŒì¼ ëª¨ë¸ ì „ë‹¬
+		req.setAttribute("inqFile", inqFile);
+		
+		// ëŒ“ê¸€ ë¦¬ìŠ¤íŠ¸ ì „ë‹¬
+		req.setAttribute("repList", repList);
+		
+		// VIEW ì§€ì •
+		req.getRequestDispatcher("/inquiry/view.jsp").forward(req, resp);
 	}
 }
