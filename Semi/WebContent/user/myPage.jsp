@@ -40,5 +40,7 @@ td {vertical-align:middle;}
 		<div class="totalDistance">총 여행거리 : </div>
 	</div>
 </div>
+
+
 </body>
 </html>
