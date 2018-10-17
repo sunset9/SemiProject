@@ -16,20 +16,16 @@
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
 
 <script type="text/javascript">
-function miniViewPopup() {
-	
-	var url = "MiniView.jsp"
-	
-	var popOption = "width=750px, height=600px, resizeable=no, scrollbars=no, status=no;";
-	
-	window.open(url,"miniView",popOption);
-	
-}
+
 $(document).ready(function(){
+
+	//버튼 클릭 이벤트
 	$('#btnModal').on('click', function () {
 		console.log("2");
 	
 	})
+	
+	//#myModal <div> 한테 포커스 가도록 
 	$('#myModal').on('shown.bs.modal', function () {
 		  $('#myInput').focus()
 	})
@@ -40,7 +36,6 @@ $(document).ready(function(){
 </script>
 </head>
 <body>
-<a href="javascript:miniViewPopup();">miniView Test</a>
 <!-- Button trigger modal -->
 <button type="button" class="btn btn-primary btn-lg" data-toggle="modal" id="btnModal" data-target="#myModal">
   Launch demo modal
@@ -55,7 +50,9 @@ $(document).ready(function(){
         <h4 class="modal-title" id="myModalLabel">Modal title</h4>
       </div>
       <div class="modal-body">
-			    	<div style="border: 1px solid #9AA3E6; width: 690px; height: auto; overflow: hidden" >
+			
+		<!-- div (팝업으로 띄어줄) 본문 내용 -->	
+		<div style="border: 1px solid #9AA3E6; width: 690px; height: auto; overflow: hidden" >
 			<table>
 			<tr>
 				<td rowspan="2" style="padding-right: 30px; padding-bottom: 10px; padding-top: 10px; padding: 10px;">
@@ -97,8 +94,6 @@ $(document).ready(function(){
 
 			</table>
 			</div>
-
-    
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
