@@ -26,26 +26,26 @@ public class InqListController extends HttpServlet {
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		
 
-		//----- ÆäÀÌÂ¡ ÀÛ¾÷ -----
-		// ÇöÀç ÆäÀÌÁö ¹øÈ£ ¾ò±â
+		// í˜„ì¬ í˜ì´ì§€ ë²ˆí˜¸ ì–»ê¸° 
 		int curPage = inquiryService.getCurPage(req);
 
-		// ÆäÀÌÂ¡ °´Ã¼
+		// ì „ì²´ ê²Œì‹œë¬¼ ìˆ˜ ì–»ê¸° 
 		int totalCount = inquiryService.getTotalCount();
-
+		
+		// í˜ì´ì§• ê°ì²´ ìƒì„±
 		Paging paging = new Paging(totalCount, curPage,10); 
 
-		// List¿¡ Á¶È¸ °á°ú ´ã±â
+//		System.out.println(paging);
+		
+		//ê²Œì‹œê¸€ ëª©ë¡ MODELë¡œ ì¶”ê°€ í•˜ê¸° 
 		List<Inquiry> list = inquiryService.getPagingList(paging);
-
-		// ¿äÃ»¿¡ °á°ú ´ã¾Æ¼­ º¸³»±â
 		req.setAttribute("inquirylist", list);
 
-		// ÆäÀÌÂ¡ °´Ã¼ ¸ğµ¨·Î Ãß°¡ ÇÏ±â
+		// í˜ì´ì§• ê°ì²´ MODELë¡œ ì¶”ê°€
 		req.setAttribute("paging", paging);
 
-		// º¸¿©ÁÙ È­¸é ÁöÁ¤
-		req.getRequestDispatcher("").forward(req, resp);
+		// VIEW í˜ì´ì§€ ì§€ì •
+		req.getRequestDispatcher("/inquiry/list.jsp").forward(req, resp);
 		
 		
 

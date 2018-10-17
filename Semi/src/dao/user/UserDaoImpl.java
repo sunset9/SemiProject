@@ -92,7 +92,7 @@ public class UserDaoImpl implements UserDao{
 				user.setNickname(rs.getString("nickname"));
 				user.setProfile(rs.getString("profile"));
 				user.setGrade(rs.getString("grade"));
-				user.setSns_type(rs.getString("sns_type"));
+				user.setSns_type(rs.getString("sns_idx"));
 				user.setCreate_date(rs.getDate("create_date"));
 			}
 		} catch (SQLException e) {

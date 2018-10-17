@@ -30,56 +30,28 @@ public class InqWriteController extends HttpServlet {
 	
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		// ÀÎÄÚµù ¼³Á¤
 		req.setCharacterEncoding("utf-8");
 	
-		// ¼¼¼Ç¿¡¼­ ·Î±×ÀÎ Á¤º¸ È®ÀÎÈÄ ±Û ¾²±â °¡´É
+		// ë¡œê·¸ì¸ ë˜ì–´ìˆì§€ ì•Šìœ¼ë©´ main ìœ¼ë¡œ ë¦¬ë‹¤ì´ë ‰íŠ¸ í•˜ê¸°
+//		if( req.getSession().getAttribute("login")==null) {
+//			resp.sendRedirect("/main");
+//		}
 		
-		// º¸¿©ÁÙ ÆäÀÌÁö ¼³Á¤ 
-		req.getRequestDispatcher("").forward(req, resp);
+		// VIEW í˜ì´ì§€ ì§€ì •
+		req.getRequestDispatcher("/inquiry/write.jsp").forward(req, resp);
 		
 		
 	}
 	
 	@Override
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		HttpSession session = req.getSession();
-		
+
+		// ìš”ì²­ íŒŒë¼ë¯¸í„° í•œê¸€ ì¸ì½”ë”© ì„¤ì • : UTF-8
 		req.setCharacterEncoding("utf-8");
-		resp.setContentType("text/html;charset=utf-8");
 
+		inquiryService.write(req);
 	
-		//--- MultipartRequest »ı¼ºÀÚÀÇ ¸Å°³ º¯¼ö ÁØºñ---
-		// 1. ¿äÃ» °´Ã¼ 
-		//	µû·Î ¸¸µé ÇÊ¿ä ¾øÀ½ 
 		
-		// 2. ÆÄÀÏ ÀúÀå À§Ä¡
-		// String À¸·Î ¼­¹öÀÇ ½ÇÁ¦ °æ·Î ÁöÁ¤ 
-		
-		// 3. ¾÷·Îµå Á¦ÇÑ »çÀÌÁî 
-		
-		// 4. ÀÎÄÚµù 
-		// ¾÷·Îµå Á¤º¸ ÀÎÄÚµù ¹æ½Ä 
-		
-		
-		// 5. Áßº¹ ÆÄÀÏ ÀÌ¸§ Á¤Ã¥
-		// DefaultFileRenamePolicy ´Â Áßº¹ÆÄÀÏÀÌ ÀÖÀ¸¸é 
-		// ÆÄÀÏ ÀÌ¸§ µÚ¿¡ ¼ıÀÚ¸¦ Ãß°¡ÇÏ°í 1ºÎÅÍ Áõ°¡½ÃÅ²´Ù. 
-		
-		//-----------------------------------------------
-		
-		// MultipartRequest °´Ã¼ »ı¼º 
-		// ÆÄÀÏ ¾÷·Îµå Ã³¸® 
-		
-		
-		inquiryService.write(inquiry);
-		
-		inquiryService.insertFile(file);
-		
-
-
-		// º¸¿©ÁÙ È­¸é ÁöÁ¤
-		resp.sendRedirect("");
 	
 	
 	}

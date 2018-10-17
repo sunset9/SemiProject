@@ -14,7 +14,7 @@ import service.stroy.StoryService;
 import service.stroy.StoryServiceImpl;
 
 // 타임테이블에서 일정 누르면 뜨는 스토리 창
-@WebServlet("/StoryMiniViewController")
+@WebServlet("/story/mini/view")
 public class StoryMiniViewController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 

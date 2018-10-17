@@ -22,14 +22,14 @@ public class UserLoginController extends HttpServlet {
 	
 	@Override
 		protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-			req.getRequestDispatcher("/view/user/login.jsp").forward(req, resp);
+			req.getRequestDispatcher("/user/login.jsp").forward(req, resp);
 		}
 	
 	@Override
 		protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 			//파라미터 처리
 			User param = userService.getParam(req,resp);
-			//System.out.println(param);
+			System.out.println(param);
 			
 			//로그인 처리
 			boolean login = userService.login(param);
