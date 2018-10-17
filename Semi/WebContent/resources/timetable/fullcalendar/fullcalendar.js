@@ -6593,7 +6593,7 @@ var EventPointing = /** @class */ (function (_super) {
         var component = this.component;
         component.bindSegHandlerToEl(el, 'click', this.handleClick.bind(this));
         component.bindSegHandlerToEl(el, 'mouseenter', this.handleMouseover.bind(this));
-        component.bindSegHandlerToEl(el, '=', this.handleMouseout.bind(this));
+        component.bindSegHandlerToEl(el, 'mouseleave', this.handleMouseout.bind(this));
     };
     EventPointing.prototype.handleClick = function (seg, ev) {
         var res = this.component.publiclyTrigger('eventClick', {
@@ -6610,9 +6610,9 @@ var EventPointing = /** @class */ (function (_super) {
             !this.mousedOverSeg) {
             this.mousedOverSeg = seg;
             // TODO: move to EventSelecting's responsibility
-//            if (this.view.isEventDefResizable(seg.footprint.eventDef)) {
-//                seg.el.addClass('fc-allow-mouse-resize');
-//            }
+            if (this.view.isEventDefResizable(seg.footprint.eventDef)) {
+                seg.el.addClass('fc-allow-mouse-resize');
+            }
             this.component.publiclyTrigger('eventMouseover', {
                 context: seg.el[0],
                 args: [seg.footprint.getEventLegacy(), ev, this.view]
