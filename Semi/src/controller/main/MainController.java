@@ -34,7 +34,7 @@ public class MainController extends HttpServlet {
 		req.setAttribute("newestPlanList", newestPlanList);
 		  
 		//뷰 지정해주기
-		req.getRequestDispatcher("/view/main/main.jsp").forward(req, resp);
+		req.getRequestDispatcher("/main/main.jsp").forward(req, resp);
 	}
 
 }

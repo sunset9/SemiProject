@@ -22,7 +22,7 @@ public class UserLoginController extends HttpServlet {
 	
 	@Override
 		protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-			req.getRequestDispatcher("/view/user/login.jsp").forward(req, resp);
+			req.getRequestDispatcher("/user/login.jsp").forward(req, resp);
 		}
 	
 	@Override
@@ -40,12 +40,7 @@ public class UserLoginController extends HttpServlet {
 			//세션 정보 저장하기
 			//유저 객체로 넘기기
 			req.getSession().setAttribute("login", login);
-			req.getSession().setAttribute("email", user.getEmail());
-			req.getSession().setAttribute("nickname", user.getNickname());
-			req.getSession().setAttribute("profile", user.getProfile());
-			req.getSession().setAttribute("grade", user.getGrade());
-			req.getSession().setAttribute("sns_type", user.getSns_type());
-			req.getSession().setAttribute("create_date", user.getCreate_date());
+			req.getSession().setAttribute("user", user);
 			
 			resp.sendRedirect("/main");
 		}
