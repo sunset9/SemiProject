@@ -9,15 +9,15 @@ public class User {
 	private String nickname;
 	private String profile;
 	private String grade;
-	private String sns_type;
+	private int sns_idx;
 	private Date create_date;
 	private int totalPlanCnt; //총 게시글 개수 조회
 	
 	@Override
 	public String toString() {
 		return "User [user_idx=" + user_idx + ", email=" + email + ", password=" + password + ", nickname=" + nickname
-				+ ", profile=" + profile + ", grade=" + grade + ", sns_type=" + sns_type + ", create_date="
-				+ create_date + "]";
+				+ ", profile=" + profile + ", grade=" + grade + ", sns_idx=" + sns_idx + ", create_date=" + create_date
+				+ ", totalPlanCnt=" + totalPlanCnt + "]";
 	}
 
 	public int getUser_idx() {
@@ -68,12 +68,12 @@ public class User {
 		this.grade = grade;
 	}
 
-	public String getSns_type() {
-		return sns_type;
+	public int getSns_idx() {
+		return sns_idx;
 	}
 
-	public void setSns_type(String sns_type) {
-		this.sns_type = sns_type;
+	public void setSns_idx(int sns_idx) {
+		this.sns_idx = sns_idx;
 	}
 
 	public Date getCreate_date() {
@@ -82,6 +82,14 @@ public class User {
 
 	public void setCreate_date(Date create_date) {
 		this.create_date = create_date;
+	}
+
+	public int getTotalPlanCnt() {
+		return totalPlanCnt;
+	}
+
+	public void setTotalPlanCnt(int totalPlanCnt) {
+		this.totalPlanCnt = totalPlanCnt;
 	}
 	
 	

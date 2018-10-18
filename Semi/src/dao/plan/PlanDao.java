@@ -5,11 +5,11 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.List;
 
+import utils.DBConn;
 import dto.Account.Account;
 import dto.plan.Plan;
 import dto.user.User;
 import dto.timetable.Location;
-import utils.DBConn;
 
 public interface PlanDao {
 

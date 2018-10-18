@@ -11,11 +11,25 @@ public class UserServiceImpl implements UserService {
 
 	private UserDao userDao = new UserDaoImpl();
 	
-	//요청파라미터 처리
+	//요청파라미터 처리(email)
 	@Override
 	public User getParam(HttpServletRequest req, HttpServletResponse resp) {
 		User user = new User();
 		
+		user.setEmail(req.getParameter("useremail"));
+		user.setPassword(req.getParameter("userpw"));
+		user.setNickname(req.getParameter("usernickname"));
+		return user;
+	}
+
+	//요청 파라미터 처리(소셜)
+	@Override
+	public User getParamSocial(HttpServletRequest req, HttpServletResponse resp) {
+		User user = new User();
+		
+		user.setEmail(req.getParameter("id"));
+		user.setNickname(req.getParameter("nickname"));
+		user.setProfile(req.getParameter("profileImage"));
 		return user;
 	}
 
@@ -67,5 +81,6 @@ public class UserServiceImpl implements UserService {
 		// TODO Auto-generated method stub
 		return false;
 	}
+
 
 }

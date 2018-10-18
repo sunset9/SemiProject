@@ -26,6 +26,9 @@ public interface StoryDao {
 	
 	public int SelectCntAll();
 	
+	//현재 스토리의 인덱스값 불러오기
+	public int SelectStoryIdx();
+	
 	public List<Comment> selectCommentByStoryNo(Story story);
 	
 	public Comment selectCommentByCommentIdx(Comment cmt);

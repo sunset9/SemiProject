@@ -25,13 +25,6 @@
 
 
 </style>
-.menu {
-	margin-right:80px;
-	margin-left:80px;
-	float: left;
-}
-
-</style>
   
 </head>
 <body>
