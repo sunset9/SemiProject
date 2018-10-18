@@ -19,7 +19,7 @@ public class UserMypageController extends HttpServlet {
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		
 		//정보수정페이지(마이페이지)로 이동
-		req.getRequestDispatcher("/view/user/myPage.jsp").forward(req, resp);
+		req.getRequestDispatcher("/user/myPage.jsp").forward(req, resp);
 	}
 	
 	

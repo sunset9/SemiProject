@@ -8,6 +8,7 @@ public class NoticeFile {
 	private String stored_name;
 	private String origin_name;
 	private int notice_idx;
+	private long file_size;
 	private Date create_date;
 	public int getnFile_idx() {
 		return nFile_idx;
@@ -33,6 +34,12 @@ public class NoticeFile {
 	public void setNotice_idx(int notice_idx) {
 		this.notice_idx = notice_idx;
 	}
+	public long getFile_size() {
+		return file_size;
+	}
+	public void setFile_size(long file_size) {
+		this.file_size = file_size;
+	}
 	public Date getCreate_date() {
 		return create_date;
 	}
@@ -42,7 +49,8 @@ public class NoticeFile {
 	@Override
 	public String toString() {
 		return "NoticeFile [nFile_idx=" + nFile_idx + ", stored_name=" + stored_name + ", origin_name=" + origin_name
-				+ ", notice_idx=" + notice_idx + ", create_date=" + create_date + "]";
+				+ ", notice_idx=" + notice_idx + ", file_size=" + file_size + ", create_date=" + create_date + "]";
 	}
-
+	
+	
 }

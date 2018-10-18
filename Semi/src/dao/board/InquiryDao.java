@@ -38,4 +38,7 @@ public interface InquiryDao {
 	
 	// email 조회하기
 	public String selectNickByInq_idx(Inquiry inq);
+	
+	// 다음 게시글 번호 조회쿼리
+	public int selectInqIdx();
 }

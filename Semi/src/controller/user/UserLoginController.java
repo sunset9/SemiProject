@@ -29,9 +29,13 @@ public class UserLoginController extends HttpServlet {
 		protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 			//파라미터 처리
 			User param = userService.getParam(req,resp);
-			System.out.println(param);
+
+			//System.out.println(param);
+
 			
 			//로그인 처리
+			//존재하는 회원인지 확인 후 
+			//존재하는 회원이면 true반환
 			boolean login = userService.login(param);
 			
 			//유저 정보 얻어오기
@@ -39,13 +43,10 @@ public class UserLoginController extends HttpServlet {
 			
 			//세션 정보 저장하기
 			//유저 객체로 넘기기
+			req.getSession().setAttribute("user_idx", user.getUser_idx());
+			System.out.println("user_idx :"+ user.getUser_idx());
 			req.getSession().setAttribute("login", login);
-			req.getSession().setAttribute("email", user.getEmail());
-			req.getSession().setAttribute("nickname", user.getNickname());
-			req.getSession().setAttribute("profile", user.getProfile());
-			req.getSession().setAttribute("grade", user.getGrade());
-			req.getSession().setAttribute("sns_type", user.getSns_type());
-			req.getSession().setAttribute("create_date", user.getCreate_date());
+			req.getSession().setAttribute("user", user);
 			
 			resp.sendRedirect("/main");
 		}

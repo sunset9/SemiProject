@@ -15,6 +15,9 @@ $(document).ready(function() {
 		
 	});
 	
+	$("#inqWrite").click(function() {
+		location.href="/inquiry/write";
+	});
 });
 </script>
 

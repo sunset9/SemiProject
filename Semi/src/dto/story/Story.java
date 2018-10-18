@@ -8,7 +8,6 @@ public class Story {
 	private int plan_idx;
 	private int ttb_idx;
 	private int user_idx;
-	private int file_idx;
 	private String content;
 	private Date create_date;
 	
@@ -35,12 +34,6 @@ public class Story {
 	}
 	public void setUser_idx(int user_idx) {
 		this.user_idx = user_idx;
-	}
-	public int getFile_idx() {
-		return file_idx;
-	}
-	public void setFile_idx(int file_idx) {
-		this.file_idx = file_idx;
 	}
 	public String getContent() {
 		return content;

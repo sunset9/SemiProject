@@ -7,8 +7,8 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-import dto.board.Inquiry;
 import utils.DBConn;
+import dto.board.Inquiry;
 import utils.Paging;
 
 public class InquiryDaoImpl implements InquiryDao {
@@ -197,8 +197,46 @@ public class InquiryDaoImpl implements InquiryDao {
 
 	@Override
 	public void insert(Inquiry inq) {
-		// TODO Auto-generated method stub
 		
+		System.out.println("inqdaoimpl : "+inq);
+		// 게시글 추가하는 쿼리 
+		String sql ="";
+		sql+="INSERT INTO inquiry (inq_idx, title, user_idx,content,hit,answer)"; 
+		sql+=	"VALUES(?,?,?,?,0,0)";
+		
+		//DB 객체 
+		PreparedStatement ps = null;
+		
+		try {
+			conn.setAutoCommit(false);
+			
+			//DB 작업 
+			ps = conn.prepareStatement(sql);
+			ps.setInt(1, inq.getInq_idx());
+			ps.setString(2, inq.getTitle());
+			ps.setInt(3, inq.getUser_idx());
+			ps.setString(4, inq.getContent());
+			
+			ps.executeUpdate();
+			
+			conn.commit();
+		} catch (SQLException e) {
+			try {
+				// 비정상 종료시 rollback
+				conn.rollback();
+			} catch (SQLException e1) {
+				e1.printStackTrace();
+			}
+			e.printStackTrace();
+		}finally {
+			try {
+				//DB객체 닫기
+				if(ps!=null)	ps.close();
+				
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
 	}
 
 	@Override
@@ -302,5 +340,43 @@ public class InquiryDaoImpl implements InquiryDao {
 		}
 		
 		return nick;
+	}
+	@Override
+	public int selectInqIdx() {
+		
+		// 다음 게시글 번호 조회 쿼리 
+		String sql ="SELECT inquiry_seq.nextval FROM dual";
+		
+		// DB 객체 
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+		
+		// 결과 저장할 변수 
+		
+		int inq_idx = 0;
+		
+		try {
+			ps = conn.prepareStatement(sql);
+			rs = ps.executeQuery();
+			
+			while(rs.next()) {
+				inq_idx = rs.getInt(1);
+			}
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}finally {
+			try {
+				//DB객체 닫기
+				if(rs!=null)	rs.close();
+				if(ps!=null)	ps.close();
+				
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+		
+		
+		return inq_idx;
 	}
 }
