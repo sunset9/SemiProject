@@ -7,8 +7,8 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
 <meta name="viewport" content="user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, width=device-width"/>
 <title>로그인</title>
+<script type="text/javascript" src="http://code.jquery.com/jquery-2.2.4.min.js"></script>
 <script src="//developers.kakao.com/sdk/js/kakao.min.js"></script>
-
 <script type="text/javascript">
 	function init() { /* auth객체 생성자 : 바디태그를 다 읽은 후 이 메소드가 제일 먼저 호출된다. */
 		console.log('init');
@@ -66,26 +66,73 @@
 	};
 	
 </script>
-<!-- <script type="text/javascript">
-function onSignIn(googleUser) {
-	  var profile = googleUser.getBasicProfile();
-	  console.log('ID: ' + profile.getId()); // Do not send to your backend! Use an ID token instead.
-	  console.log('Name: ' + profile.getName());
-	  console.log('Image URL: ' + profile.getImageUrl());
-	  console.log('Email: ' + profile.getEmail()); // This is null if the 'email' scope is not present.
-	}
-</script> -->
+
+<script>
+	$(document).ready(function(){
+		Kakao.init("88e34dd24cbb64e2ee9278a3acbfc78d");
+		function getKakaotalkUserProfile(){
+			Kakao.API.request({
+				url: '/v1/user/me',
+				success: function(res) {
+					console.log(res.properties.nickname);
+					console.log(res.properties.profile_image);
+					$("id").append(res.properties.id);
+					$("#nickname").append(res.properties.nickname);
+					$("#profileImage").append($("<img/>",{"src":res.properties.profile_image,"alt":res.properties.nickname+"님의 프로필 사진"}));
+					this.document.getElementById("kakaoForm").submit(); 
+				},
+				fail: function(error) {
+					console.log(error);
+				}
+			});
+		}
+		function createKakaotalkLogin(){
+			$("#kakao-logged-group .kakao-logout-btn,#kakao-logged-group .kakao-login-btn").remove();
+			var loginBtn = $("<a/>",{"class":"kakao-login-btn","text":"로그인"});
+			loginBtn.click(function(){
+				Kakao.Auth.login({
+					persistAccessToken: true,
+					persistRefreshToken: true,
+					success: function(authObj) {
+						getKakaotalkUserProfile();
+						createKakaotalkLogout();
+					},
+					fail: function(err) {
+						console.log(err);
+					}
+				});
+			});
+			$("#kakao-logged-group").prepend(loginBtn)
+		}
+		function createKakaotalkLogout(){
+			$("#kakao-logged-group .kakao-logout-btn,#kakao-logged-group .kakao-login-btn").remove();
+			var logoutBtn = $("<a/>",{"class":"kakao-logout-btn","text":"로그아웃"});
+			logoutBtn.click(function(){
+				Kakao.Auth.logout();
+				createKakaotalkLogin();
+				$("#kakao-profile").text("");
+			});
+			$("#kakao-logged-group").prepend(logoutBtn);
+		}
+		if(Kakao.Auth.getRefreshToken()!=undefined&&Kakao.Auth.getRefreshToken().replace(/ /gi,"")!=""){
+			createKakaotalkLogout();
+			getKakaotalkUserProfile();
+		}else{
+			createKakaotalkLogin();
+		}
+	});
+</script>
 </head>
 <body>
 
 <!-- 페이스북으로 로그인 -->
-<script>
-  window.fbAsyncInit = function() {
+<!-- <script type="text/javascript">
+window.fbAsyncInit = function() {
     FB.init({
-      appId      : '{your-app-id}',
+      appId      : '529980714074036',
       cookie     : true,
       xfbml      : true,
-      version    : '{api-version}'
+      version    : 'v3.1'
     });
       
     FB.AppEvents.logPageView();   
@@ -99,7 +146,8 @@ function onSignIn(googleUser) {
      js.src = "https://connect.facebook.net/en_US/sdk.js";
      fjs.parentNode.insertBefore(js, fjs);
    }(document, 'script', 'facebook-jssdk'));
-</script>
+
+</script> -->
 
 <!-- 구글로 로그인 -->
 <!-- 일단 로그인 화면이 뜬 직후엔 버튼을 누르기 전이라서 맨아래 스크립트안에 써있는 init()이 수행된다. -->
@@ -124,27 +172,14 @@ function onSignIn(googleUser) {
 <br>
 
 <!-- 카카오톡으로 로그인 -->
-    <a id="kakao-login-btn"></a>
-    <a href="http://developers.kakao.com/logout"></a>
-    <script type='text/javascript'>
-      //<![CDATA[
-        // 사용할 앱의 JavaScript 키를 설정해 주세요.
-        Kakao.init('93335fb46c90f1bd713530e6d613c871');
-        // 카카오 로그인 버튼을 생성합니다.
-        Kakao.Auth.createLoginButton({
-          container: '#kakao-login-btn',
-          success: function(authObj) {
-            alert(JSON.stringify(authObj));
-          },
-          fail: function(err) {
-             alert(JSON.stringify(err));
-             console.log(JSON.stringify(err));
-          }
-        });
-      //]]>
-    </script>
-    
-    
+<div id="kakao-logged-group"></div>
+<div id="kakao-profile"></div>
+<form id="kakaoForm" action="/user/socialLogin" method="post">
+	<input type="hidden" name="id" value="" />
+	<input type="hidden" name="nickname" value="" />
+	<input type="hidden" name="profileImage" value="" />
+</form>
+  
 <!-- email로 로그인 -->
 <div>
 <form action="/user/login" method="post">

@@ -6,8 +6,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Date;
 
-import dto.user.User;
 import utils.DBConn;
+import dto.user.User;
 
 public class UserDaoImpl implements UserDao{
 
