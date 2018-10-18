@@ -83,6 +83,7 @@
 </div>
 <!-- /header끝 -->
 
+
 <!-- menubar시작 -->
 <div class="menubar">
 	<div class="menu common"><a>모든콘텐츠</a></div>
@@ -99,7 +100,9 @@
 	</a></div>
 	<div class="menu common"><a>공지사항</a></div>
 	<div class="menu common"><a>Q&A</a></div>
+  <div class="menu common"><a href="/inquiry/list">문의사항</a></div>
 </div><br>
+
 <!-- /menubar -->
 
 

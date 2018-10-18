@@ -19,6 +19,7 @@ public class UserServiceImpl implements UserService {
 		user.setEmail(req.getParameter("useremail"));
 		user.setPassword(req.getParameter("userpw"));
 		user.setNickname(req.getParameter("usernickname"));
+
 		return user;
 	}
 
@@ -30,6 +31,7 @@ public class UserServiceImpl implements UserService {
 		user.setEmail(req.getParameter("id"));
 		user.setNickname(req.getParameter("nickname"));
 		user.setProfile(req.getParameter("profileImage"));
+
 		return user;
 	}
 
