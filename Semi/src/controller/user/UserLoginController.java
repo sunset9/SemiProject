@@ -29,9 +29,11 @@ public class UserLoginController extends HttpServlet {
 		protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 			//파라미터 처리
 			User param = userService.getParam(req,resp);
-			System.out.println(param);
+			//System.out.println(param);
 			
 			//로그인 처리
+			//존재하는 회원인지 확인 후 
+			//존재하는 회원이면 true반환
 			boolean login = userService.login(param);
 			
 			//유저 정보 얻어오기
