@@ -103,4 +103,10 @@ public class StoryDaoImpl implements StoryDao{
 		return null;
 	}
 
+	@Override
+	public int SelectStoryIdx() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
 }
