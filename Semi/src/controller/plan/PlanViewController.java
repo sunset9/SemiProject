@@ -23,7 +23,7 @@ import service.stroy.StoryServiceImpl;
 import service.timetable.TimetableService;
 import service.timetable.TimetableServiceImpl;
 
-@WebServlet("/PlanViewController")
+@WebServlet("/plan")
 public class PlanViewController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
@@ -61,6 +61,6 @@ public class PlanViewController extends HttpServlet {
 		pService.write(plan);
 		
 		// view 폼 띄우기
-		req.getRequestDispatcher("").forward(req, resp);
+		req.getRequestDispatcher("/view/plan/view.jsp").forward(req, resp);
 	}
 }
