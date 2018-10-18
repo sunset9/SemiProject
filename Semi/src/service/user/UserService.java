@@ -8,8 +8,11 @@ import dao.user.UserDaoImpl;
 import dto.user.User;
 
 public interface UserService {
-	//요청 파라미터 처리
+	//요청 파라미터 처리(email)
 	public User getParam(HttpServletRequest req, HttpServletResponse resp);
+	
+	//요청 파라미터 처리(소셜)
+	public User getParamSocial(HttpServletRequest req, HttpServletResponse resp);
 	
 	//로그인 처리
 	public boolean login(User user);
