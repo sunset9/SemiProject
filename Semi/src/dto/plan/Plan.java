@@ -21,6 +21,24 @@ public class Plan {
 	private int distance;
 //	작성일
 	private Date create_date;
+	
+	private String bannerURL;
+	public String getBannerURL() {
+		return bannerURL;
+	}
+
+	public void setBannerURL(String bannerURL) {
+		this.bannerURL = bannerURL;
+	}
+
+	public int getTot_dist() {
+		return tot_dist;
+	}
+
+	public void setTot_dist(int tot_dist) {
+		this.tot_dist = tot_dist;
+	}
+
 	//총 여행 거리
 	private int tot_dist;
 	

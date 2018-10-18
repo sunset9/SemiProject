@@ -7,8 +7,8 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-import dto.board.Inquiry;
 import utils.DBConn;
+import dto.board.Inquiry;
 import utils.Paging;
 
 public class InquiryDaoImpl implements InquiryDao {

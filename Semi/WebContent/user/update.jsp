@@ -14,13 +14,13 @@
 <form action="/user/update" method="post">
 	<table>
 	<tr>
-	<td>이메일 : </td><td>${email}</td>
+	<td>이메일 : </td><td>${user.email}</td>
 	</tr>
 	<tr>
-	<td>내등급 : </td><td>${grade}</td>
+	<td>내등급 : </td><td>${user.grade}</td>
 	</tr>
 	<tr>
-	<td>닉네임 : </td><td><input type="text" name="nickname" placeholder="${nickname}"></td>
+	<td>닉네임 : </td><td><input type="text" name="nickname" placeholder="${user.nickname}"></td>
 	</tr>
 	<tr>
 	<td>비밀번호 : </td>

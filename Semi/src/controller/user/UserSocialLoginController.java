@@ -7,36 +7,30 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
 import dto.user.User;
 import service.user.UserService;
 import service.user.UserServiceImpl;
 
-
-@WebServlet("/user/delete")
-public class UserDeleteController extends HttpServlet {
+/**
+ * Servlet implementation class UserSocialLoginController
+ */
+@WebServlet("/User/socialLogin")
+public class UserSocialLoginController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
-	private User user = new User();
-	private UserService userService= new UserServiceImpl();
+	private UserService userService = new UserServiceImpl();
 	
 	@Override
 		protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		//뷰 지정	
-		req.getRequestDispatcher("/user/delete.jsp").forward(req, resp);
+			
 		}
 	
 	@Override
 		protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-			// User user = (User) req.getSession().getAttribute(null);
-			//System.out.println(user);
-		
-			userService.deleteUserByEmail(user);
-			
-			req.getSession().invalidate();
-			
-			resp.sendRedirect("/main");
-		
+			//파라미터 처리
+			User param = userService.getParam(req, resp);
+			System.out.println(param);
 		}
+	
 }
