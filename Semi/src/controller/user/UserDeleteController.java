@@ -24,7 +24,7 @@ public class UserDeleteController extends HttpServlet {
 	@Override
 		protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		//뷰 지정	
-		req.getRequestDispatcher("/view/user/delete.jsp").forward(req, resp);
+		req.getRequestDispatcher("/user/delete.jsp").forward(req, resp);
 		}
 	
 	@Override

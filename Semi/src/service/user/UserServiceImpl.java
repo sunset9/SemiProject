@@ -16,6 +16,9 @@ public class UserServiceImpl implements UserService {
 	public User getParam(HttpServletRequest req, HttpServletResponse resp) {
 		User user = new User();
 		
+		user.setEmail(req.getParameter("useremail"));
+		user.setPassword(req.getParameter("userpw"));
+		user.setNickname(req.getParameter("usernickname"));
 		return user;
 	}
 
