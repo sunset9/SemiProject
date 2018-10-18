@@ -5,6 +5,8 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.tomcat.util.http.fileupload.servlet.ServletFileUpload;
+
 import dao.board.InqFileDao;
 import dao.board.InqFileDaoImpl;
 import dao.board.InquiryDao;
@@ -30,7 +32,7 @@ public class InquiryServiceImpl implements InquiryService {
 		if(inq_idx != null && !"".equals(inq_idx)) {
 			inquiry.setInq_idx(Integer.parseInt(inq_idx));
 		}
-		
+//		System.out.println("inqservice inq: "+ inquiry);
 		// DTO 객체 반환하기
 		return inquiry;
 	}
@@ -63,17 +65,11 @@ public class InquiryServiceImpl implements InquiryService {
 
 	@Override
 	public Inquiry view(Inquiry inq) {
-		inquiryDao.selectInqByInqIdx(inq);
+		Inquiry inquiry = new Inquiry();
+		inquiry = inquiryDao.selectInqByInqIdx(inq);
 		inquiryDao.updateHit(inq);
 		
-		return null;
-	}
-
-
-	@Override
-	public void write(Inquiry inq) {
-		inquiryDao.insert(inq);
-		
+		return inquiry;
 	}
 
 	@Override
@@ -101,6 +97,33 @@ public class InquiryServiceImpl implements InquiryService {
 	@Override
 	public void insertFile(InqFile file) {
 		fileDao.insert(file);
+	}
+
+	@Override
+	public String getEmail(Inquiry inq) {
+		return inquiryDao.selectEmailByInq_idx(inq);
+	}
+
+	@Override
+	public String getNick(Inquiry inq) {
+		return inquiryDao.selectNickByInq_idx(inq);
+	}
+
+	@Override
+	public void write(HttpServletRequest req) {
+		Inquiry inquiry = null;
+		InqFile inqFile = null;
+		
+		boolean isMultipart = ServletFileUpload.isMultipartContent(req);
+		
+		if(!isMultipart) {
+			// 첨부 파일이 없을 경우
+			inquiry = new Inquiry();
+
+			inquiry.setTitle(req.getParameter("title"));
+			inquiry.setContent(req.getParameter("content"));
+			
+		}
 	}
 
 

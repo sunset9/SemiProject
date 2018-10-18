@@ -10,18 +10,18 @@ import dto.board.Inquiry;
 public interface InqFileDao {
 
 
-	// ÆÄÀÏ ¾÷·Îµå Á¤º¸ ÀÔ·Â 
+	// ë¬¸ì˜ì‚¬í•­ ì²¨ë¶€íŒŒì¼ ë„£ê¸°
 	public void insert(InqFile file);
 	
-	// ÆÄÀÏ ¸®½ºÆ® 
+	// ë¬¸ì˜ ì‚¬í•­ì— ê´€ë ¨ëœ ì²¨ë¶€íŒŒì¼ ë¶ˆëŸ¬ì˜¤ê¸° 
 	public List<InqFile> list();
 	
-	// ÆÄÀÏ¹øÈ£·Î Á¤º¸ ¾ò±â
+	// ì²¨ë¶€íŒŒì¼ ë²ˆí˜¸ë¡œ ì²¨ë¶€íŒŒì¼ ì¡°íšŒí•˜ê¸° 
 	public InqFile selectByFileno(InqFile file);
 	
-	// º¸µå ¹øÈ£·Î ÆÄÀÏ °¡Á®¿À±â
+	// ë¬¸ì˜ì‚¬í•­ì— ê´€ë ¨ëœ ì²¨ë¶€íŒŒì¼ ì¡°íšŒí•˜ê¸°
 	public InqFile selectByInqIdx(Inquiry inq);
 
-	// ÆÄÀÏ Áö¿ì±â 
+	// ê²Œì‹œë¬¼ì— ê´€ë ¨ëœ ì²¨ë¶€íŒŒì¼ ì§€ìš°ê¸°
 	public void delete(InqFile file);
 }

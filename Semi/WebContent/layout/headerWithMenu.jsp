@@ -99,7 +99,9 @@
 	</a></div>
 	<div class="menu common"><a>공지사항</a></div>
 	<div class="menu common"><a>Q&A</a></div>
-</div>
+</div><br>
+<!-- /menubar -->
+
 
 <!-- /menubar끝 -->
 

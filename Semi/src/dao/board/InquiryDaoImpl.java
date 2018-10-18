@@ -111,14 +111,88 @@ public class InquiryDaoImpl implements InquiryDao {
 
 	@Override
 	public Inquiry selectInqByInqIdx(Inquiry inq) {
-		// TODO Auto-generated method stub
-		return null;
+		// 게시글 하나 조회 쿼리
+		String sql ="SELECT * FROM inquiry WHERE inq_idx=?";
+		
+		// DB 객체 
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+		
+		// 결과 담을 객체 생성 
+		Inquiry i = new Inquiry();
+		try {
+			
+			// DB 작업 수행 
+			ps= conn.prepareStatement(sql);
+			ps.setInt(1, inq.getInq_idx());
+			
+			rs = ps.executeQuery();
+			
+			while(rs.next()) {
+				i.setInq_idx(rs.getInt("inq_idx"));
+				i.setUser_idx(rs.getInt("user_idx"));
+				i.setTitle(rs.getString("title"));
+				i.setContent(rs.getString("content"));
+				i.setHit(rs.getInt("hit"));
+				i.setAnswer(rs.getInt("answer"));
+				i.setCreate_date(rs.getDate("create_date"));
+				
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}finally {
+			try {
+				//DB객체 닫기
+				if(rs!=null)	rs.close();
+				if(ps!=null)	ps.close();
+				
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+		// 결과 반환
+		return i;
 	}
 
 	@Override
 	public void updateHit(Inquiry inq) {
-		// TODO Auto-generated method stub
+
+		// 해당 게시글 조회수 증가 쿼리
+		String sql ="";
+		sql += "UPDATE inquiry SET hit= hit+1 WHERE inq_idx=?";
 		
+		//DB 객체
+		PreparedStatement ps = null;
+		
+		try {
+			
+			// autocommit 끄기
+			conn.setAutoCommit(false);
+			
+			// DB 작업 
+			ps = conn.prepareStatement(sql);
+			ps.setInt(1, inq.getInq_idx());
+			ps.executeQuery();
+			
+			// 정상 종료일 경우 commit 하기
+			conn.commit();
+		} catch (SQLException e) {
+			try {
+				// 예외 발생시 rollback하기
+				conn.rollback();
+			} catch (SQLException e1) {
+				e1.printStackTrace();
+			}
+			e.printStackTrace();
+		}finally {
+				try {
+					//DB객체 닫기
+					if(ps!=null)	ps.close();
+					
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+			}
 	}
 
 	@Override
@@ -144,5 +218,89 @@ public class InquiryDaoImpl implements InquiryDao {
 		// TODO Auto-generated method stub
 		return null;
 	}
-
+	@Override
+	public String selectEmailByInq_idx(Inquiry inq) {
+		
+		// 게시글 번호로 닉네임 조회하기
+		String sql="";
+		sql += "SELECT email FROM userinfo U, inquiry I" ;
+		sql +=	" WHERE I.user_idx = U.user_idx" ;
+		sql +=	" AND I.inq_idx= ?";
+		
+		//DB 객체 
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+		
+		// 결과 저장할 변수
+		String email = null;
+		
+		try {
+			// DB 작업
+			ps = conn.prepareStatement(sql);
+			ps.setInt(1, inq.getInq_idx());
+			
+			rs = ps.executeQuery();
+			
+			while(rs.next()) {
+				email = rs.getString(1);
+			}
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				
+				//DB객체 닫기
+				if(ps!=null)	ps.close();
+				if(rs!=null)	rs.close();
+				
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+		
+		return email;
+	}
+	@Override
+	public String selectNickByInq_idx(Inquiry inq) {
+		// 게시글 번호로 닉네임 조회하기
+		String sql="";
+		sql += "SELECT nickname FROM userinfo U, inquiry I" ;
+		sql +=	" WHERE I.user_idx = U.user_idx" ;
+		sql +=	" AND I.inq_idx= ?";
+		
+		//DB 객체 
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+		
+		// 결과 저장할 변수
+		String nick = null;
+		
+		try {
+			// DB 작업
+			ps = conn.prepareStatement(sql);
+			ps.setInt(1, inq.getInq_idx());
+			
+			rs = ps.executeQuery();
+			
+			while(rs.next()) {
+				nick = rs.getString(1);
+			}
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				
+				//DB객체 닫기
+				if(ps!=null)	ps.close();
+				if(rs!=null)	rs.close();
+				
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+		
+		return nick;
+	}
 }

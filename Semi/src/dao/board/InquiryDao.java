@@ -9,27 +9,33 @@ import utils.Paging;
 
 public interface InquiryDao {
 	
-	// Inquiry ÀüÃ¼ ÆäÀÌÂ¡ÇÏ¿© ¸®½ºÆ®·Î Á¶È¸ 
+	// í˜ì´ì§• ëœ Inquiry ë¦¬ìŠ¤íŠ¸ ì¡°íšŒ
 	public List<Inquiry> selectPagingList(Paging paging);
 	
-	// ÀüÃ¼ °Ô½Ã±Û ¼ö Á¶È¸
+	// ì „ì²´ ê²Œì‹œë¬¼ ìˆ˜ ì¡°íšŒ
 	public int selectCntAll() ;
 		
-	// Inq_idx·Î ÇÏ³ªÀÇ Inquiry Á¶È¸ÇÏ±â
+	// inq_idxë¡œ ë¬¸ì˜ ì‚¬í•­ ì¡°íšŒí•˜ê¸°
 	public Inquiry selectInqByInqIdx (Inquiry inq);
 	
-	// Á¶È¸ÈÄ Á¶È¸¼ö ¿Ã¸®±â
+	// ìƒì„¸ë³´ê¸° í›„ ì¡°íšŒìˆ˜ ì¦ê°€ ì‹œí‚¤ê¸°
 	public void updateHit(Inquiry inq);
 	
-	// °Ô½Ã¹° µî·Ï ÇÏ±â
+	// ë¬¸ì˜ ì‚¬í•­ ì¶”ê°€í•˜ê¸°
 	public void insert(Inquiry inq);
 	
-	// °Ô½Ã¹° »èÁ¦ ÇÏ±â
+	// ë¬¸ì˜ ì‚¬í•­ ì‚­ì œ 
 	public void delete(Inquiry inq);
 	
-	// °Ô½Ã¹° ¼öÁ¤ ÇÏ±â
+	// ë¬¸ì˜ ì‚¬í•­ ìˆ˜ì •
 	public void update(Inquiry inq);
 	
-	// ´äº¯ ¾ÈµÈ °Ô½Ã±Û Á¶È¸ 
+	// ë‹µë³€ì•ˆëœ ë¬¸ì˜ì‚¬í•­ ë¦¬ìŠ¤íŠ¸ ë¶ˆëŸ¬ì˜¤ê¸°
 	public List<Inquiry> selectInqByAnswer();
+	
+	// nickname ì¡°íšŒí•˜ê¸°
+	public String selectEmailByInq_idx(Inquiry inq);
+	
+	// email ì¡°íšŒí•˜ê¸°
+	public String selectNickByInq_idx(Inquiry inq);
 }
