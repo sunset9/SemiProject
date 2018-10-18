@@ -8,6 +8,7 @@ public class InqFile {
 	private String stored_name;
 	private String origin_name;
 	private int inq_idx;
+	private long file_size;
 	private Date create_date;
 	public int getiFile_idx() {
 		return iFile_idx;
@@ -33,6 +34,12 @@ public class InqFile {
 	public void setInq_idx(int inq_idx) {
 		this.inq_idx = inq_idx;
 	}
+	public long getFile_size() {
+		return file_size;
+	}
+	public void setFile_size(long file_size) {
+		this.file_size = file_size;
+	}
 	public Date getCreate_date() {
 		return create_date;
 	}
@@ -42,7 +49,9 @@ public class InqFile {
 	@Override
 	public String toString() {
 		return "InqFile [iFile_idx=" + iFile_idx + ", stored_name=" + stored_name + ", origin_name=" + origin_name
-				+ ", inq_idx=" + inq_idx + ", create_date=" + create_date + "]";
+				+ ", inq_idx=" + inq_idx + ", file_size=" + file_size + ", create_date=" + create_date + "]";
 	}
+
+	
 	
 }

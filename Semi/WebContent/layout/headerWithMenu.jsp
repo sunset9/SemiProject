@@ -85,6 +85,7 @@
 	<li class="menu common"><a>마이페이지</a></li>
 	<li class="menu common"><a>공지사항</a></li>
 	<li class="menu common"><a>Q&A</a></li>
+	<li class="menu common"><a href="/inquiry/list">문의사항</a></li>
 </ul>
 
 </div> <br>

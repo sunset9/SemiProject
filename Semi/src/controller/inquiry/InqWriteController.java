@@ -50,6 +50,8 @@ public class InqWriteController extends HttpServlet {
 		req.setCharacterEncoding("utf-8");
 
 		inquiryService.write(req);
+		
+		resp.sendRedirect("/inquiry/list");
 	
 		
 	

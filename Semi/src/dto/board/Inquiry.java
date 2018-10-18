@@ -6,6 +6,7 @@ public class Inquiry {
 
 	private int inq_idx;
 	private int user_idx;
+	private String writer;
 	private String title;
 	private String content;
 	private int answer;
@@ -22,6 +23,12 @@ public class Inquiry {
 	}
 	public void setUser_idx(int user_idx) {
 		this.user_idx = user_idx;
+	}
+	public String getWriter() {
+		return writer;
+	}
+	public void setWriter(String writer) {
+		this.writer = writer;
 	}
 	public String getTitle() {
 		return title;
@@ -55,9 +62,10 @@ public class Inquiry {
 	}
 	@Override
 	public String toString() {
-		return "Inquiry [inq_idx=" + inq_idx + ", user_idx=" + user_idx + ", title=" + title + ", content=" + content
-				+ ", answer=" + answer + ", hit=" + hit + ", create_date=" + create_date + "]";
+		return "Inquiry [inq_idx=" + inq_idx + ", user_idx=" + user_idx + ", writer=" + writer + ", title=" + title
+				+ ", content=" + content + ", answer=" + answer + ", hit=" + hit + ", create_date=" + create_date + "]";
 	}
 	
+
 	
 }
