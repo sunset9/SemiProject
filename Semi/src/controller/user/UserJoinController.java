@@ -31,15 +31,13 @@ public class UserJoinController extends HttpServlet {
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		//요청 파라미터 처리
 		User param = userService.getParam(req, resp);
-		//System.out.println(param);
+		System.out.println("user param: "+param); //-> Ok.
 		
-		//중복확인
-		boolean checkEmail = userService.checkEmail(param);
+		//아이디 중복 검사
+		boolean checkid = userService.checkid(param);
 		
-		if(checkEmail) {
-			//회원가입 
-			userService.join(param);
-		}
+		//회원가입 
+		userService.join(param);
 		
 		//메인으로 이동
 		resp.sendRedirect("/main");
