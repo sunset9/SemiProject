@@ -22,15 +22,26 @@ public class UserSocialLoginController extends HttpServlet {
 	private UserService userService = new UserServiceImpl();
 	
 	@Override
-		protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-			
-		}
-	
-	@Override
 		protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+			//한글 인코딩
+			req.setCharacterEncoding("UTF-8");
+		
 			//파라미터 처리
-			User param = userService.getParam(req, resp);
-			System.out.println(param);
+			User param = userService.getParamSocial(req, resp);
+			System.out.println("social : "+param);
+			
+			//로그인 처리
+			boolean login = userService.socialLogin(param);
+						
+			//유저 정보 얻어오기 
+			User user = userService.getUserByid(param);
+			
+			//세션 정보 저장
+			req.getSession().setAttribute("user_idx", user.getUser_idx());
+			req.getSession().setAttribute("login", login);
+			req.getSession().setAttribute("user", user);
+			
+			resp.sendRedirect("/main");
 		}
 	
 }

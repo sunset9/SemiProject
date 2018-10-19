@@ -51,7 +51,7 @@ body {font-family: Arial, Helvetica, sans-serif;}
 <body>
 <br>
 
-<!-- 비로그인 상태일때 -->
+<%-- <!-- 비로그인 상태일때 -->
 <c:if test="${not login }">
  <button onclick='location.href="/user/login";'>로그인</button>
  <!-- Trigger/Open The Modal -->
@@ -100,6 +100,6 @@ window.onclick = function(event) {
 <c:if test="${login}">
  <button onclick='location.href="/user/logout";'>로그아웃</button>
  <button onclick='location.href="/user/myPage";'>마이페이지</button>
-</c:if>
+</c:if> --%>
 </body>
 </html>

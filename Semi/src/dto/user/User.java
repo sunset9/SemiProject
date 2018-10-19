@@ -4,7 +4,7 @@ import java.util.Date;
 
 public class User {
 	private int user_idx;
-	private String email;
+	private String id;
 	private String password;
 	private String nickname;
 	private String profile;
@@ -15,7 +15,7 @@ public class User {
 	
 	@Override
 	public String toString() {
-		return "User [user_idx=" + user_idx + ", email=" + email + ", password=" + password + ", nickname=" + nickname
+		return "User [user_idx=" + user_idx + ", id=" + id + ", password=" + password + ", nickname=" + nickname
 				+ ", profile=" + profile + ", grade=" + grade + ", sns_idx=" + sns_idx + ", create_date=" + create_date
 				+ ", totalPlanCnt=" + totalPlanCnt + "]";
 	}
@@ -28,12 +28,12 @@ public class User {
 		this.user_idx = user_idx;
 	}
 
-	public String getEmail() {
-		return email;
+	public String getId() {
+		return id;
 	}
 
-	public void setEmail(String email) {
-		this.email = email;
+	public void setId(String id) {
+		this.id = id;
 	}
 
 	public String getPassword() {

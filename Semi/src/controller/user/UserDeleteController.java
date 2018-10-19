@@ -32,7 +32,7 @@ public class UserDeleteController extends HttpServlet {
 			// User user = (User) req.getSession().getAttribute(null);
 			//System.out.println(user);
 		
-			userService.deleteUserByEmail(user);
+			userService.deleteUserByid(user);
 			
 			req.getSession().invalidate();
 			
