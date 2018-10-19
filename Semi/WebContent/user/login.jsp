@@ -9,6 +9,8 @@
 <title>로그인</title>
 <script type="text/javascript" src="http://code.jquery.com/jquery-2.2.4.min.js"></script>
 <script src="//developers.kakao.com/sdk/js/kakao.min.js"></script>
+
+<!-- 구글 api  -->
 <script type="text/javascript">
 	function init() { /* auth객체 생성자 : 바디태그를 다 읽은 후 이 메소드가 제일 먼저 호출된다. */
 		console.log('init');
@@ -65,46 +67,64 @@
 		}
 	};
 	
+	function checkLoginStatus2() {
+		//
+	};
 </script>
 
+<!-- 카카오톡 api -->
 <script>
 	$(document).ready(function(){
+		
+		//Javascript SDK 초기화 
 		Kakao.init("88e34dd24cbb64e2ee9278a3acbfc78d");
+		
+		//로그인 버튼 만들어주고 로그인 팝업창 띄워주는 함수
+		function createKakaotalkLogin(){
+			Kakao.Auth.createLoginButton({
+				persistAccessToken: true, //세션이 종료된 뒤에도 Access Token을 사용할 수 있도록 로컬 스토리지에 저장
+				persistRefreshToken: true, //세션이 종료된 뒤에도 Refresh Token을 사용할 수 있도록 로컬 스토리지에 저장
+				
+				container: '#kakao-logged-group', //해당 Element 내부에 로그인 버튼이 생성
+				
+				//로그인이 성공할 경우 사용자 토큰을 받을 콜백 함수
+				success: function(authObj) {
+					getKakaotalkUserProfile();
+					createKakaotalkLogout();
+				},
+				
+				//로그인이 실패할 경우 에러를 받을 콜백 함수
+				fail: function(err) {
+					console.log(err);
+				}
+			});
+		}
+		
+		//유저정보 가져오는 함수
 		function getKakaotalkUserProfile(){
 			Kakao.API.request({
 				url: '/v1/user/me',
 				success: function(res) {
-					console.log(res.properties.nickname);
-					console.log(res.properties.profile_image);
-					$("id").append(res.properties.id);
-					$("#nickname").append(res.properties.nickname);
-					$("#profileImage").append($("<img/>",{"src":res.properties.profile_image,"alt":res.properties.nickname+"님의 프로필 사진"}));
-					this.document.getElementById("kakaoForm").submit(); 
+					//console.log(res.id);
+					//console.log(res.properties.nickname);
+					//console.log(res.properties.profile_image);
+					
+					//바디에서 해당되는 태그의 id를 찾아서 value에 값 지정해주기
+					$("#id").val(res.id);
+					$("#nickname").val(res.properties.nickname);
+					$("#profileImage").val(res.properties.profile_image);
+					
+					//value가 지정되면 서브밋해주는 코드 -> 소셜로그인컨트롤러로 서브밋
+					document.getElementById("kakaoForm").submit();
 				},
 				fail: function(error) {
 					console.log(error);
 				}
 			});
 		}
-		function createKakaotalkLogin(){
-			$("#kakao-logged-group .kakao-logout-btn,#kakao-logged-group .kakao-login-btn").remove();
-			var loginBtn = $("<a/>",{"class":"kakao-login-btn","text":"로그인"});
-			loginBtn.click(function(){
-				Kakao.Auth.login({
-					persistAccessToken: true,
-					persistRefreshToken: true,
-					success: function(authObj) {
-						getKakaotalkUserProfile();
-						createKakaotalkLogout();
-					},
-					fail: function(err) {
-						console.log(err);
-					}
-				});
-			});
-			$("#kakao-logged-group").prepend(loginBtn)
-		}
-		function createKakaotalkLogout(){
+		
+		//로그인시 버튼의 텍스트를 '로그아웃'으로 바꿔줌 
+		/* function createKakaotalkLogout(){
 			$("#kakao-logged-group .kakao-logout-btn,#kakao-logged-group .kakao-login-btn").remove();
 			var logoutBtn = $("<a/>",{"class":"kakao-logout-btn","text":"로그아웃"});
 			logoutBtn.click(function(){
@@ -113,16 +133,20 @@
 				$("#kakao-profile").text("");
 			});
 			$("#kakao-logged-group").prepend(logoutBtn);
-		}
+		} */
+		
 		if(Kakao.Auth.getRefreshToken()!=undefined&&Kakao.Auth.getRefreshToken().replace(/ /gi,"")!=""){
 			createKakaotalkLogout();
 			getKakaotalkUserProfile();
 		}else{
 			createKakaotalkLogin();
+			console.log('여기다');
 		}
 	});
 </script>
 </head>
+
+
 <body>
 
 <!-- 페이스북으로 로그인 -->
@@ -172,24 +196,27 @@ window.fbAsyncInit = function() {
 <br>
 
 <!-- 카카오톡으로 로그인 -->
+<br>
 <div id="kakao-logged-group"></div>
 <div id="kakao-profile"></div>
-<form id="kakaoForm" action="/user/socialLogin" method="post">
-	<input type="hidden" name="id" value="" />
-	<input type="hidden" name="nickname" value="" />
-	<input type="hidden" name="profileImage" value="" />
+<form id="kakaoForm" action="/User/socialLogin" method="post">
+	<input type="hidden" id="id" name="id" value="" />
+	<input type="hidden" id="nickname" name="nickname" value="" />
+	<input type="hidden" id="profileImage" name="profileImage" value="" />
 </form>
-  
+<br>
+
 <!-- email로 로그인 -->
 <div>
-<form action="/user/login" method="post">
-	<label for="userid">이메일</label>
+
+	<label for="userid">아이디 </label>
+
 	<input type="text" id="userid" name="userid" /><br>
 	<label for="userpw">비밀번호</label>
 	<input type="text" id="userpw" name="userpw" /><br>
 	<input type="submit" value="로그인"/>
-	<button onclick='window.open("/user/join");'>회원가입</button>
 </form>
+<button onclick='window.open("/user/join");'>회원가입</button>
 </div>
 
 

@@ -70,7 +70,7 @@
   #calendar {
     float: right;
     width: 900px;
-    height: 1000px;
+    height: 790px;
     margin-bottom: 20px;
   }
   
@@ -100,6 +100,11 @@
   	cursor: pointer;
   	float: right;
   	margin-right: 5px;
+  }
+  
+  .fc-row.fc-widget-header tr{ /* 헤더의 날짜 정보*/
+  	height: 50px;
+  	font-size: 1.3em;
   }
   
   .fc-title{ /* 이벤트 안의 제목 부분 */
@@ -140,18 +145,21 @@ $(document).ready(function(){
 	
 	$('#calendar').fullCalendar({
 		schedulerLicenseKey: 'GPL-My-Project-Is-Open-Source'
-		, height: "auto"
 		, defaultView: 'titetable' // 뷰 지정 (아래에 설정값 작성)
+// 		, height: 798.4 // 캘린더 높이
+		, height: 'parent' // 캘린더 높이
+// 		, contentHeight: 798.4	
 		, defaultDate: '2018-04-07'
-		, minTime: '06:00:00' // 시작 시점 시간 설정 
+		, minTime: '06:00' // 시작 시점 시간 설정 
 		, timeFormat: 'H:mm' // 이벤트에 표시되는 시간 포멧
 		, slotLabelFormat:"HH:mm" // 왼쪽에 수직으로 표현되는 시간 포멧
 		, locale: 'ko' // 언어 설정
 		, header: false // 헤더에 아무것도 넣지 않기
 		, editable: true 
-		, droppable: true // this allows things to be dropped onto the calendar
-		, selectable: true
+// 		, droppable: true // this allows things to be dropped onto the calendar
+		, selectable: false // 빈공간 선택 disable
 		, eventLimit: true // allow "more" link when too many events
+		
 		, views: {
 			titetable: {
 				type: 'agenda',
@@ -168,16 +176,16 @@ $(document).ready(function(){
 		//// uncomment this line to hide the all-day slot
 		, allDaySlot: false
 		, events: [
-		  { id: '2', start: '2018-04-07T10:00:00', end: '2018-04-07T14:00:00', title: 'event 2' ,address: 'Seoul 1'},
-		  { id: '3', start: '2018-04-09T14:00:00', end: '2018-04-09T17:30:00', title: 'event 3' ,address: 'Seoul 2'},
-		  { id: '4', start: '2018-04-07T07:30:00', end: '2018-04-07T09:30:00', title: 'event 4' ,address: 'Seoul 3'},
-		  { id: '5', start: '2018-04-08T10:00:00', end: '2018-04-08T15:00:00', title: 'event 5' ,address: 'Seoul 4'}
+		  { start: '2018-04-07 10:00', end: '2018-04-07 14:00', title: 'event 2' ,address: 'Seoul 1'},
+		  { start: '2018-04-09 14:00', end: '2018-04-09 17:30', title: 'event 3' ,address: 'Seoul 2'},
+		  { start: '2018-04-07 07:30', end: '2018-04-07 09:30', title: 'event 4' ,address: 'Seoul 3'},
+		  { start: '2018-04-08 10:00', end: '2018-04-08 15:00', title: 'event 5' ,address: 'Seoul 4'}
 		]
 		// 이벤트 허용 범위
-		//, eventConstraint: {  
-		//    start: '00:00',
-		//	    end: '24:00'
-		//}
+		, eventConstraint: {  
+		   start: '06:00',
+		   end: '24:00'
+		}
 		, eventOverlap: false // 이벤트 겹치게 허용하지 않음
 		// 날짜 클릭 시 콜백 함수
 		, dayClick: function(date, jsEvent, view, resource) {
@@ -191,9 +199,9 @@ $(document).ready(function(){
 		, viewRender: function (view, element)
 		{
 			// 헤더의 날짜 표시 css 수정
-			var head = $(".fc-row.fc-widget-header").find("tr");
-			head.css("height","50px");
-			head.css("font-size","1.3em");
+// 			var head = $(".fc-row.fc-widget-header").find("tr");
+// 			head.css("height","50px");
+// 			head.css("font-size","1.3em");
 			
 			// 왼쪽 시간 표시 css 수정 
 			// 날짜 표시 있는 td는 셀 수직 병합 & css 수정
@@ -247,6 +255,17 @@ $(document).ready(function(){
 				element.css("background-color", "orange");
 			}
 			
+			
+			// 이벤트를 6시 이전으로 드래그 하는 것 막기
+			if(event.start.format("HH:mm") < '06:00'){
+				console.log(element);
+// 				event.editable = false;
+// 				event.startEditable = false;
+// 				event.durationEditable = false;
+// 				event.resourceEditable = false;
+// 				element.draggable().draggable("disable");
+			}
+			
 		}
 		// 이벤트에 마우스 오버 시 콜백 함수
 		, eventMouseover: function( event, jsEvent, view ){
@@ -268,9 +287,6 @@ $(document).ready(function(){
 		
 	}); // end $().fullCalendar()
 	
-	$('#calendar').fullCalendar('option', 'locale', 'ko');
- 	$('#calendar').fullCalendar('option', 'eventConstraint',{start:"00:00", end:"24:00"}) // 이벤트 허용 범위 동적으로 설정
-
 });
 
 </script>
@@ -281,17 +297,32 @@ function store(){
 	var events = $("#calendar").fullCalendar('clientEvents');
 	console.log(events);
 	
-	var param;
-	events.forEach(function(event){
+	var timetables = [];
+	// form input 생성(넘겨줄 값)
+	events.forEach(function(event){ // 모든 리스트 돌면서 timetable json 하나씩 생성
+		// timetable json 생성
 		var timetable = {
-				title: event.title
+				place_name: event.title
 				, address: event.address
-				, start: event.start._i
-				, end: event.end._id
+				, start_date: event.start._i
+				, end_date: event.end._i
 		}
-		param += "&events=" + JSON.stringify(timetable);
+	
+		timetables.push(timetable);
+		
+		// --- json 여러개 낱개로 넘겨주기
+		// input 태그 생성
+// 		$("form").append("<input type='hidden' name='events'>");
+// 		$("input[name*='events']:last-child").val(JSON.stringify(timetable));
 	})
-	location.href = "/timetable/recv?" + encodeURI(param.substring(1));
+		// --- json list 로 묶어서 넘겨주기
+		// input 태그 생성
+		$("form").append("<input type='hidden' name='events'>");
+		// 생성된 태그의 value값 설정 , timetable json 마샬링해서 지정
+		$("input[name*='events']:last-child").val(JSON.stringify(timetables));
+	
+	// submit
+	$("form").submit();
 }
 </script>
 <script>
@@ -366,7 +397,10 @@ function initAutocomplete() {
 
     <div id='calendar'></div>
     
-	<button id="btnStore" onclick="store();" >저장</button>
+    <form action="/timetable/recv" method="post">
+    <input type="hidden" name="plan_idx" value="5">
+	<button type="button" id="btnStore" onclick="store();" >저장</button>
+    </form>
 
     <div style='clear:both'></div>
 

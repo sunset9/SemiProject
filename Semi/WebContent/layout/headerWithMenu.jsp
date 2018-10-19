@@ -10,9 +10,6 @@
 <meta charset="UTF-8">
 <title>Insert title here</title>
 
-<!-- jQuery -->
-<script type="text/javascript" src="http://code.jquery.com/jquery-2.2.4.min.js"></script>
-
 <!-- jQuery 2.2.4 -->
 <script type="text/javascript" src="http://code.jquery.com/jquery-2.2.4.min.js"></script>
 
@@ -100,7 +97,7 @@
 	</a></div>
 	<div class="menu common"><a>공지사항</a></div>
 	<div class="menu common"><a>Q&A</a></div>
-  <div class="menu common"><a href="/inquiry/list">문의사항</a></div>
+  	<div class="menu common"><a href="/inquiry/list">문의사항</a></div>
 </div><br>
 
 <!-- /menubar -->

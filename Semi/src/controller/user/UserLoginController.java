@@ -39,12 +39,14 @@ public class UserLoginController extends HttpServlet {
 			boolean login = userService.login(param);
 			System.out.println("login :"  +login);
 			//유저 정보 얻어오기
-			User user = userService.getUserByEmail(param);
-			System.out.println("user:" +user);
+
+			User user = userService.getUserByid(param);
+			
+
 			//세션 정보 저장하기
 			//유저 객체로 넘기기
 			req.getSession().setAttribute("user_idx", user.getUser_idx());
-			System.out.println("user_idx :"+ user.getUser_idx());
+			//System.out.println("user_idx :"+ user.getUser_idx());
 			req.getSession().setAttribute("login", login);
 			req.getSession().setAttribute("user", user);
 			

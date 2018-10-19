@@ -17,6 +17,8 @@
 
 <script>
 // 구글 map api 호출 콜백함수
+
+
 function initAutocomplete() {
 
    // search box 관련 변수
@@ -38,18 +40,19 @@ function initAutocomplete() {
 //       if (places.length == 0) {
 //         return;
 //       }
-      
       display(places, input_search);
    });
  }
-     
+
+var lat = [];
+var lon = [];
+
 function display(places, input_search){
 //    console.log(place.photos[0].getUrl());
    
    var displayList = [];
-   
    var i = 1;
-   
+   var j = 0;
    // 쿼리자동완성 콜백 함수 (최대 결과 5개 반환)
    // 연관 검색어도 검색해서 표시
    var displaySuggestions = function(predictions, status) {
@@ -65,21 +68,56 @@ function display(places, input_search){
           // 기존에 띄워준 결과와 중복되지 않으면 결과 보여줌   
           if(displayList.indexOf(prediction.id) == -1){
              // 결과 띄워주기 위한 태그 생성
-             var li = $("<li>").text(prediction.description);
+             var li = $("<li onclick=\"test();\">").text(prediction.description);
            $("#results").append(li);
-             
-             // list 에 검색 결과 넣기
-             displayList.push(prediction.id);
-             
-             console.log("__");
-             console.log(places);
-             console.log("__");
+           
+          
+           displayList.push(prediction.id);
+           //검색결과 id 출력
+           console.log(prediction.id);
+           
+           
+           
+           /* var infowindow = new google.maps.InfoWindow();
+           var service = new google.maps.places.PlacesService(map);
+           
+           service.getDetails({
+        	   placeId: prediction.id
+        	   }, function(place, status) {
+               if (status === google.maps.places.PlacesServiceStatus.OK) {
+            	   
+            	   
+                 var marker = new google.maps.Marker({
+                   map: map,
+                   position: place.geometry.location
+                 });
+                 
+                 
+                 google.maps.event.addListener(marker, 'click', function() {
+                   infowindow.setContent('<div><strong>' + place.name + '</strong><br>' +
+                     'Place ID: ' + place.place_id + '<br>' +
+                     place.formatted_address + '</div>');
+                   infowindow.open(map, this);
+                 });
+                 console.log(place.name);
+                 console.log(place.place_id);
+                 console.log(place.formatted_address);
+               }
+             }); */
           }
         });
+      
+       
+       
       $("#results").append($("<hr>"));
       }; // displaySuggestions function end
-
       
+    //위도 경도 가져오는 친구
+      /*  places.forEach(function(places) { */
+		lat = places[0].geometry.location.lat();
+		lon = places[0].geometry.location.lng();
+ /* }); */
+ 
      // Create a new session token.
      var sessionToken = new google.maps.places.AutocompleteSessionToken();
       
@@ -122,6 +160,10 @@ function display(places, input_search){
      });
      */
 }
+
+function test(places) {
+	console.log(lat + ", " + lon);
+}
 </script>
   </head>
   
@@ -130,7 +172,9 @@ function display(places, input_search){
   <input id="pac-input" class="controls" type="text" placeholder="Search Box">
     <div id="right-panel">
       <p>Query suggestions:</p>
-      <ul id="results"></ul>
+      <ul >
+      <li id="results" ></li>
+      </ul>
     </div>
   </body>
   
@@ -151,3 +195,7 @@ key=AIzaSyAO-YMjD9aGxBW1nEzgSFdzf7Uj8E4Lm9Q
 &libraries=places&callback=initMap"
     async defer></script>
 </html>
+
+
+
+

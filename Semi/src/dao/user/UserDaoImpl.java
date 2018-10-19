@@ -13,10 +13,10 @@ public class UserDaoImpl implements UserDao{
 
 	private Connection conn = DBConn.getConnection();
 	
-	//useremail & userpw로 유저 조회 
+	//userid & userpw로 유저 조회 
 	//존재하는 유저면 1 반환
 	@Override
-	public int selecCntUserByUsereamilAndUserpw(User user) {
+	public int selecCntUserByUseridAndUserpw(User user) {
 		
 		String sql = "";
 		sql += "SELECT COUNT(*) FROM userinfo";
@@ -61,9 +61,9 @@ public class UserDaoImpl implements UserDao{
 		return cnt;
 	}
 
-	//email로 유저 검색해서 유저 정보 가져오기
+	//id로 유저 검색해서 유저 정보 가져오기
 	@Override
-	public User selectUserByEmail(User u) {
+	public User selectUserByid(User u) {
 		
 		String sql = "";
 		sql += "SELECT * FROM userinfo";
@@ -114,18 +114,25 @@ public class UserDaoImpl implements UserDao{
 	@Override
 	public void insert(User user) {
 		String sql = "";
-		sql += "INSERT INTO userinfo(user_idx, id, password, nickname, profile, grade, sns_type, create_date)";
-		sql += " VALUES(seq_user_idx.nextval, ?, ?, ?, 'a', '여행자', 'email', sysdate)"; 
+
+		sql += "INSERT INTO userinfo(user_idx, id, password, nickname, profile, grade, sns_idx, create_date)";
+		sql += " VALUES(userinfo_seq.nextval, ?, ?, ?, '/image/basicProfile.png', '여행자', 1, sysdate)"; 
+
 		
 		PreparedStatement ps = null;
 		
 		try {
+			conn.setAutoCommit(false);
+			
 			ps = conn.prepareStatement(sql);
 			ps.setString(1, user.getId());
 			ps.setString(2, user.getPassword());
 			ps.setString(3, user.getNickname());
 			
 			ps.executeUpdate();
+			
+			conn.commit();
+			
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {
@@ -138,12 +145,14 @@ public class UserDaoImpl implements UserDao{
 		
 	}
 
-	//email로 조회 후 회원탈퇴처리
+	//id로 조회 후 회원탈퇴처리
 	@Override
 	public void delete(User user) {
 		String sql = "";
 		sql += "DELETE userinfo";
-		sql += " WHERE Id = ?";
+
+		sql += " WHERE id = ?";
+
 		
 		PreparedStatement ps = null;
 		
@@ -213,7 +222,9 @@ public class UserDaoImpl implements UserDao{
 		String sql = "";
 		sql += "UPDATE userinfo";
 		sql += " SET nickname= ?, password=?";
-		sql += " WHERE Id=?";
+
+		sql += " WHERE id=?";
+
 		
 		PreparedStatement ps = null;
 		
@@ -244,9 +255,49 @@ public class UserDaoImpl implements UserDao{
 	}
 
 	@Override
-	public User selectUserByNick(User user) {
-		// TODO Auto-generated method stub
-		return null;
+	public int checkid(User user) {
+		String sql = "";
+		sql += "SELECT COUNT(*) FROM userinfo";
+		sql += " WHERE 1=1";
+		sql += " AND id = ?";
+		
+		//System.out.println("유저아이디 : "+user.getId()); //ok
+
+		//DB 객체
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+
+		int cnt = -1;
+
+		try {
+			// DB작업
+			ps = conn.prepareStatement(sql);
+			if (user.getId() != null) {
+				ps.setString(1, user.getId());
+			}
+			rs = ps.executeQuery();
+
+			rs.next();
+
+			System.out.println(rs.getInt(1));
+			cnt = rs.getInt(1);
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				// DB객체 닫기
+				if (rs != null)
+					rs.close();
+				if (ps != null)
+					ps.close();
+
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+
+		return cnt;
 	}
 
 }

@@ -11,19 +11,21 @@
 <form action="/user/join" method="post">
 <div id="sign_up">
 	<div class="header">
-		<h3>이메일 주소로 회원가입</h3><br>
+		<h3>회원가입</h3><br>
 	</div>
 	<div class="body">
 		<div class="signUp">
-			<input type="email" id="useremail" name="useremail" placeholder="이메일"><br>
+			<input type="text" id="userid" name="userid" placeholder="아이디"><br>
 			<input type="password" id="userpw" name="userpw" placeholder="비밀번호"><br>
-			<input type="text" id="nickname" name="nickname" placeholder="닉네임"><br>
+			<input type="text" id="usernickname" name="usernickname" placeholder="닉네임"><br>
 		</div>
 		<div class="signUpBtn">
-			<button class="signUpBtn" >가입하기</button>
+			<button type="submit" class="signUpBtn" >가입하기</button>
 		</div>
 	</div>
 </div>
 </form>
-</body>
+
+<!-- <img src="/image/basicProfile.png" />
+ --></body>
 </html>

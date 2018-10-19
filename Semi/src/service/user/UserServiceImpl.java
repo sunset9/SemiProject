@@ -11,7 +11,7 @@ public class UserServiceImpl implements UserService {
 
 	private UserDao userDao = new UserDaoImpl();
 	
-	//요청파라미터 처리(email)
+	//요청파라미터 처리(id)
 	@Override
 	public User getParam(HttpServletRequest req, HttpServletResponse resp) {
 		User user = new User();
@@ -35,32 +35,48 @@ public class UserServiceImpl implements UserService {
 		return user;
 	}
 
-	//로그인처리
+	// id 로그인처리
 	@Override
 	public boolean login(User user) {
-		if( userDao.selecCntUserByUsereamilAndUserpw(user) == 1 ) {
+		if( userDao.selecCntUserByUseridAndUserpw(user) == 1 ) {
 			return true;
 		} else {
 			return false;
 		}
 	}
+	
+	// social 로그인처리
+	@Override
+	public boolean socialLogin(User user) {
+		//로그인 처리 전에 아이디 조회후
+		//db에 아이디 검색후 있는 아이디면 바로 로그인처리, 없는 아이디면 db에 저장
+		boolean checkid = checkid(user);
+		if(checkid) {
+			//true : 존재하지 않는 아이디 -> db에 저장
+			userDao.insert(user);
+			return true; 
+		} else {
+			//false : 존재하는 아이디 -> 바로 로그인 처리
+			return true;
+		}
+	}
 
 	//이메일로 유저조회
 	@Override
-	public User getUserByEmail(User user) {
-		return userDao.selectUserByEmail(user);
+	public User getUserByid(User user) {
+		return userDao.selectUserByid(user);
 	}
 
 	//회원가입 처리
 	@Override
 	public void join(User user) {
 		userDao.insert(user);
-		
+		System.out.println("INSERT success");
 	}
 
-	//이메일로 회원 삭제
+	//아이디로 회원 삭제
 	@Override
-	public void deleteUserByEmail(User user) {
+	public void deleteUserByid(User user) {
 		userDao.delete(user);
 		
 	}
@@ -78,11 +94,18 @@ public class UserServiceImpl implements UserService {
 		userDao.update(user);
 	}
 
+	//아이디 중복 조회
 	@Override
-	public boolean checkEmail(User user) {
-		// TODO Auto-generated method stub
-		return false;
+	public boolean checkid(User user) {
+		if( userDao.checkid(user) == 0 ) {
+			System.out.println("아이디 중복되지 않음, 존재하지 않는 아이디");
+			return true;
+		} else {
+			System.out.println("아이디 중복, 존재하는 아이디");
+			return false;
+		}
 	}
+
 
 
 }
