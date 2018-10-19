@@ -11,7 +11,7 @@ import dto.story.Story;
 
 public interface StoryService {
 	//plan 번호로 스토리 리스트 불러오기 
-	public List<Story> getStoryList(Plan param); //����¡ �̿�
+	public List<Story> getStoryList(Plan plan); 
 
 	//파라미터 불러오기
 	public Story getParam(HttpServletRequest req);

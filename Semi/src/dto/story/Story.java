@@ -4,13 +4,59 @@ import java.util.Date;
 import java.util.Map;
 
 public class Story {
+	// 스토리 인덱스
 	private int story_idx;
+	// 플랜 인덱스
 	private int plan_idx;
+	// 타임 테이블 인덱스
 	private int ttb_idx;
+	// 유저 인덱스
 	private int user_idx;
+	// 스토리 본문 내용
 	private String content;
+	// 스토리 작성일
 	private Date create_date;
 	
+	private Date travel_day;
+	
+	@Override
+	public String toString() {
+		return "Story [story_idx=" + story_idx + ", plan_idx=" + plan_idx + ", ttb_idx=" + ttb_idx + ", user_idx="
+				+ user_idx + ", content=" + content + ", create_date=" + create_date + ", travel_day=" + travel_day
+				+ ", start_time=" + start_time + ", end_time=" + end_time + ", place_name=" + place_name + "]";
+	}
+	private Date start_time;
+	// 타임테이블 끝 시간
+	private Date end_time;
+	// 장소 이름
+	private String place_name;
+	
+	public Date getTravel_day() {
+		return travel_day;
+	}
+	public void setTravel_day(Date travel_day) {
+		this.travel_day = travel_day;
+	}
+	// 타임테이블 시작 시간
+	
+	public Date getStart_time() {
+		return start_time;
+	}
+	public void setStart_time(Date start_time) {
+		this.start_time = start_time;
+	}
+	public Date getEnd_time() {
+		return end_time;
+	}
+	public void setEnd_time(Date end_time) {
+		this.end_time = end_time;
+	}
+	public String getPlace_name() {
+		return place_name;
+	}
+	public void setPlace_name(String place_name) {
+		this.place_name = place_name;
+	}
 	public int getStory_idx() {
 		return story_idx;
 	}
