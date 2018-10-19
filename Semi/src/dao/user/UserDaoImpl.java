@@ -21,8 +21,8 @@ public class UserDaoImpl implements UserDao{
 		String sql = "";
 		sql += "SELECT COUNT(*) FROM userinfo";
 		sql += " WHERE 1=1";
-		if( user.getEmail() != null && user.getPassword() != null ) {
-			sql += " AND email = ?";
+		if( user.getId() != null && user.getPassword() != null ) {
+			sql += " AND id = ?";
 			sql += " AND password = ?";
 		}
 		
@@ -35,8 +35,8 @@ public class UserDaoImpl implements UserDao{
 		try {
 			//DB작업
 			ps = conn.prepareStatement(sql);
-			if( user.getEmail() != null && user.getPassword() != null ) {
-				ps.setString(1, user.getEmail());
+			if( user.getId() != null && user.getPassword() != null ) {
+				ps.setString(1, user.getId());
 				ps.setString(2, user.getPassword());
 			}
 			rs = ps.executeQuery();
@@ -68,8 +68,8 @@ public class UserDaoImpl implements UserDao{
 		String sql = "";
 		sql += "SELECT * FROM userinfo";
 		sql += " WHERE 1 = 1";
-		if(u.getEmail() != null) {
-			sql += " AND email = ?";
+		if(u.getId() != null) {
+			sql += " AND id = ?";
 		}
 		
 		PreparedStatement ps = null;
@@ -79,15 +79,15 @@ public class UserDaoImpl implements UserDao{
 		
 		try {
 			ps = conn.prepareStatement(sql);
-			if(u.getEmail() != null) {
-				ps.setString(1, u.getEmail());
+			if(u.getId() != null) {
+				ps.setString(1, u.getId());
 			}
 			
 			rs = ps.executeQuery();
 			
 			while(rs.next()) {
 				user.setUser_idx(rs.getInt("user_idx"));
-				user.setEmail(rs.getString("email"));
+				user.setId(rs.getString("id"));
 				user.setPassword(rs.getString("password"));
 				user.setNickname(rs.getString("nickname"));
 				user.setProfile(rs.getString("profile"));
@@ -114,26 +114,24 @@ public class UserDaoImpl implements UserDao{
 	@Override
 	public void insert(User user) {
 		String sql = "";
-		sql += "INSERT INTO userinfo(user_idx, email, password, nickname, profile, grade, sns_type, create_date)";
+		sql += "INSERT INTO userinfo(user_idx, id, password, nickname, profile, grade, sns_type, create_date)";
 		sql += " VALUES(seq_user_idx.nextval, ?, ?, ?, 'a', '여행자', 'email', sysdate)"; 
 		
 		PreparedStatement ps = null;
 		
 		try {
 			ps = conn.prepareStatement(sql);
-			ps.setString(1, user.getEmail());
+			ps.setString(1, user.getId());
 			ps.setString(2, user.getPassword());
 			ps.setString(3, user.getNickname());
 			
 			ps.executeUpdate();
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} finally {
 			try {
 				if(ps!=null) ps.close();
 			} catch (SQLException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}
@@ -145,14 +143,14 @@ public class UserDaoImpl implements UserDao{
 	public void delete(User user) {
 		String sql = "";
 		sql += "DELETE userinfo";
-		sql += " WHERE email = ?";
+		sql += " WHERE Id = ?";
 		
 		PreparedStatement ps = null;
 		
 		try {
 			ps = conn.prepareStatement(sql);
-			ps.setString(1, user.getEmail());
-			System.out.println(user.getEmail());
+			ps.setString(1, user.getId());
+			System.out.println(user.getId());
 			ps.executeUpdate();
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
@@ -215,7 +213,7 @@ public class UserDaoImpl implements UserDao{
 		String sql = "";
 		sql += "UPDATE userinfo";
 		sql += " SET nickname= ?, password=?";
-		sql += " WHERE email=?";
+		sql += " WHERE Id=?";
 		
 		PreparedStatement ps = null;
 		
@@ -223,7 +221,7 @@ public class UserDaoImpl implements UserDao{
 			ps = conn.prepareStatement(sql);
 			ps.setString(1, user.getNickname());
 			ps.setString(2, user.getPassword());
-			ps.setString(3, user.getEmail());
+			ps.setString(3, user.getId());
 			
 		    ps.executeUpdate();
 		} catch (SQLException e) {

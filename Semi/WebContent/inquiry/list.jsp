@@ -24,7 +24,12 @@ $(document).ready(function() {
 
 <div>
 <div>
-<h3> 문의 사항 </h3> <button id ="myInq">내 문의</button><button id ="inqWrite">문의 하기</button>
+<h3> 문의 사항 </h3> 
+
+<c:if test="${login }">
+<button id ="myInq">내 문의</button><button id ="inqWrite">문의 하기</button>
+</c:if>
+
 <hr>
 </div>
 <table class="table table-hover table-striped table-condensed">

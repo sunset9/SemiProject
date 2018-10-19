@@ -16,7 +16,7 @@ public class UserServiceImpl implements UserService {
 	public User getParam(HttpServletRequest req, HttpServletResponse resp) {
 		User user = new User();
 		
-		user.setEmail(req.getParameter("useremail"));
+		user.setId(req.getParameter("userid"));
 		user.setPassword(req.getParameter("userpw"));
 		user.setNickname(req.getParameter("usernickname"));
 
@@ -28,7 +28,7 @@ public class UserServiceImpl implements UserService {
 	public User getParamSocial(HttpServletRequest req, HttpServletResponse resp) {
 		User user = new User();
 		
-		user.setEmail(req.getParameter("id"));
+		user.setId(req.getParameter("id"));
 		user.setNickname(req.getParameter("nickname"));
 		user.setProfile(req.getParameter("profileImage"));
 

@@ -30,7 +30,7 @@ public class InqWriteController extends HttpServlet {
 	
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		req.setCharacterEncoding("utf-8");
+
 	
 		// 로그인 되어있지 않으면 main 으로 리다이렉트 하기
 //		if( req.getSession().getAttribute("login")==null) {
@@ -47,7 +47,7 @@ public class InqWriteController extends HttpServlet {
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
 		// 요청 파라미터 한글 인코딩 설정 : UTF-8
-		req.setCharacterEncoding("utf-8");
+		req.setCharacterEncoding("UTF-8");
 
 		inquiryService.write(req);
 		

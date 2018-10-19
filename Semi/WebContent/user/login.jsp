@@ -183,8 +183,8 @@ window.fbAsyncInit = function() {
 <!-- email로 로그인 -->
 <div>
 <form action="/user/login" method="post">
-	<label for="useremail">이메일</label>
-	<input type="text" id="useremail" name="useremail" /><br>
+	<label for="userid">이메일</label>
+	<input type="text" id="userid" name="userid" /><br>
 	<label for="userpw">비밀번호</label>
 	<input type="text" id="userpw" name="userpw" /><br>
 	<input type="submit" value="로그인"/>

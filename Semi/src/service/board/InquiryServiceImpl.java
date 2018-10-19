@@ -1,6 +1,7 @@
 package service.board;
 
 import java.io.File;
+import java.io.UnsupportedEncodingException;
 import java.util.Iterator;
 import java.util.List;
 import java.util.UUID;
@@ -86,12 +87,7 @@ public class InquiryServiceImpl implements InquiryService {
 	@Override
 	public void delete(Inquiry inq) {
 		inquiryDao.delete(inq);
-	}
-
-	@Override
-	public void deleteInqFile(InqFile file) {
-		
-		fileDao.delete(file);
+		fileDao.delete(inq);
 	}
 
 	@Override
@@ -106,8 +102,8 @@ public class InquiryServiceImpl implements InquiryService {
 	}
 
 	@Override
-	public String getEmail(Inquiry inq) {
-		return inquiryDao.selectEmailByInq_idx(inq);
+	public String getId(Inquiry inq) {
+		return inquiryDao.selectIdByInq_idx(inq);
 	}
 
 	@Override
@@ -174,11 +170,15 @@ public class InquiryServiceImpl implements InquiryService {
 				
 				// 빈 파일 아닐 경우
 				if(item.isFormField()) {
-					if("title".equals (item.getFieldName() ) ) {
-						inquiry.setTitle(item.getString());
-					}
-					if("content".equals( item.getFieldName())) {
-						inquiry.setContent(item.getString());
+					try {
+						if("title".equals (item.getFieldName() ) ) {
+								inquiry.setTitle(item.getString("utf-8"));
+						}
+						if("content".equals( item.getFieldName())) {
+							inquiry.setContent(item.getString("utf-8"));
+						}
+					} catch (UnsupportedEncodingException e) {
+						e.printStackTrace();
 					}
 					
 					inquiry.setWriter((String)req.getSession().getAttribute("nickname"));
@@ -226,6 +226,20 @@ public class InquiryServiceImpl implements InquiryService {
 		}
 		
 	}
+
+	@Override
+	public boolean checkWriter(HttpServletRequest req, Inquiry inq) {
+
+		int loginId = (int) req.getSession().getAttribute("user_idx");
+		Inquiry inquiry= inquiryDao.selectInqByInqIdx(inq);
+		
+		if(loginId != inquiry.getUser_idx()) {
+			return false;
+		}
+		return true;
+	}
+	
+	
 
 
 
