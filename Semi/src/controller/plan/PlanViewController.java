@@ -1,6 +1,7 @@
 package controller.plan;
 
-import java.io.IOException;
+import java.io.IOException; 
+
 import java.util.List;
 
 import javax.servlet.ServletException;
@@ -11,11 +12,11 @@ import javax.servlet.http.HttpServletResponse;
 
 import dto.Account.Account;
 import dto.plan.Plan;
-import dto.user.User;
 import dto.story.Comment;
 import dto.story.Story;
 import dto.timetable.Location;
 import dto.timetable.Timetable;
+import dto.user.User;
 import service.plan.PlanService;
 import service.plan.PlanServiceImpl;
 import service.stroy.StoryService;
@@ -61,6 +62,6 @@ public class PlanViewController extends HttpServlet {
 		pService.write(plan);
 		
 		// view 폼 띄우기
-		req.getRequestDispatcher("/view/plan/view.jsp").forward(req, resp);
+		req.getRequestDispatcher("/plan/view.jsp").forward(req, resp);
 	}
 }
