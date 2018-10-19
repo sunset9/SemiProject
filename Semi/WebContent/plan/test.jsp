@@ -70,28 +70,54 @@ function display(places, input_search){
              // 결과 띄워주기 위한 태그 생성
              var li = $("<li onclick=\"test();\">").text(prediction.description);
            $("#results").append(li);
-             
-           displayList.push(prediction.id);
            
-           /* console.log(j);
-             // list 에 검색 결과 넣기  
-             lat = places[j].geometry.viewport.b.b;
-             lon = places[j].geometry.viewport.f.b;
-             j++; */
-             
+          
+           displayList.push(prediction.id);
+           //검색결과 id 출력
+           console.log(prediction.id);
+           
+           
+           
+           /* var infowindow = new google.maps.InfoWindow();
+           var service = new google.maps.places.PlacesService(map);
+           
+           service.getDetails({
+        	   placeId: prediction.id
+        	   }, function(place, status) {
+               if (status === google.maps.places.PlacesServiceStatus.OK) {
+            	   
+            	   
+                 var marker = new google.maps.Marker({
+                   map: map,
+                   position: place.geometry.location
+                 });
+                 
+                 
+                 google.maps.event.addListener(marker, 'click', function() {
+                   infowindow.setContent('<div><strong>' + place.name + '</strong><br>' +
+                     'Place ID: ' + place.place_id + '<br>' +
+                     place.formatted_address + '</div>');
+                   infowindow.open(map, this);
+                 });
+                 console.log(place.name);
+                 console.log(place.place_id);
+                 console.log(place.formatted_address);
+               }
+             }); */
           }
         });
       
-        places.forEach(function(places) {
-        	
-			lat = places.geometry.viewport.b.b;
-			lon = places.geometry.viewport.f.b;
-        });
+       
+       
       $("#results").append($("<hr>"));
       }; // displaySuggestions function end
       
-      
-      
+    //위도 경도 가져오는 친구
+      /*  places.forEach(function(places) { */
+		lat = places[0].geometry.location.lat();
+		lon = places[0].geometry.location.lng();
+ /* }); */
+ 
      // Create a new session token.
      var sessionToken = new google.maps.places.AutocompleteSessionToken();
       
@@ -169,3 +195,7 @@ key=AIzaSyAO-YMjD9aGxBW1nEzgSFdzf7Uj8E4Lm9Q
 &libraries=places&callback=initMap"
     async defer></script>
 </html>
+
+
+
+

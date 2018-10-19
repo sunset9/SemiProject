@@ -221,7 +221,7 @@ key=AIzaSyAO-YMjD9aGxBW1nEzgSFdzf7Uj8E4Lm9Q
 	</div>
 	
 	<!-- 우측 일정 & 타임테이블정보 (지도, 일정탭 & 타임테이블탭 등 )-->
-	<div id="container" style="width:500px; border-radius:10px;float:left;">
+	<div id="container" style="width:1000px; border-radius:10px;float:left;">
 		<!-- 일정 / 스토리 탭 DIV -->
 		<div id="content" style="background-color:#999999;height:150px;float:bottom;width:100%;border-radius:10px;">
 			<input type="button" value="일정" >
