@@ -12,6 +12,11 @@ public class Comment {
 	public int getComm_idx() {
 		return comm_idx;
 	}
+	@Override
+	public String toString() {
+		return "Comment [comm_idx=" + comm_idx + ", story_idx=" + story_idx + ", user_idx=" + user_idx + ", content="
+				+ content + ", create_date=" + create_date + "]";
+	}
 	public void setComm_idx(int comm_idx) {
 		this.comm_idx = comm_idx;
 	}

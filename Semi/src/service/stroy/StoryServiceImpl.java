@@ -18,9 +18,9 @@ public class StoryServiceImpl implements StoryService {
 	AccountService accountService = new AccountServiceImpl(); 
 
 	@Override
-	public List<Story> getStoryList(Plan param) {
-		// TODO Auto-generated method stub
-		return null;
+	public List<Story> getStoryList(Plan plan) {
+
+		return storyDao.selectAllByPlanNo(plan);
 	}
 
 	@Override
