@@ -35,6 +35,7 @@ public class InqViewController extends HttpServlet {
 
 		// 게시글 상세 조회  
 		inquiry = inquiryService.view(inquiry);
+		System.out.println(inquiry);
 		
 		// 게시글에 관련된 댓글 리스트 불러오기
 		List<Reply> repList = replyDao.selectInqByInqIdx(inquiry);
@@ -48,7 +49,7 @@ public class InqViewController extends HttpServlet {
 		System.out.println(inquiry);
 		
 		// 글 작성자 이메일 전달
-		req.setAttribute("writerEmail", inquiryService.getEmail(inquiry));
+		req.setAttribute("userid", inquiryService.getId(inquiry));
 		
 		// 글 작성자 닉네임 전달
 		req.setAttribute("writerNick", inquiryService.getNick(inquiry));

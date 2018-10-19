@@ -7,7 +7,17 @@
 <jsp:include page ="../layout/headerWithMenu.jsp"/>
 
 <script type = "text/javascript">
-
+$(document).ready(function() {
+	$("#btnList").click(function() {
+		$(location).attr("href", "/inquiry/list");
+	});
+	$("#btnUpdate").click(function() {
+		$(location).attr("href","/inquiry/update?inq_idx=${inquiry.inq_idx}");
+	});
+	$("#btnDelete").click(function() {
+		$(location).attr("href", "/inquiry/delete?inq_idx=${inquiry.inq_idx}");
+	});
+});
 </script>
 
 <div>
@@ -23,11 +33,15 @@
 </tr>
 
 <tr>
-<td class ="info">이메일</td> <td>${writerEmail }</td>
+<td class ="info">아이디</td> <td>${userid }</td>
 <td class = "info">닉네임</td> <td colspan="2">${writerNick }</td>
 </tr>
 
-<tr><td class ="info">본문</td> <td colspan="4">${inquiry.content }</td>
+<tr><td class ="info">본문</td> <td colspan="4">
+<c:if test="${inqFile.origin_name ne null}">
+<img src ="/upload/${inqFile.stored_name }"><br>
+</c:if>
+${inquiry.content }</td>
 
 <tr>
 <td class ="info">조회수</td><td>${inquiry.hit }</td>
@@ -52,6 +66,13 @@
 
 </div>
 
+<div>
+	<button id = "btnList">목록</button>
+	<c:if test="${user.user_idx eq inquiry.user_idx }">
+	<button id="btnUpdate" >수정</button>
+	<button id="btnDelete" >삭제</button>
+	</c:if>
+</div>
 </div>
 
 </body>

@@ -24,7 +24,6 @@ import service.board.InquiryServiceImpl;
 public class InqUpdateController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	private InquiryService inquiryService = new InquiryServiceImpl();
-	private InqFileDao inqFileDao = new InqFileDaoImpl(); 
 	private Inquiry inquiry = new Inquiry();
 	private InqFile file = new InqFile();
 	
@@ -32,19 +31,32 @@ public class InqUpdateController extends HttpServlet {
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
 
-		// ÆÄ¶ó¹ÌÅÍ ¹Ş¾Æ¿À±â 
+		// ëª¨ë¸ì— ìš”ì²­ íŒŒë¼ë¯¸í„° ë„£ê¸° 
 		inquiry = inquiryService.getParam(req, resp);
 
-		// Á¶È¸ÇØ¿À±â
+		// ë¡œê·¸ì¸ í•œ ì‚¬ëŒì˜ ê¸€ì´ ì•„ë‹ˆë©´ ì¤‘ë‹¨í•˜ê³  ë¦¬ìŠ¤íŠ¸ë¡œ
+		if( !inquiryService.checkWriter(req,inquiry) ) {
+			resp.sendRedirect("/inquiry/list");
+			return;
+		}
+		
+		// ê²Œì‹œê¸€ ì¡°íšŒ
 		inquiry = inquiryService.view(inquiry);
 
-		// ¸ğµ¨¿¡ ´ã¾Æ Àü´ŞÇÏ±â
+		// ìš”ì²­ì— ëª¨ë¸ë¡œ ì „ë‹¬
 		req.setAttribute("inquiry", inquiry);
 		
-		InqFile inqFile = inquiryService.viewFile(inquiry);
 		
-		// º¸¿©ÁÙ È­¸é ÁöÁ¤
-		req.getRequestDispatcher("").forward(req, resp);
+		// ê¸€ ì‘ì„±ì ë‹‰ë„¤ì„ ì „ë‹¬
+		req.setAttribute("writerNick", inquiryService.getNick(inquiry));
+		
+		// ì²¨ë¶€íŒŒì¼ ì „ë‹¬
+		InqFile inqFile = inquiryService.viewFile(inquiry);
+		req.setAttribute("inqFile", inqFile);
+		
+		
+		// view ì§€ì •
+		req.getRequestDispatcher("/inquiry/update.jsp").forward(req, resp);
 		
 	
 	}
@@ -57,33 +69,33 @@ public class InqUpdateController extends HttpServlet {
 		
 	
 		
-		//--- MultipartRequest »ı¼ºÀÚÀÇ ¸Å°³ º¯¼ö ÁØºñ---
-		// 1. ¿äÃ» °´Ã¼ 
-		//	µû·Î ¸¸µé ÇÊ¿ä ¾øÀ½ 
+		//--- MultipartRequest ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Å°ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Øºï¿½---
+		// 1. ï¿½ï¿½Ã» ï¿½ï¿½Ã¼ 
+		//	ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ê¿ï¿½ ï¿½ï¿½ï¿½ï¿½ 
 		
-		// 2. ÆÄÀÏ ÀúÀå À§Ä¡
-		// String À¸·Î ¼­¹öÀÇ ½ÇÁ¦ °æ·Î ÁöÁ¤ 
+		// 2. ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Ä¡
+		// String ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ 
 		String saveDirectory = getServletContext().getRealPath("");
 		
 //		System.out.println( saveDirectory);
 		
-		// 3. ¾÷·Îµå Á¦ÇÑ »çÀÌÁî 
-		int maxPostSize = 1 *1024*1024; // 10MB Á¦ÇÑ 
+		// 3. ï¿½ï¿½ï¿½Îµï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ 
+		int maxPostSize = 1 *1024*1024; // 10MB ï¿½ï¿½ï¿½ï¿½ 
 		
-		// 4. ÀÎÄÚµù 
-		// ¾÷·Îµå Á¤º¸ ÀÎÄÚµù ¹æ½Ä 
+		// 4. ï¿½ï¿½ï¿½Úµï¿½ 
+		// ï¿½ï¿½ï¿½Îµï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Úµï¿½ ï¿½ï¿½ï¿½ 
 		String encoding = "UTF-8";
 		
 		
-		// 5. Áßº¹ ÆÄÀÏ ÀÌ¸§ Á¤Ã¥
-		// DefaultFileRenamePolicy ´Â Áßº¹ÆÄÀÏÀÌ ÀÖÀ¸¸é 
-		// ÆÄÀÏ ÀÌ¸§ µÚ¿¡ ¼ıÀÚ¸¦ Ãß°¡ÇÏ°í 1ºÎÅÍ Áõ°¡½ÃÅ²´Ù. 
+		// 5. ï¿½ßºï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ì¸ï¿½ ï¿½ï¿½Ã¥
+		// DefaultFileRenamePolicy ï¿½ï¿½ ï¿½ßºï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ 
+		// ï¿½ï¿½ï¿½ï¿½ ï¿½Ì¸ï¿½ ï¿½Ú¿ï¿½ ï¿½ï¿½ï¿½Ú¸ï¿½ ï¿½ß°ï¿½ï¿½Ï°ï¿½ 1ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Å²ï¿½ï¿½. 
 		FileRenamePolicy policy = new DefaultFileRenamePolicy();
 		
 		//-----------------------------------------------
 		
-		// MultipartRequest °´Ã¼ »ı¼º 
-		// ÆÄÀÏ ¾÷·Îµå Ã³¸® 
+		// MultipartRequest ï¿½ï¿½Ã¼ ï¿½ï¿½ï¿½ï¿½ 
+		// ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Îµï¿½ Ã³ï¿½ï¿½ 
 		MultipartRequest mul = new MultipartRequest(req, saveDirectory, maxPostSize, encoding, policy);
 
 		inquiry.setTitle(mul.getParameter("title"));

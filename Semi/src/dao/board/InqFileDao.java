@@ -23,5 +23,5 @@ public interface InqFileDao {
 	public InqFile selectByInqIdx(Inquiry inq);
 
 	// 게시물에 관련된 첨부파일 지우기
-	public void delete(InqFile file);
+	public void delete(Inquiry inq);
 }

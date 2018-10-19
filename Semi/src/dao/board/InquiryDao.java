@@ -34,7 +34,7 @@ public interface InquiryDao {
 	public List<Inquiry> selectInqByAnswer();
 	
 	// nickname 조회하기
-	public String selectEmailByInq_idx(Inquiry inq);
+	public String selectIdByInq_idx(Inquiry inq);
 	
 	// email 조회하기
 	public String selectNickByInq_idx(Inquiry inq);

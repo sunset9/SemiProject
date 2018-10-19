@@ -31,28 +31,29 @@ public class InqDeleteController extends HttpServlet {
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		
-		// �Ķ���� �޾ƿ���
+		// 요청 파라미터 받아오기 
 		inquiry = inquiryService.getParam(req, resp);
 		
-		// �����ϱ�
+		// 로그인 한 사람의 글이 아니면 중단하고 리스트로
+		if( !inquiryService.checkWriter(req,inquiry) ) {
+			resp.sendRedirect("/inquiry/list");
+			return;
+		}
+		
+		
+		// 게시글 삭제
 		inquiryService.delete(inquiry);
 		
-		// ���� �𵨿� �Խù� ��ȣ �ֱ�
-		file.setInq_idx(inquiry.getInq_idx());
-		
-		// �Խù��� ���õ� ���� �����
-		inquiryService.deleteInqFile(file);
-		
-		// ��ۿ� �Խù� ��ȣ �ֱ� 
+		// 댓글에 inq_idx 지정하기
 		Reply reply = new Reply();
 		reply.setInq_idx(inquiry.getInq_idx());
 		
-		// �Խù��� ���õ� ��� �����
+		// 댓글 삭제 하기 =
 		replyService.replyDelete(reply);
 		
 		
-		
-		resp.sendRedirect("");
+		// 문의사항 리스트로 리다이렉트 
+		resp.sendRedirect("/inquiry/list");
 	}
    
 

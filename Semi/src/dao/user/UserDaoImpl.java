@@ -114,8 +114,10 @@ public class UserDaoImpl implements UserDao{
 	@Override
 	public void insert(User user) {
 		String sql = "";
+
 		sql += "INSERT INTO userinfo(user_idx, id, password, nickname, profile, grade, sns_idx, create_date)";
 		sql += " VALUES(userinfo_seq.nextval, ?, ?, ?, '/image/basicProfile.png', '여행자', 1, sysdate)"; 
+
 		
 		PreparedStatement ps = null;
 		
@@ -132,13 +134,11 @@ public class UserDaoImpl implements UserDao{
 			conn.commit();
 			
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} finally {
 			try {
 				if(ps!=null) ps.close();
 			} catch (SQLException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}
@@ -150,7 +150,9 @@ public class UserDaoImpl implements UserDao{
 	public void delete(User user) {
 		String sql = "";
 		sql += "DELETE userinfo";
+
 		sql += " WHERE id = ?";
+
 		
 		PreparedStatement ps = null;
 		
@@ -220,7 +222,9 @@ public class UserDaoImpl implements UserDao{
 		String sql = "";
 		sql += "UPDATE userinfo";
 		sql += " SET nickname= ?, password=?";
+
 		sql += " WHERE id=?";
+
 		
 		PreparedStatement ps = null;
 		

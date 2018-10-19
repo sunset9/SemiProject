@@ -241,9 +241,44 @@ public class InquiryDaoImpl implements InquiryDao {
 
 	@Override
 	public void delete(Inquiry inq) {
-		// TODO Auto-generated method stub
+		// 게시물 삭제 쿼리 
+		String sql = "";
+		sql += "DELETE inquiry WHERE inq_idx= ?";
 		
+		// DB 객체 
+		PreparedStatement ps = null;
+		
+		String nick =null;
+		
+		try {
+			conn.setAutoCommit(false);
+			
+			//DB작업
+			ps= conn.prepareStatement(sql);
+			ps.setInt(1, inq.getInq_idx());
+			
+			ps.executeUpdate();
+			
+			conn.commit();
+			
+		} catch (SQLException e) {
+			try {
+				conn.rollback();
+			} catch (SQLException e1) {
+				e1.printStackTrace();
+			}
+			e.printStackTrace();
+		}finally {
+			try {
+				//DB객체 닫기
+				if(ps!=null)	ps.close();
+				
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
 	}
+
 
 	@Override
 	public void update(Inquiry inq) {
@@ -257,11 +292,11 @@ public class InquiryDaoImpl implements InquiryDao {
 		return null;
 	}
 	@Override
-	public String selectEmailByInq_idx(Inquiry inq) {
+	public String selectIdByInq_idx(Inquiry inq) {
 		
 		// 게시글 번호로 닉네임 조회하기
 		String sql="";
-		sql += "SELECT email FROM userinfo U, inquiry I" ;
+		sql += "SELECT id FROM userinfo U, inquiry I" ;
 		sql +=	" WHERE I.user_idx = U.user_idx" ;
 		sql +=	" AND I.inq_idx= ?";
 		

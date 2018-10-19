@@ -37,8 +37,6 @@ public interface InquiryService {
 	// 문의사항 삭제 
 	public void delete(Inquiry inq);
 	
-	// 관련된 첨부파일 파일 삭제 
-	public void deleteInqFile(InqFile file);
 	
 	// 상세보기에서 관련된 첨부파일 조회
 	public InqFile viewFile(Inquiry inq);
@@ -46,10 +44,13 @@ public interface InquiryService {
 	// 첨부파일 추가
 	public void insertFile(InqFile file);
 
-	// 글쓴 사람 이메일 조회 하기
-	public String getEmail(Inquiry inq);
+	// 글쓴 사람 아이디 조회 하기
+	public String getId(Inquiry inq);
 	
 	// 글쓴 사람 닉네임 조회하기
 	public String getNick(Inquiry inq);
+	
+	// 삭제하기 전에 글 작성자인지 판단 
+	public boolean checkWriter(HttpServletRequest req, Inquiry inq);
 	
 }
