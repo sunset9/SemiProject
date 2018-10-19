@@ -17,6 +17,8 @@
 
 <script>
 // 구글 map api 호출 콜백함수
+
+
 function initAutocomplete() {
 
    // search box 관련 변수
@@ -38,18 +40,19 @@ function initAutocomplete() {
 //       if (places.length == 0) {
 //         return;
 //       }
-      
       display(places, input_search);
    });
  }
-     
+
+var lat = [];
+var lon = [];
+
 function display(places, input_search){
 //    console.log(place.photos[0].getUrl());
    
    var displayList = [];
-   
    var i = 1;
-   
+   var j = 0;
    // 쿼리자동완성 콜백 함수 (최대 결과 5개 반환)
    // 연관 검색어도 검색해서 표시
    var displaySuggestions = function(predictions, status) {
@@ -65,20 +68,29 @@ function display(places, input_search){
           // 기존에 띄워준 결과와 중복되지 않으면 결과 보여줌   
           if(displayList.indexOf(prediction.id) == -1){
              // 결과 띄워주기 위한 태그 생성
-             var li = $("<li>").text(prediction.description);
+             var li = $("<li onclick=\"test();\">").text(prediction.description);
            $("#results").append(li);
              
-             // list 에 검색 결과 넣기
-             displayList.push(prediction.id);
+           displayList.push(prediction.id);
+           
+           /* console.log(j);
+             // list 에 검색 결과 넣기  
+             lat = places[j].geometry.viewport.b.b;
+             lon = places[j].geometry.viewport.f.b;
+             j++; */
              
-             console.log("__");
-             console.log(places);
-             console.log("__");
           }
+        });
+      
+        places.forEach(function(places) {
+        	
+			lat = places.geometry.viewport.b.b;
+			lon = places.geometry.viewport.f.b;
         });
       $("#results").append($("<hr>"));
       }; // displaySuggestions function end
-
+      
+      
       
      // Create a new session token.
      var sessionToken = new google.maps.places.AutocompleteSessionToken();
@@ -122,6 +134,10 @@ function display(places, input_search){
      });
      */
 }
+
+function test(places) {
+	console.log(lat + ", " + lon);
+}
 </script>
   </head>
   
@@ -130,7 +146,9 @@ function display(places, input_search){
   <input id="pac-input" class="controls" type="text" placeholder="Search Box">
     <div id="right-panel">
       <p>Query suggestions:</p>
-      <ul id="results"></ul>
+      <ul >
+      <li id="results" ></li>
+      </ul>
     </div>
   </body>
   

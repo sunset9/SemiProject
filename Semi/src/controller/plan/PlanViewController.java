@@ -61,6 +61,6 @@ public class PlanViewController extends HttpServlet {
 		pService.write(plan);
 		
 		// view 폼 띄우기
-		req.getRequestDispatcher("/view/plan/view.jsp").forward(req, resp);
+		req.getRequestDispatcher("/plan/view.jsp").forward(req, resp);
 	}
 }

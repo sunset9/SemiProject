@@ -2,7 +2,7 @@
     pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 
-<jsp:include page="../../layout/headerWithMenu.jsp" />
+<jsp:include page="../layout/headerWithMenu.jsp" />
 
 <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.3/jquery.min.js"></script>
 
@@ -84,7 +84,10 @@
 		height: 80%;
 	}
 </style>
+<style>
 
+
+</style>
 <script>
 // This sample uses the Place Autocomplete widget to allow the user to search
 // for and select a place. The sample then displays an info window containing
@@ -159,8 +162,10 @@ key=AIzaSyAO-YMjD9aGxBW1nEzgSFdzf7Uj8E4Lm9Q
 
 <body>
 
+<!-- 플래너 대문 정보 DIV -->
 <div id="container" style="width:100%; border-radius:10px;">
 
+	<!-- 플래너 대문 정보(공개유무, 수정버튼, 일정제목 등 UI) -->
 	<div id="header" style="background-color:#EEEEEE; margin:3px;">
 		<script>
 		var check = $("input[type='checkbox']");
@@ -184,53 +189,62 @@ key=AIzaSyAO-YMjD9aGxBW1nEzgSFdzf7Uj8E4Lm9Q
 			<h4 align="center">여행 전</h4>
 			<br>
 	 </div>
-	
-	<div id="menu" style="background-color:#AAAAAA;height:50px;float:left;width:20%;border-radius:10px;">
-	border-radius:10px
-	</div>
-	<div id="content" style="background-color:#999999;height:50px;float:left;width:80%;border-radius:10px;">
-		<input type="button" value="일정" >
-		<input type="button" value="스토리" >
-	</div>
-	
-	
-	<div id="menu" style="background-color:#EEEEEE;height:200px;float:left;width:20%;border-radius:10px;">
-		사진<br>
-		<b>사용자</b>님 <br>
-		포스팅 : 10개 <br>
-		등급 : 여행작가	 乃<br>
-		총 여행 거리 : 80km
-	</div>
-	
-	<div id="content" style="background-color:#DDDDDD;height:500px;float:left;width:80%;border-radius:10px;">
+</div>
+<!-- 플래너 입력 정보 DIV -->
+<div id="container" style="width:100%; border-radius:10px;">
 
-		<div id="map"></div>
-		<input id="pac-input" class="controls" type="text"
-        placeholder="Enter a location">
-	    
-	    <div id="infowindow-content">
-	      <span id="place-name"  class="title"></span><br>
-	      Place ID <span id="place-id"></span><br>
-	      <span id="place-address"></span>
-	    </div>
-	    
-	    <!-- <div id="map"></div>
-			<input id="pac-input" class="controls" type="text" placeholder="Search Box">
-		<div id="right-panel">
-	      	<p>Query suggestions:</p>
-	      	<ul id="results"></ul>
-	    </div> -->
-	    	
-	    
- 	</div>
- 		
-	<div id="menu" style="background-color:#CCCCCC;height:200px;float:left;width:20%;border-radius:10px;">
-		<b>가계부</b>
+	<!-- 좌측 정보목록 (게시자 정보, 가계부, 검색 등 )-->
+	<div id="container" style="width:200px; border-radius:10px;float:left;">
+	
+		<!-- 게시자 정보 DIV -->
+		<div id="menu" style="background-color:#EEEEEE;height:200px;float:bottom;width:100%;border-radius:10px;">
+			사진<br>
+			<b>사용자</b>님 <br>
+			포스팅 : 10개 <br>
+			등급 : 여행작가	 乃<br>
+			총 여행 거리 : 80km
+		</div>
+		
+	 	<!-- 가계부 DIV -->
+		<div id="menu" style="background-color:#CCCCCC;height:200px;float:bottom;width:100%;border-radius:10px;">
+			<b>가계부</b><br>
+			교통 : <input type="text"><br>
+			식비 : <input type="text"><br>
+			문화 : <input type="text"><br>
+			기타 : <input type="text"><br>
+		</div>
+		
+		<!-- 검색 INPUT DIV -->
+		<div id="menu" style="background-color:#AAAAAA;height:50px;float:bottom;width:100%;border-radius:10px;">
+		검색 : <input type="text">
+		</div>
 	</div>
 	
-	<div id="content" style="background-color:#BBBBBB;height:200px;float:left;width:80%;border-radius:10px;">타임테이블 !!!</div>
+	<!-- 우측 일정 & 타임테이블정보 (지도, 일정탭 & 타임테이블탭 등 )-->
+	<div id="container" style="width:500px; border-radius:10px;float:left;">
+		<!-- 일정 / 스토리 탭 DIV -->
+		<div id="content" style="background-color:#999999;height:150px;float:bottom;width:100%;border-radius:10px;">
+			<input type="button" value="일정" >
+			<input type="button" value="스토리" >
+		</div>
+		
+		<!-- 구글맵 DIV -->
+		<div id="content" style="background-color:#DDDDDD;height:500px;float:bottom;width:100%;border-radius:10px;">
 	
-	
+			<div id="map"></div>
+			<input id="pac-input" class="controls" type="text"
+	        placeholder="Enter a location">
+		    
+		    <div id="infowindow-content">
+		      <span id="place-name"  class="title"></span><br>
+		      Place ID <span id="place-id"></span><br>
+		      <span id="place-address"></span>
+		    </div>
+	 	</div>
+	 	
+	 	<!-- 타임테이블 -->
+		<div id="content" style="background-color:#BBBBBB;height:200px;float:bottom;width:100%;border-radius:10px;">타임테이블 !!!</div>
+	</div>
 </div>
 
 </body>
