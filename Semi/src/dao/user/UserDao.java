@@ -14,6 +14,8 @@ public interface UserDao {
 	//회원가입
 	public void insert(User user);
 	
+	//회원가입(카카오톡)
+	
 	//회원탈퇴 
 	public void delete(User user);
 	

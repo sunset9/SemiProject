@@ -23,7 +23,7 @@
 	<!-- 프로필사진, 정보수정 버튼 -->
 	<div class="profile common">
 		<div class="profileImage">
-			<img src="/image/basicProfile.png" style="border-radius:70px; width:100px;">
+			<img src="${user.profile}" style="border-radius:70px; width:100px;">
 		</div>
 		<div class="updateBtn">
 			<button onclick='location.href="/user/update";'>정보수정</button>	
