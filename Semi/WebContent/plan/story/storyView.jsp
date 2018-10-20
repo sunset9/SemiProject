@@ -1,6 +1,10 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ page import="java.util.*" %>
+<%@ page import="dto.story.*" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
+
 <!doctype html>
 <html>
 <head>
@@ -48,17 +52,167 @@ div.vertical-line{
 	        $("#slidemenu").stop().animate({"top":position+currentPosition+"px"},1000);
 	    });
 	
-	
-	
-		function calcDay(startDay, endDay) {
-		    var diff = endDay.getDate() - startDay.getDat();
-// 	        var diffDays = (diff / (24 * 60 * 60 * 1000)) + 1;
-		
-			console.log(diff);
-			return diff;
+	    
+		function calcDay(endDay,startDay) {
+			
+		    var diff = endDay - startDay;
+		    var diffDays = (diff / (24 * 60 * 60 * 1000)) + 1;
+			return diffDays;
 		}
+		
+		
+		function storyView() {		
+			
+			for (var j = 1; j <= ${diffDays}; j++) {
+				
+				
+				var div = document.createElement("div");
+				var h1 = document.createElement('h1');
+				
+				var h1Text = document.createTextNode("-Day"+j);
+				
+				h1.appendChild(h1Text);
+				
+				div.appendChild(h1);
+				
+				$("#Day").append(div);
+
+				
+				"<c:forEach items='${storyList}' var="story">";
+				
+					var endDt = "${story.travel_day}";
+					
+					var endDtsplit = endDt.split('-');
 	
+					var endYear = endDtsplit[0];
+					var endMonth = endDtsplit[1];
+					var endDay = endDtsplit[2];			
 	
+					// 만약 날짜 데이터가 YYYYMMDD로 넘어올 경우 이렇게 처리
+	//					var endYear = endDt.substr(0,4);
+	//					var endMonth = endDt.substr(5,2);
+	//					var endDay = endDt.substr(7,2);		
+					
+					
+					var endDay = new Date(endYear,endMonth-1,endDay);												
+					
+					//여행 시작일 
+					var startDt = "${startDt}";
+					
+					var startDtsplit = startDt.split('-');
+					
+					var startYear = startDtsplit[0];
+					var startMonth = startDtsplit[1];
+					var startDay = startDtsplit[2];
+					
+					var startDay = new Date(startYear,startMonth-1,startDay);
+					
+					
+					//몇일차 인지 계산
+					var Day = calcDay(endDay,startDay);
+					
+					if (Day == j){
+						
+						// 날자별 스토리 들어갈 곳
+						
+						console.log("${story.content}");
+						
+						var storyDiv = document.createElement("div");
+						
+// 						var storyDivText = document.createTextNode('스토리들어갈곳');
+
+// 						storyDiv.load('storyDetailView.jsp?story=${story}');
+						
+// 						storyDiv.appendChild(storyDivText);
+
+// 						storyDiv.appendChild('storyDetailView.jsp?story=${story}');
+						
+						div.appendChild(storyDiv);
+						
+					} 
+				
+				"</c:forEach>";
+				
+				
+				/* 		var list_travel = new Array(); 
+						var list_content = new Array();
+						var lsit_startTime = new Array();
+						var lsit_endTime = new Array();
+						var lsit_placeName = new Array();
+						
+						var list = new Array();
+						
+						"<c:forEach items='${storyList}' var="item">";
+							list_travel.push("${item.travel_day}");
+							list_content.push("${item.content}");
+							lsit_startTime.push("${item.start_time}");
+							lsit_endTime.push("${item.end_time}");
+							lsit_placeName.push("${item.place_name}");
+							list.push("${item}");
+						"</c:forEach>"; 
+				*/
+										
+				
+			/* 		for( var i = 0 ; i< list_travel.length; i++){
+						
+						
+						console.log(list[i].content);
+						
+						//현재 일정의 날짜 
+						var endDt = list_travel[i];
+						
+						var endDtsplit = endDt.split('-');
+ 	
+						var endYear = endDtsplit[0];
+						var endMonth = endDtsplit[1];
+						var endDay = endDtsplit[2];			
+
+						// 만약 날짜 데이터가 YYYYMMDD로 넘어올 경우 이렇게 처리
+// 						var endYear = endDt.substr(0,4);
+// 						var endMonth = endDt.substr(5,2);
+// 						var endDay = endDt.substr(7,2);		
+						
+						
+						var endDay = new Date(endYear,endMonth-1,endDay);												
+						
+						//여행 시작일 
+						var startDt = "${startDt}";
+						
+						var startDtsplit = startDt.split('-');
+						
+						var startYear = startDtsplit[0];
+						var startMonth = startDtsplit[1];
+						var startDay = startDtsplit[2];
+						
+						var startDay = new Date(startYear,startMonth-1,startDay);
+						
+						
+						//몇일차 인지 계산
+						var Day = calcDay(endDay,startDay);
+						
+						if (Day == j){
+							
+							console.log(list_content[i]);
+							
+							var storyDiv = document.createElement("div");
+							
+							var storyDivText = document.createTextNode('스토리들어갈곳');
+							
+							storyDiv.appendChild(storyDivText);
+							
+							div.appendChild(storyDiv);
+							
+						} 
+						
+					} 	
+				*/
+					
+				}
+				
+			}
+	
+		storyView();
+		
 	});
 
 	
@@ -74,21 +228,35 @@ div.vertical-line{
   </div>
   <div class="col-lg-8">
 	<!-- Day Foreach문 -->
-	
-	<c:forEach var = "Day" begin="1" end="${diffDays}" step="1">
-		<h1> - Day ${Day} </h1><br>
+		<div id = "Day">
+
+
+
+		</div>
 		
-		<!-- 수정중!! --> 
-		<c:forEach var = "StoryList" items="${storyList}">
-<%-- 		${calcDay(plan.start_date,StoryList.travel_day)} --%>
-<%-- 		<c:set var = "calc" value= "${calcDay(plan.start_date,StoryList.travel_day)}"></c:set>	 --%>
+<%
+	for (int i = 0 ; i < diff; i++) {
+%>
+		<span>DAY + i</span>
+		
+<%		
+		calDAte = stdate - enddate;
+		for (int j = 0; j < storys;j ++) {
+			if (daykey == storyskey) {
+%>
 
-<%-- 		<c:if test="${calc eq Day}"> --%>
-<!-- 			YES!!!!!!!!!!!!!!!!!! -->
-<%-- 		</c:if> --%>
+				<div>${들어갈내용}</div>
+				
+				
 
-		</c:forEach>
-		<div id = test> </div>
+<%			
+			}
+		
+		}		
+	
+	}
+%>
+	
 	<!-- 포스트 Foreach문(장소)-->
 	<span>AM 7:00</span>
 	    <table width="70%" style="border-bottom: 1px solid black; border-right: 1px solid black; border-top: 1px solid black; border-left: 1px solid black" >
@@ -134,31 +302,28 @@ div.vertical-line{
 		<button type="button" class="btn btn-sm" style="margin-bottom: -7px;">등록</button>
 		</td>
 		</tr>
-	<!-- 		<div id ="CommentList"> -->
 				<!-- ajax이용, 댓글 리스트 foreach문 -->
 			<tr>
-				<td colspan="3" align="center" ><img src="/Koala.jpg" class="img-circle" width="50px" height="50px"></td>
+				<td colspan="3" align="center" ><img src="#" class="img-circle" width="50px" height="50px"></td>
 				<td colspan="5" rowspan="2"><font size="2">&nbsp;&nbsp;&nbsp;피가 하여도 무엇을 말이다. 풀밭에 착목한는 소금이라 이상의 맺어, 새 같지 때문이다.</font></td>
 				<td colspan="3" rowspan="2" style="padding:20px"><font size ="1"> 2018-10-12 AM 09:03 </font></td>
-	<!-- 			<td rowspan="2"><button type="button" class="btn btn-sm">삭제</button></td> -->
 				<td colspan="1" rowspan="2"><span class="glyphicon glyphicon-remove-sign"></span></td>
 			</tr>
 			<tr>
 				<td colspan="3" align="center"><font size="2">닉네임</font></td>
 			</tr>
-	<!-- 		</div> -->
 			
 		</table>
-</c:forEach>		
 </div> <!-- col-lg-8 끝 구간 -->
+
   <div class="col-lg-2"></div>
+  
+  <!-- 퀵 메뉴바 -->
   <div id ="slidemenu">
   	<ul style="list-style:none;">
-		<li>Day 1</li>
-		<li>Day 2</li>
-		<li>Day 3</li>
-		<li>Day 4</li>
-		<li>Day 5</li>
+  		<c:forEach var = "day" begin="1" end="${diffDays}" step="1">
+  			<li> Day ${day} </li>
+  		</c:forEach>
 	</ul>
   </div>
 </div>

@@ -17,8 +17,14 @@ public class Story {
 	// 스토리 작성일
 	private Date create_date;
 	
-	private Date travel_day;
+	private String travel_day;
 	
+	public String getTravel_day() {
+		return travel_day;
+	}
+	public void setTravel_day(String travel_day) {
+		this.travel_day = travel_day;
+	}
 	@Override
 	public String toString() {
 		return "Story [story_idx=" + story_idx + ", plan_idx=" + plan_idx + ", ttb_idx=" + ttb_idx + ", user_idx="
@@ -31,12 +37,7 @@ public class Story {
 	// 장소 이름
 	private String place_name;
 	
-	public Date getTravel_day() {
-		return travel_day;
-	}
-	public void setTravel_day(Date travel_day) {
-		this.travel_day = travel_day;
-	}
+
 	// 타임테이블 시작 시간
 	
 	public Date getStart_time() {

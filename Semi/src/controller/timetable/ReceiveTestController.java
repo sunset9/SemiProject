@@ -60,8 +60,8 @@ public class ReceiveTestController extends HttpServlet {
 		List<Location> locList = new ArrayList<Location>();
 		for(int i = 0 ; i<4; i++) {
 			Timetable ttb = new Timetable();
-			ttb.setStart_time(objs[i].getStart_date());
-			ttb.setEnd_time(objs[i].getEnd_date());
+			ttb.setStart_time(objs[i].getStart_time());
+			ttb.setEnd_time(objs[i].getEnd_time());
 			ttb.setLoc_idx(1);
 			
 			Location loc = new Location();

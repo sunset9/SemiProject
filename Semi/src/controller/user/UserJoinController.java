@@ -29,6 +29,9 @@ public class UserJoinController extends HttpServlet {
 	
 	@Override
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+		//한글 인코딩
+		req.setCharacterEncoding("UTF-8");
+		
 		//요청 파라미터 처리
 		User param = userService.getParam(req, resp);
 		System.out.println("user param: "+param); //-> Ok.

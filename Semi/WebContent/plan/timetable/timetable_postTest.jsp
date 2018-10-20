@@ -70,8 +70,9 @@
   #calendar {
     float: right;
     width: 900px;
-    height: 790px;
+    height: 833px;
     margin-bottom: 20px;
+    
   }
   
   #btnStore {
@@ -146,9 +147,10 @@ $(document).ready(function(){
 	$('#calendar').fullCalendar({
 		schedulerLicenseKey: 'GPL-My-Project-Is-Open-Source'
 		, defaultView: 'titetable' // 뷰 지정 (아래에 설정값 작성)
-// 		, height: 798.4 // 캘린더 높이
-		, height: 'parent' // 캘린더 높이
-// 		, contentHeight: 798.4	
+		, height: 833 // 캘린더 높이
+// 		, height: 'parent' // 캘린더 높이
+// 		, height: 'auto' // 캘린더 높이
+// 		, contentHeight: 900	
 		, defaultDate: '2018-04-07'
 		, minTime: '06:00' // 시작 시점 시간 설정 
 		, timeFormat: 'H:mm' // 이벤트에 표시되는 시간 포멧
@@ -159,7 +161,6 @@ $(document).ready(function(){
 // 		, droppable: true // this allows things to be dropped onto the calendar
 		, selectable: false // 빈공간 선택 disable
 		, eventLimit: true // allow "more" link when too many events
-		
 		, views: {
 			titetable: {
 				type: 'agenda',
@@ -173,8 +174,7 @@ $(document).ready(function(){
 				}
 			   },
 		}
-		//// uncomment this line to hide the all-day slot
-		, allDaySlot: false
+		, allDaySlot: false 
 		, events: [
 		  { start: '2018-04-07 10:00', end: '2018-04-07 14:00', title: 'event 2' ,address: 'Seoul 1'},
 		  { start: '2018-04-09 14:00', end: '2018-04-09 17:30', title: 'event 3' ,address: 'Seoul 2'},
@@ -287,6 +287,7 @@ $(document).ready(function(){
 		
 	}); // end $().fullCalendar()
 	
+// 	$('#calendar').fullCalendar('option', 'allDaySlot', false);
 });
 
 </script>
@@ -295,6 +296,7 @@ $(document).ready(function(){
 function store(){
 	// 캘린더에 있는 모든 이벤트 정보 가져오기
 	var events = $("#calendar").fullCalendar('clientEvents');
+	console.log("저장할 때 events목록");
 	console.log(events);
 	
 	var timetables = [];
@@ -304,8 +306,8 @@ function store(){
 		var timetable = {
 				place_name: event.title
 				, address: event.address
-				, start_date: event.start._i
-				, end_date: event.end._i
+				, start_time: new Date(event.start._i)
+				, end_time: new Date(event.end._i)
 		}
 	
 		timetables.push(timetable);
@@ -325,66 +327,11 @@ function store(){
 	$("form").submit();
 }
 </script>
-<script>
-function display(place){
-	console.log(place);
-	
-	console.log(place.photos[0].getUrl());
-	
-	// 검색결과 - 장소명 표시
-	$('#resultLayout').html("title: " + place.name);
-	
-	// data 설정
-	$('#resultLayout').data('event', {
-		title: place.name
-		, stick: true  // 드롭한 이벤트 고정 (false: 다음 등의 버튼 누르면 사라짐)
-	})
-	
-	// 드래그 가능하게 설정
-	$('#resultLayout').draggable({
-	  zIndex: 999
-	  , revert: true     // will cause the event to go back to its
-	  , revertDuration: 0 //  되돌려지는 시간
-	  , scroll: true // true: 드래그 요소 창 밖으로 끌면 자동으로 스크롤생기면서 아래로내릴 수 있음
-	  , helper: "clone" // 드래그할 때  요소 복사 이펙트
-	});
-	
-}
 
-function initAutocomplete() {
-
-	// search box ui세팅
-	var input = document.getElementById('pac-input');
-	var searchBox = new google.maps.places.SearchBox(input);
-	
-	// Listen for the event fired when the user selects a prediction and retrieve
-	// more details for that place.
-	// 유저가 장소를 선택할 때 발생하는 이벤트에 대한 리스너
-	searchBox.addListener('places_changed', function() {
-		var places = searchBox.getPlaces();
-		
-		if (places.length == 0) {
-		  return;
-		}
-		
-		var layout = document.getElementById('resultLayout'); 
-		
-		places.forEach(function(place) {
-		 display(place);
-		});
-	});
-}
-</script>
-<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAO-YMjD9aGxBW1nEzgSFdzf7Uj8E4Lm9Q&libraries=places&callback=initAutocomplete"
-        async defer></script>
 </head>
 <body>
   <div id='wrap'>
 
-<!-- 	구글 검색 입력창 -->
-	<input id="pac-input" class="controls" type="text" placeholder="Search Box">
-	<div id="resultLayout" style="display:inline">검색결과</div>
-	
 <!-- 	테스트 드롭 다운 용 이벤트 리스트들 -->
 <!--     <div id='external-events'> -->
 <!--       <h4>Draggable Events</h4> -->
@@ -401,8 +348,6 @@ function initAutocomplete() {
     <input type="hidden" name="plan_idx" value="5">
 	<button type="button" id="btnStore" onclick="store();" >저장</button>
     </form>
-
-    <div style='clear:both'></div>
 
   </div>
 </body>

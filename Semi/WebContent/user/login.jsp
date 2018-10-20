@@ -57,6 +57,10 @@
 			console.log(profile.getName());
 			console.log(profile.getId());
 			console.log(profile);
+			$("#googleid").val(profile.getEmail());
+			$("#googlenickname").val(profile.getName());
+			$("#googleprofileImage").val(profile.getImageUrl());
+			
 			nameTxt.innerHTML = 'Welcome <strong> '+profile.getName()+'</strong> ';
 			
 			
@@ -68,7 +72,7 @@
 	};
 	
 	function checkLoginStatus2() {
-		//
+		document.getElementById("googleLogin").submit();
 	};
 </script>
 
@@ -105,14 +109,14 @@
 			Kakao.API.request({
 				url: '/v1/user/me',
 				success: function(res) {
-					//console.log(res.id);
-					//console.log(res.properties.nickname);
-					//console.log(res.properties.profile_image);
+					console.log(res.id);
+					console.log(res.properties.nickname);
+					console.log(res.properties.profile_image);
 					
 					//바디에서 해당되는 태그의 id를 찾아서 value에 값 지정해주기
-					$("#id").val(res.id);
-					$("#nickname").val(res.properties.nickname);
-					$("#profileImage").val(res.properties.profile_image);
+					$("#kakaoid").val(res.id);
+					$("#kakaonickname").val(res.properties.nickname);
+					$("#kakaoprofileImage").val(res.properties.profile_image);
 					
 					//value가 지정되면 서브밋해주는 코드 -> 소셜로그인컨트롤러로 서브밋
 					document.getElementById("kakaoForm").submit();
@@ -124,7 +128,7 @@
 		}
 		
 		//로그인시 버튼의 텍스트를 '로그아웃'으로 바꿔줌 
-		/* function createKakaotalkLogout(){
+		function createKakaotalkLogout(){
 			$("#kakao-logged-group .kakao-logout-btn,#kakao-logged-group .kakao-login-btn").remove();
 			var logoutBtn = $("<a/>",{"class":"kakao-logout-btn","text":"로그아웃"});
 			logoutBtn.click(function(){
@@ -133,7 +137,7 @@
 				$("#kakao-profile").text("");
 			});
 			$("#kakao-logged-group").prepend(logoutBtn);
-		} */
+		}
 		
 		if(Kakao.Auth.getRefreshToken()!=undefined&&Kakao.Auth.getRefreshToken().replace(/ /gi,"")!=""){
 			createKakaotalkLogout();
@@ -176,13 +180,14 @@ window.fbAsyncInit = function() {
 <!-- 구글로 로그인 -->
 <!-- 일단 로그인 화면이 뜬 직후엔 버튼을 누르기 전이라서 맨아래 스크립트안에 써있는 init()이 수행된다. -->
 <!-- if this.value(버튼의 value)가 Login인 경우는 즉 로그아웃 상태라는 뜻 -->
-<form action="/user/login" method="post" name="googleLogin" >
+<form action="/user/socialLogin" method="post" id="googleLogin" >
 	<span id="name"></span> 
 	<input type="button" id="loginBtn" value="checking..." onclick="
 	if(this.value === 'Login'){ 
 		gauth.signIn().then(function(){
 			console.log('gauth.signIn()');
 			checkLoginStatus();
+			checkLoginStatus2();
 		});
 	}else {
 		gauth.signOut().then(function(){
@@ -190,8 +195,10 @@ window.fbAsyncInit = function() {
 			checkLoginStatus();
 		});
 	}" />
-	<input type="hidden" name="useremail" value="" />
-	<input type="hidden" name="usernickname" value="" />
+	<input type="hidden" id="googleid" name="id" value="" />
+	<input type="hidden" id="googlenickname" name="nickname" value="" />
+	<input type="hidden" id="googleprofileImage" name="profileImage" value="" />
+	<input type="hidden" id="googlesnsIdx" name="snsIdx" value="3" />
 </form>
 <br>
 
@@ -199,21 +206,22 @@ window.fbAsyncInit = function() {
 <br>
 <div id="kakao-logged-group"></div>
 <div id="kakao-profile"></div>
-<form id="kakaoForm" action="/User/socialLogin" method="post">
-	<input type="hidden" id="id" name="id" value="" />
-	<input type="hidden" id="nickname" name="nickname" value="" />
-	<input type="hidden" id="profileImage" name="profileImage" value="" />
+<form id="kakaoForm" action="/user/socialLogin" method="post">
+	<input type="hidden" id="kakaoid" name="id" value="" />
+	<input type="hidden" id="kakaonickname" name="nickname" value="" />
+	<input type="hidden" id="kakaoprofileImage" name="profileImage" value="" />
+	<input type="hidden" id="kakaosnsIdx" name="snsIdx" value="4">
 </form>
 <br>
 
 <!-- email로 로그인 -->
 <div>
-
+<form action="/user/login" method="post">
 	<label for="userid">아이디 </label>
-
 	<input type="text" id="userid" name="userid" /><br>
 	<label for="userpw">비밀번호</label>
 	<input type="text" id="userpw" name="userpw" /><br>
+	<input type="hidden" id="snsIdx" name="snsIdx" value="1" />
 	<input type="submit" value="로그인"/>
 </form>
 <button onclick='window.open("/user/join");'>회원가입</button>
