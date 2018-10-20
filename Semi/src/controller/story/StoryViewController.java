@@ -31,34 +31,40 @@ public class StoryViewController extends HttpServlet {
 		
 		List<Story> StoryList = new ArrayList<>();
 	
-		// jsp에서 planidx 파라미터값 가져오기
 //		String plan_idx = request.getParameter("planidx");
 
 		Plan plan = new Plan();
-		
 //		plan.setPlan_idx(Integer.parseInt(plan_idx));
 		
-		// 플렌번호를 얻어와서 저장
+		// 임시데이터 저장
 		try {
-			plan.setStart_date(new SimpleDateFormat("yyyy-MM-dd").parse("2018-10-10"));
-			plan.setEnd_date(new SimpleDateFormat("yyyy-MM-dd").parse("2018-10-13"));
+			plan.setStart_date(new SimpleDateFormat("yyyyMMdd").parse("20181010"));
+			plan.setEnd_date(new SimpleDateFormat("yyyyMMdd").parse("20181013"));
 		} catch (ParseException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		
 		plan.setPlan_idx(1);
 		
-		// 플랜번호로 총 스토리 조회
+		// 플랜번호로 스토리조회
 		StoryList=sService.getStoryList(plan);
 		
-		//날짜계산 유틸
+		String startDt = new SimpleDateFormat("yyyy-MM-dd").format(plan.getStart_date());
+		String endDt = new SimpleDateFormat("yyyy-MM-dd").format(plan.getEnd_date());
+		
+		//여행기간 계산 클래스 
 		CalcDate calcDate = new CalcDate();
 		
-		// 여행 시작, 여행 끝 기간계산 
+		// 여행기간 계산로직
 		int diffDays = calcDate.CalcPriod(plan);
 		
 		request.setAttribute("diffDays",diffDays);
-		request.setAttribute("plan", plan);
+		
+		request.setAttribute("startDt", startDt);
+
+		request.setAttribute("endDt", endDt);
+	
 		request.setAttribute("storyList", StoryList);
 		
 		request.getRequestDispatcher("/plan/story/storyView.jsp").forward(request, response);

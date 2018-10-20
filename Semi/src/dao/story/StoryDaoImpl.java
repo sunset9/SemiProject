@@ -46,7 +46,7 @@ public class StoryDaoImpl implements StoryDao{
 				" LEFT JOIN planner p ON s.plan_idx = p.plan_idx" + 
 				" LEFT JOIN timetable ttb ON s.ttb_idx = ttb.ttb_idx" + 
 				" LEFT JOIN location loc ON ttb.loc_idx = loc.loc_idx" + 
-				" WHERE p.plan_idx = ?" + 
+				" WHERE plan_idx = ?" + 
 				" ORDER BY" + 
 				"   ttb.start_time";
 		
@@ -69,15 +69,16 @@ public class StoryDaoImpl implements StoryDao{
 				story.setStart_time(rs.getTime("start_time"));
 				story.setEnd_time(rs.getTime("end_time"));
 				story.setPlace_name(rs.getString("place_name"));
+				story.setTravel_day(rs.getString("travel_day"));
 				
-				try {
-					
-					Date travelday = new SimpleDateFormat("yyyy-MM-dd").parse(rs.getString("travel_day"));
-					story.setTravel_day(travelday);
-				} catch (ParseException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
+//				try {
+//					
+//					Date travelday = new SimpleDateFormat("yyyy-MM-dd").parse(rs.getString("travel_day"));
+//					story.setTravel_day(travelday);
+//				} catch (ParseException e) {
+//					// TODO Auto-generated catch block
+//					e.printStackTrace();
+//				}
 				
 				sList.add(story);
 		
@@ -100,7 +101,7 @@ public class StoryDaoImpl implements StoryDao{
 				}
 		}
 		
-		
+	
 		return sList;
 	}
 
