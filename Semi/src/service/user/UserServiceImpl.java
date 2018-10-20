@@ -19,6 +19,7 @@ public class UserServiceImpl implements UserService {
 		user.setId(req.getParameter("userid"));
 		user.setPassword(req.getParameter("userpw"));
 		user.setNickname(req.getParameter("usernickname"));
+		user.setSns_idx(Integer.parseInt(req.getParameter("snsIdx")));
 
 		return user;
 	}
@@ -31,7 +32,8 @@ public class UserServiceImpl implements UserService {
 		user.setId(req.getParameter("id"));
 		user.setNickname(req.getParameter("nickname"));
 		user.setProfile(req.getParameter("profileImage"));
-
+		user.setSns_idx(Integer.parseInt(req.getParameter("snsIdx")));
+		
 		return user;
 	}
 

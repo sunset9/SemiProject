@@ -15,7 +15,7 @@ import service.user.UserServiceImpl;
 /**
  * Servlet implementation class UserSocialLoginController
  */
-@WebServlet("/User/socialLogin")
+@WebServlet("/user/socialLogin")
 public class UserSocialLoginController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 

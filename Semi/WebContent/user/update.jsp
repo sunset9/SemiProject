@@ -14,7 +14,7 @@
 <form action="/user/update" method="post">
 	<table>
 	<tr>
-	<td>이메일 : </td><td>${user.email}</td>
+	<td>이메일 : </td><td>${user.id}</td>
 	</tr>
 	<tr>
 	<td>내등급 : </td><td>${user.grade}</td>
