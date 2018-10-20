@@ -1,15 +1,12 @@
-/**
- * 
- */
-
-function initFullCalendar(){
+function initFullCalendar(planStartDate, planEndDate, timetables){
 	$('#calendar').fullCalendar({
 		schedulerLicenseKey: 'GPL-My-Project-Is-Open-Source'
 		, defaultView: 'titetable' // 뷰 지정 (아래에 설정값 작성)
-// 		, height: 798.4 // 캘린더 높이
-		, height: 'parent' // 캘린더 높이
-// 		, contentHeight: 798.4	
-		, defaultDate: '2018-04-07'
+		, height: 833 // 캘린더 높이
+// 		, height: 'parent' // 캘린더 높이
+// 		, height: 'auto' // 캘린더 높이
+// 		, contentHeight: 900	
+		, defaultDate: planStartDate
 		, minTime: '06:00' // 시작 시점 시간 설정 
 		, timeFormat: 'H:mm' // 이벤트에 표시되는 시간 포멧
 		, slotLabelFormat:"HH:mm" // 왼쪽에 수직으로 표현되는 시간 포멧
@@ -19,7 +16,6 @@ function initFullCalendar(){
 // 		, droppable: true // this allows things to be dropped onto the calendar
 		, selectable: false // 빈공간 선택 disable
 		, eventLimit: true // allow "more" link when too many events
-		
 		, views: {
 			titetable: {
 				type: 'agenda',
@@ -33,14 +29,8 @@ function initFullCalendar(){
 				}
 			   },
 		}
-		//// uncomment this line to hide the all-day slot
-		, allDaySlot: false
-		, events: [
-		  { id: '2', start: '2018-04-07 10:00', end: '2018-04-07 14:00', title: 'event 2' ,address: 'Seoul 1'},
-		  { id: '3', start: '2018-04-09 14:00', end: '2018-04-09 17:30', title: 'event 3' ,address: 'Seoul 2'},
-		  { id: '4', start: '2018-04-07 07:30', end: '2018-04-07 09:30', title: 'event 4' ,address: 'Seoul 3'},
-		  { id: '5', start: '2018-04-08 10:00', end: '2018-04-08 15:00', title: 'event 5' ,address: 'Seoul 4'}
-		]
+		, allDaySlot: false 
+		, events: timetables
 		// 이벤트 허용 범위
 		, eventConstraint: {  
 		   start: '06:00',
@@ -58,11 +48,6 @@ function initFullCalendar(){
 		// 뷰 렌더링 될 때 콜백함수
 		, viewRender: function (view, element)
 		{
-			// 헤더의 날짜 표시 css 수정
-// 			var head = $(".fc-row.fc-widget-header").find("tr");
-// 			head.css("height","50px");
-// 			head.css("font-size","1.3em");
-			
 			// 왼쪽 시간 표시 css 수정 
 			// 날짜 표시 있는 td는 셀 수직 병합 & css 수정
 			var tdSpan = $("td.fc-axis.fc-time:has(span)");
@@ -88,18 +73,21 @@ function initFullCalendar(){
 				$('#calendar').fullCalendar('next');
 			});
 			
-			
 			// 표시해주고 있는 첫째날과 마지막 날
 			intervalStart = view.intervalStart;
-			intervalEnd = view.intervalEnd;
-			// console.log(intervalStart.format("YYYY-MM-DD"));
-			// console.log(intervalEnd.format("YYYY-MM-DD"));
+			intervalEnd = view.intervalEnd.clone().subtract(1, 'days')
 			
 			// 첫날이면 이전 버튼 숨기기
-			if(intervalStart.format("YYYY-MM-DD") == '2018-04-07'){
+			if(intervalStart.format("YYYY-MM-DD") == planStartDate){
 				$("#prevBtn").hide();
 			}else{
 			 $("#prevBtn").show();
+			}
+			// 마지막 날이면 이전 버튼 숨기기
+			if(intervalEnd.format("YYYY-MM-DD") == planEndDate){
+				$("#nextBtn").hide();
+			}else{
+			 $("#nextBtn").show();
 			}
 			
 		}
@@ -109,21 +97,11 @@ function initFullCalendar(){
 			element.css("padding", "5px 15px");
 			
 			// 날짜 별로 색상 다르게 해주기
-			if(event.start.format("YYYY-MM-DD") == '2018-04-07'){
+			
+			if(getDiffDay(event.start, planStartDate) == 0){
 				element.css("background-color", "green");
-			}else if(event.start.format("YYYY-MM-DD") == '2018-04-08'){
+			}else if(getDiffDay(event.start, planStartDate) == 1){
 				element.css("background-color", "orange");
-			}
-			
-			
-			// 이벤트를 6시 이전으로 드래그 하는 것 막기
-			if(event.start.format("HH:mm") < '06:00'){
-				console.log(element);
-// 				event.editable = false;
-// 				event.startEditable = false;
-// 				event.durationEditable = false;
-// 				event.resourceEditable = false;
-// 				element.draggable().draggable("disable");
 			}
 			
 		}
@@ -146,4 +124,20 @@ function initFullCalendar(){
 		}
 		
 	}); // end $().fullCalendar()
+}
+
+// 날짜 차이 구하기
+function getDiffDay(ttbStartDate, planStartDate ){
+	var ttbStartDate = new Date(ttbStartDate); // 타임테이블의 시작 날짜
+	var planStartDate = new Date(planStartDate.toString()); // 전체일정의 시작 날짜
+	
+	var diffMillSec = Math.abs(ttbStartDate - planStartDate); // 밀리초 구하기
+	var diffDay = new Date(diffMillSec).getDate(); // Date 타입으로 변환 후 일자 구하기
+	
+	// 시간 분 초 모두 같으면 0반환
+	if(diffDay != 0){ // 같은 날이여도 시간이 다르면 1반환
+		diffDay -= 1 // 하루씩 빼줌
+	}
+	
+	return diffDay;
 }

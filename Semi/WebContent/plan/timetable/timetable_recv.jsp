@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %> 
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 
 <!DOCTYPE html>
 <html>
@@ -73,7 +74,7 @@
   #calendar {
     float: right;
     width: 900px;
-    height: 790px;
+    height: 833px;
     margin-bottom: 20px;
   }
   
@@ -122,11 +123,15 @@
 </style>
 
 <script type="text/javascript">
+// 임의 생성
 var planStartDate = '2018-04-07';
 var planEndDate = '2018-04-11';
 
 $(document).ready(function(){
 	var timetables = getTimetables();
+	
+	console.log("recv측. 받은 events목록");
+	console.log(timetables);
 	
 	initFullCalendar(planStartDate, planEndDate, timetables);
 });
@@ -139,9 +144,9 @@ function getTimetables(){
 	
 	for(var i = 0; i<ttbList.length; i++){
 		var timetable = {
-			place_name: locList[i].place_name
-			, start_date: ttbList[i].start_date
-			, end_date: ttbList[i].end_date
+			title: locList[i].place_name
+			, start: ttbList[i].start_time
+			, end: ttbList[i].end_time
 			, lat: locList[i].lat
 			, lon: locList[i].lon
 			, address: locList[i].address
@@ -150,11 +155,13 @@ function getTimetables(){
 		timetables.push(timetable);
 	}
 	
-	console.log(timetables);
+	return timetables;
 }
 </script>
 </head>
 <body>
-ss
+<div id='wrap'>
+	<div id='calendar'></div>
+</div>
 </body>
 </html>

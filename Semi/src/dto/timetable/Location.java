@@ -14,14 +14,14 @@ public class Location {
 //	장소 주소
 	private String address;
 	
-	private Date start_date; // DB테이블엔 없는 컬럼, Timetable에 있는 정보
-	private Date end_date; // DB테이블엔 없는 컬럼, Timetable에 있는 정보
+	private Date start_time; // DB테이블엔 없는 컬럼, Timetable에 있는 정보
 	
+	private Date end_time; // DB테이블엔 없는 컬럼, Timetable에 있는 정보
 	
 	@Override
 	public String toString() {
 		return "Location [loc_idx=" + loc_idx + ", place_name=" + place_name + ", lat=" + lat + ", lon=" + lon
-				+ ", address=" + address + ", start_date=" + start_date + ", end_date=" + end_date + "]";
+				+ ", address=" + address + ", start_time=" + start_time + ", end_time=" + end_time + "]";
 	}
 	public int getLoc_idx() {
 		return loc_idx;
@@ -53,17 +53,17 @@ public class Location {
 	public void setAddress(String address) {
 		this.address = address;
 	}
-	public Date getStart_date() {
-		return start_date;
+	public Date getStart_time() {
+		return start_time;
 	}
-	public void setStart_date(Date start_date) {
-		this.start_date = start_date;
+	public void setStart_time(Date start_time) {
+		this.start_time = start_time;
 	}
-	public Date getEnd_date() {
-		return end_date;
+	public Date getEnd_time() {
+		return end_time;
 	}
-	public void setEnd_date(Date end_date) {
-		this.end_date = end_date;
+	public void setEnd_time(Date end_time) {
+		this.end_time = end_time;
 	}
 	
 	
