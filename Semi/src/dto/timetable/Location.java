@@ -10,7 +10,7 @@ public class Location {
 //	위도
 	private float lat;
 //	경도
-	private float lon;
+	private float lng;
 //	장소 주소
 	private String address;
 	
@@ -20,7 +20,7 @@ public class Location {
 	
 	@Override
 	public String toString() {
-		return "Location [loc_idx=" + loc_idx + ", place_name=" + place_name + ", lat=" + lat + ", lon=" + lon
+		return "Location [loc_idx=" + loc_idx + ", place_name=" + place_name + ", lat=" + lat + ", lng=" + lng
 				+ ", address=" + address + ", start_time=" + start_time + ", end_time=" + end_time + "]";
 	}
 	public int getLoc_idx() {
@@ -41,11 +41,11 @@ public class Location {
 	public void setLat(float lat) {
 		this.lat = lat;
 	}
-	public float getLon() {
-		return lon;
+	public float getLng() {
+		return lng;
 	}
-	public void setLon(float lon) {
-		this.lon = lon;
+	public void setLng(float lng) {
+		this.lng = lng;
 	}
 	public String getAddress() {
 		return address;
