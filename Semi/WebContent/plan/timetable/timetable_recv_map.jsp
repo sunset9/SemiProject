@@ -12,7 +12,7 @@
 <link rel='stylesheet' href='/resources/timetable/fullcalendar/fullcalendar.css' />
 <link href='/resources/timetable/fullcalendar/fullcalendar.print.css' rel='stylesheet' media='print' />
 
-<script type="text/javascript" src="http://code.jquery.com/jquery-2.2.4.min.js"></script>
+<script type="text/javascript" src="https://code.jquery.com/jquery-2.2.4.min.js"></script>
 <script type="text/javascript" src='/resources/timetable/jquery-ui.min.js'></script>
 <script type="text/javascript" src='/resources/timetable/moment.min.js'></script>
 <script type="text/javascript" src="/resources/timetable/fullcalendar/fullcalendar.js"></script>
@@ -25,6 +25,7 @@
 
 <!-- 개인 utils -->
 <script type="text/javascript" src="/utils/timetableUtils.js"></script>
+<script type="text/javascript" src="/utils/mapUtils.js"></script>
 
 <style>
 
@@ -120,6 +121,12 @@
   .fc-bg:not(:first-child){
   	margin-left: 10px;  /* fc-bg(이벤트 덮고 있는 투명도 있는 판?)css 수정 , 왼쪽에 색 진하게 하는 효과줌*/
   }
+  
+  #map { /* 구글 맵 */
+    height: 400px;  /* The height is 400 pixels */
+    width: 100%;  /* The width is the width of the web page */
+    margin-bottom: 10px;
+  }
 </style>
 
 <script type="text/javascript">
@@ -136,6 +143,7 @@ $(document).ready(function(){
 	
 	// 브라우저에 timetable 그려주기
 	initFullCalendar(planStartDate, planEndDate, timetables);
+	
 });
 
 // 서버로부터 받은 timetable, location JSON리스트 필요한 정보만 파싱
@@ -161,9 +169,19 @@ function getTimetables(){
 	return timetables;
 }
 </script>
+
+<script type="text/javascript">
+
+</script>
+
+<script async defer
+ src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAO-YMjD9aGxBW1nEzgSFdzf7Uj8E4Lm9Q&callback=initMap">
+</script>
+
 </head>
 <body>
 <div id='wrap'>
+	<div id="map"></div>
 	<div id='calendar'></div>
 </div>
 </body>

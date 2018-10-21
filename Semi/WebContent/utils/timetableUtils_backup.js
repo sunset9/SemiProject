@@ -37,6 +37,14 @@ function initFullCalendar(planStartDate, planEndDate, timetables){
 		   end: '24:00'
 		}
 		, eventOverlap: false // 이벤트 겹치게 허용하지 않음
+		// 날짜 클릭 시 콜백 함수
+		, dayClick: function(date, jsEvent, view, resource) {
+			console.log(
+			  'dayClick',
+			  date.format(),
+			  resource ? resource.id : '(no resource)'
+			);
+		}
 		// 뷰 렌더링 될 때 콜백함수
 		, viewRender: function (view, element)
 		{
@@ -99,31 +107,25 @@ function initFullCalendar(planStartDate, planEndDate, timetables){
 		// 이벤트에 마우스 오버 시 콜백 함수
 		, eventMouseover: function( event, jsEvent, view ){
 			// 선택한 일정에 자식태그로 x 아이콘 추가
-			$(jsEvent.currentTarget).prepend("<span style='float: right; z-index: 3;' id ='btnRemove' class=\"glyphicon glyphicon-remove\"></span>");
-			
-			// 삭제 버튼 클릭 처리
-			$("#btnRemove").on("click", function(){
-				// '_id'값으로 판별하여 삭제
-				$('#calendar').fullCalendar('removeEvents', event._id);
-			});
+			$(jsEvent.currentTarget).prepend("<span style='float: right; z-index: 3;' class=\"glyphicon glyphicon-remove\"></span>");
 		}
 		, eventMouseout: function( event, jsEvent, view ){
 			// 마우스 때면 x표시 사라지도록
-			$("#btnRemove").remove();
+			$(".fc-time-grid-event span.glyphicon.glyphicon-remove").remove();
 		}
 		// 이벤트 클릭 시 콜백함수
 		, eventClick: function(calEvent, jsEvent, view) {
-			// 지도 뷰 바꿔주기 (해당 일자의 좌표로)
-			viewMap(calEvent, timetables);
-			
+			// 삭제 버튼 클릭 처리
+			$(document).on("click", ".glyphicon-remove", function(){
+				// '_id'값으로 판별하여 삭제
+				$('#calendar').fullCalendar('removeEvents', calEvent._id);
+			});
 		}
 		
 	}); // end $().fullCalendar()
 }
 
 // 날짜 차이 구하기
-// ttbStartDate : 특정 타임테이블의 시작 시간(몇일차인지 구하고 싶은 날짜시간). fullcalendar API의 시간 포멧(moment객체)
-// planStartDate : 일정의 시작 날짜(기준이 되는 날짜) . YYYY-MM-DD 형태의 문자열
 function getDiffDay(ttbStartDate, planStartDate ){
 	var ttbStartDate = new Date(ttbStartDate.format("YYYY-MM-DD")); // 타임테이블의 시작 날짜
 	var planStartDate = new Date(planStartDate); // 전체일정의 시작 날짜

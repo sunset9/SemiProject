@@ -147,6 +147,7 @@ $(document).ready(function(){
 	$('#calendar').fullCalendar({
 		schedulerLicenseKey: 'GPL-My-Project-Is-Open-Source'
 		, defaultView: 'titetable' // 뷰 지정 (아래에 설정값 작성)
+		, timezone: 'UTC'
 		, height: 833 // 캘린더 높이
 // 		, height: 'parent' // 캘린더 높이
 // 		, height: 'auto' // 캘린더 높이
@@ -194,6 +195,7 @@ $(document).ready(function(){
 			  date.format(),
 			  resource ? resource.id : '(no resource)'
 			);
+			
 		}
 		// 뷰 렌더링 될 때 콜백함수
 		, viewRender: function (view, element)
@@ -306,12 +308,12 @@ function store(){
 		var timetable = {
 				place_name: event.title
 				, address: event.address
-				, start_time: new Date(event.start._i)
-				, end_time: new Date(event.end._i)
+				, start_time: event.start.format("YYYY-MM-DD HH:mm") // 24시 형태
+				, end_time: event.end.format("YYYY-MM-DD HH:mm") // 24시 형태
 		}
 	
 		timetables.push(timetable);
-		
+	
 		// --- json 여러개 낱개로 넘겨주기
 		// input 태그 생성
 // 		$("form").append("<input type='hidden' name='events'>");
@@ -324,6 +326,7 @@ function store(){
 		$("input[name*='events']:last-child").val(JSON.stringify(timetables));
 	
 	// submit
+	console.log(timetables);
 	$("form").submit();
 }
 </script>
@@ -331,7 +334,7 @@ function store(){
 </head>
 <body>
   <div id='wrap'>
-
+	
 <!-- 	테스트 드롭 다운 용 이벤트 리스트들 -->
 <!--     <div id='external-events'> -->
 <!--       <h4>Draggable Events</h4> -->
