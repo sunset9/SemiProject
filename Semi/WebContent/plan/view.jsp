@@ -4,7 +4,7 @@
 
 <jsp:include page="../layout/headerWithMenu.jsp" />
 
-<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.3/jquery.min.js"></script>
+<script type="text/javascript" src="http://code.jquery.com/jquery-2.2.4.min.js"></script>
 
 <!-- 공개유무 슬라이드 버튼 -->
 <style type="text/css">
@@ -81,7 +81,7 @@
      /* Always set the map height explicitly to define the size of the div
       * element that contains the map. */
 	#map {
-		height: 80%;
+		height: 100%;
 	}
 </style>
 <style>
@@ -89,75 +89,221 @@
 
 </style>
 <script>
-// This sample uses the Place Autocomplete widget to allow the user to search
-// for and select a place. The sample then displays an info window containing
-// the place ID and other information about the place that the user has
-// selected.
-
-// This example requires the Places library. Include the libraries=places
-// parameter when you first load the API. For example:
-// <script src="https://maps.googleapis.com/maps/api/js?key=YOUR_API_KEY&libraries=places">
-
+//구글 map api 호출 콜백함수
 function initMap() {
+	var map = new google.maps.Map(document.getElementById('map'), {
+     zoom: 4,
+     //역삼역 위도, 경도
+     center: new google.maps.LatLng(37.4989567,127.03283520000002),
+     mapTypeId: 'terrain'
+   });
 
-	  var map = new google.maps.Map(document.getElementById('map'), {
-	    center: {lat: -33.8688, lng: 151.2195},
-	    zoom: 13
-	  });
+   // search box 관련 변수
+   var input = document.getElementById('pac-input');
+   var searchBox = new google.maps.places.SearchBox(input);
+   
+   console.log(searchBox);
+   
+   //map.controls[google.maps.ControlPosition.TOP_LEFT].push(input);
 
-  var input = document.getElementById('pac-input');
-  var autocomplete = new google.maps.places.Autocomplete(input);
-  
-  autocomplete.bindTo('bounds', map);
+        // Bias the SearchBox results towards current map's viewport.
+        map.addListener('bounds_changed', function() {
+          searchBox.setBounds(map.getBounds());
+        });
 
-  map.controls[google.maps.ControlPosition.TOP_LEFT].push(input);
+        var markers = [];
+   
+        
+   
+   // 사용자가 검색한 내용 담아놓는 변수
+   var input_search;
+   
+   // 검색창에 입력 시 발생하는 콜백함수
+   $("#pac-input").on("change", function(){
+      input_search =$("#pac-input").val(); 
+   });
+   
+   // 유저가 장소를 선택할 때 발생하는 이벤트에 대한 리스너
+   searchBox.addListener('places_changed', function() {
 
-  var infowindow = new google.maps.InfoWindow();
-  var infowindowContent = document.getElementById('infowindow-content');
-  infowindow.setContent(infowindowContent);
-  var marker = new google.maps.Marker({
-    map: map
-  });
-  marker.addListener('click', function() {
-    infowindow.open(map, marker);
-  });
-  
- 	autocomplete.addListener('place_changed', function() {
-      infowindow.close();
-      var place = autocomplete.getPlace();
-      if (!place.geometry) {
-        return;
-      }
+	   var places = searchBox.getPlaces();
 
-      if (place.geometry.viewport) {
-        map.fitBounds(place.geometry.viewport);
-      } else {
-        map.setCenter(place.geometry.location);
-        map.setZoom(17);
-      }
+       if (places.length == 0) {
+         return;
+       }
 
-      // Set the position of the marker using the place ID and location.
-      marker.setPlace({
-        placeId: place.place_id,
-        location: place.geometry.location
-      });
-      marker.setVisible(true);
+       // Clear out the old markers.
+       markers.forEach(function(marker) {
+         marker.setMap(null);
+       });
+       markers = [];
 
-      infowindowContent.children['place-name'].textContent = place.name;
-      infowindowContent.children['place-id'].textContent = place.place_id;
-      infowindowContent.children['place-address'].textContent =
-          place.formatted_address;
-      infowindow.open(map, marker);
-    });
+       // For each place, get the icon, name and location.
+       var bounds = new google.maps.LatLngBounds();
+       places.forEach(function(place) {
+         if (!place.geometry) {
+           console.log("Returned place contains no geometry");
+           return;
+         }
+         var icon = {
+           url: place.icon,
+           size: new google.maps.Size(71, 71),
+           origin: new google.maps.Point(0, 0),
+           anchor: new google.maps.Point(17, 34),
+           scaledSize: new google.maps.Size(25, 25)
+         };
+
+         // Create a marker for each place.
+         markers.push(new google.maps.Marker({
+           map: map,
+           icon: icon,
+           title: place.name,
+           position: place.geometry.location
+         }));
+
+         if (place.geometry.viewport) {
+           // Only geocodes have viewport.
+           bounds.union(place.geometry.viewport);
+         } else {
+           bounds.extend(place.geometry.location);
+         }
+       });
+       map.fitBounds(bounds);
+       
+
+
+      display(places, input_search);
+   });
+ }
+
+var lat = [];
+var lon = [];
+
+function display(places, input_search){
+//    console.log(place.photos[0].getUrl());
+   
+   var displayList = [];
+   var i = 1;
+   var j = 0;
+   // 쿼리자동완성 콜백 함수 (최대 결과 5개 반환)
+   // 연관 검색어도 검색해서 표시
+   var displaySuggestions = function(predictions, status) {
+	   //검색결과 새로고침
+	   $("#results").empty();
+      // 응답 상태가 ok가 아니면 alert 띄워주고 종료
+        if (status != google.maps.places.PlacesServiceStatus.OK) {
+          alert(status);
+          return;
+        }
+      console.log("콜백함수 호출 횟수:"+ i++);
+      // 받아온 결과값 반복문 작업
+        predictions.forEach(function(prediction) {
+           
+          // 기존에 띄워준 결과와 중복되지 않으면 결과 보여줌   
+          if(displayList.indexOf(prediction.id) == -1){
+             // 결과 띄워주기 위한 태그 생성
+             var li = $("<li onclick=\"test();\">").text(prediction.description);
+           $("#results").append(li);
+           
+          
+           displayList.push(prediction.id);
+           //검색결과 id 출력
+           console.log(prediction.id);
+           
+           
+           
+           /* var infowindow = new google.maps.InfoWindow();
+           var service = new google.maps.places.PlacesService(map);
+           
+           service.getDetails({
+        	   placeId: prediction.id
+        	   }, function(place, status) {
+               if (status === google.maps.places.PlacesServiceStatus.OK) {
+            	   
+            	   
+                 var marker = new google.maps.Marker({
+                   map: map,
+                   position: place.geometry.location
+                 });
+                 
+                 
+                 google.maps.event.addListener(marker, 'click', function() {
+                   infowindow.setContent('<div><strong>' + place.name + '</strong><br>' +
+                     'Place ID: ' + place.place_id + '<br>' +
+                     place.formatted_address + '</div>');
+                   infowindow.open(map, this);
+                 });
+                 console.log(place.name);
+                 console.log(place.place_id);
+                 console.log(place.formatted_address);
+               }
+             }); */
+          }
+        });
+      
+       
+       
+      $("#results").append($("<hr>"));
+      }; // displaySuggestions function end
+      
+    //위도 경도 가져오는 친구
+      /*  places.forEach(function(places) { */
+		lat = places[0].geometry.location.lat();
+		lon = places[0].geometry.location.lng();
+ /* }); */
+ 
+     // Create a new session token.
+     var sessionToken = new google.maps.places.AutocompleteSessionToken();
+      
+     var service = new google.maps.places.AutocompleteService();
+     places.forEach(function(place) { 
+        // 선택된 장소 이름으로 쿼리 자동완성
+        service.getPlacePredictions({ input: place.name, sessionToken: sessionToken}, displaySuggestions);
+     });
+     
+     // 사용자가 직접 검색한 이름으로 쿼리 자동완성
+     service.getPlacePredictions({ input: input_search, sessionToken: sessionToken}, displaySuggestions);
+     
+     /* 상세 정보 (위도, 경도 등) 불러오기 테스트 중
+    console.log("displayList:");
+     console.log(displayList);
+     var detailService = new google.maps.places.PlacesService(map);
+     displayList.forEach(function(searchedPlace){
+    	 
+        console.log("디테일 정보 불러오기:");
+        console.log(searchedPlace);
+        console.log("id: "+searchedPlace.place_id);
+        
+        detailService.getDetails({
+             placeId: searchedPlace.place_id
+           }, function(place, status) {
+               console.log(place);
+             if (status === google.maps.places.PlacesServiceStatus.OK) {
+               var marker = new google.maps.Marker({
+                 map: map,
+                 position: place.geometry.location
+               });
+               google.maps.event.addListener(marker, 'click', function() {
+                 infowindow.setContent('<div><strong>' + place.name + '</strong><br>' +
+                   'Place ID: ' + place.place_id + '<br>' +
+                   place.formatted_address + '</div>');
+                 infowindow.open(map, this);
+               });
+             }
+           });
+     });
+     */
 }
 
+function test(places) {
+	console.log(lat + ", " + lon);
+}
 </script>
-
-<script src="https://maps.googleapis.com/maps/api/js?
+<!-- 구글맵 출력 script -->
+<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?
 key=AIzaSyAO-YMjD9aGxBW1nEzgSFdzf7Uj8E4Lm9Q
 &libraries=places&callback=initMap"
- async defer></script>
-
+    async defer></script>
 </head>
 
 <body>
@@ -194,10 +340,10 @@ key=AIzaSyAO-YMjD9aGxBW1nEzgSFdzf7Uj8E4Lm9Q
 <div id="container" style="width:100%; border-radius:10px;">
 
 	<!-- 좌측 정보목록 (게시자 정보, 가계부, 검색 등 )-->
-	<div id="container" style="width:200px; border-radius:10px;float:left;">
+	<div id="container" style="width:230px; border-radius:10px;float:left;">
 	
 		<!-- 게시자 정보 DIV -->
-		<div id="menu" style="background-color:#EEEEEE;height:200px;float:bottom;width:100%;border-radius:10px;">
+		<div id="menu" style="background-color:#EEEEEE;height:100px;float:bottom;width:100%;border-radius:10px;">
 			사진<br>
 			<b>사용자</b>님 <br>
 			포스팅 : 10개 <br>
@@ -206,7 +352,7 @@ key=AIzaSyAO-YMjD9aGxBW1nEzgSFdzf7Uj8E4Lm9Q
 		</div>
 		
 	 	<!-- 가계부 DIV -->
-		<div id="menu" style="background-color:#CCCCCC;height:200px;float:bottom;width:100%;border-radius:10px;">
+		<div id="menu" style="background-color:#CCCCCC;height:135px;float:bottom;width:100%;border-radius:10px;">
 			<b>가계부</b><br>
 			교통 : <input type="text"><br>
 			식비 : <input type="text"><br>
@@ -215,37 +361,33 @@ key=AIzaSyAO-YMjD9aGxBW1nEzgSFdzf7Uj8E4Lm9Q
 		</div>
 		
 		<!-- 검색 INPUT DIV -->
-		<div id="menu" style="background-color:#AAAAAA;height:50px;float:bottom;width:100%;border-radius:10px;">
-		검색 : <input type="text">
+		<div id="menu" style="float:bottom;width:100%;border-radius:10px;">
+		검색 : <input id="pac-input" class="controls" type="text" placeholder="Search Box">
+		    <div id="right-panel"
+		    style="border-top:3px solid; border-bottom:3px solid; border-left:3px dashed; border-right:3px groove; padding:3px;">
+		    <ul>
+		     <li id="results" ></li>
+		     </ul>
+		    </div>
 		</div>
 	</div>
 	
 	<!-- 우측 일정 & 타임테이블정보 (지도, 일정탭 & 타임테이블탭 등 )-->
 	<div id="container" style="width:1000px; border-radius:10px;float:left;">
 		<!-- 일정 / 스토리 탭 DIV -->
-		<div id="content" style="background-color:#999999;height:150px;float:bottom;width:100%;border-radius:10px;">
+		<div id="content" style="background-color:#999999;height:50px;float:bottom;width:100%;border-radius:10px;">
 			<input type="button" value="일정" >
 			<input type="button" value="스토리" >
 		</div>
 		
 		<!-- 구글맵 DIV -->
 		<div id="content" style="background-color:#DDDDDD;height:500px;float:bottom;width:100%;border-radius:10px;">
-	
 			<div id="map"></div>
-			<input id="pac-input" class="controls" type="text"
-	        placeholder="Enter a location">
-		    
-		    <div id="infowindow-content">
-		      <span id="place-name"  class="title"></span><br>
-		      Place ID <span id="place-id"></span><br>
-		      <span id="place-address"></span>
-		    </div>
 	 	</div>
 	 	
 	 	<!-- 타임테이블 -->
 		<div id="content" style="background-color:#BBBBBB;height:200px;float:bottom;width:100%;border-radius:10px;">타임테이블 !!!</div>
 	</div>
 </div>
-
 </body>
 </html>
