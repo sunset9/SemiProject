@@ -102,6 +102,7 @@ function initMap() {
    var input = document.getElementById('pac-input');
    var searchBox = new google.maps.places.SearchBox(input);
    
+   console.log(searchBox);
    
    //map.controls[google.maps.ControlPosition.TOP_LEFT].push(input);
 
@@ -124,12 +125,6 @@ function initMap() {
    
    // 유저가 장소를 선택할 때 발생하는 이벤트에 대한 리스너
    searchBox.addListener('places_changed', function() {
-      /* var places = searchBox.getPlaces();
-      
-//       if (places.length == 0) {
-//         return;
-//       } */
-
 
 	   var places = searchBox.getPlaces();
 
