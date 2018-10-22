@@ -33,7 +33,7 @@ public class UserLoginController extends HttpServlet {
 			//파라미터 처리
 			User param = userService.getParam(req,resp);
 
-			System.out.println(param);
+			System.out.println("param"+param);
 
 			
 			//로그인 처리
@@ -45,13 +45,17 @@ public class UserLoginController extends HttpServlet {
 
 			User user = userService.getUserByid(param);
 			
+			HttpSession session = req.getSession();
 
 			//세션 정보 저장하기
 			//유저 객체로 넘기기
-			req.getSession().setAttribute("user_idx", user.getUser_idx());
+			session.setAttribute("user_idx", user.getUser_idx());
 			//System.out.println("user_idx :"+ user.getUser_idx());
-			req.getSession().setAttribute("login", login);
-			req.getSession().setAttribute("user", user);
+			session.setAttribute("login", login);
+			session.setAttribute("user", user);
+		
+			session.setMaxInactiveInterval(180000);
+			
 			
 			resp.sendRedirect("/main");
 		}

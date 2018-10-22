@@ -1,6 +1,7 @@
 package controller.user;
 
 import java.io.IOException;
+import java.util.List;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -23,16 +24,21 @@ public class UserUpdateController extends HttpServlet {
 	
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+		//System.out.println(req.getSession().getAttribute("user"));
+		//System.out.println(req.getSession().getAttribute("login"));
+		//System.out.println(req.getSession().getAttribute("user_idx"));
+		
 		req.getRequestDispatcher("/user/update.jsp").forward(req, resp);
 	}
 	
 	@Override
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+		
 		//요청 파라미터 처리 - (아직x)
-		User param = userService.getParam(req, resp);
+		List<String> param = userService.getParamUpdate(req, resp);
 		
 		//유저 정보 수정 처리
-		userService.updateUserInfo(param);
+		//userService.updateUserInfo(param);
 		
 		//마이페이지로 이동
 		resp.sendRedirect("/user/myPage");

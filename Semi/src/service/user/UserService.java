@@ -1,5 +1,7 @@
 package service.user;
 
+import java.util.List;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -13,6 +15,9 @@ public interface UserService {
 	
 	//요청 파라미터 처리(소셜)
 	public User getParamSocial(HttpServletRequest req, HttpServletResponse resp);
+	
+	//회원정보수정 파라미터 처리
+	public List<String> getParamUpdate(HttpServletRequest req, HttpServletResponse resp);
 	
 	//id 로그인 처리
 	public boolean login(User user);

@@ -1,5 +1,10 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
+
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -41,6 +46,8 @@
 </head>
 <body>
 
+<!-- id로 로그인한 유저의 정보수정 -->
+<c:if test="${user.sns_idx == 1 || socialUser.sns_idx == 1}">
 <div id="wrap">
 <form action="/user/update" method="post">
 	<div id="header"><h2>프로필 수정</h2></div>
@@ -50,24 +57,24 @@
 			<label>아이디 : </label>
 			<input type="text" name="userid" value="${user.id}" disabled/><br>
 			<label>내등급 : </label>
-			<input type="text" name="nickname" value="${user.grade}" disabled/><br>
+			<input type="text" name="grade" value="${user.grade}" disabled/><br>
 			<label>닉네임 : </label>
-			<input type="text" name="nickname" placeholder="${user.nickname}"/><br>
+			<input type="text" name="nickname" value="${user.nickname}"/><br>
 			<div id="pwRegion">
 				<label>비밀번호 : </label>
 				<input type="button" class="changePw" name="changePw" value="변경하기" /><br>
 			</div>
 			<div id="morePwRegion">
 				<label>현재 비밀번호 : </label>
-				<input type="password"/><br>
+				<input type="password" name="currPw"/><br>
 				<label>새 비밀번호 : </label>
-				<input type="password"/><br>
+				<input type="password" name="newPw"/><br>
 				<label>비밀번호 확인 : </label>
-				<input type="password"/><br>
+				<input type="password" name="newPwCheck"/><br>
 			</div>
 		</div>
 		<div id="right">
-			<div id="image"><img src="${user.profile}" style="border-radius:70px; width:100px;"><br></div>
+			<img src="${user.profile}" name="image" style="border-radius:70px; width:100px;"/><br>
 			<div id="changeImage"><input type="button" name="changeImage" value="변경하기"/></div>
 		</div>
 	</div>
@@ -78,5 +85,36 @@
 </form>
 <button>회원탈퇴하기</button>
 </div>
+</c:if>
+
+
+<!-- 소셜유저의 정보수정 -->
+<c:if test="${socialUser.sns_idx != 1 && user.sns_idx != 1}">
+<div id="wrap">
+<form action="/user/update" method="post">
+	<div id="header"><h2>프로필 수정</h2></div>
+	<hr>
+	<div id="container">
+		<div id="left">
+			<label>아이디 : </label>
+			<input type="text" name="userid" value="${socialUser.id}" disabled/><br>
+			<label>내등급 : </label>
+			<input type="text" name="grade" value="${socialUser.grade}" disabled/><br>
+			<label>닉네임 : </label>
+			<input type="text" name="nickname" value="${socialUser.nickname}"/><br>
+		</div>
+		<div id="right">
+			<div id="image"><img src="${socialUser.profile}" style="border-radius:70px; width:100px;"><br></div>
+			<div id="changeImage"><input type="button" name="changeImage" value="변경하기"/></div>
+		</div>
+	</div>
+	<hr>
+	<div id="footer">
+		<button type="submit">저장하기</button>
+	</div>
+</form>
+<button>회원탈퇴하기</button>
+</div>
+</c:if>
 </body>
 </html>

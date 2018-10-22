@@ -34,12 +34,14 @@ public class UserSocialLoginController extends HttpServlet {
 			boolean login = userService.socialLogin(param);
 						
 			//유저 정보 얻어오기 
-			User user = userService.getUserByid(param);
+			User socialUser = userService.getUserByid(param);
 			
 			//세션 정보 저장
-			req.getSession().setAttribute("user_idx", user.getUser_idx());
+			req.getSession().setAttribute("user_idx", socialUser.getUser_idx());
 			req.getSession().setAttribute("login", login);
-			req.getSession().setAttribute("user", user);
+			req.getSession().setAttribute("socialUser", socialUser);
+			
+			req.getSession().setMaxInactiveInterval(18000);
 			
 			resp.sendRedirect("/main");
 		}

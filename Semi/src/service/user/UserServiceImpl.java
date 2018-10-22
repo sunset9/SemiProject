@@ -1,5 +1,8 @@
 package service.user;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -37,6 +40,23 @@ public class UserServiceImpl implements UserService {
 		return user;
 	}
 
+	//회원정보수정 파라미터 처리
+	@Override
+	public List<String> getParamUpdate(HttpServletRequest req, HttpServletResponse resp) {
+		List<String> list = new ArrayList<>();
+		
+		String nickname = req.getParameter("nickname");
+		String currPw = req.getParameter("currPw");
+		String newPw = req.getParameter("newPw");
+		String newPwCheck = req.getParameter("newPwCheck");
+		
+		System.out.println(currPw);
+		System.out.println(newPw);
+		System.out.println(newPwCheck);
+		
+		return list;
+	}
+	
 	// id 로그인처리
 	@Override
 	public boolean login(User user) {
@@ -107,6 +127,7 @@ public class UserServiceImpl implements UserService {
 			return false;
 		}
 	}
+
 
 
 
