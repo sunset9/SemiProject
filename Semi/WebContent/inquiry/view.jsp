@@ -4,7 +4,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
     
-<jsp:include page ="../layout/headerWithMenu.jsp"/>
+<c:import url="../layout/headerWithMenu.jsp" />
 
 <script type = "text/javascript">
 $(document).ready(function() {
@@ -17,7 +17,50 @@ $(document).ready(function() {
 	$("#btnDelete").click(function() {
 		$(location).attr("href", "/inquiry/delete?inq_idx=${inquiry.inq_idx}");
 	});
+	
+	$("#btnRepInsert").click(function() {
+		var $form = $("<form>").attr({
+			action: "/reply/insert",
+			method: "post"
+		}).append(
+			$("<input>").attr({
+				type:"hidden",
+				name:"inq_idx",
+				value:"${inquiry.inq_idx}"
+			})
+		).append(
+			$("<textarea>")
+				.attr("name","content")
+				.css("display","none")
+				.text($("#replyContent").val())
+		);
+		$(document.body).append($form);
+		$form.submit();
+	});
 });
+function deleteReply(rep_idx){
+	$.ajax({
+		type: "post"
+		, url:"/reply/delete"
+		, dataType:"json"
+		, data : {
+			rep_idx:rep_idx
+		}
+		, success: function(data) {
+			if(data.success) {
+				
+// 				console.log("삭제 되나여?");
+
+				$("[data-rep_idx='"+rep_idx+"']").remove();
+			} else {
+				alert("댓글 삭제 실패 ")
+			}
+		}
+		, error: function() {
+			console.log("error")
+		}
+	});
+} 
 </script>
 
 <div>
@@ -73,6 +116,52 @@ ${inquiry.content }</td>
 	<button id="btnDelete" >삭제</button>
 	</c:if>
 </div>
+
+
+<!-- 댓글 부분 -->
+
+<div>
+<hr>
+<!-- 댓글 입력 부분 -->
+<div class= "form-inline text-center">
+	<input type ="text" class="form-control" size="10" id ="replyWriter" value="${user.nickname }"  readonly="readonly"/>
+	<textarea rows="2" cols="60" class="form-control"id="replyContent"></textarea>
+	<button id="btnRepInsert" >입력</button>
+</div> 
+
+<!-- 댓글 리스트 부분 -->
+<table class="table table-striped table-hover table-condensed">
+<thead>
+<tr>
+	<th style="width: 10%;">작성자</th>
+	<th style="width: 50%;">댓글</th>
+	<th style="width: 20%;">작성일</th>
+	<th style="width: 10%;"></th>
+</tr>
+</thead>
+<tbody id = "replyBoby">
+<c:forEach items="${repList}" var ="reply">
+<tr data-rep_idx="${reply.rep_idx }">
+	<td>${reply.userid }</td>
+	<td>${reply.content }</td>
+	<td>${reply.create_date }</td>
+	<td>
+		<c:if test="${user.id eq reply.userid }">
+		<button onclick="deleteReply(${reply.rep_idx});">삭제</button>
+		</c:if>
+	</td>
+</tr>
+</c:forEach>
+</tbody>
+
+</table>
+
+
+
+</div>
+
+
+
 </div>
 
 </body>

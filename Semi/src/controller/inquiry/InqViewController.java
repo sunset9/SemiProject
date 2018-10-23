@@ -35,10 +35,6 @@ public class InqViewController extends HttpServlet {
 
 		// 게시글 상세 조회  
 		inquiry = inquiryService.view(inquiry);
-		System.out.println(inquiry);
-		
-		// 게시글에 관련된 댓글 리스트 불러오기
-		List<Reply> repList = replyDao.selectInqByInqIdx(inquiry);
 		
 		// 게시글에 관련된 사진 불러오기
 		InqFile inqFile = fileDao.selectByInqIdx(inquiry);
@@ -46,7 +42,7 @@ public class InqViewController extends HttpServlet {
 		// 게시글 모델 전달
 		req.setAttribute("inquiry", inquiry);
 		
-		System.out.println(inquiry);
+//		System.out.println(inquiry);
 		
 		// 글 작성자 이메일 전달
 		req.setAttribute("userid", inquiryService.getId(inquiry));
@@ -56,6 +52,9 @@ public class InqViewController extends HttpServlet {
 		
 		// 첨부파일 모델 전달
 		req.setAttribute("inqFile", inqFile);
+		
+		// 게시글에 관련된 댓글 리스트 불러오기
+		List<Reply> repList = replyDao.selectInqByInqIdx(inquiry);
 		
 		// 댓글 리스트 전달
 		req.setAttribute("repList", repList);

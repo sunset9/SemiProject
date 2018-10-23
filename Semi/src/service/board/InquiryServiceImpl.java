@@ -380,6 +380,17 @@ public class InquiryServiceImpl implements InquiryService {
 		replyDao.insertReply(reply);
 	}
 
+	@Override
+	public boolean deleteReply(Reply reply) {
+		replyDao.delete(reply);
+		
+		if(replyDao.countReply(reply) > 0) {
+			return false;
+		}else {
+			return true;
+		}
+	}
+
 
 
 

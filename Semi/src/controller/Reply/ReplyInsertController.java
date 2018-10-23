@@ -30,15 +30,17 @@ public class ReplyInsertController extends HttpServlet {
 		
 		Reply reply = new Reply();
 		
-		String inq_idx = (String) req.getParameter("inq_idx");
-		String content = (String) req.getParameter("content");
+		String inq_idx = req.getParameter("inq_idx");
+		String content = req.getParameter("content");
 		
-		System.out.println(inq_idx+"," +content);
+//		System.out.println(inq_idx+"," +content);
 		
-		reply.setInq_idx(Integer.parseInt("inq_idx"));
+		reply.setInq_idx(Integer.parseInt(inq_idx));
 		reply.setUser_idx((int)req.getSession().getAttribute("user_idx"));
 		reply.setUserid((String) req.getSession().getAttribute("userid"));
 		reply.setContent(content);
+		
+//		System.out.println("reply insert"+reply);
 		
 		inquiryService.insertRepley(reply);
 		
