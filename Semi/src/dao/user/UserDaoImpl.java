@@ -18,8 +18,11 @@ public class UserDaoImpl implements UserDao{
 	@Override
 	public int selecCntUserByUseridAndUserpw(User user) {
 		
+		System.out.println("selecCntUserByUseridAndUserpw : "+user.getId());
+		System.out.println("selecCntUserByUseridAndUserpw : "+user.getPassword());
+		
 		String sql = "";
-		sql += "SELECT COUNT(*) FROM userinfo";
+		sql += "SELECT COUNT(*) FROM USERINFO";
 		sql += " WHERE 1=1";
 		if( user.getId() != null && user.getPassword() != null ) {
 			sql += " AND id = ?";
@@ -38,6 +41,7 @@ public class UserDaoImpl implements UserDao{
 			if( user.getId() != null && user.getPassword() != null ) {
 				ps.setString(1, user.getId());
 				ps.setString(2, user.getPassword());
+//				System.out.println("selecCntUserByUseridAndUserpw is not null");
 			}
 			rs = ps.executeQuery();
 			
@@ -177,7 +181,7 @@ public class UserDaoImpl implements UserDao{
 		try {
 			ps = conn.prepareStatement(sql);
 			ps.setString(1, user.getId());
-			System.out.println(user.getId());
+			System.out.println("dao delete() : "+user.getId());
 			ps.executeUpdate();
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block

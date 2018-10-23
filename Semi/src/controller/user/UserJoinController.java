@@ -40,8 +40,10 @@ public class UserJoinController extends HttpServlet {
 		boolean checkid = userService.checkid(param);
 		
 		//회원가입 
-		userService.join(param);
-		
+		if(checkid) {
+			System.out.println("회원가입시작~");
+			userService.join(param);
+		}
 		//메인으로 이동
 		resp.sendRedirect("/main");
 	}
