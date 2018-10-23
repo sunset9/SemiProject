@@ -45,7 +45,6 @@ public class AdminInqDeleteController extends HttpServlet {
 		reply.setInq_idx(inquiry.getInq_idx());
 		
 		// 게시물에 관련된 댓글 지우기
-		replyService.replyDelete(reply);
 		
 		
 		
