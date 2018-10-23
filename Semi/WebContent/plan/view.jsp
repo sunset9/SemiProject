@@ -5,14 +5,7 @@
 
 <jsp:include page="../layout/headerWithMenu.jsp" />
 
-<!-- fullcalendar -->
-<link rel='stylesheet' href='/resources/timetable/fullcalendar/fullcalendar.css' />
-<link href='/resources/timetable/fullcalendar/fullcalendar.print.css' rel='stylesheet' media='print' />
-
-<script type="text/javascript" src='/resources/timetable/moment.min.js'></script>
-<script type="text/javascript" src="/resources/timetable/fullcalendar/fullcalendar.js"></script>
-<script type="text/javascript" src="/resources/timetable/fullcalendar/scheduler.min.js"></script>
-<script src='/resources/timetable/fullcalendar/locale-all.js'></script>
+<script type="text/javascript" src='/resources/timetable/jquery-ui.min.js'></script>
 
 <!-- 개인 utils -->
 <script type="text/javascript" src="/utils/timetableUtils.js"></script>
