@@ -1,5 +1,9 @@
 package service.stroy;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -11,6 +15,7 @@ import dto.story.Comment;
 import dto.story.Story;
 import service.account.AccountService;
 import service.account.AccountServiceImpl;
+import utils.CalcDate;
 
 public class StoryServiceImpl implements StoryService {
 	
@@ -19,8 +24,29 @@ public class StoryServiceImpl implements StoryService {
 
 	@Override
 	public List<Story> getStoryList(Plan plan) {
-
-		return storyDao.selectAllByPlanNo(plan);
+		List<Story> StoryList = new ArrayList<>();
+		
+		StoryList = storyDao.selectAllByPlanNo(plan);
+		
+		CalcDate calcDate = new CalcDate();
+		
+		//몇일차인지 계산
+		for(int i = 0 ; i <StoryList.size();i++) {
+				Date date;
+				try {
+					date = new SimpleDateFormat("yyyy-MM-dd").parse(StoryList.get(i).getTravel_day());
+					int diffDays = calcDate.CalcPriod(plan.getStart_date(),date);
+					StoryList.get(i).setCalcDay(diffDays);
+				} catch (ParseException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				
+				
+		}
+		
+		
+		return StoryList;
 	}
 
 	@Override

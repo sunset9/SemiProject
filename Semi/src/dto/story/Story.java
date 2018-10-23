@@ -16,30 +16,41 @@ public class Story {
 	private String content;
 	// 스토리 작성일
 	private Date create_date;
-	
+		
+	//현재 여행 날짜
 	private String travel_day;
 	
+	private Date start_time;
+	// 타임테이블 끝 시간
+	private Date end_time;
+	// 장소 이름
+	private String place_name;
+	//몇일차인지
+	private int calcDay;
+	
+	public int getCalcDay() {
+		return calcDay;
+	}
+	public void setCalcDay(int calcDay) {
+		this.calcDay = calcDay;
+	}
 	public String getTravel_day() {
 		return travel_day;
 	}
 	public void setTravel_day(String travel_day) {
 		this.travel_day = travel_day;
 	}
+
+
+	// 타임테이블 시작 시간
+	
 	@Override
 	public String toString() {
 		return "Story [story_idx=" + story_idx + ", plan_idx=" + plan_idx + ", ttb_idx=" + ttb_idx + ", user_idx="
 				+ user_idx + ", content=" + content + ", create_date=" + create_date + ", travel_day=" + travel_day
-				+ ", start_time=" + start_time + ", end_time=" + end_time + ", place_name=" + place_name + "]";
+				+ ", start_time=" + start_time + ", end_time=" + end_time + ", place_name=" + place_name + ", calcDay="
+				+ calcDay + "]";
 	}
-	private Date start_time;
-	// 타임테이블 끝 시간
-	private Date end_time;
-	// 장소 이름
-	private String place_name;
-	
-
-	// 타임테이블 시작 시간
-	
 	public Date getStart_time() {
 		return start_time;
 	}

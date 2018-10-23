@@ -12,6 +12,12 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>무제 문서</title>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.4.0/css/font-awesome.min.css" rel="stylesheet" type="text/css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.25.0/codemirror.min.css">
+ 
+  <!-- Include Editor style. -->
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/froala-editor/2.5.1/css/froala_editor.pkgd.min.css" rel="stylesheet" type="text/css" />
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/froala-editor/2.5.1/css/froala_style.min.css" rel="stylesheet" type="text/css" />
 <!-- 합쳐지고 최소화된 최신 CSS -->
 <script src = "https://code.jquery.com/jquery-2.2.4.min.js"></script>
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
@@ -21,8 +27,15 @@
 
 <!-- 합쳐지고 최소화된 최신 자바스크립트 -->
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
-
 <style type="text/css">
+	
+#slidemenu{
+	background:#12cf3d;
+	position:absolute;
+	width:100px;
+	top:50px;
+	right:10px;
+}
 
 div.vertical-line{
 	width: 3px; /* Line width */
@@ -33,12 +46,8 @@ div.vertical-line{
 	if this fits better with your design */
 	}
 	
-#slidemenu{
-	background:#12cf3d;
-	position:absolute;
-	width:100px;
-	top:50px;
-	right:10px;
+tr,td{
+padding: 2px;
 }
 
 </style>
@@ -51,177 +60,48 @@ div.vertical-line{
 	        var position = $(window).scrollTop(); // 현재 스크롤바의 위치값을 반환합니다.
 	        $("#slidemenu").stop().animate({"top":position+currentPosition+"px"},1000);
 	    });
-	
 	    
-		function calcDay(endDay,startDay) {
-			
-		    var diff = endDay - startDay;
-		    var diffDays = (diff / (24 * 60 * 60 * 1000)) + 1;
-			return diffDays;
-		}
-		
-		
-		function storyView() {		
-			
-			for (var j = 1; j <= ${diffDays}; j++) {
-				
-				
-				var div = document.createElement("div");
-				var h1 = document.createElement('h1');
-				
-				var h1Text = document.createTextNode("-Day"+j);
-				
-				h1.appendChild(h1Text);
-				
-				div.appendChild(h1);
-				
-				$("#Day").append(div);
+		$("#btnSave").click(function() {
+			$("form").submit();
+		})
 
-				
-				"<c:forEach items='${storyList}' var="story">";
-				
-					var endDt = "${story.travel_day}";
-					
-					var endDtsplit = endDt.split('-');
-	
-					var endYear = endDtsplit[0];
-					var endMonth = endDtsplit[1];
-					var endDay = endDtsplit[2];			
-	
-					// 만약 날짜 데이터가 YYYYMMDD로 넘어올 경우 이렇게 처리
-	//					var endYear = endDt.substr(0,4);
-	//					var endMonth = endDt.substr(5,2);
-	//					var endDay = endDt.substr(7,2);		
-					
-					
-					var endDay = new Date(endYear,endMonth-1,endDay);												
-					
-					//여행 시작일 
-					var startDt = "${startDt}";
-					
-					var startDtsplit = startDt.split('-');
-					
-					var startYear = startDtsplit[0];
-					var startMonth = startDtsplit[1];
-					var startDay = startDtsplit[2];
-					
-					var startDay = new Date(startYear,startMonth-1,startDay);
-					
-					
-					//몇일차 인지 계산
-					var Day = calcDay(endDay,startDay);
-					
-					if (Day == j){
-						
-						// 날자별 스토리 들어갈 곳
-						
-						console.log("${story.content}");
-						
-						var storyDiv = document.createElement("div");
-						
-// 						var storyDivText = document.createTextNode('스토리들어갈곳');
-
-// 						storyDiv.load('storyDetailView.jsp?story=${story}');
-						
-// 						storyDiv.appendChild(storyDivText);
-
-// 						storyDiv.appendChild('storyDetailView.jsp?story=${story}');
-						
-						div.appendChild(storyDiv);
-						
-					} 
-				
-				"</c:forEach>";
-				
-				
-				/* 		var list_travel = new Array(); 
-						var list_content = new Array();
-						var lsit_startTime = new Array();
-						var lsit_endTime = new Array();
-						var lsit_placeName = new Array();
-						
-						var list = new Array();
-						
-						"<c:forEach items='${storyList}' var="item">";
-							list_travel.push("${item.travel_day}");
-							list_content.push("${item.content}");
-							lsit_startTime.push("${item.start_time}");
-							lsit_endTime.push("${item.end_time}");
-							lsit_placeName.push("${item.place_name}");
-							list.push("${item}");
-						"</c:forEach>"; 
-				*/
-										
-				
-			/* 		for( var i = 0 ; i< list_travel.length; i++){
-						
-						
-						console.log(list[i].content);
-						
-						//현재 일정의 날짜 
-						var endDt = list_travel[i];
-						
-						var endDtsplit = endDt.split('-');
- 	
-						var endYear = endDtsplit[0];
-						var endMonth = endDtsplit[1];
-						var endDay = endDtsplit[2];			
-
-						// 만약 날짜 데이터가 YYYYMMDD로 넘어올 경우 이렇게 처리
-// 						var endYear = endDt.substr(0,4);
-// 						var endMonth = endDt.substr(5,2);
-// 						var endDay = endDt.substr(7,2);		
-						
-						
-						var endDay = new Date(endYear,endMonth-1,endDay);												
-						
-						//여행 시작일 
-						var startDt = "${startDt}";
-						
-						var startDtsplit = startDt.split('-');
-						
-						var startYear = startDtsplit[0];
-						var startMonth = startDtsplit[1];
-						var startDay = startDtsplit[2];
-						
-						var startDay = new Date(startYear,startMonth-1,startDay);
-						
-						
-						//몇일차 인지 계산
-						var Day = calcDay(endDay,startDay);
-						
-						if (Day == j){
-							
-							console.log(list_content[i]);
-							
-							var storyDiv = document.createElement("div");
-							
-							var storyDivText = document.createTextNode('스토리들어갈곳');
-							
-							storyDiv.appendChild(storyDivText);
-							
-							div.appendChild(storyDiv);
-							
-						} 
-						
-					} 	
-				*/
-					
-				}
-				
-			}
-	
-		storyView();
-		
 	});
+	    
+	    
+   function plusmover(num) {
+   	
+   	var id = "plus"+num;
+   	
+	var plus = document.getElementById(id);
+	plus.style.color='orange';
+	
+	}
+	
+   
+   function plusmdown(num){
+   	var id = "plus"+num;
+   	
+	var plus = document.getElementById(id);
+	plus.style.color='blue';
+	   
+   }
+   
+	function plusmleave(num) {
+		var id = "plus"+num;
+		var plus = document.getElementById(id);
+		plus.style.color='black';
+	}
 
-	
-	
+
 	
 </script>	
+
+
+
 </head>
 <body>
 	
+<input type="hidden" id = "calcDay"/>
 <div>
   <div class="col-lg-2">
    <div class ="vertical-line"></div>
@@ -229,103 +109,190 @@ div.vertical-line{
   <div class="col-lg-8">
 	<!-- Day Foreach문 -->
 		<div id = "Day">
-
-
-
 		</div>
-		
-<%
-	for (int i = 0 ; i < diff; i++) {
-%>
-		<span>DAY + i</span>
-		
-<%		
-		calDAte = stdate - enddate;
-		for (int j = 0; j < storys;j ++) {
-			if (daykey == storyskey) {
-%>
-
-				<div>${들어갈내용}</div>
+			<c:forEach var='day' begin = "1" end="${diffDays}">
+			<div id = "DayDiv${day}" ><h1>-Day ${day}</h1></div>
+				<c:forEach items='${storyList}' var='story'>
+					<c:if test="${day eq story.calcDay}">
+					<span>${story.start_time }</span>
+			    		<table width="70%" style="border-bottom: 1px solid black; border-right: 1px solid black; border-top: 1px solid black; border-left: 1px solid black" >
+			    			<tr>
+			     			<td colspan="12">
+							  <div> <h2><span class="glyphicon glyphicon-map-marker"></span>&nbsp;${story.place_name}</h2><hr></div>
+					 		  <div width="100%" style="overflow:auto; height:300px">${story.content}</div>
+							</td>
+			    			</tr>
+			    			<tr>
+			     			<td colspan="12">
+								<hr><font size="2" color="#B9ADAE">[이미지] 오락 | USD 70</font> 
+				 		    </td>
+							</tr>
+							<tr>
+				  			<td colspan="12">
+					  			<font size="2" color="#B9ADAE">[이미지] 식비 | KRW 8000</font> 
+				  			</td>
+			    			</tr>
+							<tr>
+							<td colspan="12"><hr><a href="#"><font size="2" color="#B9ADAE">덧글 1개</font></a></td>
+							</tr>
+							<tr>
+							<td colspan="10">
+								<hr>
+								<textarea style ="resize: none; overflow:visible;" rows="2" cols="100" placeholder="댓글을 입력하세요"></textarea>
+							</td>	
+							<td colspan="2" style="padding-bottom:20px;">
+							<hr style="padding: 4px;">
+							<button type="button" class="btn btn-sm" style="margin-bottom: -7px;">등록</button>
+							</td>
+							</tr>
+						<!-- ajax이용, 댓글 리스트 foreach문 -->
+							<tr>
+							<td colspan="3" align="center" ><img src="#" class="img-circle" width="50px" height="50px"></td>
+							<td colspan="5" rowspan="2"><font size="2">&nbsp;&nbsp;&nbsp;피가 하여도 무엇을 말이다. 풀밭에 착목한는 소금이라 이상의 맺어, 새 같지 때문이다.</font></td>
+							<td colspan="3" rowspan="2" style="padding:20px"><font size ="1"> 2018-10-12 AM 09:03 </font></td>
+							<td colspan="1" rowspan="2"><span class="glyphicon glyphicon-remove-sign"></span></td>
+							</tr>
+							<tr>
+							<td colspan="3" align="center"><font size="2">닉네임</font></td>
+							</tr>
+						</table>
+						</c:if>
+				</c:forEach>
+				<br>
+				<font size="10" color="blue">
+					<span id = "plus${day}" class ="glyphicon glyphicon-plus-sign" data-toggle="modal" data-target="#myModal" data-backdrop="static" onmouseover="plusmover(${day})" onmouseleave="plusmleave(${day})" onmousedown="plusmdown(${day})"></span>
+				</font>
 				
-				
-
-<%			
-			}
-		
-		}		
+			</c:forEach>
+		</div> <!-- col-lg-8 끝 구간 -->
+ <div class="col-lg-2"></div>
 	
-	}
-%>
 	
-	<!-- 포스트 Foreach문(장소)-->
-	<span>AM 7:00</span>
-	    <table width="70%" style="border-bottom: 1px solid black; border-right: 1px solid black; border-top: 1px solid black; border-left: 1px solid black" >
-		<div>
-	    <tr>
-	      <td colspan="12">
-			  <div>
-				  <h2>장소이름</h2>
-			  <hr> 
-			  </div>
-			  <div width="100%" style="overflow:auto; height:300px">
-				  그들의 인간은 뜨거운지라, 작고 군영과 피부가 이상의 끓는 피다. 것은 남는 피부가 우리는 생생하며, 이것을 충분히 가장 때에, 것이다. 영원히 인생을 이것이야말로 발휘하기 그들의 새가 이상은 것이다. 그들의 그들의 인도하겠다는 청춘에서만 바로 충분히 청춘의 듣는다. 그들은 있는 현저하게 위하여, 찾아 있음으로써 그러므로 지혜는 청춘에서만 듣는다. 얼음에 기쁘며, 보내는 위하여서 얼마나 쓸쓸한 교향악이다. 거선의 같은 구하지 사막이다. 위하여 찾아다녀도, 얼마나 있는 곧 관현악이며, 든 얼음에 약동하다. 보배를 이성은 같은 새 때문이다. 밝은 무한한 끓는 뜨고, 같으며, 있는가? 방지하는 기쁘며, 싸인 피가 인생의 부패뿐이다.
-	
-				그와 반짝이는 새가 석가는 약동하다. 심장은 맺어, 이상 .가는 쓸쓸하랴? 별과 두손을 뭇 천지는 가는 발휘하기 동산에는 찾아다녀도, 이것이다. 부패를 이상의 넣는 것이 방지하는 철환하였는가? 불어 봄바람을 밥을 따뜻한 인생의 부패뿐이다. 반짝이는 관현악이며, 그것은 넣는 안고, 그들에게 청춘을 가진 이상 듣는다. 우리의 살 오아이스도 과실이 눈에 찾아다녀도, 미인을 위하여 것이다. 위하여, 별과 사랑의 풀밭에 우리는 현저하게 철환하였는가? 이 청춘의 것이 것은 우리 피부가 피는 이것이다.
-	
-				수 얼마나 방황하여도, 봄바람이다. 오아이스도 별과 피고, 것이다. 밝은 못할 가는 것이다. 어디 대고, 그들의 때문이다. 영원히 뜨고, 불어 이상, 쓸쓸하랴? 그들은 풀이 이 것이다.보라, 바로 귀는 석가는 말이다. 영락과 이상의 이상 아니더면, 그들은 있다. 힘차게 피어나기 오직 청춘의 같은 불러 보배를 없는 것이다. 하는 밝은 천하를 아름답고 길을 사는가 든 속잎나고, 철환하였는가?
-			  </div>
-		</td>
-	    </tr>
-		<!-- 가계부 foreach문 이용 -->
-	    <tr>
-	      <td colspan="12">
-			<hr>
-			<font size="2" color="#B9ADAE">[이미지] 오락 | USD 70</font> 
-		  </td>
-		</tr>
-		<tr>
-		  <td colspan="12">
-			  <font size="2" color="#B9ADAE">[이미지] 식비 | KRW 8000</font> 
-		  </td>
-	    </tr>
-		<tr>
-		<td colspan="12"><hr><a href="#"><font size="2" color="#B9ADAE">덧글 1개</font></a></td>
-		</tr>
-		</div>
-		<tr>
-		<td colspan="10">
-		<hr>
-		<textarea style ="resize: none; overflow:visible;" rows="2" cols="100" placeholder="댓글을 입력하세요"></textarea>
-		</td>	
-		<td colspan="2" style="padding-bottom:20px;">
-		<hr style="padding: 4px;">
-		<button type="button" class="btn btn-sm" style="margin-bottom: -7px;">등록</button>
-		</td>
-		</tr>
-				<!-- ajax이용, 댓글 리스트 foreach문 -->
-			<tr>
-				<td colspan="3" align="center" ><img src="#" class="img-circle" width="50px" height="50px"></td>
-				<td colspan="5" rowspan="2"><font size="2">&nbsp;&nbsp;&nbsp;피가 하여도 무엇을 말이다. 풀밭에 착목한는 소금이라 이상의 맺어, 새 같지 때문이다.</font></td>
-				<td colspan="3" rowspan="2" style="padding:20px"><font size ="1"> 2018-10-12 AM 09:03 </font></td>
-				<td colspan="1" rowspan="2"><span class="glyphicon glyphicon-remove-sign"></span></td>
-			</tr>
-			<tr>
-				<td colspan="3" align="center"><font size="2">닉네임</font></td>
-			</tr>
+ <!-- Modal -->
+  <div class="modal fade" id="myModal" role="dialog">
+    <div class="modal-dialog">
+    
+      <!-- Modal content-->
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal">×</button>
+          <h4 class="modal-title"><span class="glyphicon glyphicon-map-marker" style="font-weight: bold;font-size: 25px"><font size="5">장소 이름</font></span></h4>
+        </div>
+        <div class="modal-body">
+        
+         <!-- Include external JS libs. -->
+		  <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+		  <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.25.0/codemirror.min.js"></script>
+		  <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.25.0/mode/xml/xml.min.js"></script>
+		 
+		  <!-- Include Editor JS files. -->
+		  <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/froala-editor/2.5.1//js/froala_editor.pkgd.min.js"></script>
+			<div style="height: auto; width:500px; padding: 20px;" id ="StoryWriteDiv">
 			
-		</table>
-</div> <!-- col-lg-8 끝 구간 -->
-
-  <div class="col-lg-2"></div>
-  
+			<form action="/story/write" method="POST">
+				<table>
+				<tr>
+					<td colspan="4">
+						<div style="border: 1px solid #B6B7FA; width: auto; height: auto" >
+							<textarea id = "edit" name="content"></textarea>
+						</div>
+					</td>
+				</tr>
+				<tr>	
+					<td>
+					<select>
+						<option>교통</option>
+						<option>식비</optoin>
+						<option>오락</option>
+					</select>
+					</td>
+					<td>
+						<select>
+						<option>USD</option>
+						<option>KRW</optoin>
+						<option>CAD</option>
+						<option>CNY</option>
+					</select>
+					</td>
+					<td>
+					<input type="text" size="40"/>
+					</td>
+					<td>
+						<span class="glyphicon glyphicon-plus"></span>
+					</td>
+					<td>
+						<span class="glyphicon glyphicon-remove"></span>
+					</td>
+				</tr>
+				</table>
+			</form>
+			</div>
+        
+        </div> <!-- modal 바디끝 -->
+        <div class="modal-footer" style="text-align: center">
+          <button type="button" class="btn btn-warning">Save</button>
+        </div>
+      </div>
+      
+    </div>
+  </div>
+	
+				
   <!-- 퀵 메뉴바 -->
   <div id ="slidemenu">
   	<ul style="list-style:none;">
   		<c:forEach var = "day" begin="1" end="${diffDays}" step="1">
-  			<li> Day ${day} </li>
+  		<c:set var = "name" value="DayDiv${day}"/>
+  			<a href="#${name}"><li> Day ${day} </li></a>
   		</c:forEach>
 	</ul>
   </div>
-</div>
+ </div>	
+
+<!-- 프로알라관련 --> 
+<script>
+
+//write 창에 x표시 추가
+
+    $(function() {
+      $('#edit').froalaEditor({
+        // Set the image upload URL.
+        toolbarButtons: ['fontFamily','bold', 'italic', 'underline','align','|','insertLink','insertImage','|', 'undo', 'redo'],
+        toolbarButtonsXS: ['fontFamily','bold', 'italic', 'underline','align','|','insertLink','insertImage','|', 'undo', 'redo'],
+        toolbarButtonsSM: ['fontFamily','bold', 'italic', 'underline','align','|','insertLink','insertImage','|', 'undo', 'redo'],
+        toolbarButtonsMD: ['fontFamily','bold', 'italic', 'underline','align','|','insertLink','insertImage','|', 'undo', 'redo'],
+        imageEditButtons: ['imageDisplay', 'imageAlign', 'imageInfo', 'imageRemove'],
+        imageUploadURL: '/upload_image',
+        imageUploadParams: {
+          id: 'my_editor'
+        },
+        heightMin: 300,
+        heightMax: 300,
+      }).on('froalaEditor.image.error', function (e, editor, error, response) {
+    	  console.log(error);
+    	  console.log(response);
+    	}).on('froalaEditor.image.removed', function (e, editor, $img) {
+            $.ajax({
+                // Request method.
+                method: "POST",
+       
+                // Request URL.
+                url: "/image_delete",
+       
+                // Request params.
+                data: {
+                  src: $img.attr('src')
+                }
+              })
+              .done (function (data) {
+                console.log ('image was deleted');
+                console.log($img.attr('src'));
+              })
+              .fail (function () {
+                console.log ('image delete problem');
+              })
+            });
+    });
+  </script>
 </body>
 </html>
