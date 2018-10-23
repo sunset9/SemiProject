@@ -3,9 +3,6 @@ function initFullCalendar(planStartDate, planEndDate, timetables){
 		schedulerLicenseKey: 'GPL-My-Project-Is-Open-Source'
 		, defaultView: 'titetable' // 뷰 지정 (아래에 설정값 작성)
 		, height: 833 // 캘린더 높이
-// 		, height: 'parent' // 캘린더 높이
-// 		, height: 'auto' // 캘린더 높이
-// 		, contentHeight: 900	
 		, defaultDate: planStartDate
 		, minTime: '06:00' // 시작 시점 시간 설정 
 		, timeFormat: 'H:mm' // 이벤트에 표시되는 시간 포멧
@@ -13,7 +10,7 @@ function initFullCalendar(planStartDate, planEndDate, timetables){
 		, locale: 'ko' // 언어 설정
 		, header: false // 헤더에 아무것도 넣지 않기
 		, editable: true 
-// 		, droppable: true // this allows things to be dropped onto the calendar
+ 		, droppable: true // this allows things to be dropped onto the calendar
 		, selectable: false // 빈공간 선택 disable
 		, eventLimit: true // allow "more" link when too many events
 		, views: {
@@ -114,8 +111,8 @@ function initFullCalendar(planStartDate, planEndDate, timetables){
 		// 이벤트 클릭 시 콜백함수
 		, eventClick: function(calEvent, jsEvent, view) {
 			// 지도 뷰 바꿔주기 (해당 일자의 좌표로)
+			var timetables = getTimetablesFromBrowser();
 			viewMap(calEvent, timetables);
-			
 		}
 		
 	}); // end $().fullCalendar()
@@ -131,7 +128,30 @@ function getDiffDay(ttbStartDate, planStartDate ){
 	var diffMillSec = Math.abs(ttbStartDate - planStartDate); // 밀리초 구하기
 	var diffDay = new Date(diffMillSec).getDate(); // Date 타입으로 변환 후 일자 구하기
 	
-	diffDay -= 1 // 같은 날: 1반환
+	diffDay -= 1; // 같은 날: 1반환
 	
 	return diffDay;
+}
+
+function getTimetablesFromBrowser(){
+	var events = $("#calendar").fullCalendar('clientEvents');
+	
+	var timetables = [];
+	
+	events.forEach(function(event){ // 모든 리스트 돌면서 timetable json 하나씩 생성
+		// timetable json 생성
+		console.log(event);
+		var timetable = {
+				title: event.title
+				, start: event.start.format("YYYY-MM-DD HH:mm")
+				, end: event.end.format("YYYY-MM-DD HH:mm")
+				, lat: event.lat
+				, lng: event.lng
+				, address: event.address
+		}
+	
+		timetables.push(timetable);
+	});
+	
+	return timetables;
 }
