@@ -56,6 +56,7 @@ public class UserLoginController extends HttpServlet {
 		
 			session.setMaxInactiveInterval(60*300); //5시간 
 			
+			resp.setHeader("Cache-Controll", "no-cache");
 			
 			resp.sendRedirect("/main");
 		}

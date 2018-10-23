@@ -188,7 +188,82 @@ function getTimetablesFromServer(){
 	
 	return timetables;
 }
+
+//저장하기
+function store(){
+	// 캘린더에 있는 모든 이벤트 정보 가져오기
+	var events = $("#calendar").fullCalendar('clientEvents');
+	console.log("저장할 때 events목록");
+	console.log(events);
+	
+	var timetables = [];
+	// form input 생성(넘겨줄 값)
+	events.forEach(function(event){ // 모든 리스트 돌면서 timetable json 하나씩 생성
+		// timetable json 생성
+		var timetable = {
+				place_name: event.title
+				, address: event.address
+				, start_time: event.start.format("YYYY-MM-DD HH:mm") // 24시 형태
+				, end_time: event.end.format("YYYY-MM-DD HH:mm") // 24시 형태
+				, lat: event.lat
+				, lng: event.lng
+				, photo_url: event.photo_url
+				, place_id: event.place_id
+		}
+	
+		timetables.push(timetable);
+	
+		// --- json 여러개 낱개로 넘겨주기
+		// input 태그 생성
+// 		$("form").append("<input type='hidden' name='events'>");
+// 		$("input[name*='events']:last-child").val(JSON.stringify(timetable));
+	});
+		// --- json list 로 묶어서 넘겨주기
+		// input 태그 생성
+		$("form").append("<input type='hidden' name='events'>");
+		// 생성된 태그의 value값 설정 , timetable json 마샬링해서 지정
+		$("input[name*='events']:last-child").val(JSON.stringify(timetables));
+	
+	// submit
+	console.log(timetables);
+	$("form").submit();
+}
 </script>
+
+<script type="text/javascript">
+$(document).ready(function() {
+	$("#btnStory").click(function() {
+		document.getElementById("calendar").style.display= "none";
+		document.getElementById("viewStory").style.display= "block";
+		
+		
+		//AJAX 처리하기
+		$.ajax({
+			type: "post"
+			, url: "/story/view"
+			//, data: { }
+			, dataType: "html"
+			, success: function( d ) {
+				
+				$("#viewStory").html(d);
+				
+			}
+			, error: function() {
+				console.log("실패");
+			}
+		});
+				
+	});
+	
+	$("#btnPlan").click(function() {
+		document.getElementById("viewStory").style.display= "none";
+		document.getElementById("calendar").style.display= "block";
+		
+	});
+});
+
+</script>
+
 </head>
 
 <body>
@@ -248,7 +323,10 @@ function getTimetablesFromServer(){
 		
 		<!-- 일정 저장 -->
 		<div id="menu" style="float:bottom;width:100%;border-radius:10px;">
-		<input type="button" value="저장" style="width:100%;">
+			<form action="/update/ttb" method="post">
+				<input type="hidden" name="plan_idx" value="1">
+				<input type="button" value="저장" onclick="store();" style="width:100%;">
+			</form>
 		</div><br>
 		
 		<!-- 검색 INPUT DIV -->
@@ -268,8 +346,8 @@ function getTimetablesFromServer(){
 	<div id="container" style="width:1000px; border-radius:10px;float:left;">
 		<!-- 일정 / 스토리 탭 DIV -->
 		<div id="content" style="background-color:#999999;height:50px;float:bottom;width:100%;border-radius:10px;">
-			<input type="button" value="일정" >
-			<input type="button" value="스토리" >
+			<button id="btnPlan" >일정</button>
+			<button id="btnStory" >스토리</button>
 		</div>
 		
 		<!-- 구글맵 DIV -->
@@ -277,9 +355,12 @@ function getTimetablesFromServer(){
 			<div id="map"></div>
 	 	</div>
 	 	
-	 	<!-- 타임테이블 -->
+	 	<!-- 타임테이블 & 스토리테이블 -->
 		<div id="calendar"></div>
+		<div id="viewStory" ></div>
+		
 	</div>
+	
 </div>
 </body>
 </html>

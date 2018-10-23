@@ -18,6 +18,7 @@ import dto.story.Story;
 import service.plan.PlanService;
 import service.stroy.StoryService;
 import service.stroy.StoryServiceImpl;
+import sun.java2d.pipe.SpanShapeRenderer.Simple;
 import utils.CalcDate;
 import utils.DBConn;
 
@@ -39,8 +40,8 @@ public class StoryDaoImpl implements StoryDao{
 				" s.content," +
 				" s.create_date," +
 				" TO_CHAR(ttb.start_time,'yyyy-mm-dd') travel_day," + 
-				" TO_CHAR(ttb.start_time,'HH24:mi:ss') start_time," + 
-				" TO_CHAR(ttb.end_time,'HH24:mi:ss') end_time," + 
+				" TO_CHAR(ttb.start_time,'HH24:mi') start_time," + 
+				" TO_CHAR(ttb.end_time,'HH24:mi') end_time," + 
 				" loc.place_name" + 
 				" FROM" + 
 				" story s" + 
@@ -67,8 +68,8 @@ public class StoryDaoImpl implements StoryDao{
 				story.setUser_idx(rs.getInt("user_idx"));
 				story.setContent(rs.getString("content"));
 				story.setCreate_date(rs.getDate("create_date"));
-				story.setStart_time(rs.getTime("start_time"));
-				story.setEnd_time(rs.getTime("end_time"));
+				story.setStart_time(rs.getString("start_time"));
+				story.setEnd_time(rs.getString("end_time"));
 				story.setPlace_name(rs.getString("place_name"));
 				story.setTravel_day(rs.getString("travel_day"));
 				

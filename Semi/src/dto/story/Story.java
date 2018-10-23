@@ -20,9 +20,9 @@ public class Story {
 	//현재 여행 날짜
 	private String travel_day;
 	
-	private Date start_time;
+	private String start_time;
 	// 타임테이블 끝 시간
-	private Date end_time;
+	private String end_time;
 	// 장소 이름
 	private String place_name;
 	//몇일차인지
@@ -51,16 +51,16 @@ public class Story {
 				+ ", start_time=" + start_time + ", end_time=" + end_time + ", place_name=" + place_name + ", calcDay="
 				+ calcDay + "]";
 	}
-	public Date getStart_time() {
+	public String getStart_time() {
 		return start_time;
 	}
-	public void setStart_time(Date start_time) {
+	public void setStart_time(String start_time) {
 		this.start_time = start_time;
 	}
-	public Date getEnd_time() {
+	public String getEnd_time() {
 		return end_time;
 	}
-	public void setEnd_time(Date end_time) {
+	public void setEnd_time(String end_time) {
 		this.end_time = end_time;
 	}
 	public String getPlace_name() {

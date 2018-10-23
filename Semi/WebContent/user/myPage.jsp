@@ -1,9 +1,11 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-
-<jsp:include page="../layout/headerWithMenu.jsp" />
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
+<jsp:include page="../layout/headerWithMenu.jsp" />
+
+
+
+
 
 <style type="text/css">
 
@@ -75,7 +77,7 @@
 			<img src="${socialUser.profile}" style="border-radius:70px; width:100px;">
 		</div>
 		<div class="updateBtn">
-			<button onclick='location.href="/user/update";'>정보수정</button>	
+			<button onclick='location.href="/socialUser/update";'>정보수정</button>	
 		</div>
 	</div>
 	

@@ -43,7 +43,7 @@ public class UserSocialLoginController extends HttpServlet {
 			req.getSession().setAttribute("user_idx", socialUser.getUser_idx());
 			req.getSession().setAttribute("login", login);
 			req.getSession().setAttribute("socialUser", socialUser);
-			
+			System.out.println(socialUser);
 			req.getSession().setMaxInactiveInterval(60*300); //5시간
 			
 			resp.sendRedirect("/main");
