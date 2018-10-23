@@ -4,7 +4,23 @@
 
 <jsp:include page="../layout/headerWithMenu.jsp" />
 
-<script type="text/javascript" src="http://code.jquery.com/jquery-2.2.4.min.js"></script>
+<!-- fullcalendar -->
+<link rel='stylesheet' href='/resources/timetable/fullcalendar/fullcalendar.css' />
+<link href='/resources/timetable/fullcalendar/fullcalendar.print.css' rel='stylesheet' media='print' />
+
+<script type="text/javascript" src='/resources/timetable/moment.min.js'></script>
+<script type="text/javascript" src="/resources/timetable/fullcalendar/fullcalendar.js"></script>
+<script type="text/javascript" src="/resources/timetable/fullcalendar/scheduler.min.js"></script>
+<script src='/resources/timetable/fullcalendar/locale-all.js'></script>
+
+<!-- 개인 utils -->
+<script type="text/javascript" src="/utils/timetableUtils.js"></script>
+<script type="text/javascript" src="/utils/mapUtils.js"></script>
+
+<!-- Maps JavaScript API 로드 -->
+<script async defer
+ src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAO-YMjD9aGxBW1nEzgSFdzf7Uj8E4Lm9Q&libraries=places&callback=initMap">
+</script>
 
 <!-- 공개유무 슬라이드 버튼 -->
 <style type="text/css">
@@ -74,6 +90,49 @@
 	  font-size:15px;
 	  font-weight:bold;
 	}
+	
+	#calendar {
+	    float: right;
+	    width: 900px;
+	    height: 833px;
+	    margin-bottom: 20px;
+	}
+	
+	.fc-ltr .fc-time-grid .fc-event-container { /* 일정 이벤트 박스 관련 */ 
+		margin: 0 3px 0 3px; 
+		font-size: 1.1em;
+	}
+	
+	.fc-axis { /* 왼쪽 시간  넓이 수정 */ 
+		width: 60px !important;
+	}
+	
+	#prevBtn { /* 이전날짜 선택 버튼*/
+		cursor: pointer;
+		float: left;
+		margin-left: 5px;
+	}
+	
+	#nextBtn { /* 다음 날짜 선택 버튼*/
+		cursor: pointer;
+		float: right;
+		margin-right: 5px;
+	}
+	
+	.fc-row.fc-widget-header tr{ /* 헤더의 날짜 정보*/
+		height: 50px;
+		font-size: 1.3em;
+	}
+	
+	.fc-title{ /* 이벤트 안의 제목 부분 */
+		font-weight: bold;
+		font-size: 1.5em;
+		padding-top: 5px;
+	}
+	
+	.fc-bg:not(:first-child){
+		margin-left: 10px;  /* fc-bg(이벤트 덮고 있는 투명도 있는 판?)css 수정 , 왼쪽에 색 진하게 하는 효과줌*/
+	}
 </style>
 
 <!-- 구글맵 -->
@@ -84,226 +143,52 @@
 		height: 100%;
 	}
 </style>
-<style>
-
-
-</style>
 <script>
-//구글 map api 호출 콜백함수
-function initMap() {
-	var map = new google.maps.Map(document.getElementById('map'), {
-     zoom: 4,
-     //역삼역 위도, 경도
-     center: new google.maps.LatLng(37.4989567,127.03283520000002),
-     mapTypeId: 'terrain'
-   });
+// 서버에서 넘어온 일정의 시작, 끝 날짜 정보
+// var planStartDate = '${startDate}';
+// var planEndDate = '${endDate}';
+var planStartDate = '2018-04-17';
+var planEndDate = '2018-04-21';
+	
+$(document).ready(function(){
+	// 뿌려줄 timetable 리스트 가져오기
+	var timetables = getTimetablesFromServer();
+	
+	// test-log
+// 	console.log("recv측. 받은 events목록");
+// 	console.log(timetables);
+	
+	// 브라우저에 timetable 그려주기
+	initFullCalendar(planStartDate, planEndDate, timetables);
+	
+});
+</script>
+<script>
+//서버로부터 받은 timetable, location JSON리스트 필요한 정보만 파싱
+function getTimetablesFromServer(){
+	var timetables=[];
+	
+// 	var ttbList = ${ttbList };
+// 	var locList = ${locList };
+	var ttbList = [];
+	var locList = [];
 
-   // search box 관련 변수
-   var input = document.getElementById('pac-input');
-   var searchBox = new google.maps.places.SearchBox(input);
-   
-   console.log(searchBox);
-   
-   //map.controls[google.maps.ControlPosition.TOP_LEFT].push(input);
-
-        // Bias the SearchBox results towards current map's viewport.
-        map.addListener('bounds_changed', function() {
-          searchBox.setBounds(map.getBounds());
-        });
-
-        var markers = [];
-   
-        
-   
-   // 사용자가 검색한 내용 담아놓는 변수
-   var input_search;
-   
-   // 검색창에 입력 시 발생하는 콜백함수
-   $("#pac-input").on("change", function(){
-      input_search =$("#pac-input").val(); 
-   });
-   
-   // 유저가 장소를 선택할 때 발생하는 이벤트에 대한 리스너
-   searchBox.addListener('places_changed', function() {
-
-	   var places = searchBox.getPlaces();
-
-       if (places.length == 0) {
-         return;
-       }
-
-       // Clear out the old markers.
-       markers.forEach(function(marker) {
-         marker.setMap(null);
-       });
-       markers = [];
-
-       // For each place, get the icon, name and location.
-       var bounds = new google.maps.LatLngBounds();
-       places.forEach(function(place) {
-         if (!place.geometry) {
-           console.log("Returned place contains no geometry");
-           return;
-         }
-         var icon = {
-           url: place.icon,
-           size: new google.maps.Size(71, 71),
-           origin: new google.maps.Point(0, 0),
-           anchor: new google.maps.Point(17, 34),
-           scaledSize: new google.maps.Size(25, 25)
-         };
-
-         // Create a marker for each place.
-         markers.push(new google.maps.Marker({
-           map: map,
-           icon: icon,
-           title: place.name,
-           position: place.geometry.location
-         }));
-
-         if (place.geometry.viewport) {
-           // Only geocodes have viewport.
-           bounds.union(place.geometry.viewport);
-         } else {
-           bounds.extend(place.geometry.location);
-         }
-       });
-       map.fitBounds(bounds);
-       
-
-
-      display(places, input_search);
-   });
- }
-
-var lat = [];
-var lon = [];
-
-function display(places, input_search){
-//    console.log(place.photos[0].getUrl());
-   
-   var displayList = [];
-   var i = 1;
-   var j = 0;
-   // 쿼리자동완성 콜백 함수 (최대 결과 5개 반환)
-   // 연관 검색어도 검색해서 표시
-   var displaySuggestions = function(predictions, status) {
-	   //검색결과 새로고침
-	   $("#results").empty();
-      // 응답 상태가 ok가 아니면 alert 띄워주고 종료
-        if (status != google.maps.places.PlacesServiceStatus.OK) {
-          alert(status);
-          return;
-        }
-      console.log("콜백함수 호출 횟수:"+ i++);
-      // 받아온 결과값 반복문 작업
-        predictions.forEach(function(prediction) {
-           
-          // 기존에 띄워준 결과와 중복되지 않으면 결과 보여줌   
-          if(displayList.indexOf(prediction.id) == -1){
-             // 결과 띄워주기 위한 태그 생성
-             var li = $("<li onclick=\"test();\">").text(prediction.description);
-           $("#results").append(li);
-           
-          
-           displayList.push(prediction.id);
-           //검색결과 id 출력
-           console.log(prediction.id);
-           
-           
-           
-           /* var infowindow = new google.maps.InfoWindow();
-           var service = new google.maps.places.PlacesService(map);
-           
-           service.getDetails({
-        	   placeId: prediction.id
-        	   }, function(place, status) {
-               if (status === google.maps.places.PlacesServiceStatus.OK) {
-            	   
-            	   
-                 var marker = new google.maps.Marker({
-                   map: map,
-                   position: place.geometry.location
-                 });
-                 
-                 
-                 google.maps.event.addListener(marker, 'click', function() {
-                   infowindow.setContent('<div><strong>' + place.name + '</strong><br>' +
-                     'Place ID: ' + place.place_id + '<br>' +
-                     place.formatted_address + '</div>');
-                   infowindow.open(map, this);
-                 });
-                 console.log(place.name);
-                 console.log(place.place_id);
-                 console.log(place.formatted_address);
-               }
-             }); */
-          }
-        });
-      
-       
-       
-      $("#results").append($("<hr>"));
-      }; // displaySuggestions function end
-      
-    //위도 경도 가져오는 친구
-      /*  places.forEach(function(places) { */
-		lat = places[0].geometry.location.lat();
-		lon = places[0].geometry.location.lng();
- /* }); */
- 
-     // Create a new session token.
-     var sessionToken = new google.maps.places.AutocompleteSessionToken();
-      
-     var service = new google.maps.places.AutocompleteService();
-     places.forEach(function(place) { 
-        // 선택된 장소 이름으로 쿼리 자동완성
-        service.getPlacePredictions({ input: place.name, sessionToken: sessionToken}, displaySuggestions);
-     });
-     
-     // 사용자가 직접 검색한 이름으로 쿼리 자동완성
-     service.getPlacePredictions({ input: input_search, sessionToken: sessionToken}, displaySuggestions);
-     
-     /* 상세 정보 (위도, 경도 등) 불러오기 테스트 중
-    console.log("displayList:");
-     console.log(displayList);
-     var detailService = new google.maps.places.PlacesService(map);
-     displayList.forEach(function(searchedPlace){
-    	 
-        console.log("디테일 정보 불러오기:");
-        console.log(searchedPlace);
-        console.log("id: "+searchedPlace.place_id);
-        
-        detailService.getDetails({
-             placeId: searchedPlace.place_id
-           }, function(place, status) {
-               console.log(place);
-             if (status === google.maps.places.PlacesServiceStatus.OK) {
-               var marker = new google.maps.Marker({
-                 map: map,
-                 position: place.geometry.location
-               });
-               google.maps.event.addListener(marker, 'click', function() {
-                 infowindow.setContent('<div><strong>' + place.name + '</strong><br>' +
-                   'Place ID: ' + place.place_id + '<br>' +
-                   place.formatted_address + '</div>');
-                 infowindow.open(map, this);
-               });
-             }
-           });
-     });
-     */
-}
-
-function test(places) {
-	console.log(lat + ", " + lon);
+	for(var i = 0; i<ttbList.length; i++){
+		var timetable = {
+			title: locList[i].place_name
+			, start: ttbList[i].start_time
+			, end: ttbList[i].end_time
+			, lat: locList[i].lat
+			, lng: locList[i].lng
+			, address: locList[i].address
+		}
+		
+		timetables.push(timetable);
+	}
+	
+	return timetables;
 }
 </script>
-<!-- 구글맵 출력 script -->
-<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?
-key=AIzaSyAO-YMjD9aGxBW1nEzgSFdzf7Uj8E4Lm9Q
-&libraries=places&callback=initMap"
-    async defer></script>
 </head>
 
 <body>
@@ -386,7 +271,7 @@ key=AIzaSyAO-YMjD9aGxBW1nEzgSFdzf7Uj8E4Lm9Q
 	 	</div>
 	 	
 	 	<!-- 타임테이블 -->
-		<div id="content" style="background-color:#BBBBBB;height:200px;float:bottom;width:100%;border-radius:10px;">타임테이블 !!!</div>
+		<div id="calendar"></div>
 	</div>
 </div>
 </body>
