@@ -32,16 +32,19 @@ public class UserSocialLoginController extends HttpServlet {
 			
 			//로그인 처리
 			boolean login = userService.socialLogin(param);
-						
+			System.out.println("socialLogin: "+login);			
+			
+			
 			//유저 정보 얻어오기 
 			User socialUser = userService.getUserByid(param);
+			System.out.println("socialLoginController : "+login);
 			
 			//세션 정보 저장
 			req.getSession().setAttribute("user_idx", socialUser.getUser_idx());
 			req.getSession().setAttribute("login", login);
 			req.getSession().setAttribute("socialUser", socialUser);
 			
-			req.getSession().setMaxInactiveInterval(18000);
+			req.getSession().setMaxInactiveInterval(60*300); //5시간
 			
 			resp.sendRedirect("/main");
 		}

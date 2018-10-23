@@ -33,7 +33,7 @@ public class UserLoginController extends HttpServlet {
 			//파라미터 처리
 			User param = userService.getParam(req,resp);
 
-			System.out.println("param"+param);
+			System.out.println("loginController param : "+param);
 
 			
 			//로그인 처리
@@ -41,20 +41,20 @@ public class UserLoginController extends HttpServlet {
 			//존재하는 회원이면 true반환
 			boolean login = userService.login(param);
 			System.out.println("login :"  +login);
+			
 			//유저 정보 얻어오기
-
 			User user = userService.getUserByid(param);
+			System.out.println("loginController user : "+user);
 			
 			HttpSession session = req.getSession();
 
 			//세션 정보 저장하기
 			//유저 객체로 넘기기
 			session.setAttribute("user_idx", user.getUser_idx());
-			//System.out.println("user_idx :"+ user.getUser_idx());
 			session.setAttribute("login", login);
 			session.setAttribute("user", user);
 		
-			session.setMaxInactiveInterval(180000);
+			session.setMaxInactiveInterval(60*300); //5시간 
 			
 			
 			resp.sendRedirect("/main");

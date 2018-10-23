@@ -30,4 +30,10 @@ public interface UserDao {
 	
 	//회원 아이디 중복 조회
 	public int checkid(User user);
+	
+	//닉네임 수정
+	public void changeNick(User user);
+	
+	//비밀번호 수정
+	public void changePw(User user);
 }

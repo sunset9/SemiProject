@@ -55,7 +55,7 @@
 	<div id="container">
 		<div id="left">
 			<label>아이디 : </label>
-			<input type="text" name="userid" value="${user.id}" disabled/><br>
+			<input type="text" name="userid" value="${user.id}" readonly/><br>
 			<label>내등급 : </label>
 			<input type="text" name="grade" value="${user.grade}" disabled/><br>
 			<label>닉네임 : </label>
@@ -88,7 +88,7 @@
 </c:if>
 
 
-<!-- 소셜유저의 정보수정 -->
+<!-- 소셜로그인한 유저의 정보수정 -->
 <c:if test="${socialUser.sns_idx != 1 && user.sns_idx != 1}">
 <div id="wrap">
 <form action="/user/update" method="post">

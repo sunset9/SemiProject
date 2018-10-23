@@ -19,6 +19,8 @@
 </style>
 </head>
 <body>
+
+<!-- 아이디로 로그인한 유저의 마이페이지 -->
 <c:if test="${user.sns_idx == 1 || socialUser.sns_idx == 1}">
 <!-- 유저 정보 -->
 <div class="profileBox">
@@ -36,7 +38,7 @@
 	<div class="profile common">
 		<div class="nickname">${user.nickname}님의 여행기</div>
 		<div class="grade">등급 : ${user.grade}</div>
-		<div class="planCnt">포스팅 :</div>
+		<div class="planCnt">포스팅 : </div>
 	</div>
 	
 	<!-- 총여행거리 -->
@@ -63,6 +65,7 @@
 </div>
 </c:if>
 
+<!-- 소셜로그인한 유저의 마이페이지 -->
 <c:if test="${socialUser.sns_idx != 1 && user.sns_idx != 1}">
 <!-- 유저 정보 -->
 <div class="profileBox">
