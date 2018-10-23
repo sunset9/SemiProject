@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 
 <jsp:include page="../layout/headerWithMenu.jsp" />
 
@@ -102,7 +103,7 @@ function initMap() {
    var input = document.getElementById('pac-input');
    var searchBox = new google.maps.places.SearchBox(input);
    
-   console.log(searchBox);
+   
    
    //map.controls[google.maps.ControlPosition.TOP_LEFT].push(input);
 
@@ -125,7 +126,6 @@ function initMap() {
    
    // 유저가 장소를 선택할 때 발생하는 이벤트에 대한 리스너
    searchBox.addListener('places_changed', function() {
-
 	   var places = searchBox.getPlaces();
 
        if (places.length == 0) {
@@ -169,8 +169,6 @@ function initMap() {
          }
        });
        map.fitBounds(bounds);
-       
-
 
       display(places, input_search);
    });
@@ -198,18 +196,13 @@ function display(places, input_search){
       console.log("콜백함수 호출 횟수:"+ i++);
       // 받아온 결과값 반복문 작업
         predictions.forEach(function(prediction) {
-           
           // 기존에 띄워준 결과와 중복되지 않으면 결과 보여줌   
           if(displayList.indexOf(prediction.id) == -1){
              // 결과 띄워주기 위한 태그 생성
              var li = $("<li onclick=\"test();\">").text(prediction.description);
            $("#results").append(li);
-           
           
            displayList.push(prediction.id);
-           //검색결과 id 출력
-           console.log(prediction.id);
-           
            
            
            /* var infowindow = new google.maps.InfoWindow();
@@ -233,15 +226,10 @@ function display(places, input_search){
                      place.formatted_address + '</div>');
                    infowindow.open(map, this);
                  });
-                 console.log(place.name);
-                 console.log(place.place_id);
-                 console.log(place.formatted_address);
                }
              }); */
           }
         });
-      
-       
        
       $("#results").append($("<hr>"));
       }; // displaySuggestions function end
@@ -329,10 +317,10 @@ key=AIzaSyAO-YMjD9aGxBW1nEzgSFdzf7Uj8E4Lm9Q
 		
 		<input type="button" value="수정" style="position: absolute; right: 15px;">
 		
-		<h1 style="margin-bottom:0;" align="center">로고와 함께하는 역삼역 투어!!</h1>
-			<h4 align="center">대한민국 서울</h4>
-			<h4 align="center">2018.09.10 ~ 2018.09.15</h4>
-			<h4 align="center">여행 전</h4>
+		<h1 style="margin-bottom:0;" align="center">${planView.title }</h1>
+			<h4 align="center">여행 경로 2개</h4>
+			<h4 align="center">${planView.start_date } ~ ${planView.end_date }</h4>
+			<h4 align="center">${planView.traveled }</h4>
 			<br>
 	 </div>
 </div>
@@ -344,21 +332,28 @@ key=AIzaSyAO-YMjD9aGxBW1nEzgSFdzf7Uj8E4Lm9Q
 	
 		<!-- 게시자 정보 DIV -->
 		<div id="menu" style="background-color:#EEEEEE;height:100px;float:bottom;width:100%;border-radius:10px;">
-			사진<br>
-			<b>사용자</b>님 <br>
-			포스팅 : 10개 <br>
-			등급 : 여행작가	 乃<br>
-			총 여행 거리 : 80km
-		</div>
+			${userView.profile }<br>
+			<b>${userView.nickname }</b>님 <br>
+			포스팅 : <b>${userView.totalPlanCnt }</b>개 <br>
+			등급 : <b>${userView.grade }</b><br>
+			<b>${planView.tot_dist }</b> km<br>
+		</div><br>
 		
 	 	<!-- 가계부 DIV -->
-		<div id="menu" style="background-color:#CCCCCC;height:135px;float:bottom;width:100%;border-radius:10px;">
+		<div id="menu" style="background-color:#CCCCCC;height:200px;float:bottom;width:100%;border-radius:10px;">
 			<b>가계부</b><br>
 			교통 : <input type="text"><br>
 			식비 : <input type="text"><br>
 			문화 : <input type="text"><br>
-			기타 : <input type="text"><br>
-		</div>
+			기타 : <input type="text"><br><br>
+			총합 : ${accView.origin_cost }<br>
+			환율 : ${accView.caled_cost }<br>
+		</div><br>
+		
+		<!-- 일정 저장 -->
+		<div id="menu" style="float:bottom;width:100%;border-radius:10px;">
+		<input type="button" value="저장" style="width:100%;">
+		</div><br>
 		
 		<!-- 검색 INPUT DIV -->
 		<div id="menu" style="float:bottom;width:100%;border-radius:10px;">
@@ -369,7 +364,8 @@ key=AIzaSyAO-YMjD9aGxBW1nEzgSFdzf7Uj8E4Lm9Q
 		     <li id="results" ></li>
 		     </ul>
 		    </div>
-		</div>
+		</div><br>
+		
 	</div>
 	
 	<!-- 우측 일정 & 타임테이블정보 (지도, 일정탭 & 타임테이블탭 등 )-->

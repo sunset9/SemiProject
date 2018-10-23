@@ -1,23 +1,18 @@
 package dao.plan;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
 import java.util.List;
 
-import utils.DBConn;
 import dto.Account.Account;
 import dto.plan.Plan;
 import dto.user.User;
-import dto.timetable.Location;
 
 public interface PlanDao {
 
 	// 일정메인 인덱스로 일정 정보 불러오기
-	Plan getPlanInfoByPlanIdx(Plan plan);
+	Plan selectPlanInfoByPlanIdx(Plan plan);
 	
 	// 유저 아이디로 유저 정보 불러오기 -> 게시자 정보
-	User getUserInfoByUserIdx(Plan plan);
+	User selectUserInfoByUserIdx(Plan plan);
 	
 	// 유저의 전체 게시글 수 가져오기
 	int selectPlanCntAll();
@@ -26,7 +21,7 @@ public interface PlanDao {
 	int selectTotalDistance();
 		
 	// 플랜의 가계부 인덱스로 가계부 정보 불러오기
-	Account getAccountInfoByAccountIdx(Plan plan);
+	Account selectAccountInfoByAccountIdx(Plan plan);
 	
 	// 새로운 일정 저장
 	void insert();
