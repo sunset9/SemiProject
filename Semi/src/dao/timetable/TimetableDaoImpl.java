@@ -143,4 +143,123 @@ public class TimetableDaoImpl implements TimetableDao{
 	public void deleteTimetable(Plan plan) {
 		
 	}
+
+	// 타임테이블 넘버로 스토리 있는지 없는지 유무 
+	public Boolean selectIsStoryByTimetableIdx(Timetable timetable) {
+		String sql = "SELECT" + 
+				" count(1) cnt" + 
+				" FROM" + 
+				" story s" + 
+				" RIGHT JOIN timetable ttb ON s.ttb_idx = ttb.ttb_idx" + 
+				" WHERE" + 
+				" ttb.ttb_idx = ? AND s.ttb_idx IS NULL";
+		Boolean Is = null;
+		
+		try {
+			int cnt = 0;
+			ps = conn.prepareStatement(sql);
+			ps.setInt(1, timetable.getTtb_idx());
+			
+			rs = ps.executeQuery();
+			
+			while(rs.next()) {
+				cnt = rs.getInt("cnt");
+			}
+			
+			if (cnt>0) {Is = false;}
+			else {Is = true;}
+			
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}finally {
+			try {
+				if(ps!=null) ps.close();
+				if(rs!=null) rs.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+		
+		
+		
+		return Is;
+	}
+
+	// 타임테이블 일차 구하기
+	public int selectDay(Timetable timetable) {
+		
+		String sql = "SELECT" + 
+				" trunc( (ttb.start_time - p.start_date) + 0.9,0) AS diffDay" + 
+				" FROM" + 
+				" timetable ttb" + 
+				" LEFT JOIN planner p ON ttb.plan_idx = p.plan_idx" + 
+				" where" + 
+				" ttb.ttb_idx = ?" + 
+				" ORDER BY" + 
+				" ttb.start_time";
+		
+		int Day=0;
+		try {
+			ps = conn.prepareStatement(sql);
+			ps.setInt(1, timetable.getTtb_idx());
+			
+			rs = ps.executeQuery();
+			
+			while(rs.next()) {
+				
+				Day = rs.getInt("diffDay");
+			}
+			
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}finally {
+			try {
+				if(ps!=null) ps.close();
+				if(rs!=null) rs.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+		
+		return Day;
+	}
+
+	@Override
+	public String selectPlacenameByTimetableIdx(Timetable timetable) {
+		String sql = "SELECT" + 
+				" loc.place_name name" + 
+				" FROM" + 
+				" location loc" + 
+				" LEFT JOIN timetable ttb ON ttb.loc_idx = loc.loc_idx" + 
+				" WHERE" + 
+				" ttb_idx =?";
+		
+		String place_name = null;
+		
+		try {
+			ps = conn.prepareStatement(sql);
+			ps.setInt(1, timetable.getTtb_idx());
+			
+			rs = ps.executeQuery();
+			
+			while(rs.next()) {
+				place_name =  rs.getString("name");
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}finally {
+			try {
+				if(ps!=null) ps.close();
+				if(rs!=null) rs.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+		
+		
+		return place_name;
+	}
 }

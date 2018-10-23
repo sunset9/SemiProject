@@ -69,8 +69,28 @@ public class TimetableServiceImpl implements TimetableService{
 	}
 	
 	// Timetable 리스트 가져오기
-	public List<Timetable> getTimetableList(Plan plan){ 
-		return ttbDao.selectTimetableList(plan);
+	public List<Timetable> getTimetableList(Plan plan){
+		
+		
+		List<Timetable> list = new ArrayList<>();
+		
+		list = ttbDao.selectTimetableList(plan);
+		
+		//일차와 스토리유무 list에 넣어주기
+		for(int i = 0; i<list.size(); i++) {
+			Timetable tb = new Timetable();
+			
+			tb.setTtb_idx(list.get(i).getTtb_idx());
+			
+			list.get(i).setIs_story(ttbDao.selectIsStoryByTimetableIdx(tb));
+			
+			list.get(i).setDay(ttbDao.selectDay(tb));
+			
+			list.get(i).setPlace_name(ttbDao.selectPlacenameByTimetableIdx(tb));
+			
+		}
+		
+		return list;
 	}
 	
 	// 해당 Plan의 모든 Location 리스트 가져오기
