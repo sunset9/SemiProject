@@ -35,6 +35,7 @@ public class UserUpdateController extends HttpServlet {
 	@Override
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		
+		
 		//요청 파라미터 처리
 		Map<String, String> param = userService.getParamUpdate(req, resp);
 		System.out.println("updateController : "+param);
@@ -42,37 +43,34 @@ public class UserUpdateController extends HttpServlet {
 
 		User cUser = (User)req.getSession().getAttribute("user"); //현재 유저
 		System.out.println("현재 유저의 닉네임 : "+cUser.getNickname());
-		System.out.println("요청 파라미터로 넘어온 닉네임 : "+param.get("nickname"));
+		System.out.println("현재 유저의 비밀번호 : "+cUser.getPassword());
+		System.out.println("요청 파라미터로 넘어온 nickname : "+param.get("nickname"));
+		System.out.println("요청 파라미터로 넘어온 newPw : "+param.get("newPw"));
 		
 		//현재 유저의 닉네임이랑 요청 파라미터로 넘어온 닉네임이 다르다. 가 트루일때
 		
 		//닉네임 변경 
-		if(!(cUser.getNickname() == param.get("nickname"))) {
+		if(!(param.get("nickname").equals(cUser.getNickname()))) {
 			userService.changeNick(param);
 			
 			//db에서 유저 정보 가져오기
 			User changedUser = userService.getUserByid(cUser);
-			System.out.println("닉네임 변경된 유저 : "+changedUser);
-			
-			HttpSession session = req.getSession();
-			session.setAttribute("user", changedUser);
-			session.setMaxInactiveInterval(18000);
+			System.out.println("닉네임 변경됨 : "+changedUser);
 		}
 		
-		if (cUser.getPassword() == param.get("currPw")) {
-			if (param.get("newPw") == param.get("newPwCheck")) {
+		if(!(param.get("currPw").isEmpty() || param.get("newPw").isEmpty() || param.get("newPwCheck").isEmpty())) {
+			//회원정보수정폼에서 '현재 비밀번호', '새 비밀번호', '비밀번호 확인' 란이 모두 채워져있어야 수행됨
+			//System.out.println("다 채워져있다!!"); -> OK!!
+			User cUser2 = (User)req.getSession().getAttribute("user"); //현재 유저
+			//param의 currPw를 현재 세션에 저장된 유저의 비밀번호와 비교해서 같으면 비번 변경 가능
+			if( param.get("currPw").equals(cUser2.getPassword()) ) {
 				userService.changePw(param);
-
-				// db에서 유저 정보 가져오기
+				
+				//db에 저장된 유저 정보 가져오기
 				User changedUser = userService.getUserByid(cUser);
-				System.out.println("비번 변경된 유저 : " + changedUser);
-
-				HttpSession session = req.getSession();
-				session.setAttribute("user", changedUser);
-				session.setMaxInactiveInterval(18000);
+				System.out.println("비밀번호 변경됨. : "+changedUser);
 			}
-		}		
-		
+		}
 		
 		//마이페이지로 이동
 		resp.sendRedirect("/user/myPage");
