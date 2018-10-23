@@ -4,6 +4,8 @@ function initFullCalendar(planStartDate, planEndDate, timetables){
 		, defaultView: 'titetable' // 뷰 지정 (아래에 설정값 작성)
 		, height: 833 // 캘린더 높이
 		, defaultDate: planStartDate
+		, defaultTimedEventDuration: '02:00:00' // 시간 기간 디폴트 지정 2 hours
+		, forceEventDuration: true // end시간이 지정되지 않으면 강제로 할당
 		, minTime: '06:00' // 시작 시점 시간 설정 
 		, timeFormat: 'H:mm' // 이벤트에 표시되는 시간 포멧
 		, slotLabelFormat:"HH:mm" // 왼쪽에 수직으로 표현되는 시간 포멧
@@ -110,12 +112,24 @@ function initFullCalendar(planStartDate, planEndDate, timetables){
 		}
 		// 이벤트 클릭 시 콜백함수
 		, eventClick: function(calEvent, jsEvent, view) {
-			// 지도 뷰 바꿔주기 (해당 일자의 좌표로)
+			// 지도 뷰 바꿔주기 - 선택한 타임테이블과 같은 날에 있는 모든 일정들의 좌표로
 			var timetables = getTimetablesFromBrowser();
 			viewMap(calEvent, timetables);
 		}
+		// 검색 결과에서 끌어다가 드롭 이벤트 발생시 호출
+		, drop: function( date , jsEvent , ui , resourceId ){
+			// 지도 뷰 바꿔주기 - 드롭한 날짜와 같은 날에 있는 모든 일정의 좌표로
+			var dropTimetable = $(this).data('event');
+			dropTimetable.start = date; // 드롭한 일정의 시작시간 json 형태에 저장
+			var timetables = getTimetablesFromBrowser();
+			viewMap(dropTimetable, timetables);
+		}
+		// 다른 시간으로 일정 옮길때 호출
+		,eventDrop: function( event, delta, revertFunc, jsEvent, ui, view ){
+			console.log('eventDrop');
+		}
 		
-	}); // end $().fullCalendar()
+	}); // end $().fullCalendar() initMethod
 }
 
 // 날짜 차이 구하기
@@ -143,11 +157,12 @@ function getTimetablesFromBrowser(){
 		console.log(event);
 		var timetable = {
 				title: event.title
+				, address: event.address
 				, start: event.start.format("YYYY-MM-DD HH:mm")
 				, end: event.end.format("YYYY-MM-DD HH:mm")
 				, lat: event.lat
 				, lng: event.lng
-				, address: event.address
+				, photo_url: event.photo_url
 		}
 	
 		timetables.push(timetable);

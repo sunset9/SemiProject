@@ -34,7 +34,6 @@
 
 
 <style>
-
   body {
     margin-top: 240px;
     text-align: center;
@@ -167,6 +166,7 @@ function getTimetablesFromServer(){
 			, lat: locList[i].lat
 			, lng: locList[i].lng
 			, address: locList[i].address
+			, stick: true // 드롭한 이벤트 고정 (false: 다음 등의 버튼 누르면 사라짐)
 		}
 		
 		timetables.push(timetable);
