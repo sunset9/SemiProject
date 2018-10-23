@@ -63,7 +63,7 @@ function viewMap(timetable, timetables){
 	var diffDay = 0;
 	
 	if(timetable!='all'){
-		var ttbStartDate = timetable.start.format('YYYY-MM-DD');
+		var ttbStartDate = moment(timetable.start).format('YYYY-MM-DD');
 	}
 	
 	// 선택한 일정과 같은 날에 있는 일정의 위도, 경도 정 보 저장
@@ -174,13 +174,13 @@ function autoSearchQuery(predictions, status) {
 //			, sessionToken: sessionToken
 		};
 		
-		detailService.getDetails(reqPlace, detailsView);
+		detailService.getDetails(reqPlace, viewDetails);
 		
 		}
 	});
 } 
 	
-function detailsView(placeRes, status, prediction){
+function viewDetails(placeRes, status, prediction){
 //	console.log(placeRes);
 	if (status === google.maps.places.PlacesServiceStatus.OK){
 		// 결과 띄워주기 위한 태그 생성
@@ -191,7 +191,13 @@ function detailsView(placeRes, status, prediction){
 		li.text(placeRes.name); 
 		// 주소 레벨에서 우선 적당한거 선택..
 		var address = placeRes.address_components;
-		li.text(li.text() + " /" +address[address.length -3].long_name);
+		var address_name;
+		if(address.length < 3){
+			address_name = address[address.length-1].long_name;
+		}else{
+			address_name = address[address.length-3].long_name
+		}
+		li.text(li.text() + " /" + address_name);
 		// 장소 타입 지정. 우선 전부 다
 		li.text(li.text() + " /" +  placeRes.types);
 		// 드래그 가능하게 설정
@@ -217,6 +223,7 @@ function detailsView(placeRes, status, prediction){
 			, lat: placeRes.geometry.location.lat()
 			, lng: placeRes.geometry.location.lng()
 			, photo_url: photo_url
+			, place_id: placeRes.place_id
 			, stick: true // 드롭한 이벤트 고정 (false: 다음 등의 버튼 누르면 사라짐)
 		});
 		

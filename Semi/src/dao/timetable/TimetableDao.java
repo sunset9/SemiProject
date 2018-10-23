@@ -21,7 +21,7 @@ public interface TimetableDao {
 	void insertTimetable(List<Timetable> timetableList);
 	
 	// 위치정보 삽입
-	void insertLocation(Location location);
+	void insertLocation(List<Location> locationList);
 	
 	// 이미 저장되어 있는 location이 있으면, 해당 loc_idx 반환
 	int selectLocationIdx(Location location);

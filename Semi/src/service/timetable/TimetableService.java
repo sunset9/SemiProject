@@ -25,13 +25,13 @@ public interface TimetableService {
 	List<Location> getLocatioinList(Timetable timetable);
 	
 	// plan_idx와 loc_idx까지 set된 타임테이블 객체 리스트 반환
-	List<Timetable> getCompletedTimetable(Plan plan, Map<Timetable, Location> ttLoc);
+	List<Timetable> getCompletedTimetable(Plan plan, Map<Timetable, Location> ttbLoc);
 	
 	// 타임테이블 정보 저장하기
-	void write(Plan plan, Map<Timetable, Location> ttLoc);
+	void write(Plan plan, Map<Timetable, Location> ttbLoc);
 	
 	// 타임테이블 수정 정보 저장하기
-	void update(Plan plan, Map<Timetable, Location> ttLoc);
+	void update(Plan plan, Map<Timetable, Location> ttbLoc);
 	
 	// 타임테이블 정보 삭제하기
 	void delete(Plan plan);
