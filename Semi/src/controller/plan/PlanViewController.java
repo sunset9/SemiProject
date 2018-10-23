@@ -35,31 +35,40 @@ public class PlanViewController extends HttpServlet {
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		// 요청파라미터(plan_idx) -> Plan 모델 
+		// param을 받아와야 함
 		Plan param = pService.getParam(req);
 		
 		// 일정 기본 정보 가져오기
-		Plan plan = pService.getPlanInfo(param);
+		Plan planView = pService.getPlanInfo(param);
+		System.out.println(planView);
+		//planView MODEL 전달
+		req.setAttribute("planView", planView);
 		
 		// 유저 정보 가져오기
-		User user = pService.getUserInfo(plan);
+		User userView = pService.getUserInfo(planView);
+		System.out.println(userView);
+		//userView MODEL 전달
+		req.setAttribute("userView", userView);
 		
 		// 타임테이블 리스트 가져오기
-		List<Timetable> timetableList = ttService.getTimetableList(plan);
+		//List<Timetable> timetableList = ttService.getTimetableList(plan);
 		
 		// 장소정보(타임테이블에 등록한) 리스트 가져오기
-		List<Location> locList = ttService.getLocationList(plan);
+		//List<Location> locList = ttService.getLocationList(plan);
 		
 		// 스토리 리스트 가져오기
-		List<Story> storyList = sService.getStoryList(plan);
+		//List<Story> storyList = sService.getStoryList(plan);
 
 		// 스토리 댓글 리스트 가져오기
-		List<Comment> commList = sService.getCommentList(storyList);
+		//List<Comment> commList = sService.getCommentList(storyList);
 		
 		// 가계부 정보 가져오기
-		Account acc = pService.getAccount(plan);
+		Account accView = pService.getAccount(planView);
+		//accView MODEL 전달
+		req.setAttribute("accView", accView);
 		
 		// 플랜 저장
-		pService.write(plan);
+		//pService.write(plan);
 		
 		// view 폼 띄우기
 		req.getRequestDispatcher("/plan/view.jsp").forward(req, resp);

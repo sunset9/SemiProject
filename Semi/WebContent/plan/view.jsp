@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 
 <jsp:include page="../layout/headerWithMenu.jsp" />
 
@@ -90,7 +91,11 @@
 	  font-size:15px;
 	  font-weight:bold;
 	}
-	
+  
+	#map {
+		height: 100%;
+	}
+  
 	#calendar {
 	    float: right;
 	    width: 900px;
@@ -133,17 +138,11 @@
 	.fc-bg:not(:first-child){
 		margin-left: 10px;  /* fc-bg(이벤트 덮고 있는 투명도 있는 판?)css 수정 , 왼쪽에 색 진하게 하는 효과줌*/
 	}
+  
 </style>
 
-<!-- 구글맵 -->
-<style>
-     /* Always set the map height explicitly to define the size of the div
-      * element that contains the map. */
-	#map {
-		height: 100%;
-	}
-</style>
 <script>
+
 // 서버에서 넘어온 일정의 시작, 끝 날짜 정보
 // var planStartDate = '${startDate}';
 // var planEndDate = '${endDate}';
@@ -173,6 +172,7 @@ function getTimetablesFromServer(){
 	var ttbList = [];
 	var locList = [];
 
+
 	for(var i = 0; i<ttbList.length; i++){
 		var timetable = {
 			title: locList[i].place_name
@@ -192,7 +192,6 @@ function getTimetablesFromServer(){
 </head>
 
 <body>
-
 <!-- 플래너 대문 정보 DIV -->
 <div id="container" style="width:100%; border-radius:10px;">
 
@@ -214,10 +213,10 @@ function getTimetablesFromServer(){
 		
 		<input type="button" value="수정" style="position: absolute; right: 15px;">
 		
-		<h1 style="margin-bottom:0;" align="center">로고와 함께하는 역삼역 투어!!</h1>
-			<h4 align="center">대한민국 서울</h4>
-			<h4 align="center">2018.09.10 ~ 2018.09.15</h4>
-			<h4 align="center">여행 전</h4>
+		<h1 style="margin-bottom:0;" align="center">${planView.title }</h1>
+			<h4 align="center">여행 경로 2개</h4>
+			<h4 align="center">${planView.start_date } ~ ${planView.end_date }</h4>
+			<h4 align="center">${planView.traveled }</h4>
 			<br>
 	 </div>
 </div>
@@ -229,21 +228,28 @@ function getTimetablesFromServer(){
 	
 		<!-- 게시자 정보 DIV -->
 		<div id="menu" style="background-color:#EEEEEE;height:100px;float:bottom;width:100%;border-radius:10px;">
-			사진<br>
-			<b>사용자</b>님 <br>
-			포스팅 : 10개 <br>
-			등급 : 여행작가	 乃<br>
-			총 여행 거리 : 80km
-		</div>
+			${userView.profile }<br>
+			<b>${userView.nickname }</b>님 <br>
+			포스팅 : <b>${userView.totalPlanCnt }</b>개 <br>
+			등급 : <b>${userView.grade }</b><br>
+			<b>${planView.tot_dist }</b> km<br>
+		</div><br>
 		
 	 	<!-- 가계부 DIV -->
-		<div id="menu" style="background-color:#CCCCCC;height:135px;float:bottom;width:100%;border-radius:10px;">
+		<div id="menu" style="background-color:#CCCCCC;height:200px;float:bottom;width:100%;border-radius:10px;">
 			<b>가계부</b><br>
 			교통 : <input type="text"><br>
 			식비 : <input type="text"><br>
 			문화 : <input type="text"><br>
-			기타 : <input type="text"><br>
-		</div>
+			기타 : <input type="text"><br><br>
+			총합 : ${accView.origin_cost }<br>
+			환율 : ${accView.caled_cost }<br>
+		</div><br>
+		
+		<!-- 일정 저장 -->
+		<div id="menu" style="float:bottom;width:100%;border-radius:10px;">
+		<input type="button" value="저장" style="width:100%;">
+		</div><br>
 		
 		<!-- 검색 INPUT DIV -->
 		<div id="menu" style="float:bottom;width:100%;border-radius:10px;">
@@ -254,7 +260,8 @@ function getTimetablesFromServer(){
 		     <li id="results" ></li>
 		     </ul>
 		    </div>
-		</div>
+		</div><br>
+		
 	</div>
 	
 	<!-- 우측 일정 & 타임테이블정보 (지도, 일정탭 & 타임테이블탭 등 )-->

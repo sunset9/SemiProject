@@ -3,12 +3,13 @@ package dao.plan;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.List;
 
-import utils.DBConn;
 import dto.Account.Account;
 import dto.plan.Plan;
 import dto.user.User;
+import utils.DBConn;
 
 public class PlanDaoImpl implements PlanDao{
 
@@ -17,40 +18,228 @@ public class PlanDaoImpl implements PlanDao{
 	private ResultSet rs = null;
 	
 	// 일정메인 아이디로 일정메인 정보, 북마크 정보 불러오기
-	public Plan getPlanInfoByPlanIdx(Plan plan) {
-		String sql = "select * from plan order by plan_idx";
-		Plan pl;
-		return null;  
+	@Override
+	public Plan selectPlanInfoByPlanIdx(Plan plan) {
+		//planner 조회 쿼리
+		String sql = "";
+		sql += "SELECT * FROM planner";
+		sql += " WHERE plan_idx = ?";
+		
+		//조회 결과 담을 DTO
+		Plan planInfo = new Plan();
+		try {
+			//DB작업
+			ps = conn.prepareStatement(sql);
+			//plan.getPlan_idx()
+			ps.setInt(1, 1);
+			rs = ps.executeQuery();
+			
+			//결과 담기
+			while(rs.next()) {
+				
+				//결과 행 DTO에 저장
+				planInfo.setPlan_idx( rs.getInt("plan_idx") );
+				planInfo.setUser_idx( rs.getInt("user_idx") );
+				planInfo.setStart_date( rs.getDate("start_date") );
+				planInfo.setEnd_date( rs.getDate("end_date") );
+				planInfo.setTitle( rs.getString("title") );
+				planInfo.setTraveled( rs.getInt("traveled") );
+				planInfo.setOpened( rs.getInt("opened") );
+				planInfo.setDistance( rs.getInt("distance") );
+				planInfo.setCreate_date( rs.getDate("create_date") );
+				
+			}
+			
+			planInfo.setTot_dist(selectTotalDistance());
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				//DB객체 닫기
+				if(rs!=null)	rs.close();
+				if(ps!=null)	ps.close();
+				
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+		// 전체조회 결과 반환
+		return planInfo;
+	}
+	
+	// 유저의 전체 게시글의 총 거리 계산하기
+	@Override
+	public int selectTotalDistance() {
+		//planner 조회 쿼리
+		String sql = "";
+		sql += "SELECT SUM(distance) FROM planner";
+		sql += " WHERE user_idx = ?";
+		
+		int tot_dist = 0;
+		
+		try {
+			//DB작업
+			ps = conn.prepareStatement(sql);
+			//plan.getUser_idx()
+			ps.setInt(1, 1);
+			rs = ps.executeQuery();
+			//결과 담기
+			rs.next();
+			
+			//결과 행 DTO에 저장
+			tot_dist = rs.getInt(1) ;
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				//DB객체 닫기
+				if(rs!=null)	rs.close();
+				if(ps!=null)	ps.close();
+				
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+		// 전체조회 결과 반환
+		return tot_dist;
 	}
 	
 	// 유저 아이디로 유저 정보 불러오기 -> 게시자 정보
-	public User getUserInfoByUserIdx1(Plan plan) {
-		String sql = "select * from user order by user_idx";
-		User us;
-		return null;
+	@Override
+	public User selectUserInfoByUserIdx(Plan plan) {
+		//planner 조회 쿼리
+		String sql = "";
+		sql += "SELECT * FROM userinfo";
+		sql += " WHERE user_idx = ?";
+		
+		//조회 결과 담을 DTO
+		User userInfo = new User();
+		
+		try {
+			//DB작업
+			ps = conn.prepareStatement(sql);
+			//plan.getUser_idx()
+			ps.setInt(1, 1);
+			rs = ps.executeQuery();
+			
+			//결과 담기
+			while(rs.next()) {
+				
+				//결과 행 DTO에 저장
+				userInfo.setUser_idx( rs.getInt("user_idx") );
+				userInfo.setId( rs.getString("id") );
+				userInfo.setPassword( rs.getString("password") );
+				userInfo.setNickname( rs.getString("nickname") );
+				userInfo.setProfile( rs.getString("profile") );
+				userInfo.setGrade( rs.getString("grade") );
+				userInfo.setSns_idx( rs.getInt("sns_idx") );
+				userInfo.setCreate_date( rs.getDate("create_date") );
+			}
+			userInfo.setTotalPlanCnt(selectPlanCntAll());
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				//DB객체 닫기
+				if(rs!=null)	rs.close();
+				if(ps!=null)	ps.close();
+				
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+		// 전체조회 결과 반환
+		return userInfo;
 	}
-	
+		
 	// 유저의 전체 게시글 수 가져오기
 	public int selectPlanCntAll() {
 //			전체 게시글 수의 합 쿼리
-		String sql = "select count(*) from planner";
+		//planner 조회 쿼리
+		String sql = "";
+		sql += "SELECT COUNT(*) FROM planner";
+		sql += " WHERE user_idx = ?";
+		
 		int plan_cnt = 0;
+		
+		
+		try {
+			//DB작업
+			ps = conn.prepareStatement(sql);
+			//plan.getUser_idx()
+			ps.setInt(1, 1);
+			rs = ps.executeQuery();
+			//결과 담기
+			rs.next();
+			
+			//결과 행 DTO에 저장
+			plan_cnt = rs.getInt(1) ;
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				//DB객체 닫기
+				if(rs!=null)	rs.close();
+				if(ps!=null)	ps.close();
+				
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+		// 전체조회 결과 반환
 		return plan_cnt;
-	}
-	
-	// 유저의 전체 게시글의 총 거리 계산하기 
-	public int selectTotalDistance() {
-//			게시글별 총거리 합 쿼리
-		String sql = "select sum(distance) from planner";
-		int tot_dist = 0;
-		return tot_dist;
 	}
 		
 	// 플랜의 가계부 인덱스로 가계부 정보 불러오기
-	public Account getAccountInfoByAccountIdx(Plan plan) {
-		String sql = "select * from account order by acc_idx";
-		Account ac;
-		return null;
+	public Account selectAccountInfoByAccountIdx(Plan plan) {
+		
+		//planner 조회 쿼리
+		String sql = "";
+		sql += "SELECT * FROM account";
+		sql += " WHERE acc_idx = ?";
+		
+		//조회 결과 담을 DTO
+		Account accInfo = new Account();
+		
+		try {
+			//DB작업
+			ps = conn.prepareStatement(sql);
+			//plan.getPlan_idx()
+			ps.setInt(1, 1);
+			rs = ps.executeQuery();
+			
+			//결과 담기
+			while(rs.next()) {
+				
+				//결과 행 DTO에 저장
+				accInfo.setAcc_idx( rs.getInt("acc_idx") );
+				accInfo.setPlan_idx( rs.getInt("plan_idx") );
+				accInfo.setStory_idx( rs.getInt("story_idx") );
+//				accInfo.setCurr_idx( rs.getInt("curr_idx") );
+//				accInfo.setAcc_cat_idx( rs.getInt("acc_cat_idx") );
+				accInfo.setOrigin_cost( rs.getInt("origin_cost") );
+				accInfo.setCaled_cost( rs.getInt("caled_cost") );
+				accInfo.setCreate_date( rs.getDate("create_date") );
+			}
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				//DB객체 닫기
+				if(rs!=null)	rs.close();
+				if(ps!=null)	ps.close();
+				
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+		// 전체조회 결과 반환
+		return accInfo;
 	}
 	
 	// 새로운 일정 저장
@@ -69,12 +258,6 @@ public class PlanDaoImpl implements PlanDao{
 	public void delete(Plan plan) {
 		String sql = "drop table planner"
 				+ " where ?";
-	}
-
-	@Override
-	public User getUserInfoByUserIdx(Plan plan) {
-		// TODO Auto-generated method stub
-		return null;
 	}
 
 	@Override

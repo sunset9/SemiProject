@@ -1,5 +1,6 @@
 package dto.Account;
 
+import java.util.Date;
 import java.util.Map;
 
 public class Account {
@@ -17,13 +18,14 @@ public class Account {
 	private float origin_cost;
 	//환율적용비용
 	private float caled_cost;
-	// 쓸모없는 주석 하나
+//	작성일
+	private Date create_date;
 	
 	
 	@Override
 	public String toString() {
 		return "Account [acc_idx=" + acc_idx + ", plan_idx=" + plan_idx + ", story_idx=" + story_idx + ", sign=" + sign
-				+ ", category=" + category + ", origin_cost=" + origin_cost + ", caled_cost=" + caled_cost + "]";
+				+ ", category=" + category + ", origin_cost=" + origin_cost + ", caled_cost=" + caled_cost + ", create_date=" + create_date+"]";
 	}
 	
 	
@@ -68,6 +70,16 @@ public class Account {
 	}
 	public void setCaled_cost(float caled_cost) {
 		this.caled_cost = caled_cost;
+	}
+
+
+	public Date getCreate_date() {
+		return create_date;
+	}
+
+
+	public void setCreate_date(Date create_date) {
+		this.create_date = create_date;
 	}
 	
 	 
