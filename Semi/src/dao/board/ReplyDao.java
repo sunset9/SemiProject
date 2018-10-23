@@ -8,14 +8,14 @@ import dto.board.Reply;
 public interface ReplyDao {
 
 			
-		// inq_idx ·Î´ñ±Û ºÒ·¯¿À±â
+		// inq_idx ï¿½Î´ï¿½ï¿½ ï¿½Ò·ï¿½ï¿½ï¿½ï¿½ï¿½
 		public List<Reply> selectInqByInqIdx (Inquiry inquiry);
 		
 		
-		// ´ñ±Ûµî·Ï ÇÏ±â
-		public void insert(Reply reply);
+		// ëŒ“ê¸€ ì¶”ê°€í•˜ê¸° 
+		public void insertReply(Reply reply);
 		
-		// ´ñ±Û »èÁ¦ ÇÏ±â
+		// ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ï±ï¿½
 		public void delete(Reply reply);
 		
 

@@ -2,6 +2,8 @@ package dao.board;
 
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
+
 import dto.board.Inquiry;
 import utils.Paging;
 
@@ -13,7 +15,7 @@ public interface InquiryDao {
 	public List<Inquiry> selectPagingList(Paging paging);
 	
 	// 전체 게시물 수 조회
-	public int selectCntAll() ;
+	public int selectCntAll(String search) ;
 		
 	// inq_idx로 문의 사항 조회하기
 	public Inquiry selectInqByInqIdx (Inquiry inq);

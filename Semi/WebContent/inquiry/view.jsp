@@ -39,7 +39,7 @@ $(document).ready(function() {
 
 <tr><td class ="info">본문</td> <td colspan="4">
 <c:if test="${inqFile.origin_name ne null}">
-<img src ="/upload/${inqFile.stored_name }"><br>
+<img style="height: 150px ; width: 300px;" src ="/upload/${inqFile.stored_name }"><br>
 </c:if>
 ${inquiry.content }</td>
 

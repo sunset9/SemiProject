@@ -29,13 +29,21 @@ public class InqListController extends HttpServlet {
 		// 현재 페이지 번호 얻기 
 		int curPage = inquiryService.getCurPage(req);
 
+		// 검색어 얻기 
+		String search = inquiryService.getSearch(req);
+		
 		// 전체 게시물 수 얻기 
-		int totalCount = inquiryService.getTotalCount();
+		int totalCount = inquiryService.getTotalCount( search );
 		
 		// 페이징 객체 생성
 		Paging paging = new Paging(totalCount, curPage,10); 
 
-//		System.out.println(paging);
+		
+		// 페이징 객체에 검색어 적용 
+		paging.setSearch(search);
+		
+		System.out.println(paging);
+		
 		
 		//게시글 목록 MODEL로 추가 하기 
 		List<Inquiry> list = inquiryService.getPagingList(paging);

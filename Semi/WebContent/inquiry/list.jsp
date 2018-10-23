@@ -18,6 +18,15 @@ $(document).ready(function() {
 	$("#inqWrite").click(function() {
 		location.href="/inquiry/write";
 	});
+	
+	$("#btnSearch").click(function() {
+		$(location).attr("href", "/inquiry/list?search="+$("#search").val());
+	
+	});
+	
+	$("#myInq").click(function() {
+		location.href="/inquiry/mylist";
+	})
 });
 </script>
 
@@ -129,6 +138,11 @@ $(document).ready(function() {
     </li>
     </c:if>
   </ul>
+  
+  <div id="searchBox" class="text-center">
+	<input type="text" id="search" />
+	<button id="btnSearch">검색</button>
+</div>
 
 </div>
 

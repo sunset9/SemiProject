@@ -18,13 +18,17 @@ import dao.board.InqFileDao;
 import dao.board.InqFileDaoImpl;
 import dao.board.InquiryDao;
 import dao.board.InquiryDaoImpl;
+import dao.board.ReplyDao;
+import dao.board.ReplyDaoImpl;
 import dto.board.InqFile;
 import dto.board.Inquiry;
+import dto.board.Reply;
 import utils.Paging;
 
 public class InquiryServiceImpl implements InquiryService {
 	private InquiryDao inquiryDao= new InquiryDaoImpl(); 
 	private InqFileDao fileDao = new InqFileDaoImpl();
+	private ReplyDao replyDao = new ReplyDaoImpl();
 	
 	@Override
 	public Inquiry getParam(HttpServletRequest req, HttpServletResponse resp) {
@@ -60,8 +64,8 @@ public class InquiryServiceImpl implements InquiryService {
 	}
 
 	@Override
-	public int getTotalCount() {
-		return inquiryDao.selectCntAll();
+	public int getTotalCount(String search) {
+		return inquiryDao.selectCntAll(search);
 	}
 
 	@Override
@@ -80,8 +84,133 @@ public class InquiryServiceImpl implements InquiryService {
 	}
 
 	@Override
-	public void update(Inquiry inq) {
-		inquiryDao.update(inq);
+	public void update(HttpServletRequest req) {
+		Inquiry inq = null;
+		InqFile inqFile = null;
+		
+
+		boolean isMultipart = ServletFileUpload.isMultipartContent(req);
+		
+		if(!isMultipart) {
+			//파일 첨부가 없을 경우
+			inq = new Inquiry();
+			
+			inq.setTitle(req.getParameter("title"));
+			inq.setWriter((String) req.getSession().getAttribute("writerNick"));
+			inq.setContent(req.getParameter("content"));
+			
+		} else {
+			//파일업로드를 사용하고 있을 경우
+			inq = new Inquiry();
+
+			//디스크팩토리
+			DiskFileItemFactory factory = new DiskFileItemFactory();
+
+			//메모리처리 사이즈
+			factory.setSizeThreshold(1 * 1024 * 1024); //1MB
+
+			//임시 저장소
+			File repository=new File(req.getServletContext().getRealPath("tmp"));
+			factory.setRepository(repository);
+			
+			//업로드 객체 생성
+			ServletFileUpload upload = new ServletFileUpload(factory);
+			
+			//용량 제한 설정 : 10MB
+			upload.setFileSizeMax(10 * 1024 * 1024);
+			
+			//한글 처리
+			upload.setHeaderEncoding("utf-8");
+
+			//form-data 추출 
+			List<FileItem> items = null;
+			try {
+				items = upload.parseRequest(req);
+				
+			} catch (FileUploadException e) {
+				e.printStackTrace();
+			}
+			
+			//파싱된 데이터 처리 반복자
+			Iterator<FileItem> iter = items.iterator();
+			
+			//요청정보 처리
+			while( iter.hasNext() ) {
+				FileItem item = iter.next();
+				
+				// 빈 파일 처리
+				if( item.getSize() <= 0 )	continue;
+				
+				// 빈 파일이 아닐 경우
+				if( item.isFormField() ) {
+					
+					if( "inq_idx".equals( item.getFieldName() ) ) {
+						try {
+							inq.setInq_idx( Integer.parseInt(item.getString("utf-8")) );
+						} catch (NumberFormatException | UnsupportedEncodingException e) {
+							e.printStackTrace();
+						}
+					}
+
+					try {
+						if( "title".equals( item.getFieldName() ) ) {
+							inq.setTitle( item.getString("utf-8") );
+						}
+						if( "content".equals( item.getFieldName() ) ) {
+							inq.setContent( item.getString("utf-8") );
+						}
+					} catch (UnsupportedEncodingException e) {
+						e.printStackTrace();
+					}
+					
+					inq.setWriter((String) req.getSession().getAttribute("userid"));
+					
+				} else {
+					UUID uuid = UUID.randomUUID();
+//					System.out.println(uuid);
+					
+					String u = uuid.toString().split("-")[4];
+//					System.out.println(u);
+					// -----------------
+					
+					//로컬 저장소 파일
+					String stored = item.getName() + "_" + u;
+					File up = new File(
+						req.getServletContext().getRealPath("upload")
+						, stored);
+					
+						
+					inqFile = new InqFile();
+					inqFile.setOrigin_name(item.getName());
+					inqFile.setStored_name(stored);
+					inqFile.setFile_size(item.getSize());
+					
+					try {
+						// 실제 업로드
+						item.write(up);
+						
+						// 임시 파일 삭제
+						item.delete();
+						
+					} catch (Exception e) {
+						e.printStackTrace();
+					} // try end
+				} //if end
+			} //while end
+		} //if(!isMultipart) end
+		
+
+//		System.out.println(board);
+//		System.out.println(boardFile);
+		
+		if(inq != null) {
+			inquiryDao.update(inq);
+		}
+		
+		if(inqFile != null) {
+			inqFile.setInq_idx(inq.getInq_idx());
+			fileDao.insert(inqFile);
+		}
 	}
 
 	@Override
@@ -238,8 +367,22 @@ public class InquiryServiceImpl implements InquiryService {
 		}
 		return true;
 	}
-	
-	
+
+	@Override
+	public String getSearch(HttpServletRequest req) {
+		String search = req.getParameter("search");
+
+		return search;
+	}
+
+	@Override
+	public void insertRepley(Reply reply) {
+		replyDao.insertReply(reply);
+	}
+
+
+
+
 
 
 
