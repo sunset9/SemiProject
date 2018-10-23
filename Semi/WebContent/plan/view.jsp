@@ -229,6 +229,41 @@ function store(){
 	$("form").submit();
 }
 </script>
+
+<script type="text/javascript">
+$(document).ready(function() {
+	$("#btnStory").click(function() {
+		document.getElementById("calendar").style.display= "none";
+		document.getElementById("viewStory").style.display= "block";
+		
+		
+		//AJAX 처리하기
+		$.ajax({
+			type: "post"
+			, url: "/story/view"
+			//, data: { }
+			, dataType: "html"
+			, success: function( d ) {
+				
+				$("#viewStory").html(d);
+				
+			}
+			, error: function() {
+				console.log("실패");
+			}
+		});
+				
+	});
+	
+	$("#btnPlan").click(function() {
+		document.getElementById("viewStory").style.display= "none";
+		document.getElementById("calendar").style.display= "block";
+		
+	});
+});
+
+</script>
+
 </head>
 
 <body>
@@ -311,8 +346,8 @@ function store(){
 	<div id="container" style="width:1000px; border-radius:10px;float:left;">
 		<!-- 일정 / 스토리 탭 DIV -->
 		<div id="content" style="background-color:#999999;height:50px;float:bottom;width:100%;border-radius:10px;">
-			<input type="button" value="일정" >
-			<input type="button" value="스토리" >
+			<button id="btnPlan" >일정</button>
+			<button id="btnStory" >스토리</button>
 		</div>
 		
 		<!-- 구글맵 DIV -->
@@ -320,9 +355,12 @@ function store(){
 			<div id="map"></div>
 	 	</div>
 	 	
-	 	<!-- 타임테이블 -->
+	 	<!-- 타임테이블 & 스토리테이블 -->
 		<div id="calendar"></div>
+		<div id="viewStory" ></div>
+		
 	</div>
+	
 </div>
 </body>
 </html>
