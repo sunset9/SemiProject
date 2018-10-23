@@ -118,7 +118,7 @@ $(document).ready(function(){
 	
 	/* initialize the external events
     -----------------------------------------------------------------*/
-	/*
+	
 	// 테스트용 div 드래그앤 드롭
     $('#external-events .fc-event').each(function() {
 		// store data so the calendar knows to render an event upon drop
@@ -135,14 +135,15 @@ $(document).ready(function(){
 		  scroll: true // true: 드래그 요소 창 밖으로 끌면 자동으로 스크롤생기면서 아래로내릴 수 있음
 		});
 	});
-	*/
-
+	
 	
 	$('#calendar').fullCalendar({
 		schedulerLicenseKey: 'GPL-My-Project-Is-Open-Source'
 		, height: "auto"
 		, defaultView: 'titetable' // 뷰 지정 (아래에 설정값 작성)
 		, defaultDate: '2018-04-07'
+		, defaultTimedEventDuration: '01:30:00' // 2 hours
+		, forceEventDuration: true // end시간이 지정되지 않으면 강제로 할당
 		, minTime: '06:00:00' // 시작 시점 시간 설정 
 		, timeFormat: 'H:mm' // 이벤트에 표시되는 시간 포멧
 		, slotLabelFormat:"HH:mm" // 왼쪽에 수직으로 표현되는 시간 포멧
@@ -265,7 +266,12 @@ $(document).ready(function(){
 				$('#calendar').fullCalendar('removeEvents', calEvent._id);
 			});
 		}
-		
+		, drop: function( date , jsEvent , ui , resourceId ){
+			console.log("drop!");
+		}
+		,eventDrop: function( event, delta, revertFunc, jsEvent, ui, view ){
+			console.log('eventDrop');
+		}
 	}); // end $().fullCalendar()
 	
 	$('#calendar').fullCalendar('option', 'locale', 'ko');
@@ -291,7 +297,7 @@ function store(){
 		}
 		param += "&events=" + JSON.stringify(timetable);
 	})
-	location.href = "/timetable/recv?" + encodeURI(param.substring(1));
+// 	location.href = "/timetable/recv?" + encodeURI(param.substring(1));
 }
 </script>
 <script>
@@ -354,15 +360,15 @@ function initAutocomplete() {
 	<input id="pac-input" class="controls" type="text" placeholder="Search Box">
 	<div id="resultLayout" style="display:inline">검색결과</div>
 	
-<!-- 	테스트 드롭 다운 용 이벤트 리스트들 -->
-<!--     <div id='external-events'> -->
-<!--       <h4>Draggable Events</h4> -->
-<!--       <div class='fc-event'>My Event 1</div> -->
-<!--       <div class='fc-event'>My Event 2</div> -->
-<!--       <div class='fc-event'>My Event 3</div> -->
-<!--       <div class='fc-event'>My Event 4</div> -->
-<!--       <div class='fc-event'>My Event 5</div> -->
-<!--     </div> -->
+	테스트 드롭 다운 용 이벤트 리스트들
+    <div id='external-events'>
+      <h4>Draggable Events</h4>
+      <div class='fc-event'>My Event 1</div>
+      <div class='fc-event'>My Event 2</div>
+      <div class='fc-event'>My Event 3</div>
+      <div class='fc-event'>My Event 4</div>
+      <div class='fc-event'>My Event 5</div>
+    </div>
 
     <div id='calendar'></div>
     
