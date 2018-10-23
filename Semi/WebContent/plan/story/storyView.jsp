@@ -12,12 +12,13 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>무제 문서</title>
+
 <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.4.0/css/font-awesome.min.css" rel="stylesheet" type="text/css" />
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.25.0/codemirror.min.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.25.0/codemirror.min.css">
  
   <!-- Include Editor style. -->
-  <link href="https://cdnjs.cloudflare.com/ajax/libs/froala-editor/2.5.1/css/froala_editor.pkgd.min.css" rel="stylesheet" type="text/css" />
-  <link href="https://cdnjs.cloudflare.com/ajax/libs/froala-editor/2.5.1/css/froala_style.min.css" rel="stylesheet" type="text/css" />
+<link href="https://cdnjs.cloudflare.com/ajax/libs/froala-editor/2.5.1/css/froala_editor.pkgd.min.css" rel="stylesheet" type="text/css" />
+<link href="https://cdnjs.cloudflare.com/ajax/libs/froala-editor/2.5.1/css/froala_style.min.css" rel="stylesheet" type="text/css" />
 <!-- 합쳐지고 최소화된 최신 CSS -->
 <script src = "https://code.jquery.com/jquery-2.2.4.min.js"></script>
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
@@ -27,6 +28,12 @@
 
 <!-- 합쳐지고 최소화된 최신 자바스크립트 -->
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
+<script type="text/javascript" src='/resources/timetable/moment.min.js'></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.25.0/codemirror.min.js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.25.0/mode/xml/xml.min.js"></script>
+
+
 <style type="text/css">
 	
 #slidemenu{
@@ -64,8 +71,27 @@ padding: 2px;
 		$("#btnSave").click(function() {
 			$("form").submit();
 		})
+		
+		
+		$('#myModal').on('show.bs.modal', function (e){
+			 
+			console.log("dd");
+
+		  })
 
 	});
+	
+	function show(place_name){
+		
+		
+		var pname = place_name;
+		
+		console.log(pname);
+		
+		
+		
+		$("#myModal").modal('show');
+	}
 	    
 	    
    function plusmover(num) {
@@ -92,7 +118,6 @@ padding: 2px;
 		plus.style.color='black';
 	}
 
-
 	
 </script>	
 
@@ -112,57 +137,68 @@ padding: 2px;
 		</div>
 			<c:forEach var='day' begin = "1" end="${diffDays}">
 			<div id = "DayDiv${day}" ><h1>-Day ${day}</h1></div>
-				<c:forEach items='${storyList}' var='story'>
-					<c:if test="${day eq story.calcDay}">
-					<span>${story.start_time }</span>
-			    		<table width="70%" style="border-bottom: 1px solid black; border-right: 1px solid black; border-top: 1px solid black; border-left: 1px solid black" >
-			    			<tr>
-			     			<td colspan="12">
-							  <div> <h2><span class="glyphicon glyphicon-map-marker"></span>&nbsp;${story.place_name}</h2><hr></div>
-					 		  <div width="100%" style="overflow:auto; height:300px">${story.content}</div>
-							</td>
-			    			</tr>
-			    			<tr>
-			     			<td colspan="12">
-								<hr><font size="2" color="#B9ADAE">[이미지] 오락 | USD 70</font> 
-				 		    </td>
-							</tr>
-							<tr>
-				  			<td colspan="12">
-					  			<font size="2" color="#B9ADAE">[이미지] 식비 | KRW 8000</font> 
-				  			</td>
-			    			</tr>
-							<tr>
-							<td colspan="12"><hr><a href="#"><font size="2" color="#B9ADAE">덧글 1개</font></a></td>
-							</tr>
-							<tr>
-							<td colspan="10">
-								<hr>
-								<textarea style ="resize: none; overflow:visible;" rows="2" cols="100" placeholder="댓글을 입력하세요"></textarea>
-							</td>	
-							<td colspan="2" style="padding-bottom:20px;">
-							<hr style="padding: 4px;">
-							<button type="button" class="btn btn-sm" style="margin-bottom: -7px;">등록</button>
-							</td>
-							</tr>
-						<!-- ajax이용, 댓글 리스트 foreach문 -->
-							<tr>
-							<td colspan="3" align="center" ><img src="#" class="img-circle" width="50px" height="50px"></td>
-							<td colspan="5" rowspan="2"><font size="2">&nbsp;&nbsp;&nbsp;피가 하여도 무엇을 말이다. 풀밭에 착목한는 소금이라 이상의 맺어, 새 같지 때문이다.</font></td>
-							<td colspan="3" rowspan="2" style="padding:20px"><font size ="1"> 2018-10-12 AM 09:03 </font></td>
-							<td colspan="1" rowspan="2"><span class="glyphicon glyphicon-remove-sign"></span></td>
-							</tr>
-							<tr>
-							<td colspan="3" align="center"><font size="2">닉네임</font></td>
-							</tr>
-						</table>
-						</c:if>
-				</c:forEach>
-				<br>
-				<font size="10" color="blue">
-					<span id = "plus${day}" class ="glyphicon glyphicon-plus-sign" data-toggle="modal" data-target="#myModal" data-backdrop="static" onmouseover="plusmover(${day})" onmouseleave="plusmleave(${day})" onmousedown="plusmdown(${day})"></span>
-				</font>
-				
+			<c:forEach items='${ttbList}' var = 'ttb'>
+				<c:if test="${ttb.day eq day }">
+				<c:if test="${ttb.is_story eq true}">
+					<c:forEach items='${storyList}' var='story'>
+						<c:if test="${story.ttb_idx eq ttb.ttb_idx}">
+						<span>${story.start_time }</span>
+				    		<table width="70%" style="border-bottom: 1px solid black; border-right: 1px solid black; border-top: 1px solid black; border-left: 1px solid black" >
+				    			<tr>
+				     			<td colspan="12">
+								  <div> <h2><span class="glyphicon glyphicon-map-marker"></span>&nbsp;${story.place_name}</h2><hr></div>
+						 		  <div width="100%" style="overflow:auto; height:300px">${story.content}</div>
+								</td>
+				    			</tr>
+				    			<tr>
+				     			<td colspan="12">
+									<hr><font size="2" color="#B9ADAE">[이미지] 오락 | USD 70</font> 
+					 		    </td>
+								</tr>
+								<tr>
+					  			<td colspan="12">
+						  			<font size="2" color="#B9ADAE">[이미지] 식비 | KRW 8000</font> 
+					  			</td>
+				    			</tr>
+								<tr>
+								<td colspan="12"><hr><a href="#"><font size="2" color="#B9ADAE">덧글 1개</font></a></td>
+								</tr>
+								<tr>
+								<td colspan="10">
+									<hr>
+									<textarea style ="resize: none; overflow:visible;" rows="2" cols="100" placeholder="댓글을 입력하세요"></textarea>
+								</td>	
+								<td colspan="2" style="padding-bottom:20px;">
+								<hr style="padding: 4px;">
+								<button type="button" class="btn btn-sm" style="margin-bottom: -7px;">등록</button>
+								</td>
+								</tr>
+							<!-- ajax이용, 댓글 리스트 foreach문 -->
+								<tr>
+								<td colspan="3" align="center" ><img src="#" class="img-circle" width="50px" height="50px"></td>
+								<td colspan="5" rowspan="2"><font size="2">&nbsp;&nbsp;&nbsp;피가 하여도 무엇을 말이다. 풀밭에 착목한는 소금이라 이상의 맺어, 새 같지 때문이다.</font></td>
+								<td colspan="3" rowspan="2" style="padding:20px"><font size ="1"> 2018-10-12 AM 09:03 </font></td>
+								<td colspan="1" rowspan="2"><span class="glyphicon glyphicon-remove-sign"></span></td>
+								</tr>
+								<tr>
+								<td colspan="3" align="center"><font size="2">닉네임</font></td>
+								</tr>
+							</table>					
+													
+						</c:if>			
+					</c:forEach>
+					</c:if>
+					<c:if test="${ttb.is_story eq false }">
+						<br>
+						<div><h2><span class="glyphicon glyphicon-map-marker"></span>&nbsp;${ttb.place_name}</h2></div>
+						<br>
+						<font size="10" color="black">
+<%-- 							<span id = "plus${day}" class ="glyphicon glyphicon-plus-sign" data-toggle="modal" data-target="#myModal" data-backdrop="static" data-place="${ttb.place_name}" onmouseover="plusmover(${day})" onmouseleave="plusmleave(${day})" onmousedown="plusmdown(${day})"></span> --%>
+							<span id = "plus${day}" class ="glyphicon glyphicon-plus-sign" onclick= "show(${ttb.place_name})" onmouseover="plusmover(${day})" onmouseleave="plusmleave(${day})" onmousedown="plusmdown(${day})"></span>
+						</font>
+					</c:if>
+				</c:if>
+			</c:forEach>
 			</c:forEach>
 		</div> <!-- col-lg-8 끝 구간 -->
  <div class="col-lg-2"></div>
@@ -176,14 +212,12 @@ padding: 2px;
       <div class="modal-content">
         <div class="modal-header">
           <button type="button" class="close" data-dismiss="modal">×</button>
-          <h4 class="modal-title"><span class="glyphicon glyphicon-map-marker" style="font-weight: bold;font-size: 25px"><font size="5">장소 이름</font></span></h4>
+          <h4 class="modal-title"><span class="glyphicon glyphicon-map-marker" id ="placename" style="font-weight: bold;font-size: 25px"><font size="5">place_name</font></span></h4>
         </div>
         <div class="modal-body">
         
          <!-- Include external JS libs. -->
-		  <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
-		  <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.25.0/codemirror.min.js"></script>
-		  <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.25.0/mode/xml/xml.min.js"></script>
+		 
 		 
 		  <!-- Include Editor JS files. -->
 		  <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/froala-editor/2.5.1//js/froala_editor.pkgd.min.js"></script>

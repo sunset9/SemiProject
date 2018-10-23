@@ -15,9 +15,12 @@ import javax.servlet.http.HttpServletResponse;
 
 import service.stroy.StoryService;
 import service.stroy.StoryServiceImpl;
+import service.timetable.TimetableService;
+import service.timetable.TimetableServiceImpl;
 import utils.CalcDate;
 import dto.plan.Plan;
 import dto.story.Story;
+import dto.timetable.Timetable;
 
 /**
  * Servlet implementation class StoryViewController
@@ -25,8 +28,11 @@ import dto.story.Story;
 @WebServlet("/story/view")
 public class StoryViewController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
+	
+	TimetableService ttbService = new TimetableServiceImpl();
+	StoryService sService = new StoryServiceImpl();
+	
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		StoryService sService = new StoryServiceImpl();
 		
 		List<Story> StoryList = new ArrayList<>();
 	
@@ -45,6 +51,9 @@ public class StoryViewController extends HttpServlet {
 		}
 		plan.setPlan_idx(1);
 		
+		
+		List<Timetable> ttbList = ttbService.getTimetableList(plan);
+		
 		// 플랜번호로 스토리조회
 		StoryList=sService.getStoryList(plan);
 		
@@ -54,6 +63,7 @@ public class StoryViewController extends HttpServlet {
 		// 여행기간 계산로직
 		int diffDays = calcDate.CalcPriod(plan.getStart_date(),plan.getEnd_date());
 
+		request.setAttribute("ttbList", ttbList);
 		request.setAttribute("diffDays",diffDays);
 		request.setAttribute("storyList", StoryList);
 		request.getRequestDispatcher("/plan/story/storyView.jsp").forward(request, response);
