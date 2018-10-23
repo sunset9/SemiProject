@@ -44,7 +44,7 @@ public class UserUpdateController extends HttpServlet {
 		System.out.println("현재 유저의 닉네임 : "+cUser.getNickname());
 		System.out.println("요청 파라미터로 넘어온 닉네임 : "+param.get("nickname"));
 		
-		//System.out.println(!(cUser.getNickname() == param.get("nickname")));
+		//현재 유저의 닉네임이랑 요청 파라미터로 넘어온 닉네임이 다르다. 가 트루일때
 		
 		//닉네임 변경 
 		if(!(cUser.getNickname() == param.get("nickname"))) {
