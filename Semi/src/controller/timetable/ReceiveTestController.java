@@ -49,6 +49,7 @@ public class ReceiveTestController extends HttpServlet {
 		// test-log
 		System.out.println(events);
 		
+		// 넘어온 String -> dto 형식
 		Location[] objs = gson.fromJson(events, Location[].class);
 		List<Location> list = Arrays.asList(objs);
 
@@ -75,7 +76,7 @@ public class ReceiveTestController extends HttpServlet {
 			locList.add(loc);
 		}
 		
-		
+		// dto -> json
 		String ttbListStr = gson.toJson(ttbList);
 		String locListStr = gson.toJson(locList);
 		

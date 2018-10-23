@@ -200,7 +200,7 @@ public class UserDaoImpl implements UserDao{
 		String sql = "";
 		sql += "SELECT * FROM userinfo";
 		if(user.getPassword() != null) {
-			sql += " WHERE password = ?";			
+			sql += " WHERE id = ? AND password = ?";			
 		}
 		
 		PreparedStatement ps = null;
@@ -209,6 +209,7 @@ public class UserDaoImpl implements UserDao{
 		try {
 			ps = conn.prepareStatement(sql);
 			if(user.getPassword() != null) {
+				
 				ps.setString(1, user.getPassword());
 			}
 			
@@ -316,6 +317,75 @@ public class UserDaoImpl implements UserDao{
 		}
 
 		return cnt;
+	}
+
+	//닉네임 수정
+	@Override
+	public void changeNick(User user) {
+		//id랑 nickname 받아서 해당 id인 회원의 nickname 변경
+		//UPDATE USERINFO SET NICKNAME='e' WHERE id='e';
+		
+		String sql = "";
+		sql += "UPDATE USERINFO";
+		sql += " SET NICKNAME = ?";
+		sql += " WHERE ID = ?";
+		
+		//DB 객체
+		PreparedStatement ps = null;
+
+		try {
+			ps = conn.prepareStatement(sql);
+			ps.setString(1, user.getNickname());
+			ps.setString(2, user.getId());
+
+		    ps.executeUpdate();
+
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			try {
+				if(ps!=null) ps.close();
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+	}
+
+	//비밀번호 수정
+	@Override
+	public void changePw(User user) {
+		//id랑 password 받아서 해당 id인 회원의 password 변경
+		// UPDATE USERINFO SET password='e' WHERE id='e';
+
+		String sql = "";
+		sql += "UPDATE USERINFO";
+		sql += " SET PASSWORD = ?";
+		sql += " WHERE ID = ?";
+
+		// DB 객체
+		PreparedStatement ps = null;
+
+		try {
+			ps = conn.prepareStatement(sql);
+			ps.setString(1, user.getPassword());
+			ps.setString(2, user.getId());
+
+			ps.executeUpdate();
+
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			try {
+				if (ps != null)
+					ps.close();
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
 	}
 
 }

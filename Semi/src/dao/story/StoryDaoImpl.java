@@ -18,6 +18,7 @@ import dto.story.Story;
 import service.plan.PlanService;
 import service.stroy.StoryService;
 import service.stroy.StoryServiceImpl;
+import utils.CalcDate;
 import utils.DBConn;
 
 public class StoryDaoImpl implements StoryDao{
@@ -70,15 +71,6 @@ public class StoryDaoImpl implements StoryDao{
 				story.setEnd_time(rs.getTime("end_time"));
 				story.setPlace_name(rs.getString("place_name"));
 				story.setTravel_day(rs.getString("travel_day"));
-				
-//				try {
-//					
-//					Date travelday = new SimpleDateFormat("yyyy-MM-dd").parse(rs.getString("travel_day"));
-//					story.setTravel_day(travelday);
-//				} catch (ParseException e) {
-//					// TODO Auto-generated catch block
-//					e.printStackTrace();
-//				}
 				
 				sList.add(story);
 		

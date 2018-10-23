@@ -45,6 +45,9 @@ public class InqUpdateController extends HttpServlet {
 
 		// 요청에 모델로 전달
 		req.setAttribute("inquiry", inquiry);
+
+		// 글 작성자 아이디 전달
+		req.setAttribute("userid", inquiryService.getId(inquiry));
 		
 		
 		// 글 작성자 닉네임 전달
@@ -67,48 +70,7 @@ public class InqUpdateController extends HttpServlet {
 		req.setCharacterEncoding("utf-8");
 		resp.setContentType("text/html;charset=utf-8");
 		
-	
-		
-		//--- MultipartRequest �������� �Ű� ���� �غ�---
-		// 1. ��û ��ü 
-		//	���� ���� �ʿ� ���� 
-		
-		// 2. ���� ���� ��ġ
-		// String ���� ������ ���� ��� ���� 
-		String saveDirectory = getServletContext().getRealPath("");
-		
-//		System.out.println( saveDirectory);
-		
-		// 3. ���ε� ���� ������ 
-		int maxPostSize = 1 *1024*1024; // 10MB ���� 
-		
-		// 4. ���ڵ� 
-		// ���ε� ���� ���ڵ� ��� 
-		String encoding = "UTF-8";
-		
-		
-		// 5. �ߺ� ���� �̸� ��å
-		// DefaultFileRenamePolicy �� �ߺ������� ������ 
-		// ���� �̸� �ڿ� ���ڸ� �߰��ϰ� 1���� ������Ų��. 
-		FileRenamePolicy policy = new DefaultFileRenamePolicy();
-		
-		//-----------------------------------------------
-		
-		// MultipartRequest ��ü ���� 
-		// ���� ���ε� ó�� 
-		MultipartRequest mul = new MultipartRequest(req, saveDirectory, maxPostSize, encoding, policy);
-
-		inquiry.setTitle(mul.getParameter("title"));
-		
-		inquiry.setContent(mul.getParameter("content"));
-		
-		file.setStored_name(mul.getFilesystemName("file"));
-//		System.out.println(mul.getFilesystemName("file"));
-		file.setOrigin_name(mul.getOriginalFileName("file"));
-		
-		inquiryService.update(inquiry);
-		inquiryService.insertFile(file);
-
+		inquiryService.update(req);
 
 		resp.sendRedirect("/inquiry/list");
 	

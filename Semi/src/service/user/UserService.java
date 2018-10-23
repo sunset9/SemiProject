@@ -1,5 +1,8 @@
 package service.user;
 
+import java.util.List;
+import java.util.Map;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -13,6 +16,9 @@ public interface UserService {
 	
 	//요청 파라미터 처리(소셜)
 	public User getParamSocial(HttpServletRequest req, HttpServletResponse resp);
+	
+	//회원정보수정 파라미터 처리
+	public Map<String, String> getParamUpdate(HttpServletRequest req, HttpServletResponse resp);
 	
 	//id 로그인 처리
 	public boolean login(User user);
@@ -36,7 +42,11 @@ public interface UserService {
 	public boolean checkid(User user);
 	
 	//유저정보수정 
-	public void updateUserInfo(User user);
+	public void updateUserInfo(Map<String, String> param);
 	
-	//세션 설정하기
+	//닉네임 변경
+	public void changeNick(Map<String, String> param);
+	
+	//비밀번호 변경 
+	public void changePw(Map<String, String> param);
 }

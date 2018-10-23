@@ -7,6 +7,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import dto.board.InqFile;
 import dto.board.Inquiry;
+import dto.board.Reply;
 import utils.Paging;
 
 public interface InquiryService {
@@ -16,13 +17,16 @@ public interface InquiryService {
 	public int getCurPage(HttpServletRequest req);
 	
 	// 전체 게시물 수 얻어오기
-	public int getTotalCount();
+	public int getTotalCount(String search);
 	
 	// 페이징 된 리스트 불러오기
 	public List<Inquiry> getPagingList(Paging paging);
 	
 	// 상세 페이지 조회
 	public Inquiry view (Inquiry inq);
+	
+	// 검색어 얻어 오기 
+	public String getSearch(HttpServletRequest req);
 	
 	// 파라미터 얻어오기 
 	public Inquiry getParam (HttpServletRequest req, HttpServletResponse resp);
@@ -32,11 +36,10 @@ public interface InquiryService {
 	public void write(HttpServletRequest req);
 	
 	// 문의사항 수정
-	public void update(Inquiry inq);
+	public void update(HttpServletRequest req);
 	
 	// 문의사항 삭제 
 	public void delete(Inquiry inq);
-	
 	
 	// 상세보기에서 관련된 첨부파일 조회
 	public InqFile viewFile(Inquiry inq);
@@ -53,4 +56,6 @@ public interface InquiryService {
 	// 삭제하기 전에 글 작성자인지 판단 
 	public boolean checkWriter(HttpServletRequest req, Inquiry inq);
 	
+	// 댓글 추가하기 
+	public void insertRepley(Reply reply);
 }

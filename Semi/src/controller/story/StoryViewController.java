@@ -26,7 +26,6 @@ import dto.story.Story;
 public class StoryViewController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-
 		StoryService sService = new StoryServiceImpl();
 		
 		List<Story> StoryList = new ArrayList<>();
@@ -44,29 +43,19 @@ public class StoryViewController extends HttpServlet {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
 		plan.setPlan_idx(1);
 		
 		// 플랜번호로 스토리조회
 		StoryList=sService.getStoryList(plan);
 		
-		String startDt = new SimpleDateFormat("yyyy-MM-dd").format(plan.getStart_date());
-		String endDt = new SimpleDateFormat("yyyy-MM-dd").format(plan.getEnd_date());
-		
 		//여행기간 계산 클래스 
 		CalcDate calcDate = new CalcDate();
 		
 		// 여행기간 계산로직
-		int diffDays = calcDate.CalcPriod(plan);
-		
-		request.setAttribute("diffDays",diffDays);
-		
-		request.setAttribute("startDt", startDt);
+		int diffDays = calcDate.CalcPriod(plan.getStart_date(),plan.getEnd_date());
 
-		request.setAttribute("endDt", endDt);
-	
+		request.setAttribute("diffDays",diffDays);
 		request.setAttribute("storyList", StoryList);
-		
 		request.getRequestDispatcher("/plan/story/storyView.jsp").forward(request, response);
 		
 	}

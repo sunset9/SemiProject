@@ -318,7 +318,7 @@ function store(){
 		// input 태그 생성
 // 		$("form").append("<input type='hidden' name='events'>");
 // 		$("input[name*='events']:last-child").val(JSON.stringify(timetable));
-	})
+	});
 		// --- json list 로 묶어서 넘겨주기
 		// input 태그 생성
 		$("form").append("<input type='hidden' name='events'>");

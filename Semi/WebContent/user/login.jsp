@@ -94,7 +94,8 @@
 				//로그인이 성공할 경우 사용자 토큰을 받을 콜백 함수
 				success: function(authObj) {
 					getKakaotalkUserProfile();
-					createKakaotalkLogout();
+					//kakaoInfoSubmit();
+					//createKakaotalkLogout();
 				},
 				
 				//로그인이 실패할 경우 에러를 받을 콜백 함수
@@ -102,7 +103,7 @@
 					console.log(err);
 				}
 			});
-		}
+		};
 		
 		//유저정보 가져오는 함수
 		function getKakaotalkUserProfile(){
@@ -127,8 +128,11 @@
 			});
 		}
 		
+		function kakaoInfoSubmit() {
+			document.getElementById("kakaoForm").submit();
+		};
 		//로그인시 버튼의 텍스트를 '로그아웃'으로 바꿔줌 
-		function createKakaotalkLogout(){
+		/* function createKakaotalkLogout(){
 			$("#kakao-logged-group .kakao-logout-btn,#kakao-logged-group .kakao-login-btn").remove();
 			var logoutBtn = $("<a/>",{"class":"kakao-logout-btn","text":"로그아웃"});
 			logoutBtn.click(function(){
@@ -137,7 +141,7 @@
 				$("#kakao-profile").text("");
 			});
 			$("#kakao-logged-group").prepend(logoutBtn);
-		}
+		} */
 		
 		if(Kakao.Auth.getRefreshToken()!=undefined&&Kakao.Auth.getRefreshToken().replace(/ /gi,"")!=""){
 			createKakaotalkLogout();

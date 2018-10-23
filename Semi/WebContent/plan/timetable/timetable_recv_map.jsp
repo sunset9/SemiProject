@@ -23,9 +23,15 @@
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 
+<!-- Maps JavaScript API 로드 -->
+<script async defer
+ src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAO-YMjD9aGxBW1nEzgSFdzf7Uj8E4Lm9Q&callback=initMap">
+</script>
+
 <!-- 개인 utils -->
 <script type="text/javascript" src="/utils/timetableUtils.js"></script>
 <script type="text/javascript" src="/utils/mapUtils.js"></script>
+
 
 <style>
 
@@ -132,10 +138,10 @@
 <script type="text/javascript">
 var planStartDate = '${startDate}';
 var planEndDate = '${endDate}';
-
+	
 $(document).ready(function(){
 	// 뿌려줄 timetable 리스트 가져오기
-	var timetables = getTimetables();
+	var timetables = getTimetablesFromServer();
 	
 	// test-log
 // 	console.log("recv측. 받은 events목록");
@@ -147,7 +153,7 @@ $(document).ready(function(){
 });
 
 // 서버로부터 받은 timetable, location JSON리스트 필요한 정보만 파싱
-function getTimetables(){
+function getTimetablesFromServer(){
 	var timetables=[];
 	
 	var ttbList = ${ttbList };
@@ -168,14 +174,6 @@ function getTimetables(){
 	
 	return timetables;
 }
-</script>
-
-<script type="text/javascript">
-
-</script>
-
-<script async defer
- src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAO-YMjD9aGxBW1nEzgSFdzf7Uj8E4Lm9Q&callback=initMap">
 </script>
 
 </head>
