@@ -106,13 +106,37 @@ public class TimetableDaoImpl implements TimetableDao{
 		
 	}
 	
-	// 위치 정보 insert
-	public void insertLocation(Location location) {
+	// 위치 정보 insert - 반복문 돌면서 저장
+	public void insertLocation(List<Location> locationList) {
 	}
 	
-	// 만약 이미 같은 위도, 경도로 저장되어있는 위치정보가 있다면 해당 위치정보 컬럼의 idx반환
+	// 만약 place_id 로 저장되어있는 위치정보가 있다면 해당 위치정보 컬럼의 idx반환
 	public int selectLocationIdx(Location location) {
-		return 0;
+		int idx = -1;
+		String sql = "SELECT loc_idx FROM locaton"
+				+ " WHERE place_id = ?";
+		
+		try {
+			ps = conn.prepareStatement(sql);
+			ps.setString(1, location.getPlace_id());
+			rs = ps.executeQuery();
+			
+			while(rs.next()) {
+				idx = rs.getInt("loc_idx");
+			}
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				if(ps!=null) ps.close();
+				if(rs!=null) rs.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+		
+		return idx;
 	}
 	
 	// 타임테이블 삭제
