@@ -7,16 +7,14 @@ public class Reply {
 	private int rep_idx;
 	private int inq_idx;
 	private int user_idx;
+	private String userid;
 	private String content;
 	private Date create_date;
-	
-	
 	@Override
 	public String toString() {
-		return "Reply [rep_idx=" + rep_idx + ", inq_idx=" + inq_idx + ", user_idx=" + user_idx + ", content=" + content
-				+ ", create_date=" + create_date + "]";
+		return "Reply [rep_idx=" + rep_idx + ", inq_idx=" + inq_idx + ", user_idx=" + user_idx + ", userid=" + userid
+				+ ", content=" + content + ", create_date=" + create_date + "]";
 	}
-	
 	public int getRep_idx() {
 		return rep_idx;
 	}
@@ -35,6 +33,12 @@ public class Reply {
 	public void setUser_idx(int user_idx) {
 		this.user_idx = user_idx;
 	}
+	public String getUserid() {
+		return userid;
+	}
+	public void setUserid(String userid) {
+		this.userid = userid;
+	}
 	public String getContent() {
 		return content;
 	}
@@ -47,8 +51,5 @@ public class Reply {
 	public void setCreate_date(Date create_date) {
 		this.create_date = create_date;
 	}
-	
-	
-	
 	
 }

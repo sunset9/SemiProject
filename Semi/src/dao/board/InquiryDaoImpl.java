@@ -7,6 +7,8 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
+
 import utils.DBConn;
 import dto.board.Inquiry;
 import utils.Paging;
@@ -17,10 +19,14 @@ public class InquiryDaoImpl implements InquiryDao {
 	private Connection conn = DBConn.getConnection();
 	
 	@Override
-	public int selectCntAll() {
+	public int selectCntAll(String search) {
 		
 		// 전체 게시글 수 조회
 		String sql ="SELECT COUNT(*) FROM inquiry";
+		
+		if(search !=null && !"".equals(search)) {
+			sql+=" WHERE title LIKE '%"+search+"%'";
+		}
 		
 		//DB객체 생성 
 		PreparedStatement ps = null;
@@ -58,7 +64,15 @@ public class InquiryDaoImpl implements InquiryDao {
 		sql += "SELECT * FROM(";
 		sql += "SELECT rownum rnum, I.* FROM ( ";
 		sql += "SELECT * FROM inquiry ORDER BY inq_idx DESC ) I ";
-		sql += "ORDER BY rnum ) WHERE rnum between ? AND ? "; 
+		
+		
+		if(paging.getSearch()!=null && !"".equals(paging.getSearch())) {
+			sql += "WHERE title LIKE '%"+paging.getSearch()+"%'";
+		}
+
+		sql += " ORDER BY rnum";
+		sql += ")";
+		sql += "WHERE rnum between ? AND ?";
 		
 		//DB 객체 생성 
 		PreparedStatement ps = null;
@@ -282,10 +296,45 @@ public class InquiryDaoImpl implements InquiryDao {
 
 	@Override
 	public void update(Inquiry inq) {
-		// TODO Auto-generated method stub
+		// 게시물 수정 쿼리 
+		String sql= "";
+		sql += "UPDATE inquiry SET title= ?, content=? ";
+		sql += "WHERE inq_idx = ?";
 		
+		// DB 객체 
+		PreparedStatement ps = null;
+		
+		try {
+			conn.setAutoCommit(false);
+			
+			//DB 작업 
+			ps = conn.prepareStatement(sql);
+			ps.setString(1, inq.getTitle());
+			ps.setString(2, inq.getContent());
+			ps.setInt(3, inq.getInq_idx());
+			
+			ps.executeUpdate();
+			
+			conn.commit();
+			
+		} catch (SQLException e) {
+			try {
+				conn.rollback();
+			} catch (SQLException e1) {
+				e1.printStackTrace();
+			}
+			e.printStackTrace();
+		} finally {
+			try {
+				//DB객체 닫기
+				if(ps!=null)	ps.close();
+				
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
 	}
-
+	
 	@Override
 	public List<Inquiry> selectInqByAnswer() {
 		// TODO Auto-generated method stub

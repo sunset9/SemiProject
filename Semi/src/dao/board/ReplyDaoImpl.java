@@ -13,15 +13,17 @@ public class ReplyDaoImpl implements ReplyDao {
 		return null;
 	}
 
-	@Override
-	public void insert(Reply reply) {
-		// TODO Auto-generated method stub
-		
-	}
 
 	@Override
 	public void delete(Reply reply) {
 		// TODO Auto-generated method stub
+		
+	}
+
+
+	@Override
+	public void insertReply(Reply reply) {
+		
 		
 	}
 

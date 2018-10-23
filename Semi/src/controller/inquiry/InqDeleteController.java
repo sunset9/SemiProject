@@ -8,15 +8,11 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import dao.board.InqFileDao;
-import dao.board.InqFileDaoImpl;
-import dto.board.InqFile;
+
 import dto.board.Inquiry;
 import dto.board.Reply;
 import service.board.InquiryService;
 import service.board.InquiryServiceImpl;
-import service.reply.ReplyService;
-import service.reply.ReplyServiceImpl;
 
 
 @WebServlet("/inquiry/delete")
@@ -25,8 +21,7 @@ public class InqDeleteController extends HttpServlet {
 	
 	private InquiryService inquiryService = new InquiryServiceImpl();
 	private Inquiry inquiry = new Inquiry();
-	private InqFile file = new InqFile();
-	private ReplyService replyService= new ReplyServiceImpl();
+	
 	
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -48,9 +43,7 @@ public class InqDeleteController extends HttpServlet {
 		Reply reply = new Reply();
 		reply.setInq_idx(inquiry.getInq_idx());
 		
-		// 댓글 삭제 하기 =
-		replyService.replyDelete(reply);
-		
+
 		
 		// 문의사항 리스트로 리다이렉트 
 		resp.sendRedirect("/inquiry/list");
