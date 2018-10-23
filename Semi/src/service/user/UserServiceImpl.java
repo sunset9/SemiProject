@@ -1,5 +1,10 @@
 package service.user;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -37,6 +42,25 @@ public class UserServiceImpl implements UserService {
 		return user;
 	}
 
+	//회원정보수정 파라미터 처리
+	@Override
+	public Map<String, String> getParamUpdate(HttpServletRequest req, HttpServletResponse resp) {
+		Map<String, String> map = new HashMap<>();
+		String userid = req.getParameter("userid");
+		String nickname = req.getParameter("nickname");
+		String currPw = req.getParameter("currPw");
+		String newPw = req.getParameter("newPw");
+		String newPwCheck = req.getParameter("newPwCheck");
+		
+		map.put("userid", userid);
+		map.put("nickname", nickname);
+		map.put("currPw", currPw);
+		map.put("newPw", newPw);
+		map.put("newPwCheck", newPwCheck);
+		
+		return map;
+	}
+	
 	// id 로그인처리
 	@Override
 	public boolean login(User user) {
@@ -92,8 +116,19 @@ public class UserServiceImpl implements UserService {
 
 	//회원정보수정
 	@Override
-	public void updateUserInfo(User user) {
-		userDao.update(user);
+	public void updateUserInfo(Map<String, String> param) {
+		User user = new User();
+		
+		user.setId(param.get("userid"));
+		user.setPassword(param.get("currPw"));
+
+		System.out.println("제대로나오나:"+user.getId());
+		System.out.println("제대로나오나:"+user.getPassword());
+		
+//		if (userDao.chechPw(user) == 1)
+		
+		
+//		userDao.update(param);
 	}
 
 	//아이디 중복 조회
@@ -107,6 +142,31 @@ public class UserServiceImpl implements UserService {
 			return false;
 		}
 	}
+
+	//닉네임 변경
+	@Override
+	public void changeNick(Map<String, String> param) {
+		User user = new User();
+		
+		user.setId(param.get("userid"));
+		user.setNickname(param.get("nickname"));
+		
+		userDao.changeNick(user);
+		
+	}
+
+	//비밀번호 변경
+	@Override
+	public void changePw(Map<String, String> param) {
+		User user = new User();
+		
+		user.setId(param.get("userid"));
+		user.setPassword(param.get("newPw"));
+		
+		userDao.changePw(user);
+		
+	}
+
 
 
 
