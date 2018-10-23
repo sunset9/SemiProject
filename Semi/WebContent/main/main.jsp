@@ -2,7 +2,7 @@
     pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 
-<jsp:include page="../layout/headerWithMenu.jsp" />
+<c:import url="../layout/headerWithMenu.jsp" />
 <style>
 body {font-family: Arial, Helvetica, sans-serif;}
 
