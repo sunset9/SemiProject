@@ -15,8 +15,6 @@ import service.admin.AdminService;
 import service.admin.AdminServiceImpl;
 import service.board.AdminInquiryService;
 import service.board.AdminInquiryServiceImpl;
-import service.reply.ReplyService;
-import service.reply.ReplyServiceImpl;
 
 
 @WebServlet("/admin/inquiry/delete")
@@ -26,7 +24,6 @@ public class AdminInqDeleteController extends HttpServlet {
 	private AdminInquiryService adminInquiryService = new AdminInquiryServiceImpl();
 	private Inquiry inquiry = new Inquiry();
 	private InqFile file = new InqFile();
-	private ReplyService replyService = new ReplyServiceImpl();
 	
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
