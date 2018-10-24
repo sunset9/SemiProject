@@ -57,4 +57,11 @@ public interface UserService {
 	
 	//내 북마크 가져오기
 	public List<Bookmark> getBookmarkList(User user);
+	
+	//내 일정 포스팅 개수 가져오기
+	public int getCntPlan(User user);
+	
+	//내 총 여행거리 가져오기 
+	public int getTotDist(User user);
+	
 }
