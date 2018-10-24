@@ -167,4 +167,40 @@ public class ReplyDaoImpl implements ReplyDao {
 		return cnt;
 	}
 
+
+	@Override
+	public void answerUpdate(Reply reply) {
+		
+		System.out.println("update 실행쓰?");
+		System.out.println(reply.getInq_idx());
+		// 답변 값 바꾸는 쿼리
+		String sql ="UPDATE inquiry SET answer= 1 WHERE inq_idx=?";
+		
+		try {
+			conn.setAutoCommit(false);
+			
+			ps = conn.prepareStatement(sql);
+			ps.setInt(1, reply.getInq_idx());
+			
+			ps.executeQuery();
+			
+			conn.commit();
+			
+		} catch (SQLException e) {
+			try {
+				conn.rollback();
+			} catch (SQLException e1) {
+				e1.printStackTrace();
+			}
+			e.printStackTrace();
+		} finally {
+			try {
+				if(ps !=null)	ps.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+		
+	}
+
 }

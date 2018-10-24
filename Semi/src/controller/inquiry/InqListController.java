@@ -42,8 +42,7 @@ public class InqListController extends HttpServlet {
 		// 페이징 객체에 검색어 적용 
 		paging.setSearch(search);
 		
-		System.out.println(paging);
-		
+//		System.out.println(paging);
 		
 		//게시글 목록 MODEL로 추가 하기 
 		List<Inquiry> list = inquiryService.getPagingList(paging);

@@ -11,37 +11,37 @@ import utils.Paging;
 
 public interface AdminNoticeService {
 
-
-	// 현재 페이지 불러오기 
+	// 현재 페이지 얻어오기 
 	public int getCurPage(HttpServletRequest req);
+		
+	// 전체 게시물 카운트 
+	public int getTotalCount(String search);
 	
-	// 전체 게시물 수 얻어오기 
-	public int getTotalCount();
-	
-	// 공지사항 리스트 페이징
+	// 페이징 된 리스트 불러오기
 	public List<Notice> getPagingList(Paging paging);
-	
-	// 공지사항 상세보기 
+
+	// 게시물 상세 보기 
 	public Notice view (Notice notice);
-	
-	// 공지사항 파라미터 얻어오기
-	public Notice getParam (HttpServletRequest res, HttpServletResponse resp);
-	
-	// 공지사항 쓰기 
-	public void write(Notice notice);
-	
-	// 공지사항 업데이트 
-	public void update(Notice notice);
+
+	// 검색어 얻기 
+	public String getSearch(HttpServletRequest req);
 		
-	// 공지사항 지우기 
-	public void delete(Notice notice);
-	
-	// 공지사항 파일 지우기
-	public void deleteNoticeFile(NoticeFile file);
+	// 파라미터 얻어오기
+	public Notice getParam (HttpServletRequest req, HttpServletResponse resp);
 		
-	// 공지사항 파일 보기
+	// 게시물에 관련된 파일 불러오기 
 	public NoticeFile viewFile(Notice notice);
 		
-	// 공지사항 파일 넣기
-	public void insertFile(NoticeFile file);
+	
+	// 공지사항 쓰기
+	// 게시글 내용과 첨부파일 함께 업로드
+	public void write(HttpServletRequest req);
+	
+	// 공지사항 업데이트 
+	public void update(HttpServletRequest req);
+		
+	// 공지사항 지우기 
+	// 게시물에 관련된 파일도 같이 삭제
+	public void delete(Notice notice);
+	
 }

@@ -62,13 +62,28 @@ function deleteReply(rep_idx){
 	});
 } 
 </script>
+<style>
 
-<div>
+#container {
+	position : absolute;
+	width: 1000px;
+	
+}
 
-<h3>문의 사항 상세보기</h3>
+/* #btnGroup { */
+/* 	text-align: center; */
+
+/* } */
+
+
+</style>
+
+<div class= "container">
+
+<h2><strong>문의 사항 상세보기</strong></h2>
 <hr>
 
-<div>
+<div >
 <table class="table table-bordered">
 <tr>
 <td class = "info"> 글번호</td><td>${inquiry.inq_idx }</td>
@@ -82,7 +97,7 @@ function deleteReply(rep_idx){
 
 <tr><td class ="info">본문</td> <td colspan="4">
 <c:if test="${inqFile.origin_name ne null}">
-<img style="height: 150px ; width: 300px;" src ="/upload/${inqFile.stored_name }"><br>
+<img style="height: 150px ; width: 300px;" src ="/upload/${inqFile.stored_name }"><br><br>
 </c:if>
 ${inquiry.content }</td>
 
@@ -109,11 +124,11 @@ ${inquiry.content }</td>
 
 </div>
 
-<div>
-	<button id = "btnList">목록</button>
+<div class="btnGroup" style ="text-align: center;">
+	<button id = "btnList"  class="btn btn-success">목록</button>
 	<c:if test="${user.user_idx eq inquiry.user_idx }">
-	<button id="btnUpdate" >수정</button>
-	<button id="btnDelete" >삭제</button>
+	<button id="btnUpdate" class="btn btn-warning">수정</button>
+	<button id="btnDelete" class="btn btn-danger">삭제</button>
 	</c:if>
 </div>
 
@@ -125,8 +140,8 @@ ${inquiry.content }</td>
 <!-- 댓글 입력 부분 -->
 <div class= "form-inline text-center">
 	<input type ="text" class="form-control" size="10" id ="replyWriter" value="${user.nickname }"  readonly="readonly"/>
-	<textarea rows="2" cols="60" class="form-control"id="replyContent"></textarea>
-	<button id="btnRepInsert" >입력</button>
+	<textarea style ="resize: none;" rows="1" cols="60" class="form-control"id="replyContent"></textarea>
+	<button id="btnRepInsert" >댓글 달기</button> <br><br>
 </div> 
 
 <!-- 댓글 리스트 부분 -->
@@ -147,7 +162,7 @@ ${inquiry.content }</td>
 	<td>${reply.create_date }</td>
 	<td>
 		<c:if test="${user.id eq reply.userid }">
-		<button onclick="deleteReply(${reply.rep_idx});">삭제</button>
+		<button class="btn btn-danger" onclick="deleteReply(${reply.rep_idx});">삭제</button>
 		</c:if>
 	</td>
 </tr>

@@ -12,22 +12,29 @@ import utils.Paging;
 public interface NoticeService {
 
 
-	// ���� ������ ��� ���� 
+	// 현재 페이지 얻어오기 
 	public int getCurPage(HttpServletRequest req);
 	
-	// ��ü �� �� ������ 
-	public int getTotalCount();
+	// 전체 게시물 카운트 
+	public int getTotalCount(String search);
 	
-	// ����¡�� ����Ʈ �θ��� DAO ȣ��
+	// 페이징 된 리스트 불러오기
 	public List<Notice> getPagingList(Paging paging);
-	
-	// �Խñ� �� ���� 
+
+	// 게시물 상세 보기 
 	public Notice view (Notice notice);
+
+	// 검색어 얻기 
+	public String getSearch(HttpServletRequest req);
 	
-	// �Ķ���� �޾� ���� 
-	public Notice getParam (HttpServletRequest res, HttpServletResponse resp);
+	// 파라미터 얻어오기
+	public Notice getParam (HttpServletRequest req, HttpServletResponse resp);
 	
-	//�Խñ� ���� �ҷ�����
+	// 게시물에 관련된 파일 불러오기 
 	public NoticeFile viewFile(Notice notice);
+	
+
+	
+
 
 }

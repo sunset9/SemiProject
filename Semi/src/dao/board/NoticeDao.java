@@ -7,24 +7,24 @@ import utils.Paging;
 
 public interface NoticeDao {
 
-	// Notice ÀüÃ¼ ÆäÀÌÂ¡ÇÏ¿© ¸®½ºÆ®·Î Á¶È¸ 
+	// Notice ï¿½ï¿½Ã¼ ï¿½ï¿½ï¿½ï¿½Â¡ï¿½Ï¿ï¿½ ï¿½ï¿½ï¿½ï¿½Æ®ï¿½ï¿½ ï¿½ï¿½È¸ 
 	public List<Notice> selectPagingList(Paging paging);
 	
-	// ÀüÃ¼ °Ô½Ã±Û ¼ö Á¶È¸
-	public int selectCntAll() ;
+	// ï¿½ï¿½Ã¼ ï¿½Ô½Ã±ï¿½ ï¿½ï¿½ ï¿½ï¿½È¸
+	public int selectCntAll(String search) ;
 		
-	// notice_idx·Î ÇÏ³ªÀÇ Notice Á¶È¸ÇÏ±â
+	// notice_idxï¿½ï¿½ ï¿½Ï³ï¿½ï¿½ï¿½ Notice ï¿½ï¿½È¸ï¿½Ï±ï¿½
 	public Notice selectInqByInqIdx (Notice notice);
 	
-	// Á¶È¸ÈÄ Á¶È¸¼ö ¿Ã¸®±â
+	// ï¿½ï¿½È¸ï¿½ï¿½ ï¿½ï¿½È¸ï¿½ï¿½ ï¿½Ã¸ï¿½ï¿½ï¿½
 	public void updateHit(Notice notice);
 	
-	// °Ô½Ã¹° µî·Ï ÇÏ±â
+	// ï¿½Ô½Ã¹ï¿½ ï¿½ï¿½ï¿½ ï¿½Ï±ï¿½
 	public void insert(Notice notice);
 	
-	// °Ô½Ã¹° »èÁ¦ ÇÏ±â
+	// ï¿½Ô½Ã¹ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ï±ï¿½
 	public void delete(Notice notice);
 	
-	// °Ô½Ã¹° ¼öÁ¤ ÇÏ±â
+	// ï¿½Ô½Ã¹ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ï±ï¿½
 	public void update(Notice notice);
 }
