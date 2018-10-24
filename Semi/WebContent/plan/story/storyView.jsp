@@ -5,14 +5,6 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 
-<!doctype html>
-<html>
-<head>
-<meta charset="utf-8">
-<meta http-equiv="X-UA-Compatible" content="IE=edge">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>무제 문서</title>
-
 <style type="text/css">
 	
 #slidemenu{
@@ -51,12 +43,6 @@ padding: 2px;
 			$("form").submit();
 		})
 		
-		
-// 		$('#myModal').on('show.bs.modal', function (e){
-			 
-// 			console.log("dd");
-
-// 		  })
 
 	$(".storyPlus").click(function() {
 		
@@ -184,9 +170,8 @@ padding: 2px;
 	
 	
  <!-- Modal -->
-  <div class="modal fade" id="myModal" role="dialog">
+<div class="modal fade" id="myModal" role="dialog">
     <div class="modal-dialog">
-    
       <!-- Modal content-->
       <div class="modal-content">
         <div class="modal-header">
@@ -199,9 +184,10 @@ padding: 2px;
 
 		 
 		  <!-- Include Editor JS files. -->
-<!-- 		  <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/froala-editor/2.5.1//js/froala_editor.pkgd.min.js"></script> -->
-			<div style="height: auto; width:500px; padding: 20px;" id ="StoryWriteDiv">
+		  <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/froala-editor/2.5.1//js/froala_editor.pkgd.min.js"></script>
 			
+			
+			<div style="height: auto; width:500px; padding: 20px;" id ="StoryWriteDiv">
 			<form action="/story/write" method="POST">
 				<table>
 				<tr>
@@ -263,13 +249,28 @@ padding: 2px;
  </div>	
 
 <!-- 프로알라관련 --> 
+
 <script>
 
 //write 창에 x표시 추가
 
     $(function() {
-      $('#edit').froalaEditor({
+    	
+	$.FroalaEditor.DefineIcon('imageInfo', {NAME: 'info'});
+	 $.FroalaEditor.RegisterCommand('imageInfo', {
+	   title: 'Info',
+	   focus: false,
+	   undo: false,
+	   refreshAfterCallback: false,
+	   callback: function () {
+	     var $img = this.image.get();
+	     alert($img.attr('src'));
+	   }
+	 });
+
+    $('#edit').froalaEditor({
         // Set the image upload URL.
+        enter: $.FroalaEditor.ENTER_DIV,
         toolbarButtons: ['fontFamily','bold', 'italic', 'underline','align','|','insertLink','insertImage','|', 'undo', 'redo'],
         toolbarButtonsXS: ['fontFamily','bold', 'italic', 'underline','align','|','insertLink','insertImage','|', 'undo', 'redo'],
         toolbarButtonsSM: ['fontFamily','bold', 'italic', 'underline','align','|','insertLink','insertImage','|', 'undo', 'redo'],
@@ -306,6 +307,6 @@ padding: 2px;
               })
             });
     });
-  </script>
-</body>
-</html>
+  </script> 
+<!-- </body> -->
+<!-- </html> -->

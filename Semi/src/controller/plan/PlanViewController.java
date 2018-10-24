@@ -71,7 +71,6 @@ public class PlanViewController extends HttpServlet {
 		req.setAttribute("ttbList", ttbListStr);
 		req.setAttribute("locList", locListStr);
 		
-
 		// 스토리 리스트 가져오기
 		//List<Story> storyList = sService.getStoryList(plan);
 
