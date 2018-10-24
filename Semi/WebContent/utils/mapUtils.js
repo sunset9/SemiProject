@@ -9,7 +9,13 @@ function initMap() {
 	// 구글 맵 초기화
 	map = new google.maps.Map(document.getElementById('map'), {
 		zoom: 8, 
-		center: {lat: 37.525, lng: 126.970}
+		center: {lat: 37.525, lng: 126.970},
+		zoomControl: false,
+		mapTypeControl: false,
+		scaleControl: false,
+		streetViewControl: false,
+		rotateControl: false,
+		fullscreenControl: false
 	});
 	
 	// searchBox 설정 초기화
