@@ -12,9 +12,10 @@
 
 <!-- jQuery 2.2.4 -->
 <script type="text/javascript" src="http://code.jquery.com/jquery-2.2.4.min.js"></script>
-<!-- <script type="text/javascript" src='/resources/timetable/jquery-ui.min.js'></script> -->
 
-<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+<script type="text/javascript" src='/resources/timetable/jquery-ui.min.js'></script>
+
+<!-- <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script> -->
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.25.0/codemirror.min.js"></script>
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.25.0/mode/xml/xml.min.js"></script>
 
@@ -25,6 +26,7 @@
 
 <!-- moment.js (시간 포멧 설정용) --> 
 <script type="text/javascript" src='/resources/timetable/moment.min.js'></script>
+
 <!-- Include Editor style. -->
 <link href="https://cdnjs.cloudflare.com/ajax/libs/froala-editor/2.5.1/css/froala_editor.pkgd.min.css" rel="stylesheet" type="text/css" />
 <link href="https://cdnjs.cloudflare.com/ajax/libs/froala-editor/2.5.1/css/froala_style.min.css" rel="stylesheet" type="text/css" />
@@ -41,6 +43,7 @@
 <script type="text/javascript" src="/resources/timetable/fullcalendar/fullcalendar.js"></script>
 <script type="text/javascript" src="/resources/timetable/fullcalendar/scheduler.min.js"></script>
 <script src='/resources/timetable/fullcalendar/locale-all.js'></script>
+
 
 <style type="text/css">
 .header {}

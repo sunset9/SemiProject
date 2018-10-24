@@ -87,11 +87,11 @@ public class TimetableServiceImpl implements TimetableService{
 			list.get(i).setDay(ttbDao.selectDay(tb));
 			
 			list.get(i).setPlace_name(ttbDao.selectPlacenameByTimetableIdx(tb));
-			
 		}
 		
 		return list;
 	}
+	
 	
 	// 해당 Plan의 모든 Location 리스트 가져오기
 	public List<Location> getLocationList(Plan plan){
@@ -110,50 +110,50 @@ public class TimetableServiceImpl implements TimetableService{
 		List<Timetable> ttbList = new ArrayList<>();
 		
 		// Map에 대한 반복문
+		// 완성된 타임테이블 객체 리스트에 삽입
 		for(Timetable ttb: ttbLoc.keySet()) {
-			// 이미 존재하는 location 정보가 있는지 확인  
+			// 해당 타임테이블이 가지고 있는 위치정보에 대한 loc_idx 조회  
 			int loc_idx = ttbDao.selectLocationIdx(ttbLoc.get(ttb));
+			// 이미 존재하는 location 존재 유무 확인
+			if(loc_idx < 0) {  // 존재하지 않으면 -1 반환
+				// 기존에 저장된 위치 정보가 없으면 Location 삽입
+				ttbDao.insertLocation(ttbLoc.get(ttb));
+				// 삽입 후 loc_idx 다시 조회
+				loc_idx = ttbDao.selectLocationIdx(ttbLoc.get(ttb));
+			}
 			
+			// plan_idx 삽입
+			ttb.setPlan_idx(plan.getPlan_idx());
+			// loc_idx 삽입
+			ttb.setLoc_idx(loc_idx);
 			
+			// List에 완성된 타임테이블 객체들 넣어줌
+			ttbList.add(ttb);
 		}
 
-		
-		
-		
-		
-			// Location 객체 얻기 (= loc_idx 얻기) 
-//			if(ttbDao.selectLocationIdx(new Location()).getIdx() == 0) {
-//				// 일치하는 location이 없으면 삽입
-//				ttbDao.insertLocation(Location);
-//			}
-//			// idx 값 받기
-//			loc_idx = selectLocationIdx(new Location());
-			
-			// plan_idx, loc_idx set해주기
-		
-		return null;
+		return ttbList;
 	}
 	
 	// 타임테이블 정보 저장하기
 	public void write(Plan plan, Map<Timetable, Location> ttbLoc) {
 		List<Timetable> ttList= getCompletedTimetable(plan, ttbLoc);
 		
-		ttbDao.insertTimetable(ttList);
+//		ttbDao.insertTimetable(ttList);
 	}
 	
 	// 타임테이블 정보 저장하기(수정)
 	public void update(Plan plan, Map<Timetable, Location> ttbLoc) {
 		List<Timetable> ttbList= getCompletedTimetable(plan, ttbLoc);
-		List<Location> locList = new ArrayList<Location>(ttbLoc.values());
-
-		//ttbDao.updateTimetable(ttList);
+		
+		System.out.println(ttbList);
+		
 		// 기존에 있던 타임테이블 모두 삭제
 		ttbDao.deleteTimetable(plan);
-		// 새로 받은 타임테이블 저장
-		ttbDao.insertTimetable(ttbList);
 		
-		// 위치정보 저장
-		ttbDao.insertLocation(locList);
+		for(Timetable ttb: ttbList) {
+			// 새로 받은 타임테이블 저장
+			ttbDao.insertTimetable(ttb);
+		}
 	}
 
 	// 타임테이블 정보 삭제하기

@@ -59,35 +59,35 @@ public class ReceiveTestController extends HttpServlet {
 		}
 	
 		//-------------------- DB에 있는정보 뿌려주기-----------------------------
-		List<Timetable> ttbList = new ArrayList<Timetable>() ;
-		List<Location> locList = new ArrayList<Location>();
-		for(int i = 0 ; i<list.size(); i++) {
-			Timetable ttb = new Timetable();
-			ttb.setStart_time(objs[i].getStart_time());
-			ttb.setEnd_time(objs[i].getEnd_time());
-			ttb.setLoc_idx(1);
-			
-			Location loc = new Location();
-			loc.setLoc_idx(1);
-			loc.setAddress(objs[i].getAddress());
-			loc.setPlace_name(objs[i].getPlace_name());
-			
-			ttbList.add(ttb);
-			locList.add(loc);
-		}
-		
-		// dto -> json
-		String ttbListStr = gson.toJson(ttbList);
-		String locListStr = gson.toJson(locList);
-		
-		// test-log
-		System.out.println(ttbListStr);
-		System.out.println(locListStr);
-		
-		req.setAttribute("ttbList", ttbListStr);
-		req.setAttribute("locList", locListStr);
-		
-		req.getRequestDispatcher("/plan/timetable/timetable_recv.jsp").forward(req, resp);
+//		List<Timetable> ttbList = new ArrayList<Timetable>() ;
+//		List<Location> locList = new ArrayList<Location>();
+//		for(int i = 0 ; i<list.size(); i++) {
+//			Timetable ttb = new Timetable();
+//			ttb.setStart_time(objs[i].getStart_time());
+//			ttb.setEnd_time(objs[i].getEnd_time());
+//			ttb.setLoc_idx(1);
+//			
+//			Location loc = new Location();
+//			loc.setLoc_idx(1);
+//			loc.setAddress(objs[i].getAddress());
+//			loc.setPlace_name(objs[i].getPlace_name());
+//			
+//			ttbList.add(ttb);
+//			locList.add(loc);
+//		}
+//		
+//		// dto -> json
+//		String ttbListStr = gson.toJson(ttbList);
+//		String locListStr = gson.toJson(locList);
+//		
+//		// test-log
+//		System.out.println(ttbListStr);
+//		System.out.println(locListStr);
+//		
+//		req.setAttribute("ttbList", ttbListStr);
+//		req.setAttribute("locList", locListStr);
+//		
+//		req.getRequestDispatcher("/plan/timetable/timetable_recv.jsp").forward(req, resp);
 		
 	}
 }
