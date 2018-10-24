@@ -116,6 +116,7 @@ function initFullCalendar(planStartDate, planEndDate, timetables){
 		}
 		// 이벤트 클릭 시 콜백함수
 		, eventClick: function(calEvent, jsEvent, view) {
+			console.log(calEvent);
 			// 지도 뷰 바꿔주기 - 선택한 타임테이블과 같은 날에 있는 모든 일정들의 좌표로
 			var timetables = getTimetablesFromBrowser();
 			viewMap(calEvent, timetables);
@@ -163,7 +164,8 @@ function getTimetablesFromBrowser(){
 		// timetable json 생성
 //		console.log(event);
 		var timetable = {
-				title: event.title
+				id: event.id
+				, title: event.title
 				, address: event.address
 				, start: event.start.format("YYYY-MM-DD HH:mm")
 				, end: event.end.format("YYYY-MM-DD HH:mm")
@@ -188,7 +190,8 @@ function getTimetablesFromServer(){
 	
 	for(var i = 0; i<ttbList.length; i++){
 		var timetable = {
-			title: locList[i].place_name
+			id: ttbList[i].ttb_idx
+			, title: locList[i].place_name
 			, start: ttbList[i].start_time
 			, end: ttbList[i].end_time
 			, lat: locList[i].lat
