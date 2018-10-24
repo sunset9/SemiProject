@@ -142,7 +142,12 @@ public class TimetableServiceImpl implements TimetableService{
 		
 		for(Timetable ttb: ttbList) {
 			// 새로 받은 타임테이블 저장
-			ttbDao.insertTimetable(ttb);
+			if(ttb.getTtb_idx()<0) { // 새로 추가된 타임테이블은 insert
+				ttbDao.insertTimetable(ttb);
+			} else {
+				ttbDao.updateTimetable(ttb);
+			}
+			
 		}
 	}
 

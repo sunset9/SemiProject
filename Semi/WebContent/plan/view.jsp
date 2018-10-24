@@ -162,8 +162,10 @@ function store(){
 	// form input 생성(넘겨줄 값)
 	events.forEach(function(event){ // 모든 리스트 돌면서 timetable json 하나씩 생성
 		// timetable json 생성
+		
 		var timetable = {
-				place_name: event.title
+				ttb_idx: event.id
+				, place_name: event.title
 				, address: event.address
 				, start_time: event.start.format("YYYY-MM-DD HH:mm") // 24시 형태
 				, end_time: event.end.format("YYYY-MM-DD HH:mm") // 24시 형태
@@ -188,7 +190,7 @@ function store(){
 	
 	// submit
 	console.log(timetables);
-	$("form").submit();
+	$("#ttbFrom").submit();
 }
 </script>
 
@@ -199,8 +201,6 @@ $(document).ready(function() {
 		document.getElementById("viewStory").style.display= "block";
 		document.getElementById("googleMap").style.display= "none";
 		document.getElementById("googleSearch").style.display= "none";
-		
-		
 		
 		//AJAX 처리하기
 		$.ajax({
@@ -290,7 +290,7 @@ $(document).ready(function() {
 		
 		<!-- 일정 저장 -->
 		<div id="menu" style="float:bottom;width:100%;border-radius:10px;">
-			<form action="/update/ttb" method="post">
+			<form action="/update/ttb" method="post" id="ttbFrom">
 				<input type="hidden" name="plan_idx" value="${planView.plan_idx }">
 				<input type="button" value="저장" onclick="store();" style="width:100%;">
 			</form>

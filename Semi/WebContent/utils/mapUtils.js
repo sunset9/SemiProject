@@ -224,7 +224,8 @@ function viewDetails(placeRes, status, prediction){
 		
 		// json data 설정
 		li.data('event', {
-			title: placeRes.name
+			id: -1 // 새로 추가한 요소는 id=-1
+			, title: placeRes.name
 			, address: placeRes.formatted_address
 			, lat: placeRes.geometry.location.lat()
 			, lng: placeRes.geometry.location.lng()
