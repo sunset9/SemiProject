@@ -34,7 +34,8 @@ public class UserUpdateController extends HttpServlet {
 	
 	@Override
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		
+		//한글 인코딩 
+		req.setCharacterEncoding("UTF-8");
 		
 		//요청 파라미터 처리
 		Map<String, String> param = userService.getParamUpdate(req, resp);
@@ -56,8 +57,11 @@ public class UserUpdateController extends HttpServlet {
 			//db에서 유저 정보 가져오기
 			User changedUser = userService.getUserByid(cUser);
 			System.out.println("닉네임 변경됨 : "+changedUser);
+			
+			req.getSession().setAttribute("user", changedUser);
 		}
 		
+		//비밀번호 변경
 		if(!(param.get("currPw").isEmpty() || param.get("newPw").isEmpty() || param.get("newPwCheck").isEmpty())) {
 			//회원정보수정폼에서 '현재 비밀번호', '새 비밀번호', '비밀번호 확인' 란이 모두 채워져있어야 수행됨
 			//System.out.println("다 채워져있다!!"); -> OK!!
@@ -69,6 +73,8 @@ public class UserUpdateController extends HttpServlet {
 				//db에 저장된 유저 정보 가져오기
 				User changedUser = userService.getUserByid(cUser);
 				System.out.println("비밀번호 변경됨. : "+changedUser);
+				
+				req.getSession().setAttribute("user", changedUser);
 			}
 		}
 		

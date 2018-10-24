@@ -55,14 +55,23 @@
 	<div class="tab">
 		<button onclick="openList('planList')">내 일정</button>
 		<button onclick="openList('bookmarkList')">북마크</button>
+		<button onclick="openList('inquiryList')">내 문의</button>
 	</div>
 	
 	<div id="planList" class="list">
-		여긴 일정 리스트
+		<c:forEach var="pList" items="${plannerList}">
+			<div>글 제목 :  ${pList.getTitle()}</div><br>
+		</c:forEach>
 	</div>
 	
 	<div id="bookmarkList" class="list" style="display:none">
-		여긴 북마크 리스트
+		<c:forEach var="bList" items="${bookMarkList}">
+			<div>북마크 :  ${bList}</div><br>
+		</c:forEach>
+	</div>
+	
+	<div id="inquiryList" class="list" style="display:none">
+		여긴 내 문의 리스트
 	</div>
 </div>
 </c:if>
@@ -100,6 +109,7 @@
 	<div class="tab">
 		<button onclick="openList('planList')">내 일정</button>
 		<button onclick="openList('bookmarkList')">북마크</button>
+		<button onclick="openList('inquiryList')">내 문의</button>
 	</div>
 	
 	<div id="planList" class="list">
@@ -108,6 +118,10 @@
 	
 	<div id="bookmarkList" class="list" style="display:none">
 		여긴 북마크 리스트
+	</div>
+	
+	<div id="inquiryList" class="list" style="display:none">
+		여긴 내 문의 리스트
 	</div>
 </div>
 </c:if>
