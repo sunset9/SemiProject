@@ -2,6 +2,7 @@ package dao.board;
 
 import java.util.List;
 
+import dto.board.Notice;
 import dto.board.NoticeFile;
 
 public class NoticeFileDaoImpl implements NoticeFileDao {
@@ -11,13 +12,6 @@ public class NoticeFileDaoImpl implements NoticeFileDao {
 		// TODO Auto-generated method stub
 		
 	}
-
-	@Override
-	public List<NoticeFile> list() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
 	@Override
 	public NoticeFile selectByFileno(int fileno) {
 		// TODO Auto-generated method stub
@@ -28,6 +22,12 @@ public class NoticeFileDaoImpl implements NoticeFileDao {
 	public void delete(NoticeFile file) {
 		// TODO Auto-generated method stub
 		
+	}
+
+	@Override
+	public NoticeFile selectFileByNotice_idx(Notice notice) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }
