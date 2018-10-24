@@ -9,7 +9,7 @@ function initMap() {
 	// 구글 맵 초기화
 	map = new google.maps.Map(document.getElementById('map'), {
 		zoom: 8, 
-		center: {lat: 37.525, lng: 126.970},
+		center: {lat: 37.4601908, lng: 126.4406956},
 		zoomControl: false,
 		mapTypeControl: false,
 		scaleControl: false,
@@ -55,7 +55,7 @@ function initSearchBox(){
 //Marker 리스트
 var markerList = [];
 // 경로
-var flightPath;
+var route;
 
 // timetable : 선택한 타임테이블
 // timetables : 현재 띄워져있는 모든 타임테이블
@@ -67,6 +67,7 @@ function viewMap(timetable, timetables){
 	var bounds  = new google.maps.LatLngBounds();
 	var minZoomLv = 16;
 	var diffDay = 0;
+	var isExistSameDayTtb = false;
 	
 	if(timetable!='all'){
 		var ttbStartDate = moment(timetable.start).format('YYYY-MM-DD');
@@ -79,11 +80,17 @@ function viewMap(timetable, timetables){
 			diffDay = getDiffDay(moment(ttb.start), ttbStartDate);
 		}
 		if(diffDay == 0){ 
+			isExistSameDayTtb = true;
 			var loc = new google.maps.LatLng(ttb.lat, ttb.lng);
 			locations.push(loc);
 		}
 	});
-	
+
+	// 같은 날에 타임테이블이 하나도 없는경우(= 어떤 날에 하나 남은 타임테이블을 삭제한 경우) 전체 일정 루트로 그려주기
+	if(!isExistSameDayTtb && timetable !='all'){
+		viewMap('all', timetables);
+		return;
+	}
 	// 마커 리스트 생성 & 확대 구역 설정
 	locations.forEach(function(loc){
 		var marker = new google.maps.Marker({position: loc, map: map});
@@ -104,15 +111,14 @@ function viewMap(timetable, timetables){
 	}
 	
 	// 경로 그리기
-	flightPath = new google.maps.Polyline({
+	route = new google.maps.Polyline({
 		path: locations,
-		geodesic: true,
 		strokeColor: '#FF0000',
 		strokeOpacity: 1.0,
 		strokeWeight: 2
 	});
 	
-	flightPath.setMap(map);
+	route.setMap(map);
 }
 
 // 기존 마커 모두 삭제
@@ -120,8 +126,8 @@ function removeMarkerAll(){
 	for (var i = 0; i < markerList.length; i++) {
 		markerList[i].setMap(null);
 	}
-	if(flightPath!=null){
-		flightPath.setMap(null);
+	if(route!=null){
+		route.setMap(null);
 	}
 }
 

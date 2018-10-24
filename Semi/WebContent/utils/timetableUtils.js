@@ -177,6 +177,9 @@ function getTimetablesFromBrowser(){
 		timetables.push(timetable);
 	});
 	
+	// timetables 시작 날짜 기준으로 오름차순 정렬
+	timetables = getSortedTtb(timetables);
+	
 	return timetables;
 }
 
@@ -203,6 +206,19 @@ function getTimetablesFromServer(){
 		
 		timetables.push(timetable);
 	}
+	
+	// timetables 시작 날짜 기준으로 오름차순 정렬
+	timetables = getSortedTtb(timetables);
+	
+	return timetables;
+}
+
+//timetables 시작 날짜 기준으로 오름차순 정렬
+function getSortedTtb(timetables){
+	timetables.sort(function(a,b){
+		if(a.start < b.start) return -1;
+		if(a.start > b.start) return 1;
+	});
 	
 	return timetables;
 }
