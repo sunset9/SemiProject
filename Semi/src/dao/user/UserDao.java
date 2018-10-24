@@ -1,5 +1,9 @@
 package dao.user;
 
+import java.util.List;
+
+import dto.plan.Plan;
+import dto.user.Bookmark;
 import dto.user.User;
 
 public interface UserDao {
@@ -36,4 +40,10 @@ public interface UserDao {
 	
 	//비밀번호 수정
 	public void changePw(User user);
+	
+	//내 일정 가져오기
+	public List<Plan> getPlanner(User user);
+	
+	//내 북마크 가져오기 
+	public List<Bookmark> getBookmarkList(User user);
 }

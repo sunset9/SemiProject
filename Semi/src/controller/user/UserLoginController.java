@@ -54,7 +54,7 @@ public class UserLoginController extends HttpServlet {
 			session.setAttribute("login", login);
 			session.setAttribute("user", user);
 		
-			session.setMaxInactiveInterval(60*300); //5시간 
+			
 			
 			resp.setHeader("Cache-Controll", "no-cache");
 			
