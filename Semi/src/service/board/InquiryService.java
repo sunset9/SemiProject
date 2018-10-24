@@ -31,6 +31,9 @@ public interface InquiryService {
 	// 파라미터 얻어오기 
 	public Inquiry getParam (HttpServletRequest req, HttpServletResponse resp);
 	
+	// 상세보기에서 관련된 첨부파일 조회
+	public InqFile viewFile(Inquiry inq);
+
 	// 문의사항 쓰기 
 	// 게시글 내용과 첨부파일을 함께 업로드
 	public void write(HttpServletRequest req);
@@ -41,8 +44,6 @@ public interface InquiryService {
 	// 문의사항 삭제 
 	public void delete(Inquiry inq);
 	
-	// 상세보기에서 관련된 첨부파일 조회
-	public InqFile viewFile(Inquiry inq);
 	
 	// 첨부파일 추가
 	public void insertFile(InqFile file);
