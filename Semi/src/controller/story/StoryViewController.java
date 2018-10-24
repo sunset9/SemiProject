@@ -56,6 +56,7 @@ public class StoryViewController extends HttpServlet {
 		
 		// 플랜번호로 스토리조회
 		StoryList=sService.getStoryList(plan);
+    
 		//여행기간 계산 클래스 
 		CalcDate calcDate = new CalcDate();
 		

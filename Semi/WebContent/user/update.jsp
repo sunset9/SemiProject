@@ -21,6 +21,17 @@
 	});
 </script>
 
+<script type="text/javascript">
+function deleteCheck(){
+	var message = confirm("정말로 탈퇴하시겠습니까?");
+	if(message == true){
+		location.href="/user/delete";
+	}else {
+		return false;
+	}
+}
+</script>
+
 <style type="text/css">
 #wrap {
 	width: 580px;
@@ -83,7 +94,7 @@
 		<button type="submit">저장하기</button>
 	</div>
 </form>
-<button>회원탈퇴하기</button>
+<button onclick="deleteCheck();">회원탈퇴하기</button>
 </div>
 </c:if>
 
@@ -91,13 +102,13 @@
 <!-- 소셜로그인한 유저의 정보수정 -->
 <c:if test="${socialUser.sns_idx != 1 && user.sns_idx != 1}">
 <div id="wrap">
-<form action="/user/update" method="post">
+<form action="/socialUser/update" method="post">
 	<div id="header"><h2>프로필 수정</h2></div>
 	<hr>
 	<div id="container">
 		<div id="left">
 			<label>아이디 : </label>
-			<input type="text" name="userid" value="${socialUser.id}" disabled/><br>
+			<input type="text" name="userid" value="${socialUser.id}" readonly/><br>
 			<label>내등급 : </label>
 			<input type="text" name="grade" value="${socialUser.grade}" disabled/><br>
 			<label>닉네임 : </label>
@@ -113,7 +124,7 @@
 		<button type="submit">저장하기</button>
 	</div>
 </form>
-<button>회원탈퇴하기</button>
+<button onclick="deleteCheck();">회원탈퇴하기</button>
 </div>
 </c:if>
 </body>

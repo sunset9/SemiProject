@@ -18,7 +18,6 @@ import dto.story.Story;
 import service.plan.PlanService;
 import service.stroy.StoryService;
 import service.stroy.StoryServiceImpl;
-import sun.java2d.pipe.SpanShapeRenderer.Simple;
 import utils.CalcDate;
 import utils.DBConn;
 
@@ -112,7 +111,41 @@ public class StoryDaoImpl implements StoryDao{
 
 	@Override
 	public void insert(Story story) {
-		// TODO Auto-generated method stub
+		String sql = "";
+		sql += "INSERT INTO STORY(story_idx, plan_idx, ttb_idx, user_idx, content)";
+		sql	+= " VALUES(?,?,?,?,?)";
+		
+		try {
+			ps = conn.prepareStatement(sql);
+			
+			String content = story.getContent();
+			
+			ps.setInt(1,story.getStory_idx());
+			ps.setInt(2,story.getPlan_idx());
+			ps.setInt(3,story.getTtb_idx());
+			ps.setInt(4,story.getUser_idx());
+			ps.setString(5, content);
+			
+			ps.executeUpdate();
+			
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}finally {
+				try {
+					if(ps != null) {
+						ps.close();
+					}
+					
+					if(rs != null){
+						rs.close();
+					}
+				} catch (SQLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+	
+		}
 		
 	}
 

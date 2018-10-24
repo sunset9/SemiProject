@@ -8,6 +8,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import dto.story.Story;
 import service.plan.PlanService;
 import service.plan.PlanServiceImpl;
 import service.stroy.StoryService;
@@ -26,6 +27,14 @@ public class StoryWriteController extends HttpServlet {
 	}
 	@Override
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+	   StoryService sService = new StoryServiceImpl();
+		
+		Story story = new Story();
+		
+		story = sService.getParam(req);
+		
+		sService.write(story);
+	
 	}
 }
 

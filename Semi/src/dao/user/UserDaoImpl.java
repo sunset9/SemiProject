@@ -4,22 +4,34 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 import utils.DBConn;
+import dto.plan.Plan;
+import dto.user.Bookmark;
 import dto.user.User;
 
 public class UserDaoImpl implements UserDao{
 
 	private Connection conn = DBConn.getConnection();
 	
+	//update&insert&delete 는 커밋 추가!!
+	
+	
+	
+	
 	//userid & userpw로 유저 조회 
 	//존재하는 유저면 1 반환
 	@Override
 	public int selecCntUserByUseridAndUserpw(User user) {
 		
+		System.out.println("selecCntUserByUseridAndUserpw : "+user.getId());
+		System.out.println("selecCntUserByUseridAndUserpw : "+user.getPassword());
+		
 		String sql = "";
-		sql += "SELECT COUNT(*) FROM userinfo";
+		sql += "SELECT COUNT(*) FROM USERINFO";
 		sql += " WHERE 1=1";
 		if( user.getId() != null && user.getPassword() != null ) {
 			sql += " AND id = ?";
@@ -38,6 +50,7 @@ public class UserDaoImpl implements UserDao{
 			if( user.getId() != null && user.getPassword() != null ) {
 				ps.setString(1, user.getId());
 				ps.setString(2, user.getPassword());
+//				System.out.println("selecCntUserByUseridAndUserpw is not null");
 			}
 			rs = ps.executeQuery();
 			
@@ -177,8 +190,10 @@ public class UserDaoImpl implements UserDao{
 		try {
 			ps = conn.prepareStatement(sql);
 			ps.setString(1, user.getId());
-			System.out.println(user.getId());
+			System.out.println("dao delete() : "+user.getId());
 			ps.executeUpdate();
+			
+			conn.commit();
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -254,6 +269,8 @@ public class UserDaoImpl implements UserDao{
 			ps.setString(3, user.getId());
 			
 		    ps.executeUpdate();
+		    
+		    conn.commit();
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -340,6 +357,7 @@ public class UserDaoImpl implements UserDao{
 
 		    ps.executeUpdate();
 
+		    conn.commit();
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -374,6 +392,7 @@ public class UserDaoImpl implements UserDao{
 
 			ps.executeUpdate();
 
+			conn.commit();
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -386,6 +405,110 @@ public class UserDaoImpl implements UserDao{
 				e.printStackTrace();
 			}
 		}
+	}
+
+	//내 일정 가져오기 
+	@Override
+	public List<Plan> getPlanner(User user) {
+		
+		String sql = "";
+		sql += "SELECT p.PLAN_IDX, p.USER_IDX, p.START_DATE, p.END_DATE, p.TITLE, p.TRAVELED, p.OPENED, p.DISTANCE, p.CREATE_DATE";
+		sql += " FROM USERINFO u JOIN PLANNER p";
+		sql += " ON u.user_idx = p.user_idx";
+		sql += " WHERE u.user_idx = ?";
+		
+		//DB 객체
+		PreparedStatement ps = null;
+		ResultSet rs = null;	
+		List<Plan> list = null;
+		
+		try {
+			//DB 작업
+			ps = conn.prepareStatement(sql);			
+			ps.setInt(1, user.getUser_idx());
+			rs = ps.executeQuery();
+			
+			list = new ArrayList<>();
+			
+			while(rs.next()) {
+				Plan plan = new Plan();
+				
+				plan.setPlan_idx(rs.getInt("PLAN_IDX"));
+				plan.setUser_idx(rs.getInt("USER_IDX"));
+				plan.setStart_date(rs.getDate("START_DATE"));
+				plan.setEnd_date(rs.getDate("END_DATE"));
+				plan.setTitle(rs.getString("TITLE"));
+				plan.setTraveled(rs.getInt("TRAVELED"));
+				plan.setOpened(rs.getInt("OPENED"));
+				plan.setDistance(rs.getInt("DISTANCE"));
+				plan.setCreate_date(rs.getDate("CREATE_DATE"));
+				//System.out.println("userDao plan : "+plan);
+				
+				list.add(plan);
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			try {
+				if(rs!=null)	rs.close();
+				if(ps!=null)	ps.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+		
+		return list;
+	}
+
+	
+	//내 북마크 가져오기 
+	@Override
+	public List<Bookmark> getBookmarkList(User user) {
+//		System.out.println("userDao getbList 유저 넘어왔나? : "+user); -> OK
+		String sql = "";
+		sql += "SELECT b.BOOK_IDX, b.USER_IDX, b.PLAN_IDX, b.CREATE_DATE";
+		sql += " FROM USERINFO u JOIN BOOKMARK b";
+		sql += " ON u.USER_IDX = b.USER_IDX";
+		sql += " WHERE u.USER_IDX = ?";
+		
+		//DB 객체
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+		List<Bookmark> list = null;
+		
+		try {
+			//DB 작업
+			ps = conn.prepareStatement(sql);
+			ps.setInt(1, user.getUser_idx());
+			rs = ps.executeQuery();
+			
+			list = new ArrayList<>();
+
+			while (rs.next()) {
+				Bookmark bMark = new Bookmark();
+				
+				bMark.setBook_idx(rs.getInt("BOOK_IDX"));
+				bMark.setUser_idx(rs.getInt("USER_IDX"));
+				bMark.setPlan_idx(rs.getInt("PLAN_IDX"));
+				bMark.setCreate_date(rs.getDate("CREATE_DATE"));
+				
+				list.add(bMark);
+			}
+			
+			
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			try {
+				if(rs!=null)	rs.close();
+				if(ps!=null)	ps.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+		return list;
 	}
 
 }

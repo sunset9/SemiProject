@@ -31,11 +31,10 @@ public class UpdateTimetableCotroller extends HttpServlet {
 		
 		// 요청파라미터 -> Map 타입
 		Map<Timetable, Location> ttbLocParam = ttbService.getParam(req);
-		// test-log
-		System.out.println(ttbLocParam);
 		
 		// timetable, location 정보 업데이트
-//		ttbService.update(planParam, ttbLocParam);
+		ttbService.update(planParam, ttbLocParam);
 		
+		resp.sendRedirect("/plan");
 	}
 }

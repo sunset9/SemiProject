@@ -23,20 +23,39 @@ public class UserDeleteController extends HttpServlet {
 	
 	@Override
 		protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+		//현재 로그인한 유저 정보 가져오기
+		User user = (User) req.getSession().getAttribute("user");
+		User socialUser = (User) req.getSession().getAttribute("socialUser");
+		//System.out.println("deleteController : "+user);
+		//System.out.println("deleteController : "+socialUser);
+		
+		//유저 삭제 
+//		System.out.println(user != null);
+//		System.out.println(socialUser == null);
+		if(user!=null) {
+			userService.deleteUserByid(user);
+		}
+		if(socialUser!=null) {
+			userService.deleteUserByid(socialUser);
+		}
+		
+		//세션 삭제
+		req.getSession().invalidate();
+		
 		//뷰 지정	
-		req.getRequestDispatcher("/user/delete.jsp").forward(req, resp);
+		req.getRequestDispatcher("/main").forward(req, resp);
+		
+		
 		}
 	
 	@Override
 		protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-			// User user = (User) req.getSession().getAttribute(null);
-			//System.out.println(user);
 		
-			userService.deleteUserByid(user);
+			//userService.deleteUserByid(user);
 			
-			req.getSession().invalidate();
+			//req.getSession().invalidate();
 			
-			resp.sendRedirect("/main");
+			//resp.sendRedirect("/main");
 		
 		}
 }

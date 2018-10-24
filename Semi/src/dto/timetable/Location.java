@@ -8,9 +8,9 @@ public class Location {
 //	장소 이름
 	private String place_name;
 //	위도
-	private float lat;
+	private double lat;
 //	경도
-	private float lng;
+	private double lng;
 //	장소 주소
 	private String address;
 	
@@ -18,15 +18,10 @@ public class Location {
 	
 	private String place_id;
 	
-	private Date start_time; // DB테이블엔 없는 컬럼, Timetable에 있는 정보
-	
-	private Date end_time; // DB테이블엔 없는 컬럼, Timetable에 있는 정보
-
 	@Override
 	public String toString() {
 		return "Location [loc_idx=" + loc_idx + ", place_name=" + place_name + ", lat=" + lat + ", lng=" + lng
-				+ ", address=" + address + ", photo_url=" + photo_url + ", place_id=" + place_id + ", start_time="
-				+ start_time + ", end_time=" + end_time + "]";
+				+ ", address=" + address + ", photo_url=" + photo_url + ", place_id=" + place_id + "]";
 	}
 
 	public int getLoc_idx() {
@@ -45,19 +40,19 @@ public class Location {
 		this.place_name = place_name;
 	}
 
-	public float getLat() {
+	public double getLat() {
 		return lat;
 	}
 
-	public void setLat(float lat) {
+	public void setLat(double lat) {
 		this.lat = lat;
 	}
 
-	public float getLng() {
+	public double getLng() {
 		return lng;
 	}
 
-	public void setLng(float lng) {
+	public void setLng(double lng) {
 		this.lng = lng;
 	}
 
@@ -85,23 +80,6 @@ public class Location {
 		this.place_id = place_id;
 	}
 
-	public Date getStart_time() {
-		return start_time;
-	}
-
-	public void setStart_time(Date start_time) {
-		this.start_time = start_time;
-	}
-
-	public Date getEnd_time() {
-		return end_time;
-	}
-
-	public void setEnd_time(Date end_time) {
-		this.end_time = end_time;
-	}
-	
-	
 	
 
 }

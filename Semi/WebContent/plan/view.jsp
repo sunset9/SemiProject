@@ -5,16 +5,7 @@
 
 <jsp:include page="../layout/headerWithMenu.jsp" />
 
-<!-- fullcalendar -->
-<link rel='stylesheet' href='/resources/timetable/fullcalendar/fullcalendar.css' />
-<link href='/resources/timetable/fullcalendar/fullcalendar.print.css' rel='stylesheet' media='print' />
-
-<script type="text/javascript" src='/resources/timetable/moment.min.js'></script>
-<script type="text/javascript" src="/resources/timetable/fullcalendar/fullcalendar.js"></script>
-<script type="text/javascript" src="/resources/timetable/fullcalendar/scheduler.min.js"></script>
-<script src='/resources/timetable/fullcalendar/locale-all.js'></script>
-
-<!-- 개인 utils -->
+<!-- timetable utils -->
 <script type="text/javascript" src="/utils/timetableUtils.js"></script>
 <script type="text/javascript" src="/utils/mapUtils.js"></script>
 
@@ -144,18 +135,15 @@
 <script>
 
 // 서버에서 넘어온 일정의 시작, 끝 날짜 정보
-// var planStartDate = '${startDate}';
-// var planEndDate = '${endDate}';
-var planStartDate = '2018-04-17';
-var planEndDate = '2018-04-21';
-	
+var planStartDate = '${planView.start_date}';
+var planEndDate = '${planView.end_date}';
+// 서버에서 넘어온 timetable, location 정보들
+var ttbList = ${ttbList };
+var locList = ${locList };
+
 $(document).ready(function(){
 	// 뿌려줄 timetable 리스트 가져오기
 	var timetables = getTimetablesFromServer();
-	
-	// test-log
-// 	console.log("recv측. 받은 events목록");
-// 	console.log(timetables);
 	
 	// 브라우저에 timetable 그려주기
 	initFullCalendar(planStartDate, planEndDate, timetables);
@@ -163,32 +151,6 @@ $(document).ready(function(){
 });
 </script>
 <script>
-//서버로부터 받은 timetable, location JSON리스트 필요한 정보만 파싱
-function getTimetablesFromServer(){
-	var timetables=[];
-	
-// 	var ttbList = ${ttbList };
-// 	var locList = ${locList };
-	var ttbList = [];
-	var locList = [];
-
-
-	for(var i = 0; i<ttbList.length; i++){
-		var timetable = {
-			title: locList[i].place_name
-			, start: ttbList[i].start_time
-			, end: ttbList[i].end_time
-			, lat: locList[i].lat
-			, lng: locList[i].lng
-			, address: locList[i].address
-		}
-		
-		timetables.push(timetable);
-	}
-	
-	return timetables;
-}
-
 //저장하기
 function store(){
 	// 캘린더에 있는 모든 이벤트 정보 가져오기
@@ -329,7 +291,7 @@ $(document).ready(function() {
 		<!-- 일정 저장 -->
 		<div id="menu" style="float:bottom;width:100%;border-radius:10px;">
 			<form action="/update/ttb" method="post">
-				<input type="hidden" name="plan_idx" value="1">
+				<input type="hidden" name="plan_idx" value="${planView.plan_idx }">
 				<input type="button" value="저장" onclick="store();" style="width:100%;">
 			</form>
 		</div><br>

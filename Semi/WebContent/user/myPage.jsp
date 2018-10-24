@@ -1,9 +1,11 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-
-<jsp:include page="../layout/headerWithMenu.jsp" />
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
+<jsp:include page="../layout/headerWithMenu.jsp" />
+
+
+
+
 
 <style type="text/css">
 
@@ -53,14 +55,23 @@
 	<div class="tab">
 		<button onclick="openList('planList')">내 일정</button>
 		<button onclick="openList('bookmarkList')">북마크</button>
+		<button onclick="openList('inquiryList')">내 문의</button>
 	</div>
 	
 	<div id="planList" class="list">
-		여긴 일정 리스트
+		<c:forEach var="pList" items="${plannerList}">
+			<div>글 제목 :  ${pList.getTitle()}</div><br>
+		</c:forEach>
 	</div>
 	
 	<div id="bookmarkList" class="list" style="display:none">
-		여긴 북마크 리스트
+		<c:forEach var="bList" items="${bookMarkList}">
+			<div>북마크 :  ${bList}</div><br>
+		</c:forEach>
+	</div>
+	
+	<div id="inquiryList" class="list" style="display:none">
+		여긴 내 문의 리스트
 	</div>
 </div>
 </c:if>
@@ -75,7 +86,7 @@
 			<img src="${socialUser.profile}" style="border-radius:70px; width:100px;">
 		</div>
 		<div class="updateBtn">
-			<button onclick='location.href="/user/update";'>정보수정</button>	
+			<button onclick='location.href="/socialUser/update";'>정보수정</button>	
 		</div>
 	</div>
 	
@@ -98,6 +109,7 @@
 	<div class="tab">
 		<button onclick="openList('planList')">내 일정</button>
 		<button onclick="openList('bookmarkList')">북마크</button>
+		<button onclick="openList('inquiryList')">내 문의</button>
 	</div>
 	
 	<div id="planList" class="list">
@@ -106,6 +118,10 @@
 	
 	<div id="bookmarkList" class="list" style="display:none">
 		여긴 북마크 리스트
+	</div>
+	
+	<div id="inquiryList" class="list" style="display:none">
+		여긴 내 문의 리스트
 	</div>
 </div>
 </c:if>

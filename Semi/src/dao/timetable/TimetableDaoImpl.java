@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -20,10 +21,10 @@ public class TimetableDaoImpl implements TimetableDao{
 	
 	// plan_idx에 해당하는 모든 Timetable 조회 
 	public List<Timetable> selectTimetableList(Plan plan) {
+		List<Timetable> listRes = new ArrayList<>();
 		String sql = "SELECT ttb_idx, plan_idx, loc_idx, start_time, end_time FROM timetable"
 				+ " WHERE plan_idx = ?"
 				+ " ORDER BY ttb_idx";
-		List<Timetable> listRes = new ArrayList<>();
 		
 		try {
 			ps = conn.prepareStatement(sql);
@@ -58,12 +59,12 @@ public class TimetableDaoImpl implements TimetableDao{
 	
 	// plan_idx에 해당하는 모든 Timetable의 Location 정보 조회
 	public List<Location> selectLocationList(Plan plan) {
-		String sql = "SELECT l.loc_idx, l.place_name, l.lat, l.lng, l.address, l.create_date FROM location l"
+		List<Location> listRes = new ArrayList<>();
+		String sql = "SELECT l.loc_idx, l.place_name, l.lat, l.lng, l.address, l.photo_url, l.place_id FROM location l"
 				+ " RIGHT JOIN timetable t"
 				+ " ON t.loc_idx = l.loc_idx"
 				+ " WHERE t.plan_idx = ?"
 				+ " ORDER BY ttb_idx";
-		List<Location> listRes = new ArrayList<>();
 		
 		try {
 			ps = conn.prepareStatement(sql);
@@ -79,6 +80,8 @@ public class TimetableDaoImpl implements TimetableDao{
 				loc.setLat(rs.getFloat("lat"));
 				loc.setLng(rs.getFloat("lng"));
 				loc.setAddress(rs.getString("address"));
+				loc.setPhoto_url(rs.getString("photo_url"));
+				loc.setPlace_id(rs.getString("place_id"));
 				
 				listRes.add(loc);
 			}
@@ -101,19 +104,85 @@ public class TimetableDaoImpl implements TimetableDao{
 		return null;
 	}
 
-	// 타임테이블 List - 반복문 돌면서 저장
-	public void insertTimetable(List<Timetable> timetableList) {
-		
+	// 타임테이블 삽입
+	public void insertTimetable(Timetable ttb) {
+		String sql = "INSERT INTO timetable(ttb_idx, plan_idx, loc_idx, start_time, end_time)"
+				+ " VALUES(timetable_seq.nextval, ?, ?"
+				+ ", TO_DATE(?, 'yyyy/mm/dd hh24:mi')"
+				+ ", TO_DATE(?, 'yyyy/mm/dd hh24:mi')"
+				+ " )";
+
+		try {
+			// 오토커밋 해제
+			conn.setAutoCommit(false);
+			
+			ps = conn.prepareStatement(sql);
+			ps.setInt(1, ttb.getPlan_idx());
+			ps.setInt(2, ttb.getLoc_idx());
+			ps.setString(3, new SimpleDateFormat("yyyy-MM-dd HH:mm").format(ttb.getStart_time()));
+			ps.setString(4, new SimpleDateFormat("yyyy-MM-dd HH:mm").format(ttb.getEnd_time()));
+			
+			ps.executeUpdate();
+			
+			conn.commit();
+			
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			try {
+				conn.rollback();
+			} catch (SQLException e1) {
+				e1.printStackTrace();
+			}
+		} finally {
+			try {
+				if(ps!=null) ps.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
 	}
 	
-	// 위치 정보 insert - 반복문 돌면서 저장
-	public void insertLocation(List<Location> locationList) {
+	// 위치 정보 삽입
+	public void insertLocation(Location loc) {
+		String sql = "INSERT INTO location(loc_idx, place_name, lat, lng, address, photo_url, place_id)"
+				+ " VALUES (location_seq.nextval, ?, ?, ?, ?, ?, ?)";
+		
+		try {
+			// 오토커밋 해제
+			conn.setAutoCommit(false);
+			
+			ps = conn.prepareStatement(sql);
+			ps.setString(1, loc.getPlace_name());
+			ps.setDouble(2, loc.getLat());
+			ps.setDouble(3, loc.getLng());
+			ps.setString(4, loc.getAddress());
+			ps.setString(5, loc.getPhoto_url());
+			ps.setString(6, loc.getPlace_id());
+			
+			ps.executeUpdate();
+			
+			conn.commit();
+		} catch (SQLException e) {
+			e.printStackTrace();
+			try {
+				conn.rollback();
+			} catch (SQLException e1) {
+				e1.printStackTrace();
+			}
+		} finally {
+			try {
+				if(ps!=null) ps.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
 	}
 	
 	// 만약 place_id 로 저장되어있는 위치정보가 있다면 해당 위치정보 컬럼의 idx반환
 	public int selectLocationIdx(Location location) {
 		int idx = -1;
-		String sql = "SELECT loc_idx FROM locaton"
+		String sql = "SELECT loc_idx FROM location"
 				+ " WHERE place_id = ?";
 		
 		try {
@@ -141,7 +210,32 @@ public class TimetableDaoImpl implements TimetableDao{
 	
 	// 타임테이블 삭제
 	public void deleteTimetable(Plan plan) {
+		String sql = "DELETE timetable"
+				+ " WHERE plan_idx=?";
 		
+		try {
+			conn.setAutoCommit(false);
+			
+			ps = conn.prepareStatement(sql);
+			ps.setInt(1, plan.getPlan_idx());
+			
+			ps.executeUpdate();
+			
+			conn.commit();
+		} catch (SQLException e) {
+			e.printStackTrace();
+			try {
+				conn.rollback();
+			} catch (SQLException e1) {
+				e1.printStackTrace();
+			}
+		} finally {
+			try {
+				if(ps!=null) ps.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
 	}
 
 	// 타임테이블 넘버로 스토리 있는지 없는지 유무 
@@ -172,7 +266,7 @@ public class TimetableDaoImpl implements TimetableDao{
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		}finally {
+		} finally {
 			try {
 				if(ps!=null) ps.close();
 				if(rs!=null) rs.close();
@@ -180,8 +274,6 @@ public class TimetableDaoImpl implements TimetableDao{
 				e.printStackTrace();
 			}
 		}
-		
-		
 		
 		return Is;
 	}
@@ -258,7 +350,6 @@ public class TimetableDaoImpl implements TimetableDao{
 				e.printStackTrace();
 			}
 		}
-		
 		
 		return place_name;
 	}

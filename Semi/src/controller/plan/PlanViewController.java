@@ -1,7 +1,6 @@
 package controller.plan;
 
-import java.io.IOException; 
-
+import java.io.IOException;
 import java.util.List;
 
 import javax.servlet.ServletException;
@@ -10,10 +9,11 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+
 import dto.Account.Account;
 import dto.plan.Plan;
-import dto.story.Comment;
-import dto.story.Story;
 import dto.timetable.Location;
 import dto.timetable.Timetable;
 import dto.user.User;
@@ -29,11 +29,15 @@ public class PlanViewController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
 	PlanService pService = new PlanServiceImpl();
-	TimetableService ttService = new TimetableServiceImpl();
+	TimetableService ttbService = new TimetableServiceImpl();
 	StoryService sService = new StoryServiceImpl();
 	
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+		GsonBuilder gsonBuilder = new GsonBuilder();
+        gsonBuilder.setDateFormat("yyyy-MM-dd HH:mm");
+        Gson gson = gsonBuilder.create();
+        
 		// 요청파라미터(plan_idx) -> Plan 모델 
 		// param을 받아와야 함
 		Plan param = pService.getParam(req);
@@ -48,11 +52,25 @@ public class PlanViewController extends HttpServlet {
 		//userView MODEL 전달
 		req.setAttribute("userView", userView);
 		
-		// 타임테이블 리스트 가져오기
-		//List<Timetable> timetableList = ttService.getTimetableList(plan);
 		
-		// 장소정보(타임테이블에 등록한) 리스트 가져오기
-		//List<Location> locList = ttService.getLocationList(plan);
+		// timetable, location 리스트 받기
+		List<Timetable> ttbList = ttbService.getTimetableList(planView);
+		List<Location> locList = ttbService.getLocationList(planView);
+		
+		// timetable 과 location이 1:1 대응하지 않는 경우 (DB데이터 문제)
+		if(ttbList.size() != locList.size()) {
+			System.out.println("[ERR] 타임테이블과 위치정보의 개수가 일치하지 않습니다.");
+			return;
+		}
+		
+		// JSON 형태로 변환
+		String ttbListStr = gson.toJson(ttbList);
+		String locListStr = gson.toJson(locList);
+		
+		// 파라미터 지정
+		req.setAttribute("ttbList", ttbListStr);
+		req.setAttribute("locList", locListStr);
+		
 		
 		// 스토리 리스트 가져오기
 		//List<Story> storyList = sService.getStoryList(plan);

@@ -10,6 +10,8 @@ import javax.servlet.http.HttpServletResponse;
 
 import dao.user.UserDao;
 import dao.user.UserDaoImpl;
+import dto.plan.Plan;
+import dto.user.Bookmark;
 import dto.user.User;
 
 public class UserServiceImpl implements UserService {
@@ -162,9 +164,26 @@ public class UserServiceImpl implements UserService {
 		
 		user.setId(param.get("userid"));
 		user.setPassword(param.get("newPw"));
+
+		//param의 newPw와 newPwCheck 값 비교
+		//같으면 비번 변경
+		if( param.get("newPw").equals(param.get("newPwCheck"))) {
+			userDao.changePw(user);			
+		}
 		
-		userDao.changePw(user);
 		
+	}
+
+	//내 일정 가져오기
+	@Override
+	public List<Plan> getPlanner(User user) {
+		return userDao.getPlanner(user);
+	}
+
+	//내 북마크 가져오기
+	@Override
+	public List<Bookmark> getBookmarkList(User user) {
+		return userDao.getBookmarkList(user);
 	}
 
 

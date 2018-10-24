@@ -58,4 +58,7 @@ public interface InquiryService {
 	
 	// 댓글 추가하기 
 	public void insertRepley(Reply reply);
+	
+	// 댓글 삭제하기
+	public boolean deleteReply(Reply reply);
 }

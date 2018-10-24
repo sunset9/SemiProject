@@ -51,8 +51,15 @@ public class StoryServiceImpl implements StoryService {
 
 	@Override
 	public Story getParam(HttpServletRequest req) {
-		// TODO Auto-generated method stub
-		return null;
+		Story story = new Story();
+		
+		story.setPlan_idx(1);
+		story.setTtb_idx(1);
+		story.setUser_idx(1);
+		
+		story.setContent(req.getParameter("content"));
+		
+		return story;
 	}
 
 	@Override
@@ -81,7 +88,9 @@ public class StoryServiceImpl implements StoryService {
 
 	@Override
 	public void write(Story story) {
-		// TODO Auto-generated method stub
+		story.setStory_idx(storyDao.SelectStoryIdx());
+		
+		storyDao.insert(story);
 		
 	}
 

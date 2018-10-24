@@ -104,6 +104,10 @@ function initFullCalendar(planStartDate, planEndDate, timetables){
 			$("#btnRemove").on("click", function(){
 				// '_id'값으로 판별하여 삭제
 				$('#calendar').fullCalendar('removeEvents', event._id);
+				
+				// 지도 뷰 바꿔주기 
+				var timetables = getTimetablesFromBrowser();
+				viewMap(event, timetables);
 			});
 		}
 		, eventMouseout: function( event, jsEvent, view ){
@@ -126,7 +130,9 @@ function initFullCalendar(planStartDate, planEndDate, timetables){
 		}
 		// 다른 시간으로 일정 옮길때 호출
 		,eventDrop: function( event, delta, revertFunc, jsEvent, ui, view ){
-			console.log('eventDrop');
+			// 지도 뷰 바꿔주기 
+			var timetables = getTimetablesFromBrowser();
+			viewMap(event, timetables);
 		}
 		
 	}); // end $().fullCalendar() initMethod
@@ -147,6 +153,7 @@ function getDiffDay(ttbStartDate, planStartDate ){
 	return diffDay;
 }
 
+// 브라우저에 띄워진 모든 타임테이블 리스트 가져오기
 function getTimetablesFromBrowser(){
 	var events = $("#calendar").fullCalendar('clientEvents');
 	
@@ -154,7 +161,7 @@ function getTimetablesFromBrowser(){
 	
 	events.forEach(function(event){ // 모든 리스트 돌면서 timetable json 하나씩 생성
 		// timetable json 생성
-		console.log(event);
+//		console.log(event);
 		var timetable = {
 				title: event.title
 				, address: event.address
@@ -167,6 +174,32 @@ function getTimetablesFromBrowser(){
 	
 		timetables.push(timetable);
 	});
+	
+	return timetables;
+}
+
+//서버로부터 받은 timetable, location JSON리스트 필요한 정보만 파싱
+function getTimetablesFromServer(){
+	var timetables=[];
+	
+	console.log("---- 서버에서 받은 타임테이블 목록들(ttb, loc) ----")
+	console.log(ttbList);
+	console.log(locList);
+	
+	for(var i = 0; i<ttbList.length; i++){
+		var timetable = {
+			title: locList[i].place_name
+			, start: ttbList[i].start_time
+			, end: ttbList[i].end_time
+			, lat: locList[i].lat
+			, lng: locList[i].lng
+			, address: locList[i].address
+			, photo_url: locList[i].photo_url
+			, place_id: locList[i].place_id
+		}
+		
+		timetables.push(timetable);
+	}
 	
 	return timetables;
 }
