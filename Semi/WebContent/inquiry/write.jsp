@@ -27,20 +27,20 @@ $(document).ready(function () {
 
 <style type="text/css">
 #content {
-	width: 98%;
+	width: 99%;
 }
 </style>
 
 <div class="container">
 
-<h3>문의사항 쓰기</h3>
+<h2><strong>문의사항 쓰기</strong></h2>
 <hr>
 
 <div>
 <form action="/inquiry/write" method="post" enctype="multipart/form-data">
-<table>
-<tr><td class ="info">아이디</td><td>${userid}</td></tr>
-<tr><td class ="info">닉네임</td><td>${nickname }</td></tr>
+<table class="table table-bordered">
+<tr><td class ="info">아이디</td><td>${user.id}</td></tr>
+<tr><td class ="info">닉네임</td><td>${user.nickname }</td></tr>
 <tr><td class ="info">제목</td><td><input type="text"name ="title" style="width:100%"/></td></tr>
 <tr><td colspan="2"><textarea id="content" name ="content"></textarea></td></tr>
 
@@ -53,8 +53,8 @@ $(document).ready(function () {
 </div>
 
 <div class="text-center">
-	<button type ="button" id ="btnWrite" >작성</button>
-	<button type ="button" id ="btnCancel" >취소</button>
+	<button type ="button" id ="btnWrite" class="btn btn-warning">작성</button>
+	<button type ="button" id ="btnCancel"  class="btn btn-danger">취소</button>
 </div>
 
 </div>
@@ -70,7 +70,7 @@ nhn.husky.EZCreator.createInIFrame({
 	htParams: {
 		bUseToolbar: true, //툴바 사용여부
 		bUseVerticalResizer: false, //입력창 크기 조절 바
-		bUseModeChanger: true //모드 탭
+		bUseModeChanger: false //모드 탭
 	}
 });
 

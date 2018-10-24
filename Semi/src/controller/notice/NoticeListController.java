@@ -24,30 +24,36 @@ public class NoticeListController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
 	private NoticeService noticeService = new NoticeServiceImpl();
-	private NoticeDao noticeDao = new NoticeDaoImpl();
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
-		//----- ÆäÀÌÂ¡ ÀÛ¾÷ -----
-		// ÇöÀç ÆäÀÌÁö ¹øÈ£ ¾ò±â
+		// í˜„ì¬ í˜ì´ì§€ ë²ˆí˜¸ ì–»ê¸° 
 		int curPage = noticeService.getCurPage(req);
 		
-		// ÆäÀÌÂ¡ °´Ã¼
-		int totalCount = noticeService.getTotalCount();
+		// ê²€ìƒ‰ì–´ ì–»ê¸° 
+		String search = noticeService.getSearch(req);
 		
+		
+		// ì „ì²´ í˜ì´ì§€ ì–»ì–´ì˜¤ê¸°
+		int totalCount = noticeService.getTotalCount(search);
+		
+		// í˜ì´ì§• ê°ì²´ ìƒì„±
 		Paging paging = new Paging(totalCount, curPage,10); 
 		
-		// List¿¡ Á¶È¸ °á°ú ´ã±â
+		// í˜ì´ì§• ê°ì²´ì— ê²€ìƒ‰ì–´ ì ìš©
+		paging.setSearch(search);
+		
+		// ê²Œì‹œê¸€ ëª©ë¡ MODELë¡œ ì¶”ê°€í•˜ê¸°
 		List<Notice> list = noticeService.getPagingList(paging);
 		
-		// ¿äÃ»¿¡ °á°ú ´ã¾Æ¼­ º¸³»±â
-		req.setAttribute("noticelist", list);
+		// ìš”ì²­ì— ë¦¬ìŠ¤íŠ¸ ë‹´ì•„ ë³´ë‚´ê¸°
+		req.setAttribute("noticeList", list);
 		
-		// ÆäÀÌÂ¡ °´Ã¼ ¸ğµ¨·Î Ãß°¡ ÇÏ±â
+		// í˜ì´ì§• ê°ì²´ ìš”ì²­ìœ¼ë¡œ ë³´ë‚´ê¸° 
 		req.setAttribute("paging", paging);
 		
-		// º¸¿©ÁÙ È­¸é ÁöÁ¤
-		req.getRequestDispatcher("").forward(req, resp);
+		// view í˜ì´ì§€ ì§€ì • 
+		req.getRequestDispatcher("/notice/list.jsp").forward(req, resp);
 		
 		
 	}

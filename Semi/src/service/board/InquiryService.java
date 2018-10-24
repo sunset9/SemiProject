@@ -59,6 +59,9 @@ public interface InquiryService {
 	// 댓글 추가하기 
 	public void insertRepley(Reply reply);
 	
+	// 댓글 추가되면 답변 예정 -> 답변 완료로 변경 하기 
+	public void answerOk(Reply reply);
+	
 	// 댓글 삭제하기
 	public boolean deleteReply(Reply reply);
 }

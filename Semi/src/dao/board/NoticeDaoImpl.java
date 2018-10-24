@@ -14,7 +14,7 @@ public class NoticeDaoImpl implements NoticeDao {
 	}
 
 	@Override
-	public int selectCntAll() {
+	public int selectCntAll(String search) {
 		// TODO Auto-generated method stub
 		return 0;
 	}

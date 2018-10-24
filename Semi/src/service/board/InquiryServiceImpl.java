@@ -176,7 +176,7 @@ public class InquiryServiceImpl implements InquiryService {
 					//로컬 저장소 파일
 					String stored = item.getName() + "_" + u;
 					File up = new File(
-						req.getServletContext().getRealPath("upload")
+						req.getServletContext().getRealPath("upload/inquiry")
 						, stored);
 					
 						
@@ -321,7 +321,7 @@ public class InquiryServiceImpl implements InquiryService {
 					
 					// 로컬 저장소 파일
 					String stored = item.getName()+"_"+u;
-					File up = new File(req.getServletContext().getRealPath("upload"),stored);
+					File up = new File(req.getServletContext().getRealPath("upload/inquiry"),stored);
 					
 					inqFile = new InqFile();
 					inqFile.setOrigin_name(item.getName());
@@ -346,7 +346,7 @@ public class InquiryServiceImpl implements InquiryService {
 		
 		if(inquiry !=null) {
 			inquiry.setInq_idx(inq_idx);
-			System.out.println("insert 호출 직전" + inquiry);
+//			System.out.println("insert 호출 직전" + inquiry);
 			inquiryDao.insert(inquiry);
 		}
 		if (inqFile != null) {
@@ -389,6 +389,12 @@ public class InquiryServiceImpl implements InquiryService {
 		}else {
 			return true;
 		}
+	}
+
+	@Override
+	public void answerOk(Reply reply) {
+//		System.out.println("answer 실행 쓰?");
+		replyDao.answerUpdate(reply);
 	}
 
 

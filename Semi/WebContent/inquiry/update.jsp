@@ -41,13 +41,13 @@ $(document).ready(function () {
 
 <div class="container">
 
-<h3>게시글 수정</h3>
+<h2><strong>게시글 수정</strong></h2>
 <hr>
 
 <div>
 <form action="/inquiry/update"  method="post" enctype="multipart/form-data">
 <input type="hidden" name = "inq_idx" value= "${inquiry.inq_idx }"/>
-<table> 
+<table class="table table-bordered"> 
 <tr><td class ="info">아이디</td><td>${userid }</td></tr>
 <tr><td class ="info">닉네임</td><td>${writerNick }</td></tr>
 <tr><td class ="info">제목</td><td><input type="text"  name ="title" style="width:100%" value="${inquiry.title }"/></td></tr>
@@ -60,17 +60,17 @@ $(document).ready(function () {
 <div id="fileSection"> 기존 첨부파일 : ${inqFile.origin_name }<button id ="fileDelete" type="button">삭제</button></div><br>
 </c:if>
 
-<%-- <c:if test="${inqFile.origin_name eq null}"> --%>
+<c:if test="${inqFile.origin_name eq null}">
 <label>첨부파일 : <input type="file" name="file" /></label>
-<%-- </c:if> --%>
+</c:if>
 
 </form>
 </div>
 
 
 <div class="text-center">	
-	<button type="button" id="btnUpdate" >수정</button>
-	<button type="button" id="btnCancel" >취소</button>
+	<button type="button" id="btnUpdate" class="btn btn-warning">수정</button>
+	<button type="button" id="btnCancel" class="btn btn-danger">취소</button>
 </div>
 </div>
 

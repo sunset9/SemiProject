@@ -30,17 +30,35 @@ $(document).ready(function() {
 });
 </script>
 
+<style>
+#container {
+	position: absolute;
+}
 
-<div>
-<div>
-<h3> 문의 사항 </h3> 
+#listTable {
+	width: 1000px;
+	margin: 0 auto;
+}
 
+#writebtn {
+	position: relative;
+	text-align:right;
+}
+
+</style>
+<div class ="container">
+
+<h2> <strong>◎ 문의 사항 ◎</strong> </h2> 
+
+<div id ="writebtn">
 <c:if test="${login }">
-<button id ="myInq">내 문의</button><button id ="inqWrite">문의 하기</button>
+<button id ="inqWrite" class="btn btn-warning">문의 하기</button>
 </c:if>
+</div>
 
 <hr>
-</div>
+
+<div id ="listTable">
 <table class="table table-hover table-striped table-condensed">
 <thead>
 <tr>
@@ -59,7 +77,16 @@ $(document).ready(function() {
 <td>${inq.inq_idx }</td>
 <td><a href="/inquiry/view?inq_idx=${inq.inq_idx }">${inq.title }</a></td>
 <td>${inq.user_idx }</td>
-<td>${inq.answer }</td>
+<td>
+
+<c:if test="${inq.answer eq 0}">
+<font color="FF6666" style="font-weight: bolder;">답변 예정</font>
+</c:if>
+<c:if test="${inq.answer eq 1}">
+답변 완료
+</c:if>
+
+</td>
 <td>${inq.hit }</td>
 <td>${inq.create_date }</td>
 </tr>
@@ -67,7 +94,7 @@ $(document).ready(function() {
 </tbody>
 
 </table>
-
+</div>
 
 <div id="pagingBox" class="text-center">
   <ul class="pagination pagination-sm">
@@ -145,6 +172,6 @@ $(document).ready(function() {
 </div>
 
 </div>
-
+</div>
 </body>
 </html>

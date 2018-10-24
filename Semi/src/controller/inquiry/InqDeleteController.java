@@ -43,8 +43,6 @@ public class InqDeleteController extends HttpServlet {
 		Reply reply = new Reply();
 		reply.setInq_idx(inquiry.getInq_idx());
 		
-
-		
 		// 문의사항 리스트로 리다이렉트 
 		resp.sendRedirect("/inquiry/list");
 	}

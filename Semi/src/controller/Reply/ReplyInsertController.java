@@ -43,6 +43,7 @@ public class ReplyInsertController extends HttpServlet {
 //		System.out.println("reply insert"+reply);
 		
 		inquiryService.insertRepley(reply);
+		inquiryService.answerOk(reply);
 		
 		resp.sendRedirect("/inquiry/view?inq_idx="+reply.getInq_idx());
 	}

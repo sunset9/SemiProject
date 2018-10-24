@@ -21,5 +21,6 @@ public interface ReplyDao {
 		// 댓글 카운트 - 댓글 존재 여부 확인 
 		public int countReply (Reply reply);
 		
-
+		// 댓글 달리면 답변 예정 -> 답변 완료하기
+		public void answerUpdate(Reply reply);
 }

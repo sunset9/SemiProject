@@ -119,8 +119,8 @@
 			<a onclick="alert('로그인이 필요합니다.');">마이페이지</a>
 		</c:if>
 	</a></div>
-	<div class="menu common"><a>공지사항</a></div>
-	<div class="menu common"><a>Q&A</a></div>
+	<div class="menu common"><a href="/notice/list">공지사항</a></div>
+	<div class="menu common"><a href="/Qna/list">Q&A</a></div>
   	<div class="menu common"><a href="/inquiry/list">문의사항</a></div>
 </div><br>
 
