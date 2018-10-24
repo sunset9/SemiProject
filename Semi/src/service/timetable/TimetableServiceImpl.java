@@ -33,26 +33,16 @@ public class TimetableServiceImpl implements TimetableService{
 		
 		// String 형태의 json 파라미터 얻기
 		String events = req.getParameter("events");
-		// test-log
-		System.out.println(events);
 		
 		// JSON String -> Timetable DTO 배열
 		Timetable[] ttbs = gson.fromJson(events, Timetable[].class);
 		// Timetable 리스트 (plan_idx, loc_idx 비어있음)
 		List<Timetable> ttbList = Arrays.asList(ttbs);
-		// test-log
-		for(Timetable ttb:ttbList) {
-			System.out.println(ttb);
-		}
 		
 		// JSON String -> Location DTO 배열
 		Location[] locs = gson.fromJson(events, Location[].class);
 		// Location 리스트
 		List<Location> locList = Arrays.asList(locs);
-		// test-log
-		for(Location loc:locList) {
-			System.out.println(loc);
-		}
 		
 		// Timetable 과  Location 리스트의 개수가 같아야함
 		if(ttbList.size() != locList.size()) {

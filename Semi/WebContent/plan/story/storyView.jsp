@@ -119,8 +119,10 @@ padding: 2px;
 		</div>
 			<c:forEach var='day' begin = "1" end="${diffDays}">
 			<div id = "DayDiv${day}" ><h1>-Day ${day}</h1></div>
+			
 			<c:forEach items='${ttbList}' var = 'ttb'>
 				<c:if test="${ttb.day eq day }">
+			
 				<c:if test="${ttb.is_story eq true}">
 					<c:forEach items='${storyList}' var='story'>
 						<c:if test="${story.ttb_idx eq ttb.ttb_idx}">
