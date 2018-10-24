@@ -412,7 +412,7 @@ public class UserDaoImpl implements UserDao{
 	public List<Plan> getPlanner(User user) {
 		
 		String sql = "";
-		sql += "SELECT p.PLAN_IDX, p.USER_IDX, p.START_DATE, p.END_DATE, p.TITLE, p.TRAVELED, p.OPENED, p.DISTANCE, p.CREATE_DATE";
+		sql += "SELECT p.PLAN_IDX, p.USER_IDX, p.START_DATE, p.END_DATE, p.TITLE, p.TRAVELED, p.OPENED, p.DISTANCE, p.CREATE_DATE, p.BannerURL";
 		sql += " FROM USERINFO u JOIN PLANNER p";
 		sql += " ON u.user_idx = p.user_idx";
 		sql += " WHERE u.user_idx = ?";
@@ -442,7 +442,8 @@ public class UserDaoImpl implements UserDao{
 				plan.setOpened(rs.getInt("OPENED"));
 				plan.setDistance(rs.getInt("DISTANCE"));
 				plan.setCreate_date(rs.getDate("CREATE_DATE"));
-				//System.out.println("userDao plan : "+plan);
+				plan.setBannerURL(rs.getString("BannerURL"));
+				System.out.println("userDao plan : "+plan);
 				
 				list.add(plan);
 			}
@@ -467,10 +468,12 @@ public class UserDaoImpl implements UserDao{
 	public List<Bookmark> getBookmarkList(User user) {
 //		System.out.println("userDao getbList 유저 넘어왔나? : "+user); -> OK
 		String sql = "";
-		sql += "SELECT b.BOOK_IDX, b.USER_IDX, b.PLAN_IDX, b.CREATE_DATE";
-		sql += " FROM USERINFO u JOIN BOOKMARK b";
-		sql += " ON u.USER_IDX = b.USER_IDX";
-		sql += " WHERE u.USER_IDX = ?";
+		sql += "SELECT P.TITLE, P.BANNERURL";
+		sql += " FROM USERINFO U JOIN BOOKMARK B";
+		sql += " ON U.USER_IDX = B.USER_IDX";
+		sql += " JOIN PLANNER P";
+		sql += " ON B.PLAN_IDX = P.PLAN_IDX";
+		sql += " WHERE U.USER_IDX = ?";
 		
 		//DB 객체
 		PreparedStatement ps = null;
@@ -488,10 +491,8 @@ public class UserDaoImpl implements UserDao{
 			while (rs.next()) {
 				Bookmark bMark = new Bookmark();
 				
-				bMark.setBook_idx(rs.getInt("BOOK_IDX"));
-				bMark.setUser_idx(rs.getInt("USER_IDX"));
-				bMark.setPlan_idx(rs.getInt("PLAN_IDX"));
-				bMark.setCreate_date(rs.getDate("CREATE_DATE"));
+				bMark.setTitle(rs.getString("TITLE"));
+				bMark.setBannerURL(rs.getString("BANNERURL"));
 				
 				list.add(bMark);
 			}
@@ -509,6 +510,86 @@ public class UserDaoImpl implements UserDao{
 			}
 		}
 		return list;
+	}
+
+	//내 일정 포스팅 개수 가져오기
+	@Override
+	public int getCntPlan(User user) {
+		String sql = "";
+		sql += "SELECT COUNT(*)";
+		sql += " FROM USERINFO U JOIN PLANNER P ";
+		sql += " ON U.USER_IDX = P.USER_IDX";
+		sql += " WHERE U.USER_IDX = ?";
+		
+		//DB 객체
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+		
+		int cnt = -1;
+		
+	    try {
+	    	//DB 작업
+			ps = conn.prepareStatement(sql);
+			ps.setInt(1, user.getUser_idx());
+			
+			rs = ps.executeQuery();
+			
+			rs.next();
+			
+			cnt = rs.getInt(1);
+			
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			try {
+				if(rs!=null)	rs.close();
+				if(ps!=null)	ps.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+	    
+		return cnt;
+	}
+
+	//내 일정들에서 여행거리 리스트에 담기 
+	@Override
+	public int getTotDist(User user) {
+		String sql = "";
+		sql += "SELECT SUM(DISTANCE) FROM PLANNER";
+		sql += " WHERE USER_IDX = ?";
+		
+		//DB객체
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+		
+		int cnt = 0;
+		
+		try {
+			ps = conn.prepareStatement(sql);
+			ps.setInt(1, user.getUser_idx());
+			
+			rs = ps.executeQuery();
+			
+			rs.next();
+			
+			cnt = rs.getInt(1);
+			
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			try {
+				if(rs!=null)	rs.close();
+				if(ps!=null)	ps.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+		
+		
+		return cnt;
 	}
 
 }

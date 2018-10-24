@@ -2,11 +2,6 @@
     pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <jsp:include page="../layout/headerWithMenu.jsp" />
-
-
-
-
-
 <style type="text/css">
 
 .common {
@@ -40,12 +35,12 @@
 	<div class="profile common">
 		<div class="nickname">${user.nickname}님의 여행기</div>
 		<div class="grade">등급 : ${user.grade}</div>
-		<div class="planCnt">포스팅 : </div>
+		<div class="planCnt">포스팅 : ${cntPlan} 개</div>
 	</div>
 	
 	<!-- 총여행거리 -->
 	<div class="profile common">
-		<div class="totalDistance">총 여행거리 : </div>
+		<div class="totalDistance">총 여행거리 : ${totDist} km</div>
 	</div>
 </div>
 
@@ -59,19 +54,34 @@
 	</div>
 	
 	<div id="planList" class="list">
+	<div><h3>여기는 내 일정 리스트</h3></div>
 		<c:forEach var="pList" items="${plannerList}">
-			<div>글 제목 :  ${pList.getTitle()}</div><br>
+			<div>
+				<div>
+					<button>수정</button>
+					<button>삭제</button>
+				</div>
+				<div><img src="${pList.getBannerURL()}" style="width: 300px;" onclick="openPlan();"></div>
+				<div>글 제목 :  ${pList.getTitle()}</div><br>
+			</div>
 		</c:forEach>
 	</div>
 	
 	<div id="bookmarkList" class="list" style="display:none">
+	<div><h3>여기는 북마크 리스트</h3></div>
 		<c:forEach var="bList" items="${bookMarkList}">
-			<div>북마크 :  ${bList}</div><br>
+			<div>
+				<div>
+					<button>삭제</button>
+				</div>
+				<div><img src="${bList.getBannerURL()}" style="width: 300px;"></div>
+				<div>북마크 :  ${bList.getTitle()}</div><br>
+			</div>
 		</c:forEach>
 	</div>
 	
 	<div id="inquiryList" class="list" style="display:none">
-		여긴 내 문의 리스트
+		<div><h3>여기는 내 문의 리스트</h3></div>
 	</div>
 </div>
 </c:if>
@@ -94,12 +104,12 @@
 	<div class="profile common">
 		<div class="nickname">${socialUser.nickname}님의 여행기</div>
 		<div class="grade">등급 : ${socialUser.grade}</div>
-		<div class="planCnt">포스팅 :</div>
+		<div class="planCnt">포스팅 : ${cntPlan} 개</div>
 	</div>
 	
 	<!-- 총여행거리 -->
 	<div class="profile common">
-		<div class="totalDistance">총 여행거리 : </div>
+		<div class="totalDistance">총 여행거리 : ${totDist} km</div>
 	</div>
 </div>
 
@@ -113,15 +123,34 @@
 	</div>
 	
 	<div id="planList" class="list">
-		여긴 일정 리스트
+	<div><h3>여기는 내 일정 리스트</h3></div>
+		<c:forEach var="pList" items="${plannerList}">
+			<div>
+				<div>
+					<button>수정</button>
+					<button onclick="deletePlan();">삭제</button>
+				</div>
+				<div><img src="${pList.getBannerURL()}" style="width: 300px;"></div>
+				<div>글 제목 :  ${pList.getTitle()}</div><br>
+			</div>
+		</c:forEach>
 	</div>
 	
 	<div id="bookmarkList" class="list" style="display:none">
-		여긴 북마크 리스트
+	<div><h3>여기는 북마크 리스트</h3></div>
+		<c:forEach var="bList" items="${bookMarkList}">
+			<div>
+				<div>
+					<button>삭제</button>
+				</div>
+				<div><img src="${bList.getBannerURL()}" style="width: 300px;"></div>
+				<div>북마크 :  ${bList.getTitle()}</div><br>
+			</div>
+		</c:forEach>
 	</div>
 	
 	<div id="inquiryList" class="list" style="display:none">
-		여긴 내 문의 리스트
+		<div><h3>여기는 내 문의 리스트</h3></div>
 	</div>
 </div>
 </c:if>
@@ -136,6 +165,10 @@
 			x[i].style.display = "none";
 		}
 		document.getElementById(listName).style.display= "block";
+	}
+	
+	function openPlan() {
+		
 	}
 </script>
 </body>

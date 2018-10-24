@@ -28,19 +28,56 @@ public class UserMypageController extends HttpServlet {
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		//현재 유저 정보 가져오기
 		User cUser = (User) req.getSession().getAttribute("user");
-		System.out.println("MyPage 현재 유저 : "+cUser);
+		System.out.println("마이페이지 현재 세션에 있는 유저 : "+cUser);
+		User cUserSocial = (User) req.getSession().getAttribute("socialUser");
+		System.out.println("마이페이지 현재 세션에 있는 유저 : "+cUserSocial);
 		
-		//현재 유저의 일정들 가져오기
-		List<Plan> plannerList = userService.getPlanner(cUser);
-		//planList
-		req.setAttribute("plannerList", plannerList);
+		if(cUserSocial == null) {
+			System.out.println("아이디 로그인 유저");
+			
+			//현재 유저의 일정들 가져오기
+			List<Plan> plannerList = userService.getPlanner(cUser);
+			//planList
+			req.setAttribute("plannerList", plannerList);
+			
+			//현재 유저의 포스팅 개수 가져오기 
+			int cntPlan = userService.getCntPlan(cUser);
+			req.setAttribute("cntPlan", cntPlan);
+			
+			//현재 유저의 총 여행 거리 가져오기 
+			int totDist = userService.getTotDist(cUser);
+			req.setAttribute("totDist", totDist);
+			
+			//현재 유저의 북마크 가져오기
+			List<Bookmark> bookMarkList = userService.getBookmarkList(cUser);
+			//bookMarkList
+			req.setAttribute("bookMarkList", bookMarkList);
+			//System.out.println("mypagecontroller bList 잘 가져왔나 : "+bookMarkList); --> OK
+			
+		} else if(cUser == null) {
+			System.out.println("소셜 로그인 유저");
+			
+			//현재 유저의 일정들 가져오기
+			List<Plan> plannerList = userService.getPlanner(cUserSocial);
+			//planList
+			req.setAttribute("plannerList", plannerList);
+			
+			//현재 유저의 포스팅 개수 가져오기 
+			int cntPlan = userService.getCntPlan(cUserSocial);
+			req.setAttribute("cntPlan", cntPlan);
+			
+			//현재 유저의 총 여행 거리 가져오기 
+			int totDist = userService.getTotDist(cUserSocial);
+			req.setAttribute("totDist", totDist);
+			
+			//현재 유저의 북마크 가져오기
+			List<Bookmark> bookMarkList = userService.getBookmarkList(cUserSocial);
+			//bookMarkList
+			req.setAttribute("bookMarkList", bookMarkList);
+			//System.out.println("mypagecontroller bList 잘 가져왔나 : "+bookMarkList); --> OK
+		}
 		
 		
-		//현재 유저의 북마크 가져오기
-		List<Bookmark> bookMarkList = userService.getBookmarkList(cUser);
-		//bookMarkList
-		req.setAttribute("bookMarkList", bookMarkList);
-		//System.out.println("mypagecontroller bList 잘 가져왔나 : "+bookMarkList); --> OK
 		
 		//정보수정페이지(마이페이지)로 이동
 		req.getRequestDispatcher("/user/myPage.jsp").forward(req, resp);

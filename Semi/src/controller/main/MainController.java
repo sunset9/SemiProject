@@ -33,8 +33,20 @@ public class MainController extends HttpServlet {
 		req.setAttribute("recomPlanList", recomPlanList);
 		req.setAttribute("newestPlanList", newestPlanList);
 		  
+		
+		
 		//뷰 지정해주기
 		req.getRequestDispatcher("/main/main.jsp").forward(req, resp);
+	}
+	
+	@Override
+	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+		//새 일정 파라미터 받아오기
+		req.getParameter("title");
+		req.getParameter("startDate");
+		req.getParameter("endDate");
+
+		
 	}
 
 }
