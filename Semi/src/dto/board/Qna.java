@@ -8,12 +8,13 @@ public class Qna {
 	private int user_idx;
 	private String title;
 	private String content;
+	private String writer;
 	private int hit;
 	private Date create_date;
 	@Override
 	public String toString() {
 		return "Qna [qna_idx=" + qna_idx + ", user_idx=" + user_idx + ", title=" + title + ", content=" + content
-				+ ", hit=" + hit + ", create_date=" + create_date + "]";
+				+ ", writer=" + writer + ", hit=" + hit + ", create_date=" + create_date + "]";
 	}
 	public int getQna_idx() {
 		return qna_idx;
@@ -39,6 +40,12 @@ public class Qna {
 	public void setContent(String content) {
 		this.content = content;
 	}
+	public String getWriter() {
+		return writer;
+	}
+	public void setWriter(String writer) {
+		this.writer = writer;
+	}
 	public int getHit() {
 		return hit;
 	}
@@ -51,6 +58,5 @@ public class Qna {
 	public void setCreate_date(Date create_date) {
 		this.create_date = create_date;
 	}
-	
 	
 }

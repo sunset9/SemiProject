@@ -77,8 +77,8 @@ public class InquiryServiceImpl implements InquiryService {
 	@Override
 	public Inquiry view(Inquiry inq) {
 		Inquiry inquiry = new Inquiry();
-		inquiry = inquiryDao.selectInqByInqIdx(inq);
 		inquiryDao.updateHit(inq);
+		inquiry = inquiryDao.selectInqByInqIdx(inq);
 		
 		return inquiry;
 	}

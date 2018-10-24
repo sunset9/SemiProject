@@ -8,8 +8,14 @@ public class Notice {
 	private int user_idx;
 	private String title;
 	private String content;
+	private String writer;
 	private int hit;
 	private Date create_date;
+	@Override
+	public String toString() {
+		return "Notice [notice_idx=" + notice_idx + ", user_idx=" + user_idx + ", title=" + title + ", content="
+				+ content + ", writer=" + writer + ", hit=" + hit + ", create_date=" + create_date + "]";
+	}
 	public int getNotice_idx() {
 		return notice_idx;
 	}
@@ -34,6 +40,12 @@ public class Notice {
 	public void setContent(String content) {
 		this.content = content;
 	}
+	public String getWriter() {
+		return writer;
+	}
+	public void setWriter(String writer) {
+		this.writer = writer;
+	}
 	public int getHit() {
 		return hit;
 	}
@@ -45,11 +57,6 @@ public class Notice {
 	}
 	public void setCreate_date(Date create_date) {
 		this.create_date = create_date;
-	}
-	@Override
-	public String toString() {
-		return "Notice [notice_idx=" + notice_idx + ", user_idx=" + user_idx + ", title=" + title + ", content="
-				+ content + ", hit=" + hit + ", create_date=" + create_date + "]";
 	}
 	
 	

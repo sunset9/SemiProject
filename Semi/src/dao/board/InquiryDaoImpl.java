@@ -61,9 +61,10 @@ public class InquiryDaoImpl implements InquiryDao {
 		
 		// 페이징 리스트 조회 쿼리
 		String sql="";
-		sql += "SELECT * FROM(";
+		sql += "SELECT * FROM( ";
 		sql += "SELECT rownum rnum, I.* FROM ( ";
-		sql += "SELECT * FROM inquiry ORDER BY inq_idx DESC ) I ";
+		sql += "SELECT  inq_idx, (SELECT nickname FROM userinfo U WHERE U.user_idx = INQ.user_idx) nick,hit, ";
+		sql	+= "title, content,create_date,answer FROM inquiry INQ ORDER BY inq_idx DESC ) I ";
 		
 		
 		if(paging.getSearch()!=null && !"".equals(paging.getSearch())) {
@@ -96,7 +97,7 @@ public class InquiryDaoImpl implements InquiryDao {
 				
 				// rs의 결과 DTO에 하나씩 저장하기
 				inq.setInq_idx(rs.getInt("inq_idx"));
-				inq.setUser_idx(rs.getInt("user_idx"));
+				inq.setWriter(rs.getString("nick"));
 				inq.setTitle(rs.getString("title"));
 				inq.setAnswer(rs.getInt("answer"));
 				inq.setHit(rs.getInt("hit"));
@@ -343,7 +344,7 @@ public class InquiryDaoImpl implements InquiryDao {
 	@Override
 	public String selectIdByInq_idx(Inquiry inq) {
 		
-		// 게시글 번호로 닉네임 조회하기
+		// 게시글 번호로 id 조회하기
 		String sql="";
 		sql += "SELECT id FROM userinfo U, inquiry I" ;
 		sql +=	" WHERE I.user_idx = U.user_idx" ;
