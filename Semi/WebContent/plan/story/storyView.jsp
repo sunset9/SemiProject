@@ -52,26 +52,24 @@ padding: 2px;
 		})
 		
 		
-		$('#myModal').on('show.bs.modal', function (e){
+// 		$('#myModal').on('show.bs.modal', function (e){
 			 
-			console.log("dd");
+// 			console.log("dd");
 
-		  })
+// 		  })
+
+	$(".storyPlus").click(function() {
+		
+		
+		var place_name = $(this).data("place");
+		
+			$(".modalPlaceName").text(place_name);
+		
+		})
 
 	});
 	
-	function show(place_name){
-		
-		
-		var pname = place_name;
-		
-		console.log(pname);
-		
-		
-		
-		$("#myModal").modal('show');
-	}
-	    
+	
 	    
    function plusmover(num) {
    	
@@ -167,13 +165,13 @@ padding: 2px;
 						</c:if>			
 					</c:forEach>
 					</c:if>
-					<c:if test="${ttb.is_story eq false }">
+					<c:if test="${ttb.is_story eq false}">
 						<br>
 						<div><h2><span class="glyphicon glyphicon-map-marker"></span>&nbsp;${ttb.place_name}</h2></div>
 						<br>
 						<font size="10" color="black">
-<%-- 							<span id = "plus${day}" class ="glyphicon glyphicon-plus-sign" data-toggle="modal" data-target="#myModal" data-backdrop="static" data-place="${ttb.place_name}" onmouseover="plusmover(${day})" onmouseleave="plusmleave(${day})" onmousedown="plusmdown(${day})"></span> --%>
-							<span id = "plus${day}" class ="glyphicon glyphicon-plus-sign" onclick= "show(${ttb.place_name})" onmouseover="plusmover(${day})" onmouseleave="plusmleave(${day})" onmousedown="plusmdown(${day})"></span>
+							<span id = "plus${day}" class ="glyphicon glyphicon-plus-sign storyPlus" data-toggle="modal" data-target="#myModal" data-backdrop="static" data-place="${ttb.place_name}" onmouseover="plusmover(${day})" onmouseleave="plusmleave(${day})" onmousedown="plusmdown(${day})"></span>
+<%-- 							<span id = "plus${day}" class ="glyphicon glyphicon-plus-sign" onclick= "show(${ttb.place_name})" onmouseover="plusmover(${day})" onmouseleave="plusmleave(${day})" onmousedown="plusmdown(${day})"></span> --%>
 						</font>
 					</c:if>
 				</c:if>
@@ -191,7 +189,7 @@ padding: 2px;
       <div class="modal-content">
         <div class="modal-header">
           <button type="button" class="close" data-dismiss="modal">×</button>
-          <h4 class="modal-title"><span class="glyphicon glyphicon-map-marker" id ="placename" style="font-weight: bold;font-size: 25px"><font size="5">place_name</font></span></h4>
+          <h4 class="modal-title"><span class="glyphicon glyphicon-map-marker modalPlaceName" id ="placename" style="font-weight: bold;font-size: 25px"><font size="5">place_name</font></span></h4>
         </div>
         <div class="modal-body">
         
@@ -275,7 +273,7 @@ padding: 2px;
         toolbarButtonsSM: ['fontFamily','bold', 'italic', 'underline','align','|','insertLink','insertImage','|', 'undo', 'redo'],
         toolbarButtonsMD: ['fontFamily','bold', 'italic', 'underline','align','|','insertLink','insertImage','|', 'undo', 'redo'],
         imageEditButtons: ['imageDisplay', 'imageAlign', 'imageInfo', 'imageRemove'],
-        imageUploadURL: '/upload_image',
+        imageUploadURL: '/story/upload_image',
         imageUploadParams: {
           id: 'my_editor'
         },
@@ -290,7 +288,7 @@ padding: 2px;
                 method: "POST",
        
                 // Request URL.
-                url: "/image_delete",
+                url: "/story/image_delete",
        
                 // Request params.
                 data: {
