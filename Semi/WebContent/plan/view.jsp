@@ -3,7 +3,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 
-<jsp:include page="../layout/headerWithMenu.jsp" />
+<c:import url="../layout/headerWithMenu.jsp" />
 
 <!-- timetable utils -->
 <script type="text/javascript" src="/utils/timetableUtils.js"></script>
@@ -19,14 +19,14 @@
 	/* The switch - the box around the slider */
 	.switch {
 	  position: relative;
-	  display: inline-block;
+	display: inline-block;
 	  width: 60px;
 	  height: 34px;
 	  vertical-align:middle;
 	}
 	 
 	/* Hide default HTML checkbox */
-	.switch input {display:none;}
+/* 	.switch input {display:none;} */
 	 
 	/* The slider */
 	.slider {
@@ -77,16 +77,91 @@
 	}
 	 
 	p {
-	  margin:0px;
-	  display:inline-block;
-	  font-size:15px;
-	  font-weight:bold;
+	margin:0px;
+	display:inline-block;
+	font-size:15px; 
+	font-weight:bold; 
+	} 
+/* ------------------------------------------------------------------------ */
+
+	/* 가계부 그래프 */
+	.pop-layer .pop-container {
+	  padding: 20px 25px;
 	}
-  
+	
+	.pop-layer p.ctxt {
+	  color: #666;
+	  line-height: 25px;
+	}
+	
+	.pop-layer .btn-r {
+	  width: 100%;
+	  margin: 10px 0 20px;
+	  padding-top: 10px;
+	  border-top: 1px solid #DDD;
+	  text-align: right;
+	}
+	
+	.pop-layer {
+	  display: none;
+	  position: absolute;
+	  top: 50%;
+	  left: 50%;
+	  width: 410px;
+	  height: auto;
+	  background-color: #fff;
+	  border: 5px solid #3571B5;
+	  z-index: 10;
+	}
+	
+	.dim-layer {
+	  display: none;
+	  position: fixed;
+	  _position: absolute;
+	  top: 0;
+	  left: 0;
+	  width: 100%;
+	  height: 100%;
+	  z-index: 100;
+	}
+	
+	.dim-layer .dimBg {
+	  position: absolute;
+	  top: 0;
+	  left: 0;
+	  width: 100%;
+	  height: 100%;
+	  background: #000;
+	  opacity: .5;
+	  filter: alpha(opacity=50);
+	}
+	
+	.dim-layer .pop-layer {
+	  display: block;
+	}
+	
+	a.btn-layerClose {
+	  display: inline-block;
+	  height: 25px;
+	  padding: 0 14px 0;
+	  border: 1px solid #304a8a;
+	  background-color: #3f5a9d;
+	  font-size: 13px;
+	  color: #fff;
+	  line-height: 25px;
+	}
+	
+	a.btn-layerClose:hover {
+	  border: 1px solid #091940;
+	  background-color: #1f326a;
+	  color: #fff;
+	}
+/* 	----------------------------------------------------- */
+/* 	구글 맵 크기 설정 */
 	#map {
 		height: 100%;
 	}
-  
+/* 	----------------------------------------------------- */  
 	#calendar {
 	    float: right;
 	    width: 900px;
@@ -129,7 +204,7 @@
 	.fc-bg:not(:first-child){
 		margin-left: 10px;  /* fc-bg(이벤트 덮고 있는 투명도 있는 판?)css 수정 , 왼쪽에 색 진하게 하는 효과줌*/
 	}
-  
+
 </style>
 
 <script>
@@ -162,8 +237,10 @@ function store(){
 	// form input 생성(넘겨줄 값)
 	events.forEach(function(event){ // 모든 리스트 돌면서 timetable json 하나씩 생성
 		// timetable json 생성
+		
 		var timetable = {
-				place_name: event.title
+				ttb_idx: event.id
+				, place_name: event.title
 				, address: event.address
 				, start_time: event.start.format("YYYY-MM-DD HH:mm") // 24시 형태
 				, end_time: event.end.format("YYYY-MM-DD HH:mm") // 24시 형태
@@ -188,19 +265,24 @@ function store(){
 	
 	// submit
 	console.log(timetables);
-	$("form").submit();
+	$("ttbFrom").submit();
 }
 </script>
 
 <script type="text/javascript">
+// 공개유무 라벨 변수
+var isShared;
+
+// 읽기모드일때, 검색창 on/off
+var isModify;
+
 $(document).ready(function() {
+// 	스토리탭
 	$("#btnStory").click(function() {
 		document.getElementById("calendar").style.display= "none";
 		document.getElementById("viewStory").style.display= "block";
 		document.getElementById("googleMap").style.display= "none";
 		document.getElementById("googleSearch").style.display= "none";
-		
-		
 		
 		//AJAX 처리하기
 		$.ajax({
@@ -219,25 +301,121 @@ $(document).ready(function() {
 		});
 				
 	});
-	
+// 	타임테이블탭
 	$("#btnPlan").click(function() {
+		document.getElementById("viewStory").style.display= "none";
+		document.getElementById("calendar").style.display= "block";
+		document.getElementById("googleMap").style.display= "block";
+		if(isModify == 1) document.getElementById("googleSearch").style.display= "block";
+	});
+	
+// 	수정버튼
+	$("#btnModify").click(function() {
+		isModify = 1;
+		document.getElementById("viewStory").style.display= "none";
+		document.getElementById("calendar").style.display= "block";
+		document.getElementById("googleMap").style.display= "block";
+		document.getElementById("googleSearch").style.display= "block";
+		document.getElementById("planCommit").style.display= "block";
+		document.getElementById("btnModify").style.display= "none";
+		document.getElementById("btnSelectShare").style.display= "block";
+		document.getElementById("btnAccGraph").style.display= "none";
+		
+		document.getElementById("viewTitle").style.display= "none";
+		document.getElementById("editTitle").style.display= "block";
+		
+	});
+	
+// 	수정모드일 때, 공개유무버튼
+	$("#btnSelectShare").click(function() {
+		if(isShared == 0) {
+			document.getElementById("isClose").style.display= "block";
+			document.getElementById("isOpen").style.display= "none";
+			isShared=1;
+		} else {
+			document.getElementById("isClose").style.display= "none";
+			document.getElementById("isOpen").style.display= "block";
+			isShared=0;
+		}
+		console.log(isShared);
+	});
+	
+// 	저장버튼
+	$("#planCommit").click(function() {
+		isModify = 0;
+		document.getElementById("googleSearch").style.display= "none";
+		document.getElementById("planCommit").style.display= "none";
+		document.getElementById("btnModify").style.display= "block";
+		document.getElementById("btnSelectShare").style.display= "none";
+		document.getElementById("btnAccGraph").style.display= "block";
+		document.getElementById("viewDaliyGraph").style.display= "none";
+		document.getElementById("viewTotalGraph").style.display= "none";
+		
+		document.getElementById("viewTitle").style.display= "block";
+		document.getElementById("editTitle").style.display= "none";
+	});
+	
+// 	북마크 버튼
+	$("#btnBookMark").click(function() {
 		document.getElementById("viewStory").style.display= "none";
 		document.getElementById("calendar").style.display= "block";
 		document.getElementById("googleMap").style.display= "block";
 		document.getElementById("googleSearch").style.display= "block";
 	});
-});
+	
+// 	가계부 그래프 팝업 동작
+	$("#btnAccGraph").click(function(){
+	    var $el = $($(this).attr('href'));        //레이어의 id를 $el 변수에 저장
+	    var isDim = $el.prev().hasClass('dimBg');   //dimmed 레이어를 감지하기 위한 boolean 변수
 
+	    isDim ? $('.dim-layer').fadeIn() : $el.fadeIn();
+
+	    var $elWidth = ~~($el.outerWidth()),
+	        $elHeight = ~~($el.outerHeight()),
+	        docWidth = $(document).width(),
+	        docHeight = $(document).height();
+
+	    // 화면의 중앙에 레이어를 띄운다.
+	    if ($elHeight < docHeight || $elWidth < docWidth) {
+	        $el.css({
+	            marginTop: -$elHeight /2,
+	            marginLeft: -$elWidth/2
+	        })
+	    } else {
+	        $el.css({top: 0, left: 0});
+	    }
+
+	    $el.find('a.btn-layerClose').click(function(){
+	        isDim ? $('.dim-layer').fadeOut() : $el.fadeOut(); // 닫기 버튼을 클릭하면 레이어가 닫힌다.
+	        return false;
+	    });
+
+	    $('.layer .dimBg').click(function(){
+	        $('.dim-layer').fadeOut();
+	        return false;
+	    });
+	});
+	
+	$("#totalGraph").click(function() {
+		document.getElementById("viewTotalGraph").style.display= "block";
+		document.getElementById("viewDaliyGraph").style.display= "none";
+	});
+	
+	$("#daliyGraph").click(function() {
+		document.getElementById("viewTotalGraph").style.display= "none";
+		document.getElementById("viewDaliyGraph").style.display= "block";
+	});
+});
 </script>
 
 </head>
 
 <body>
 <!-- 플래너 대문 정보 DIV -->
-<div id="container" style="width:100%; border-radius:10px;">
+<div id="container" style="width:100%; border-radius:10px;background-color:#EEEEEE;">
 
 	<!-- 플래너 대문 정보(공개유무, 수정버튼, 일정제목 등 UI) -->
-	<div id="header" style="background-color:#EEEEEE; margin:3px;">
+	<div style="background-color:#EEEEEE;">
 		<script>
 		var check = $("input[type='checkbox']");
 		check.click(function(){
@@ -245,26 +423,52 @@ $(document).ready(function() {
 		});
 		</script>
 		
-		<label class="switch">
+		<label id="isClose" style="display:none;">비공개</label>
+		<label id="isOpen" style="display:none;">공개</label>
+		
+		<label id="btnSelectShare" class="switch" style="display:none;">
 			<input type="checkbox">
 			<span class="slider round"></span>
 		</label>
-		<p>비공개</p>
-		<p style="display:none;">공개</p>
 		
-		<input id="btnModify" type="button" value="수정" style="position: absolute; right: 15px;">
-		<input id="btnBookMark" type="button" value="북마크" style="position: absolute; right: 30px;">
+<!-- 		c:if로 user 아이디가 동일하다면 수정버튼을, 동일하지 않으면 북마크 버튼을 -->
+<%-- 		<c:out value="${planView.user_idx}" /> --%>
+<%-- 		<c:out value="${userView.user_idx}" /> --%>
+		<c:if test="${planView.user_idx eq userView.user_idx}">
+		    <input id="btnModify" type="button" value="수정" style="float:right;">
+		</c:if>
 		
-		<h1 style="margin-bottom:0;" align="center">${planView.title }</h1>
-			<h4 align="center">여행 경로 2개</h4>
-			<h4 align="center">${planView.start_date } ~ ${planView.end_date }</h4>
-			<h4 align="center">${planView.traveled }</h4>
+		<c:if test="${planView.user_idx ne userView.user_idx}">
+			<input id="btnBookMark" type="button" value="북마크" style="float:right;">
+		</c:if>
+	</div><br>
+		
+	<div id="header" style="background-color:#EEEEEE;text-align:center;">
+		<div id="viewTitle">
+			<h1 id="titleView" style="margin-bottom:0;">${planView.title }</h1>
+			<h4 id="planRouteView"> 여행 경로 2개</h4> 
+			<h4 id="dateView">${planView.start_date } ~ ${planView.end_date }</h4>
+			<h4 id="traveledView">${planView.traveled }</h4>
+		</div>
+		
+		
+		<div id="editTitle" style="display:none;">
+			<form action="/plan/write" method="post">
+				<div >
+					제목 : <input id="editTitleView" name="editTitleView" type="text" /><br><br>
+					출발일 : <input id="editStartDate" name="editStartDate" type="date" /> 도착일 : <input id="editEndDate" type="date" /><br><br>
+					여행 전 <input id="editTravledBefore" name="editTravledBefore" type="radio"/> / 여행 후 <input id="editTravledAfter" type="radio"/><br><br>
+				</div>
+				<div >
+					<button id="lanCommit" type="submit" >저장</button>
+				</div>
+			</form>
+		</div>
 			<br>
-	 </div>
-</div>
+	</div>
+</div><br>
 <!-- 플래너 입력 정보 DIV -->
 <div id="container" style="width:100%; border-radius:10px;">
-
 	<!-- 좌측 정보목록 (게시자 정보, 가계부, 검색 등 )-->
 	<div id="container" style="width:230px; border-radius:10px;float:left;">
 	
@@ -278,26 +482,53 @@ $(document).ready(function() {
 		</div><br>
 		
 	 	<!-- 가계부 DIV -->
-		<div id="menu" style="background-color:#CCCCCC;height:200px;float:bottom;width:100%;border-radius:10px;">
-			<b>가계부</b><br>
-			교통 : <input type="text"><br>
-			식비 : <input type="text"><br>
-			문화 : <input type="text"><br>
-			기타 : <input type="text"><br><br>
+		<div id="menu" style="background-color:#CCCCCC;height:100%;float:bottom;width:100%;border-radius:10px;">
+			<b>가계부</b><br><br>
+			
+<!-- 			가계부 그래프 -->
+			<a href="#layer2" id="btnAccGraph" >가계부 그래프</a><br>
+			<div class="dim-layer">
+			    <div class="dimBg"></div>
+			    <div id="layer2" class="pop-layer">
+			        <div class="pop-container">
+			            <div class="pop-conts">
+			                <div>
+			                	<button id="totalGraph">전체</button> | <button id="daliyGraph">일일</button>
+			                </div>
+			                
+			                <div id="viewTotalGraph" > 
+			                	그래프 ㅇ_<
+							</div>
+							<div id="viewDaliyGraph" style="display:none;"> 
+			                	그래프 >_ㅇ
+							</div>
+							
+			                <div class="btn-r">
+			                    <a href="#" class="btn-layerClose">X</a>
+			                </div>
+			            </div>
+			        </div>
+			    </div>
+			</div>
+
+			교통 : 교통비입니다<br>
+			식비 : 식비입니다<br>
+			문화 : 추억의비용입니다<br>
+			기타 : 헛짓거리비용입니다<br><br>
 			총합 : ${accView.origin_cost }<br>
 			환율 : ${accView.caled_cost }<br>
 		</div><br>
 		
 		<!-- 일정 저장 -->
 		<div id="menu" style="float:bottom;width:100%;border-radius:10px;">
-			<form action="/update/ttb" method="post">
+			<form action="/update/ttb" method="post" id="ttbFrom">
 				<input type="hidden" name="plan_idx" value="${planView.plan_idx }">
-				<input type="button" value="저장" onclick="store();" style="width:100%;">
+				<input id="planCommit" type="button" value="저장" onclick="store();" style="display:none;width:100%;">
 			</form>
 		</div><br>
 		
 		<!-- 검색 INPUT DIV -->
-		<div id="googleSearch" style="float:bottom;width:100%;border-radius:10px;">
+		<div id="googleSearch" style="float:bottom;width:100%;border-radius:10px;display:none;">
 		검색 : <input id="pac-input" class="controls" type="text" placeholder="Search Box">
 		    <div id="right-panel"
 		    style="border-top:3px solid; border-bottom:3px solid; border-left:3px dashed; border-right:3px groove; padding:3px;">
@@ -312,9 +543,9 @@ $(document).ready(function() {
 	<!-- 우측 일정 & 타임테이블정보 (지도, 일정탭 & 타임테이블탭 등 )-->
 	<div id="container" style="width:900px; border-radius:10px;float:left;">
 		<!-- 일정 / 스토리 탭 DIV -->
-		<div id="content" style="background-color:#999999;height:50px;float:bottom;width:100%;border-radius:10px;">
-			<button id="btnPlan" >일정</button>
-			<button id="btnStory" >스토리</button>
+		<div id="content" style="float:bottom;width:100%;">
+			<button id="btnPlan" style="width:447px;background-color:#ff5555;border-radius:10px;">일정</button>
+			<button id="btnStory" style="width:447px;background-color:#5555ff;border-radius:10px;">스토리</button>
 		</div>
 		
 		<!-- 구글맵 DIV -->
@@ -327,7 +558,6 @@ $(document).ready(function() {
 		<div id="viewStory" ></div>
 		
 	</div>
-	
 </div>
 </body>
 </html>
