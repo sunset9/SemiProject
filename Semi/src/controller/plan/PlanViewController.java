@@ -40,13 +40,11 @@ public class PlanViewController extends HttpServlet {
 		
 		// 일정 기본 정보 가져오기
 		Plan planView = pService.getPlanInfo(param);
-		System.out.println(planView);
 		//planView MODEL 전달
 		req.setAttribute("planView", planView);
 		
 		// 유저 정보 가져오기
 		User userView = pService.getUserInfo(planView);
-		System.out.println(userView);
 		//userView MODEL 전달
 		req.setAttribute("userView", userView);
 		

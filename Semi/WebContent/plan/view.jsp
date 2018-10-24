@@ -235,6 +235,9 @@ $(document).ready(function() {
 	$("#btnStory").click(function() {
 		document.getElementById("calendar").style.display= "none";
 		document.getElementById("viewStory").style.display= "block";
+		document.getElementById("googleMap").style.display= "none";
+		document.getElementById("googleSearch").style.display= "none";
+		
 		
 		
 		//AJAX 처리하기
@@ -258,7 +261,8 @@ $(document).ready(function() {
 	$("#btnPlan").click(function() {
 		document.getElementById("viewStory").style.display= "none";
 		document.getElementById("calendar").style.display= "block";
-		
+		document.getElementById("googleMap").style.display= "block";
+		document.getElementById("googleSearch").style.display= "block";
 	});
 });
 
@@ -286,7 +290,8 @@ $(document).ready(function() {
 		<p>비공개</p>
 		<p style="display:none;">공개</p>
 		
-		<input type="button" value="수정" style="position: absolute; right: 15px;">
+		<input id="btnModify" type="button" value="수정" style="position: absolute; right: 15px;">
+		<input id="btnBookMark" type="button" value="북마크" style="position: absolute; right: 30px;">
 		
 		<h1 style="margin-bottom:0;" align="center">${planView.title }</h1>
 			<h4 align="center">여행 경로 2개</h4>
@@ -330,7 +335,7 @@ $(document).ready(function() {
 		</div><br>
 		
 		<!-- 검색 INPUT DIV -->
-		<div id="menu" style="float:bottom;width:100%;border-radius:10px;">
+		<div id="googleSearch" style="float:bottom;width:100%;border-radius:10px;">
 		검색 : <input id="pac-input" class="controls" type="text" placeholder="Search Box">
 		    <div id="right-panel"
 		    style="border-top:3px solid; border-bottom:3px solid; border-left:3px dashed; border-right:3px groove; padding:3px;">
@@ -343,7 +348,7 @@ $(document).ready(function() {
 	</div>
 	
 	<!-- 우측 일정 & 타임테이블정보 (지도, 일정탭 & 타임테이블탭 등 )-->
-	<div id="container" style="width:1000px; border-radius:10px;float:left;">
+	<div id="container" style="width:900px; border-radius:10px;float:left;">
 		<!-- 일정 / 스토리 탭 DIV -->
 		<div id="content" style="background-color:#999999;height:50px;float:bottom;width:100%;border-radius:10px;">
 			<button id="btnPlan" >일정</button>
@@ -351,7 +356,7 @@ $(document).ready(function() {
 		</div>
 		
 		<!-- 구글맵 DIV -->
-		<div id="content" style="background-color:#DDDDDD;height:500px;float:bottom;width:100%;border-radius:10px;">
+		<div id="googleMap" style="background-color:#DDDDDD;height:500px;float:bottom;width:100%;border-radius:10px;">
 			<div id="map"></div>
 	 	</div>
 	 	

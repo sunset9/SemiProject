@@ -116,8 +116,10 @@ padding: 2px;
 		</div>
 			<c:forEach var='day' begin = "1" end="${diffDays}">
 			<div id = "DayDiv${day}" ><h1>-Day ${day}</h1></div>
+			
 			<c:forEach items='${ttbList}' var = 'ttb'>
 				<c:if test="${ttb.day eq day }">
+			
 				<c:if test="${ttb.is_story eq true}">
 					<c:forEach items='${storyList}' var='story'>
 						<c:if test="${story.ttb_idx eq ttb.ttb_idx}">
@@ -172,8 +174,8 @@ padding: 2px;
 						<div><h2><span class="glyphicon glyphicon-map-marker"></span>&nbsp;${ttb.place_name}</h2></div>
 						<br>
 						<font size="10" color="black">
-<%-- 							<span id = "plus${day}" class ="glyphicon glyphicon-plus-sign" data-toggle="modal" data-target="#myModal" data-backdrop="static" data-place="${ttb.place_name}" onmouseover="plusmover(${day})" onmouseleave="plusmleave(${day})" onmousedown="plusmdown(${day})"></span> --%>
-							<span id = "plus${day}" class ="glyphicon glyphicon-plus-sign" onclick= "show(${ttb.place_name})" onmouseover="plusmover(${day})" onmouseleave="plusmleave(${day})" onmousedown="plusmdown(${day})"></span>
+							<span id = "plus${day}" class ="glyphicon glyphicon-plus-sign" data-toggle="modal" data-target="#myModal" data-backdrop="static" data-place="${ttb.place_name}" onmouseover="plusmover(${day})" onmouseleave="plusmleave(${day})" onmousedown="plusmdown(${day})"></span>
+<%-- 							<span id = "plus${day}" class ="glyphicon glyphicon-plus-sign" onclick= "show(${ttb.place_name})" onmouseover="plusmover(${day})" onmouseleave="plusmleave(${day})" onmousedown="plusmdown(${day})"></span> --%>
 						</font>
 					</c:if>
 				</c:if>
