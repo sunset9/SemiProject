@@ -121,7 +121,6 @@ public class PlanDaoImpl implements PlanDao{
 		try {
 			//DB작업
 			ps = conn.prepareStatement(sql);
-			//
 			ps.setInt(1, plan.getUser_idx());
 			rs = ps.executeQuery();
 			

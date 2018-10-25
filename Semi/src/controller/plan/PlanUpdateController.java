@@ -69,18 +69,19 @@ public class PlanUpdateController extends HttpServlet {
 		@Override
 		protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 			// 플랜 정보 파라미터 받기 
-			Plan plan = pService.getParam4Edit(req);
-			System.out.println(plan);
+			Plan planParam = pService.getParam4Edit(req);
+			System.out.println(planParam);
 			
-			Map<Timetable, Location> ttLoc = ttService.getParam(req);
-			System.out.println(ttLoc);
+			// 요청파라미터 -> 타임테이블, 위치정보 Map 타입
+			Map<Timetable, Location> ttbLocParam = ttService.getParam(req);
+			System.out.println(ttbLocParam);
 //			
-//			// 타임테이블 업데이트
-//			ttService.update(plan, ttLoc);
+			// 타임테이블, 위치정보 정보 업데이트
+			ttService.update(planParam, ttbLocParam);
 //			
 			// 글 정보 업데이트
 			
-			pService.update(plan);
+			pService.update(planParam);
 			
 			resp.sendRedirect("/plan");	
 		}

@@ -12,7 +12,7 @@
 	background:#12cf3d;
 	position:absolute;
 	width:100px;
-	top:50px;
+/*  	top:200px; */
 	right:10px;
 }
 
@@ -36,11 +36,43 @@ padding: 2px;
 	$(document).ready(function(){
 	    var currentPosition = parseInt($("#slidemenu").css("top"));
 	    
-	    $(window).scroll(function() {
-	        var position = $(window).scrollTop(); // 현재 스크롤바의 위치값을 반환합니다.
-	        $("#slidemenu").stop().animate({"top":position+currentPosition+"px"},1000);
-	    });
 	    
+	    function EditMode() {
+	     var removeStorys = document.getElementsByClassName("removeStory");
+	     var updateStorys = document.getElementsByClassName("updateStory");
+	    	if (isModify == 1){
+   			  for(var i = 0; i < removeStorys.length; i++){
+	    		  removeStorys[i].style.display = "block"; 
+	    		  updateStorys[i].style.display = "block";
+	    	    }
+	    	}else{
+    		  for(var i = 0; i < removeStorys.length; i++){
+	    		  removeStorys[i].style.display = "none"; 
+	    		  updateStorys[i].style.display = "none";
+	    	    }
+	    	}
+			
+		}
+	    
+	    EditMode();
+	    
+	    
+	    $(window).scroll(function() {
+// 	        var position = $(window).scrollTop(); // 현재 스크롤바의 위치값을 반환합니다.
+	        var position = $(this).scrollTop(); // 현재 스크롤바의 위치값을 반환합니다.
+	        var header = $("#header").offset();
+	        var height = $("#header").height();
+	        
+	        if(position > 260){
+	        	$("#slidemenu").css("position","fixed");
+	        	document.getElementById("slidemenu").style.top ="10px";
+	        }else if (position <= 260){
+	        	$("#slidemenu").css("position","absolute");
+	        	document.getElementById("slidemenu").style.top = header.top + height +50+ "px";  		        
+	        }
+	        
+	    });
+
 		$("#btnSave").click(function() {
 			$("form").submit();
 		})
@@ -62,19 +94,18 @@ padding: 2px;
 		})
 		
 		
-		$(".storySaveBtn").click(function() {
+$(".storySaveBtn").click(function() {
 			
-			var JSON = {
-				"ttb_idx": //이름으로 넘겨주기
-				"plan_idx": 
-				"content_idx":
-			}
+			var storyJSON = {
+				ttb_idx  : $(".ttb_idx").val()
+				, plan_idx : $(".plan_idx").val() 
+				, content  : $(".content").val()
+			};
 			
 			$.ajax({
-				
 				type : "POST"
 				, url : "/story/write"
-				, data : {"story_Idx":storyIdx}
+				, data : {"story":storyJSON}
 				, success : function (res) {
 					$("#viewStory").html(res);
 				}
@@ -82,10 +113,10 @@ padding: 2px;
 					console.log(e);
 				}
 				
-			})
+ 			})
 			
-// 			$(".ModalForm").submit();
-		})
+// // 			$(".ModalForm").submit();
+ 		})
 
 	});
 	
@@ -161,7 +192,9 @@ padding: 2px;
 				    		<table width="70%" style="border-bottom: 1px solid black; border-right: 1px solid black; border-top: 1px solid black; border-left: 1px solid black" >
 				    			<tr>
 				     			<td colspan="12">
-								  <font size="5"><span class = "glyphicon glyphicon-remove" style="float: right" onclick="storyDelete(${story.story_idx})"></span></font>
+								  <font size="5"><span class = "glyphicon glyphicon-remove removeStory" style="float: right;" onclick="storyDelete(${story.story_idx})"></span>
+								  <span class = "glyphicon glyphicon-pencil updateStory" style="float: right;"></span>
+								  </font>
 								  <div> <h2><span class="glyphicon glyphicon-map-marker"></span>&nbsp;${story.place_name}</h2>
 								  <hr>
 								  </div>
@@ -245,7 +278,7 @@ padding: 2px;
 				<tr>
 					<td colspan="4">
 						<div style="border: 1px solid #B6B7FA; width: auto; height: auto" >
-							<textarea id = "edit" name="content"></textarea>
+							<textarea id = "edit" name="content" class = "content"></textarea>
 						</div>
 					</td>
 				</tr>

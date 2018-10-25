@@ -64,7 +64,8 @@ public class MainController extends HttpServlet {
 			int plan_idx = mainService.getPlan_idx();
 			System.out.println("plan_idx : "+plan_idx);
 			
-			//req.set
+
+ 			//plan_idx 세션에 추가
 			req.getSession().setAttribute("plan_idx", plan_idx);
 			
 		} else if (cUser == null) {
@@ -76,12 +77,12 @@ public class MainController extends HttpServlet {
 			int plan_idx = mainService.getPlan_idx();
 			System.out.println("plan_idx : " + plan_idx);
 			
-			//req.set
+
+			//plan_idx 세션에 추가 
 			req.getSession().setAttribute("plan_idx", plan_idx);
 		}
 		
-		resp.sendRedirect("/plan/write");
-
+		resp.sendRedirect("/plan/write"); //이거는 나중에 /write로 바꾸기
 	}
 
 }
