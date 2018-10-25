@@ -289,7 +289,7 @@ function store(){
 <script type="text/javascript">
 
 // 읽기모드일때, 검색창 on/off
-var isModify;
+var isModify = 0;
 
 $(document).ready(function() {
 // 	스토리탭
@@ -300,10 +300,10 @@ $(document).ready(function() {
 		document.getElementById("googleSearch").style.display= "none";
 		
 		//AJAX 처리하기
-		$.ajax({
+		$.ajax({ 	
 			type: "post"
 			, url: "/story/view"
-			//, data: { }
+// 			, data: {"isModify" : isModify }
 			, dataType: "html"
 			, success: function( d ) {
 				
