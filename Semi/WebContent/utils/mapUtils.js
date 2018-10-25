@@ -9,7 +9,7 @@ function initMap() {
 	// 구글 맵 초기화
 	map = new google.maps.Map(document.getElementById('map'), {
 		zoom: 8, 
-		center: {lat: 37.4601, lng: 126.4406},
+		center: {lat: 37.530183, lng: 127.059928},
 		zoomControl: false,
 		mapTypeControl: false,
 		scaleControl: false,
@@ -53,7 +53,7 @@ function initSearchBox(){
 }
 
 //Marker 리스트
-var markerList = [];
+var markers = [];
 // 경로
 var route;
 
@@ -61,7 +61,7 @@ var route;
 // timetables : 현재 띄워져있는 모든 타임테이블
 function viewMap(timetable, timetables){
 	// 기존에 있던 마커들 삭제
-	removeMarkerAll();
+//	removeMarkerAll();
 	
 	var locations = [];
 	var bounds  = new google.maps.LatLngBounds();
@@ -108,21 +108,27 @@ function viewMap(timetable, timetables){
 			, map: map
 			, icon: icon,
 			});
-		markerList.push(marker);
+		markers.push(marker);
 		
 		// bounds 에 위치 정보 추가
 		bounds.extend(loc);
 	});
 	
-	// bounds에 추가한 위치가 포함되도록 이동
-	map.panToBounds(bounds);
-	// bounds에 추가한 위치를 포함하도록 뷰포트 설정
-	map.fitBounds(bounds);
-	
-	// Zoom Level이 지정한 값보다 작아지면 지정 값으로 재설정
-	if(map.getZoom() < minZoomLv){
-		map.setZoom(minZoomLv);
+	// 존재하는 타임테이블이 한 개 이상일 때 뷰 이동, 줌
+	if(timetables.length > 0){
+		// bounds에 추가한 위치가 포함되도록 이동
+		map.panToBounds(bounds);
+		// bounds에 추가한 위치를 포함하도록 뷰포트 설정
+		map.fitBounds(bounds);
 	}
+	
+	// Bounds 가 변경되었을 때
+	// Zoom Level이 지정한 값보다 작아지면 지정 값으로 재설정
+	google.maps.event.addListenerOnce(map, 'bounds_changed', function(event) {
+		  if (this.getZoom() > minZoomLv) {
+		    this.setZoom(minZoomLv);
+		  }
+		});
 	
 	// 경로 그리기
 	route = new google.maps.Polyline({
@@ -133,12 +139,13 @@ function viewMap(timetable, timetables){
 	});
 	
 	route.setMap(map);
+
 }
 
 // 기존 마커 모두 삭제
 function removeMarkerAll(){
-	for (var i = 0; i < markerList.length; i++) {
-		markerList[i].setMap(null);
+	for (var i = 0; i < markers.length; i++) {
+		markers[i].setMap(null);
 	}
 	if(route!=null){
 		route.setMap(null);
@@ -247,7 +254,7 @@ function viewDetails(placeRes, status, prediction){
 		
 		// json data 설정
 		li.data('event', {
-			id: id_idx-- // 새로 추가한 요소는 id=-1
+			id: id_idx-- // 새로 추가한 요소는 음수
 			, title: placeRes.name
 			, address: placeRes.formatted_address
 			, lat: placeRes.geometry.location.lat()

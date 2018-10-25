@@ -336,6 +336,8 @@ $(document).ready(function() {
 		// 타임테이블 수정  모드로 변경
 		$('#calendar').fullCalendar('option', 'editable', true); // 수정 가능하게
 		$('#calendar').fullCalendar('option', 'droppable', true); // 드롭할 수 있게
+		
+		console.log(map.getZoom());
 	});
 	
 // 	$("#btnSelectShare").click(function() {
