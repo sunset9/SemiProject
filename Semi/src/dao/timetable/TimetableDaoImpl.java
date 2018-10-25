@@ -54,6 +54,7 @@ public class TimetableDaoImpl implements TimetableDao{
 			}
 		}
 		
+		System.out.println(listRes);
 		return listRes;
 	}
 	

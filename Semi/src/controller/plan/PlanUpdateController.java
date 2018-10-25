@@ -68,9 +68,10 @@ public class PlanUpdateController extends HttpServlet {
 	
 		@Override
 		protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+			req.setCharacterEncoding("utf-8");
+			
 			// 플랜 정보 파라미터 받기 
 			Plan planParam = pService.getParam4Edit(req);
-			System.out.println(planParam);
 			
 			// 요청파라미터 -> 타임테이블, 위치정보 Map 타입
 			Map<Timetable, Location> ttbLocParam = ttService.getParam(req);
