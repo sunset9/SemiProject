@@ -27,11 +27,9 @@ public class PlanServiceImpl implements PlanService{
 		Plan plan = new Plan();
 		
 		//요청파라미터 받기
+
 		int param =  (int)req.getSession().getAttribute("plan_idx"); 
-		//null이나 ""이 아니면 int로 변환하여 DTO에 저장
-//		if( !"".equals(param) ) {
-//			plan.setPlan_idx(Integer.parseInt(param));
-//		}
+
 		plan.setPlan_idx(param);
 		
 		//요청파라미터가 객체로 변환된 DTO 반환
