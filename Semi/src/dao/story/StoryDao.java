@@ -13,6 +13,9 @@ public interface StoryDao {
 	
 	public Story selectStoryByStoryIdx(Story story);
 	
+	// 미니뷰를 위한 스토리 조회 
+	public Story selectStoryByTtbIdx(Story story);
+	
 	public void updateHit(Story story);
 	
 	public void insert(Story story);

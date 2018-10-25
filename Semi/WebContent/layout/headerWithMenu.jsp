@@ -38,14 +38,6 @@
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap-theme.min.css">
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
 
-<!-- fullcalendar -->
-<link rel='stylesheet' href='/resources/timetable/fullcalendar/fullcalendar.css' />
-<link href='/resources/timetable/fullcalendar/fullcalendar.print.css' rel='stylesheet' media='print' />
-
-<script type="text/javascript" src="/resources/timetable/fullcalendar/fullcalendar.js"></script>
-<script type="text/javascript" src="/resources/timetable/fullcalendar/scheduler.min.js"></script>
-<script src='/resources/timetable/fullcalendar/locale-all.js'></script>
-
 <!-- floara 관련 -->
 <!-- <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script> -->
 <!-- <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.25.0/codemirror.min.js"></script> -->

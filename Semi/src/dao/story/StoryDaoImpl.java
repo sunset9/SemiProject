@@ -96,7 +96,40 @@ public class StoryDaoImpl implements StoryDao{
 	
 		return sList;
 	}
-
+	
+	@Override
+	public Story selectStoryByTtbIdx(Story story) {
+		String sql = "SELECT story_idx, plan_idx, ttb_idx, user_idx, content"
+				+ " FROM story"
+				+ " WHERE ttb_idx=?";
+		Story storyRes = new Story();
+		
+		try {
+			ps = conn.prepareStatement(sql);
+			ps.setInt(1, story.getTtb_idx());
+			
+			rs = ps.executeQuery();
+			while(rs.next()) {
+				storyRes.setStory_idx(rs.getInt("story_idx"));
+				storyRes.setPlan_idx(rs.getInt("plan_idx"));
+				storyRes.setTtb_idx(rs.getInt("ttb_idx"));
+				storyRes.setUser_idx(rs.getInt("user_idx"));
+				storyRes.setContent(rs.getString("content"));
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				if (ps != null) ps.close();
+				if (rs != null) rs.close();
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+	}
+		return storyRes;
+	}
+	
 	@Override
 	public Story selectStoryByStoryIdx(Story story) {
 		// TODO Auto-generated method stub
@@ -254,5 +287,6 @@ public class StoryDaoImpl implements StoryDao{
 		//게시글 번호 반환
 		return storyidx;
 }
+
 
 }
