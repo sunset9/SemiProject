@@ -97,7 +97,7 @@ function deleteReply(rep_idx){
 
 <tr><td class ="info">본문</td> <td colspan="4">
 <c:if test="${inqFile.origin_name ne null}">
-<img style="height: 150px ; width: 300px;" src ="/upload/${inqFile.stored_name }"><br><br>
+<img style="height: 150px ; width: 300px;" src ="/upload/inquiry/${inqFile.stored_name }"><br><br>
 </c:if>
 ${inquiry.content }</td>
 

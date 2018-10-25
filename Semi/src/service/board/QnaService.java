@@ -12,22 +12,25 @@ import utils.Paging;
 public interface QnaService {
 
 
-	// ���� ������ ��� ���� 
+	// 현재 페이지 얻어오기
 	public int getCurPage(HttpServletRequest req);
 	
-	// ��ü �� �� ������ 
-	public int getTotalCount();
+	// 전체 게시물 카운트
+	public int getTotalCount(String search);
 	
-	// ����¡�� ����Ʈ �θ��� DAO ȣ��
+	// 페이징 된 리스트 불러오기 =
 	public List<Qna> getPagingList(Paging paging);
 	
-	// �Խñ� �� ���� 
+	// 게시물 상세 보기
 	public Qna view (Qna qna);
 		
-	// �Ķ���� �޾� ���� 
-	public Qna getParam (HttpServletRequest res, HttpServletResponse resp);
+	// 파라미터 얻어오기 =
+	public Qna getParam (HttpServletRequest req, HttpServletResponse resp);
 	
-	//�Խñ� ���� �ҷ�����
+	//게시물에 관련된 파일 불러오기
 	public QnaFile viewFile(Qna qna);
+	
+	// 게시물 작성자 아이디 얻어오기 
+	public String getId(Qna qna);
 	
 }

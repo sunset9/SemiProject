@@ -76,7 +76,7 @@ $(document).ready(function() {
 <tr>
 <td>${inq.inq_idx }</td>
 <td><a href="/inquiry/view?inq_idx=${inq.inq_idx }">${inq.title }</a></td>
-<td>${inq.user_idx }</td>
+<td>${inq.writer }</td>
 <td>
 
 <c:if test="${inq.answer eq 0}">
@@ -121,7 +121,7 @@ $(document).ready(function() {
     
   	<c:if test="${paging.curPage ne 1 }">
     <li>
-      <a href="/inquiry/list?curPage=${paging.curPage-1 }" aria-label="Previous">
+      <a href="/inquiry/list?search=${paging.search }&curPage=${paging.curPage-1 }" aria-label="Previous">
         <span aria-hidden="true">&laquo;</span>
       </a>
     </li>
@@ -139,10 +139,10 @@ $(document).ready(function() {
 
 		<!-- 현재 보고 있는 페이지번호만 강조해주기 -->
 		<c:if test="${paging.curPage eq i}">          
-    	  <li class="active"><a href="/inquiry/list?curPage=${i }">${i }</a></li>
+    	  <li class="active"><a href="/inquiry/list?search=${paging.search }&curPage=${i }">${i }</a></li>
     	</c:if>
 		<c:if test="${paging.curPage ne i}">          
-    	  <li><a href="/inquiry/list?curPage=${i }">${i }</a></li>
+    	  <li><a href="/inquiry/list?search=${paging.search }&curPage=${i }">${i }</a></li>
     	</c:if>
     </c:forEach>
 
@@ -159,7 +159,7 @@ $(document).ready(function() {
 	
   	<c:if test="${paging.curPage ne paging.totalPage }">
     <li>
-      <a href="/inquiry/list?curPage=${paging.curPage+1 }" aria-label="Next">
+      <a href="/inquiry/list?search=${paging.search }&curPage=${paging.curPage+1 }" aria-label="Next">
         <span aria-hidden="true">&raquo;</span>
       </a>
     </li>

@@ -2,21 +2,25 @@ package dao.board;
 
 import java.util.List;
 
+import dto.board.Qna;
 import dto.board.QnaFile;
 
 
 public interface QnaFileDao {
 
 
-	// ÆÄÀÏ ¾÷·Îµå Á¤º¸ ÀÔ·Â 
+	// ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Îµï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ô·ï¿½ 
 	public void insert(QnaFile file);
 	
-	// ÆÄÀÏ ¸®½ºÆ® 
+	// ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Æ® 
 	public List<QnaFile> list();
 	
-	// ÆÄÀÏ¹øÈ£·Î Á¤º¸ ¾ò±â
+	// ï¿½ï¿½ï¿½Ï¹ï¿½È£ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½
 	public QnaFile selectByFileno(int fileno);
+	
+	// ê²Œì‹œê¸€ì— ê´€ë ¨ëœ ì²¨ë¶€íŒŒì¼ ë¶ˆëŸ¬ì˜¤ê¸°
+	public QnaFile selectFilebyQna(Qna qna);
 
-	// ÆÄÀÏ Áö¿ì±â 
+	// ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ 
 	public void delete(QnaFile file);
 }

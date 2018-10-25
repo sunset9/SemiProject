@@ -55,9 +55,14 @@ public class StoryServiceImpl implements StoryService {
 		
 		String ttb_idx = req.getParameter("ttb_idx");
 		String content = req.getParameter("content");
-		
+		String plan_idx = req.getParameter("plan_idx");
+    
 		// plan_idx Set
-		story.setPlan_idx(1);
+    if(plan_idx!=null & !"".equals(plan_idx)){
+      story.setPlan_idx(Integer.parseInt(plan_idx));
+    } else { // 테스트용 코드, 테스트 후에는 삭제
+      story.setPlan_idx(1);  
+    }
 		
 		// ttb_idx Set
 		if(ttb_idx!=null & !"".equals(ttb_idx)) {

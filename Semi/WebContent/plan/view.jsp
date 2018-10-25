@@ -86,13 +86,12 @@
 	.slider.round:before {
 	  border-radius: 50%;
 	}
-	 
-	p {
+ 	p {
 	  margin:0px;
 	  display:inline-block;
 	  font-size:15px;
 /* 	  font-weight:bold; */
-	}
+	} 
   
 	#map {
 		height: 100%;

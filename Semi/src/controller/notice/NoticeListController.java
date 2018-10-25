@@ -17,8 +17,6 @@ import service.board.NoticeServiceImpl;
 import utils.Paging;
 
 
-
-
 @WebServlet("/notice/list")
 public class NoticeListController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
@@ -33,7 +31,6 @@ public class NoticeListController extends HttpServlet {
 		// 검색어 얻기 
 		String search = noticeService.getSearch(req);
 		
-		
 		// 전체 페이지 얻어오기
 		int totalCount = noticeService.getTotalCount(search);
 		
@@ -45,6 +42,8 @@ public class NoticeListController extends HttpServlet {
 		
 		// 게시글 목록 MODEL로 추가하기
 		List<Notice> list = noticeService.getPagingList(paging);
+		
+//		System.out.println(list);
 		
 		// 요청에 리스트 담아 보내기
 		req.setAttribute("noticeList", list);

@@ -161,6 +161,8 @@ public class StoryDaoImpl implements StoryDao{
 			
 			ps.executeUpdate();
 			
+			conn.commit();
+			
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -250,9 +252,41 @@ public class StoryDaoImpl implements StoryDao{
 
 	@Override
 	public int SelectStoryIdx() {
-		// TODO Auto-generated method stub
-		return 0;
-	}
+		//다음 게시글 번호 조회 쿼리
+		String sql = "";
+		sql += "SELECT story_seq.nextval";
+		sql += " FROM dual";
+		
+		//DB 객체
+		//게시글번호
+		int storyidx = 0;
+		
+		try {
+			//DB작업
+			ps = conn.prepareStatement(sql);
+			rs = ps.executeQuery();
+			
+			//결과 담기
+			while(rs.next()) {
+				storyidx = rs.getInt(1);
+			}
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				//DB객체 닫기
+				if(rs!=null)	rs.close();
+				if(ps!=null)	ps.close();
+				
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+		
+		//게시글 번호 반환
+		return storyidx;
+}
 
 
 }
