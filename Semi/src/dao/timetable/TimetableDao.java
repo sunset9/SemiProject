@@ -27,7 +27,7 @@ public interface TimetableDao {
 	int selectLocationIdx(Location location);
 	
 	// 타임테이블 업데이트
-//	void updateTimetable(List<Timetable> timetableList);
+	void updateTimetable(Timetable ttb);
 	
 	// 타임테이블 삭제
 	void deleteTimetable(Plan plan);
@@ -39,4 +39,5 @@ public interface TimetableDao {
 	int selectDay(Timetable timetable);
 	
 	String selectPlacenameByTimetableIdx(Timetable timetable);
+
 }

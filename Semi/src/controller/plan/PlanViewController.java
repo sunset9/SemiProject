@@ -46,12 +46,10 @@ public class PlanViewController extends HttpServlet {
 		Plan planView = pService.getPlanInfo(param);
 		//planView MODEL 전달
 		req.setAttribute("planView", planView);
-		System.out.println(planView);
 		// 유저 정보 가져오기
 		User userView = pService.getUserInfo(planView);
 		//userView MODEL 전달
 		req.setAttribute("userView", userView);
-		System.out.println(userView);
 		
 		// timetable, location 리스트 받기
 		List<Timetable> ttbList = ttbService.getTimetableList(planView);
@@ -70,7 +68,6 @@ public class PlanViewController extends HttpServlet {
 		// 파라미터 지정
 		req.setAttribute("ttbList", ttbListStr);
 		req.setAttribute("locList", locListStr);
-		
 		
 		// 스토리 리스트 가져오기
 		//List<Story> storyList = sService.getStoryList(plan);

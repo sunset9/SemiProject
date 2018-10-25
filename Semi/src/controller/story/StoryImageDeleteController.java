@@ -24,16 +24,18 @@ public class StoryImageDeleteController extends HttpServlet {
 		
 		ServletContext context = getServletContext();
 		
-		String filePath = context.getRealPath("upload")+"\\";
+		String filePath = context.getRealPath("upload/story")+"\\";
+//		String filePath = context.getRealPath("upload/story");
 		
-	    
+		System.out.println("filepath:"+filePath);
 	    String[] fileName = request.getParameter("src").split("/");
 	    
-	    filePath += fileName[4];
-	    
+	    filePath += fileName[5];
 	    	
 	    File f = new File(filePath); // 파일 객체생성
-	    System.out.println(f);
+	    
+	    System.out.println("file:"+f);
+	    
 	    if( f.exists()) f.delete(); // 파일이 존재하면 파일을 삭제한다.
 
 	}

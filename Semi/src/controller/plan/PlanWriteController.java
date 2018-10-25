@@ -31,12 +31,6 @@ public class PlanWriteController extends HttpServlet {
 	
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-//		// 일정 정보 파라미터 얻어오기
-//		Plan plan = pService.getParam(req);
-//		
-//		// 유저 정보 얻어오기
-//		User user = pService.getUserInfo(plan);
-		
 		// 뷰 지정
 		req.getRequestDispatcher("/plan/view.jsp")
 		.forward(req, resp);
@@ -44,16 +38,14 @@ public class PlanWriteController extends HttpServlet {
 	
 	@Override
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		System.out.println("알로?");
 //		// 요청 파라미터 받아오기
-//		Plan plan = pService.getParam(req);
-//		
-//		Map<Timetable, Location> ttLoc = ttService.getParam(req);
-//		
-//		// 타임테이블 정보 저장
-//		ttService.write(plan,ttLoc);
-//		// 일정 정보 저장하기
-//		pService.write(plan);
+		Plan plan = pService.getParam4Edit(req);
+		Map<Timetable, Location> ttLoc = ttService.getParam(req);
+		
+		// 타임테이블 정보 저장
+		ttService.write(plan,ttLoc);
+		// 일정 정보 저장하기
+		pService.write(plan);
 		
 		resp.sendRedirect("/plan");
 	}

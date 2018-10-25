@@ -154,7 +154,6 @@ public class UserServiceImpl implements UserService {
 		user.setNickname(param.get("nickname"));
 		
 		userDao.changeNick(user);
-		
 	}
 
 	//비밀번호 변경
@@ -170,8 +169,6 @@ public class UserServiceImpl implements UserService {
 		if( param.get("newPw").equals(param.get("newPwCheck"))) {
 			userDao.changePw(user);			
 		}
-		
-		
 	}
 
 	//내 일정 가져오기
@@ -184,6 +181,18 @@ public class UserServiceImpl implements UserService {
 	@Override
 	public List<Bookmark> getBookmarkList(User user) {
 		return userDao.getBookmarkList(user);
+	}
+
+	//내 일정 포스팅 개수 가져오기
+	@Override
+	public int getCntPlan(User user) {
+		return userDao.getCntPlan(user);
+	}
+
+	//내 총 여행거리 가져오기 
+	@Override
+	public int getTotDist(User user) {
+		return userDao.getTotDist(user);
 	}
 
 

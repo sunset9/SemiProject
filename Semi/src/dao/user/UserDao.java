@@ -46,4 +46,10 @@ public interface UserDao {
 	
 	//내 북마크 가져오기 
 	public List<Bookmark> getBookmarkList(User user);
+	
+	//내 일정 포스팅 개수 가져오기
+	public int getCntPlan(User user);
+	
+	//내 일정의 여행거리들 리스트에 담아오기
+	public int getTotDist(User user);
 }

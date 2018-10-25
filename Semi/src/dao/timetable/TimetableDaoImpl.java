@@ -117,6 +117,7 @@ public class TimetableDaoImpl implements TimetableDao{
 			conn.setAutoCommit(false);
 			
 			ps = conn.prepareStatement(sql);
+			
 			ps.setInt(1, ttb.getPlan_idx());
 			ps.setInt(2, ttb.getLoc_idx());
 			ps.setString(3, new SimpleDateFormat("yyyy-MM-dd HH:mm").format(ttb.getStart_time()));
@@ -143,6 +144,48 @@ public class TimetableDaoImpl implements TimetableDao{
 		}
 	}
 	
+
+	@Override
+	public void updateTimetable(Timetable ttb) {
+		String sql = "INSERT INTO timetable(ttb_idx, plan_idx, loc_idx, start_time, end_time)"
+				+ " VALUES(?, ?, ?"
+				+ ", TO_DATE(?, 'yyyy/mm/dd hh24:mi')"
+				+ ", TO_DATE(?, 'yyyy/mm/dd hh24:mi')"
+				+ " )";
+
+		try {
+			// 오토커밋 해제
+			conn.setAutoCommit(false);
+			
+			ps = conn.prepareStatement(sql);
+			
+			ps.setInt(1, ttb.getTtb_idx());
+			ps.setInt(2, ttb.getPlan_idx());
+			ps.setInt(3, ttb.getLoc_idx());
+			ps.setString(4, new SimpleDateFormat("yyyy-MM-dd HH:mm").format(ttb.getStart_time()));
+			ps.setString(5, new SimpleDateFormat("yyyy-MM-dd HH:mm").format(ttb.getEnd_time()));
+			
+			ps.executeUpdate();
+			
+			conn.commit();
+			
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			try {
+				conn.rollback();
+			} catch (SQLException e1) {
+				e1.printStackTrace();
+			}
+		} finally {
+			try {
+				if(ps!=null) ps.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+	}
+
 	// 위치 정보 삽입
 	public void insertLocation(Location loc) {
 		String sql = "INSERT INTO location(loc_idx, place_name, lat, lng, address, photo_url, place_id)"

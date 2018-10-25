@@ -87,6 +87,10 @@
 	/* 가계부 그래프 */
 	.pop-layer .pop-container {
 	  padding: 20px 25px;
+	  margin:0px;
+	  display:inline-block;
+	  font-size:15px;
+/* 	  font-weight:bold; */
 	}
 	
 	.pop-layer p.ctxt {
@@ -265,13 +269,11 @@ function store(){
 	
 	// submit
 	console.log(timetables);
-	$("ttbFrom").submit();
+	$("#ttbFrom").submit();
 }
 </script>
 
 <script type="text/javascript">
-// 공개유무 라벨 변수
-var isShared;
 
 // 읽기모드일때, 검색창 on/off
 var isModify;
@@ -326,19 +328,24 @@ $(document).ready(function() {
 		
 	});
 	
-// 	수정모드일 때, 공개유무버튼
-	$("#btnSelectShare").click(function() {
-		if(isShared == 0) {
-			document.getElementById("isClose").style.display= "block";
-			document.getElementById("isOpen").style.display= "none";
-			isShared=1;
-		} else {
+// 	$("#btnSelectShare").click(function() {
+// 	});
+
+	// 	수정모드일 때, 공개유무버튼
+	$("#isChecked").click(function(){
+			
+// 		  $("p").toggle();
+		  var check = $("input[type='checkbox']").is(':checked');
+		  
+		  if(check) {
 			document.getElementById("isClose").style.display= "none";
 			document.getElementById("isOpen").style.display= "block";
-			isShared=0;
-		}
-		console.log(isShared);
-	});
+		  } else {
+			document.getElementById("isClose").style.display= "block";
+			document.getElementById("isOpen").style.display= "none";
+		  }
+			console.log(check);
+		});
 	
 // 	저장버튼
 	$("#planCommit").click(function() {
@@ -353,6 +360,11 @@ $(document).ready(function() {
 		
 		document.getElementById("viewTitle").style.display= "block";
 		document.getElementById("editTitle").style.display= "none";
+		
+		var frm = document.getElementById("YourFormID");
+
+		frm.submit();
+	        
 	});
 	
 // 	북마크 버튼
@@ -405,6 +417,7 @@ $(document).ready(function() {
 		document.getElementById("viewTotalGraph").style.display= "none";
 		document.getElementById("viewDaliyGraph").style.display= "block";
 	});
+	
 });
 </script>
 
@@ -416,31 +429,24 @@ $(document).ready(function() {
 
 	<!-- 플래너 대문 정보(공개유무, 수정버튼, 일정제목 등 UI) -->
 	<div style="background-color:#EEEEEE;">
-		<script>
-		var check = $("input[type='checkbox']");
-		check.click(function(){
-		  $("p").toggle();
-		});
-		</script>
 		
-		<label id="isClose" style="display:none;">비공개</label>
-		<label id="isOpen" style="display:none;">공개</label>
+		<p id="isClose" style="display:none;">비공개</p>
+		<p id="isOpen" style="display:none;">공개 </p>
 		
-		<label id="btnSelectShare" class="switch" style="display:none;">
-			<input type="checkbox">
+		<label id="btnSelectShare" class="switch" style="display:none;" >
+			<input id="isChecked" type="checkbox" name="checkbox" value="check">
 			<span class="slider round"></span>
 		</label>
 		
-<!-- 		c:if로 user 아이디가 동일하다면 수정버튼을, 동일하지 않으면 북마크 버튼을 -->
-<%-- 		<c:out value="${planView.user_idx}" /> --%>
-<%-- 		<c:out value="${userView.user_idx}" /> --%>
+<!-- 		게시자와 열람자가 같은 유저면 수정버튼을 -->
 		<c:if test="${planView.user_idx eq userView.user_idx}">
 		    <input id="btnModify" type="button" value="수정" style="float:right;">
 		</c:if>
-		
+<!-- 		다르면 북마크 버튼을 보여준다 -->
 		<c:if test="${planView.user_idx ne userView.user_idx}">
 			<input id="btnBookMark" type="button" value="북마크" style="float:right;">
 		</c:if>
+		
 	</div><br>
 		
 	<div id="header" style="background-color:#EEEEEE;text-align:center;">
@@ -453,15 +459,14 @@ $(document).ready(function() {
 		
 		
 		<div id="editTitle" style="display:none;">
-			<form action="/plan/write" method="post">
+			<form action="/plan/update" method="post">
 				<div >
 					제목 : <input id="editTitleView" name="editTitleView" type="text" /><br><br>
-					출발일 : <input id="editStartDate" name="editStartDate" type="date" /> 도착일 : <input id="editEndDate" type="date" /><br><br>
-					여행 전 <input id="editTravledBefore" name="editTravledBefore" type="radio"/> / 여행 후 <input id="editTravledAfter" type="radio"/><br><br>
+					출발일 : <input name="editStartDate" type="date" /> 도착일 : <input name="editEndDate" type="date" /><br><br>
+					여행 전 <input id="editTravledBefore" name="editTraveled" type="radio" value="1" checked="checked"/> / 여행 후 <input id="editTravledAfter" name="editTraveled" type="radio" value="0" /><br><br>
+					<input id="isChecked" type="checkbox" name="checkbox" value="${check }">
 				</div>
-				<div >
-					<button id="lanCommit" type="submit" >저장</button>
-				</div>
+				<button id="planCommit" type="submit">..........</button>
 			</form>
 		</div>
 			<br>
