@@ -35,7 +35,7 @@ public class NoticeViewController extends HttpServlet {
 		// 파일 모델 전달 
 		req.setAttribute("noticeFile", noticeFile);
 		
-		// 글 작성자 이메일 전달 
+		// 글 작성자 아이디 전달 
 		req.setAttribute("userid", noticeService.getId(notice));
 		
 		// 게시글 모델로 전달하기

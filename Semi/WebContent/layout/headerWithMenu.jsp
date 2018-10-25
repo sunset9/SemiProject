@@ -124,7 +124,7 @@
 		</c:if>
 	</a></div>
 	<div class="menu common"><a href="/notice/list">공지사항</a></div>
-	<div class="menu common"><a href="/Qna/list">Q&A</a></div>
+	<div class="menu common"><a href="/qna/list">Q&A</a></div>
   	<div class="menu common"><a href="/inquiry/list">문의사항</a></div>
 </div><br>
 

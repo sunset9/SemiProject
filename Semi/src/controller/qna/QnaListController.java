@@ -27,26 +27,34 @@ public class QnaListController extends HttpServlet {
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
-		//----- ÆäÀÌÂ¡ ÀÛ¾÷ -----
-		// ÇöÀç ÆäÀÌÁö ¹øÈ£ ¾ò±â
+		// í˜„ì¬ í˜ì´ì§€ ë²ˆí˜¸ ì–»ê¸°
 		int curPage = qnaService.getCurPage(req);
 		
-		// ÆäÀÌÂ¡ °´Ã¼
-		int totalCount = qnaService.getTotalCount();
+		// ê²€ìƒ‰ì–´ ì–»ê¸° 
+		String search = qnaService.getSearch(req);
 		
+		// ì „ì²´ í˜ì´ì§€ ì–»ì–´ì˜¤ê¸°
+		int totalCount = qnaService.getTotalCount(search);
+		
+		// í˜ì´ì§• ê°ì²´ ìƒì„±
 		Paging paging = new Paging(totalCount, curPage,10); 
 		
-		// List¿¡ Á¶È¸ °á°ú ´ã±â
+		// í˜ì´ì§• ê°ì²´ì— ê²€ìƒ‰ì–´ ì ìš© í•˜ê¸° 
+		paging.setSearch(search);
+		
+		// ê²Œì‹œê¸€ ì¡°íšŒí•´ì˜¤ê¸°
 		List<Qna> list = qnaService.getPagingList(paging);
 		
-		// ¿äÃ»¿¡ °á°ú ´ã¾Æ¼­ º¸³»±â
-		req.setAttribute("qnalist", list);
+		System.out.println(list);
 		
-		// ÆäÀÌÂ¡ °´Ã¼ ¸ğµ¨·Î Ãß°¡ ÇÏ±â
+		// ìš”ì²­ì— ì¡°íšŒ ê²°ê³¼ ë‹´ì•„ ë³´ë‚´ê¸°
+		req.setAttribute("qnaList", list);
+		
+		// í˜ì´ì§• ê°ì²´ ìš”ì²­ìœ¼ë¡œ ë³´ë‚´ê¸°
 		req.setAttribute("paging", paging);
 		
-		// º¸¿©ÁÙ È­¸é ÁöÁ¤
-		req.getRequestDispatcher("").forward(req, resp);
+		// view í˜ì´ì§€ ì§€ì •
+		req.getRequestDispatcher("/qna/list.jsp").forward(req, resp);
 		
 		
 	}

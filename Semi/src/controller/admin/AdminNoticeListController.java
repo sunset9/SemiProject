@@ -34,18 +34,18 @@ public class AdminNoticeListController extends HttpServlet {
 		int curPage = adminNoticeService.getCurPage(req);
 		
 		// ����¡ ��ü
-		int totalCount = adminNoticeService.getTotalCount();
+//		int totalCount = adminNoticeService.getTotalCount();
 		
-		Paging paging = new Paging(totalCount, curPage,10); 
+//		Paging paging = new Paging(totalCount, curPage,10); 
 		
 		// List�� ��ȸ ��� ���
-		List<Notice> list = adminNoticeService.getPagingList(paging);
+//		List<Notice> list = adminNoticeService.getPagingList(paging);
 		
-		// ��û�� ��� ��Ƽ� ������
-		req.setAttribute("noticelist", list);
+//		 ��û�� ��� ��Ƽ� ������
+//		req.setAttribute("noticelist", list);
 		
 		// ����¡ ��ü �𵨷� �߰� �ϱ�
-		req.setAttribute("paging", paging);
+//		req.setAttribute("paging", paging);
 		
 		// ������ ȭ�� ����
 		req.getRequestDispatcher("").forward(req, resp);
