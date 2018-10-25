@@ -66,7 +66,6 @@ public class TimetableServiceImpl implements TimetableService{
 	// Timetable 리스트 가져오기
 	public List<Timetable> getTimetableList(Plan plan){
 		
-		
 		List<Timetable> list = new ArrayList<>();
 		
 		list = ttbDao.selectTimetableList(plan);

@@ -9,7 +9,7 @@ function initMap() {
 	// 구글 맵 초기화
 	map = new google.maps.Map(document.getElementById('map'), {
 		zoom: 8, 
-		center: {lat: 37.4601908, lng: 126.4406956},
+		center: {lat: 37.4601, lng: 126.4406},
 		zoomControl: false,
 		mapTypeControl: false,
 		scaleControl: false,
@@ -93,7 +93,6 @@ function viewMap(timetable, timetables){
 		return;
 	}
 	
-	
 	// 마커 리스트 생성 & 확대 구역 설정
 	locations.forEach(function(loc){
 		// 아이콘 정의
@@ -121,7 +120,7 @@ function viewMap(timetable, timetables){
 	map.fitBounds(bounds);
 	
 	// Zoom Level이 지정한 값보다 작아지면 지정 값으로 재설정
-	if(map.getZoom() > minZoomLv){
+	if(map.getZoom() < minZoomLv){
 		map.setZoom(minZoomLv);
 	}
 	

@@ -45,7 +45,8 @@ public class PlanServiceImpl implements PlanService{
 		Date dateEnd = new Date();
 		
 //		req.getParameter("1")
-		plan.setPlan_idx(1);
+		int plan_idx = (int)req.getSession().getAttribute("plan_idx");
+		plan.setPlan_idx(plan_idx);
 		plan.setUser_idx(1);
 		plan.setTitle(req.getParameter("editTitleView"));
 		
