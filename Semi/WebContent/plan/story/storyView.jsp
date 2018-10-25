@@ -5,6 +5,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 
+
 <style type="text/css">
 	
 #slidemenu{
@@ -22,11 +23,12 @@ div.vertical-line{
 	float: right; /* Causes the line to float to left of content.
 	You can instead use position:absolute or display:inline-block
 	if this fits better with your design */
-	}
+}
 	
 tr,td{
 padding: 2px;
 }
+
 
 </style>
 <script type="text/javascript">
@@ -44,13 +46,45 @@ padding: 2px;
 		})
 		
 
-	$(".storyPlus").click(function() {
-		
-		
-		var place_name = $(this).data("place");
-		
+		$(".storyPlus").click(function() {
+			
+			
+			var place_name = $(this).data("place");
+			
 			$(".modalPlaceName").text(place_name);
+			
+			var ttb_idx = $(this).data("ttbidx");
+			
+			$(".ttb_idx").val(ttb_idx);	
+			
+			var plan_idx = $(this).data("planidx");
+			$(".plan_idx").val(plan_idx);	
+		})
 		
+		
+		$(".storySaveBtn").click(function() {
+			
+			var JSON = {
+				"ttb_idx": //이름으로 넘겨주기
+				"plan_idx": 
+				"content_idx":
+			}
+			
+			$.ajax({
+				
+				type : "POST"
+				, url : "/story/write"
+				, data : {"story_Idx":storyIdx}
+				, success : function (res) {
+					$("#viewStory").html(res);
+				}
+				, error: function (e) {
+					console.log(e);
+				}
+				
+			})
+			
+// 			$(".ModalForm").submit();
 		})
 
 	});
@@ -81,6 +115,25 @@ padding: 2px;
 		plus.style.color='black';
 	}
 
+
+	function storyDelete(storyIdx) {
+		
+		$.ajax({
+			
+			type : "POST"
+			, url : "/story/delete"
+			, data : {"story_Idx":storyIdx}
+			, success : function (res) {
+				$("#viewStory").html(res);
+			}
+			, error: function (e) {
+				console.log(e);
+			}
+			
+		})
+		
+	}
+	
 	
 </script>	
 
@@ -91,9 +144,6 @@ padding: 2px;
 	
 <input type="hidden" id = "calcDay"/>
 <div>
-  <div class="col-lg-2">
-   <div class ="vertical-line"></div>
-  </div>
   <div class="col-lg-8">
 	<!-- Day Foreach문 -->
 		<div id = "Day">
@@ -111,8 +161,12 @@ padding: 2px;
 				    		<table width="70%" style="border-bottom: 1px solid black; border-right: 1px solid black; border-top: 1px solid black; border-left: 1px solid black" >
 				    			<tr>
 				     			<td colspan="12">
-								  <div> <h2><span class="glyphicon glyphicon-map-marker"></span>&nbsp;${story.place_name}</h2><hr></div>
-						 		  <div width="100%" style="overflow:auto; height:300px">${story.content}</div>
+								  <font size="5"><span class = "glyphicon glyphicon-remove" style="float: right" onclick="storyDelete(${story.story_idx})"></span></font>
+								  <div> <h2><span class="glyphicon glyphicon-map-marker"></span>&nbsp;${story.place_name}</h2>
+								  <hr>
+								  </div>
+						 		  <!-- froala align 적용 되게 하려면 content 표시할 div에 fr-view class를 반영 해줘야함 -->
+						 		  <div class = "fr-view" width="100%" style="overflow:auto; height:300px">${story.content}</div>
 								</td>
 				    			</tr>
 				    			<tr>
@@ -158,7 +212,7 @@ padding: 2px;
 						<div><h2><span class="glyphicon glyphicon-map-marker"></span>&nbsp;${ttb.place_name}</h2></div>
 						<br>
 						<font size="10" color="black">
-							<span id = "plus${day}" class ="glyphicon glyphicon-plus-sign storyPlus" data-toggle="modal" data-target="#myModal" data-backdrop="static" data-place="${ttb.place_name}" onmouseover="plusmover(${day})" onmouseleave="plusmleave(${day})" onmousedown="plusmdown(${day})"></span>
+							<span id = "plus${day}" class ="glyphicon glyphicon-plus-sign storyPlus" data-toggle="modal" data-target="#myModal" data-backdrop="static" data-place="${ttb.place_name}" data-ttbidx="${ttb.ttb_idx}" data-planidx="${ttb.plan_idx}"  onmouseover="plusmover(${day})" onmouseleave="plusmleave(${day})" onmousedown="plusmdown(${day})"></span>
 <%-- 							<span id = "plus${day}" class ="glyphicon glyphicon-plus-sign" onclick= "show(${ttb.place_name})" onmouseover="plusmover(${day})" onmouseleave="plusmleave(${day})" onmousedown="plusmdown(${day})"></span> --%>
 						</font>
 					</c:if>
@@ -166,7 +220,7 @@ padding: 2px;
 			</c:forEach>
 			</c:forEach>
 		</div> <!-- col-lg-8 끝 구간 -->
- <div class="col-lg-2"></div>
+ <div class="col-lg-4"></div>
 	
 	
  <!-- Modal -->
@@ -179,16 +233,14 @@ padding: 2px;
           <h4 class="modal-title"><span class="glyphicon glyphicon-map-marker modalPlaceName" id ="placename" style="font-weight: bold;font-size: 25px"><font size="5">place_name</font></span></h4>
         </div>
         <div class="modal-body">
-        
-         <!-- Include external JS libs. -->
-
 		 
-		  <!-- Include Editor JS files. -->
 		  <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/froala-editor/2.5.1//js/froala_editor.pkgd.min.js"></script>
+			<form class = "ModalForm" action="/story/write" method="POST">
 			
-			
+			<!-- ttb_idx 값 숨겨두기 -->
+			<input type="hidden" value="" name ="ttb_idx" class = "ttb_idx" />
+			<input type="hidden" value="" name ="plan_idx" class = "plan_idx" />
 			<div style="height: auto; width:500px; padding: 20px;" id ="StoryWriteDiv">
-			<form action="/story/write" method="POST">
 				<table>
 				<tr>
 					<td colspan="4">
@@ -224,13 +276,13 @@ padding: 2px;
 					</td>
 				</tr>
 				</table>
-			</form>
 			</div>
-        
+        </form>
         </div> <!-- modal 바디끝 -->
         <div class="modal-footer" style="text-align: center">
-          <button type="button" class="btn btn-warning">Save</button>
+          <button class ="storySaveBtn" type="button" class="btn btn-warning">Save</button>
         </div>
+        
       </div>
       
     </div>
@@ -255,32 +307,22 @@ padding: 2px;
 //write 창에 x표시 추가
 
     $(function() {
-    	
-	$.FroalaEditor.DefineIcon('imageInfo', {NAME: 'info'});
-	 $.FroalaEditor.RegisterCommand('imageInfo', {
-	   title: 'Info',
-	   focus: false,
-	   undo: false,
-	   refreshAfterCallback: false,
-	   callback: function () {
-	     var $img = this.image.get();
-	     alert($img.attr('src'));
-	   }
-	 });
-
+    $.FroalaEditor.COMMANDS.imageAlign.options.justify = 'Center';
     $('#edit').froalaEditor({
         // Set the image upload URL.
         enter: $.FroalaEditor.ENTER_DIV,
+        //모달 사용할때 발생하는 문제 : image edit menu가 안뜸, -> 해결법 : zIndex를 높여라
+        zIndex: 2501,
         toolbarButtons: ['fontFamily','bold', 'italic', 'underline','align','|','insertLink','insertImage','|', 'undo', 'redo'],
         toolbarButtonsXS: ['fontFamily','bold', 'italic', 'underline','align','|','insertLink','insertImage','|', 'undo', 'redo'],
         toolbarButtonsSM: ['fontFamily','bold', 'italic', 'underline','align','|','insertLink','insertImage','|', 'undo', 'redo'],
         toolbarButtonsMD: ['fontFamily','bold', 'italic', 'underline','align','|','insertLink','insertImage','|', 'undo', 'redo'],
-        imageEditButtons: ['imageDisplay', 'imageAlign', 'imageInfo', 'imageRemove'],
         imageUploadURL: '/story/upload_image',
         imageUploadParams: {
           id: 'my_editor'
         },
-        heightMin: 300,
+	    imageEditButtons : ['imageAlign', 'imageRemove', 'imageLink','imageSize','imageDisplay'],
+	    heightMin: 300,
         heightMax: 300,
       }).on('froalaEditor.image.error', function (e, editor, error, response) {
     	  console.log(error);
@@ -308,5 +350,4 @@ padding: 2px;
             });
     });
   </script> 
-<!-- </body> -->
-<!-- </html> -->
+
