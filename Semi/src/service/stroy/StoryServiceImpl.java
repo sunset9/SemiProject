@@ -53,8 +53,8 @@ public class StoryServiceImpl implements StoryService {
 	public Story getParam(HttpServletRequest req) {
 		Story story = new Story();
 		
-		story.setPlan_idx(1);
-		story.setTtb_idx(1);
+		story.setPlan_idx(Integer.parseInt(req.getParameter("plan_idx")));
+		story.setTtb_idx(Integer.parseInt(req.getParameter("ttb_idx")));
 		story.setUser_idx(1);
 		
 		story.setContent(req.getParameter("content"));
