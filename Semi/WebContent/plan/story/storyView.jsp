@@ -94,7 +94,7 @@ padding: 2px;
 		})
 		
 		
-		$(".storySaveBtn").click(function() {
+$(".storySaveBtn").click(function() {
 			
 			var storyJSON = {
 				ttb_idx  : $(".ttb_idx").val()
@@ -113,10 +113,10 @@ padding: 2px;
 					console.log(e);
 				}
 				
-			})
+ 			})
 			
-// 			$(".ModalForm").submit();
-		})
+// // 			$(".ModalForm").submit();
+ 		})
 
 	});
 	

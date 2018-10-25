@@ -233,14 +233,6 @@ var locList = ${locList };
 
 var plan_idx = ${planView.plan_idx};
 
-$(document).ready(function(){
-	// 뿌려줄 timetable 리스트 가져오기
-	var timetables = getTimetablesFromServer();
-	
-	// 브라우저에 timetable 그려주기
-	initFullCalendar(planStartDate, planEndDate, timetables);
-	
-});
 </script>
 <script>
 //저장하기
@@ -271,27 +263,29 @@ function store(){
 	
 		// --- json 여러개 낱개로 넘겨주기
 		// input 태그 생성
-// 		$("form").append("<input type='hidden' name='events'>");
+// 		$("#planForm").append("<input type='hidden' name='events'>");
 // 		$("input[name*='events']:last-child").val(JSON.stringify(timetable));
 	});
 		// --- json list 로 묶어서 넘겨주기
 		// input 태그 생성
-		$("form").append("<input type='hidden' name='events'>");
+		$("#planForm").append("<input type='hidden' name='events'>");
 		// 생성된 태그의 value값 설정 , timetable json 마샬링해서 지정
-		$("input[name*='events']:last-child").val(JSON.stringify(timetables));
+		$("input[name='events']:last-child").val(JSON.stringify(timetables));
 	
 	// submit
 	console.log(timetables);
-	$("#ttbFrom").submit();
+	$("#planForm").submit();                                                                                                                                               
 }
 </script>
 
 <script type="text/javascript">
-
 // 읽기모드일때, 검색창 on/off
 var isModify = 0;
 
 $(document).ready(function() {
+	// 브라우저에 timetable 그려주기
+	initFullCalendar(planStartDate, planEndDate, true);
+	
 // 	스토리탭
 	$("#btnStory").click(function() {
 		document.getElementById("calendar").style.display= "none";
@@ -339,6 +333,9 @@ $(document).ready(function() {
 		document.getElementById("viewTitle").style.display= "none";
 		document.getElementById("editTitle").style.display= "block";
 		
+		// 타임테이블 수정  모드로 변경
+		$('#calendar').fullCalendar('option', 'editable', true); // 수정 가능하게
+		$('#calendar').fullCalendar('option', 'droppable', true); // 드롭할 수 있게
 	});
 	
 // 	$("#btnSelectShare").click(function() {
@@ -374,10 +371,10 @@ $(document).ready(function() {
 		document.getElementById("viewTitle").style.display= "block";
 		document.getElementById("editTitle").style.display= "none";
 		
-		var frm = document.getElementById("YourFormID");
+		// 타임테이블 읽기 모드로 변경
+		$('#calendar').fullCalendar('option', 'editable', false); // 수정 불가능하게
+		$('#calendar').fullCalendar('option', 'droppable', false); // 드롭 불가능하게
 
-		frm.submit();
-	        
 	});
 	
 // 	북마크 버튼
@@ -431,7 +428,16 @@ $(document).ready(function() {
 		document.getElementById("viewDaliyGraph").style.display= "block";
 	});
 	
-});
+	$(".planDate").on("change", function(){
+		var start_date = $(".planDate[name='editStartDate']").val();
+		
+// 		$('#calendar').fullCalendar('option', 'defaultDate',start_date);
+		initFullCalendar(start_date, planEndDate, false);
+	});
+	
+}); // $(document).ready() End
+	
+	
 </script>
 
 </head>
@@ -472,14 +478,15 @@ $(document).ready(function() {
 		
 		
 		<div id="editTitle" style="display:none;">
-			<form action="/plan/update" method="post">
+			<form action="/plan/update" method="post" id="planForm">
 				<div >
-					제목 : <input id="editTitleView" name="editTitleView" type="text" /><br><br>
-					출발일 : <input name="editStartDate" type="date" /> 도착일 : <input name="editEndDate" type="date" /><br><br>
+					<input type="hidden" name="plan_idx" value="${planView.plan_idx }">
+					제목 : <input id="editTitleView" name="editTitleView" type="text" value="${planView.title }" /><br><br>
+					출발일 : <input name="editStartDate" class ="planDate" type="date" value="${planView.start_date }"/>
+					도착일 : <input name="editEndDate" class ="planDate" type="date" value="${planView.end_date }"/><br><br>
 					여행 전 <input id="editTravledBefore" name="editTraveled" type="radio" value="1" checked="checked"/> / 여행 후 <input id="editTravledAfter" name="editTraveled" type="radio" value="0" /><br><br>
 					<input id="isChecked" type="checkbox" name="checkbox" value="${check }">
 				</div>
-				<button id="planCommit" type="submit">..........</button>
 			</form>
 		</div>
 			<br>
@@ -538,12 +545,12 @@ $(document).ready(function() {
 		</div><br>
 		
 		<!-- 일정 저장 -->
-		<div id="menu" style="float:bottom;width:100%;border-radius:10px;">
-			<form action="/update/ttb" method="post" id="ttbFrom">
-				<input type="hidden" name="plan_idx" value="${planView.plan_idx }">
+<!-- 		<div id="menu" style="float:bottom;width:100%;border-radius:10px;"> -->
+<!-- 			<form action="/update/ttb" method="post" id="ttbFrom"> -->
+<%-- 				<input type="hidden" name="plan_idx" value="${planView.plan_idx }"> --%>
 				<input id="planCommit" type="button" value="저장" onclick="store();" style="display:none;width:100%;">
-			</form>
-		</div><br>
+<!-- 			</form> -->
+<!-- 		</div><br> -->
 		
 		<!-- 검색 INPUT DIV -->
 		<div id="googleSearch" style="float:bottom;width:100%;border-radius:10px;display:none;">
