@@ -53,19 +53,33 @@ public class StoryServiceImpl implements StoryService {
 	public Story getParam(HttpServletRequest req) {
 		Story story = new Story();
 		
+		String ttb_idx = req.getParameter("ttb_idx");
+		String content = req.getParameter("content");
+		
+		// plan_idx Set
 		story.setPlan_idx(1);
-		story.setTtb_idx(1);
+		
+		// ttb_idx Set
+		if(ttb_idx!=null & !"".equals(ttb_idx)) {
+			story.setTtb_idx(Integer.parseInt(ttb_idx));
+		} else { // else 코드는 상지 테스트 용으로 남겨둠. 테스트 후에는 삭제
+			story.setTtb_idx(1);
+		}
+		
+		// user_idx Set
 		story.setUser_idx(1);
 		
-		story.setContent(req.getParameter("content"));
+		// content Set
+		if(content!=null & !"".equals(content)) {
+			story.setContent(content);
+		}
 		
 		return story;
 	}
 
 	@Override
 	public Story getStory(Story story) {
-		// TODO Auto-generated method stub
-		return null;
+		return storyDao.selectStoryByTtbIdx(story);
 	}
 
 	@Override

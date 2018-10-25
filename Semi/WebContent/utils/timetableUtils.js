@@ -1,3 +1,4 @@
+var i = 0;
 function initFullCalendar(planStartDate, planEndDate, timetables){
 	$('#calendar').fullCalendar({
 		schedulerLicenseKey: 'GPL-My-Project-Is-Open-Source'
@@ -85,15 +86,41 @@ function initFullCalendar(planStartDate, planEndDate, timetables){
 		// 이벤트 랜더링 콜백함수
 		, eventRender: function(event, element, view) {
 			// 이벤트 안의 텍스트 padding
-			element.css("padding", "5px 15px");
+			element.css("padding", "6px 15px");
 			
 			// 날짜 별로 색상 다르게 해주기
-			
 			if(getDiffDay(event.start, planStartDate) == 0){
 				element.css("background-color", "green");
 			}else if(getDiffDay(event.start, planStartDate) == 1){
 				element.css("background-color", "orange");
 			}
+			
+			// 이벤트 타이틀에 모달 트리거 속성 삽입
+			var titleElement = element.find(".fc-title");
+			titleElement.attr("data-toggle", "modal");
+			titleElement.attr("data-target", "#miniViewModal");
+			titleElement.on("click",function(){
+				// ajax로 story 정보 가져옴 (content 정보)
+				$.ajax({
+					url: "/story/mini/view"
+					, type: "GET"
+					, data: {
+						plan_idx: plan_idx
+						, ttb_idx: event.id
+					}
+					, dataType: "json"
+					, success: function(story){
+						// miniView modal에 값 채워줌
+						$("#miniTitle").text(event.title);
+						$("#miniImg").attr("src", event.photo_url);
+						
+						$("#storyContent").text(story.content);
+					}
+					, error: function(){
+						console.log("ajax 통신 실패");
+					}
+				});
+			})
 		}
 		// 이벤트에 마우스 오버 시 콜백 함수
 		, eventMouseover: function( event, jsEvent, view ){
