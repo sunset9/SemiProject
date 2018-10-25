@@ -68,7 +68,8 @@ function viewMap(timetable, timetables){
 	var minZoomLv = 16;
 	var diffDay = 0;
 	var isExistSameDayTtb = false;
-	
+    var labelIdx = 1;
+    
 	if(timetable!='all'){
 		var ttbStartDate = moment(timetable.start).format('YYYY-MM-DD');
 	}
@@ -91,9 +92,23 @@ function viewMap(timetable, timetables){
 		viewMap('all', timetables);
 		return;
 	}
+	
+	
 	// 마커 리스트 생성 & 확대 구역 설정
 	locations.forEach(function(loc){
-		var marker = new google.maps.Marker({position: loc, map: map});
+		// 아이콘 정의
+		var icon = {
+				url: '/resources/mapMarker/' + (labelIdx++) +'cb.png', // url
+				scaledSize: new google.maps.Size(30, 32), // scaled size
+				origin: new google.maps.Point(0, 0), // origin
+				anchor: new google.maps.Point(8, 15) // anchor
+		};
+		
+		var marker = new google.maps.Marker({
+			position: loc
+			, map: map
+			, icon: icon,
+			});
 		markerList.push(marker);
 		
 		// bounds 에 위치 정보 추가
@@ -113,7 +128,7 @@ function viewMap(timetable, timetables){
 	// 경로 그리기
 	route = new google.maps.Polyline({
 		path: locations,
-		strokeColor: '#FF0000',
+		strokeColor: '#0078FF',
 		strokeOpacity: 1.0,
 		strokeWeight: 2
 	});
@@ -190,8 +205,11 @@ function autoSearchQuery(predictions, status) {
 		
 		}
 	});
-} 
-	
+}
+
+//새로운 일정 id값 지정을 위한 변수
+var id_idx = -1;
+
 function viewDetails(placeRes, status, prediction){
 //	console.log(placeRes);
 	if (status === google.maps.places.PlacesServiceStatus.OK){
@@ -230,7 +248,7 @@ function viewDetails(placeRes, status, prediction){
 		
 		// json data 설정
 		li.data('event', {
-			id: -1 // 새로 추가한 요소는 id=-1
+			id: id_idx-- // 새로 추가한 요소는 id=-1
 			, title: placeRes.name
 			, address: placeRes.formatted_address
 			, lat: placeRes.geometry.location.lat()

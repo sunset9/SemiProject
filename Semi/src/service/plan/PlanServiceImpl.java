@@ -1,5 +1,9 @@
 package service.plan;
 
+
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -23,17 +27,42 @@ public class PlanServiceImpl implements PlanService{
 		Plan plan = new Plan();
 		
 		//요청파라미터 받기
-		String param = req.getParameter("plan_idx");
-		
-		//null이나 ""이 아니면 int로 변환하여 DTO에 저장
-		if( param != null && !"".equals(param) ) {
-			plan.setPlan_idx(Integer.parseInt(param));
-		}
 
+		int param =  (int)req.getSession().getAttribute("plan_idx"); 
+
+		plan.setPlan_idx(param);
+		
 		//요청파라미터가 객체로 변환된 DTO 반환
 		return plan;
 	}
 	
+	@Override
+	public Plan getParam4Edit(HttpServletRequest req) {
+		Plan plan = new Plan();
+		Date dateStart = new Date();
+		Date dateEnd = new Date();
+		
+//		req.getParameter("1")
+		plan.setPlan_idx(1);
+		plan.setUser_idx(1);
+		plan.setTitle(req.getParameter("editTitleView"));
+		
+		try {
+			dateStart = new SimpleDateFormat("yyyy-MM-dd").parse(req.getParameter("editStartDate"));
+			dateEnd = new SimpleDateFormat("yyyy-MM-dd").parse(req.getParameter("editEndDate"));
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		plan.setStart_date(dateStart);
+		plan.setEnd_date(dateEnd);
+		
+		//1 : 여행전, 0 : 여행후
+		plan.setTraveled(Integer.parseInt(req.getParameter("editTraveled")));
+		System.out.println(req.getParameter("checkbox"));
+		return plan;
+	}
 	// 일정 기본 정보 가져오기
 	@Override
 	public Plan getPlanInfo(Plan plan) {
@@ -74,7 +103,7 @@ public class PlanServiceImpl implements PlanService{
 	// 일정 저장 (새로운 일정)
 	@Override
 	public void write(Plan plan) {
-		plandao.insert();
+		plandao.insert(plan);
 	}
 	
 	// 수정된 일정 저장
@@ -82,4 +111,6 @@ public class PlanServiceImpl implements PlanService{
 	public void update(Plan plan) {
 		plandao.update(plan);
 	}
+
+	
 }

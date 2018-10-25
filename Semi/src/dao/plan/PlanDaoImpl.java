@@ -4,6 +4,8 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 import dto.Account.Account;
@@ -31,7 +33,7 @@ public class PlanDaoImpl implements PlanDao{
 			//DB작업
 			ps = conn.prepareStatement(sql);
 			//plan.getPlan_idx()
-			ps.setInt(1, 1);
+			ps.setInt(1, plan.getPlan_idx());
 			rs = ps.executeQuery();
 			
 			//결과 담기
@@ -121,7 +123,7 @@ public class PlanDaoImpl implements PlanDao{
 			//DB작업
 			ps = conn.prepareStatement(sql);
 			//plan.getUser_idx()
-			ps.setInt(1, 1);
+			ps.setInt(1, plan.getUser_idx());
 			rs = ps.executeQuery();
 			
 			//결과 담기
@@ -243,15 +245,84 @@ public class PlanDaoImpl implements PlanDao{
 	}
 	
 	// 새로운 일정 저장
-	public void insert() {
-		
-		
+	@Override
+	public void insert(Plan plan) {
+		String sql = "INSERT INTO timetable(ttb_idx, plan_idx, loc_idx, start_time, end_time)"
+				+ " VALUES(timetable_seq.nextval, ?, ?"
+				+ ", TO_DATE(?, 'yyyy/mm/dd hh24:mi')"
+				+ ", TO_DATE(?, 'yyyy/mm/dd hh24:mi')"
+				+ " )";
+
+		try {
+			// 오토커밋 해제
+			conn.setAutoCommit(false);
+			
+			ps = conn.prepareStatement(sql);
+			
+			ps.executeUpdate();
+			
+			conn.commit();
+			
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			try {
+				conn.rollback();
+			} catch (SQLException e1) {
+				e1.printStackTrace();
+			}
+		} finally {
+			try {
+				if(ps!=null) ps.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
 	}
 	
 	// 일정메인 수정값 저장하기
+	@Override
 	public void update(Plan plan) {
-		String sql = "update table planner"
-				+ " where ?";
+		String sql = "UPDATE planner set"
+				+ " start_date=TO_DATE(?, 'yyyy/mm/dd hh24:mi'),"
+				+ " end_date=TO_DATE(?, 'yyyy/mm/dd hh24:mi'),"
+				+ " title=?, traveled=?, opened=?"
+				+ " where plan_idx=?";
+
+		try {
+			// 오토커밋 해제
+			conn.setAutoCommit(false);
+			
+			ps = conn.prepareStatement(sql);
+			
+			ps.setString(1, new SimpleDateFormat("yyyy-MM-dd HH:mm").format(plan.getStart_date()));
+			ps.setString(2, new SimpleDateFormat("yyyy-MM-dd HH:mm").format(plan.getEnd_date()));
+			ps.setString(3, plan.getTitle());
+			ps.setInt(4, plan.getTraveled());
+			ps.setInt(5, plan.getOpened());
+			ps.setInt(6, plan.getPlan_idx());
+			
+			ps.executeUpdate();
+			
+			conn.commit();
+			
+			System.out.println("update : " + plan);
+			
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			try {
+				conn.rollback();
+			} catch (SQLException e1) {
+				e1.printStackTrace();
+			}
+		} finally {
+			try {
+				if(ps!=null) ps.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
 	}
 	
 	// 일정 삭제하기

@@ -8,6 +8,9 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.google.gson.Gson;
+
+import dto.story.Story;
 import service.plan.PlanService;
 import service.plan.PlanServiceImpl;
 import service.stroy.StoryService;
@@ -23,10 +26,18 @@ public class StoryMiniViewController extends HttpServlet {
 	
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+		resp.setContentType("application/x-json; charset=UTF-8");
+		Gson gson = new Gson();
 		
+		// 파라미터 추출
+		Story param = sService.getParam(req);
+		// 스토리 가져오기
+		Story story = sService.getStory(param);
+		
+		// json 형식으로 변환
+		String storyStr = gson.toJson(story);
+		resp.getWriter().println(storyStr);
 	}
-	@Override
-	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-	}
+	
 }
 

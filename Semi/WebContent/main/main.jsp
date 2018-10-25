@@ -11,29 +11,6 @@
 <!-- jQuery UI 라이브러리 js파일 -->
 <script src="http://code.jquery.com/ui/1.8.18/jquery-ui.min.js"></script>
 <script type="text/javascript">
-/* 날짜선택하는 위젯 기능 부분 */
-$(function() {
-    $( "#startDate" ).datepicker({
-    	
-    	showOn: "both", 
-        changeMonth: true, 
-        changeYear: true,
-        dateFormat: "yy-mm-dd",
-        onSelect: function(){
-        	var dateObject = $(this).datepicker('getDate');
-        }
-    });
-	$( "#endDate" ).datepicker({
-    	
-    	showOn: "both", 
-        changeMonth: true, 
-        changeYear: true,
-        dateFormat: "yy-mm-dd",
-        onSelect: function(){
-        	var dateObject = $(this).datepicker('getDate');
-        }
-    });
-});
 
 </script>
 <style>
@@ -97,8 +74,12 @@ $(function() {
 	<form action="/main" method="post">
 	<div>
 		<input type="text" id="title" name="title" placeholder="여행 제목" /><br>
-		<input type="text" id="startDate" name="startDate" value="" />
-		<input type="text" id="endDate" name="endDate" value="" /><br>
+		<input type="date" id="startDate" name="startDate" value="" />
+		<input type="date" id="endDate" name="endDate" value="" /><br>
+		<select name="traveled">
+			<option value="1">여행 전</option>
+			<option value="0">여행 후</option>
+		</select>
 		<input type="submit" value="새 일정 추가" />
 	</div>
 	</form>

@@ -33,6 +33,7 @@ public class StoryViewController extends HttpServlet {
 	StoryService sService = new StoryServiceImpl();
 	
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		request.setCharacterEncoding("utf-8");
 		
 		List<Story> StoryList = new ArrayList<>();
 	

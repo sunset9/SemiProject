@@ -24,7 +24,7 @@ public interface PlanDao {
 	Account selectAccountInfoByAccountIdx(Plan plan);
 	
 	// 새로운 일정 저장
-	void insert();
+	void insert(Plan plan);
 	
 	// 일정메인 수정값 저장하기
 	void update(Plan plan);

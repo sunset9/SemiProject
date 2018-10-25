@@ -44,9 +44,9 @@ public class Plan {
 	
 	@Override
 	public String toString() {
-		return plan_idx + ", " + user_idx + ", " +  start_date + ", " +  end_date + ", " + 
-				title + ", " +  traveled + ", " +  opened + ", " +  distance + ", " +  create_date + ", " +  
-				tot_dist + ", " +  bannerURL;
+		return "Plan [ plan_idx=" + plan_idx + ", user_idx=" + user_idx + ", start_date=" +  start_date + ", end_date=" +  end_date +
+				", title=" + title + ", traveled=" +  traveled + ", opened=" +  opened + ", distance=" +  distance + ", create_date=" +  create_date +
+				", tot_dist=" + tot_dist + ", bannerURL=" +  bannerURL + " ]";
 	}
 
 	public int getPlan_idx() {
