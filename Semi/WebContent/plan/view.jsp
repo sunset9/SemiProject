@@ -274,7 +274,7 @@ function store(){
 	
 	// submit
 	console.log(timetables);
-	$("#planForm").submit();                                                                                                                                               
+	$("#planForm").submit();     
 }
 </script>
 
@@ -485,7 +485,6 @@ $(document).ready(function() {
 					출발일 : <input name="editStartDate" class ="planDate" type="date" value="${planView.start_date }"/>
 					도착일 : <input name="editEndDate" class ="planDate" type="date" value="${planView.end_date }"/><br><br>
 					여행 전 <input id="editTravledBefore" name="editTraveled" type="radio" value="1" checked="checked"/> / 여행 후 <input id="editTravledAfter" name="editTraveled" type="radio" value="0" /><br><br>
-					<input id="isChecked" type="checkbox" name="checkbox" value="${check }">
 				</div>
 			</form>
 		</div>
