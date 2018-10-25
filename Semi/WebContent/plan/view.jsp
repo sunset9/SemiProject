@@ -294,10 +294,10 @@ $(document).ready(function() {
 		document.getElementById("googleSearch").style.display= "none";
 		
 		//AJAX 처리하기
-		$.ajax({
+		$.ajax({ 	
 			type: "post"
 			, url: "/story/view"
-			//, data: { }
+// 			, data: {"isModify" : isModify }
 			, dataType: "html"
 			, success: function( d ) {
 				

@@ -51,12 +51,16 @@ public class StoryServiceImpl implements StoryService {
 
 	@Override
 	public Story getParam(HttpServletRequest req) {
-		Story story = new Story();
 		
-		String ttb_idx = req.getParameter("ttb_idx");
-		String content = req.getParameter("content");
-		String plan_idx = req.getParameter("plan_idx");
+	Story story = new Story();
+	
+	String ttb_idx = req.getParameter("ttb_idx");
+	String content = req.getParameter("content");
+	String plan_idx = req.getParameter("plan_idx");
     
+	
+	
+	
 		// plan_idx Set
     if(plan_idx!=null & !"".equals(plan_idx)){
       story.setPlan_idx(Integer.parseInt(plan_idx));
@@ -64,12 +68,12 @@ public class StoryServiceImpl implements StoryService {
       story.setPlan_idx(1);  
     }
 		
-		// ttb_idx Set
-		if(ttb_idx!=null & !"".equals(ttb_idx)) {
-			story.setTtb_idx(Integer.parseInt(ttb_idx));
-		} else { // else 코드는 상지 테스트 용으로 남겨둠. 테스트 후에는 삭제
-			story.setTtb_idx(1);
-		}
+	// ttb_idx Set
+	if(ttb_idx!=null & !"".equals(ttb_idx)) {
+		story.setTtb_idx(Integer.parseInt(ttb_idx));
+	} else { // else 코드는 상지 테스트 용으로 남겨둠. 테스트 후에는 삭제
+		story.setTtb_idx(1);
+	}
 		
 		// user_idx Set
 		story.setUser_idx(1);
