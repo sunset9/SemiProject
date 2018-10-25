@@ -86,9 +86,4 @@ public class PlanViewController extends HttpServlet {
 		// view 폼 띄우기
 		req.getRequestDispatcher("/plan/view.jsp").forward(req, resp);
 	}
-	
-	@Override
-	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		
-	}
 }

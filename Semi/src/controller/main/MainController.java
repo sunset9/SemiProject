@@ -65,7 +65,7 @@ public class MainController extends HttpServlet {
 			System.out.println("plan_idx : "+plan_idx);
 			
 			//req.set
-			req.setAttribute("plan_idx", plan_idx);
+			req.getSession().setAttribute("plan_idx", plan_idx);
 			
 		} else if (cUser == null) {
 			System.out.println("소셜 로그인 유저");
@@ -77,10 +77,10 @@ public class MainController extends HttpServlet {
 			System.out.println("plan_idx : " + plan_idx);
 			
 			//req.set
-			req.setAttribute("plan_idx", plan_idx);
+			req.getSession().setAttribute("plan_idx", plan_idx);
 		}
 		
-		resp.sendRedirect("/plan");
+		resp.sendRedirect("/plan/write");
 
 	}
 

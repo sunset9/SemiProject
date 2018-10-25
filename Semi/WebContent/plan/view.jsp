@@ -282,7 +282,7 @@ function store(){
 	
 	// submit
 	console.log(timetables);
-	$("#ttbFrom").submit();
+	$("#planForm").submit();
 }
 </script>
 
@@ -472,14 +472,13 @@ $(document).ready(function() {
 		
 		
 		<div id="editTitle" style="display:none;">
-			<form action="/plan/update" method="post">
+			<form action="/plan/update" method="post" id="planForm">
 				<div >
-					제목 : <input id="editTitleView" name="editTitleView" type="text" /><br><br>
-					출발일 : <input name="editStartDate" type="date" /> 도착일 : <input name="editEndDate" type="date" /><br><br>
+					제목 : <input id="editTitleView" name="editTitleView" type="text" value="${planView.title }"/><br><br>
+					출발일 : <input name="editStartDate" type="date" value="${planView.start_date }"/> 도착일 : <input name="editEndDate" type="date" value="${planView.end_date }"/><br><br>
 					여행 전 <input id="editTravledBefore" name="editTraveled" type="radio" value="1" checked="checked"/> / 여행 후 <input id="editTravledAfter" name="editTraveled" type="radio" value="0" /><br><br>
-					<input id="isChecked" type="checkbox" name="checkbox" value="${check }">
 				</div>
-				<button id="planCommit" type="submit">..........</button>
+<!-- 				<button id="planCommit" onclick="store();">저장</button> -->
 			</form>
 		</div>
 			<br>

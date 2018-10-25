@@ -27,13 +27,12 @@ public class PlanServiceImpl implements PlanService{
 		Plan plan = new Plan();
 		
 		//요청파라미터 받기
-		String param = req.getParameter("1");
-		plan.setPlan_idx(1);
-		System.out.println(", plan_idx : " + param);
-		//null이나 ""이 아니면 int로 변환하여 DTO에 저장
-		if( param != null && !"".equals(param) ) {
-			plan.setPlan_idx(Integer.parseInt(param));
-		}
+		int param = (int)req.getSession().getAttribute("plan_idx");
+		plan.setPlan_idx(param);
+//		//null이나 ""이 아니면 int로 변환하여 DTO에 저장
+//		if( param != null && !"".equals(param) ) {
+//			plan.setPlan_idx(Integer.parseInt(param));
+//		}
 		
 		//요청파라미터가 객체로 변환된 DTO 반환
 		return plan;
