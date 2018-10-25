@@ -75,14 +75,16 @@
 	<div class="right">
 		<div class="search common">
 			<div class="Type common">
-				<select>
-					<option>제목</option>
-					<option>닉네임</option>
-					<option>제목+내용</option>
+			<form action="/contents/all" method="post">
+				<select name="category">
+					<option value="title">제목</option>
+					<option value="nickname">닉네임</option>
 				</select>
-			</div>
-			<div class="searchBox common">
-				<input type="text" />
+				<div class="searchBox common">
+					<input type="text" name="searchValue" />
+				</div>
+				<div><button type="submit">검색</button></div>
+			</form>
 			</div>
 		</div>
 		
@@ -108,7 +110,7 @@
 
 <!-- menubar시작 -->
 <div class="menubar">
-	<div class="menu common"><a>모든콘텐츠</a></div>
+	<div class="menu common"><a href="/contents/all">모든콘텐츠</a></div>
 	<div class="menu common"><a>
 		<!-- 로그인 상태일때 -->
 		<c:if test="${login}">

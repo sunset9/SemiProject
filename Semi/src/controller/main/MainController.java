@@ -64,8 +64,8 @@ public class MainController extends HttpServlet {
 			int plan_idx = mainService.getPlan_idx();
 			System.out.println("plan_idx : "+plan_idx);
 			
-			//req.set
-			req.setAttribute("plan_idx", plan_idx);
+ 			//plan_idx 세션에 추가 
+			req.getSession().setAttribute("plan_idx", plan_idx);
 			
 		} else if (cUser == null) {
 			System.out.println("소셜 로그인 유저");
@@ -76,11 +76,11 @@ public class MainController extends HttpServlet {
 			int plan_idx = mainService.getPlan_idx();
 			System.out.println("plan_idx : " + plan_idx);
 			
-			//req.set
-			req.setAttribute("plan_idx", plan_idx);
+			//plan_idx 세션에 추가 
+			req.getSession().setAttribute("plan_idx", plan_idx);
 		}
 		
-		resp.sendRedirect("/plan");
+		resp.sendRedirect("/plan/write"); //이거는 나중에 /write로 바꾸기
 
 	}
 

@@ -33,7 +33,7 @@ public class PlanDaoImpl implements PlanDao{
 			//DB작업
 			ps = conn.prepareStatement(sql);
 			//plan.getPlan_idx()
-			ps.setInt(1, 1);
+			ps.setInt(1, plan.getPlan_idx());
 			rs = ps.executeQuery();
 			
 			//결과 담기
@@ -123,7 +123,7 @@ public class PlanDaoImpl implements PlanDao{
 			//DB작업
 			ps = conn.prepareStatement(sql);
 			//plan.getUser_idx()
-			ps.setInt(1, 1);
+			ps.setInt(1, plan.getUser_idx());
 			rs = ps.executeQuery();
 			
 			//결과 담기
