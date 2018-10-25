@@ -140,7 +140,7 @@ public class TimetableServiceImpl implements TimetableService{
 	public void update(Plan plan, Map<Timetable, Location> ttbLoc) {
 		List<Timetable> ttbList= getCompletedTimetable(plan, ttbLoc);
 		
-		System.out.println(ttbList);
+//		System.out.println(ttbList);
 		
 		// 기존에 있던 타임테이블 모두 삭제
 		ttbDao.deleteTimetable(plan);

@@ -33,6 +33,8 @@ public interface NoticeService {
 	// 게시물에 관련된 파일 불러오기 
 	public NoticeFile viewFile(Notice notice);
 	
+	// 게시물 작성자 아이디 얻어 오기
+	public String getId(Notice notice);
 
 	
 

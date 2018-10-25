@@ -9,6 +9,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import dto.board.Notice;
+import dto.board.NoticeFile;
 import service.board.NoticeService;
 import service.board.NoticeServiceImpl;
 
@@ -21,16 +22,26 @@ public class NoticeViewController extends HttpServlet {
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		req.setCharacterEncoding("utf-8");
 
-		// ÆÄ¶ó¹ÌÅÍ ¹Ş¾Æ¿À±â 
+		// íŒŒë¼ë¯¸í„°ì–»ì–´ì˜¤ê¸°
 		Notice notice = noticeService.getParam(req, resp);
 
-		// °Ô½Ã¹° »ó¼¼º¸±â
+		// ê²Œì‹œê¸€ ìƒì„¸ ë³´ê¸°
 		notice = noticeService.view(notice);
+		
+		// íŒŒì¼ ë¶ˆëŸ¬ì˜¤ê¸°
+		NoticeFile noticeFile = new NoticeFile();
+		noticeFile = noticeService.viewFile(notice);
 
-		// Á¤º¸ ¸ğµ¨¿¡ ´ã¾Æ Àü´Ş
+		// íŒŒì¼ ëª¨ë¸ ì „ë‹¬ 
+		req.setAttribute("noticeFile", noticeFile);
+		
+		// ê¸€ ì‘ì„±ì ì´ë©”ì¼ ì „ë‹¬ 
+		req.setAttribute("userid", noticeService.getId(notice));
+		
+		// ê²Œì‹œê¸€ ëª¨ë¸ë¡œ ì „ë‹¬í•˜ê¸°
 		req.setAttribute("notice", notice);
 		
-		// º¸¿©ÁÙ È­¸é ÁöÁ¤
-		req.getRequestDispatcher("").forward(req, resp);
+		// view ì§€ì •
+		req.getRequestDispatcher("/notice/view.jsp").forward(req, resp);
 	}
 }

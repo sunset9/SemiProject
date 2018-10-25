@@ -3,7 +3,18 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 
+<!-- 헤더  -->
 <c:import url="../layout/headerWithMenu.jsp" />
+<!-- 미니뷰 modal -->
+<jsp:include page="/plan/timetable/miniViewTest.jsp"/>
+
+<!-- fullcalendar -->
+<link rel='stylesheet' href='/resources/timetable/fullcalendar/fullcalendar.css' />
+<link href='/resources/timetable/fullcalendar/fullcalendar.print.css' rel='stylesheet' media='print' />
+
+<script type="text/javascript" src="/resources/timetable/fullcalendar/fullcalendar.js"></script>
+<script type="text/javascript" src="/resources/timetable/fullcalendar/scheduler.min.js"></script>
+<script src='/resources/timetable/fullcalendar/locale-all.js'></script>
 
 <!-- timetable utils -->
 <script type="text/javascript" src="/utils/timetableUtils.js"></script>

@@ -7,24 +7,27 @@ import utils.Paging;
 
 public interface QnaDao {
 
-		// Qna ÀüÃ¼ ÆäÀÌÂ¡ÇÏ¿© ¸®½ºÆ®·Î Á¶È¸ 
+		// í˜ì´ì§• ëœ Qna ë¦¬ìŠ¤íŠ¸ ì¡°íšŒ 
 		public List<Qna> selectPagingList(Paging paging);
 		
-		// ÀüÃ¼ °Ô½Ã±Û ¼ö Á¶È¸
-		public int selectCntAll() ;
+		// ì „ì²´ ê²Œì‹œë¬¼ ìˆ˜ ì¡°íšŒ
+		public int selectCntAll( String search) ;
 			
-		// Qna_idx·Î ÇÏ³ªÀÇ Qna Á¶È¸ÇÏ±â
-		public Qna selectInqByInqIdx (Qna qna);
+		// Qna_idxë¡œ ê²Œì‹œë¬¼ ì¡°íšŒ 
+		public Qna selectQnaByQnaIdx (Qna qna);
 		
-		// Á¶È¸ÈÄ Á¶È¸¼ö ¿Ã¸®±â
+		// ì¡°íšŒìˆ˜ ì˜¬ë¦¬ê¸°
 		public void updateHit(Qna qna);
 		
-		// °Ô½Ã¹° µî·Ï ÇÏ±â
+		// ê²Œì‹œë¬¼ ì¶”ê°€í•˜ê¸°
 		public void insert(Qna qna);
 		
-		// °Ô½Ã¹° »èÁ¦ ÇÏ±â
+		// ê²Œì‹œë¬¼ ì‚­ì œ
 		public void delete(Qna qna);
 		
-		// °Ô½Ã¹° ¼öÁ¤ ÇÏ±â
+		// ê²Œì‹œë¬¼ ìˆ˜ì •
 		public void update(Qna qna);
+		
+		// notice_idxë¡œ ì‘ì„±ì id ì¡°íšŒí•˜ê¸°
+		public String selectIdByQnaIdx(Qna qna);
 }

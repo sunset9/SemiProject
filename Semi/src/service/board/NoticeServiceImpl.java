@@ -40,8 +40,11 @@ public class NoticeServiceImpl implements NoticeService{
 
 	@Override
 	public Notice view(Notice notice) {
-		// TODO Auto-generated method stub
-		return null;
+		Notice noti = new Notice();
+		noticeDao.updateHit(notice);
+		noti = noticeDao.selectNoticeByNoticeIdx(notice);
+		
+		return noti;
 	}
 
 	@Override
@@ -65,7 +68,7 @@ public class NoticeServiceImpl implements NoticeService{
 
 	@Override
 	public NoticeFile viewFile(Notice notice) {
-		return null;
+		return fileDao.selectFileByNotice_idx(notice);
 	}
 
 	@Override
@@ -78,6 +81,11 @@ public class NoticeServiceImpl implements NoticeService{
 		String search = req.getParameter("search");
 		
 		return search;
+	}
+
+	@Override
+	public String getId(Notice notice) {
+		return noticeDao.selectIdByNoticeIdx(notice);
 	}
 
 

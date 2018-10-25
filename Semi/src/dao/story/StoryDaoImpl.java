@@ -96,7 +96,40 @@ public class StoryDaoImpl implements StoryDao{
 	
 		return sList;
 	}
-
+	
+	@Override
+	public Story selectStoryByTtbIdx(Story story) {
+		String sql = "SELECT story_idx, plan_idx, ttb_idx, user_idx, content"
+				+ " FROM story"
+				+ " WHERE ttb_idx=?";
+		Story storyRes = new Story();
+		
+		try {
+			ps = conn.prepareStatement(sql);
+			ps.setInt(1, story.getTtb_idx());
+			
+			rs = ps.executeQuery();
+			while(rs.next()) {
+				storyRes.setStory_idx(rs.getInt("story_idx"));
+				storyRes.setPlan_idx(rs.getInt("plan_idx"));
+				storyRes.setTtb_idx(rs.getInt("ttb_idx"));
+				storyRes.setUser_idx(rs.getInt("user_idx"));
+				storyRes.setContent(rs.getString("content"));
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				if (ps != null) ps.close();
+				if (rs != null) rs.close();
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+	}
+		return storyRes;
+	}
+	
 	@Override
 	public Story selectStoryByStoryIdx(Story story) {
 		// TODO Auto-generated method stub
@@ -127,6 +160,8 @@ public class StoryDaoImpl implements StoryDao{
 			ps.setString(5, content);
 			
 			ps.executeUpdate();
+			
+			conn.commit();
 			
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
@@ -217,8 +252,41 @@ public class StoryDaoImpl implements StoryDao{
 
 	@Override
 	public int SelectStoryIdx() {
-		// TODO Auto-generated method stub
-		return 0;
-	}
+		//다음 게시글 번호 조회 쿼리
+		String sql = "";
+		sql += "SELECT story_seq.nextval";
+		sql += " FROM dual";
+		
+		//DB 객체
+		//게시글번호
+		int storyidx = 0;
+		
+		try {
+			//DB작업
+			ps = conn.prepareStatement(sql);
+			rs = ps.executeQuery();
+			
+			//결과 담기
+			while(rs.next()) {
+				storyidx = rs.getInt(1);
+			}
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				//DB객체 닫기
+				if(rs!=null)	rs.close();
+				if(ps!=null)	ps.close();
+				
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+		
+		//게시글 번호 반환
+		return storyidx;
+}
+
 
 }

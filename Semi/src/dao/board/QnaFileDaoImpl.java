@@ -2,6 +2,7 @@ package dao.board;
 
 import java.util.List;
 
+import dto.board.Qna;
 import dto.board.QnaFile;
 
 public class QnaFileDaoImpl implements  QnaFileDao {
@@ -28,6 +29,12 @@ public class QnaFileDaoImpl implements  QnaFileDao {
 	public void delete(QnaFile file) {
 		// TODO Auto-generated method stub
 		
+	}
+
+	@Override
+	public QnaFile selectFilebyQna(Qna qna) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }

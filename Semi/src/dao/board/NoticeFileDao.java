@@ -2,21 +2,22 @@ package dao.board;
 
 import java.util.List;
 
+import dto.board.Notice;
 import dto.board.NoticeFile;
 
 
 public interface NoticeFileDao {
 
 
-	// ÆÄÀÏ ¾÷·Îµå Á¤º¸ ÀÔ·Â 
+	// ì²¨ë¶€íŒŒì¼ ì¶”ê°€ 
 	public void insert(NoticeFile file);
 	
-	// ÆÄÀÏ ¸®½ºÆ® 
-	public List<NoticeFile> list();
+	// íŒŒì¼í•˜ë‚˜ ë¶ˆëŸ¬ì˜¤ê¸°  
+	public NoticeFile selectFileByNotice_idx (Notice notice);
 	
-	// ÆÄÀÏ¹øÈ£·Î Á¤º¸ ¾ò±â
+	// ï¿½ï¿½ï¿½Ï¹ï¿½È£ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½
 	public NoticeFile selectByFileno(int fileno);
 
-	// ÆÄÀÏ Áö¿ì±â 
+	// ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ 
 	public void delete(NoticeFile file);
 }
