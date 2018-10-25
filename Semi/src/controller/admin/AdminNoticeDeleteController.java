@@ -42,8 +42,7 @@ public class AdminNoticeDeleteController extends HttpServlet {
 		// �Խù��� ���õ� ���� ã��
 		file.setNotice_idx(notice.getNotice_idx());
 		
-		// ���� �����
-		adminNoticeService.deleteNoticeFile(file);
+
 		
 		resp.sendRedirect("");
 	}

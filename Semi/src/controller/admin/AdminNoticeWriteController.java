@@ -46,7 +46,7 @@ public class AdminNoticeWriteController extends HttpServlet {
 		resp.setContentType("text/html;charset=utf-8");
 
 		// �ۼ� �޼ҵ� ȣ��
-		adminNoticeService.write(notice);
+//		adminNoticeService.write(notice);
 		
 
 		// ������ ȭ�� ����

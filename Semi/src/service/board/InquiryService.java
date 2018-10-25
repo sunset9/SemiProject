@@ -44,7 +44,6 @@ public interface InquiryService {
 	// 문의사항 삭제 
 	public void delete(Inquiry inq);
 	
-	
 	// 첨부파일 추가
 	public void insertFile(InqFile file);
 

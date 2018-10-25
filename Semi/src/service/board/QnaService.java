@@ -18,14 +18,17 @@ public interface QnaService {
 	// 전체 게시물 카운트
 	public int getTotalCount(String search);
 	
-	// 페이징 된 리스트 불러오기 =
+	// 페이징 된 리스트 불러오기 
 	public List<Qna> getPagingList(Paging paging);
 	
 	// 게시물 상세 보기
 	public Qna view (Qna qna);
 		
-	// 파라미터 얻어오기 =
+	// 파라미터 얻어오기 
 	public Qna getParam (HttpServletRequest req, HttpServletResponse resp);
+	
+	// 검색어 얻기 
+	public String getSearch(HttpServletRequest req);
 	
 	//게시물에 관련된 파일 불러오기
 	public QnaFile viewFile(Qna qna);

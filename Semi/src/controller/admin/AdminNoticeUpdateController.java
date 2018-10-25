@@ -57,50 +57,12 @@ public class AdminNoticeUpdateController extends HttpServlet {
 		
 		req.setCharacterEncoding("utf-8");
 		resp.setContentType("text/html;charset=utf-8");
-		
 	
 		
-		//--- MultipartRequest �������� �Ű� ���� �غ�---
-		// 1. ��û ��ü 
-		//	���� ���� �ʿ� ���� 
-		
-		// 2. ���� ���� ��ġ
-		// String ���� ������ ���� ��� ���� 
-		String saveDirectory = getServletContext().getRealPath("cos/upload");
-		
-//		System.out.println( saveDirectory);
-		
-		// 3. ���ε� ���� ������ 
-		int maxPostSize = 1 *1024*1024; // 10MB ���� 
-		
-		// 4. ���ڵ� 
-		// ���ε� ���� ���ڵ� ��� 
-		String encoding = "UTF-8";
+//		adminNoticeService.update(notice);
 		
 		
-		// 5. �ߺ� ���� �̸� ��å
-		// DefaultFileRenamePolicy �� �ߺ������� ������ 
-		// ���� �̸� �ڿ� ���ڸ� �߰��ϰ� 1���� ������Ų��. 
-		FileRenamePolicy policy = new DefaultFileRenamePolicy();
-		
-		//-----------------------------------------------
-		
-		// MultipartRequest ��ü ���� 
-		// ���� ���ε� ó�� 
-		MultipartRequest mul = new MultipartRequest(req, saveDirectory, maxPostSize, encoding, policy);
-
-		notice.setTitle(mul.getParameter("title"));
-		
-		notice.setContent(mul.getParameter("content"));
-		
-		file.setStored_name(mul.getFilesystemName("file"));
-		System.out.println(mul.getFilesystemName("file"));
-		file.setOrigin_name(mul.getOriginalFileName("file"));
-		
-		adminNoticeService.update(notice);
-		
-		
-		adminNoticeService.deleteNoticeFile(file);
+//		adminNoticeService.deleteNoticeFile(file);
 
 		resp.sendRedirect("/notice/list");
 	

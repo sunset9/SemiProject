@@ -116,7 +116,8 @@ public class QnaDaoImpl implements QnaDao {
 	@Override
 	public Qna selectQnaByQnaIdx(Qna qna) {
 		// 게시글 하나 조회 쿼리
-		String sql ="SELECT * FROM qna WHERE qna_idx=?";
+		String sql ="SELECT qna_idx,(SELECT nickname FROM userinfo U WHERE U.user_idx = Q.user_idx) nick";
+			   sql+= ",title, content, hit,create_date  FROM qna Q WHERE qna_idx=?";
 		
 		// DB 객체 
 		PreparedStatement ps = null;
@@ -133,11 +134,12 @@ public class QnaDaoImpl implements QnaDao {
 			rs = ps.executeQuery();
 			
 			while(rs.next()) {
-				qna.setQna_idx(rs.getInt("qna_idx"));;
-				qna.setWriter(rs.getString("nick"));
-				qna.setTitle(rs.getString("title"));
-				qna.setHit(rs.getInt("hit"));
-				qna.setCreate_date(rs.getDate("create_date"));
+				q.setQna_idx(rs.getInt("qna_idx"));;
+				q.setWriter(rs.getString("nick"));
+				q.setTitle(rs.getString("title"));
+				q.setContent(rs.getString("content"));
+				q.setHit(rs.getInt("hit"));
+				q.setCreate_date(rs.getDate("create_date"));
 				
 			}
 		} catch (SQLException e) {

@@ -70,4 +70,11 @@ public class QnaServiceImpl implements QnaService{
 		return qnaDao.selectIdByQnaIdx(qna);
 	}
 
+	@Override
+	public String getSearch(HttpServletRequest req) {
+		String search = req.getParameter("search");
+		
+		return search;
+	}
+
 }

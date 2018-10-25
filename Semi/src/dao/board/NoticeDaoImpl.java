@@ -282,7 +282,8 @@ public class NoticeDaoImpl implements NoticeDao {
 	@Override
 	public Notice selectNoticeByNoticeIdx(Notice notice) {
 			// 게시글 하나 조회 쿼리
-			String sql ="SELECT * FROM notice WHERE notice_idx=?";
+			String sql ="SELECT notice_idx,(SELECT nickname FROM userinfo U WHERE U.user_idx = N.user_idx) nick" ; 
+				   sql+= ",title, content, hit,create_date FROM notice N WHERE notice_idx=?";
 				
 			
 			// 결과 담을 객체 생성 
@@ -297,7 +298,7 @@ public class NoticeDaoImpl implements NoticeDao {
 				
 				while(rs.next()) {
 					noti.setNotice_idx(rs.getInt("notice_idx"));
-					noti.setUser_idx(rs.getInt("user_idx"));
+					noti.setWriter(rs.getString("nick"));
 					noti.setTitle(rs.getString("title"));
 					noti.setContent(rs.getString("content"));
 					noti.setHit(rs.getInt("hit"));
