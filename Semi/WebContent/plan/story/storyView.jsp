@@ -62,30 +62,30 @@ padding: 2px;
 		})
 		
 		
-		$(".storySaveBtn").click(function() {
+// 		$(".storySaveBtn").click(function() {
 			
-			var JSON = {
-				"ttb_idx": //이름으로 넘겨주기
-				"plan_idx": 
-				"content_idx":
-			}
+// 			var JSON = {
+// 				"ttb_idx": //이름으로 넘겨주기
+// 				"plan_idx": 
+// 				"content_idx":
+// 			}
 			
-			$.ajax({
+// 			$.ajax({
 				
-				type : "POST"
-				, url : "/story/write"
-				, data : {"story_Idx":storyIdx}
-				, success : function (res) {
-					$("#viewStory").html(res);
-				}
-				, error: function (e) {
-					console.log(e);
-				}
+// 				type : "POST"
+// 				, url : "/story/write"
+// 				, data : {"story_Idx":storyIdx}
+// 				, success : function (res) {
+// 					$("#viewStory").html(res);
+// 				}
+// 				, error: function (e) {
+// 					console.log(e);
+// 				}
 				
-			})
+// 			})
 			
-// 			$(".ModalForm").submit();
-		})
+// // 			$(".ModalForm").submit();
+// 		})
 
 	});
 	

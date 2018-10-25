@@ -1,5 +1,15 @@
 var i = 0;
-function initFullCalendar(planStartDate, planEndDate, timetables){
+function initFullCalendar(planStartDate, planEndDate, isFirst){
+	var timetables;
+	if(isFirst){
+		timetables = getTimetablesFromServer();
+	}else{
+		// 기존 타임테이블 폼 삭제
+		timetables = getTimetablesFromBrowser();
+		$('#calendar').fullCalendar('destroy');
+	}
+	
+	// 타임테이블 init
 	$('#calendar').fullCalendar({
 		schedulerLicenseKey: 'GPL-My-Project-Is-Open-Source'
 		, defaultView: 'titetable' // 뷰 지정 (아래에 설정값 작성)
@@ -12,9 +22,7 @@ function initFullCalendar(planStartDate, planEndDate, timetables){
 		, slotLabelFormat:"HH:mm" // 왼쪽에 수직으로 표현되는 시간 포멧
 		, locale: 'ko' // 언어 설정
 		, header: false // 헤더에 아무것도 넣지 않기
-		, editable: true 
- 		, droppable: true // this allows things to be dropped onto the calendar
-		, selectable: false // 빈공간 선택 disable
+		, selectable: false // 빈공간 선택 비활성화
 		, eventLimit: true // allow "more" link when too many events
 		, views: {
 			titetable: {
@@ -124,8 +132,11 @@ function initFullCalendar(planStartDate, planEndDate, timetables){
 		}
 		// 이벤트에 마우스 오버 시 콜백 함수
 		, eventMouseover: function( event, jsEvent, view ){
-			// 선택한 일정에 자식태그로 x 아이콘 추가
-			$(jsEvent.currentTarget).prepend("<span style='float: right; z-index: 3;' id ='btnRemove' class=\"glyphicon glyphicon-remove\"></span>");
+			// 수정모드인 경우에만
+			if(isModify == 1){
+				// 선택한 일정에 자식태그로 x 아이콘 추가
+				$(jsEvent.currentTarget).prepend("<span style='float: right; z-index: 3;' id ='btnRemove' class=\"glyphicon glyphicon-remove\"></span>");
+			}
 			
 			// 삭제 버튼 클릭 처리
 			$("#btnRemove").on("click", function(){
@@ -164,6 +175,7 @@ function initFullCalendar(planStartDate, planEndDate, timetables){
 		}
 		
 	}); // end $().fullCalendar() initMethod
+	
 }
 
 // 날짜 차이 구하기
@@ -184,7 +196,7 @@ function getDiffDay(ttbStartDate, planStartDate ){
 // 브라우저에 띄워진 모든 타임테이블 리스트 가져오기
 function getTimetablesFromBrowser(){
 	var events = $("#calendar").fullCalendar('clientEvents');
-	
+	console.log(events);
 	var timetables = [];
 	
 	events.forEach(function(event){ // 모든 리스트 돌면서 timetable json 하나씩 생성
