@@ -231,6 +231,8 @@ var planEndDate = '${planView.end_date}';
 var ttbList = ${ttbList };
 var locList = ${locList };
 
+var plan_idx = ${planView.plan_idx};
+
 $(document).ready(function(){
 	// 뿌려줄 timetable 리스트 가져오기
 	var timetables = getTimetablesFromServer();
