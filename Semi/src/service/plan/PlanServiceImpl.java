@@ -28,6 +28,7 @@ public class PlanServiceImpl implements PlanService{
 		
 		//요청파라미터 받기
 		String param = req.getParameter("1");
+		plan.setPlan_idx(1);
 		System.out.println(", plan_idx : " + param);
 		//null이나 ""이 아니면 int로 변환하여 DTO에 저장
 		if( param != null && !"".equals(param) ) {
