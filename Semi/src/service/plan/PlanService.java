@@ -37,4 +37,6 @@ public interface PlanService {
 	// 수정된 일정 저장
 	void update(Plan plan);
 
+	Plan getParam4Edit(HttpServletRequest req);
+
 }
