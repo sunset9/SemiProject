@@ -33,6 +33,7 @@ public class InquiryServiceImpl implements InquiryService {
 	@Override
 	public Inquiry getParam(HttpServletRequest req, HttpServletResponse resp) {
 		
+
 		// 파라미터 담을 객체 만들기
 		Inquiry inquiry = new Inquiry();
 		
@@ -217,6 +218,7 @@ public class InquiryServiceImpl implements InquiryService {
 	public void delete(Inquiry inq) {
 		inquiryDao.delete(inq);
 		fileDao.delete(inq);
+		replyDao.deleteByInq(inq);
 	}
 
 	@Override

@@ -38,9 +38,6 @@ public interface AdminInquiryService {
 	// 문의사항 삭제하기 
 	public void delete(Inquiry inq);
 	
-	// 문의사항 관련 파일 삭제
-	public void deleteInqFile(InqFile file);
-	
 	// 	문의사항 파일 불러오기 
 	public InqFile viewFile(Inquiry inq);
 
@@ -64,5 +61,8 @@ public interface AdminInquiryService {
 		
 	// 댓글 삭제하기
 	public boolean deleteReply(Reply reply);
+	
+	// 리스트에서 게시글 삭제
+	public void inqListDelete(String names);
 	
 }

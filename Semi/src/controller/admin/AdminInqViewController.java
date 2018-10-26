@@ -13,6 +13,7 @@ import dao.board.InqFileDao;
 import dao.board.InqFileDaoImpl;
 import dao.board.ReplyDao;
 import dao.board.ReplyDaoImpl;
+import dto.board.InqFile;
 import dto.board.Inquiry;
 import dto.board.Reply;
 import service.board.AdminInquiryService;
@@ -26,28 +27,27 @@ public class AdminInqViewController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	private AdminInquiryService admininquiryService = new AdminInquiryServiceImpl();
 	private ReplyDao replyDao = new ReplyDaoImpl();
-	private InqFileDao fileDao = new InqFileDaoImpl();
 	
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		req.setCharacterEncoding("utf-8");
 
-		// �Ķ���� �޾ƿ���
+		// 요청 파라미터 얻기
 		Inquiry inquiry = admininquiryService.getParam(req, resp);
 
-		
-		// ��ȭ�� ���� 
+		// 게시글 상세 조회  
 		inquiry = admininquiryService.view(inquiry);
 		
-		// ��� ��� �ҷ�����
+		// 게시글에 관련된 댓글 불러오기
 		List<Reply> list = replyDao.selectInqByInqIdx(inquiry);
 		
-		// ���� ��� �ҷ�����
-		fileDao.selectByInqIdx(inquiry);
+		// 게시글에 관련된 첨부파일 조회해오기 
+		InqFile inqFile = admininquiryService.viewFile(inquiry);
 		
-		// �𵨿� ��Ƽ� �����ϱ� 
+		// 요청에 조회한 결과 보내기
 		req.setAttribute("inquiry", inquiry);
+		req.setAttribute("inqFile", inqFile);
+		req.setAttribute("replyList", list);
 		
-		
-		req.getRequestDispatcher("").forward(req, resp);
+		req.getRequestDispatcher("/admin/inquiry/inqView.jsp").forward(req, resp);
 	}
 }

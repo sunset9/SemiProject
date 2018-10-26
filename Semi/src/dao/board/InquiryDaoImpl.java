@@ -337,10 +337,73 @@ public class InquiryDaoImpl implements InquiryDao {
 	}
 	
 	@Override
-	public List<Inquiry> selectInqByAnswer() {
-		// TODO Auto-generated method stub
-		return null;
-	}
+	public List<Inquiry> selectInqByAnswer(Paging paging) {
+
+		// 페이징 리스트 조회 쿼리
+				String sql="";
+				sql += "SELECT * FROM( ";
+				sql += "SELECT rownum rnum, I.* FROM ( ";
+				sql += "SELECT  inq_idx, (SELECT nickname FROM userinfo U WHERE U.user_idx = INQ.user_idx) nick,hit, ";
+				sql	+= "title, content,create_date,answer FROM inquiry INQ ";
+				sql	+= " WHERE answer=0 ORDER BY inq_idx DESC ) I ";
+				
+				
+				if(paging.getSearch()!=null && !"".equals(paging.getSearch())) {
+					sql += "WHERE title LIKE '%"+paging.getSearch()+"%'";
+				}
+
+				sql += " ORDER BY rnum";
+				sql += ")";
+				sql += "WHERE rnum between ? AND ?";
+				
+				//DB 객체 생성 
+				PreparedStatement ps = null;
+				ResultSet rs = null;
+				
+				// 조회 결과 담을 list 생성 
+				List<Inquiry> list = new ArrayList<>();
+				
+				try {
+					// DB 작업 실행
+					ps = conn.prepareStatement(sql);
+					
+					ps.setInt(1, paging.getStartNo());
+					ps.setInt(2, paging.getEndNo());
+					
+					rs = ps.executeQuery();
+					
+					// 조회 결과 List에 담기
+					while( rs.next()) {
+						Inquiry inq = new Inquiry();
+						
+						// rs의 결과 DTO에 하나씩 저장하기
+						inq.setInq_idx(rs.getInt("inq_idx"));
+						inq.setWriter(rs.getString("nick"));
+						inq.setTitle(rs.getString("title"));
+						inq.setAnswer(rs.getInt("answer"));
+						inq.setHit(rs.getInt("hit"));
+						inq.setCreate_date(rs.getDate("create_date"));
+						
+						// 조회 결과 List에 넣기
+						list.add(inq);
+						
+					}
+					
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}finally {
+					try {
+						//DB객체 닫기
+						if(rs!=null)	rs.close();
+						if(ps!=null)	ps.close();
+					} catch (SQLException e) {
+						e.printStackTrace();
+					}
+				}
+				// 결과 반환
+				return list;
+			}
+
 	@Override
 	public String selectIdByInq_idx(Inquiry inq) {
 		
@@ -463,5 +526,37 @@ public class InquiryDaoImpl implements InquiryDao {
 		
 		
 		return inq_idx;
+	}
+	@Override
+	public void deleteInqList(String names) {
+		String sql = "DELETE FROM inquiry WHERE inq_idx IN("+names+")";
+	
+		//DB 객체
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+
+		try {
+			conn.setAutoCommit(false);
+			
+			ps = conn.prepareStatement(sql);
+					
+			ps.executeUpdate();
+			
+			conn.commit();
+		} catch (SQLException e) {
+			try {
+				conn.rollback();
+			} catch (SQLException e1) {
+				e1.printStackTrace();
+			}
+			e.printStackTrace();
+		} finally {
+			try {
+				if(ps!=null)	ps.close();
+						
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
 	}
 }

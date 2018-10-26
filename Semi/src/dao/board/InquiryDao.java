@@ -33,7 +33,7 @@ public interface InquiryDao {
 	public void update(Inquiry inq);
 	
 	// 답변안된 문의사항 리스트 불러오기
-	public List<Inquiry> selectInqByAnswer();
+	public List<Inquiry> selectInqByAnswer(Paging paging);
 	
 	// nickname 조회하기
 	public String selectIdByInq_idx(Inquiry inq);
@@ -43,4 +43,7 @@ public interface InquiryDao {
 	
 	// 다음 게시글 번호 조회쿼리
 	public int selectInqIdx();
+	
+	// 리스트에서 게시글 삭제
+	public void deleteInqList(String names);
 }
