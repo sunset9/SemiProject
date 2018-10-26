@@ -3,16 +3,47 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
     
-<c:import url="../layout/headerNoMenu.jsp" />
+<c:import url="/layout/headerNoMenu.jsp" />
 
 <script type="text/javascript">
 
 $(document).ready(function() {
 	$("#btnSearch").click(function() {
-		$(location).attr("href","/admin/main?search="+$("#search").val());
+		$(location).attr("href","/admin/notice/list?search="+$("#search").val());
 	});
 	
+	// 선택체크 삭제
+	$("#btnDelete").click(function() {
+		// 선택된 체크박스
+		var $checkboxes = $("input:checkbox[name='checkRow']:checked");
 	
+		//방법2
+		// 체크된 대상들을 map으로 만들고 map을 문자열로 만들기
+		var map = $checkboxes.map(function() {
+			return $(this).val();
+		});
+		
+		var names = map.get().join(",");
+		console.log("names : " + names);
+		
+		console.log( "map:" + map );	// 맵
+		console.log( "map->array : " + map.get() );	// 맵->배열
+		console.log( "array tostring : " + map.get().join(",") ); // toString
+		
+		// 전송 폼
+		var $form = $("<form>")
+			.attr("action", "/admin/notice/deleteList")
+			.attr("method", "post")
+			.append(
+				$("<input>")
+					.attr("type", "hidden")
+					.attr("name", "names")
+					.attr("value", names)
+			);
+		$(document.body).append($form);
+		$form.submit();
+	
+	});
 });
 
 
@@ -55,9 +86,9 @@ ul.sub li a {
 
 
 </style>
-<title>관리자 메인</title>
+<title>관리자 공지사항 리스트</title>
 <hr>
-<h1><strong>관리자 페이지</strong></h1>
+<a href ="/admin/main"><h1><strong>관리자 페이지</strong></h1></a>
 <hr>
 
 
@@ -81,33 +112,24 @@ ul.sub li a {
 <table class="table table-hover table-striped table-condensed">
 <thead>
 <tr>
+<td></td>
 <th>번호</th>
 <th>제목</th>
 <th>작성자</th>
-<th>답변여부</th>
 <th>조회수</th>
 <th>작성일</th>
 </tr>
 </thead>
-
 <tbody>
-<c:forEach items ="${inqList }" var = "inq">
+<c:forEach items ="${noticeList }" var = "notice">
 <tr>
-<td>${inq.inq_idx }</td>
-<td><a href="/admin/inquiry/view?inq_idx=${inq.inq_idx }">${inq.title }</a></td>
-<td>${inq.writer }</td>
-<td>
+<td><input type="checkbox" name="checkRow" value="${notice.notice_idx }" /></td>
+<td>${notice.notice_idx }</td>
+<td><a href="/admin/notice/view?inq_idx=${notice.notice_idx }">${notice.title }</a></td>
+<td>${notice.writer }</td>
 
-<c:if test="${inq.answer eq 0}">
-<font color="FF6666" style="font-weight: bolder;">답변 예정</font>
-</c:if>
-<c:if test="${inq.answer eq 1}">
-답변 완료
-</c:if>
-
-</td>
-<td>${inq.hit }</td>
-<td>${inq.create_date }</td>
+<td>${inotice.hit }</td>
+<td>${notice.create_date }</td>
 </tr>
 </c:forEach>
 </tbody>
@@ -120,7 +142,7 @@ ul.sub li a {
   	<!-- 처음으로 가기 -->
   	<c:if test="${paging.curPage ne 1 }">
     <li>
-      <a href="/admin/main?search=${paging.search }" aria-label="First">
+      <a href="/admin/notice/list?search=${paging.search }" aria-label="First">
         <span aria-hidden="true">&larr;처음</span>
       </a>
     </li>
@@ -137,7 +159,7 @@ ul.sub li a {
     
   	<c:if test="${paging.curPage ne 1 }">
     <li>
-      <a href="/admin/main?curPage=${paging.curPage-1 }&search=${paging.search }" aria-label="Previous">
+      <a href="/admin/notice/list?curPage=${paging.curPage-1 }&search=${paging.search }" aria-label="Previous">
         <span aria-hidden="true">&laquo;</span>
       </a>
     </li>
@@ -151,10 +173,10 @@ ul.sub li a {
 
 		<!-- 현재 보고 있는 페이지번호만 강조해주기 -->
 		<c:if test="${paging.curPage eq i}">          
-    	  <li class="active"><a href="/admin/main?curPage=${i }&search=${paging.search }">${i }</a></li>
+    	  <li class="active"><a href="/admin/notice/list?curPage=${i }&search=${paging.search }">${i }</a></li>
     	</c:if>
 		<c:if test="${paging.curPage ne i}">          
-    	  <li><a href="/admin/main?curPage=${i }&search=${paging.search }">${i }</a></li>
+    	  <li><a href="/admin/notice/list?curPage=${i }&search=${paging.search }">${i }</a></li>
     	</c:if>
     </c:forEach>
 
@@ -168,12 +190,15 @@ ul.sub li a {
 	
   	<c:if test="${paging.curPage ne paging.totalPage }">
     <li>
-      <a href="/admin/main?curPage=${paging.curPage+1 }&search=${paging.search }" aria-label="Next">
+      <a href="/admin/notice/list?curPage=${paging.curPage+1 }&search=${paging.search }" aria-label="Next">
         <span aria-hidden="true">&raquo;</span>
       </a>
     </li>
     </c:if>
   </ul>
+    <div id="btnDeleteBox">
+	<button id="btnDelete">삭제</button>
+  </div><br>
 </div>
 <div id="searchBox" class="text-center">
 	<input type="text" id="search" />

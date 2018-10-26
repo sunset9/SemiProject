@@ -55,14 +55,26 @@
 	
 	<div id="planList" class="list">
 	<div><h3>여기는 내 일정 리스트</h3></div>
-		<c:forEach var="pList" items="${plannerList}">
-			<div>
+		<c:forEach var="pList" items="${plannerList}" varStatus="status">
+			<div>				
 				<div>
-					<button>수정</button>
-					<button>삭제</button>
+				<div style="display:inline;">
+					<form action="/plan" method="post" style="display:inline;">
+						<input type="hidden" name="plan_idx" value="${status.current.plan_idx}" />
+						<button type="submit">수정</button>
+					</form>
 				</div>
-				<div><img src="${pList.getBannerURL()}" style="width: 300px;" onclick="openPlan();"></div>
-				<div>글 제목 :  ${pList.getTitle()}</div><br>
+				<div style="display:inline;">
+				<button>삭제</button>				
+				</div>
+				</div>
+				<div>
+				<form action="/plan" method="post">
+					<input type="hidden" name="plan_idx" value="${status.current.plan_idx}" />
+					<div><input type="image" src="${pList.getBannerURL()}" style="width: 300px;"></div>
+					<div><button type="submit" style="border:0; ">글 제목 : ${pList.getTitle()}</button></div><hr>
+				</form>
+				</div>
 			</div>
 		</c:forEach>
 	</div>
@@ -85,6 +97,12 @@
 	</div>
 </div>
 </c:if>
+
+
+
+
+
+
 
 <!-- 소셜로그인한 유저의 마이페이지 -->
 <c:if test="${socialUser.sns_idx != 1 && user.sns_idx != 1}">
@@ -167,7 +185,7 @@
 		document.getElementById(listName).style.display= "block";
 	}
 	
-	function openPlan() {
+	function submitWithTitle() {
 		
 	}
 </script>

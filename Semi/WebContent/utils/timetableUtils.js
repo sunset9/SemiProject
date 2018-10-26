@@ -127,21 +127,27 @@ function initFullCalendar(planStartDate, planEndDate, isFirst){
 					url: "/story/mini/view"
 					, type: "GET"
 					, data: {
-		                  JSON: JSON.stringify({
-		                        plan_idx: plan_idx
-		                        , ttb_idx: event.id
-		                     })
-		               }
+						JSON: JSON.stringify({
+								plan_idx: plan_idx
+								, ttb_idx: event.id
+							})
+					}
 					, dataType: "json"
 					, success: function(story){
 						// miniView modal에 값 채워줌
+						$("#myModalLabel").text(event.title);
 						$("#miniTitle").text(event.title);
 						$("#miniImg").attr("src", event.photo_url);
-						
+				
+						console.log(story.content);
 						$("#storyContent").html(story.content);
+						
+						$("#miniViewModal").on('hidden.bs.modal', function () {
+						    $(this).data('bs.modal', null);
+						});
 					}
 					, error: function(){
-						console.log("ajax 통신 실패");
+						console.log("Mini-view Ajax 통신 실패");
 					}
 				});
 			})
