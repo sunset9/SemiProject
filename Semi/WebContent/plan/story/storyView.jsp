@@ -9,7 +9,7 @@
 <jsp:include page="/plan/story/storyUpdate.jsp"/>
 
 <style type="text/css">
-	
+
 #slidemenu{
 /* 	background:#12cf3d; */
 	background-color: rgba( 255, 255, 255, 0 );
@@ -164,6 +164,9 @@ hr{
 			
 			var jsonData = JSON.stringify(storyJSON);
 			
+			
+// 			$(".ModalForm").submit();
+			
 			$.ajax({
 				type : "POST"
 				, url : "/story/write"
@@ -250,9 +253,6 @@ hr{
 
 
 
-</head>
-<body>
-	
 <input type="hidden" id = "calcDay"/>
 <div>
   <div class="col-lg-8">
@@ -314,14 +314,16 @@ hr{
 								</tr>
 							<!-- ajax이용, 댓글 리스트 foreach문 -->
 								<tr>
-								<td colspan="1" align="center" ><img src="#" class="img-circle" width="50px" height="50px"></td>
-								<td colspan="2" rowspan="2"><font size="2">&nbsp;&nbsp;&nbsp;피가 하여도 무엇을 말이다. 풀밭에 착목한는 소금이라 이상의 맺어, 새 같지 때문이다.</font></td>
-								<td colspan="1" rowspan="2" style="padding:20px"><font size ="1"> 2018-10-12 AM 09:03 </font></td>
-								<td colspan="1" rowspan="2"><span class="glyphicon glyphicon-remove-sign"></span></td>
+									<td colspan="1" align="center" ><img src="#" class="img-circle" width="50px" height="50px"></td>
+									<td colspan="2" rowspan="2"><font size="2">&nbsp;&nbsp;&nbsp;피가 하여도 무엇을 말이다. 풀밭에 착목한는 소금이라 이상의 맺어, 새 같지 때문이다.</font></td>
+									<td colspan="1" rowspan="2" style="padding:20px"><font size ="1"> 2018-10-12 AM 09:03 </font></td>
+									<td colspan="1" rowspan="2"><span class="glyphicon glyphicon-remove-sign"></span></td>
 								</tr>
+								
 								<tr>
-								<td colspan="1" align="center"><font size="2">닉네임</font></td>
+									<td colspan="1" align="center"><font size="2">닉네임</font></td>
 								</tr>
+								
 							</table>					
 							<br>
 							<br>
@@ -329,6 +331,7 @@ hr{
 						</c:if>			
 					</c:forEach>
 					</c:if>
+					<!-- 플러스버튼  -->
 					<c:if test="${ttb.is_story eq false}">
 						<br>
 						<div style="margin-left: 60px"><h2><span class="glyphicon glyphicon-map-marker"></span>&nbsp;${ttb.place_name}</h2></div>
@@ -358,8 +361,9 @@ hr{
   			<a href="#${name}"><li> Day ${day} </li></a>
   		</c:forEach>
 	</ul>
-	
   </div>
+  
+  
  </div>	
 
 

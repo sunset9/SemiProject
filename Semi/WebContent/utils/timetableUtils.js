@@ -138,7 +138,7 @@ function initFullCalendar(planStartDate, planEndDate, isFirst){
 						$("#myModalLabel").text(event.title);
 						$("#miniTitle").text(event.title);
 						$("#miniImg").attr("src", event.photo_url);
-						
+				
 						console.log(story.content);
 						$("#storyContent").html(story.content);
 						
