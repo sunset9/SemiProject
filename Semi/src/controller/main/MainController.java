@@ -47,7 +47,7 @@ public class MainController extends HttpServlet {
 		// 한글 인코딩
 		req.setCharacterEncoding("UTF-8");
 
-		// 새 일정 파라미터 받아오기
+		// 새 일정 파라미터 받아오기(제목, 출발일, 도착일, 여행전후)
 		Plan param = mainService.getNewPlanParam(req, resp);
 //		System.out.println("메인컨트롤러 : "+param);
 		
@@ -62,7 +62,7 @@ public class MainController extends HttpServlet {
 			
 			// insert한 plan의 plan_idx 가져오기
 			int plan_idx = mainService.getPlan_idx();
-			System.out.println("plan_idx : "+plan_idx);
+			System.out.println("메인 컨트롤러 plan_idx : "+plan_idx);
 			
 
  			//plan_idx 세션에 추가
@@ -82,7 +82,7 @@ public class MainController extends HttpServlet {
 			req.getSession().setAttribute("plan_idx", plan_idx);
 		}
 		
-		resp.sendRedirect("/plan/write"); //이거는 나중에 /write로 바꾸기
+		resp.sendRedirect("/plan/write");
 	}
 
 }

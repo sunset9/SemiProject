@@ -43,8 +43,6 @@ public class MainServiceImpl implements MainService {
 		//setStart_date, setEnd_date 해주기
 		String sD = req.getParameter("startDate");
 		String eD = req.getParameter("endDate");
-		//System.out.println("파라미터 확인 "+sD);
-		//System.out.println("파라미터 확인 "+eD);
 		
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 		
@@ -52,15 +50,17 @@ public class MainServiceImpl implements MainService {
 		Date endDate = null;
 		
 		try {
-			startDate = sdf.parse(sD);
-			endDate = sdf.parse(eD);
+			if(sD != null && eD != null) {
+				startDate = sdf.parse(sD);
+				endDate = sdf.parse(eD);
+			} else {
+				System.out.println("출발일과 도착일 없음!");
+			}
 		} catch (ParseException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		
-		//System.out.println("이거확인 "+startDate);
-		//System.out.println("이거확인 "+endDate);
 		
 		plan.setStart_date(startDate);
 		plan.setEnd_date(endDate);
@@ -81,10 +81,5 @@ public class MainServiceImpl implements MainService {
 	public int getPlan_idx() {
 		return mainDao.getPlan_idx();
 	}
-
-	
-
-
-	
 
 }

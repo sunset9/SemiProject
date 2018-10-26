@@ -28,9 +28,9 @@ public class UserMypageController extends HttpServlet {
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		//현재 유저 정보 가져오기
 		User cUser = (User) req.getSession().getAttribute("user");
-		System.out.println("마이페이지 현재 세션에 있는 유저 : "+cUser);
+		//System.out.println("마이페이지 현재 세션에 있는 유저 : "+cUser);
 		User cUserSocial = (User) req.getSession().getAttribute("socialUser");
-		System.out.println("마이페이지 현재 세션에 있는 유저 : "+cUserSocial);
+		//System.out.println("마이페이지 현재 세션에 있는 소셜 유저 : "+cUserSocial);
 		
 		if(cUserSocial == null) {
 			System.out.println("아이디 로그인 유저");
@@ -39,6 +39,7 @@ public class UserMypageController extends HttpServlet {
 			List<Plan> plannerList = userService.getPlanner(cUser);
 			//planList
 			req.setAttribute("plannerList", plannerList);
+			//System.out.println("유저마이페이지컨트롤러에서 plannerList : "+plannerList.get(0).getPlan_idx());
 			
 			//현재 유저의 포스팅 개수 가져오기 
 			int cntPlan = userService.getCntPlan(cUser);
