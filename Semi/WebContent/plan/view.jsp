@@ -619,7 +619,7 @@ $(document).ready(function() {
 		<div id="googleSearch" style="float:bottom;width:100%;border-radius:10px;display:none;">
 		검색 : <input id="pac-input" class="controls" type="text" placeholder="Search Box">
 		    <div id="right-panel"
-		    style="border-top:3px solid; border-bottom:3px solid; border-left:3px dashed; border-right:3px groove; padding:3px; overflow: hidden;">
+		    style="border-top:3px solid; border-bottom:3px solid; border-left:3px dashed; border-right:3px groove; padding:3px;">
 		    <ul>
 		     <li id="results" ></li>
 		     </ul>
