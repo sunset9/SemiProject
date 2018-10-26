@@ -24,4 +24,7 @@ public interface InqFileDao {
 
 	// 게시물에 관련된 첨부파일 지우기
 	public void delete(Inquiry inq);
+	
+	// 삭제 리스트의 첨부파일 삭제 
+	public void deleteInqListFile(String names);
 }

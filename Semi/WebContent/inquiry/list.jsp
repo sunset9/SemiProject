@@ -31,7 +31,7 @@ $(document).ready(function() {
 </script>
 
 <style>
-#container {
+.container {
 	position: absolute;
 }
 

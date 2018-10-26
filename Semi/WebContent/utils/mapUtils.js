@@ -9,13 +9,13 @@ function initMap() {
 	// 구글 맵 초기화
 	map = new google.maps.Map(document.getElementById('map'), {
 		zoom: 8, 
-		center: {lat: 37.4601, lng: 126.4406},
-		zoomControl: false,
-		mapTypeControl: false,
-		scaleControl: false,
+		center: {lat: 37.530183, lng: 127.059928},
+//		zoomControl: false,
+//		mapTypeControl: false,
+//		scaleControl: false,
 		streetViewControl: false,
-		rotateControl: false,
-		fullscreenControl: false
+//		rotateControl: false,
+//		fullscreenControl: false
 	});
 	
 	// searchBox 설정 초기화
@@ -53,7 +53,7 @@ function initSearchBox(){
 }
 
 //Marker 리스트
-var markerList = [];
+var markers = [];
 // 경로
 var route;
 
@@ -61,7 +61,7 @@ var route;
 // timetables : 현재 띄워져있는 모든 타임테이블
 function viewMap(timetable, timetables){
 	// 기존에 있던 마커들 삭제
-	removeMarkerAll();
+//	removeMarkerAll();
 	
 	var locations = [];
 	var bounds  = new google.maps.LatLngBounds();
@@ -97,7 +97,7 @@ function viewMap(timetable, timetables){
 	locations.forEach(function(loc){
 		// 아이콘 정의
 		var icon = {
-				url: '/resources/mapMarker/' + (labelIdx++) +'cb.png', // url
+				url: '/resources/img/mapMarker/' + (labelIdx++) +'cb.png', // url
 				scaledSize: new google.maps.Size(30, 32), // scaled size
 				origin: new google.maps.Point(0, 0), // origin
 				anchor: new google.maps.Point(8, 15) // anchor
@@ -108,21 +108,27 @@ function viewMap(timetable, timetables){
 			, map: map
 			, icon: icon,
 			});
-		markerList.push(marker);
+		markers.push(marker);
 		
 		// bounds 에 위치 정보 추가
 		bounds.extend(loc);
 	});
 	
-	// bounds에 추가한 위치가 포함되도록 이동
-	map.panToBounds(bounds);
-	// bounds에 추가한 위치를 포함하도록 뷰포트 설정
-	map.fitBounds(bounds);
-	
-	// Zoom Level이 지정한 값보다 작아지면 지정 값으로 재설정
-	if(map.getZoom() < minZoomLv){
-		map.setZoom(minZoomLv);
+	// 존재하는 타임테이블이 한 개 이상일 때 뷰 이동, 줌
+	if(timetables.length > 0){
+		// bounds에 추가한 위치가 포함되도록 이동
+		map.panToBounds(bounds);
+		// bounds에 추가한 위치를 포함하도록 뷰포트 설정
+		map.fitBounds(bounds);
 	}
+	
+	// Bounds 가 변경되었을 때
+	// Zoom Level이 지정한 값보다 작아지면 지정 값으로 재설정
+	google.maps.event.addListenerOnce(map, 'bounds_changed', function(event) {
+		  if (this.getZoom() > minZoomLv) {
+		    this.setZoom(minZoomLv);
+		  }
+		});
 	
 	// 경로 그리기
 	route = new google.maps.Polyline({
@@ -133,12 +139,13 @@ function viewMap(timetable, timetables){
 	});
 	
 	route.setMap(map);
+
 }
 
 // 기존 마커 모두 삭제
 function removeMarkerAll(){
-	for (var i = 0; i < markerList.length; i++) {
-		markerList[i].setMap(null);
+	for (var i = 0; i < markers.length; i++) {
+		markers[i].setMap(null);
 	}
 	if(route!=null){
 		route.setMap(null);
@@ -151,6 +158,7 @@ var searched_ids = [];
 var searchId_idx;
 var sessionToken;
 
+// 검색 결과 보여주기
 function displaySearch(places, input_search){
 	
 	// place_id리스트 초기화
@@ -175,10 +183,11 @@ function displaySearch(places, input_search){
 	  
 }
 
+// 연관(?) 검색어
 function autoSearchQuery(predictions, status) {
 	// 응답 상태가 ok가 아니면 alert 띄워주고 종료
 	if (status != google.maps.places.PlacesServiceStatus.OK) {
-			alert(status);
+//			alert(status);
 			return;
 	}
 
@@ -209,6 +218,7 @@ function autoSearchQuery(predictions, status) {
 //새로운 일정 id값 지정을 위한 변수
 var id_idx = -1;
 
+// 상세 정보 가져온 것 띄워주기
 function viewDetails(placeRes, status, prediction){
 //	console.log(placeRes);
 	if (status === google.maps.places.PlacesServiceStatus.OK){
@@ -216,8 +226,10 @@ function viewDetails(placeRes, status, prediction){
 		var li = $("<li>"); // 태그 생성
 		// id지정
 		li.attr("id", "search_"+(searchId_idx++)); 
+		
 		// 띄워줄 텍스트 지정
 		li.text(placeRes.name); 
+		
 		// 주소 레벨에서 우선 적당한거 선택..
 		var address = placeRes.address_components;
 		var address_name;
@@ -227,27 +239,37 @@ function viewDetails(placeRes, status, prediction){
 			address_name = address[address.length-3].long_name
 		}
 		li.text(li.text() + " /" + address_name);
+		
 		// 장소 타입 지정. 우선 전부 다
 		li.text(li.text() + " /" +  placeRes.types);
-		// 드래그 가능하게 설정
-		li.draggable({
-			  zIndex: 999,
-			  revert: true,		// will cause the event to go back to its
-			  revertDuration: 0,  //  되돌려지는 시간
-			  scroll: true // true: 드래그 요소 창 밖으로 끌면 자동으로 스크롤생기면서 아래로내릴 수 있음
-		});
+		
+		
 		// 사진 url
 		var photo_url;
 		if(placeRes.hasOwnProperty("photos")){
-			photo_url = placeRes.photos[0].getUrl();
+			if(placeRes.photos.length > 2){
+				photo_url = placeRes.photos[2].getUrl();
+			}else{
+				photo_url = placeRes.photos[0].getUrl();
+			}
+		}else{
+			photo_url = '/resources/img/placeNoPhoto.png';
 		}
 		var img = $("<img width='150' height='90'>");
 		img.attr("src", photo_url);
 		li.append(img);
 		
+		// 드래그 가능하게 설정
+		li.draggable({
+			zIndex: 999,
+			revert: true,		// will cause the event to go back to its
+			revertDuration: 0,  //  되돌려지는 시간
+			scroll: true // true: 드래그 요소 창 밖으로 끌면 자동으로 스크롤생기면서 아래로내릴 수 있음
+		});
+		
 		// json data 설정
 		li.data('event', {
-			id: id_idx-- // 새로 추가한 요소는 id=-1
+			id: id_idx-- // 새로 추가한 요소는 음수
 			, title: placeRes.name
 			, address: placeRes.formatted_address
 			, lat: placeRes.geometry.location.lat()

@@ -39,10 +39,7 @@ public class InqDeleteController extends HttpServlet {
 		// 게시글 삭제
 		inquiryService.delete(inquiry);
 		
-		// 댓글에 inq_idx 지정하기
-		Reply reply = new Reply();
-		reply.setInq_idx(inquiry.getInq_idx());
-		
+				
 		// 문의사항 리스트로 리다이렉트 
 		resp.sendRedirect("/inquiry/list");
 	}

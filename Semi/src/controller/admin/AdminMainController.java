@@ -45,6 +45,8 @@ public class AdminMainController extends HttpServlet {
 		List<Inquiry> list = adminInquiryService.getMainPagingList(paging);
 		req.setAttribute("inqList", list);
 		
+//		System.out.println(list);
+		
 		// 페이징 객체 요청에 담기 
 		req.setAttribute("paging", paging);
 		
