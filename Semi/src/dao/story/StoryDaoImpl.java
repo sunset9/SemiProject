@@ -186,13 +186,65 @@ public class StoryDaoImpl implements StoryDao{
 
 	@Override
 	public void update(Story story) {
-		// TODO Auto-generated method stub
+		
+		String sql = "UPDATE story SET content = ? where story_idx = ?";
+		
+		try {
+			ps = conn.prepareStatement(sql);
+			ps.setString(1, story.getContent());
+			ps.setInt(2, story.getStory_idx());
+			ps.executeUpdate();
+			
+			conn.commit();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}finally {
+			try {
+				if(ps!= null) {
+				ps.close();
+				}
+				if(rs!= null) {
+					rs.close();
+				}
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		
+	}
 		
 	}
 
 	@Override
 	public void delete(Story story) {
-		// TODO Auto-generated method stub
+		String sql = "Delete from story where story_idx = ?";
+		
+		try {
+			ps = conn.prepareStatement(sql);
+			ps.setInt(1, story.getStory_idx());
+			ps.executeUpdate();
+			
+			conn.commit();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+				try {
+					if(ps!= null) {
+					ps.close();
+					}
+					if(rs!= null) {
+						rs.close();
+					}
+				} catch (SQLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			
+		}
+		
+		
 		
 	}
 

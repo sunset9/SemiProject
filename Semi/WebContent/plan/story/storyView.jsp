@@ -5,51 +5,96 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 
+<jsp:include page="/plan/story/storyWrite.jsp"/>
+<jsp:include page="/plan/story/storyUpdate.jsp"/>
 
 <style type="text/css">
 	
 #slidemenu{
-	background:#12cf3d;
+/* 	background:#12cf3d; */
+	background-color: rgba( 255, 255, 255, 0 );
 	position:absolute;
 	width:100px;
 /*  	top:200px; */
-	right:10px;
-}
-
-div.vertical-line{
-	width: 3px; /* Line width */
-	background-color: gray; /* Line color */
-	height: 100%; /* Override in-line if you want specific height. */
-	float: right; /* Causes the line to float to left of content.
-	You can instead use position:absolute or display:inline-block
-	if this fits better with your design */
+	right:0;
+/* 	opacity: 0; */
 }
 	
 tr,td{
 padding: 2px;
 }
 
+.vl {
+    border-left: 4px solid #D3D3D3;
+    height: 100%;
+    position: absolute;
+    left: 36px; 
+    margin-left: -3px;
+    top: 20px;
+    z-index: -100;
+}
+
+hr{
+	border: 1px solid #D3D3D3;
+}
+
+.bubble 
+{
+	position: relative;
+	width: 280px;
+	height: 175px;
+	padding: 18px;
+	background: #DCDCDC;
+	-webkit-border-radius: 14px;
+	-moz-border-radius: 14px;
+	border-radius: 14px;
+}
+
+.bubble:after 
+{
+	content: '';
+	position: absolute;
+	border-style: solid;
+	border-width: 7px 11px 7px 0;
+	border-color: transparent #DCDCDC;
+	display: block;
+	width: 0;
+	z-index: 1;
+	left: -11px;
+	top: 16px;
+}
 
 </style>
 <script type="text/javascript">
 	
 	$(document).ready(function(){
-	    var currentPosition = parseInt($("#slidemenu").css("top"));
 	    
-	    
+	    //edit 모드일때, 수정버튼삭제버튼추가버튼 보여주지 않음
 	    function EditMode() {
 	     var removeStorys = document.getElementsByClassName("removeStory");
 	     var updateStorys = document.getElementsByClassName("updateStory");
+	     var plusStorys = document.getElementsByClassName("storyPlus");
+	     
 	    	if (isModify == 1){
    			  for(var i = 0; i < removeStorys.length; i++){
 	    		  removeStorys[i].style.display = "block"; 
 	    		  updateStorys[i].style.display = "block";
-	    	    }
+	    		 
+	    	   }
+   			  
+   			  for(var i=0; i<plusStorys.length;i++){
+   				 plusStorys[i].style.display = "block";
+   			  }
 	    	}else{
     		  for(var i = 0; i < removeStorys.length; i++){
 	    		  removeStorys[i].style.display = "none"; 
 	    		  updateStorys[i].style.display = "none";
-	    	    }
+	    		 
+	    	   }
+    		  
+    		  for(var i=0; i<plusStorys.length;i++){
+    			  plusStorys[i].style.display = "none";
+    		  }
 	    	}
 			
 		}
@@ -57,8 +102,8 @@ padding: 2px;
 	    EditMode();
 	    
 	    
+	    //slidmenu 고정
 	    $(window).scroll(function() {
-// 	        var position = $(window).scrollTop(); // 현재 스크롤바의 위치값을 반환합니다.
 	        var position = $(this).scrollTop(); // 현재 스크롤바의 위치값을 반환합니다.
 	        var header = $("#header").offset();
 	        var height = $("#header").height();
@@ -73,11 +118,7 @@ padding: 2px;
 	        
 	    });
 
-		$("#btnSave").click(function() {
-			$("form").submit();
-		})
-		
-
+		//추가하기
 		$(".storyPlus").click(function() {
 			
 			
@@ -94,7 +135,26 @@ padding: 2px;
 		})
 		
 		
-$(".storySaveBtn").click(function() {
+		//수정하기
+		$(".updateStory").click(function() {
+			
+			var place_name =$(this).data("place");
+			var story_idx = $(this).data("storyidx");
+			var planidx = plan_idx;
+			var content = $(this).data("content");
+			
+			$(".up_modalPlaceName").text(place_name);
+			$(".up_story_idx").val(story_idx);	
+			
+			$('.up_content').froalaEditor('html.set', content);
+			$(".up_plan_idx").val(planidx);	
+			
+		})
+		
+		
+		
+		//저장하기
+	$(".storySaveBtn").click(function() {
 			
 			var storyJSON = {
 				ttb_idx  : $(".ttb_idx").val()
@@ -102,69 +162,89 @@ $(".storySaveBtn").click(function() {
 				, content  : $(".content").val()
 			};
 			
+			var jsonData = JSON.stringify(storyJSON);
+			
 			$.ajax({
 				type : "POST"
 				, url : "/story/write"
-				, data : {"story":storyJSON}
+				, data : {JSON : jsonData}
+				, dataType : "html"
+				, success : function (res) {
+					$("#viewStory").html(res);
+				}
+				, error: function () {
+					console.log("실패");
+				}
+				
+ 			})
+			
+ 		});
+ 		
+ 		
+ 		$(".storyUpdateBtn").click(function () {
+ 			var storyJSON = {
+ 					story_idx : $(".up_story_idx").val() 
+ 					, content  : $(".up_content").val()
+ 					, plan_idx :$(".up_plan_idx").val()
+ 				};
+ 				
+ 				var jsonData = JSON.stringify(storyJSON);
+ 				
+ 				$.ajax({
+ 					type : "POST"
+ 					, url : "/story/update"
+ 					, data : {JSON : jsonData}
+ 					, dataType : "html"
+ 					, success : function (res) {
+ 						$("#viewStory").html(res);
+ 					}
+ 					, error: function () {
+ 						console.log("실패");
+ 					}
+ 					
+ 	 			})
+ 		});
+ 		
+	});
+	
+
+	//삭제하기
+	function storyDelete(storyIdx) {
+		
+		var r = confirm("스토리를 삭제 하시겠습니까?");
+		
+		if (r == true) {
+			$.ajax({
+				type : "POST"
+				, url : "/story/delete"
+				, data : {"story_Idx":storyIdx, "plan_idx" : plan_idx}
 				, success : function (res) {
 					$("#viewStory").html(res);
 				}
 				, error: function (e) {
 					console.log(e);
 				}
-				
- 			})
+			})
 			
-// // 			$(".ModalForm").submit();
- 		})
-
-	});
-	
-	
-	    
-   function plusmover(num) {
-   	
-   	var id = "plus"+num;
-   	
-	var plus = document.getElementById(id);
-	plus.style.color='orange';
-	
+		} else {
+		}
 	}
 	
-   
-   function plusmdown(num){
-   	var id = "plus"+num;
-   	
-	var plus = document.getElementById(id);
-	plus.style.color='blue';
-	   
-   }
-   
-	function plusmleave(num) {
-		var id = "plus"+num;
-		var plus = document.getElementById(id);
-		plus.style.color='black';
-	}
 
+	 
+    // 마우스오버시 색바꾸기
+    function plusmover(obj) {
+ 	   obj.css( "color", "orange" );
+ 	}
+    
+    function plusmdown(obj){
+ 	   obj.css( "color", "blue" );
+    }
+    
+ 	function plusmleave(obj) {
+ 		obj.css("color", "black");
+ 	}
 
-	function storyDelete(storyIdx) {
-		
-		$.ajax({
-			
-			type : "POST"
-			, url : "/story/delete"
-			, data : {"story_Idx":storyIdx}
-			, success : function (res) {
-				$("#viewStory").html(res);
-			}
-			, error: function (e) {
-				console.log(e);
-			}
-			
-		})
-		
-	}
-	
 	
 </script>	
 
@@ -180,73 +260,87 @@ $(".storySaveBtn").click(function() {
 		<div id = "Day">
 		</div>
 			<c:forEach var='day' begin = "1" end="${diffDays}">
-			<div id = "DayDiv${day}" ><h1>-Day ${day}</h1></div>
+			<div id = "DayDiv${day}" >
+			<h1><span class="glyphicon glyphicon-plane Dayimage"style="color: #555555"></span> Day ${day}</h1>
+			<div class="vl"></div>
+			</div>
 			
 			<c:forEach items='${ttbList}' var = 'ttb'>
 				<c:if test="${ttb.day eq day }">
-			
 				<c:if test="${ttb.is_story eq true}">
 					<c:forEach items='${storyList}' var='story'>
 						<c:if test="${story.ttb_idx eq ttb.ttb_idx}">
-						<span>${story.start_time }</span>
-				    		<table width="70%" style="border-bottom: 1px solid black; border-right: 1px solid black; border-top: 1px solid black; border-left: 1px solid black" >
+						<font size ="3"><span class="glyphicon glyphicon-minus" style="margin-left: 15px; color: #D3D3D3;">${story.start_time}</span></font>
+				    		<table class="bubble" style="margin-left: 60px;" >
 				    			<tr>
-				     			<td colspan="12">
-								  <font size="5"><span class = "glyphicon glyphicon-remove removeStory" style="float: right;" onclick="storyDelete(${story.story_idx})"></span>
-								  <span class = "glyphicon glyphicon-pencil updateStory" style="float: right;"></span>
+				     			<td colspan="5">
+								  <font size="5"><span class = "glyphicon glyphicon-remove removeStory" style="float: right;" onclick="storyDelete(${story.story_idx})"  onmouseover="plusmover($(this))" onmouseleave="plusmleave($(this))" onmousedown="plusmdown($(this))"></span>
+								  <span class = "glyphicon glyphicon-pencil updateStory" 
+									  style="float: right;"  
+									  onmouseover="plusmover($(this))" onmouseleave="plusmleave($(this))" onmousedown="plusmdown($(this))" 
+									  data-toggle="modal" data-target="#myModal_update" 
+									  data-backdrop="static" data-storyidx="${story.story_idx}" 
+									  data-place="${story.place_name}" data-content= '${story.content}'>
+								  </span>
 								  </font>
 								  <div> <h2><span class="glyphicon glyphicon-map-marker"></span>&nbsp;${story.place_name}</h2>
 								  <hr>
 								  </div>
 						 		  <!-- froala align 적용 되게 하려면 content 표시할 div에 fr-view class를 반영 해줘야함 -->
-						 		  <div class = "fr-view" width="100%" style="overflow:auto; height:300px">${story.content}</div>
+						 		  <div class = "fr-view" width="100%" style="overflow:auto; height:auto; padding: 10px;">${story.content}</div>
 								</td>
 				    			</tr>
 				    			<tr>
-				     			<td colspan="12">
-									<hr><font size="2" color="#B9ADAE">[이미지] 오락 | USD 70</font> 
+				     			<td colspan="5">
+				     				<hr>
+									<font size="2" color="#999999">[이미지] 오락 | USD 70</font> 
 					 		    </td>
 								</tr>
 								<tr>
-					  			<td colspan="12">
-						  			<font size="2" color="#B9ADAE">[이미지] 식비 | KRW 8000</font> 
+					  			<td colspan="5">
+						  			<font size="2" color="#999999">[이미지] 식비 | KRW 8000</font> 
 					  			</td>
 				    			</tr>
 								<tr>
-								<td colspan="12"><hr><a href="#"><font size="2" color="#B9ADAE">덧글 1개</font></a></td>
+								<td colspan="5"><hr><a href="#"><font size="2" color="#999999">덧글 1개</font></a></td>
 								</tr>
 								<tr>
-								<td colspan="10">
-									<hr>
+								<td colspan="4">
 									<textarea style ="resize: none; overflow:visible;" rows="2" cols="100" placeholder="댓글을 입력하세요"></textarea>
 								</td>	
-								<td colspan="2" style="padding-bottom:20px;">
-								<hr style="padding: 4px;">
-								<button type="button" class="btn btn-sm" style="margin-bottom: -7px;">등록</button>
+								<td colspan="1" style="padding-bottom:20px;">
+								<button type="button" class="btn btn-secondary" style="margin-bottom: -7px;">등록</button>
 								</td>
 								</tr>
 							<!-- ajax이용, 댓글 리스트 foreach문 -->
 								<tr>
-								<td colspan="3" align="center" ><img src="#" class="img-circle" width="50px" height="50px"></td>
-								<td colspan="5" rowspan="2"><font size="2">&nbsp;&nbsp;&nbsp;피가 하여도 무엇을 말이다. 풀밭에 착목한는 소금이라 이상의 맺어, 새 같지 때문이다.</font></td>
-								<td colspan="3" rowspan="2" style="padding:20px"><font size ="1"> 2018-10-12 AM 09:03 </font></td>
+								<td colspan="1" align="center" ><img src="#" class="img-circle" width="50px" height="50px"></td>
+								<td colspan="2" rowspan="2"><font size="2">&nbsp;&nbsp;&nbsp;피가 하여도 무엇을 말이다. 풀밭에 착목한는 소금이라 이상의 맺어, 새 같지 때문이다.</font></td>
+								<td colspan="1" rowspan="2" style="padding:20px"><font size ="1"> 2018-10-12 AM 09:03 </font></td>
 								<td colspan="1" rowspan="2"><span class="glyphicon glyphicon-remove-sign"></span></td>
 								</tr>
 								<tr>
-								<td colspan="3" align="center"><font size="2">닉네임</font></td>
+								<td colspan="1" align="center"><font size="2">닉네임</font></td>
 								</tr>
 							</table>					
-													
+							<br>
+							<br>
+							<br>						
 						</c:if>			
 					</c:forEach>
 					</c:if>
 					<c:if test="${ttb.is_story eq false}">
 						<br>
-						<div><h2><span class="glyphicon glyphicon-map-marker"></span>&nbsp;${ttb.place_name}</h2></div>
+						<div style="margin-left: 60px"><h2><span class="glyphicon glyphicon-map-marker"></span>&nbsp;${ttb.place_name}</h2></div>
 						<br>
 						<font size="10" color="black">
-							<span id = "plus${day}" class ="glyphicon glyphicon-plus-sign storyPlus" data-toggle="modal" data-target="#myModal" data-backdrop="static" data-place="${ttb.place_name}" data-ttbidx="${ttb.ttb_idx}" data-planidx="${ttb.plan_idx}"  onmouseover="plusmover(${day})" onmouseleave="plusmleave(${day})" onmousedown="plusmdown(${day})"></span>
-<%-- 							<span id = "plus${day}" class ="glyphicon glyphicon-plus-sign" onclick= "show(${ttb.place_name})" onmouseover="plusmover(${day})" onmouseleave="plusmleave(${day})" onmousedown="plusmdown(${day})"></span> --%>
+							<span class ="glyphicon glyphicon-plus-sign storyPlus" 
+							data-toggle="modal" data-target="#myModal" data-backdrop="static" 
+							data-place="${ttb.place_name}" data-ttbidx="${ttb.ttb_idx}" 
+							data-planidx="${ttb.plan_idx}" onmouseover="plusmover($(this))" 
+							onmouseleave="plusmleave($(this))" onmousedown="plusmdown($(this))"
+							style="margin-left: 60px">
+							</span>
 						</font>
 					</c:if>
 				</c:if>
@@ -255,132 +349,19 @@ $(".storySaveBtn").click(function() {
 		</div> <!-- col-lg-8 끝 구간 -->
  <div class="col-lg-4"></div>
 	
-	
- <!-- Modal -->
-<div class="modal fade" id="myModal" role="dialog">
-    <div class="modal-dialog">
-      <!-- Modal content-->
-      <div class="modal-content">
-        <div class="modal-header">
-          <button type="button" class="close" data-dismiss="modal">×</button>
-          <h4 class="modal-title"><span class="glyphicon glyphicon-map-marker modalPlaceName" id ="placename" style="font-weight: bold;font-size: 25px"><font size="5">place_name</font></span></h4>
-        </div>
-        <div class="modal-body">
-		 
-		  <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/froala-editor/2.5.1//js/froala_editor.pkgd.min.js"></script>
-			<form class = "ModalForm" action="/story/write" method="POST">
-			
-			<!-- ttb_idx 값 숨겨두기 -->
-			<input type="hidden" value="" name ="ttb_idx" class = "ttb_idx" />
-			<input type="hidden" value="" name ="plan_idx" class = "plan_idx" />
-			<div style="height: auto; width:500px; padding: 20px;" id ="StoryWriteDiv">
-				<table>
-				<tr>
-					<td colspan="4">
-						<div style="border: 1px solid #B6B7FA; width: auto; height: auto" >
-							<textarea id = "edit" name="content" class = "content"></textarea>
-						</div>
-					</td>
-				</tr>
-				<tr>	
-					<td>
-					<select>
-						<option>교통</option>
-						<option>식비</optoin>
-						<option>오락</option>
-					</select>
-					</td>
-					<td>
-						<select>
-						<option>USD</option>
-						<option>KRW</optoin>
-						<option>CAD</option>
-						<option>CNY</option>
-					</select>
-					</td>
-					<td>
-					<input type="text" size="40"/>
-					</td>
-					<td>
-						<span class="glyphicon glyphicon-plus"></span>
-					</td>
-					<td>
-						<span class="glyphicon glyphicon-remove"></span>
-					</td>
-				</tr>
-				</table>
-			</div>
-        </form>
-        </div> <!-- modal 바디끝 -->
-        <div class="modal-footer" style="text-align: center">
-          <button class ="storySaveBtn" type="button" class="btn btn-warning">Save</button>
-        </div>
-        
-      </div>
-      
-    </div>
-  </div>
-	
-				
   <!-- 퀵 메뉴바 -->
   <div id ="slidemenu">
+  <div class="vl" style="margin-top: -20px; margin-left: -13px;"></div>
   	<ul style="list-style:none;">
   		<c:forEach var = "day" begin="1" end="${diffDays}" step="1">
   		<c:set var = "name" value="DayDiv${day}"/>
   			<a href="#${name}"><li> Day ${day} </li></a>
   		</c:forEach>
 	</ul>
+	
   </div>
  </div>	
 
-<!-- 프로알라관련 --> 
 
-<script>
 
-//write 창에 x표시 추가
-
-    $(function() {
-    $.FroalaEditor.COMMANDS.imageAlign.options.justify = 'Center';
-    $('#edit').froalaEditor({
-        // Set the image upload URL.
-        enter: $.FroalaEditor.ENTER_DIV,
-        //모달 사용할때 발생하는 문제 : image edit menu가 안뜸, -> 해결법 : zIndex를 높여라
-        zIndex: 2501,
-        toolbarButtons: ['fontFamily','bold', 'italic', 'underline','align','|','insertLink','insertImage','|', 'undo', 'redo'],
-        toolbarButtonsXS: ['fontFamily','bold', 'italic', 'underline','align','|','insertLink','insertImage','|', 'undo', 'redo'],
-        toolbarButtonsSM: ['fontFamily','bold', 'italic', 'underline','align','|','insertLink','insertImage','|', 'undo', 'redo'],
-        toolbarButtonsMD: ['fontFamily','bold', 'italic', 'underline','align','|','insertLink','insertImage','|', 'undo', 'redo'],
-        imageUploadURL: '/story/upload_image',
-        imageUploadParams: {
-          id: 'my_editor'
-        },
-	    imageEditButtons : ['imageAlign', 'imageRemove', 'imageLink','imageSize','imageDisplay'],
-	    heightMin: 300,
-        heightMax: 300,
-      }).on('froalaEditor.image.error', function (e, editor, error, response) {
-    	  console.log(error);
-    	  console.log(response);
-    	}).on('froalaEditor.image.removed', function (e, editor, $img) {
-            $.ajax({
-                // Request method.
-                method: "POST",
-       
-                // Request URL.
-                url: "/story/image_delete",
-       
-                // Request params.
-                data: {
-                  src: $img.attr('src')
-                }
-              })
-              .done (function (data) {
-                console.log ('image was deleted');
-                console.log($img.attr('src'));
-              })
-              .fail (function () {
-                console.log ('image delete problem');
-              })
-            });
-    });
-  </script> 
 

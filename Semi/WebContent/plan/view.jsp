@@ -219,6 +219,12 @@
 	.fc-bg:not(:first-child){
 		margin-left: 10px;  /* fc-bg(이벤트 덮고 있는 투명도 있는 판?)css 수정 , 왼쪽에 색 진하게 하는 효과줌*/
 	}
+	
+	/*스토리 저장시 스크롤바가 안생겨서 만들어 뒀습니다...*/
+	html {
+	    overflow-y: scroll;
+	}
+	
 
 </style>
 
@@ -292,12 +298,13 @@ $(document).ready(function() {
 		document.getElementById("viewStory").style.display= "block";
 		document.getElementById("googleMap").style.display= "none";
 		document.getElementById("googleSearch").style.display= "none";
+
 		
 		//AJAX 처리하기
 		$.ajax({ 	
-			type: "post"
+			type: "get"
 			, url: "/story/view"
-// 			, data: {"isModify" : isModify }
+			, data: {"plan_idx" : plan_idx }
 			, dataType: "html"
 			, success: function( d ) {
 				

@@ -13,6 +13,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import service.plan.PlanService;
+import service.plan.PlanServiceImpl;
 import service.stroy.StoryService;
 import service.stroy.StoryServiceImpl;
 import service.timetable.TimetableService;
@@ -31,39 +33,46 @@ public class StoryViewController extends HttpServlet {
 	
 	TimetableService ttbService = new TimetableServiceImpl();
 	StoryService sService = new StoryServiceImpl();
+	PlanService pService = new PlanServiceImpl();
 	
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		request.setCharacterEncoding("utf-8");
 		
 		List<Story> StoryList = new ArrayList<>();
 	
-//		String plan_idx = request.getParameter("planidx");
-
 		Plan plan = new Plan();
-//		plan.setPlan_idx(Integer.parseInt(plan_idx));
 		
-		// 임시데이터 저장
-		try {
-			plan.setStart_date(new SimpleDateFormat("yyyyMMdd").parse("20181010"));
-			plan.setEnd_date(new SimpleDateFormat("yyyyMMdd").parse("20181013"));
-		} catch (ParseException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		plan.setPlan_idx(1);
+		String plan_idx = request.getParameter("plan_idx");
 		
+	    if(plan_idx!=null & !"".equals(plan_idx)){
+	    	//스토리 읽어올때
+	    	plan.setPlan_idx(Integer.parseInt(plan_idx));
+	      } else {
+	    	  // 스토리 저장하고 난후 ajax로 여기다시 불러올떄
+	    	  int plan_idx_write = (int) (request.getAttribute("plan_idx"));
+	    	  if(plan_idx_write != 0) { 
+	    		  plan.setPlan_idx(plan_idx_write);  
+	    	  }else {
+	    		  System.out.println("plan_idx 값이 잘못 되었습니다.");
+	    	  }
+	      }
+	    
+	    
+	    plan = pService.getPlanInfo(plan);
+	    
 		
-		List<Timetable> ttbList = ttbService.getTimetableList(plan);
+	    List<Timetable> ttbList = ttbService.getTimetableList(plan);
 		
+	    
 		// 플랜번호로 스토리조회
 		StoryList=sService.getStoryList(plan);
     
 		//여행기간 계산 클래스 
 		CalcDate calcDate = new CalcDate();
 		
-		// 여행기간 계산로직
+		// 여행기간 계산
 		int diffDays = calcDate.CalcPriod(plan.getStart_date(),plan.getEnd_date());
-
+		
 		request.setAttribute("ttbList", ttbList);
 		request.setAttribute("diffDays",diffDays);
 		request.setAttribute("storyList", StoryList);
@@ -71,12 +80,5 @@ public class StoryViewController extends HttpServlet {
 		
 	}
 
-	/**
-	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
-	 */
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
-		doGet(request, response);
-	}
 
 }
