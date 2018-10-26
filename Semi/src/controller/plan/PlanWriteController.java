@@ -125,8 +125,8 @@ public class PlanWriteController extends HttpServlet {
 //		ttService.write(plan,ttLoc);
 		// 일정 정보 저장하기
 //		pService.write(plan);
-		
-		resp.sendRedirect("/plan");
+
+	resp.sendRedirect("/plan");
 	}
 	
 }

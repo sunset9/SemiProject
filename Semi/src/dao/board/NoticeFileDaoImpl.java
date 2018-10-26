@@ -19,7 +19,7 @@ public class NoticeFileDaoImpl implements NoticeFileDao {
 	}
 
 	@Override
-	public void delete(NoticeFile file) {
+	public void delete(Notice notice) {
 		// TODO Auto-generated method stub
 		
 	}

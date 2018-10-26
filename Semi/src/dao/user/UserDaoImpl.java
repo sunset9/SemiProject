@@ -416,6 +416,8 @@ public class UserDaoImpl implements UserDao{
 		sql += " FROM USERINFO u JOIN PLANNER p";
 		sql += " ON u.user_idx = p.user_idx";
 		sql += " WHERE u.user_idx = ?";
+		sql += " ORDER BY PLAN_IDX desc";
+		
 		
 		//DB 객체
 		PreparedStatement ps = null;
@@ -443,7 +445,7 @@ public class UserDaoImpl implements UserDao{
 				plan.setDistance(rs.getInt("DISTANCE"));
 				plan.setCreate_date(rs.getDate("CREATE_DATE"));
 				plan.setBannerURL(rs.getString("BannerURL"));
-				System.out.println("userDao plan : "+plan);
+				//System.out.println("userDao plan : "+plan);
 				
 				list.add(plan);
 			}

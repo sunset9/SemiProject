@@ -31,8 +31,11 @@ public class StoryMiniViewController extends HttpServlet {
 		
 		// 파라미터 추출
 		Story param = sService.getParam(req);
+		System.out.println("스토리 미니");
+		System.out.println(param);
 		// 스토리 가져오기
 		Story story = sService.getStory(param);
+		System.out.println(story);
 		
 		// json 형식으로 변환
 		String storyStr = gson.toJson(story);

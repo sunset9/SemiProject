@@ -18,4 +18,7 @@ public interface MainDao {
 	
 	//plan_idx 가져오기
 	public int getPlan_idx();
+	
+	//planner_seq.nextval 가져오기
+	public int getPlannerSeqNextval();
 }

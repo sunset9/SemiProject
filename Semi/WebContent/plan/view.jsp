@@ -205,6 +205,7 @@
 	}
 	
 	.fc-title{ /* 이벤트 안의 제목 부분 */
+		cursor: pointer;
 		font-weight: bold;
 		font-size: 1.5em;
 		padding-top: 5px;
@@ -215,9 +216,11 @@
 	}
 	
 	/*스토리 저장시 스크롤바가 안생겨서 만들어 뒀습니다...*/
+
 	html {
-	    overflow-y: scroll;
+/* 	    overflow-y: scroll; */
 	}
+
 	
 
 </style>
@@ -232,6 +235,10 @@ var ttbList = ${ttbList };
 var locList = ${locList };
 
 var plan_idx = ${planView.plan_idx};
+
+var is_diplayStory = false;
+
+
 
 </script>
 <script>
@@ -286,6 +293,38 @@ $(document).ready(function() {
 	// 브라우저에 timetable 그려주기
 	initFullCalendar(planStartDate, planEndDate, true);
 	
+// 	function diplayStory() {
+// 		if( ${is_displayStory ne null} && ${is_displayStory eq ""}){
+// 			is_diplayStory = ${is_displayStory};
+// 		}else{
+// 			is_displayStory = false;
+// 		}
+		
+// 		if(is_display == true){
+// 			document.getElementById("calendar").style.display= "none";
+// 			document.getElementById("viewStory").style.display= "block";
+			
+// 			$.ajax({ 	
+// 				type: "get"
+// 				, url: "/story/view"
+// 				, data: {"plan_idx" : plan_idx }
+// 				, dataType: "html"
+// 				, success: function( d ) {
+// 					$("#viewStory").html(d);
+// 				}
+// 				, error: function() {
+// 					console.log("실패");
+// 				}
+// 			});
+			
+// 		}else{
+// 			document.getElementById("calendar").style.display= "block";
+// 			document.getElementById("viewStory").style.display= "none";
+// 		}
+// 	}
+	
+// 	displayStory();
+	
 // 	스토리탭
 	$("#btnStory").click(function() {
 		document.getElementById("calendar").style.display= "none";
@@ -301,9 +340,7 @@ $(document).ready(function() {
 			, data: {"plan_idx" : plan_idx }
 			, dataType: "html"
 			, success: function( d ) {
-				
 				$("#viewStory").html(d);
-				
 			}
 			, error: function() {
 				console.log("실패");

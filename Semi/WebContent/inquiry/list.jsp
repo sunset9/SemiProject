@@ -26,7 +26,7 @@ $(document).ready(function() {
 	
 	$("#myInq").click(function() {
 		location.href="/inquiry/mylist";
-	})
+	});
 });
 </script>
 
@@ -167,7 +167,7 @@ $(document).ready(function() {
   </ul>
   
   <div id="searchBox" class="text-center">
-	<input type="text" id="search" />
+	<input type="text" id="search" placeholder="제목검색"/>
 	<button id="btnSearch">검색</button>
 </div>
 

@@ -3,7 +3,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
     
-<c:import url="../layout/headerNoMenu.jsp" />
+<c:import url="/layout/headerNoMenu.jsp" />
 
 <script type="text/javascript">
 
@@ -17,6 +17,8 @@ $(document).ready(function() {
 		// 선택된 체크박스
 		var $checkboxes = $("input:checkbox[name='checkRow']:checked");
 	
+		console.log($checkboxes);
+		
 		//방법2
 		// 체크된 대상들을 map으로 만들고 map을 문자열로 만들기
 		var map = $checkboxes.map(function() {
@@ -107,7 +109,7 @@ ul.sub li a {
 </div>
 
 <div class="content">
-<h3><strong>CONTENT</strong></h3>
+<h3><strong>문의사항</strong></h3>
 <div id ="listTable">
 <table class="table table-hover table-striped table-condensed">
 <thead>
@@ -211,7 +213,7 @@ ul.sub li a {
   </div><br>
 </div>
 <div id="searchBox" class="text-center">
-	<input type="text" id="search" />
+	<input type="text" id="search" placeholder="제목검색"/>
 	<button id="btnSearch">검색</button>
 </div>
 

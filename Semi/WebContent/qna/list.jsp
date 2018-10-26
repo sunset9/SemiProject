@@ -9,9 +9,9 @@
 <script type="text/javascript">
 $(document).ready(function() {
 	$("table").on("click","tr",function(){
-		var inq_idx = $(this).children("td").eq(0).text();
+		var qna_idx = $(this).children("td").eq(0).text();
 		
-		$(location).attr("href","/qna/view?nqna_idx="+qna_idx);
+		$(location).attr("href","/qna/view?qna_idx="+qna_idx);
 		
 	});
 	
@@ -142,7 +142,7 @@ $(document).ready(function() {
   </ul>
   
   <div id="searchBox" class="text-center">
-	<input type="text" id="search" />
+	<input type="text" id="search" placeholder="제목검색"/>
 	<button id="btnSearch">검색</button>
 </div>
 
