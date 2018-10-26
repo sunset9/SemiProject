@@ -30,17 +30,52 @@ public class MainDaoImpl implements MainDao{
 		return null;
 	}
 
+	//planner_seq.nextval 얻어오기 
+	@Override
+	public int getPlannerSeqNextval() {
+		int value = 0;
+		
+		String sql = "SELECT planner_seq.nextval FROM dual";
+		
+		//DB 객체
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+		
+		try {
+			ps = conn.prepareStatement(sql);
+			
+			rs = ps.executeQuery();
+
+			rs.next();
+
+			value = rs.getInt(1);
+			
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			try {
+				//DB객체 닫기
+				if(rs!=null)	rs.close();
+				if(ps!=null)	ps.close();
+				
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+		
+		return value;
+	}
+	
 	//새 일정 만들기 
 	@Override
 	public void insertPlan(Plan param, User user) {
-		//INSERT INTO PLANNER(plan_idx,user_idx,start_date,end_date,title,traveled,opened,distance,bannerurl) 
-		//VALUES(planner_seq.nextval,71,to_date('20181010','yyyy-mm-dd'),to_date('20181013','yyyy-mm-dd'),'testPlan',1,1,20,'/upload/user/paris.jpg');
-
-		//System.out.println("메인디에이오 : "+param.getStart_date());
-		//System.out.println("메인디에이오 : "+param.getEnd_date());
+		
+		int plannerSeqNextval = getPlannerSeqNextval();
+		System.out.println("MainDaoImpl plannerSeqNextval : "+plannerSeqNextval);
 		String sql = "";
 		sql += "INSERT INTO PLANNER(plan_idx, user_idx, start_date, end_date, title, traveled, opened, distance, bannerurl)";
-		sql += " VALUES (planner_seq.nextval, ?, to_date(?, 'yyyy-MM-dd'), to_date(?, 'yyyy-MM-dd'), ?, ?, 0, 0, '/upload/user/paris.jpg')";
+		sql += " VALUES (?, ?, to_date(?, 'yyyy-MM-dd'), to_date(?, 'yyyy-MM-dd'), ?, ?, 0, 0, '/upload/user/paris.jpg')";
 		
 		PreparedStatement ps = null;
 		
@@ -48,22 +83,24 @@ public class MainDaoImpl implements MainDao{
 			conn.setAutoCommit(false);
 			ps = conn.prepareStatement(sql);
 			
-			ps.setInt(1, user.getUser_idx());
+			ps.setInt(1, plannerSeqNextval);
+			
+			ps.setInt(2, user.getUser_idx());
 			
 			DateFormat df = new SimpleDateFormat("EEE MMM dd HH:mm:ss Z yyyy",Locale.ENGLISH);
 			
 			SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd",Locale.KOREA);
 			
 			String sD = sdf.format(param.getStart_date());
-			System.out.println("dd : "+sD);
-			ps.setString(2, sD);
+			System.out.println("MaindaoImpl start date : "+sD);
+			ps.setString(3, sD);
 			
 			String eD = sdf.format(param.getEnd_date());
-			System.out.println("dd : "+eD);
-			ps.setString(3, eD);
+			System.out.println("MaindaoImpl end date : "+eD);
+			ps.setString(4, eD);
 			
-			ps.setString(4, param.getTitle());
-			ps.setInt(5, param.getTraveled());
+			ps.setString(5, param.getTitle());
+			ps.setInt(6, param.getTraveled());
 			
 			ps.executeUpdate();
 			
@@ -117,5 +154,7 @@ public class MainDaoImpl implements MainDao{
 		
 		return plan_idx;
 	}
+
+
 
 }
