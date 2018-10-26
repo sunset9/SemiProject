@@ -92,7 +92,7 @@ public class PlanWriteController extends HttpServlet {
 
 //		// 요청 파라미터 받아오기
 		//Plan plan = pService.getParam4Edit(req);
-		Map<Timetable, Location> ttLoc = ttService.getParam(req);
+		Map<Timetable, Location> ttLoc = ttbService.getParam(req);
 		
 		// 요청파라미터(plan_idx) -> Plan 모델
 		// param을 받아와야 함

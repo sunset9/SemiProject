@@ -25,7 +25,7 @@
 			
 		<!-- div (팝업으로 띄어줄) 본문 내용 -->	
 		<div style="border: 1px solid #9AA3E6; height: auto; overflow: hidden" >
-			<table>
+			<table style="width:100%;">
 			<tr>
 				<td rowspan="2" style="padding: 10px 15px;">
 				<img id="miniImg" src="https://blog.hmgjournal.com/images_n/contents/171025_italy01.jpg" width="280" height="150" alt=""/>
@@ -38,9 +38,6 @@
 				</td>
 			</tr>
 			<tr>
-				<td style="padding: 15px" colspan="2">
-					<input type="text" value="simple picture.jpg, 아말피.jpg">
-				</td>	
 			</tr>
 			<tr>
 				<td style="padding-right: 15px" colspan="2">

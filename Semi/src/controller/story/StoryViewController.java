@@ -47,6 +47,7 @@ public class StoryViewController extends HttpServlet {
 	    if(plan_idx!=null & !"".equals(plan_idx)){
 	    	//스토리 읽어올때
 	    	plan.setPlan_idx(Integer.parseInt(plan_idx));
+	    	
 	      } else {
 	    	  // 스토리 저장하고 난후 ajax로 여기다시 불러올떄
 	    	  int plan_idx_write = (int) (request.getAttribute("plan_idx"));
@@ -76,6 +77,7 @@ public class StoryViewController extends HttpServlet {
 		request.setAttribute("ttbList", ttbList);
 		request.setAttribute("diffDays",diffDays);
 		request.setAttribute("storyList", StoryList);
+		
 		request.getRequestDispatcher("/plan/story/storyView.jsp").forward(request, response);
 		
 	}

@@ -127,16 +127,18 @@ function initFullCalendar(planStartDate, planEndDate, isFirst){
 					url: "/story/mini/view"
 					, type: "GET"
 					, data: {
-						plan_idx: plan_idx
-						, ttb_idx: event.id
-					}
+		                  JSON: JSON.stringify({
+		                        plan_idx: plan_idx
+		                        , ttb_idx: event.id
+		                     })
+		               }
 					, dataType: "json"
 					, success: function(story){
 						// miniView modal에 값 채워줌
 						$("#miniTitle").text(event.title);
 						$("#miniImg").attr("src", event.photo_url);
 						
-						$("#storyContent").text(story.content);
+						$("#storyContent").html(story.content);
 					}
 					, error: function(){
 						console.log("ajax 통신 실패");

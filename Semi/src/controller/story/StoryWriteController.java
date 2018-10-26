@@ -22,6 +22,12 @@ public class StoryWriteController extends HttpServlet {
 	StoryService sService = new StoryServiceImpl();
 	
 	@Override
+	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+		// TODO Auto-generated method stub
+		super.doGet(req, resp);
+	}
+	
+	@Override
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		
 		req.setCharacterEncoding("utf-8");
@@ -35,11 +41,10 @@ public class StoryWriteController extends HttpServlet {
 		sService.write(story);
 		req.setAttribute("plan_idx", story.getPlan_idx());
 		
-//		req.getRequestDispatcher("/story/view").forward(req, resp);
-//		위에껄로하면 자꾸 405 오류남
 		
 		StoryViewController SV = new StoryViewController();
 		SV.doGet(req, resp);
+		
 		
 	}
 }
