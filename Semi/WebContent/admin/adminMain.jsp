@@ -176,7 +176,7 @@ ul.sub li a {
   </ul>
 </div>
 <div id="searchBox" class="text-center">
-	<input type="text" id="search" />
+	<input type="text" id="search"placeholder="제목검색" />
 	<button id="btnSearch">검색</button>
 </div>
 

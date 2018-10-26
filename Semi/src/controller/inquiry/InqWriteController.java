@@ -24,9 +24,7 @@ public class InqWriteController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
 	private InquiryService inquiryService = new InquiryServiceImpl();
-	private Inquiry inquiry = new Inquiry();
-	private InqFile file = new InqFile();
-	private InqFileDao inqfileDao = new InqFileDaoImpl();
+
 	
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
