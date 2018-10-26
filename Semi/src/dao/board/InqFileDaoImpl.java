@@ -156,4 +156,36 @@ public class InqFileDaoImpl implements InqFileDao {
 		return inqFile;
 	}
 
+
+	@Override
+	public void deleteInqListFile(String names) {
+		String sql="DELETE FROM inquiry_file WHERE inq_idx IN("+names+")";
+		
+		// DB 객체 
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+		
+		try {
+			conn.setAutoCommit(false);
+			
+			ps = conn.prepareStatement(sql);
+			ps.executeUpdate();
+			
+			conn.commit();
+		} catch (SQLException e) {
+			try {
+				conn.rollback();
+			} catch (SQLException e1) {
+				e1.printStackTrace();
+			}
+			e.printStackTrace();
+		}finally {
+			try {
+				if(ps!=null)	ps.close();
+				
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+	}
 }

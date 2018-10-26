@@ -203,4 +203,36 @@ public class ReplyDaoImpl implements ReplyDao {
 		
 	}
 
+
+	@Override
+	public void deleteByInq(Inquiry inq) {
+		String sql ="DELETE inquiry_reply ";
+		sql += "WHERE idx_idx = ? ";
+		
+	try {
+		conn.setAutoCommit(false);
+		
+		ps = conn.prepareStatement(sql);
+		ps.setInt(1, inq.getInq_idx());
+		
+		ps.executeUpdate();
+		
+		conn.commit();
+	
+	} catch (SQLException e) {
+		try {
+			conn.rollback();
+		} catch (SQLException e1) {
+			e1.printStackTrace();
+		}
+		e.printStackTrace();
+		}finally {
+			try {
+				if(ps!=null)	ps.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+	}
+
 }
