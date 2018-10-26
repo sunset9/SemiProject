@@ -29,10 +29,15 @@ function initFullCalendar(planStartDate, planEndDate, isFirst){
 				type: 'agenda',
 				columnHeaderFormat: 'dddd M/D', // 헤더에 표시되는 날짜 포멧
 				visibleRange: function(currentDate) {
+				  var endDay = 3;
+				  var diffDay = getDiffDay(planEndDate,planStartDate) + 1;
+				  if( diffDay < 3){
+					  endDay = diffDay;
+				  }
 				 // 보여지는 날짜 범위 설정
 				  return {
 				    start: currentDate.clone().subtract(0, 'days'),
-				    end: currentDate.clone().add(3, 'days')
+				    end: currentDate.clone().add(endDay, 'days')
 				  }
 				}
 			   },
@@ -48,6 +53,15 @@ function initFullCalendar(planStartDate, planEndDate, isFirst){
 		// 뷰 렌더링 될 때 콜백함수
 		, viewRender: function (view, element)
 		{
+			var all = $('th.fc-axis.fc-widget-header:first-of-type');
+			all.text("All");
+			all.css("text-align","center");
+			all.css("cursor","pointer");
+			all.on("click", function(){
+				timetables = getTimetablesFromBrowser();
+				viewMap('all', timetables);
+			});
+			
 			// 왼쪽 시간 표시 css 수정 
 			// 날짜 표시 있는 td는 셀 수직 병합 & css 수정
 			var tdSpan = $("td.fc-axis.fc-time:has(span)");
@@ -78,13 +92,13 @@ function initFullCalendar(planStartDate, planEndDate, isFirst){
 			intervalEnd = view.intervalEnd.clone().subtract(1, 'days')
 			
 			// 첫날이면 이전 버튼 숨기기
-			if(intervalStart.format("YYYY-MM-DD") == planStartDate){
+			if(intervalStart.format("YYYY-MM-DD") <= moment(planStartDate).format("YYYY-MM-DD")){
 				$("#prevBtn").hide();
 			}else{
 			 $("#prevBtn").show();
 			}
 			// 마지막 날이면 이전 버튼 숨기기
-			if(intervalEnd.format("YYYY-MM-DD") == planEndDate){
+			if(intervalEnd.format("YYYY-MM-DD") >= moment(planEndDate).format("YYYY-MM-DD")){
 				$("#nextBtn").hide();
 			}else{
 			 $("#nextBtn").show();
@@ -141,7 +155,7 @@ function initFullCalendar(planStartDate, planEndDate, isFirst){
 			// 삭제 버튼 클릭 처리
 			$("#btnRemove").on("click", function(){
 				// '_id'값으로 판별하여 삭제
-				$('#calendar').fullCalendar('removeEvents', event._id);
+				$('#calendar').fullCalendar('removeEvents', event.id);
 				
 				// 지도 뷰 바꿔주기 
 				var timetables = getTimetablesFromBrowser();
@@ -182,8 +196,8 @@ function initFullCalendar(planStartDate, planEndDate, isFirst){
 // ttbStartDate : 특정 타임테이블의 시작 시간(몇일차인지 구하고 싶은 날짜시간). fullcalendar API의 시간 포멧(moment객체)
 // planStartDate : 일정의 시작 날짜(기준이 되는 날짜) . YYYY-MM-DD 형태의 문자열
 function getDiffDay(ttbStartDate, planStartDate ){
-	var ttbStartDate = new Date(ttbStartDate.format("YYYY-MM-DD")); // 타임테이블의 시작 날짜
-	var planStartDate = new Date(planStartDate); // 전체일정의 시작 날짜
+	var ttbStartDate = new Date(moment(ttbStartDate).format("YYYY-MM-DD")); // 타임테이블의 시작 날짜
+	var planStartDate = new Date(moment(planStartDate)); // 전체일정의 시작 날짜
 	
 	var diffMillSec = Math.abs(ttbStartDate - planStartDate); // 밀리초 구하기
 	var diffDay = new Date(diffMillSec).getDate(); // Date 타입으로 변환 후 일자 구하기
@@ -196,7 +210,7 @@ function getDiffDay(ttbStartDate, planStartDate ){
 // 브라우저에 띄워진 모든 타임테이블 리스트 가져오기
 function getTimetablesFromBrowser(){
 	var events = $("#calendar").fullCalendar('clientEvents');
-	console.log(events);
+//	console.log(events);
 	var timetables = [];
 	
 	events.forEach(function(event){ // 모든 리스트 돌면서 timetable json 하나씩 생성
@@ -211,6 +225,7 @@ function getTimetablesFromBrowser(){
 				, lat: event.lat
 				, lng: event.lng
 				, photo_url: event.photo_url
+				, place_id: event.place_id
 		}
 	
 		timetables.push(timetable);
@@ -260,4 +275,15 @@ function getSortedTtb(timetables){
 	});
 	
 	return timetables;
+}
+
+// 특정 시작, 끝 일자를 기준으로 그 외 기간에 등록된 타임테이블 모두 삭제
+function deleteTimetableByDate(changedStartDate, changedEndDate){
+	var timetables = getTimetablesFromBrowser();
+	timetables.forEach(function(ttb){
+	   if( moment(changedStartDate) > moment(ttb.start) 
+			   || moment(changedEndDate) < moment(ttb.end) ){
+	      $('#calendar').fullCalendar('removeEvents', ttb.id);
+	   } 
+	});
 }

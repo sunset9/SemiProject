@@ -10,12 +10,12 @@ function initMap() {
 	map = new google.maps.Map(document.getElementById('map'), {
 		zoom: 8, 
 		center: {lat: 37.530183, lng: 127.059928},
-		zoomControl: false,
-		mapTypeControl: false,
-		scaleControl: false,
+//		zoomControl: false,
+//		mapTypeControl: false,
+//		scaleControl: false,
 		streetViewControl: false,
-		rotateControl: false,
-		fullscreenControl: false
+//		rotateControl: false,
+//		fullscreenControl: false
 	});
 	
 	// searchBox 설정 초기화
@@ -97,7 +97,7 @@ function viewMap(timetable, timetables){
 	locations.forEach(function(loc){
 		// 아이콘 정의
 		var icon = {
-				url: '/resources/mapMarker/' + (labelIdx++) +'cb.png', // url
+				url: '/resources/img/mapMarker/' + (labelIdx++) +'cb.png', // url
 				scaledSize: new google.maps.Size(30, 32), // scaled size
 				origin: new google.maps.Point(0, 0), // origin
 				anchor: new google.maps.Point(8, 15) // anchor
@@ -158,6 +158,7 @@ var searched_ids = [];
 var searchId_idx;
 var sessionToken;
 
+// 검색 결과 보여주기
 function displaySearch(places, input_search){
 	
 	// place_id리스트 초기화
@@ -182,10 +183,11 @@ function displaySearch(places, input_search){
 	  
 }
 
+// 연관(?) 검색어
 function autoSearchQuery(predictions, status) {
 	// 응답 상태가 ok가 아니면 alert 띄워주고 종료
 	if (status != google.maps.places.PlacesServiceStatus.OK) {
-			alert(status);
+//			alert(status);
 			return;
 	}
 
@@ -216,6 +218,7 @@ function autoSearchQuery(predictions, status) {
 //새로운 일정 id값 지정을 위한 변수
 var id_idx = -1;
 
+// 상세 정보 가져온 것 띄워주기
 function viewDetails(placeRes, status, prediction){
 //	console.log(placeRes);
 	if (status === google.maps.places.PlacesServiceStatus.OK){
@@ -223,8 +226,10 @@ function viewDetails(placeRes, status, prediction){
 		var li = $("<li>"); // 태그 생성
 		// id지정
 		li.attr("id", "search_"+(searchId_idx++)); 
+		
 		// 띄워줄 텍스트 지정
 		li.text(placeRes.name); 
+		
 		// 주소 레벨에서 우선 적당한거 선택..
 		var address = placeRes.address_components;
 		var address_name;
@@ -234,23 +239,33 @@ function viewDetails(placeRes, status, prediction){
 			address_name = address[address.length-3].long_name
 		}
 		li.text(li.text() + " /" + address_name);
+		
 		// 장소 타입 지정. 우선 전부 다
 		li.text(li.text() + " /" +  placeRes.types);
-		// 드래그 가능하게 설정
-		li.draggable({
-			  zIndex: 999,
-			  revert: true,		// will cause the event to go back to its
-			  revertDuration: 0,  //  되돌려지는 시간
-			  scroll: true // true: 드래그 요소 창 밖으로 끌면 자동으로 스크롤생기면서 아래로내릴 수 있음
-		});
+		
+		
 		// 사진 url
 		var photo_url;
 		if(placeRes.hasOwnProperty("photos")){
-			photo_url = placeRes.photos[0].getUrl();
+			if(placeRes.photos.length > 2){
+				photo_url = placeRes.photos[2].getUrl();
+			}else{
+				photo_url = placeRes.photos[0].getUrl();
+			}
+		}else{
+			photo_url = '/resources/img/placeNoPhoto.png';
 		}
 		var img = $("<img width='150' height='90'>");
 		img.attr("src", photo_url);
 		li.append(img);
+		
+		// 드래그 가능하게 설정
+		li.draggable({
+			zIndex: 999,
+			revert: true,		// will cause the event to go back to its
+			revertDuration: 0,  //  되돌려지는 시간
+			scroll: true // true: 드래그 요소 창 밖으로 끌면 자동으로 스크롤생기면서 아래로내릴 수 있음
+		});
 		
 		// json data 설정
 		li.data('event', {

@@ -22,7 +22,7 @@
 
 <!-- Maps JavaScript API 로드 -->
 <script async defer
- src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAO-YMjD9aGxBW1nEzgSFdzf7Uj8E4Lm9Q&libraries=places&callback=initMap">
+ src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAO-YMjD9aGxBW1nEzgSFdzf7Uj8E4Lm9Q&libraries=places&language=ko&callback=initMap">
 </script>
 
 <!-- 공개유무 슬라이드 버튼 -->
@@ -337,7 +337,6 @@ $(document).ready(function() {
 		$('#calendar').fullCalendar('option', 'editable', true); // 수정 가능하게
 		$('#calendar').fullCalendar('option', 'droppable', true); // 드롭할 수 있게
 		
-		console.log(map.getZoom());
 	});
 	
 // 	$("#btnSelectShare").click(function() {
@@ -430,11 +429,68 @@ $(document).ready(function() {
 		document.getElementById("viewDaliyGraph").style.display= "block";
 	});
 	
+	// 일정 일자 변경할때의 처리
+	var beforeStartDate = planStartDate;
+	var beforeEndDate = planEndDate;
 	$(".planDate").on("change", function(){
-		var start_date = $(".planDate[name='editStartDate']").val();
+		// 바뀐 날짜 값 받아오기
+		var changedStartDate = $(".planDate[name='editStartDate']").val();
+		var changedEndDate = $(".planDate[name='editEndDate']").val();
 		
-// 		$('#calendar').fullCalendar('option', 'defaultDate',start_date);
-		initFullCalendar(start_date, planEndDate, false);
+		// 예외처리
+		if(changedStartDate > changedEndDate){
+			alert("일정의 마지막일이 시작일보다 작을 수 없습니다.");
+			$(".planDate[name='editStartDate']").val(beforeStartDate);
+			$(".planDate[name='editEndDate']").val(beforeEndDate);
+			return;
+		}
+		
+		// 바뀐 시작일이 기존 시작일보다 큰 경우(미래인 경우) 
+		var alertStartDate = moment(changedStartDate) > moment(planStartDate);
+		// 바뀐 종료일이 기족 종료일보다 작은 경우(과거인 경우)
+		var alertEndDate = moment(changedEndDate) <  moment(planEndDate);
+		if( alertStartDate || alertEndDate ){
+			// 경고창 띄워주기
+			$.ajax({
+				url: '/plan/timetable/alert.jsp'
+				, method: "GET"
+				, dataType: "html"
+				, success: function(d){
+					$('body').append(d);
+					$("#alertOnDateChange").modal('show');
+					// 모달창이 켜지면
+					$("#alertOnDateChange").on('shown.bs.modal',function(e){
+						// 클릭 이벤트 걸어줌
+						$("#btnOkOnDateChange").on("click", function(){
+							// 바뀐 날짜 정보 저장해놓기 (추후에 캔슬했을 때 이 값으로 다시 돌려놓음)
+							beforeStartDate = changedStartDate;
+							beforeEndDate = changedEndDate;
+							
+							// 기간 외의 타임테이블 삭제하고
+							deleteTimetableByDate(changedStartDate, changedEndDate);
+							// 캘린더 다시 그려주기
+							initFullCalendar(changedStartDate, changedEndDate, false);
+						});
+						// 취소버튼 누르면
+						$("#btnCancelOnDateChange").on("click", function(){
+							// 바꾸기 전  날짜로 다시 변경
+							if(alertStartDate){
+								$(".planDate[name='editStartDate']").val(beforeStartDate);
+							}else if(alertEndDate){
+								$(".planDate[name='editEndDate']").val(beforeEndDate);
+							}
+						});
+					})
+				}
+			});
+		} else{
+			// 캘린더 다시 그려주기
+			initFullCalendar(changedStartDate, changedEndDate, false);
+		} 
+		
+		// 새로 캘린더 그려서 읽기모드로 세팅 -> 수정  모드로 변경
+		$('#calendar').fullCalendar('option', 'editable', true); // 수정 가능하게
+		$('#calendar').fullCalendar('option', 'droppable', true); // 드롭할 수 있게
 	});
 	
 }); // $(document).ready() End
@@ -443,7 +499,6 @@ $(document).ready(function() {
 </script>
 
 </head>
-
 <body>
 <!-- 플래너 대문 정보 DIV -->
 <div id="container" style="width:100%; border-radius:10px;background-color:#EEEEEE;">
@@ -557,7 +612,7 @@ $(document).ready(function() {
 		<div id="googleSearch" style="float:bottom;width:100%;border-radius:10px;display:none;">
 		검색 : <input id="pac-input" class="controls" type="text" placeholder="Search Box">
 		    <div id="right-panel"
-		    style="border-top:3px solid; border-bottom:3px solid; border-left:3px dashed; border-right:3px groove; padding:3px;">
+		    style="border-top:3px solid; border-bottom:3px solid; border-left:3px dashed; border-right:3px groove; padding:3px; overflow: hidden;">
 		    <ul>
 		     <li id="results" ></li>
 		     </ul>
