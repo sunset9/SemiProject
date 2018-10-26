@@ -1,11 +1,15 @@
 package service.board;
 
 import java.io.File;
+import java.io.UnsupportedEncodingException;
+import java.util.Iterator;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.fileupload.FileItem;
+import org.apache.commons.fileupload.FileUploadException;
 import org.apache.commons.fileupload.disk.DiskFileItemFactory;
 import org.apache.commons.fileupload.servlet.ServletFileUpload;
 
@@ -113,6 +117,42 @@ public class AdminNoticeServiceImpl implements AdminNoticeService{
 			upload.setFileSizeMax(10*1024*1024);
 			
 			// form-data 추출 
+			List<FileItem> items = null;
+			
+			try {
+				items = upload.parseRequest(req);
+			} catch (FileUploadException e) {
+				e.printStackTrace();
+			}
+			
+			// 파싱된 데이터 처리 반복자 
+			Iterator<FileItem> iter = items.iterator();
+			
+			// 요청 정보 처리 
+			while(iter.hasNext()) {
+				FileItem item = iter.next();
+				
+				//빈 파일 처리 
+				if (item.getSize()<=0) continue;
+				
+				// 빈 파일이 아닐 경우 
+				if( item.isFormField()) {
+					try {
+						if("title".equals(item.getFieldName())) {
+							notice.setTitle(item.getString("utf-8"));
+						}
+						if("content".equals(item.getFieldName())) {
+							notice.setContent(item.getString("utf-8"));
+						}
+						
+					} catch (UnsupportedEncodingException e) {
+						e.printStackTrace();
+					}
+					
+					notice.setWriter((String)req.getSession().getAttribute("nickname"));
+					notice.setUser_idx((int)req.getSession().getAttribute("user_idx"));
+				}
+			}
 			
 		}
 		

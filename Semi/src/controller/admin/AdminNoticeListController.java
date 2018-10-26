@@ -35,22 +35,27 @@ public class AdminNoticeListController extends HttpServlet {
 		// 검색어 얻어 오기 
 		String search =  adminNoticeService.getSearch(req);
 		
+//		System.out.println("search:"+search);
+		
 		// 전체 페이지 수 얻어오기  
 		int totalCount = adminNoticeService.getTotalCount(search);
 
 		// 페이징 객체 만들기 
 		Paging paging = new Paging(totalCount, curPage,10); 
 		
+		// 페이징 객페에 검색어 적용 
+		paging.setSearch(search);
+
 		// 게시물 리스트 조회
 		List<Notice> list = adminNoticeService.getPagingList(paging);
 		
-		// 페이징 객페에 검색어 적용 
-		paging.setSearch(search);
 		
-		System.out.println(list);
+//		System.out.println("paging.getSearch()"+paging.getSearch());
+		
+//		System.out.println(list);
 		
 		// 조회 결과 요청에 담기
-		req.setAttribute("noticeㅣist", list);
+		req.setAttribute("noticeList", list);
 		
 		// 페이징 결과 요청에 담기
 		req.setAttribute("paging", paging);

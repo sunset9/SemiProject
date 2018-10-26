@@ -9,7 +9,7 @@
 <script type = "text/javascript">
 $(document).ready(function() {
 	$("#btnList").click(function() {
-		$(location).attr("href", "/admin/inquiry/list");
+		$(location).attr("href", "/admin/main");
 	});
 	$("#btnUpdate").click(function() {
 		$(location).attr("href","/admin/inquiry/update?inq_idx=${inquiry.inq_idx}");

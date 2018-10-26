@@ -207,7 +207,7 @@ public class ReplyDaoImpl implements ReplyDao {
 	@Override
 	public void deleteByInq(Inquiry inq) {
 		String sql ="DELETE inquiry_reply ";
-		sql += "WHERE idx_idx = ? ";
+		sql += " WHERE idx_idx = ? ";
 		
 	try {
 		conn.setAutoCommit(false);

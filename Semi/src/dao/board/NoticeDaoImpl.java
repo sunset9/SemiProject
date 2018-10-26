@@ -31,7 +31,7 @@ public class NoticeDaoImpl implements NoticeDao {
 		sql += "title, content,create_date";
 		sql += " FROM notice NO ORDER BY notice_idx DESC ) N ";
 		
-
+		
 		if(paging.getSearch()!=null && !"".equals(paging.getSearch())) {
 			sql += "WHERE title LIKE '%"+paging.getSearch()+"%'";
 		}
