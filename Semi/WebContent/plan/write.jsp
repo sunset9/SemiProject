@@ -205,7 +205,7 @@ function store(){
 
 <script type="text/javascript">
 // 읽기모드일때, 검색창 on/off
-var isModify = 0;
+var isModify = 1;
 
 $(document).ready(function() {
 	// 브라우저에 timetable 그려주기
@@ -385,7 +385,7 @@ $(document).ready(function() {
 					제목 : <input id="editTitleView" name="editTitleView" type="text" value="${planView.title }" /><br><br>
 					출발일 : <input name="editStartDate" class ="planDate" type="date" value="${planView.start_date }"/>
 					도착일 : <input name="editEndDate" class ="planDate" type="date" value="${planView.end_date }"/><br><br>
-					여행 전 <input id="editTravledBefore" name="editTraveled" type="radio" value="1"/>
+					여행 전 <input id="editTravledBefore" name="editTraveled" type="radio" value="1" checked="checked"/>
 					여행 후 <input id="editTravledAfter" name="editTraveled" type="radio" value="0" /><br><br>
 				</div>
 			</form>
