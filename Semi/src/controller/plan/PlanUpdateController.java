@@ -75,8 +75,7 @@ public class PlanUpdateController extends HttpServlet {
 			
 			// 요청파라미터 -> 타임테이블, 위치정보 Map 타입
 			Map<Timetable, Location> ttbLocParam = ttService.getParam(req);
-			System.out.println(ttbLocParam);
-//			
+			
 			// 타임테이블, 위치정보 정보 업데이트
 			ttService.update(planParam, ttbLocParam);
 //			
