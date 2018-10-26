@@ -63,6 +63,16 @@
 } */
 
 </style>
+
+<script type="text/javascript">
+$(document).ready(function(){
+	$(".newPlanClassName").click(function(){
+		console.log("ddd");
+		$(".btnNewPlan").toggle();
+	});
+});
+
+</script>
 </head>
 <body>
 <!-- header시작 -->
@@ -90,7 +100,7 @@
 		</div>
 		
 		<div class="newPlan common">
-			<button>새일정</button>
+			<button id="newPlan" class="newPlanClassName">새일정</button>
 		</div>
 		
 		<div class="loginBtn common">

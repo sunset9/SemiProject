@@ -54,14 +54,22 @@
 </head>
 <body>
 
-<div id="backImage">메인 대표 사진 부분</div>
+<!-- <div id="backImage">메인 대표 사진 부분</div>
 
 <div id="webTitle">타이틀 부분</div>
 
-<div id="introText">간단한 소개글 부분</div>
+<div id="introText">간단한 소개글 부분</div> -->
 
 <!-- Trigger/Open The Modal -->
-<button id="btnNewPlan">새 일정 만들기</button>
+<!-- 로그인 상태일때 -->
+<c:if test="${login}">
+	<button id="btnModal" class="btnNewPlan" value='hide/show' style="display: none;">새 일정 만들기</button>
+</c:if>
+
+<!-- 비로그인 상태일때 -->
+<c:if test="${not login}">
+	<button id="btnModal" class="btnNewPlan" onclick="alert('로그인이 필요합니다.');" style="display: none;">새 일정 만들기</button>
+</c:if>
 
 <!-- The Modal -->
 <div id="myModal" class="modal">
@@ -85,14 +93,23 @@
 	</form>
 </div>
 </div>
+<hr>
 
+<div>
+<h2>추천 콘텐츠 부분</h2>
+</div>
+<hr>
+
+<div>
+<h2>최신 콘텐츠 부분</h2>
+</div>
 <script type="text/javascript">
 // Get the modal
 var modal = document.getElementById('myModal');
 
 // Get the button that opens the modal
-var btn = document.getElementById("btnNewPlan");
-
+var btn = document.getElementById("btnModal");
+//var btn = document.getElementsByClassName("btnModal");
 // Get the <span> element that closes the modal
 var span = document.getElementsByClassName("close")[0];                                          
 

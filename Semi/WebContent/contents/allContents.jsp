@@ -8,7 +8,7 @@
 <title>Insert title here</title>
 </head>
 <body>
-
+<hr>
 <h2>모든 콘텐츠 페이지</h2>
 
 </body>
