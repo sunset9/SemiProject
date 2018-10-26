@@ -32,12 +32,14 @@ public class StoryWriteController extends HttpServlet {
 		
 		story = sService.getParam(req);
 		
-		
 		sService.write(story);
+		req.setAttribute("plan_idx", story.getPlan_idx());
 		
+//		req.getRequestDispatcher("/story/view").forward(req, resp);
+//		위에껄로하면 자꾸 405 오류남
 		
-		resp.sendRedirect("/plan");
-		
+		StoryViewController SV = new StoryViewController();
+		SV.doGet(req, resp);
 		
 	}
 }

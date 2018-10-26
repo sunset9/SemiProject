@@ -48,11 +48,11 @@ public class PlanViewController extends HttpServlet {
 		//planView MODEL 전달
 		req.setAttribute("planView", planView);
 		
+		System.out.println("test"+planView);
 		// 게시자 유저 정보 가져오기
 		User writtenUserView = pService.getUserInfo(planView);
 		//userView MODEL 전달
 		req.setAttribute("writtenUserView", writtenUserView);
-		
 		
 		
 //		---------------------로그인 유저 파라미터 가져오기
@@ -63,6 +63,7 @@ public class PlanViewController extends HttpServlet {
 		//userView MODEL 전달
 		req.setAttribute("loginedUserView", loginedUserView);
 				
+//		--------------------------------------------
 		// timetable, location 리스트 받기
 		List<Timetable> ttbList = ttbService.getTimetableList(planView);
 		List<Location> locList = ttbService.getLocationList(planView);
@@ -91,9 +92,6 @@ public class PlanViewController extends HttpServlet {
 		Account accView = pService.getAccount(planView);
 		//accView MODEL 전달
 		req.setAttribute("accView", accView);
-		
-		// 플랜 저장
-		//pService.write(plan);
 		
 		// view 폼 띄우기
 		req.getRequestDispatcher("/plan/view.jsp").forward(req, resp);

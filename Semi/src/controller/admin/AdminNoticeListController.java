@@ -29,26 +29,34 @@ public class AdminNoticeListController extends HttpServlet {
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
-		//----- ����¡ �۾� -----
-		// ���� ������ ��ȣ ���
+		// 현재 페이지 얻어오기 
 		int curPage = adminNoticeService.getCurPage(req);
 		
-		// ����¡ ��ü
-//		int totalCount = adminNoticeService.getTotalCount();
+		// 검색어 얻어 오기 
+		String search =  adminNoticeService.getSearch(req);
 		
-//		Paging paging = new Paging(totalCount, curPage,10); 
+		// 전체 페이지 수 얻어오기  
+		int totalCount = adminNoticeService.getTotalCount(search);
+
+		// 페이징 객체 만들기 
+		Paging paging = new Paging(totalCount, curPage,10); 
 		
-		// List�� ��ȸ ��� ���
-//		List<Notice> list = adminNoticeService.getPagingList(paging);
+		// 게시물 리스트 조회
+		List<Notice> list = adminNoticeService.getPagingList(paging);
 		
-//		 ��û�� ��� ��Ƽ� ������
-//		req.setAttribute("noticelist", list);
+		// 페이징 객페에 검색어 적용 
+		paging.setSearch(search);
 		
-		// ����¡ ��ü �𵨷� �߰� �ϱ�
-//		req.setAttribute("paging", paging);
+		System.out.println(list);
 		
-		// ������ ȭ�� ����
-		req.getRequestDispatcher("").forward(req, resp);
+		// 조회 결과 요청에 담기
+		req.setAttribute("noticeㅣist", list);
+		
+		// 페이징 결과 요청에 담기
+		req.setAttribute("paging", paging);
+		
+		// view 페이지 지정
+		req.getRequestDispatcher("/admin/notice/list.jsp").forward(req, resp);
 		
 		
 	}

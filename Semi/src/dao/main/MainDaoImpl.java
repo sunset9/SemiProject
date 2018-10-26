@@ -29,7 +29,8 @@ public class MainDaoImpl implements MainDao{
 	public List getNewestContents() {
 		return null;
 	}
-
+	
+	
 	//새 일정 만들기 
 	@Override
 	public void insertPlan(Plan param, User user) {

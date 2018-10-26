@@ -15,8 +15,11 @@ public interface ReplyDao {
 		// 댓글 추가하기 
 		public void insertReply(Reply reply);
 		
-		// 댓글 삭제 
+		// 댓글 하나 삭제 
 		public void delete(Reply reply);
+		
+		// 게시물 삭제시 댓글 삭제
+		public void deleteByInq(Inquiry inq);
 		
 		// 댓글 카운트 - 댓글 존재 여부 확인 
 		public int countReply (Reply reply);

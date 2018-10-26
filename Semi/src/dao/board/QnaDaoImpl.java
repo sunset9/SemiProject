@@ -28,7 +28,7 @@ public class QnaDaoImpl implements QnaDao {
 		sql += "SELECT * FROM( ";
 		sql += "SELECT rownum rnum, Q.* FROM ( ";
 		sql += "SELECT  qna_idx, (SELECT nickname FROM userinfo U WHERE U.user_idx = qna.user_idx) nick,hit, ";
-		sql	+= "title, content,create_date FROM qna  ORDER BY qna_idx DESC ) Q ";
+		sql	+= "title, content,create_date FROM qna  ORDER BY hit DESC ) Q ";
 		
 			
 		if(paging.getSearch()!=null && !"".equals(paging.getSearch())) {

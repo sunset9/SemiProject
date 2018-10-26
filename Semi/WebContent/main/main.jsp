@@ -96,7 +96,9 @@ var btn = document.getElementById("btnNewPlan");
 // Get the <span> element that closes the modal
 var span = document.getElementsByClassName("close")[0];                                          
 
-// When the user clicks on the button, open the modal 
+// When the user clicks on the button, open the modal
+var test1 = 0;
+
 btn.onclick = function() {
     modal.style.display = "block";
 }

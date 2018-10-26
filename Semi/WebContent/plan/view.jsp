@@ -22,12 +22,12 @@
 
 <!-- Maps JavaScript API 로드 -->
 <script async defer
- src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAO-YMjD9aGxBW1nEzgSFdzf7Uj8E4Lm9Q&libraries=places&callback=initMap">
+ src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAO-YMjD9aGxBW1nEzgSFdzf7Uj8E4Lm9Q&libraries=places&language=ko&callback=initMap">
 </script>
 
 <!-- 공개유무 슬라이드 버튼 -->
 <style type="text/css">
-	/* The switch - the box around the slider */
+/*
 	.switch {
 	  position: relative;
 	display: inline-block;
@@ -35,11 +35,6 @@
 	  height: 34px;
 	  vertical-align:middle;
 	}
-	 
-	/* Hide default HTML checkbox */
-/* 	.switch input {display:none;} */
-	 
-	/* The slider */
 	.slider {
 	  position: absolute;
 	  cursor: pointer;
@@ -78,7 +73,6 @@
 	  transform: translateX(26px);
 	}
 	 
-	/* Rounded sliders */
 	.slider.round {
 	  border-radius: 34px;
 	}
@@ -92,10 +86,10 @@
 	display:inline-block;
 	font-size:15px; 
 	font-weight:bold; 
-	} 
+	}*/
 /* ------------------------------------------------------------------------ */
 
-	/* 가계부 그래프 */
+	/* 가계부 그래프 팝업 */
 	.pop-layer .pop-container {
 	  padding: 20px 25px;
 	  margin:0px;
@@ -219,6 +213,12 @@
 	.fc-bg:not(:first-child){
 		margin-left: 10px;  /* fc-bg(이벤트 덮고 있는 투명도 있는 판?)css 수정 , 왼쪽에 색 진하게 하는 효과줌*/
 	}
+	
+	/*스토리 저장시 스크롤바가 안생겨서 만들어 뒀습니다...*/
+	html {
+	    overflow-y: scroll;
+	}
+	
 
 </style>
 
@@ -292,12 +292,13 @@ $(document).ready(function() {
 		document.getElementById("viewStory").style.display= "block";
 		document.getElementById("googleMap").style.display= "none";
 		document.getElementById("googleSearch").style.display= "none";
+
 		
 		//AJAX 처리하기
 		$.ajax({ 	
-			type: "post"
+			type: "get"
 			, url: "/story/view"
-// 			, data: {"isModify" : isModify }
+			, data: {"plan_idx" : plan_idx }
 			, dataType: "html"
 			, success: function( d ) {
 				
@@ -315,31 +316,46 @@ $(document).ready(function() {
 		document.getElementById("viewStory").style.display= "none";
 		document.getElementById("calendar").style.display= "block";
 		document.getElementById("googleMap").style.display= "block";
-		if(isModify == 1) document.getElementById("googleSearch").style.display= "block";
+// 		if(isModify == 1) document.getElementById("googleSearch").style.display= "block";
 	});
 	
 // 	수정버튼
 	$("#btnModify").click(function() {
 		isModify = 1;
-		document.getElementById("viewStory").style.display= "none";
-		document.getElementById("calendar").style.display= "block";
-		document.getElementById("googleMap").style.display= "block";
-		document.getElementById("googleSearch").style.display= "block";
-		document.getElementById("planCommit").style.display= "block";
-		document.getElementById("btnModify").style.display= "none";
-		document.getElementById("btnSelectShare").style.display= "block";
-		document.getElementById("btnAccGraph").style.display= "none";
 		
-		document.getElementById("viewTitle").style.display= "none";
-		document.getElementById("editTitle").style.display= "block";
+		//AJAX 처리하기
+// 		$.ajax({ 	
+// 			type: "get"
+// 			, url: "/plan/write"
+// 			, data: {"plan_idx" : plan_idx }
+// 			, dataType: "html"
+// 			, success: function( d ) {
+				
+// 				$("#").html(d);
+				
+// 			}
+// 			, error: function() {
+// 				console.log("실패");
+// 			}
+// 		});
+		
+// 		document.getElementById("viewStory").style.display= "none";
+// 		document.getElementById("calendar").style.display= "block";
+// 		document.getElementById("googleMap").style.display= "block";
+// 		document.getElementById("googleSearch").style.display= "block";
+// 		document.getElementById("planCommit").style.display= "block";
+// 		document.getElementById("btnModify").style.display= "none";
+// 		document.getElementById("btnSelectShare").style.display= "block";
+// 		document.getElementById("btnAccGraph").style.display= "none";
+		
+// 		document.getElementById("viewTitle").style.display= "none";
+// 		document.getElementById("editTitle").style.display= "block";
 		
 		// 타임테이블 수정  모드로 변경
-		$('#calendar').fullCalendar('option', 'editable', true); // 수정 가능하게
-		$('#calendar').fullCalendar('option', 'droppable', true); // 드롭할 수 있게
+// 		$('#calendar').fullCalendar('option', 'editable', true); // 수정 가능하게
+// 		$('#calendar').fullCalendar('option', 'droppable', true); // 드롭할 수 있게
+		
 	});
-	
-// 	$("#btnSelectShare").click(function() {
-// 	});
 
 	// 	수정모드일 때, 공개유무버튼
 	$("#isChecked").click(function(){
@@ -357,25 +373,25 @@ $(document).ready(function() {
 			console.log(check);
 		});
 	
-// 	저장버튼
-	$("#planCommit").click(function() {
-		isModify = 0;
-		document.getElementById("googleSearch").style.display= "none";
-		document.getElementById("planCommit").style.display= "none";
-		document.getElementById("btnModify").style.display= "block";
-		document.getElementById("btnSelectShare").style.display= "none";
-		document.getElementById("btnAccGraph").style.display= "block";
-		document.getElementById("viewDaliyGraph").style.display= "none";
-		document.getElementById("viewTotalGraph").style.display= "none";
+// // 	저장버튼
+// 	$("#planCommit").click(function() {
+// 		isModify = 0;
+// 		document.getElementById("googleSearch").style.display= "none";
+// 		document.getElementById("planCommit").style.display= "none";
+// 		document.getElementById("btnModify").style.display= "block";
+// 		document.getElementById("btnSelectShare").style.display= "none";
+// 		document.getElementById("btnAccGraph").style.display= "block";
+// 		document.getElementById("viewDaliyGraph").style.display= "none";
+// 		document.getElementById("viewTotalGraph").style.display= "none";
 		
-		document.getElementById("viewTitle").style.display= "block";
-		document.getElementById("editTitle").style.display= "none";
+// 		document.getElementById("viewTitle").style.display= "block";
+// 		document.getElementById("editTitle").style.display= "none";
 		
-		// 타임테이블 읽기 모드로 변경
-		$('#calendar').fullCalendar('option', 'editable', false); // 수정 불가능하게
-		$('#calendar').fullCalendar('option', 'droppable', false); // 드롭 불가능하게
+// 		// 타임테이블 읽기 모드로 변경
+// 		$('#calendar').fullCalendar('option', 'editable', false); // 수정 불가능하게
+// 		$('#calendar').fullCalendar('option', 'droppable', false); // 드롭 불가능하게
 
-	});
+// 	});
 	
 // 	북마크 버튼
 	$("#btnBookMark").click(function() {
@@ -428,11 +444,68 @@ $(document).ready(function() {
 		document.getElementById("viewDaliyGraph").style.display= "block";
 	});
 	
+	// 일정 일자 변경할때의 처리
+	var beforeStartDate = planStartDate;
+	var beforeEndDate = planEndDate;
 	$(".planDate").on("change", function(){
-		var start_date = $(".planDate[name='editStartDate']").val();
+		// 바뀐 날짜 값 받아오기
+		var changedStartDate = $(".planDate[name='editStartDate']").val();
+		var changedEndDate = $(".planDate[name='editEndDate']").val();
 		
-// 		$('#calendar').fullCalendar('option', 'defaultDate',start_date);
-		initFullCalendar(start_date, planEndDate, false);
+		// 예외처리
+		if(changedStartDate > changedEndDate){
+			alert("일정의 마지막일이 시작일보다 작을 수 없습니다.");
+			$(".planDate[name='editStartDate']").val(beforeStartDate);
+			$(".planDate[name='editEndDate']").val(beforeEndDate);
+			return;
+		}
+		
+		// 바뀐 시작일이 기존 시작일보다 큰 경우(미래인 경우) 
+		var alertStartDate = moment(changedStartDate) > moment(planStartDate);
+		// 바뀐 종료일이 기족 종료일보다 작은 경우(과거인 경우)
+		var alertEndDate = moment(changedEndDate) <  moment(planEndDate);
+		if( alertStartDate || alertEndDate ){
+			// 경고창 띄워주기
+			$.ajax({
+				url: '/plan/timetable/alert.jsp'
+				, method: "GET"
+				, dataType: "html"
+				, success: function(d){
+					$('body').append(d);
+					$("#alertOnDateChange").modal('show');
+					// 모달창이 켜지면
+					$("#alertOnDateChange").on('shown.bs.modal',function(e){
+						// 클릭 이벤트 걸어줌
+						$("#btnOkOnDateChange").on("click", function(){
+							// 바뀐 날짜 정보 저장해놓기 (추후에 캔슬했을 때 이 값으로 다시 돌려놓음)
+							beforeStartDate = changedStartDate;
+							beforeEndDate = changedEndDate;
+							
+							// 기간 외의 타임테이블 삭제하고
+							deleteTimetableByDate(changedStartDate, changedEndDate);
+							// 캘린더 다시 그려주기
+							initFullCalendar(changedStartDate, changedEndDate, false);
+						});
+						// 취소버튼 누르면
+						$("#btnCancelOnDateChange").on("click", function(){
+							// 바꾸기 전  날짜로 다시 변경
+							if(alertStartDate){
+								$(".planDate[name='editStartDate']").val(beforeStartDate);
+							}else if(alertEndDate){
+								$(".planDate[name='editEndDate']").val(beforeEndDate);
+							}
+						});
+					})
+				}
+			});
+		} else{
+			// 캘린더 다시 그려주기
+			initFullCalendar(changedStartDate, changedEndDate, false);
+		} 
+		
+		// 새로 캘린더 그려서 읽기모드로 세팅 -> 수정  모드로 변경
+		$('#calendar').fullCalendar('option', 'editable', true); // 수정 가능하게
+		$('#calendar').fullCalendar('option', 'droppable', true); // 드롭할 수 있게
 	});
 	
 }); // $(document).ready() End
@@ -441,7 +514,6 @@ $(document).ready(function() {
 </script>
 
 </head>
-
 <body>
 <!-- 플래너 대문 정보 DIV -->
 <div id="container" style="width:100%; border-radius:10px;background-color:#EEEEEE;">
@@ -458,11 +530,12 @@ $(document).ready(function() {
 		</label>
 		
 <!-- 		게시자와 열람자가 같은 유저면 수정버튼을 -->
-		<c:if test="${planView.user_idx eq writtenUserView.user_idx}">
-		    <input id="btnModify" type="button" value="수정" style="float:right;">
+		<c:if test="${writtenUserView.user_idx eq loginedUserView.user_idx}">
+		    <input id="btnModify" type="button" value="수정" style="float:right;"
+		    onClick="location.href='/plan/write'">
 		</c:if>
 <!-- 		다르면 북마크 버튼을 보여준다 -->
-		<c:if test="${planView.user_idx ne writtenUserView.user_idx}">
+		<c:if test="${writtenUserView.user_idx ne loginedUserView.user_idx}">
 			<input id="btnBookMark" type="button" value="북마크" style="float:right;">
 		</c:if>
 		
@@ -477,7 +550,7 @@ $(document).ready(function() {
 		</div>
 		
 		
-		<div id="editTitle" style="display:none;">
+<!-- 		<div id="editTitle" style="display:none;"> 
 			<form action="/plan/update" method="post" id="planForm">
 				<div >
 					<input type="hidden" name="plan_idx" value="${planView.plan_idx }">
@@ -487,7 +560,7 @@ $(document).ready(function() {
 					여행 전 <input id="editTravledBefore" name="editTraveled" type="radio" value="1" checked="checked"/> / 여행 후 <input id="editTravledAfter" name="editTraveled" type="radio" value="0" /><br><br>
 				</div>
 			</form>
-		</div>
+		</div>-->
 			<br>
 	</div>
 </div><br>
@@ -497,8 +570,12 @@ $(document).ready(function() {
 	<div id="container" style="width:230px; border-radius:10px;float:left;">
 	
 		<!-- 게시자 정보 DIV -->
-		<div id="menu" style="background-color:#EEEEEE;height:100px;float:bottom;width:100%;border-radius:10px;">
-			${writtenUserView.profile }<br>
+		<div id="menu" style="background-color:#EEEEEE;height:100%;float:bottom;width:100%;border-radius:10px;">
+			
+			<div class="profileImage">
+				<img src="${writtenUserView.profile }" style="border-radius:70px; width:100px;">
+			</div>
+			<br>
 			<b>${writtenUserView.nickname }</b>님 <br>
 			포스팅 : <b>${writtenUserView.totalPlanCnt }</b>개 <br>
 			등급 : <b>${writtenUserView.grade }</b><br>

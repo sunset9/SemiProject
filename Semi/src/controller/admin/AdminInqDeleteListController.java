@@ -17,24 +17,22 @@ import service.board.AdminInquiryService;
 import service.board.AdminInquiryServiceImpl;
 
 
-@WebServlet("/admin/inquiry/delete")
-public class AdminInqDeleteController extends HttpServlet {
+@WebServlet("/admin/inquiry/deleteList")
+public class AdminInqDeleteListController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	
 	private AdminInquiryService adminInquiryService = new AdminInquiryServiceImpl();
-	private Inquiry inquiry = new Inquiry();
 	
 	@Override
-	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+		String names = req.getParameter("names");
 		
-		// 파라미터 값 받아오기
-		inquiry = adminInquiryService.getParam(req, resp);
+		System.out.println("실행쓰?"+names);
 		
-		// 게시물 삭제 하기
-		adminInquiryService.delete(inquiry);
+		if(!"".equals(names) && names != null) {
+			adminInquiryService.inqListDelete(names);
+		}
 		
 		resp.sendRedirect("/admin/inquiry/list");
 	}
-   
-
 }
