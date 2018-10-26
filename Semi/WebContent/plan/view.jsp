@@ -458,11 +458,11 @@ $(document).ready(function() {
 		</label>
 		
 <!-- 		게시자와 열람자가 같은 유저면 수정버튼을 -->
-		<c:if test="${planView.user_idx eq userView.user_idx}">
+		<c:if test="${planView.user_idx eq writtenUserView.user_idx}">
 		    <input id="btnModify" type="button" value="수정" style="float:right;">
 		</c:if>
 <!-- 		다르면 북마크 버튼을 보여준다 -->
-		<c:if test="${planView.user_idx ne userView.user_idx}">
+		<c:if test="${planView.user_idx ne writtenUserView.user_idx}">
 			<input id="btnBookMark" type="button" value="북마크" style="float:right;">
 		</c:if>
 		
@@ -498,10 +498,10 @@ $(document).ready(function() {
 	
 		<!-- 게시자 정보 DIV -->
 		<div id="menu" style="background-color:#EEEEEE;height:100px;float:bottom;width:100%;border-radius:10px;">
-			${userView.profile }<br>
-			<b>${userView.nickname }</b>님 <br>
-			포스팅 : <b>${userView.totalPlanCnt }</b>개 <br>
-			등급 : <b>${userView.grade }</b><br>
+			${writtenUserView.profile }<br>
+			<b>${writtenUserView.nickname }</b>님 <br>
+			포스팅 : <b>${writtenUserView.totalPlanCnt }</b>개 <br>
+			등급 : <b>${writtenUserView.grade }</b><br>
 			<b>${planView.tot_dist }</b> km<br>
 		</div><br>
 		

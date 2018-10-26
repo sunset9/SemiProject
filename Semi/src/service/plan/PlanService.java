@@ -10,9 +10,12 @@ import dto.user.User;
 
 public interface PlanService {
 
-	// 왼쪽에 띄워줄 유저 정보 가져오기
+	// 게시자 유저 정보 가져오기
 	User getUserInfo(Plan plan);
 	
+	// 로그인 유저 정보 가져오기
+	User getUserInfo4Login(User user);
+		
 	// 특정 유저의 일정 목록 가져오기
 	List<Plan> getPlanList(User userinfo);
 	
@@ -20,8 +23,11 @@ public interface PlanService {
 	List<Plan> getBookmarkList(User userinfo);
 
 	// 요청파라미터(plan_idx) -> Plan 모델 
-	Plan getParam(HttpServletRequest req);
-
+	Plan getSession4Plan(HttpServletRequest req);
+	
+	// 요청파라미터(user_idx) -> Plan 모델 
+	User getSession4User(HttpServletRequest req);
+		
 	// 일정 기본 정보 가져오기
 	Plan getPlanInfo(Plan plan);
 

@@ -24,7 +24,7 @@ public class PlanDeleteController extends HttpServlet {
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		// 요청파라미터 -> Plan
-		Plan plan = pService.getParam(req);
+		Plan plan = pService.getSession4Plan(req);
 		
 		// 일정 삭제
 		pService.delete(plan);

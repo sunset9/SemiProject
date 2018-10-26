@@ -37,7 +37,7 @@ public class PlanWriteController extends HttpServlet {
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		
 		// 요청파라미터(plan_idx) -> Plan 모델
-		Plan param = pService.getParam(req);
+		Plan param = pService.getSession4Plan(req);
 		
 		// 일정 기본 정보 가져오기
 		Plan planView = pService.getPlanInfo(param);
@@ -92,11 +92,11 @@ public class PlanWriteController extends HttpServlet {
 
 //		// 요청 파라미터 받아오기
 		//Plan plan = pService.getParam4Edit(req);
-		Map<Timetable, Location> ttLoc = ttService.getParam(req);
+		Map<Timetable, Location> ttLoc = ttbService.getParam(req);
 		
 		// 요청파라미터(plan_idx) -> Plan 모델
 		// param을 받아와야 함
-		Plan param = pService.getParam(req);
+		Plan param = pService.getSession4Plan(req);
 		System.out.println("플랜라이트 컨트롤러 : "+param);
 		
 		

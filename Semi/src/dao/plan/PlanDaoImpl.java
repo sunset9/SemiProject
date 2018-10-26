@@ -5,7 +5,6 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.List;
 
 import dto.Account.Account;
@@ -109,6 +108,54 @@ public class PlanDaoImpl implements PlanDao{
 	
 	// 유저 아이디로 유저 정보 불러오기 -> 게시자 정보
 	@Override
+	public User selectUserInfoByUserIdx(User user) {
+		//planner 조회 쿼리
+		String sql = "";
+		sql += "SELECT * FROM userinfo";
+		sql += " WHERE user_idx = ?";
+		
+		//조회 결과 담을 DTO
+		User userInfo = new User();
+		
+		try {
+			//DB작업
+			ps = conn.prepareStatement(sql);
+			ps.setInt(1, user.getUser_idx());
+			rs = ps.executeQuery();
+			
+			//결과 담기
+			while(rs.next()) {
+				
+				//결과 행 DTO에 저장
+				userInfo.setUser_idx( rs.getInt("user_idx") );
+				userInfo.setId( rs.getString("id") );
+				userInfo.setPassword( rs.getString("password") );
+				userInfo.setNickname( rs.getString("nickname") );
+				userInfo.setProfile( rs.getString("profile") );
+				userInfo.setGrade( rs.getString("grade") );
+				userInfo.setSns_idx( rs.getInt("sns_idx") );
+				userInfo.setCreate_date( rs.getDate("create_date") );
+			}
+			userInfo.setTotalPlanCnt(selectPlanCntAll());
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				//DB객체 닫기
+				if(rs!=null)	rs.close();
+				if(ps!=null)	ps.close();
+				
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+		// 전체조회 결과 반환
+		return userInfo;
+	}
+	
+	// 유저 아이디로 유저 정보 불러오기 -> 게시자 정보
+		@Override
 	public User selectUserInfoByUserIdx(Plan plan) {
 		//planner 조회 쿼리
 		String sql = "";
