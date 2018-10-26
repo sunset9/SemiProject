@@ -14,6 +14,9 @@ public interface PlanDao {
 	// 유저 아이디로 유저 정보 불러오기 -> 게시자 정보
 	User selectUserInfoByUserIdx(Plan plan);
 	
+	// 유저 아이디로 유저 정보 불러오기 -> 게시자 정보
+	User selectUserInfoByUserIdx(User user);
+		
 	// 유저의 전체 게시글 수 가져오기
 	int selectPlanCntAll();
 	

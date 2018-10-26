@@ -35,23 +35,36 @@ public class PlanWriteController extends HttpServlet {
 	
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		
-		// 요청파라미터(plan_idx) -> Plan 모델
-		Plan param = pService.getParam(req);
-		
-		// 일정 기본 정보 가져오기
-		Plan planView = pService.getPlanInfo(param);
-		
 		GsonBuilder gsonBuilder = new GsonBuilder();
         gsonBuilder.setDateFormat("yyyy-MM-dd HH:mm");
         Gson gson = gsonBuilder.create();
+        
+//		---------------------플래너 파라미터 가져오기
+        
+		// 요청파라미터(plan_idx) -> Plan 모델 
+		Plan planParam = pService.getSession4Plan(req);
 		
+		// 일정 기본 정보 가져오기
+		Plan planView = pService.getPlanInfo(planParam);
 		//planView MODEL 전달
 		req.setAttribute("planView", planView);
-		// 유저 정보 가져오기
-		User userView = pService.getUserInfo(planView);
+		
+		System.out.println(planView);
+		// 게시자 유저 정보 가져오기
+		User writtenUserView = pService.getUserInfo(planView);
 		//userView MODEL 전달
-		req.setAttribute("userView", userView);
+		req.setAttribute("writtenUserView", writtenUserView);
+		System.out.println(writtenUserView);
+		
+		
+//		---------------------로그인 유저 파라미터 가져오기
+		// 요청파라미터(user_idx) -> Plan 모델
+		User userParam = pService.getSession4User(req);
+		// 로그인 유저 정보 가져오기
+		User loginedUserView = pService.getUserInfo4Login(userParam);
+		//userView MODEL 전달
+		req.setAttribute("loginedUserView", loginedUserView);
+				System.out.println(loginedUserView);
 		
 		// timetable, location 리스트 받기
 		List<Timetable> ttbList = ttbService.getTimetableList(planView);
@@ -83,7 +96,7 @@ public class PlanWriteController extends HttpServlet {
 		req.setAttribute("accView", accView);
 				
 		// 뷰 지정
-		req.getRequestDispatcher("/plan/view.jsp")
+		req.getRequestDispatcher("/plan/write.jsp")
 		.forward(req, resp);
 	}
 	
@@ -96,7 +109,7 @@ public class PlanWriteController extends HttpServlet {
 		
 		// 요청파라미터(plan_idx) -> Plan 모델
 		// param을 받아와야 함
-		Plan param = pService.getParam(req);
+		Plan param = pService.getSession4Plan(req);
 		System.out.println("플랜라이트 컨트롤러 : "+param);
 		
 		
@@ -112,7 +125,7 @@ public class PlanWriteController extends HttpServlet {
 //		ttService.write(plan,ttLoc);
 		// 일정 정보 저장하기
 //		pService.write(plan);
-		
+
 	resp.sendRedirect("/plan");
 	}
 	

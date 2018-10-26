@@ -27,7 +27,7 @@
 
 <!-- 공개유무 슬라이드 버튼 -->
 <style type="text/css">
-	/* The switch - the box around the slider */
+/*
 	.switch {
 	  position: relative;
 	display: inline-block;
@@ -35,11 +35,6 @@
 	  height: 34px;
 	  vertical-align:middle;
 	}
-	 
-	/* Hide default HTML checkbox */
-/* 	.switch input {display:none;} */
-	 
-	/* The slider */
 	.slider {
 	  position: absolute;
 	  cursor: pointer;
@@ -78,7 +73,6 @@
 	  transform: translateX(26px);
 	}
 	 
-	/* Rounded sliders */
 	.slider.round {
 	  border-radius: 34px;
 	}
@@ -92,10 +86,10 @@
 	display:inline-block;
 	font-size:15px; 
 	font-weight:bold; 
-	} 
+	}*/
 /* ------------------------------------------------------------------------ */
 
-	/* 가계부 그래프 */
+	/* 가계부 그래프 팝업 */
 	.pop-layer .pop-container {
 	  padding: 20px 25px;
 	  margin:0px;
@@ -359,32 +353,46 @@ $(document).ready(function() {
 		document.getElementById("viewStory").style.display= "none";
 		document.getElementById("calendar").style.display= "block";
 		document.getElementById("googleMap").style.display= "block";
-		if(isModify == 1) document.getElementById("googleSearch").style.display= "block";
+// 		if(isModify == 1) document.getElementById("googleSearch").style.display= "block";
 	});
 	
 // 	수정버튼
 	$("#btnModify").click(function() {
 		isModify = 1;
-		document.getElementById("viewStory").style.display= "none";
-		document.getElementById("calendar").style.display= "block";
-		document.getElementById("googleMap").style.display= "block";
-		document.getElementById("googleSearch").style.display= "block";
-		document.getElementById("planCommit").style.display= "block";
-		document.getElementById("btnModify").style.display= "none";
-		document.getElementById("btnSelectShare").style.display= "block";
-		document.getElementById("btnAccGraph").style.display= "none";
 		
-		document.getElementById("viewTitle").style.display= "none";
-		document.getElementById("editTitle").style.display= "block";
+		//AJAX 처리하기
+// 		$.ajax({ 	
+// 			type: "get"
+// 			, url: "/plan/write"
+// 			, data: {"plan_idx" : plan_idx }
+// 			, dataType: "html"
+// 			, success: function( d ) {
+				
+// 				$("#").html(d);
+				
+// 			}
+// 			, error: function() {
+// 				console.log("실패");
+// 			}
+// 		});
+		
+// 		document.getElementById("viewStory").style.display= "none";
+// 		document.getElementById("calendar").style.display= "block";
+// 		document.getElementById("googleMap").style.display= "block";
+// 		document.getElementById("googleSearch").style.display= "block";
+// 		document.getElementById("planCommit").style.display= "block";
+// 		document.getElementById("btnModify").style.display= "none";
+// 		document.getElementById("btnSelectShare").style.display= "block";
+// 		document.getElementById("btnAccGraph").style.display= "none";
+		
+// 		document.getElementById("viewTitle").style.display= "none";
+// 		document.getElementById("editTitle").style.display= "block";
 		
 		// 타임테이블 수정  모드로 변경
-		$('#calendar').fullCalendar('option', 'editable', true); // 수정 가능하게
-		$('#calendar').fullCalendar('option', 'droppable', true); // 드롭할 수 있게
+// 		$('#calendar').fullCalendar('option', 'editable', true); // 수정 가능하게
+// 		$('#calendar').fullCalendar('option', 'droppable', true); // 드롭할 수 있게
 		
 	});
-	
-// 	$("#btnSelectShare").click(function() {
-// 	});
 
 	// 	수정모드일 때, 공개유무버튼
 	$("#isChecked").click(function(){
@@ -402,25 +410,25 @@ $(document).ready(function() {
 			console.log(check);
 		});
 	
-// 	저장버튼
-	$("#planCommit").click(function() {
-		isModify = 0;
-		document.getElementById("googleSearch").style.display= "none";
-		document.getElementById("planCommit").style.display= "none";
-		document.getElementById("btnModify").style.display= "block";
-		document.getElementById("btnSelectShare").style.display= "none";
-		document.getElementById("btnAccGraph").style.display= "block";
-		document.getElementById("viewDaliyGraph").style.display= "none";
-		document.getElementById("viewTotalGraph").style.display= "none";
+// // 	저장버튼
+// 	$("#planCommit").click(function() {
+// 		isModify = 0;
+// 		document.getElementById("googleSearch").style.display= "none";
+// 		document.getElementById("planCommit").style.display= "none";
+// 		document.getElementById("btnModify").style.display= "block";
+// 		document.getElementById("btnSelectShare").style.display= "none";
+// 		document.getElementById("btnAccGraph").style.display= "block";
+// 		document.getElementById("viewDaliyGraph").style.display= "none";
+// 		document.getElementById("viewTotalGraph").style.display= "none";
 		
-		document.getElementById("viewTitle").style.display= "block";
-		document.getElementById("editTitle").style.display= "none";
+// 		document.getElementById("viewTitle").style.display= "block";
+// 		document.getElementById("editTitle").style.display= "none";
 		
-		// 타임테이블 읽기 모드로 변경
-		$('#calendar').fullCalendar('option', 'editable', false); // 수정 불가능하게
-		$('#calendar').fullCalendar('option', 'droppable', false); // 드롭 불가능하게
+// 		// 타임테이블 읽기 모드로 변경
+// 		$('#calendar').fullCalendar('option', 'editable', false); // 수정 불가능하게
+// 		$('#calendar').fullCalendar('option', 'droppable', false); // 드롭 불가능하게
 
-	});
+// 	});
 	
 // 	북마크 버튼
 	$("#btnBookMark").click(function() {
@@ -559,11 +567,12 @@ $(document).ready(function() {
 		</label>
 		
 <!-- 		게시자와 열람자가 같은 유저면 수정버튼을 -->
-		<c:if test="${planView.user_idx eq userView.user_idx}">
-		    <input id="btnModify" type="button" value="수정" style="float:right;">
+		<c:if test="${writtenUserView.user_idx eq loginedUserView.user_idx}">
+		    <input id="btnModify" type="button" value="수정" style="float:right;"
+		    onClick="location.href='/plan/write'">
 		</c:if>
 <!-- 		다르면 북마크 버튼을 보여준다 -->
-		<c:if test="${planView.user_idx ne userView.user_idx}">
+		<c:if test="${writtenUserView.user_idx ne loginedUserView.user_idx}">
 			<input id="btnBookMark" type="button" value="북마크" style="float:right;">
 		</c:if>
 		
@@ -578,7 +587,7 @@ $(document).ready(function() {
 		</div>
 		
 		
-		<div id="editTitle" style="display:none;">
+<!-- 		<div id="editTitle" style="display:none;"> 
 			<form action="/plan/update" method="post" id="planForm">
 				<div >
 					<input type="hidden" name="plan_idx" value="${planView.plan_idx }">
@@ -588,7 +597,7 @@ $(document).ready(function() {
 					여행 전 <input id="editTravledBefore" name="editTraveled" type="radio" value="1" checked="checked"/> / 여행 후 <input id="editTravledAfter" name="editTraveled" type="radio" value="0" /><br><br>
 				</div>
 			</form>
-		</div>
+		</div>-->
 			<br>
 	</div>
 </div><br>
@@ -598,11 +607,15 @@ $(document).ready(function() {
 	<div id="container" style="width:230px; border-radius:10px;float:left;">
 	
 		<!-- 게시자 정보 DIV -->
-		<div id="menu" style="background-color:#EEEEEE;height:100px;float:bottom;width:100%;border-radius:10px;">
-			${userView.profile }<br>
-			<b>${userView.nickname }</b>님 <br>
-			포스팅 : <b>${userView.totalPlanCnt }</b>개 <br>
-			등급 : <b>${userView.grade }</b><br>
+		<div id="menu" style="background-color:#EEEEEE;height:100%;float:bottom;width:100%;border-radius:10px;">
+			
+			<div class="profileImage">
+				<img src="${writtenUserView.profile }" style="border-radius:70px; width:100px;">
+			</div>
+			<br>
+			<b>${writtenUserView.nickname }</b>님 <br>
+			포스팅 : <b>${writtenUserView.totalPlanCnt }</b>개 <br>
+			등급 : <b>${writtenUserView.grade }</b><br>
 			<b>${planView.tot_dist }</b> km<br>
 		</div><br>
 		

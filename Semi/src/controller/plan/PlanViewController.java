@@ -38,24 +38,32 @@ public class PlanViewController extends HttpServlet {
         gsonBuilder.setDateFormat("yyyy-MM-dd HH:mm");
         Gson gson = gsonBuilder.create();
         
+//		---------------------플래너 파라미터 가져오기
+        
 		// 요청파라미터(plan_idx) -> Plan 모델 
-		// param을 받아와야 함
-		Plan param = pService.getParam(req);
+		Plan planParam = pService.getSession4Plan(req);
 		
 		// 일정 기본 정보 가져오기
-		Plan planView = pService.getPlanInfo(param);
-		//System.out.println("플랜뷰컨트롤러 planView : "+planView); --> 지은 확인
-		
+		Plan planView = pService.getPlanInfo(planParam);
 		//planView MODEL 전달
 		req.setAttribute("planView", planView);
 		
-		// 유저 정보 가져오기
-		User userView = pService.getUserInfo(planView);
-		System.out.println("플랜뷰컨트롤러 userView : "+userView);
-		
+		System.out.println("test"+planView);
+		// 게시자 유저 정보 가져오기
+		User writtenUserView = pService.getUserInfo(planView);
 		//userView MODEL 전달
-		req.setAttribute("userView", userView);
+		req.setAttribute("writtenUserView", writtenUserView);
 		
+		
+//		---------------------로그인 유저 파라미터 가져오기
+		// 요청파라미터(user_idx) -> Plan 모델
+		User userParam = pService.getSession4User(req);
+		// 로그인 유저 정보 가져오기
+		User loginedUserView = pService.getUserInfo4Login(userParam);
+		//userView MODEL 전달
+		req.setAttribute("loginedUserView", loginedUserView);
+				
+//		--------------------------------------------
 		// timetable, location 리스트 받기
 		List<Timetable> ttbList = ttbService.getTimetableList(planView);
 		List<Location> locList = ttbService.getLocationList(planView);
@@ -84,9 +92,6 @@ public class PlanViewController extends HttpServlet {
 		Account accView = pService.getAccount(planView);
 		//accView MODEL 전달
 		req.setAttribute("accView", accView);
-		
-		// 플랜 저장
-		//pService.write(plan);
 		
 		// view 폼 띄우기
 		req.getRequestDispatcher("/plan/view.jsp").forward(req, resp);
