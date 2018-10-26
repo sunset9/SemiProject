@@ -61,7 +61,7 @@ var route;
 // timetables : 현재 띄워져있는 모든 타임테이블
 function viewMap(timetable, timetables){
 	// 기존에 있던 마커들 삭제
-//	removeMarkerAll();
+	removeMarkerAll();
 	
 	var locations = [];
 	var bounds  = new google.maps.LatLngBounds();
