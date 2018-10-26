@@ -211,6 +211,7 @@
 	}
 	
 	.fc-title{ /* 이벤트 안의 제목 부분 */
+		cursor: pointer;
 		font-weight: bold;
 		font-size: 1.5em;
 		padding-top: 5px;
@@ -222,7 +223,7 @@
 	
 	/*스토리 저장시 스크롤바가 안생겨서 만들어 뒀습니다...*/
 	html {
-	    overflow-y: scroll;
+/* 	    overflow-y: scroll; */
 	}
 	
 
