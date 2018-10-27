@@ -106,7 +106,10 @@ public class PlanViewController extends HttpServlet {
 		// 요청파라미터(plan_idx) -> Plan 모델 
 		// param을 받아와야 함
 		//Plan param = pService.getParam(req);
-		int plan_idx = Integer.parseInt(req.getParameter("plan_idx"));
+		
+        int plan_idx = Integer.parseInt(req.getParameter("plan_idx"));
+	    	
+	 
 		System.out.println("플랜뷰컨트롤러 plan_idx : "+plan_idx);
 		Plan param = new Plan();
 		param.setPlan_idx(plan_idx);
