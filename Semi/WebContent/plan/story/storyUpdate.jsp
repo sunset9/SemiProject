@@ -13,7 +13,7 @@
         <div class="modal-body">
 		 
 		  <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/froala-editor/2.5.1//js/froala_editor.pkgd.min.js"></script>
-			<form class = "ModalForm" action="/story/write" method="POST">
+			<form class = "updateForm" action="/story/write" method="POST">
 			
 			<!-- ttb_idx °ª ¼û°ÜµÎ±â -->
 			<input type="hidden" value="" name ="up_ttb_idx" class = "up_ttb_idx" />

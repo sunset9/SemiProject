@@ -215,14 +215,6 @@
 		margin-left: 10px;  /* fc-bg(이벤트 덮고 있는 투명도 있는 판?)css 수정 , 왼쪽에 색 진하게 하는 효과줌*/
 	}
 	
-	/*스토리 저장시 스크롤바가 안생겨서 만들어 뒀습니다...*/
-
-	html {
-/* 	    overflow-y: scroll; */
-	}
-
-	
-
 </style>
 
 <script>
@@ -610,7 +602,7 @@ $(document).ready(function() {
 		<div id="menu" style="background-color:#EEEEEE;height:100%;float:bottom;width:100%;border-radius:10px;">
 			
 			<div class="profileImage">
-				<img src="${writtenUserView.profile }" style="border-radius:70px; width:100px;">
+<%-- 				<img src="${writtenUserView.profile }" style="border-radius:70px; width:100px;"> --%>
 			</div>
 			<br>
 			<b>${writtenUserView.nickname }</b>님 <br>
@@ -693,7 +685,7 @@ $(document).ready(function() {
 	 	
 	 	<!-- 타임테이블 & 스토리테이블 -->
 		<div id="calendar"></div>
-		<div id="viewStory" ></div>
+		<div id="viewStory"></div>
 		
 	</div>
 </div>
