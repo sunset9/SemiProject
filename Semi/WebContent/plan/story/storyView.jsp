@@ -71,9 +71,12 @@ hr{
 	    
 	    //edit 모드일때, 수정버튼삭제버튼추가버튼 보여주지 않음
 	    function EditMode() {
+	    	
 	     var removeStorys = document.getElementsByClassName("removeStory");
 	     var updateStorys = document.getElementsByClassName("updateStory");
 	     var plusStorys = document.getElementsByClassName("storyPlus");
+	     
+	     console.log("isModify::"+isModify);
 	     
 	    	if (isModify == 1){
    			  for(var i = 0; i < removeStorys.length; i++){
@@ -85,6 +88,7 @@ hr{
    			  for(var i=0; i<plusStorys.length;i++){
    				 plusStorys[i].style.display = "block";
    			  }
+   			  
 	    	}else{
     		  for(var i = 0; i < removeStorys.length; i++){
 	    		  removeStorys[i].style.display = "none"; 
@@ -99,7 +103,7 @@ hr{
 			
 		}
 	    
-	    EditMode();
+// 	    EditMode();
 	    
 	    
 	    //slidmenu 고정
@@ -123,6 +127,8 @@ hr{
 			
 			
 			var place_name = $(this).data("place");
+			
+			console.log(place_name);
 			
 			$(".modalPlaceName").text(place_name);
 			
@@ -151,8 +157,7 @@ hr{
 			
 		})
 		
-		
-		
+			
 		//저장하기
 	$(".storySaveBtn").click(function() {
 			
@@ -164,9 +169,6 @@ hr{
 			
 			var jsonData = JSON.stringify(storyJSON);
 			
-			
-// 			$(".ModalForm").submit();
-			
 			$.ajax({
 				type : "POST"
 				, url : "/story/write"
@@ -174,6 +176,8 @@ hr{
 				, dataType : "html"
 				, success : function (res) {
 					$("#viewStory").html(res);
+					//스크롤바 사라지는거 방지
+					$('body').removeClass('modal-open');
 				}
 				, error: function () {
 					console.log("실패");
@@ -200,6 +204,8 @@ hr{
  					, dataType : "html"
  					, success : function (res) {
  						$("#viewStory").html(res);
+ 						//스크롤바 사라지는거 방지
+ 						$('body').removeClass('modal-open');
  					}
  					, error: function () {
  						console.log("실패");
@@ -346,6 +352,7 @@ hr{
 							</span>
 						</font>
 					</c:if>
+					<br><br>
 				</c:if>
 			</c:forEach>
 			</c:forEach>
