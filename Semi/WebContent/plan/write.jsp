@@ -203,9 +203,11 @@ function store(){
 
 <script type="text/javascript">
 // 읽기모드일때, 검색창 on/off
-var isModify = 1;
+var isModify = 1 ;
+console.log("wrte.jsp isModify : " + isModify);
 
 $(document).ready(function() {
+	
 	// 브라우저에 timetable 그려주기
 	initFullCalendar(planStartDate, planEndDate, true);
 	
@@ -264,6 +266,7 @@ $(document).ready(function() {
 // 	저장버튼
 	$("#planCommit").click(function() {
 		isModify = 0;
+		console.log("wrte.jsp isModify : " + isModify);
 		
 		//AJAX 처리하기
 		$.ajax({ 	
@@ -400,7 +403,7 @@ $(document).ready(function() {
 		<div id="menu" style="background-color:#EEEEEE;height:100%;float:bottom;width:100%;border-radius:10px;">
 			
 			<div class="profileImage">
-<%-- 				<img src="${writtenUserView.profile }" style="border-radius:70px; width:100px;"> --%>
+				<img src="${writtenUserView.profile }" style="border-radius:70px; width:100px;"/>
 			</div>
 			<br>
 			<b>${writtenUserView.nickname }</b>님 <br>

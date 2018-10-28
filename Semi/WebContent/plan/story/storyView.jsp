@@ -103,7 +103,7 @@ hr{
 			
 		}
 	    
-// 	    EditMode();
+	    EditMode();
 	    
 	    
 	    //slidmenu 고정
