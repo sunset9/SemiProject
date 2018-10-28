@@ -156,9 +156,6 @@ public class PlanViewController extends HttpServlet {
 		//accView MODEL 전달
 		req.setAttribute("accView", accView);
 		
-		// 플랜 저장
-		//pService.write(plan);
-		
 		// view 폼 띄우기
 		req.getRequestDispatcher("/plan/view.jsp").forward(req, resp);
 	}

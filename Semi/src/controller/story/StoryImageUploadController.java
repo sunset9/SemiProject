@@ -17,10 +17,10 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.Part;
- 
+
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.lang.ArrayUtils;
- 
+
 import com.google.gson.Gson;
 
 @WebServlet(name = "ImageUploadServlet", urlPatterns = {
