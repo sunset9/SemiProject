@@ -26,9 +26,6 @@ public interface StoryService {
 	//플랜 삭제시 스토리 전부 삭제 
 	public void deleteListByPlanIdx(Plan plan);
 	
-	//타임테이블 삭제시 해당 스토리 삭제
-	public void deleteListByTtbIdx(Timetable tb);
-
 	// 타임테이블 삭제시 스토리도 삭제
 	public void deleteList(Plan plan, List<Timetable> ttbList);
 	
