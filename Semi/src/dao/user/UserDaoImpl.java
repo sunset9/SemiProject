@@ -123,18 +123,59 @@ public class UserDaoImpl implements UserDao{
 		return user;
 	}
 
+	//userinfo_seq.nextval 얻어오기
+	@Override
+	public int getUserinfoSeqNextval() {
+		int value = 0;
+		
+		String sql = "SELECT userinfo_seq.nextval FROM dual";
+		
+		//DB 객체
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+
+		try {
+			ps = conn.prepareStatement(sql);
+			
+			rs = ps.executeQuery();
+			
+			rs.next();
+			
+			value = rs.getInt(1);
+			
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			try {
+				//DB객체 닫기
+				if(rs!=null)	rs.close();
+				if(ps!=null)	ps.close();
+				
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+
+		
+		return value;
+	}
+	
+	
+	
 	//회원가입처리(email)
 	@Override
 	public void insert(User user) {
+		int UserinfoSeqNextval = getUserinfoSeqNextval();
+		
 		String sql = "";
-
 		sql += "INSERT INTO userinfo(user_idx, id, password, nickname, profile, grade, sns_idx, create_date)";
 		if(user.getSns_idx() == 1) {
-			sql += " VALUES(userinfo_seq.nextval, ?, ?, ?, ?, '여행자', 1, sysdate)"; 
+			sql += " VALUES(?, ?, ?, ?, ?, '여행자', 1, sysdate)"; 
 		} else if(user.getSns_idx() == 4) {
-			sql += " VALUES(userinfo_seq.nextval, ?, ?, ?, ?, '여행자', 4, sysdate)";
+			sql += " VALUES(?, ?, ?, ?, ?, '여행자', 4, sysdate)";
 		} else if(user.getSns_idx() == 3) {
-			sql += " VALUES(userinfo_seq.nextval, ?, ?, ?, ?, '여행자', 3, sysdate)";
+			sql += " VALUES(?, ?, ?, ?, ?, '여행자', 3, sysdate)";
 		}
 		
 		PreparedStatement ps = null;
@@ -143,15 +184,16 @@ public class UserDaoImpl implements UserDao{
 			conn.setAutoCommit(false);
 			
 			ps = conn.prepareStatement(sql);
-			ps.setString(1, user.getId());
-			ps.setString(2, user.getPassword());
-			ps.setString(3, user.getNickname());
+			ps.setInt(1, UserinfoSeqNextval);
+			ps.setString(2, user.getId());
+			ps.setString(3, user.getPassword());
+			ps.setString(4, user.getNickname());
 			if(user.getSns_idx() == 1) {
-				ps.setString(4, "/image/basicProfile.png");
+				ps.setString(5, "/image/basicProfile.png");
 			} else if(user.getSns_idx() == 4) {
-				ps.setString(4, user.getProfile());
+				ps.setString(5, user.getProfile());
 			} else if(user.getSns_idx() == 3) {
-				ps.setString(4, user.getProfile());
+				ps.setString(5, user.getProfile());
 			}
 			ps.executeUpdate();
 			
@@ -682,6 +724,9 @@ public class UserDaoImpl implements UserDao{
 		
 		return user;
 	}
+
+	
+
 
 
 }

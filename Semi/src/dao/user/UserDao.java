@@ -55,4 +55,7 @@ public interface UserDao {
 	
 	public User selectUserByUserIdx(User user);
 	
+	//userinfo_seq.nextval 얻어오기
+	public int getUserinfoSeqNextval();
+	
 }
