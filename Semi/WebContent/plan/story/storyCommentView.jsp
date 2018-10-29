@@ -1,12 +1,29 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<!DOCTYPE html>
-<html>
-<head>
-<meta charset="UTF-8">
-<title>Insert title here</title>
-</head>
-<body>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
+<script>
+$(document).ready(function(){
+	console.log('${commentList}');
+	console.log('${story_idx}')
+});
 
-</body>
-</html>
+
+</script>
+<c:forEach items="${commentList}" var = 'comment'>
+  <c:if test="${comment.story_idx eq story_idx}">
+	<table>
+		<tr>
+			<td colspan="1" align="center" ><img src="${comment.profile}" class="img-circle" width="50px" height="50px"></td>
+			<td colspan="2" rowspan="2"><font size="2">&nbsp;&nbsp;&nbsp;${comment.content}</font></td>
+			<td colspan="1" rowspan="2" style="padding:20px"><font size ="1"> ${comment.create_date} </font></td>
+			<td colspan="1" rowspan="2">
+				<span class="glyphicon glyphicon-remove-sign" style="cursor:pointer" onmousedown="mdown($(this))" onmouseleave="mleave($(this))" onmouseover="mover($(this))" onclick="removeComm(${comment.comm_idx},${comment.story_idx},${comment.plan_idx})"></span>
+			</td>
+		</tr>
+		<tr>
+			<td colspan="1" align="center"><font size="2">${comment.nickname}</font></td>
+		</tr>
+	</table>
+	</c:if>
+</c:forEach>

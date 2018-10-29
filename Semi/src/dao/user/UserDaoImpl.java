@@ -285,9 +285,54 @@ public class UserDaoImpl implements UserDao{
 	}
 
 	@Override
-	public User selectUserAll() {
-		// TODO Auto-generated method stub
-		return null;
+	public List<User> selectUserAll() {
+		
+		String sql = "";
+		sql += "Select * from FROM userinfo";
+		
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+		
+		List<User> userList = new ArrayList<>();
+		
+		try {
+			
+			ps = conn.prepareStatement(sql);
+			rs = ps.executeQuery();
+			
+			while(rs.next()) {
+				User user = new User();
+				
+				user.setUser_idx(rs.getInt("user_idx"));
+				user.setId(rs.getString("id"));
+				user.setPassword(rs.getString("password"));
+				user.setNickname(rs.getString("nickname"));
+				user.setProfile(rs.getString("profile"));
+				user.setGrade(rs.getString("gread"));
+				user.setSns_idx(rs.getInt("sns_idx"));
+				user.setCreate_date(rs.getDate("create_date"));
+				
+				userList.add(user);
+				
+			}
+			
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}finally {
+			try {
+				// DB객체 닫기
+				if (rs != null)
+					rs.close();
+				if (ps != null)
+					ps.close();
+
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+		
+		return userList;
 	}
 
 	@Override
@@ -593,5 +638,50 @@ public class UserDaoImpl implements UserDao{
 		
 		return cnt;
 	}
+
+	@Override
+	public User selectUserByUserIdx(User u) {
+		String sql = "";
+		sql += "SELECT * FROM userinfo";
+		sql += " WHERE user_idx = ?";
+		
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+		
+		User user = new User();
+		
+		try {
+			ps = conn.prepareStatement(sql);
+
+			ps.setInt(1, u.getUser_idx());
+			rs = ps.executeQuery();
+			
+			while(rs.next()) {
+				
+				user.setUser_idx(rs.getInt("user_idx"));
+				user.setId(rs.getString("id"));
+				user.setPassword(rs.getString("password"));
+				user.setNickname(rs.getString("nickname"));
+				user.setProfile(rs.getString("profile"));
+				user.setGrade(rs.getString("grade"));
+				user.setSns_idx(rs.getInt("sns_idx"));
+				user.setCreate_date(rs.getDate("create_date"));
+				
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				if(rs!=null)	rs.close();
+				if(ps!=null)	ps.close();
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		
+		return user;
+	}
+
 
 }
