@@ -28,6 +28,21 @@ public class Story {
 	//몇일차인지
 	private int calcDay;
 	
+	private int CommCnt;
+	
+	@Override
+	public String toString() {
+		return "Story [story_idx=" + story_idx + ", plan_idx=" + plan_idx + ", ttb_idx=" + ttb_idx + ", user_idx="
+				+ user_idx + ", content=" + content + ", create_date=" + create_date + ", travel_day=" + travel_day
+				+ ", start_time=" + start_time + ", end_time=" + end_time + ", place_name=" + place_name + ", calcDay="
+				+ calcDay + ", CommCnt=" + CommCnt + "]";
+	}
+	public int getCommCnt() {
+		return CommCnt;
+	}
+	public void setCommCnt(int commCnt) {
+		CommCnt = commCnt;
+	}
 	public int getCalcDay() {
 		return calcDay;
 	}
@@ -42,15 +57,6 @@ public class Story {
 	}
 
 
-	// 타임테이블 시작 시간
-	
-	@Override
-	public String toString() {
-		return "Story [story_idx=" + story_idx + ", plan_idx=" + plan_idx + ", ttb_idx=" + ttb_idx + ", user_idx="
-				+ user_idx + ", content=" + content + ", create_date=" + create_date + ", travel_day=" + travel_day
-				+ ", start_time=" + start_time + ", end_time=" + end_time + ", place_name=" + place_name + ", calcDay="
-				+ calcDay + "]";
-	}
 	public String getStart_time() {
 		return start_time;
 	}

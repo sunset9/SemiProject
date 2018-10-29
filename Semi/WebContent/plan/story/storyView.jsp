@@ -68,7 +68,6 @@ hr{
 <script type="text/javascript">
 	
 	$(document).ready(function(){
-	    
 	    //edit 모드일때, 수정버튼삭제버튼추가버튼 보여주지 않음
 	    function EditMode() {
 	    	
@@ -139,6 +138,9 @@ hr{
 			var plan_idx = $(this).data("planidx");
 			$(".plan_idx").val(plan_idx);	
 		})
+		
+		
+	
 		
 		
 		//수정하기
@@ -238,22 +240,100 @@ hr{
 		} else {
 		}
 	}
+// 	var commentCheck = 1;
 	
+	function CommentViewClick(storyIdx,plan_idx) {
+		
+		var commentViewId = "#CommentView"+storyIdx;
+		if($(commentViewId).is(":visible")){
+			$(commentViewId).css("display","none");
+			
+		}else{
+			
+			$(commentViewId).css("display","block");
+			
+			$.ajax({
+				//display : none일 경우
+				type : "get"
+				, url : "/story/comment/view"
+	 			, data : {"story_idx":storyIdx,"plan_idx":plan_idx}
+				, success : function (res) {
+					$(commentViewId).html(res);
+				}
+				, error: function (e) {
+					console.log(e);
+				}
+			})
 
-	 
+		}
+		
+	}
+	
     // 마우스오버시 색바꾸기
-    function plusmover(obj) {
+    function mover(obj) {
  	   obj.css( "color", "orange" );
  	}
     
-    function plusmdown(obj){
+    function mdown(obj){
  	   obj.css( "color", "blue" );
     }
     
- 	function plusmleave(obj) {
+ 	function mleave(obj) {
  		obj.css("color", "black");
  	}
+ 	
+ 	function mleave_gray(obj) {
+ 		obj.css("color", "#999999");
+	}
 
+ 	function CommSave(story_idx,ttb_idx,plan_idx) {
+ 		
+ 		var id = "#CommContent"+story_idx;
+ 		
+ 		var commentViewId = "#CommentView"+story_idx;
+ 		
+ 		var commJson = {
+ 				"story_idx" : story_idx
+ 				, "plan_idx" : plan_idx
+ 				, "ttb_idx" : ttb_idx
+ 				, "content" :  $(id).val()
+ 		};
+ 		
+ 		var jsonData = JSON.stringify(commJson);
+ 		
+		$.ajax({
+			type : "post"
+			, url : "/story/comment/write"
+ 			, data : {"commJson":jsonData}
+			, success : function (res) {
+				$(commentViewId).html(res);
+				$(commentViewId).css("display","block");
+			}
+			, error: function (e) {
+				console.log(e);
+			}
+		})
+	}
+ 	
+ 	
+
+ 	function removeComm(comm_idx,story_idx,plan_idx) {
+ 		
+ 		var commentViewId = "#CommentView"+story_idx;
+ 		
+ 		$.ajax({
+ 			type : "post"
+ 			, url : "/story/comment/delete"
+ 				, data : {"comm_idx":comm_idx, "story_idx":story_idx, "plan_idx":plan_idx}
+ 			, success : function (res) {
+ 				$(commentViewId).html(res);
+ 			}
+ 			, error: function (e) {
+ 				console.log(e);
+ 			}
+ 		})
+ 		
+ 	}
 	
 </script>	
 
@@ -280,10 +360,10 @@ hr{
 				    		<table class="bubble" style="margin-left: 60px;" >
 				    			<tr>
 				     			<td colspan="5">
-								  <font size="5"><span class = "glyphicon glyphicon-remove removeStory" style="float: right;" onclick="storyDelete(${story.story_idx})"  onmouseover="plusmover($(this))" onmouseleave="plusmleave($(this))" onmousedown="plusmdown($(this))"></span>
+								  <font size="5"><span class = "glyphicon glyphicon-remove removeStory" style="float: right; cursor:pointer" onclick="storyDelete(${story.story_idx})"  onmouseover="mover($(this))" onmouseleave="mleave($(this))" onmousedown="mdown($(this))"></span>
 								  <span class = "glyphicon glyphicon-pencil updateStory" 
-									  style="float: right;"  
-									  onmouseover="plusmover($(this))" onmouseleave="plusmleave($(this))" onmousedown="plusmdown($(this))" 
+									  style="float: right; cursor:pointer"  
+									  onmouseover="mover($(this))" onmouseleave="mleave($(this))" onmousedown="mdown($(this))" 
 									  data-toggle="modal" data-target="#myModal_update" 
 									  data-backdrop="static" data-storyidx="${story.story_idx}" 
 									  data-place="${story.place_name}" data-content= '${story.content}'>
@@ -308,28 +388,27 @@ hr{
 					  			</td>
 				    			</tr>
 								<tr>
-								<td colspan="5"><hr><a href="#"><font size="2" color="#999999">덧글 1개</font></a></td>
+								<td colspan="5">
+								<hr>
+								<font size="2" color="#999999">
+									<span style="cursor:pointer"  onclick="CommentViewClick(${story.story_idx},${ttb.plan_idx})" onmousedown="mdown($(this))" onmouseleave="mleave_gray($(this))" onmouseover="mover($(this))">덧글 ${story.commCnt}개</span>
+								</font>
+								</td>
 								</tr>
 								<tr>
 								<td colspan="4">
-									<textarea style ="resize: none; overflow:visible;" rows="2" cols="100" placeholder="댓글을 입력하세요"></textarea>
+									<textarea id = "CommContent${story.story_idx}" style ="resize: none; overflow:visible;" rows="2" cols="100" placeholder="댓글을 입력하세요"></textarea>
 								</td>	
 								<td colspan="1" style="padding-bottom:20px;">
-								<button type="button" class="btn btn-secondary" style="margin-bottom: -7px;">등록</button>
+								<button id = "saveComm${story.story_idx}" type="button" class="btn btn-secondary" style="margin-bottom: -7px;" onclick="CommSave(${story.story_idx},${story.ttb_idx},${story.plan_idx})">등록</button>
 								</td>
 								</tr>
 							<!-- ajax이용, 댓글 리스트 foreach문 -->
 								<tr>
-									<td colspan="1" align="center" ><img src="#" class="img-circle" width="50px" height="50px"></td>
-									<td colspan="2" rowspan="2"><font size="2">&nbsp;&nbsp;&nbsp;피가 하여도 무엇을 말이다. 풀밭에 착목한는 소금이라 이상의 맺어, 새 같지 때문이다.</font></td>
-									<td colspan="1" rowspan="2" style="padding:20px"><font size ="1"> 2018-10-12 AM 09:03 </font></td>
-									<td colspan="1" rowspan="2"><span class="glyphicon glyphicon-remove-sign"></span></td>
+								<td colspan="5">
+									<div id = "CommentView${story.story_idx}" style="display: none"></div>
+								</td>
 								</tr>
-								
-								<tr>
-									<td colspan="1" align="center"><font size="2">닉네임</font></td>
-								</tr>
-								
 							</table>					
 							<br>
 							<br>
@@ -346,9 +425,9 @@ hr{
 							<span class ="glyphicon glyphicon-plus-sign storyPlus" 
 							data-toggle="modal" data-target="#myModal" data-backdrop="static" 
 							data-place="${ttb.place_name}" data-ttbidx="${ttb.ttb_idx}" 
-							data-planidx="${ttb.plan_idx}" onmouseover="plusmover($(this))" 
-							onmouseleave="plusmleave($(this))" onmousedown="plusmdown($(this))"
-							style="margin-left: 60px">
+							data-planidx="${ttb.plan_idx}" onmouseover="mover($(this))" 
+							onmouseleave="mleave($(this))" onmousedown="mdown($(this))"
+							style="margin-left: 60px; cursor:pointer">
 							</span>
 						</font>
 					</c:if>

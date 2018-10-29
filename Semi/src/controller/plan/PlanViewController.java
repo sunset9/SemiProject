@@ -34,6 +34,7 @@ public class PlanViewController extends HttpServlet {
 	
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+		
 		GsonBuilder gsonBuilder = new GsonBuilder();
         gsonBuilder.setDateFormat("yyyy-MM-dd HH:mm");
         Gson gson = gsonBuilder.create();
@@ -42,7 +43,8 @@ public class PlanViewController extends HttpServlet {
         System.out.println("4," + req.getSession().getAttribute("plan_idx"));
         System.out.println("5," + req.getSession().getAttribute("user_idx"));
 		// 요청파라미터(plan_idx) -> Plan 모델 
-		Plan planParam = pService.getSession4Plan(req);
+        Plan planParam = pService.getSession4Plan(req);
+		
 		
 		// 일정 기본 정보 가져오기
 		Plan planView = pService.getPlanInfo(planParam);

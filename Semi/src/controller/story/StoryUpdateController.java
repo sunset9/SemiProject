@@ -88,7 +88,7 @@ public class StoryUpdateController extends HttpServlet {
 			req.setAttribute("diffDays",diffDays);
 			req.setAttribute("storyList", StoryList);
 			
-			req.getRequestDispatcher("/plan/story/storyView.jsp").forward(req, resp);
+			req.getRequestDispatcher("h/plan/story/storyView.jsp").forward(req, resp);
 	
 	
 	}
