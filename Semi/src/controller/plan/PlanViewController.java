@@ -39,7 +39,8 @@ public class PlanViewController extends HttpServlet {
         Gson gson = gsonBuilder.create();
         
 //		---------------------플래너 파라미터 가져오기
-        
+        System.out.println("4," + req.getSession().getAttribute("plan_idx"));
+        System.out.println("5," + req.getSession().getAttribute("user_idx"));
 		// 요청파라미터(plan_idx) -> Plan 모델 
 		Plan planParam = pService.getSession4Plan(req);
 		
@@ -48,7 +49,6 @@ public class PlanViewController extends HttpServlet {
 		//planView MODEL 전달
 		req.setAttribute("planView", planView);
 		
-		System.out.println("test"+planView);
 		// 게시자 유저 정보 가져오기
 		User writtenUserView = pService.getUserInfo(planView);
 		//userView MODEL 전달
@@ -90,6 +90,7 @@ public class PlanViewController extends HttpServlet {
 		
 		// 가계부 정보 가져오기
 		Account accView = pService.getAccount(planView);
+		System.out.println(accView);
 		//accView MODEL 전달
 		req.setAttribute("accView", accView);
 		
@@ -105,14 +106,9 @@ public class PlanViewController extends HttpServlet {
         
 		// 요청파라미터(plan_idx) -> Plan 모델 
 		// param을 받아와야 함
-		//Plan param = pService.getParam(req);
-		
-        int plan_idx = Integer.parseInt(req.getParameter("plan_idx"));
-	    	
+		Plan param = pService.getSession4Plan(req);
 	 
-		System.out.println("플랜뷰컨트롤러 plan_idx : "+plan_idx);
-		Plan param = new Plan();
-		param.setPlan_idx(plan_idx);
+		System.out.println("3 "+param);
 		
 		// 일정 기본 정보 가져오기
 		Plan planView = pService.getPlanInfo(param);
@@ -120,12 +116,17 @@ public class PlanViewController extends HttpServlet {
 		//planView MODEL 전달
 		req.setAttribute("planView", planView);
 		
-		// 유저 정보 가져오기
-		User userView = pService.getUserInfo(planView);
-		System.out.println("플랜뷰컨트롤러 userView : "+userView);
-		
+		User writtenUserView = pService.getUserInfo(planView);
 		//userView MODEL 전달
-		req.setAttribute("userView", userView);
+		req.setAttribute("writtenUserView", writtenUserView);
+		
+//		---------------------로그인 유저 파라미터 가져오기
+		// 요청파라미터(user_idx) -> Plan 모델
+		User userParam = pService.getSession4User(req);
+		// 로그인 유저 정보 가져오기
+		User loginedUserView = pService.getUserInfo4Login(userParam);
+		//userView MODEL 전달
+		req.setAttribute("loginedUserView", loginedUserView);
 		
 		// timetable, location 리스트 받기
 		List<Timetable> ttbList = ttbService.getTimetableList(planView);
