@@ -9,11 +9,9 @@
 <script type = "text/javascript">
 $(document).ready(function() {
 	$("#btnList").click(function() {
-		$(location).attr("href", "/admin/main");
+		$(location).attr("href", "/admin/inquiry/list");
 	});
-	$("#btnUpdate").click(function() {
-		$(location).attr("href","/admin/inquiry/update?inq_idx=${inquiry.inq_idx}");
-	});
+
 	$("#btnDelete").click(function() {
 		$(location).attr("href", "/admin/inquiry/delete?inq_idx=${inquiry.inq_idx}");
 	});
@@ -154,7 +152,7 @@ ${inquiry.content }</td>
 </tr>
 </thead>
 <tbody id = "replyBoby">
-<c:forEach items="${repList}" var ="reply">
+<c:forEach items="${replyList}" var ="reply">
 <tr data-rep_idx="${reply.rep_idx }">
 	<td>${reply.userid }</td>
 	<td>${reply.content }</td>

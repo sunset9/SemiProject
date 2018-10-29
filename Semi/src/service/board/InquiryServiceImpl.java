@@ -315,7 +315,7 @@ public class InquiryServiceImpl implements InquiryService {
 					inquiry.setWriter((String)req.getSession().getAttribute("nickname"));
 					inquiry.setUser_idx((int)req.getSession().getAttribute("user_idx"));
 					
-					System.out.println("첨부파일 있는 경우 ="+req.getSession().getAttribute("user_idx"));
+//					System.out.println("첨부파일 있는 경우 ="+req.getSession().getAttribute("user_idx"));
 					
 				} else {
 					UUID uuid = UUID.randomUUID();

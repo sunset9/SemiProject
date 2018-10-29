@@ -162,7 +162,7 @@ public class NoticeDaoImpl implements NoticeDao {
 		// 게시글 추가하는 쿼리 
 		String sql ="";
 		sql+="INSERT INTO notice (notice_idx, title, user_idx,content,hit)"; 
-		sql+=	"VALUES(notice_seq.nextval,?,?,?,0)";
+		sql+=	"VALUES(?,?,?,?,0)";
 				
 		//DB 객체 
 		PreparedStatement ps = null;
@@ -285,7 +285,7 @@ public class NoticeDaoImpl implements NoticeDao {
 			String sql ="SELECT notice_idx,(SELECT nickname FROM userinfo U WHERE U.user_idx = N.user_idx) nick" ; 
 				   sql+= ",title, content, hit,create_date FROM notice N WHERE notice_idx=?";
 				
-			
+			System.out.println("notice :" +notice);
 			// 결과 담을 객체 생성 
 			Notice noti = new Notice();
 			try {
@@ -318,6 +318,7 @@ public class NoticeDaoImpl implements NoticeDao {
 				}
 			}
 			// 결과 반환
+			System.out.println("notice :" +noti);
 			return noti;
 		}
 
@@ -328,7 +329,6 @@ public class NoticeDaoImpl implements NoticeDao {
 		sql += "SELECT id FROM userinfo U, Notice N" ;
 		sql +=	" WHERE N.user_idx = U.user_idx" ;
 		sql +=	" AND N.notice_idx= ?";
-
 		
 		// 결과 저장할 변수
 		String id = null;
@@ -359,6 +359,116 @@ public class NoticeDaoImpl implements NoticeDao {
 		}
 		
 		return id;
+	}
+
+	@Override
+	public String selectNickByNotice(Notice notice) {
+		// 게시글 번호로 user nickname 조회하기
+		String sql="";
+		sql += "SELECT nickname FROM userinfo U, Notice N" ;
+		sql +=	" WHERE N.user_idx = U.user_idx" ;
+		sql +=	" AND N.notice_idx= ?";
+
+		// 결과 저장할 변수
+		String nick = null;
+				
+		try {
+			// DB 작업
+			ps = conn.prepareStatement(sql);
+			ps.setInt(1, notice.getNotice_idx());
+					
+			rs = ps.executeQuery();
+					
+			while(rs.next()) {
+				nick = rs.getString(1);
+			}
+					
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			try {
+						
+				//DB객체 닫기
+				if(ps!=null)	ps.close();
+				if(rs!=null)	rs.close();
+						
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+				
+		return nick;
+	}
+
+	@Override
+	public int selectNoticeIdx() {
+		// 다음 게시글 번호 조회 쿼리 
+		String sql ="SELECT notice_seq.nextval FROM dual";
+				
+		// DB 객체 
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+				
+		// 결과 저장할 변수 
+				
+		int notice_idx = 0;
+				
+		try {
+			ps = conn.prepareStatement(sql);
+			rs = ps.executeQuery();
+					
+			while(rs.next()) {
+				notice_idx = rs.getInt(1);
+			}
+					
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}finally {
+			try {
+				//DB객체 닫기
+				if(rs!=null)	rs.close();
+				if(ps!=null)	ps.close();
+						
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+				
+				
+		return notice_idx;
+	}
+
+	@Override
+	public void deleteNoticeList(String names) {
+		String sql = "DELETE FROM notice WHERE notice_idx IN("+names+")";
+		
+		//DB 객체
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+
+		try {
+			conn.setAutoCommit(false);
+			
+			ps = conn.prepareStatement(sql);
+					
+			ps.executeUpdate();
+			
+			conn.commit();
+		} catch (SQLException e) {
+			try {
+				conn.rollback();
+			} catch (SQLException e1) {
+				e1.printStackTrace();
+			}
+			e.printStackTrace();
+		} finally {
+			try {
+				if(ps!=null)	ps.close();
+						
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}	
 	}
 
 }

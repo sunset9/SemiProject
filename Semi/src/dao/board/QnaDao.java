@@ -30,4 +30,13 @@ public interface QnaDao {
 		
 		// notice_idx로 작성자 id 조회하기
 		public String selectIdByQnaIdx(Qna qna);
+		
+		// nickname 조회하기 
+		public String selectNickByQna (Qna qna);
+		
+		// 다음 게시글 번호 조회 쿼리
+		public int selectQnaIdx();
+		
+		// 리스트에서 게시글 삭제 
+		public void deleteQnaList(String names);
 }
