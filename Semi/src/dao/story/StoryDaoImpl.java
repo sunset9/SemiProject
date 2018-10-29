@@ -250,6 +250,53 @@ public class StoryDaoImpl implements StoryDao{
 	}
 
 	@Override
+	public void delete(Plan plan, List<Timetable> ttbList) {
+		String sql = "DELETE story"
+				+ " WHERE plan_idx=?";
+		
+		// 저장하려는 ttb_idx를 가지고 있지 않은 스토리 삭제하는 쿼리
+		if(ttbList.size() != 0) {
+			sql += " AND ttb_idx NOT IN (";
+			for(int i = 0; i < ttbList.size() -1; i++) {
+				sql += ttbList.get(i).getTtb_idx() + ",";
+			}
+			sql += ttbList.get(ttbList.size()-1).getTtb_idx() +")";
+		}
+		
+		try {
+			
+			conn.setAutoCommit(false);
+			
+			ps = conn.prepareStatement(sql);
+			ps.setInt(1, plan.getPlan_idx());
+			
+			ps.executeUpdate();
+			
+			conn.commit();
+		} catch (SQLException e) {
+			e.printStackTrace();
+			try {
+				conn.rollback();
+			} catch (SQLException e1) {
+				e1.printStackTrace();
+			}
+		} finally {
+			try {
+				if(ps!=null) ps.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+		
+	}
+
+
+	@Override
+	public void deleteList(Plan plan) {
+    // TODO Auto-generated method stub
+  }
+  
+  @Override
 	public int SelectCntAll() {
 		// TODO Auto-generated method stub
 		return 0;

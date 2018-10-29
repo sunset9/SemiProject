@@ -6,7 +6,7 @@
 <!-- 헤더  -->
 <c:import url="../layout/headerWithMenu.jsp" />
 <!-- 미니뷰 modal -->
-<jsp:include page="/plan/timetable/miniViewTest.jsp"/>
+<jsp:include page="/plan/timetable/miniViewWrite.jsp"/>
 
 <!-- fullcalendar -->
 <link rel='stylesheet' href='/resources/timetable/fullcalendar/fullcalendar.css' />
@@ -203,8 +203,7 @@ function store(){
 
 <script type="text/javascript">
 // 읽기모드일때, 검색창 on/off
-var isModify = 1 ;
-console.log("wrte.jsp isModify : " + isModify);
+var isModify = 1;
 
 $(document).ready(function() {
 	

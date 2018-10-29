@@ -24,12 +24,19 @@ public interface StoryDao {
 	public void update(Story story);
 	
 	public void delete(Story story);
+
+	// 삭제된 타임테이블에 걸려있는 스토리 삭제
+	public void delete(Plan plan, List<Timetable> ttbList);
 	
+	//플랜 삭제시 스토리 전부 삭제
+	public void deleteList(Plan plan);
+
 	//플랜 삭제시 스토리 전부 삭제 
 	public void deleteListByPlanIdx(Plan plan);
 	
 	//타임테이블 삭제시 해당 스토리 삭제
 	public void deleteListByTtbIdx(Timetable tb);
+
 	
 	
 	public int SelectCntAll();
@@ -69,5 +76,6 @@ public interface StoryDao {
 	
 	//댓글 갯수
 	public int selectCntComm(Story story);
+
 
 }
