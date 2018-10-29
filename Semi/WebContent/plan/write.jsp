@@ -268,21 +268,21 @@ $(document).ready(function() {
 		isModify = 0;
 		console.log("wrte.jsp isModify : " + isModify);
 		
-		//AJAX 처리하기
-		$.ajax({ 	
-			type: "get"
-			, url: "/plan"
-			, data: {"plan_idx" : plan_idx }
-			, dataType: "html"
-			, success: function( d ) {
+// 		//AJAX 처리하기
+// 		$.ajax({ 	
+// 			type: "get"
+// 			, url: "/plan"
+// 			, data: {"plan_idx" : plan_idx }
+// 			, dataType: "html"
+// 			, success: function( d ) {
 				
-				$("#").html(d);
+// 				$("#").html(d);
 				
-			}
-			, error: function() {
-				console.log("실패");
-			}
-		});
+// 			}
+// 			, error: function() {
+// 				console.log("실패");
+// 			}
+// 		});
 		
 		// 타임테이블 읽기 모드로 변경
 		$('#calendar').fullCalendar('option', 'editable', false); // 수정 불가능하게

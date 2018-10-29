@@ -247,7 +247,7 @@ public class PlanDaoImpl implements PlanDao{
 		//planner 조회 쿼리
 		String sql = "";
 		sql += "SELECT * FROM account";
-		sql += " WHERE acc_idx = ?";
+		sql += " WHERE plan_idx = ?";
 		
 		//조회 결과 담을 DTO
 		Account accInfo = new Account();
@@ -255,8 +255,7 @@ public class PlanDaoImpl implements PlanDao{
 		try {
 			//DB작업
 			ps = conn.prepareStatement(sql);
-			//plan.getPlan_idx()
-			ps.setInt(1, 1);
+			ps.setInt(1, plan.getPlan_idx());
 			rs = ps.executeQuery();
 			
 			//결과 담기
