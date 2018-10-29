@@ -154,8 +154,10 @@ function initFullCalendar(planStartDate, planEndDate, isFirst){
 						$(".miniImg").attr("src", event.photo_url); // 이미지
 						
 						if(isModify){ // 수정모드
+							$("#miniPlanIdx").val(plan_idx);
+							$("#miniTtbIdx").val(event.id);
 							$(".storyContent").froalaEditor('html.set', story.content); // 스토리 내용
-						}else { // 읽기모드
+						} else { // 읽기모드
 							$(".storyContent").html(story.scontent); // 스토리 내용
 						}
 				

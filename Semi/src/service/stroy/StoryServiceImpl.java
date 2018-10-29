@@ -89,11 +89,11 @@ public class StoryServiceImpl implements StoryService {
 		storyDao.delete(story);
 	}
 
-	@Override
-	public void deleteList(Plan plan) {
-		// TODO Auto-generated method stub
-		
-	}
+//	@Override
+//	public void deleteList(Plan plan) {
+//		// TODO Auto-generated method stub
+//		
+//	}
 
 	@Override
 	public void deleteList(Plan plan, List<Timetable> ttbList) {

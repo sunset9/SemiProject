@@ -81,7 +81,6 @@ public class PlanServiceImpl implements PlanService{
 		
 		//1 : 여행전, 0 : 여행후
 		plan.setTraveled(Integer.parseInt(req.getParameter("editTraveled")));
-		System.out.println(req.getParameter("checkbox"));
 		return plan;
 	}
 	

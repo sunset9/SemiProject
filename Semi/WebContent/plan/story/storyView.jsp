@@ -169,6 +169,8 @@ hr{
 				, content  : $(".content").val()
 			};
 			
+			console.log($(".content").val());
+			
 			var jsonData = JSON.stringify(storyJSON);
 			
 			$.ajax({
