@@ -36,18 +36,27 @@ public class AdminNoticeUpdateController extends HttpServlet {
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
-
-		//�Ķ���� ���
+		// 요청 파라미터 얻어오기
 		notice = adminNoticeService.getParam(req, resp);
 
-		// �Խù� �ҷ����� 
+		// 게시글 조회
 		notice = adminNoticeService.view(notice);
 
-		// ���� �𵨷� �����ϱ�
+		// 요청 파라미로 정보 전달
 		req.setAttribute("notice", notice);		
 		
-		// ������ ȭ�� ����
-		req.getRequestDispatcher("").forward(req, resp);
+		// 작성자 아이디 전달
+		req.setAttribute("userid", adminNoticeService.getId(notice));
+		
+		// 작성자 닉네임 전달 
+		req.setAttribute("writerNick", adminNoticeService.getNick(notice));
+		
+		// 첨부파일 전달
+		file = adminNoticeService.viewFile(notice);
+		req.setAttribute("noticeFile", file);
+						
+		// view 페이지 지정
+		req.getRequestDispatcher("/admin/notice/update.jsp").forward(req, resp);
 		
 	
 	}
@@ -59,12 +68,9 @@ public class AdminNoticeUpdateController extends HttpServlet {
 		resp.setContentType("text/html;charset=utf-8");
 	
 		
-//		adminNoticeService.update(notice);
+		adminNoticeService.update(req);
 		
-		
-//		adminNoticeService.deleteNoticeFile(file);
-
-		resp.sendRedirect("/notice/list");
+		resp.sendRedirect("/admin/notice/list");
 	
 	}
 }

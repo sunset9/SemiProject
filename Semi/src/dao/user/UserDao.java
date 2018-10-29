@@ -55,4 +55,15 @@ public interface UserDao {
 	
 	public User selectUserByUserIdx(User user);
 	
+	// ---------------------------------------------------
+	// 관리자 페이지에서만 사용하는 메소드 - 나영
+	
+	// 유저 수 조회
+	public int selectUserCnt(); // 전체
+	public int selectTouristCnt(); // 여행자
+	public int selectAuthorCnt(); // 여행작가
+	public int selectManagerCnt(); // 관리자ㅁ
+	
+	
+	
 }

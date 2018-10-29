@@ -56,11 +56,6 @@ public class QnaFileDaoImpl implements  QnaFileDao {
 		}
 	}
 
-	@Override
-	public List<QnaFile> list() {
-		// TODO Auto-generated method stub
-		return null;
-	}
 
 	@Override
 	public QnaFile selectByFileno(int fileno) {
@@ -73,32 +68,31 @@ public class QnaFileDaoImpl implements  QnaFileDao {
 	public QnaFile selectFilebyQna(Qna qna) {
 		// 게시글에 관련된 첨부파일 조회
 				String sql ="";
-				sql+="SELECT * FROM notice_file ";
-				sql+="WHERE notice_idx= ? " ;
-				sql+="ORDER BY nfile_idx";
+				sql+="SELECT * FROM qna_file ";
+				sql+="WHERE qna_idx= ? " ;
+				sql+="ORDER BY qfile_idx";
 						
 				// DB 객체 
 				PreparedStatement ps = null;
 				ResultSet rs = null;
-						
-				NoticeFile noticeFile = new NoticeFile();
+				QnaFile qnaFile = new QnaFile();
 						
 				try {
 					ps = conn.prepareStatement(sql);
-					ps.setInt(1, notice.getNotice_idx());
+					ps.setInt(1, qna.getQna_idx());
 							
 					rs = ps.executeQuery();
 							
 					while(rs.next()) {
-						noticeFile.setnFile_idx(rs.getInt("nFile_idx"));
-						noticeFile.setNotice_idx(rs.getInt("notice_idx"));
-						noticeFile.setOrigin_name(rs.getString("origin_name"));
-						noticeFile.setStored_name(rs.getString("stored_name"));
-						noticeFile.setFile_size(rs.getLong("file_size"));
-						noticeFile.setCreate_date(rs.getDate("create_date"));
+						qnaFile.setqFile_idx(rs.getInt("qFile_idx"));
+						qnaFile.setQna_idx(rs.getInt("qna_idx"));
+						qnaFile.setOrigin_name(rs.getString("origin_name"));
+						qnaFile.setStored_name(rs.getString("stored_name"));
+						qnaFile.setFile_size(rs.getLong("file_size"));
+						qnaFile.setCreate_date(rs.getDate("create_date"));
 						
 					}
-					System.out.println(noticeFile);
+//					System.out.println(qnaFile);
 				} catch (SQLException e) {
 					e.printStackTrace();
 				}finally {
@@ -112,7 +106,7 @@ public class QnaFileDaoImpl implements  QnaFileDao {
 					}
 				}
 						
-				return noticeFile;
+				return qnaFile;
 	}
 
 	@Override

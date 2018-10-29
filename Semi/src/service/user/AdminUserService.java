@@ -19,9 +19,16 @@ public interface AdminUserService {
 	
 	// 회원 삭제
 	public void deleteUser(User user);
+	
+	// 회원 등급별 수 조회
+	public int userCnt(); // 모든 회원
+	public int touristCnt();// 여행자
+	public int authorCnt(); // 여행작가
+	public int managerCnt(); // 관리자
+	
 
 	// 회원 전제 조회 
-	public List<User> selectUserAll();
+	public List<User> selectUser(String search);
 	
 	// 회원 조건 조회 
 	public User selectUserBy(User user);

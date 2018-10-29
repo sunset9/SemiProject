@@ -42,8 +42,6 @@ public class AdminNoticeDeleteController extends HttpServlet {
 		// 파일에 게시글 번호 설정
 		file.setNotice_idx(notice.getNotice_idx());
 		
-
-		
 		resp.sendRedirect("/admin/notice/list");
 	}
 }

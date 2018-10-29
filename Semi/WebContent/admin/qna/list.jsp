@@ -12,6 +12,10 @@ $(document).ready(function() {
 		$(location).attr("href","/admin/qna/list?search="+$("#search").val());
 	});
 	
+	$("#btnWrite").click(function() {
+		location.href="/admin/notice/write";
+	});
+	
 	// 선택체크 삭제
 	$("#btnDelete").click(function() {
 		// 선택된 체크박스
@@ -199,8 +203,9 @@ ul.sub li a {
     </li>
     </c:if>
   </ul>
-    <div id="btnDeleteBox">
+    <div id="btnBox">
 	<button id="btnDelete">삭제</button>
+	<button id ="btnWrite">글쓰기</button>
   </div><br>
 </div>
 <div id="searchBox" class="text-center">

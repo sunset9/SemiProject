@@ -27,26 +27,24 @@ public class AdminQnaWriteController extends HttpServlet {
 	
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		// ���ڵ� ����
-		req.setCharacterEncoding("utf-8");
-
-		req.getRequestDispatcher("").forward(req, resp);
-		
+		if( req.getSession().getAttribute("login")==null) {
+			resp.sendRedirect("/main");
+		}
+		req.getRequestDispatcher("/admin/notice/write.jsp").forward(req, resp);
 		
 	}
 	
 	@Override
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		HttpSession session = req.getSession();
 		
 		req.setCharacterEncoding("utf-8");
 		resp.setContentType("text/html;charset=utf-8");
 
-		
-		adminQnaService.write(qna);
+		// 게시글 작성
+		adminQnaService.write(req);
 
-
-		resp.sendRedirect("");
+		// view 페이지 지정
+		resp.sendRedirect("/admin/qna/list");
 	
 	
 	}
