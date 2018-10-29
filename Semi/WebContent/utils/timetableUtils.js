@@ -53,6 +53,7 @@ function initFullCalendar(planStartDate, planEndDate, isFirst){
 		// 뷰 렌더링 될 때 콜백함수
 		, viewRender: function (view, element)
 		{
+			// 전체 일정 루트 표시를 위한 all 텍스트 추가
 			var all = $('th.fc-axis.fc-widget-header:first-of-type');
 			all.text("All");
 			all.css("text-align","center");
@@ -60,6 +61,15 @@ function initFullCalendar(planStartDate, planEndDate, isFirst){
 			all.on("click", function(){
 				timetables = getTimetablesFromBrowser();
 				viewMap('all', timetables);
+			});
+			
+			// 상단 날짜 클릭하면 해당 일의 일정 루트 보여주기
+			var dayHeader  = $('.fc-day-header');
+			dayHeader.on("click", function(){
+				console.log('ss');
+				var ttbDate = {start: $(this).attr('data-date') } ;
+				timetables = getTimetablesFromBrowser();
+				viewMap(ttbDate, timetables);
 			});
 			
 			// 왼쪽 시간 표시 css 수정 
@@ -72,7 +82,7 @@ function initFullCalendar(planStartDate, planEndDate, isFirst){
 			var tdNotSpan = $("td.fc-axis.fc-time:not(:has(span))");
 			tdNotSpan.hide();
 			
-// 			// 이전 날짜, 다음 날짜 이동 버튼
+ 			// 이전 날짜, 다음 날짜 이동 버튼
 			var prevBtn = $("<span class='glyphicon glyphicon-chevron-left' id='prevBtn'></span>"); // 이전 날짜 버튼
 			var prevBtnPos = $("th:nth-child(2)"); // 이전 날짜 버튼 새로 놓을 위치
 			prevBtnPos.prepend(prevBtn); // 첫날 날짜 셀에 버튼추가
@@ -113,14 +123,18 @@ function initFullCalendar(planStartDate, planEndDate, isFirst){
 			// 날짜 별로 색상 다르게 해주기
 			if(getDiffDay(event.start, planStartDate) == 0){
 				element.css("background-color", "green");
-			}else if(getDiffDay(event.start, planStartDate) == 1){
+			} else if(getDiffDay(event.start, planStartDate) == 1){
 				element.css("background-color", "orange");
 			}
 			
 			// 이벤트 타이틀에 모달 트리거 속성 삽입
 			var titleElement = element.find(".fc-title");
 			titleElement.attr("data-toggle", "modal");
-			titleElement.attr("data-target", "#miniViewModal");
+			if(isModify){ // 수정모드인 경우 띄워주는 미니뷰
+				titleElement.attr("data-target", "#miniViewWriteModal");
+			} else { // 읽기모드 미니뷰
+				titleElement.attr("data-target", "#miniViewModal");
+			}
 			titleElement.on("click",function(){
 				// ajax로 story 정보 가져옴 (content 정보)
 				$.ajax({
@@ -135,15 +149,22 @@ function initFullCalendar(planStartDate, planEndDate, isFirst){
 					, dataType: "json"
 					, success: function(story){
 						// miniView modal에 값 채워줌
-						$("#myModalLabel").text(event.title);
-						$("#miniTitle").text(event.title);
-						$("#miniImg").attr("src", event.photo_url);
+						$(".modal-title").text(event.title); // 타이틀 = 장소이름
+						$(".miniTitle").text(event.title); // 장소 이름
+						$(".miniImg").attr("src", event.photo_url); // 이미지
+						
+						if(isModify){ // 수정모드
+							$(".storyContent").froalaEditor('html.set', story.content); // 스토리 내용
+						}else { // 읽기모드
+							$(".storyContent").html(story.scontent); // 스토리 내용
+						}
 				
 						console.log(story.content);
-						$("#storyContent").html(story.content);
 						
+						// 모달 창 닫힌 경우
 						$("#miniViewModal").on('hidden.bs.modal', function () {
-						    $(this).data('bs.modal', null);
+							// 기존 스토리내용 삭제
+							$(this).find($(".storyContent")).html('');
 						});
 					}
 					, error: function(){
@@ -158,17 +179,18 @@ function initFullCalendar(planStartDate, planEndDate, isFirst){
 			if(isModify == 1){
 				// 선택한 일정에 자식태그로 x 아이콘 추가
 				$(jsEvent.currentTarget).prepend("<span style='float: right; z-index: 3;' id ='btnRemove' class=\"glyphicon glyphicon-remove\"></span>");
+				
+				// 삭제 버튼 클릭 처리
+				$("#btnRemove").on("click", function(){
+					// '_id'값으로 판별하여 삭제
+					$('#calendar').fullCalendar('removeEvents', event.id);
+					
+					// 지도 뷰 바꿔주기 
+					var timetables = getTimetablesFromBrowser();
+					viewMap(event, timetables);
+				});
 			}
 			
-			// 삭제 버튼 클릭 처리
-			$("#btnRemove").on("click", function(){
-				// '_id'값으로 판별하여 삭제
-				$('#calendar').fullCalendar('removeEvents', event.id);
-				
-				// 지도 뷰 바꿔주기 
-				var timetables = getTimetablesFromBrowser();
-				viewMap(event, timetables);
-			});
 		}
 		, eventMouseout: function( event, jsEvent, view ){
 			// 마우스 때면 x표시 사라지도록

@@ -5,6 +5,7 @@ import java.util.List;
 import dto.story.Comment;
 import dto.plan.Plan;
 import dto.story.Story;
+import dto.timetable.Timetable;
 import utils.Paging;
 
 public interface StoryDao {
@@ -23,6 +24,9 @@ public interface StoryDao {
 	public void update(Story story);
 	
 	public void delete(Story story);
+	
+	// 삭제된 타임테이블에 걸려있는 스토리 삭제
+	public void delete(Plan plan, List<Timetable> ttbList);
 	
 	//플랜 삭제시 스토리 전부 삭제
 	public void deleteList(Plan plan);
@@ -47,5 +51,6 @@ public interface StoryDao {
 	
 	// 댓글 내용 검색 
 	public Comment selectCommentByContent(Comment comment);
+
 
 }

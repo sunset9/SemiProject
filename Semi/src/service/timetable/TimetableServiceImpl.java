@@ -3,7 +3,6 @@ package service.timetable;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -17,6 +16,8 @@ import dao.timetable.TimetableDaoImpl;
 import dto.plan.Plan;
 import dto.timetable.Location;
 import dto.timetable.Timetable;
+import service.stroy.StoryService;
+import service.stroy.StoryServiceImpl;
 
 public class TimetableServiceImpl implements TimetableService{
 
@@ -128,13 +129,6 @@ public class TimetableServiceImpl implements TimetableService{
 		return ttbList;
 	}
 	
-	// 타임테이블 정보 저장하기
-	public void write(Plan plan, Map<Timetable, Location> ttbLoc) {
-		List<Timetable> ttList= getCompletedTimetable(plan, ttbLoc);
-		
-//		ttbDao.insertTimetable(ttList);
-	}
-	
 	// 타임테이블 정보 저장하기(수정)
 	public void update(Plan plan, Map<Timetable, Location> ttbLoc) {
 		List<Timetable> ttbList= getCompletedTimetable(plan, ttbLoc);
@@ -145,14 +139,17 @@ public class TimetableServiceImpl implements TimetableService{
 		ttbDao.deleteTimetable(plan);
 		
 		for(Timetable ttb: ttbList) {
-			// 새로 받은 타임테이블 저장
+			// 새로 받은 타임테이블 (ttb_idx = 음수) 저장
 			if(ttb.getTtb_idx()<0) { // 새로 추가된 타임테이블은 insert
 				ttbDao.insertTimetable(ttb);
 			} else {
 				ttbDao.updateTimetable(ttb);
 			}
-			
 		}
+		
+		// 삭제된 타임테이블에 걸려있는 스토리 삭제
+		new StoryServiceImpl().deleteList(plan, ttbList);
+		
 	}
 
 	// 타임테이블 정보 삭제하기

@@ -15,6 +15,7 @@ import dao.story.StoryDaoImpl;
 import dto.plan.Plan;
 import dto.story.Comment;
 import dto.story.Story;
+import dto.timetable.Timetable;
 import service.account.AccountService;
 import service.account.AccountServiceImpl;
 import utils.CalcDate;
@@ -90,6 +91,11 @@ public class StoryServiceImpl implements StoryService {
 	}
 
 	@Override
+	public void deleteList(Plan plan, List<Timetable> ttbList) {
+		storyDao.delete(plan, ttbList);
+	}
+	
+	@Override
 	public void update(Story story) {
 		
 		storyDao.update(story);
@@ -139,5 +145,6 @@ public class StoryServiceImpl implements StoryService {
 		// TODO Auto-generated method stub
 		
 	}
+
 
 }

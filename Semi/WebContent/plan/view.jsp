@@ -6,7 +6,7 @@
 <!-- 헤더  -->
 <c:import url="../layout/headerWithMenu.jsp" />
 <!-- 미니뷰 modal -->
-<jsp:include page="/plan/timetable/miniViewTest.jsp"/>
+<jsp:include page="/plan/timetable/miniView.jsp"/>
 
 <!-- fullcalendar -->
 <link rel='stylesheet' href='/resources/timetable/fullcalendar/fullcalendar.css' />

@@ -8,6 +8,7 @@ import dto.story.Comment;
 import dto.Account.Account;
 import dto.plan.Plan;
 import dto.story.Story;
+import dto.timetable.Timetable;
 
 public interface StoryService {
 	//plan 번호로 스토리 리스트 불러오기 
@@ -25,6 +26,9 @@ public interface StoryService {
 	//플랜 삭제시 스토리 전부 삭제 
 	public void deleteList(Plan plan);
 
+	// 타임테이블 삭제시 스토리도 삭제
+	public void deleteList(Plan plan, List<Timetable> ttbList);
+	
 	//스토리 업데이트
 	public void update(Story story);
 
