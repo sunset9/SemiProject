@@ -28,7 +28,7 @@
 			<table style="width: 100%;">
 			<tr>
 				<td rowspan="2" style="padding: 10px 15px; width: 60%;">
-				<img class="miniImg" src="https://blog.hmgjournal.com/images_n/contents/171025_italy01.jpg" width="280" height="150" alt=""/>
+				<img class="miniImg" width="280" height="150" alt=""/>
 				</td>
 				<td class="miniTitle" style="font-weight: bold; width: 40%;"><hr></td>
 			</tr>	

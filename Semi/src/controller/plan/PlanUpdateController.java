@@ -80,7 +80,6 @@ public class PlanUpdateController extends HttpServlet {
 			ttService.update(planParam, ttbLocParam);
 //			
 			// 글 정보 업데이트
-			
 			pService.update(planParam);
 			
 			resp.sendRedirect("/plan");	

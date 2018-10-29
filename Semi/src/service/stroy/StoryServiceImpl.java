@@ -89,7 +89,6 @@ public class StoryServiceImpl implements StoryService {
 		storyDao.delete(story);
 	}
 
-
 	@Override
 	public void deleteList(Plan plan, List<Timetable> ttbList) {
 		storyDao.delete(plan, ttbList);

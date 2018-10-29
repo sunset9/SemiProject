@@ -8,6 +8,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import dto.story.Story;
 import service.plan.PlanService;
 import service.plan.PlanServiceImpl;
 import service.stroy.StoryService;
@@ -26,6 +27,13 @@ public class StoryMiniUpdateController extends HttpServlet {
 	}
 	@Override
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+		Story param = sService.getParam(req);
+		System.out.println("미니뷰 업데이트");
+		System.out.println(param);
+	
+		// 모든 타임테이블 정보 추출
+		// 저장 -> ttb_idx
+		
 	}
 }
 

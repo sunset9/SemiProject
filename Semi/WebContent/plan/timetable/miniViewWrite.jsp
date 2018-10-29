@@ -24,7 +24,10 @@
       <div class="modal-body">
 		<!-- div (팝업으로 띄어줄) 본문 내용 -->	
 		<div style="border: 1px solid #9AA3E6; height: auto;" >
-			<form>
+			<form action="/story/mini/update" method="POST" id="formMiniWrite">
+			<input type='hidden' id='miniPlanIdx'>
+			<input type='hidden' id='miniTtbIdx'>
+			<input type='hidden' name='JSON'>
 			<table style="width: 100%;">
 			<tr>
 				<td rowspan="2" style="padding: 10px 15px; width: 60%;">
@@ -58,15 +61,14 @@
 			</div>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-primary">Save changes</button>
+        <button type="button" class="btn btn-default" data-dismiss="modal">닫기</button>
+        <button type="button" class="btn btn-primary" id="btnMiniWriteSave">저장</button>
       </div>
     </div>
   </div>
 </div>
 
 <script>
-
 $(function() {
 $.FroalaEditor.COMMANDS.imageAlign.options.justify = 'Center';
 
@@ -114,7 +116,27 @@ $('.storyContent').froalaEditor({
         });
 });
 
-
 </script> 
+<script type="text/javascript">
+$("#btnMiniWriteSave").on("click", function(){
+	console.log($('#miniPlanIdx').val());
+	console.log($('#miniTtbIdx').val());
+	console.log( $('.storyContent').froalaEditor('html.get')); 
+	
+	var storyJSON = {
+		plan_idx: $('#miniPlanIdx').val()
+		, ttb_idx: $('#miniTtbIdx').val()
+		, content: $('.storyContent').froalaEditor('html.get')
+	};
+	
+	var jsonData = JSON.stringify(storyJSON);
+	
+	$('input[name=JSON]').val(jsonData);
+	console.log( $('input[name=JSON]').val());
+
+// 	store();
+// 	$('#formMiniWrite').submit();
+});
+</script>
 </body>
 </html>
