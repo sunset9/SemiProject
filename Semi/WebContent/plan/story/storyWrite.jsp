@@ -17,42 +17,49 @@
 			<!-- ttb_idx 값 숨겨두기 -->
 			<input type="hidden" value="" name ="ttb_idx" class = "ttb_idx" />
 			<input type="hidden" value="" name ="plan_idx" class = "plan_idx" />
-			<div style="height: auto; width:500px; padding: 20px;" id ="StoryWriteDiv">
+			<div style="height: auto; padding: 20px;" id ="StoryWriteDiv">
 				<table>
 				<tr>
-					<td colspan="4">
+					<td>
 						<div style="border: 1px solid #B6B7FA; width: auto; height: auto" >
 							<textarea id = "edit" name="content" class = "content"></textarea>
 						</div>
 					</td>
 				</tr>
-				<tr>	
-					<td>
-					<select>
-						<option>교통</option>
-						<option>식비</optoin>
-						<option>오락</option>
-					</select>
-					</td>
-					<td>
-						<select>
-						<option>USD</option>
-						<option>KRW</optoin>
-						<option>CAD</option>
-						<option>CNY</option>
-					</select>
-					</td>
-					<td>
-					<input type="text" size="40"/>
-					</td>
-					<td>
-						<span class="glyphicon glyphicon-plus"></span>
-					</td>
-					<td>
-						<span class="glyphicon glyphicon-remove"></span>
-					</td>
-				</tr>
 				</table>
+				<div id ="accountViewList">
+				
+					<div id = "accountView">
+						<table>
+							<tr>	
+								<td>
+								<select>
+									<option>교통</option>
+									<option>식비</optoin>
+									<option>오락</option>
+								</select>
+								</td>
+								<td>
+									<select>
+									<option>USD</option>
+									<option>KRW</optoin>
+									<option>CAD</option>
+									<option>CNY</option>
+								</select>
+								</td>
+								<td>
+								<input type="text" size="48"/>
+								</td>
+								<td>
+									<span class="glyphicon glyphicon-plus accountPlus" onclick = "appendAccount()"></span>
+								</td>
+								<td>
+									<span class="glyphicon glyphicon-remove"></span>
+								</td>
+							</tr>
+						</table>
+					</div>
+				</div>
 			</div>
         </form>
         </div> <!-- modal 바디끝 -->
@@ -87,6 +94,7 @@
 	    imageEditButtons : ['imageAlign', 'imageRemove', 'imageLink','imageSize','imageDisplay'],
 	    heightMin: 300,
         heightMax: 300,
+        width: '520',
       }).on('froalaEditor.image.error', function (e, editor, error, response) {
     	  console.log(error);
     	  console.log(response);
