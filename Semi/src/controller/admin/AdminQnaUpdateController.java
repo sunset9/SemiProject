@@ -35,17 +35,27 @@ public class AdminQnaUpdateController extends HttpServlet {
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
 
-		//�Ķ���� ���
+		// 파라미터 얻어오기
 		qna = adminQnaService.getParam(req, resp);
 
-		// �Խù� �ҷ����� 
+		// 게시글 상세보기 조회 
 		qna = adminQnaService.view(qna);
 
-		// ���� �𵨷� �����ϱ�
-		req.setAttribute("qna", qna);		
+		// 정보 요청에 담바 보내기
+		req.setAttribute("qna", qna);	
 		
-		// ������ ȭ�� ����
-		req.getRequestDispatcher("").forward(req, resp);
+		// 작성자 아이디 전달
+		req.setAttribute("userid", adminQnaService.getId(qna));
+				
+		// 작성자 닉네임 전달 
+		req.setAttribute("writerNick", adminQnaService.getNick(qna));
+				
+		// 첨부파일 전달
+		file = adminQnaService.viewFile(qna);
+		req.setAttribute("qnaFile", file);
+		
+		// view 페이지 지정
+		req.getRequestDispatcher("/admin/qna/update.jsp").forward(req, resp);
 		
 	
 	}
@@ -56,52 +66,10 @@ public class AdminQnaUpdateController extends HttpServlet {
 		req.setCharacterEncoding("utf-8");
 		resp.setContentType("text/html;charset=utf-8");
 		
-	
+		adminQnaService.update(req);
 		
-		//--- MultipartRequest �������� �Ű� ���� �غ�---
-		// 1. ��û ��ü 
-		//	���� ���� �ʿ� ���� 
-		
-		// 2. ���� ���� ��ġ
-		// String ���� ������ ���� ��� ���� 
-		String saveDirectory = getServletContext().getRealPath("cos/upload");
-		
-//		System.out.println( saveDirectory);
-		
-		// 3. ���ε� ���� ������ 
-		int maxPostSize = 1 *1024*1024; // 10MB ���� 
-		
-		// 4. ���ڵ� 
-		// ���ε� ���� ���ڵ� ��� 
-		String encoding = "UTF-8";
-		
-		
-		// 5. �ߺ� ���� �̸� ��å
-		// DefaultFileRenamePolicy �� �ߺ������� ������ 
-		// ���� �̸� �ڿ� ���ڸ� �߰��ϰ� 1���� ������Ų��. 
-		FileRenamePolicy policy = new DefaultFileRenamePolicy();
-		
-		//-----------------------------------------------
-		
-		// MultipartRequest ��ü ���� 
-		// ���� ���ε� ó�� 
-		MultipartRequest mul = new MultipartRequest(req, saveDirectory, maxPostSize, encoding, policy);
 
-		qna.setTitle(mul.getParameter("title"));
-		
-		qna.setContent(mul.getParameter("content"));
-		
-		file.setStored_name(mul.getFilesystemName("file"));
-		System.out.println(mul.getFilesystemName("file"));
-		file.setOrigin_name(mul.getOriginalFileName("file"));
-		
-		adminQnaService.update(qna);
-		
-		
-		adminQnaService.deleteQnaFile(file);
-
-
-		resp.sendRedirect("");
+		resp.sendRedirect("/admin/qna/list");
 	
 	}
 }

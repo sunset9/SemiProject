@@ -19,9 +19,6 @@ public class UserDaoImpl implements UserDao{
 	
 	//update&insert&delete 는 커밋 추가!!
 	
-	
-	
-	
 	//userid & userpw로 유저 조회 
 	//존재하는 유저면 1 반환
 	@Override
@@ -681,6 +678,34 @@ public class UserDaoImpl implements UserDao{
 		}
 		
 		return user;
+	}
+
+	
+	// --------------------------------------------------------
+	// 관리자 페이지에서 쓰는 메소드 
+	
+	@Override
+	public int selectUserCnt() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public int selectTouristCnt() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public int selectAuthorCnt() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public int selectManagerCnt() {
+		// TODO Auto-generated method stub
+		return 0;
 	}
 
 

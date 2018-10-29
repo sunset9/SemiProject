@@ -8,13 +8,19 @@
 <script type="text/javascript">
 
 $(document).ready(function() {
+	$("table").on("click","tr",function(){
+		var inq_idx = $(this).children("td").eq(0).text();
+		
+		$(location).attr("href","/admin/notice/view?notice_idx="+notice_idx);
+		
+	});
 	$("#btnSearch").click(function() {
 		$(location).attr("href","/admin/notice/list?search="+$("#search").val());
 	});
 	
 	$("#btnWrite").click(function() {
 		location.href="/admin/notice/write";
-	})
+	});
 	
 	// 선택체크 삭제
 	$("#btnDelete").click(function() {
@@ -132,7 +138,7 @@ ul.sub li a {
 <td><a href="/admin/notice/view?notice_idx=${notice.notice_idx }">${notice.title }</a></td>
 <td>${notice.writer }</td>
 
-<td>${inotice.hit }</td>
+<td>${notice.hit }</td>
 <td>${notice.create_date }</td>
 </tr>
 </c:forEach>

@@ -336,6 +336,39 @@ hr{
  		})
  		
  	}
+ 	
+ 	var cnt = 0;
+ 	var preAccountViewId = "#accountView";
+ 	function appendAccount() {
+ 		
+	 		if (cnt < 4){
+ 			
+ 			var accountView = $(preAccountViewId).clone();
+ 			
+	 		var IdCnt = cnt+1;
+	 		
+	 		var accountViewid = "#accountView"+IdCnt;
+	 		
+	 		accountView.id = accountViewid;
+	 		
+// 	 		$(accountViewid > "div")
+	 		
+	 		console.log(accountView);
+	 		$("#accountViewList").append(accountView);
+
+	 		
+	 		
+ 			
+	 		$(preAccountViewId).find(".accountPlus").css("display","none");
+	 		
+			cnt = cnt+1;
+			
+			preAccountViewId = "#accountView"+cnt;
+			
+ 		}else{
+ 			alert('비용은 1개 일정당 다섯개까지 가능합니다');
+ 		}
+	}
 	
 </script>	
 

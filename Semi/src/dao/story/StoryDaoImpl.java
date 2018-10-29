@@ -388,11 +388,6 @@ public class StoryDaoImpl implements StoryDao{
 		return storyidx;
 }
 
-	@Override
-	public void deleteListByPlanIdx(Plan plan) {
-		// TODO Auto-generated method stub
-		
-	}
 
 	@Override
 	public void deleteListByTtbIdx(Timetable tb) {

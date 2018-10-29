@@ -12,9 +12,6 @@ public interface QnaFileDao {
 	// 첨부파일 추가 
 	public void insert(QnaFile file);
 	
-	// 첨부 파일 리스트 불러오기
-	public List<QnaFile> list();
-	
 	// ���Ϲ�ȣ�� ���� ���
 	public QnaFile selectByFileno(int fileno);
 	

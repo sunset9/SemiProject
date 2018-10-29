@@ -294,7 +294,7 @@ public class AdminQnaServiceImpl implements  AdminQnaService{
 		
 
 		if(qna != null) {
-			qnaDao.insert(qna);
+			qnaDao.update(qna);
 		}
 		
 		if(qnaFile != null) {
@@ -312,7 +312,7 @@ public class AdminQnaServiceImpl implements  AdminQnaService{
 	}
 	@Override
 	public QnaFile viewFile(Qna qna) {
-		return null;
+		return fileDao.selectFilebyQna(qna);
 	}
 	@Override
 	public String getId(Qna qna) {

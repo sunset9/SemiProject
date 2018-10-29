@@ -40,6 +40,7 @@ public class UserLoginController extends HttpServlet {
 			//존재하는 회원인지 확인 후 
 			//존재하는 회원이면 true반환
 			boolean login = userService.login(param);
+			
 			System.out.println("login :"  +login);
 			
 			//유저 정보 얻어오기
@@ -54,8 +55,6 @@ public class UserLoginController extends HttpServlet {
 			session.setAttribute("login", login);
 			session.setAttribute("user", user);
 		
-			
-			
 			resp.setHeader("Cache-Controll", "no-cache");
 			
 			String grade = user.getGrade();

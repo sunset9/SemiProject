@@ -42,10 +42,7 @@ public class AdminQnaDeleteController extends HttpServlet {
 		// 삭제 파일 지정하기 
 		file.setQna_idx(qna.getQna_idx());
 		
-		// Qna에 관련된 파일 삭제ㄴ
-		adminQnaService.deleteQnaFile(file);
-		
-		resp.sendRedirect("");
+		resp.sendRedirect("/admin/qna/list");
 	}
    
 
