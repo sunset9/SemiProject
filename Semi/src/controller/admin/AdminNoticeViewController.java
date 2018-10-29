@@ -34,7 +34,7 @@ public class AdminNoticeViewController extends HttpServlet {
 
 		// 게시글에 관련된 사진 불러오기 
 		NoticeFile noticeFile = adminNoticeService.viewFile(notice);
-		System.out.println(noticeFile);
+//		System.out.println(noticeFile);
 				
 		// 조회결과 요청에 담아 보내기 
 		req.setAttribute("notice", notice);

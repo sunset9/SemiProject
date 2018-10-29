@@ -12,7 +12,7 @@ $(document).ready(function() {
 		$(location).attr("href", history.go(-1));
 	});
 	$("#btnUpdate").click(function() {
-		$(location).attr("href","/notice/update?notice_idx=${notice.notice_idx}");
+		$(location).attr("href","/admin/notice/update?notice_idx=${notice.notice_idx}");
 	});
 	$("#btnDelete").click(function() {
 		$(location).attr("href", "/admin/notice/delete?notice_idx=${notice.notice_idx}");
@@ -39,7 +39,7 @@ $(document).ready(function() {
 <hr>
 <div class= "container">
 
-<h2><strong>문의 사항 상세보기</strong></h2>
+<h2><strong>공지사항 상세보기</strong></h2>
 <hr>
 
 <div >
@@ -51,7 +51,7 @@ $(document).ready(function() {
 
 <tr>
 <td class ="info">아이디</td> <td>${userid }</td>
-<td class = "info">닉네임</td> <td colspan="2">${writerNick }</td>
+<td class = "info">닉네임</td> <td colspan="2">${userNick }</td>
 </tr>
 
 <tr><td class ="info">본문</td> <td colspan="4">
@@ -80,6 +80,7 @@ ${notice.content }</td>
 
 
 </div>
+
 
 </body>
 </html>
