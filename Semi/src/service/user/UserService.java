@@ -64,4 +64,7 @@ public interface UserService {
 	//내 총 여행거리 가져오기 
 	public int getTotDist(User user);
 	
+	
+	public List<User> getSelectAll();
+	
 }

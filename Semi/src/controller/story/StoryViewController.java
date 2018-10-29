@@ -19,10 +19,14 @@ import service.stroy.StoryService;
 import service.stroy.StoryServiceImpl;
 import service.timetable.TimetableService;
 import service.timetable.TimetableServiceImpl;
+import service.user.UserService;
+import service.user.UserServiceImpl;
 import utils.CalcDate;
 import dto.plan.Plan;
+import dto.story.Comment;
 import dto.story.Story;
 import dto.timetable.Timetable;
+import dto.user.User;
 
 /**
  * Servlet implementation class StoryViewController
@@ -34,6 +38,7 @@ public class StoryViewController extends HttpServlet {
 	TimetableService ttbService = new TimetableServiceImpl();
 	StoryService sService = new StoryServiceImpl();
 	PlanService pService = new PlanServiceImpl();
+	UserService uService = new UserServiceImpl();
 	
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		request.setCharacterEncoding("utf-8");
@@ -63,7 +68,8 @@ public class StoryViewController extends HttpServlet {
 	    
 		
 	    List<Timetable> ttbList = ttbService.getTimetableList(plan);
-		
+	    
+	    
 	    
 		// 플랜번호로 스토리조회
 		StoryList=sService.getStoryList(plan);
@@ -74,6 +80,8 @@ public class StoryViewController extends HttpServlet {
 		// 여행기간 계산
 		int diffDays = calcDate.CalcPriod(plan.getStart_date(),plan.getEnd_date());
 		
+		
+
 		request.setAttribute("ttbList", ttbList);
 		request.setAttribute("diffDays",diffDays);
 		request.setAttribute("storyList", StoryList);

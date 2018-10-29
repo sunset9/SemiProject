@@ -27,68 +27,6 @@
 
 <!-- 공개유무 슬라이드 버튼 -->
 <style type="text/css">
-/*
-	.switch {
-	  position: relative;
-	display: inline-block;
-	  width: 60px;
-	  height: 34px;
-	  vertical-align:middle;
-	}
-	.slider {
-	  position: absolute;
-	  cursor: pointer;
-	  top: 0;
-	  left: 0;
-	  right: 0;
-	  bottom: 0;
-	  background-color: #ccc;
-	  -webkit-transition: .4s;
-	  transition: .4s;
-	}
-	 
-	.slider:before {
-	  position: absolute;
-	  content: "";
-	  height: 26px;
-	  width: 26px;
-	  left: 4px;
-	  bottom: 4px;
-	  background-color: white;
-	  -webkit-transition: .4s;
-	  transition: .4s;
-	}
-	 
-	input:checked + .slider {
-	  background-color: #2196F3;
-	}
-	 
-	input:focus + .slider {
-	  box-shadow: 0 0 1px #2196F3;
-	}
-	 
-	input:checked + .slider:before {
-	  -webkit-transform: translateX(26px);
-	  -ms-transform: translateX(26px);
-	  transform: translateX(26px);
-	}
-	 
-	.slider.round {
-	  border-radius: 34px;
-	}
-	 
-	.slider.round:before {
-	  border-radius: 50%;
-	}
-	 
-	p {
-	margin:0px;
-	display:inline-block;
-	font-size:15px; 
-	font-weight:bold; 
-	}*/
-/* ------------------------------------------------------------------------ */
-
 	/* 가계부 그래프 팝업 */
 	.pop-layer .pop-container {
 	  padding: 20px 25px;
@@ -280,8 +218,10 @@ function store(){
 <script type="text/javascript">
 // 읽기모드일때, 검색창 on/off
 var isModify = 0;
-
+	console.log("view.jsp isModify : " + isModify);
+	
 $(document).ready(function() {
+	
 	// 브라우저에 timetable 그려주기
 	initFullCalendar(planStartDate, planEndDate, true);
 	
@@ -345,45 +285,12 @@ $(document).ready(function() {
 		document.getElementById("viewStory").style.display= "none";
 		document.getElementById("calendar").style.display= "block";
 		document.getElementById("googleMap").style.display= "block";
-// 		if(isModify == 1) document.getElementById("googleSearch").style.display= "block";
 	});
 	
 // 	수정버튼
 	$("#btnModify").click(function() {
 		isModify = 1;
-		
-		//AJAX 처리하기
-// 		$.ajax({ 	
-// 			type: "get"
-// 			, url: "/plan/write"
-// 			, data: {"plan_idx" : plan_idx }
-// 			, dataType: "html"
-// 			, success: function( d ) {
-				
-// 				$("#").html(d);
-				
-// 			}
-// 			, error: function() {
-// 				console.log("실패");
-// 			}
-// 		});
-		
-// 		document.getElementById("viewStory").style.display= "none";
-// 		document.getElementById("calendar").style.display= "block";
-// 		document.getElementById("googleMap").style.display= "block";
-// 		document.getElementById("googleSearch").style.display= "block";
-// 		document.getElementById("planCommit").style.display= "block";
-// 		document.getElementById("btnModify").style.display= "none";
-// 		document.getElementById("btnSelectShare").style.display= "block";
-// 		document.getElementById("btnAccGraph").style.display= "none";
-		
-// 		document.getElementById("viewTitle").style.display= "none";
-// 		document.getElementById("editTitle").style.display= "block";
-		
-		// 타임테이블 수정  모드로 변경
-// 		$('#calendar').fullCalendar('option', 'editable', true); // 수정 가능하게
-// 		$('#calendar').fullCalendar('option', 'droppable', true); // 드롭할 수 있게
-		
+		console.log("view.jsp isModify : " + isModify);
 	});
 
 	// 	수정모드일 때, 공개유무버튼
@@ -402,20 +309,6 @@ $(document).ready(function() {
 			console.log(check);
 		});
 	
-// // 	저장버튼
-// 	$("#planCommit").click(function() {
-// 		isModify = 0;
-// 		document.getElementById("googleSearch").style.display= "none";
-// 		document.getElementById("planCommit").style.display= "none";
-// 		document.getElementById("btnModify").style.display= "block";
-// 		document.getElementById("btnSelectShare").style.display= "none";
-// 		document.getElementById("btnAccGraph").style.display= "block";
-// 		document.getElementById("viewDaliyGraph").style.display= "none";
-// 		document.getElementById("viewTotalGraph").style.display= "none";
-		
-// 		document.getElementById("viewTitle").style.display= "block";
-// 		document.getElementById("editTitle").style.display= "none";
-		
 // 		// 타임테이블 읽기 모드로 변경
 // 		$('#calendar').fullCalendar('option', 'editable', false); // 수정 불가능하게
 // 		$('#calendar').fullCalendar('option', 'droppable', false); // 드롭 불가능하게
@@ -577,19 +470,6 @@ $(document).ready(function() {
 			<h4 id="dateView">${planView.start_date } ~ ${planView.end_date }</h4>
 			<h4 id="traveledView">${planView.traveled }</h4>
 		</div>
-		
-		
-<!-- 		<div id="editTitle" style="display:none;"> 
-			<form action="/plan/update" method="post" id="planForm">
-				<div >
-					<input type="hidden" name="plan_idx" value="${planView.plan_idx }">
-					제목 : <input id="editTitleView" name="editTitleView" type="text" value="${planView.title }" /><br><br>
-					출발일 : <input name="editStartDate" class ="planDate" type="date" value="${planView.start_date }"/>
-					도착일 : <input name="editEndDate" class ="planDate" type="date" value="${planView.end_date }"/><br><br>
-					여행 전 <input id="editTravledBefore" name="editTraveled" type="radio" value="1" checked="checked"/> / 여행 후 <input id="editTravledAfter" name="editTraveled" type="radio" value="0" /><br><br>
-				</div>
-			</form>
-		</div>-->
 			<br>
 	</div>
 </div><br>
@@ -602,8 +482,9 @@ $(document).ready(function() {
 		<div id="menu" style="background-color:#EEEEEE;height:100%;float:bottom;width:100%;border-radius:10px;">
 			
 			<div class="profileImage">
-<%-- 				<img src="${writtenUserView.profile }" style="border-radius:70px; width:100px;"> --%>
+				<img src="${writtenUserView.profile }" style="border-radius:70px; width:100px;"/>
 			</div>
+			
 			<br>
 			<b>${writtenUserView.nickname }</b>님 <br>
 			포스팅 : <b>${writtenUserView.totalPlanCnt }</b>개 <br>
@@ -650,12 +531,8 @@ $(document).ready(function() {
 		</div><br>
 		
 		<!-- 일정 저장 -->
-<!-- 		<div id="menu" style="float:bottom;width:100%;border-radius:10px;"> -->
-<!-- 			<form action="/update/ttb" method="post" id="ttbFrom"> -->
-<%-- 				<input type="hidden" name="plan_idx" value="${planView.plan_idx }"> --%>
-				<input id="planCommit" type="button" value="저장" onclick="store();" style="display:none;width:100%;">
-<!-- 			</form> -->
-<!-- 		</div><br> -->
+
+		<input id="planCommit" type="button" value="저장" onclick="store();" style="display:none;width:100%;">
 		
 		<!-- 검색 INPUT DIV -->
 		<div id="googleSearch" style="float:bottom;width:100%;border-radius:10px;display:none;">

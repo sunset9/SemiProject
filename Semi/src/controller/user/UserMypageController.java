@@ -78,8 +78,6 @@ public class UserMypageController extends HttpServlet {
 			//System.out.println("mypagecontroller bList 잘 가져왔나 : "+bookMarkList); --> OK
 		}
 		
-		
-		
 		//정보수정페이지(마이페이지)로 이동
 		req.getRequestDispatcher("/user/myPage.jsp").forward(req, resp);
 	}

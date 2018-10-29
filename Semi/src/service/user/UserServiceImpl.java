@@ -195,6 +195,11 @@ public class UserServiceImpl implements UserService {
 		return userDao.getTotDist(user);
 	}
 
+	@Override
+	public List<User> getSelectAll() {
+		return userDao.selectUserAll();
+	}
+
 
 
 

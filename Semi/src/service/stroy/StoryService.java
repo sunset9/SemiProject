@@ -24,7 +24,10 @@ public interface StoryService {
 	public void delete(Story story);
 	
 	//플랜 삭제시 스토리 전부 삭제 
-	public void deleteList(Plan plan);
+	public void deleteListByPlanIdx(Plan plan);
+	
+	//타임테이블 삭제시 해당 스토리 삭제
+	public void deleteListByTtbIdx(Timetable tb);
 
 	// 타임테이블 삭제시 스토리도 삭제
 	public void deleteList(Plan plan, List<Timetable> ttbList);
@@ -37,20 +40,21 @@ public interface StoryService {
 	
 	//가계부 계산(회의때 추가함!) 
 
-	
+	//---------------커멘드 -------------
 
-	
-	//---------------���丮 Ŀ��� ó�� �޼ҵ� -------------
-	
-
-	//한 스토리당 댓글 리스트 불러오기
-	public List<Comment> getCommentList(List<Story> storyList);
+	//플랜의 모든 댓글 리스트 불러오기
+	public List<Comment> getCommentList(Plan plan);
 	
 	public Comment getCommet(Comment comment);
 	
-	
 	//스토리삭제시 등록된 모든 코멘트 삭제
-	public void deleteCommentList(Story story);
+	public void deleteCommentListByStoryIdx(Story story);
+	
+	//해당플랜의 모든 커멘드 삭제
+	public void deleteCommentListByPlanIdx(Plan plan);
+	
+	//해당 타임테이블과 연동된 스토리의 모든 커멘드 삭제
+	public void deleteCommentListByTtbIdx(Timetable tb);
 	
 	//댓글 수정
 	public void updateComment(Comment cmt);

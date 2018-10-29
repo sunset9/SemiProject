@@ -30,7 +30,7 @@ public interface UserDao {
 	public void update(User user);
 	
 	//회원 전체 조회
-	public User selectUserAll();
+	public List<User> selectUserAll();
 	
 	//회원 아이디 중복 조회
 	public int checkid(User user);
@@ -52,4 +52,7 @@ public interface UserDao {
 	
 	//내 일정의 여행거리들 리스트에 담아오기
 	public int getTotDist(User user);
+	
+	public User selectUserByUserIdx(User user);
+	
 }

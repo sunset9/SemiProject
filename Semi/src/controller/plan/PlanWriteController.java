@@ -43,9 +43,10 @@ public class PlanWriteController extends HttpServlet {
         
 		// 요청파라미터(plan_idx) -> Plan 모델 
 		Plan planParam = pService.getSession4Plan(req);
-		
+		System.out.println("1 " + planParam);
 		// 일정 기본 정보 가져오기
 		Plan planView = pService.getPlanInfo(planParam);
+		System.out.println("2 " + planView);
 		//planView MODEL 전달
 		req.setAttribute("planView", planView);
 		
@@ -124,8 +125,8 @@ public class PlanWriteController extends HttpServlet {
 		// 타임테이블 정보 저장
 //		ttService.write(plan,ttLoc);
 		// 일정 정보 저장하기
-//		pService.write(plan);
-
+		pService.write(planView);
+		
 	resp.sendRedirect("/plan");
 	}
 	

@@ -293,21 +293,15 @@ public class StoryDaoImpl implements StoryDao{
 
 	@Override
 	public void deleteList(Plan plan) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
+    // TODO Auto-generated method stub
+  }
+  
+  @Override
 	public int SelectCntAll() {
 		// TODO Auto-generated method stub
 		return 0;
 	}
 
-	@Override
-	public List<Comment> selectCommentByStoryNo(Story story) {
-		// TODO Auto-generated method stub
-		return null;
-	}
 
 	@Override
 	public Comment selectCommentByCommentIdx(Comment cmt) {
@@ -315,26 +309,37 @@ public class StoryDaoImpl implements StoryDao{
 		return null;
 	}
 
+
+
 	@Override
-	public void deleteCommentList(Story story) {
-		// TODO Auto-generated method stub
+	public void deleteComment(Comment comment) {
+		
+		String sql = "DELETE FROM STORY_COMMENT WHERE comm_idx = ?";
+		
+		try {
+			ps = conn.prepareStatement(sql);
+			ps.setInt(1, comment.getComm_idx());
+			ps.executeQuery();
+			
+			conn.commit();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			try {
+				//DB객체 닫기
+				if(rs!=null)	rs.close();
+				if(ps!=null)	ps.close();
+				
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
 		
 	}
 
 	@Override
-	public void insertComment() {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void deleteComment() {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void updateComment() {
+	public void updateComment(Comment comment) {
 		// TODO Auto-generated method stub
 		
 	}
@@ -382,6 +387,197 @@ public class StoryDaoImpl implements StoryDao{
 		//게시글 번호 반환
 		return storyidx;
 }
+
+	@Override
+	public void deleteListByPlanIdx(Plan plan) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void deleteListByTtbIdx(Timetable tb) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public List<Comment> selectCommentByPlanIdx(Plan plan) {
+		
+		String sql = "select * from STORY_COMMENT where plan_idx = ?";
+		List<Comment> CommentList = new ArrayList<>();
+		try {
+			ps = conn.prepareStatement(sql);
+			ps.setInt(1, plan.getPlan_idx());
+			
+			rs = ps.executeQuery();
+			
+			while(rs.next()) {
+				Comment cmt = new Comment();
+				
+				cmt.setComm_idx(rs.getInt("comm_idx"));
+				cmt.setPlan_idx(rs.getInt("plan_idx"));
+				cmt.setTtb_idx(rs.getInt("ttb_idx"));
+				cmt.setStory_idx(rs.getInt("story_idx"));
+				cmt.setUser_idx(rs.getInt("user_idx"));
+				cmt.setContent(rs.getString("story_content"));
+				cmt.setCreate_date(rs.getDate("create_date"));
+				
+				CommentList.add(cmt);
+				
+			}
+			
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}finally {
+			try {
+				//DB객체 닫기
+				if(rs!=null)	rs.close();
+				if(ps!=null)	ps.close();
+				
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+		
+		
+		return CommentList;
+	}
+
+	@Override
+	public void deleteCommentListByStoryIdx(Story story) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void deleteCommentListByPlanIdx(Plan plan) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void deleteCommentListByTtbIdx(Timetable tb) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void insertComment(Comment comment) {
+		
+		String sql = "";
+		sql += "INSERT INTO STORY_COMMENT(comm_idx,story_idx, plan_idx, ttb_idx, user_idx, story_content)";
+		sql	+= " VALUES(?,?,?,?,?,?)";
+		    
+		try {
+			ps = conn.prepareStatement(sql);
+			
+			ps.setInt(1,comment.getComm_idx());
+			ps.setInt(2,comment.getStory_idx());
+			ps.setInt(3,comment.getPlan_idx());
+			ps.setInt(4,comment.getTtb_idx());
+			ps.setInt(5, comment.getUser_idx());
+			ps.setString(6, comment.getContent());
+			
+			ps.executeUpdate();
+			
+			conn.commit();
+			
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}finally {
+				try {
+					if(ps != null) {
+						ps.close();
+					}
+					
+					if(rs != null){
+						rs.close();
+					}
+				} catch (SQLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+	
+		}
+		
+	}
+
+	@Override
+	public int selectCommentIdx() {
+		//다음 게시글 번호 조회 쿼리
+		String sql = "";
+		sql += "SELECT comment_seq.nextval";
+		sql += " FROM dual";
+		
+		//DB 객체
+		//게시글번호
+		int commentidx = 0;
+		
+		try {
+			//DB작업
+			ps = conn.prepareStatement(sql);
+			rs = ps.executeQuery();
+			
+			//결과 담기
+			while(rs.next()) {
+				commentidx = rs.getInt(1);
+			}
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				//DB객체 닫기
+				if(rs!=null)	rs.close();
+				if(ps!=null)	ps.close();
+				
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+		
+		//게시글 번호 반환
+		return commentidx;
+	}
+
+	@Override
+	public int selectCntComm(Story story) {
+		
+		String sql = "SELECT COUNT(1) FROM STORY_COMMENT WHERE story_idx =?";
+		
+		int cnt = 0;
+		
+		try {
+			ps = conn.prepareStatement(sql);
+			ps.setInt(1, story.getStory_idx());
+			
+			rs = ps.executeQuery();
+			
+			
+			while(rs.next()) {
+				cnt = rs.getInt(1);	
+			}
+			
+			
+			
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			try {
+				//DB객체 닫기
+				if(rs!=null)	rs.close();
+				if(ps!=null)	ps.close();
+				
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+		
+		return cnt;
+	}
 
 
 }

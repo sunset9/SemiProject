@@ -12,10 +12,13 @@ import com.google.gson.Gson;
 
 import dao.story.StoryDao;
 import dao.story.StoryDaoImpl;
+import dao.user.UserDao;
+import dao.user.UserDaoImpl;
 import dto.plan.Plan;
 import dto.story.Comment;
 import dto.story.Story;
 import dto.timetable.Timetable;
+import dto.user.User;
 import service.account.AccountService;
 import service.account.AccountServiceImpl;
 import utils.CalcDate;
@@ -23,6 +26,7 @@ import utils.CalcDate;
 public class StoryServiceImpl implements StoryService {
 	
 	StoryDao storyDao = new StoryDaoImpl();
+	UserDao userDao = new UserDaoImpl();
 	AccountService accountService = new AccountServiceImpl(); 
 
 	@Override
@@ -37,18 +41,17 @@ public class StoryServiceImpl implements StoryService {
 		for(int i = 0 ; i <StoryList.size();i++) {
 				Date date;
 				try {
+					Story story = new Story();
 					date = new SimpleDateFormat("yyyy-MM-dd").parse(StoryList.get(i).getTravel_day());
 					int diffDays = calcDate.CalcPriod(plan.getStart_date(),date);
 					StoryList.get(i).setCalcDay(diffDays);
+					story.setStory_idx(StoryList.get(i).getStory_idx());
+					StoryList.get(i).setCommCnt(storyDao.selectCntComm(story));
 				} catch (ParseException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
-				
-				
 		}
-		
-		
 		return StoryList;
 	}
 
@@ -67,10 +70,12 @@ public class StoryServiceImpl implements StoryService {
 	      System.out.println("story가 null 혹은 빈값"); 
 	    }
 	    
-		// user_idx Set
-		story.setUser_idx(1);
-		
-		return story;
+	    
+	   int userIdx =  (int) req.getSession().getAttribute("user_idx");
+	   
+	   story.setUser_idx(userIdx);
+	   
+	   return story;
 	}
 
 	@Override
@@ -111,21 +116,29 @@ public class StoryServiceImpl implements StoryService {
 	}
 
 	@Override
-	public List<Comment> getCommentList(List<Story> storyList) {
-		// TODO Auto-generated method stub
-		return null;
+	public List<Comment> getCommentList(Plan plan) {
+		
+		List<Comment> list = storyDao.selectCommentByPlanIdx(plan);
+		
+		for (int i = 0; i<list.size();i++) {
+			
+			User user = new User();
+			user.setUser_idx(list.get(i).getUser_idx());
+			
+			user = userDao.selectUserByUserIdx(user);
+			
+			list.get(i).setProfile(user.getProfile());
+			list.get(i).setNickname(user.getNickname());
+			
+		}
+		
+		return list;
 	}
 
 	@Override
 	public Comment getCommet(Comment comment) {
 		// TODO Auto-generated method stub
 		return null;
-	}
-
-	@Override
-	public void deleteCommentList(Story story) {
-		// TODO Auto-generated method stub
-		
 	}
 
 	@Override
@@ -136,12 +149,46 @@ public class StoryServiceImpl implements StoryService {
 
 	@Override
 	public void deleteComment(Comment cmt) {
-		// TODO Auto-generated method stub
+		
+		storyDao.deleteComment(cmt);
 		
 	}
 
 	@Override
 	public void writeComment(Comment cmt) {
+		
+		cmt.setComm_idx(storyDao.selectCommentIdx());
+		
+		storyDao.insertComment(cmt);
+		
+	}
+
+	@Override
+	public void deleteListByPlanIdx(Plan plan) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void deleteListByTtbIdx(Timetable tb) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void deleteCommentListByStoryIdx(Story story) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void deleteCommentListByPlanIdx(Plan plan) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void deleteCommentListByTtbIdx(Timetable tb) {
 		// TODO Auto-generated method stub
 		
 	}
