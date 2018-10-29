@@ -30,4 +30,14 @@ public interface NoticeDao {
 	
 	// notice-idx로 작성자 id 조회하기 
 	public String selectIdByNoticeIdx (Notice notice);
+	
+	// nickname 조회하기 
+	public String selectNickByNotice(Notice notice);
+	
+	// 다음 게시글 번호 죄회 커리 
+	public int selectNoticeIdx();
+	
+	// 리스트에서 게시글 삭제 
+	public void deleteNoticeList (String names);
+	
 }

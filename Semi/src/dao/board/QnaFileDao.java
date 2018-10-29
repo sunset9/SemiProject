@@ -9,10 +9,10 @@ import dto.board.QnaFile;
 public interface QnaFileDao {
 
 
-	// ���� ���ε� ���� �Է� 
+	// 첨부파일 추가 
 	public void insert(QnaFile file);
 	
-	// ���� ����Ʈ 
+	// 첨부 파일 리스트 불러오기
 	public List<QnaFile> list();
 	
 	// ���Ϲ�ȣ�� ���� ���
@@ -21,6 +21,9 @@ public interface QnaFileDao {
 	// 게시글에 관련된 첨부파일 불러오기
 	public QnaFile selectFilebyQna(Qna qna);
 
-	// ���� ����� 
-	public void delete(QnaFile file);
+	// 게시글 삭제 
+	public void delete(Qna qan);
+	
+	//리스트 선택해서 삭제하기
+	public void deleteQnaListFile(String names);
 }

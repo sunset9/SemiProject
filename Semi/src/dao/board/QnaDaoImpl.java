@@ -352,6 +352,108 @@ public class QnaDaoImpl implements QnaDao {
 		
 		return id;
 	}
-	
+	@Override
+	public String selectNickByQna(Qna qna) {
+		
+		// 게시글 번호로 user nickname 조회
+		String sql = "";
+			   sql +="SELECT nickname FROM userinfo U, qna Q  ";
+			   sql +="WHERE Q.user_idx =U.user_idx  ";
+			   sql += "AND Q.qna_idx=?";
+		
+	    // nickname 저장할 변수
+		String nick = null;
+		
+		try {
+			ps = conn.prepareStatement(sql);
+			ps.setInt(1, qna.getQna_idx());
+			
+			rs = ps.executeQuery();
+			
+			while(rs.next()) {
+				nick = rs.getString(1);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			try {
+						
+				//DB객체 닫기
+				if(ps!=null)	ps.close();
+				if(rs!=null)	rs.close();
+						
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+				
+		return nick;
+	}
+	@Override
+	public int selectQnaIdx() {
+		// 다음 게시글 번호 조회 쿼리 
+		String sql ="SELECT qna_seq.nextval FROM dual";
+						
+		// DB 객체 
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+						
+		// 결과 저장할 변수 
+						
+		int qna_idx = 0;
+						
+		try {
+			ps = conn.prepareStatement(sql);
+			rs = ps.executeQuery();
+							
+			while(rs.next()) {
+				qna_idx = rs.getInt(1);
+			}
+							
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}finally {
+			try {
+				//DB객체 닫기
+				if(rs!=null)	rs.close();
+				if(ps!=null)	ps.close();
+								
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+			return qna_idx;
+	}
+	@Override
+	public void deleteQnaList(String names) {
+		String sql = "DELETE FROM qna WHERE qna_idx IN("+names+")";
+		
+		//DB 객체
+		PreparedStatement ps = null;
+		ResultSet rs = null;
 
+		try {
+			conn.setAutoCommit(false);
+			
+			ps = conn.prepareStatement(sql);
+					
+			ps.executeUpdate();
+			
+			conn.commit();
+		} catch (SQLException e) {
+			try {
+				conn.rollback();
+			} catch (SQLException e1) {
+				e1.printStackTrace();
+			}
+			e.printStackTrace();
+		} finally {
+			try {
+				if(ps!=null)	ps.close();
+						
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}	
+	}
 }

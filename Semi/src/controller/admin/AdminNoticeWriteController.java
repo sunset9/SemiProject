@@ -28,23 +28,26 @@ public class AdminNoticeWriteController extends HttpServlet {
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
-		req.getRequestDispatcher("/admin/inquiry/write.jsp").forward(req, resp);
+//		System.out.println("login : ?"+req.getSession().getAttribute("login"));
+		// 로그인 되어있지 않으면 main 으로 리다이렉트 하기
+		if( req.getSession().getAttribute("login")==null) {
+			resp.sendRedirect("/main");
+		}
+		req.getRequestDispatcher("/admin/notice/write.jsp").forward(req, resp);
 		
 	}
 	
 	@Override
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		HttpSession session = req.getSession();
 		
 		req.setCharacterEncoding("utf-8");
 		resp.setContentType("text/html;charset=utf-8");
 
-		// �ۼ� �޼ҵ� ȣ��
-//		adminNoticeService.write(notice);
+		// 게시글 작성 하기
+		adminNoticeService.write(req);
 		
-
-		// ������ ȭ�� ����
-		resp.sendRedirect("");
+		// view 페이지 지정
+		resp.sendRedirect("/admin/notice/list");
 	
 	
 	}

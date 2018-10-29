@@ -44,4 +44,13 @@ public interface AdminNoticeService {
 	// 게시물에 관련된 파일도 같이 삭제
 	public void delete(Notice notice);
 	
+	// 글쓴 사람 아이디 조회 
+	public String getId(Notice notice);
+	
+	// 글쓴 사람 닉네임 조회 
+	public String getNick(Notice notice);
+	
+	// 게시글 리스트로 삭제 
+	public void noticeListDelete(String names);
+	
 }

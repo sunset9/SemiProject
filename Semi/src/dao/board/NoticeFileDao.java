@@ -8,7 +8,7 @@ import dto.board.NoticeFile;
 
 public interface NoticeFileDao {
 
-
+	
 	// 첨부파일 추가 
 	public void insert(NoticeFile file);
 	
@@ -20,4 +20,7 @@ public interface NoticeFileDao {
 
 	// 게시물에 관련된 파일 지우기
 	public void delete(Notice notice);
+
+	// 리스트 선택해서 삭제 할 때 첨부파일 삭제하깅
+	public void deleteNoticeListFile(String names);
 }

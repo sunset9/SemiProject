@@ -25,25 +25,32 @@ public class AdminQnaListController extends HttpServlet {
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
-
+		// 현재 페이지 얻어오기 
 		int curPage = adminQnaService.getCurPage(req);
 		
-	
-		int totalCount = adminQnaService.getTotalCount();
+		// 검색어 얻어 오기 
+		String search = adminQnaService.getSearch(req);
 		
-		Paging paging = new Paging(totalCount, curPage,10); 
+		// 전체 페이지 수 얻어오기 
+		int totalCount = adminQnaService.getTotalCount(search);
 		
-	
+		// 페이징 객체 만들기
+		Paging paging = new Paging(totalCount, curPage); 
+		
+		// 페이징 객체에 검색어 적용
+		paging.setSearch(search);
+		
+		// 게시물 리스트 조회
 		List<Qna> list = adminQnaService.getPagingList(paging);
 		
+		// 리스트 조회 요청에 담아 보내기 
+		req.setAttribute("qnaList", list);
 		
-		req.setAttribute("qnalist", list);
-		
-		
+		// 페이징 객체 요청에 담아 보내기
 		req.setAttribute("paging", paging);
 		
-		
-		req.getRequestDispatcher("").forward(req, resp);
+		// view 페이지 지정
+		req.getRequestDispatcher("/admin/qna/list.jsp").forward(req, resp);
 		
 		
 	}

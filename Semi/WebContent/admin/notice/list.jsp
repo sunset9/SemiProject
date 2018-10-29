@@ -13,7 +13,7 @@ $(document).ready(function() {
 	});
 	
 	$("#btnWrite").click(function() {
-		location.href="/adnmin/notice/write";
+		location.href="/admin/notice/write";
 	})
 	
 	// 선택체크 삭제
@@ -129,7 +129,7 @@ ul.sub li a {
 <tr>
 <td><input type="checkbox" name="checkRow" value="${notice.notice_idx }" /></td>
 <td>${notice.notice_idx }</td>
-<td><a href="/admin/notice/view?inq_idx=${notice.notice_idx }">${notice.title }</a></td>
+<td><a href="/admin/notice/view?notice_idx=${notice.notice_idx }">${notice.title }</a></td>
 <td>${notice.writer }</td>
 
 <td>${inotice.hit }</td>

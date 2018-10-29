@@ -58,7 +58,14 @@ public class UserLoginController extends HttpServlet {
 			
 			resp.setHeader("Cache-Controll", "no-cache");
 			
-			resp.sendRedirect("/main");
-		}
+			String grade = user.getGrade();
+			
+//			System.out.println("grade :"+grade);
+			if(grade.equals("관리자")) {
+				resp.sendRedirect("/admin/main");
+			} else {
+				resp.sendRedirect("/main");
+				}
+			}
 	
 }

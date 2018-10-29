@@ -50,9 +50,11 @@ $(document).ready(function() {
 </tr>
 
 <tr><td class ="info">본문</td> <td colspan="4">
+
 <c:if test="${noticeFile.origin_name ne null}">
-<img style="height: 150px ; width: 300px;" src ="/upload/notice/${noticeFile.stored_name }"><br><br>
+<img style="height: 200px ; width: 300px;" src ="/upload/notice/${noticeFile.stored_name }"><br><br>
 </c:if>
+
 ${notice.content }</td>
 
 <tr>

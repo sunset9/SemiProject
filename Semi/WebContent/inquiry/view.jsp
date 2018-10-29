@@ -137,14 +137,10 @@ ${inquiry.content }</td>
 
 <div>
 <hr>
-<!-- 댓글 입력 부분 -->
-<c:if test="${login }">
-<div class= "form-inline text-center">
-	<input type ="text" class="form-control" size="10" id ="replyWriter" value="${user.nickname }"  readonly="readonly"/>
-	<textarea style ="resize: none;" rows="1" cols="60" class="form-control"id="replyContent"></textarea>
-	<button id="btnRepInsert" >댓글 달기</button> <br><br>
-</div> 
-</c:if>
+<div style="text-align: center;">
+<p>댓글 달기 기능은 관리에게만 제공</p>
+</div>
+
 <!-- 댓글 리스트 부분 -->
 <table class="table table-striped table-hover table-condensed">
 <thead>
