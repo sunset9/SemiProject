@@ -12,7 +12,7 @@ public interface TimetableDao {
 	List<Timetable> selectTimetableList(Plan plan);
 	
 	// 해당 plan에 속해있는 모든 Location 정보 조회
-	List<Location> selectLocationList(Plan plan);
+	Location selectLocationList(Plan plan, Timetable ttb);
 
 	// 특정 Timetable의 start_date와 같은 Timetable들의 Location 정보 조회
 	List<Location> selectLocationListByStartDate(Timetable timetable);
@@ -30,10 +30,10 @@ public interface TimetableDao {
 	void updateTimetable(Timetable ttb);
 	
 	// 타임테이블 삭제
-	void deleteTimetable(Plan plan);
+	void deleteTimetable(Plan plan, List<Timetable> ttbList);
 	
 	// 타임테이블 넘버로 스토리 있는지 없는지 유무 true:스토리 있음 false:스토리 없음
-	Boolean selectIsStoryByTimetableIdx(Timetable timetable);
+	Boolean selectIsStoryByTimetableIdx(int ttb_idx);
 	
 	// 타임테이블 일차 구하기
 	int selectDay(Timetable timetable);

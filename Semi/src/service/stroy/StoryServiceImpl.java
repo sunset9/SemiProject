@@ -185,42 +185,55 @@ public class StoryServiceImpl implements StoryService {
 	}
 
 	@Override
-	public boolean updateMini(HttpServletRequest req) {
+	public void writeMini(int ttb_idx, Story storyParam, boolean isStory) {
+		Story story = storyParam;
+		story.setTtb_idx(ttb_idx);
+		
+		System.out.println("----- 2. insert할 객체 -----");
+		System.out.println(story);
+		
+		if(isStory) {
+			System.out.println(">> 이미 작성된 스토리 있음");
+			storyDao.update(story);
+		} else { // 첫 스토리 작성인 경우
+			System.out.println(">> 첫 스토리 작성");
+			storyDao.insert(story);
+		}
+
 		// Timetable Service 객체 생성
-		TimetableService ttbService = new TimetableServiceImpl();
+//		TimetableService ttbService = new TimetableServiceImpl();
 		
 		// 요청 파라미터 추출
-		Story storyParam = getParam(req);
-		Map<Timetable, Location> ttbLocParam = ttbService.getMiniParam(req);
+//		Story storyParam = getParam(req);
+//		Map<Timetable, Location> ttbLocParam = ttbService.getMiniParam(req);
 		
-		System.out.println("----- 1.스토리 서비스 param -----");
-		System.out.println(storyParam);
-		System.out.println(ttbLocParam);
+//		System.out.println("----- 1.스토리 서비스 param -----");
+//		System.out.println(storyParam);
+//		System.out.println(ttbLocParam);
 		
 		// ttb_idx가 음수라면(아직 DB저장안된 타임테이블) 새로운 idx 값 가져옴
-		if(storyParam.getTtb_idx() < 0) {
-			int ttb_idx = ttbService.getTtbIdx();
-			
-			// 새로운 타임테이블이기 때문에 타임테이블 저장
-			ttbService.writeTtb(ttb_idx, ttbLocParam);
-			
-			// 미니뷰 스토리 저장 (ttb_idx 세팅한 후 저장)
-			Story story = storyParam;
-			story.setTtb_idx(ttb_idx);
-			System.out.println("----- 2. insert할 객체 -----");
-			System.out.println(story);
-			storyDao.insert(story);
-			
-		} else { // 기존에 있던 타임테이블의 미니뷰 스토리를 수정한 경우
-			// 스토리가 이미 있었던 타임테이블이라면
-			if(ttbService.isStory(ttbLocParam.keySet().iterator().next())) {
-				storyDao.update(storyParam);
-			} else { // 첫 스토리 작성인 경우
-				storyDao.insert(storyParam);
-			}
-		}
+//		if(storyParam.getTtb_idx() < 0) {
+//			int ttb_idx = ttbService.getTtbIdx();
+//			
+//			// 새로운 타임테이블이기 때문에 타임테이블 저장
+//			ttbService.writeTtb(ttb_idx, ttbLocParam);
+//			
+//			// 미니뷰 스토리 저장 (ttb_idx 세팅한 후 저장)
+//			Story story = storyParam;
+//			story.setTtb_idx(ttb_idx);
+//			System.out.println("----- 2. insert할 객체 -----");
+//			System.out.println(story);
+//			storyDao.insert(story);
+//			
+//		} else { // 기존에 있던 타임테이블의 미니뷰 스토리를 수정한 경우
+//			// 스토리가 이미 있었던 타임테이블이라면
+//			if(ttbService.isStory(ttbLocParam.keySet().iterator().next())) {
+//				storyDao.update(storyParam);
+//			} else { // 첫 스토리 작성인 경우
+//				storyDao.insert(storyParam);
+//			}
+//		}
 		
-		return true;
 	}
 
 }

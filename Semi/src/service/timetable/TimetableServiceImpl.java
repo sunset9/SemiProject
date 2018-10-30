@@ -103,7 +103,7 @@ public class TimetableServiceImpl implements TimetableService{
 			
 			tb.setTtb_idx(list.get(i).getTtb_idx());
 			
-			list.get(i).setIs_story(isStory(tb));
+			list.get(i).setIs_story(isStory(tb.getTtb_idx()));
 			
 			list.get(i).setDay(ttbDao.selectDay(tb));
 			
@@ -113,12 +113,19 @@ public class TimetableServiceImpl implements TimetableService{
 		return list;
 	}
 	
-	public boolean isStory(Timetable ttb) {
-		return ttbDao.selectIsStoryByTimetableIdx(ttb);
+	public boolean isStory(int ttb_idx) {
+		return ttbDao.selectIsStoryByTimetableIdx(ttb_idx);
 	}
+	
 	// 해당 Plan의 모든 Location 리스트 가져오기
-	public List<Location> getLocationList(Plan plan){
-		return ttbDao.selectLocationList(plan);
+	public List<Location> getLocationList(Plan plan, List<Timetable> ttbList){
+		List<Location> locList = new ArrayList<>();
+		
+		for(Timetable ttb : ttbList) {
+			locList.add(ttbDao.selectLocationList(plan, ttb));
+		}
+		
+		return locList;
 	}
 	
 	// 특정 Timetable이 시작하는 날짜의 모든 Location 리스트 가져오기
@@ -162,7 +169,7 @@ public class TimetableServiceImpl implements TimetableService{
 //		System.out.println(ttbList);
 		
 		// 기존에 있던 타임테이블 모두 삭제
-		ttbDao.deleteTimetable(plan);
+		ttbDao.deleteTimetable(plan, ttbList);
 		
 		for(Timetable ttb: ttbList) {
 			// 새로 받은 타임테이블 (ttb_idx = 음수) 저장
@@ -196,6 +203,18 @@ public class TimetableServiceImpl implements TimetableService{
 
 	public int getTtbIdx() {
 		return ttbDao.selectTtbIdx();
+	}
+
+	@Override
+	public int getMiniTtbIdx(Map<Timetable, Location> ttbLocParam) {
+		Timetable ttb = ttbLocParam.keySet().iterator().next();
+		int ttb_idx = ttb.getTtb_idx();
+		
+		if( ttb_idx < 0) {
+			ttb_idx = getTtbIdx();
+		}
+		
+		return ttb_idx;
 	}
 
 }
