@@ -81,7 +81,7 @@ public class PlanUpdateController extends HttpServlet {
 			ttbService.update(planParam, ttbLocParam);
 			
 			// 미니뷰 정보가 있다면 업데이트
-			sService.updateMini(req);
+//			sService.updateMini(req);
 			
 			// 일정 정보 업데이트
 			pService.update(planParam);
