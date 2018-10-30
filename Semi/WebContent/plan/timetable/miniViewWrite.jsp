@@ -118,8 +118,11 @@ $('.storyContent').froalaEditor({
 </script> 
 <script type="text/javascript">
 $("#btnMiniWriteSave").on("click", function(){
+	// 저장 버튼 비활성화
 	$(this).attr('disabled',"disabled");
+	
 	// submit 할 객체들 json형태로 받기
+	var ttbJson = JSON.parse($('input[name=ttbJson]').val());
 	var storyJson = JSON.parse($('input[name=JSON]').val());
 	storyJson.content = $('.storyContent').froalaEditor('html.get'); // story json형태에 스토리 내용도 추가(plan_idx,ttb_idx만 존재)
 	
@@ -140,10 +143,10 @@ $("#btnMiniWriteSave").on("click", function(){
 			, ttbJson: $('input[name=ttbJson]').val()
 		}
 		, dataType: "text"
-		, success: function(isSucc){
-			if(isSucc){
+		, success: function(ttb_idx){
+			if(ttb_idx > 0){
 				// 미니뷰 저장 성공 시 백그라운드에 있는 플랜 정보 저장
-				store(); 
+				store(ttbJson); 
 			}
 		}
 		,  error: function(){

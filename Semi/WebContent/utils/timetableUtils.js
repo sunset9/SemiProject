@@ -155,7 +155,7 @@ function initFullCalendar(planStartDate, planEndDate, isFirst){
 						
 						if(isModify){ // 수정모드
 							// ttb정보 json String 형태로 넘겨줌
-							$("input[name=ttbJson]").val(JSON.stringify(getTtbJson(event)));
+							$("input[name=ttbJson]").val(JSON.stringify(getTtbJsonForServer(event)));
 							
 							// story 정보 json String 형태로 넘겨줌
 							$('input[name=JSON]').val(JSON.stringify({ 
@@ -254,7 +254,17 @@ function getTimetablesFromBrowser(){
 	
 	events.forEach(function(event){ // 모든 리스트 돌면서 timetable json 하나씩 생성
 		// timetable json 형식으로 가져오기
-		var timetable = getTtbJson(event);
+		var timetable = {
+				id: event.id
+				, title: event.title
+				, address: event.address
+				, start: event.start.format("YYYY-MM-DD HH:mm")
+				, end: event.end.format("YYYY-MM-DD HH:mm")
+				, lat: event.lat
+				, lng: event.lng
+				, photo_url: event.photo_url
+				, place_id: event.place_id
+		}
 	
 		timetables.push(timetable);
 	});
@@ -317,7 +327,7 @@ function deleteTimetableByDate(changedStartDate, changedEndDate){
 	});
 }
 
-function getTtbJson(event){
+function getTtbJsonForServer(event){
 	var timetable = {
 			ttb_idx: event.id
 			, plan_idx: plan_idx

@@ -54,28 +54,25 @@ public class TimetableDaoImpl implements TimetableDao{
 			}
 		}
 		
-		System.out.println(listRes);
 		return listRes;
 	}
 	
-	// plan_idx에 해당하는 모든 Timetable의 Location 정보 조회
-	public List<Location> selectLocationList(Plan plan) {
-		List<Location> listRes = new ArrayList<>();
+	// plan_idx, ttb_idx가 일치하는 Location 정보 조회
+	public Location selectLocationList(Plan plan, Timetable ttb) {
+		Location loc = new Location();
 		String sql = "SELECT l.loc_idx, l.place_name, l.lat, l.lng, l.address, l.photo_url, l.place_id FROM location l"
 				+ " RIGHT JOIN timetable t"
 				+ " ON t.loc_idx = l.loc_idx"
-				+ " WHERE t.plan_idx = ?"
-				+ " ORDER BY ttb_idx";
+				+ " WHERE t.plan_idx = ? AND t.ttb_idx = ?" ; 
 		
 		try {
 			ps = conn.prepareStatement(sql);
 			ps.setInt(1, plan.getPlan_idx());
+			ps.setInt(2, ttb.getTtb_idx());
 			
 			rs = ps.executeQuery();
 			
 			while(rs.next()) {
-				Location loc = new Location();
-				
 				loc.setLoc_idx(rs.getInt("loc_idx"));
 				loc.setPlace_name(rs.getString("place_name"));
 				loc.setLat(rs.getFloat("lat"));
@@ -83,8 +80,6 @@ public class TimetableDaoImpl implements TimetableDao{
 				loc.setAddress(rs.getString("address"));
 				loc.setPhoto_url(rs.getString("photo_url"));
 				loc.setPlace_id(rs.getString("place_id"));
-				
-				listRes.add(loc);
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -97,7 +92,7 @@ public class TimetableDaoImpl implements TimetableDao{
 			}
 		}
 		
-		return listRes;
+		return loc;
 	}
 
 	// 특정 Timetable의 start_date와 같은 Timetable들의 Location 정보 조회
@@ -149,11 +144,10 @@ public class TimetableDaoImpl implements TimetableDao{
 
 	@Override
 	public void updateTimetable(Timetable ttb) {
-		String sql = "INSERT INTO timetable(ttb_idx, plan_idx, loc_idx, start_time, end_time)"
-				+ " VALUES(?, ?, ?"
-				+ ", TO_DATE(?, 'yyyy/mm/dd hh24:mi')"
-				+ ", TO_DATE(?, 'yyyy/mm/dd hh24:mi')"
-				+ " )";
+		String sql = "UPDATE timetable"
+				+ " SET start_time = TO_DATE(?, 'yyyy/mm/dd hh24:mi')"
+				+ " , end_time = TO_DATE(?, 'yyyy/mm/dd hh24:mi')"
+				+ " WHERE ttb_idx=?";
 
 		try {
 			// 오토커밋 해제
@@ -161,11 +155,9 @@ public class TimetableDaoImpl implements TimetableDao{
 			
 			ps = conn.prepareStatement(sql);
 			
-			ps.setInt(1, ttb.getTtb_idx());
-			ps.setInt(2, ttb.getPlan_idx());
-			ps.setInt(3, ttb.getLoc_idx());
-			ps.setString(4, new SimpleDateFormat("yyyy-MM-dd HH:mm").format(ttb.getStart_time()));
-			ps.setString(5, new SimpleDateFormat("yyyy-MM-dd HH:mm").format(ttb.getEnd_time()));
+			ps.setString(1, new SimpleDateFormat("yyyy-MM-dd HH:mm").format(ttb.getStart_time()));
+			ps.setString(2, new SimpleDateFormat("yyyy-MM-dd HH:mm").format(ttb.getEnd_time()));
+			ps.setInt(3, ttb.getTtb_idx());
 			
 			ps.executeUpdate();
 			
@@ -254,9 +246,17 @@ public class TimetableDaoImpl implements TimetableDao{
 	}
 	
 	// 타임테이블 삭제
-	public void deleteTimetable(Plan plan) {
+	public void deleteTimetable(Plan plan, List<Timetable> ttbList) {
 		String sql = "DELETE timetable"
 				+ " WHERE plan_idx=?";
+		
+		if(ttbList.size() != 0) {
+			sql += " AND ttb_idx NOT IN (";
+			for(int i = 0; i < ttbList.size() -1; i++) {
+				sql += ttbList.get(i).getTtb_idx() + ",";
+			}
+			sql += ttbList.get(ttbList.size()-1).getTtb_idx() +")";
+		}
 		
 		try {
 			conn.setAutoCommit(false);
@@ -284,32 +284,27 @@ public class TimetableDaoImpl implements TimetableDao{
 	}
 
 	// 타임테이블 넘버로 스토리 있는지 없는지 유무 
-	public Boolean selectIsStoryByTimetableIdx(Timetable timetable) {
-		String sql = "SELECT" + 
-				" count(1) cnt" + 
-				" FROM" + 
-				" story s" + 
-				" RIGHT JOIN timetable ttb ON s.ttb_idx = ttb.ttb_idx" + 
-				" WHERE" + 
-				" ttb.ttb_idx = ? AND s.ttb_idx IS NULL";
+	public Boolean selectIsStoryByTimetableIdx(int ttb_idx) {
+		String sql = "SELECT count(*) FROM story"
+				+ " WHERE ttb_idx = ?";
+		
 		Boolean Is = null;
 		
 		try {
 			int cnt = 0;
 			ps = conn.prepareStatement(sql);
-			ps.setInt(1, timetable.getTtb_idx());
+			ps.setInt(1, ttb_idx);
 			
 			rs = ps.executeQuery();
 			
 			while(rs.next()) {
-				cnt = rs.getInt("cnt");
+				cnt = rs.getInt(1);
 			}
 			
-			if (cnt>0) {Is = false;}
-			else {Is = true;}
+			if (cnt>0) {Is = true;}
+			else {Is = false;}
 			
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} finally {
 			try {
