@@ -140,9 +140,6 @@ hr{
 		})
 		
 		
-	
-		
-		
 		//수정하기
 		$(".updateStory").click(function() {
 			
@@ -158,8 +155,8 @@ hr{
 			$(".up_plan_idx").val(planidx);	
 			
 		})
+
 		
-			
 		//저장하기
 	$(".storySaveBtn").click(function() {
 			
@@ -169,14 +166,30 @@ hr{
 				, content  : $(".content").val()
 			};
 			
-			console.log($(".content").val());
+			
+			var accTypeLen = $("select[name='accType']").length;
+		    var accType = new Array(accTypeLen);
+		    var currSymbol = new Array(accTypeLen);
+		    var cost = new Array(accTypeLen);
+		    
+		    for(var i=0; i<accTypeLen; i++){                          
+		    	accType[i] = $("select[name='accType']")[i].value;
+		    	currSymbol[i] = $("select[name='currSymbol']")[i].value;
+		    	cost[i] = $("input[name='cost']")[i].value;
+		    }
+
 			
 			var jsonData = JSON.stringify(storyJSON);
+			
+			//ajax로 배열 전송하기 위한 방식
+			$.ajaxSettings.traditional = true
+			
+			console.log(accType);
 			
 			$.ajax({
 				type : "POST"
 				, url : "/story/write"
-				, data : {JSON : jsonData}
+				, data : {JSON : jsonData, "accType": accType, "currSymbol" :currSymbol, "cost":cost}
 				, dataType : "html"
 				, success : function (res) {
 					$("#viewStory").html(res);
@@ -242,7 +255,6 @@ hr{
 		} else {
 		}
 	}
-// 	var commentCheck = 1;
 	
 	function CommentViewClick(storyIdx,plan_idx) {
 		
@@ -293,7 +305,6 @@ hr{
  		var id = "#CommContent"+story_idx;
  		
  		var commentViewId = "#CommentView"+story_idx;
- 		
  		var commJson = {
  				"story_idx" : story_idx
  				, "plan_idx" : plan_idx
@@ -338,36 +349,70 @@ hr{
  	}
  	
  	var cnt = 0;
- 	var preAccountViewId = "#accountView";
+ 	
  	function appendAccount() {
  		
-	 		if (cnt < 4){
- 			
- 			var accountView = $(preAccountViewId).clone();
- 			
-	 		var IdCnt = cnt+1;
-	 		
-	 		var accountViewid = "#accountView"+IdCnt;
-	 		
-	 		accountView.id = accountViewid;
-	 		
-// 	 		$(accountViewid > "div")
-	 		
-	 		console.log(accountView);
+ 		if (cnt < 4){
+			
+			var accountView = $("#accountView").clone();
 	 		$("#accountViewList").append(accountView);
-
-	 		
-	 		
- 			
-	 		$(preAccountViewId).find(".accountPlus").css("display","none");
 	 		
 			cnt = cnt+1;
 			
-			preAccountViewId = "#accountView"+cnt;
-			
- 		}else{
- 			alert('비용은 1개 일정당 다섯개까지 가능합니다');
- 		}
+			var size = document.getElementsByName("accountViewName").length;
+	
+			for(var i = 0; i < size; i++){
+		        var obj = document.getElementsByName("accountViewName")[i];
+		        	
+
+		        
+		        $(obj).find(".accountPlus").css("display","none");
+		        $(obj).find(".accountRemove").css("display","block");
+		        
+		        if (i == size-1){
+				    $(obj).find(".accountPlus").css("display","block");
+		        	$(obj).find(".cost").val("");
+		        	$(obj).find(".accType").val(1);
+		        	$(obj).find(".currSymbol").val(1);
+		        }
+		        
+		        if (size == 5 && i == size-1){
+			    	 $(obj).find(".accountPlus").css("display","none");
+		        }
+			 }
+		
+		}
+	}
+ 	
+ 	function removeAccount() {
+ 		
+ 		var removeObj = window.event.target.parentElement.parentElement.parentElement.parentElement.parentElement;
+ 		
+ 		removeObj.remove();	
+ 		
+ 		cnt = cnt-1;
+ 		
+ 		delete removeObj;
+ 		
+ 		var size = document.getElementsByName("accountViewName").length;
+ 		
+		for(var i = 0; i < size; i++){
+	        var obj = document.getElementsByName("accountViewName")[i];
+	        
+	        if (size == 1){
+	        	$(obj).find(".accountRemove").css("display","none");
+	        }
+	        
+	        $(obj).find(".accountPlus").css("display","none");
+	        
+	        if (i == size-1){
+			     $(obj).find(".accountPlus").css("display","block");
+	        }
+	        
+	        if (size == 5 && i == size-1){
+		    	 $(obj).find(".accountPlus").css("display","none");
+	        }
+		 }
 	}
 	
 </script>	

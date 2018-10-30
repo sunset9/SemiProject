@@ -32,9 +32,18 @@ public class StoryWriteController extends HttpServlet {
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		
 		req.setCharacterEncoding("utf-8");
-			
-	
-	   StoryService sService = new StoryServiceImpl();
+		
+		String[] accType = req.getParameterValues("accType");
+		String[] currSymbol = req.getParameterValues("currSymbol");
+		String[] cost = req.getParameterValues("cost");
+
+		for (int i =0 ;i<accType.length;i++) {
+			System.out.println("accType::"+accType[i]);
+			System.out.println("currSymbol::"+currSymbol[i]);
+			System.out.println("cost::"+cost[i]);
+		}
+		
+	    StoryService sService = new StoryServiceImpl();
 		
 		Story story = new Story();
 		
