@@ -28,9 +28,10 @@ public class AdminUserDeleteController extends HttpServlet {
 		//뷰 지정	
 		user = adminUserService.getParam(req, resp);
 	
-		adminUserService.deleteUser(user);
+		boolean s = adminUserService.deleteUser(user);
 		
-		req.getRequestDispatcher("/admin/user/main").forward(req, resp);
+		// 결과 보내주기ㅣ이ㅣ
+		resp.getWriter().append("{\"success\":"+s+"}");
 
 	}
 	

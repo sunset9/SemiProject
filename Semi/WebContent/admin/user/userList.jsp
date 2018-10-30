@@ -49,15 +49,17 @@ $(document).ready(function() {
 <script type="text/javascript">
 
 function userDelete(user_idx) {
-
+// 	console.log("실행쓰?")
 	$.ajax ( {
 		type : "POST"
 		, url:"/admin/user/delete"
-		, data:{"user_idx":user_idx }
-		, dataType: "html"
+		, dataType: "json"
+		, data:{user_idx:user_idx }
 		, success: function(d) {
+			
 			if(d.success) {
-				$("[data-user_idx='"+user_idx+"']").remove();
+				$("tr[data-user_idx="+user_idx+"]").html($("<td colspan='9'>").text("삭제되었습니다."));
+// 				$("[data-user_idx='"+user_idx+"']").remove();
 			}
 		}
 		,error: function() {
@@ -71,28 +73,37 @@ function gradeChange(user_idx,grade) {
 	
 	console.log("user등급: " +grade);
 	
-	$.ajax({
-		type:"post"
-		, url :"/admin/user/grade"
-		, dataType:"json"
-		, data:{
-			user_idx:user_idx,
-			
-			usergrade : grade
-			
-		}
-		,success:function(data){
-			if(data.success){
-				alert ("등급이 변경되었습니다.")
+	var chageGrade = $("#userGrade option:selected").val();
+	console.log(chageGrade);
+	
+	var ret = confirm(user_idx+"번 사용자의 등급을 "+grade+"에서 "+chageGrade+"로 변경하시겠습니까?");
+	console.log(ret);
+	
+	if(ret) {
+	
+		$.ajax({
+			type:"post"
+			, url :"/admin/user/grade"
+			, dataType:"json"
+			, data:{
+				user_idx:user_idx,
 				
-			} else{
-				alert("등급변경 실패")
+				usergrade : chageGrade
+				
 			}
-		}
-		, error: function() {
-			console.log("error")
-		}
-	});
+			,success:function(data){
+				if(data.success){
+					alert ("등급이 변경되었습니다.")
+					
+				} else{
+					alert("등급변경 실패")
+				}
+			}
+			, error: function() {
+				console.log("error")
+			}
+		});
+	}
 }
 
 </script>
@@ -188,14 +199,14 @@ th{
 </thead>
 <tbody>
 <c:forEach items ="${userList }" var = "user">
-<tr>
-<td><input type="checkbox" name="checkRow" value="${user.user_idx },${user.grade}" /></td>
+<tr data-user_idx="${user.user_idx }">
+<td><input type="checkbox" name="checkRow" value="${user.user_idx }" /></td>
 <td>${user.user_idx }</td>
 <td>${user.id }</td>
 <td>${user.nickname }</td>
-<td>${user.sns_idx }</td>
+<td>${user.snsType }</td>
 <td>
-	<select id="userGrade" onchange="gradeChange(${ user.user_idx});">
+	<select id="userGrade" onchange="gradeChange(${ user.user_idx},'${user.grade}');">
 		<option value="관리자" <c:if test="${user.grade eq '관리자'}">selected</c:if>>관리자</option>
 		<option value="여행작가" <c:if test="${user.grade eq '여행작가'}">selected</c:if>>여행작가</option>
 		<option value="여행자" <c:if test="${user.grade eq '여행자'}">selected</c:if>>여행자</option>
