@@ -270,6 +270,7 @@ function viewDetails(placeRes, status, prediction){
 		// json data 설정
 		li.data('event', {
 			id: id_idx-- // 새로 추가한 요소는 음수
+			, plan_idx: plan_idx
 			, title: placeRes.name
 			, address: placeRes.formatted_address
 			, lat: placeRes.geometry.location.lat()

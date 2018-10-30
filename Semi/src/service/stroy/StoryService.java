@@ -32,6 +32,9 @@ public interface StoryService {
 	//스토리 업데이트
 	public void update(Story story);
 
+	// 미니뷰 업데이트
+	public boolean updateMini(HttpServletRequest req);
+	
 	//스토리 삽입
 	public void write(Story story);
 	
@@ -61,6 +64,7 @@ public interface StoryService {
 	
 	//댓글 삽입
 	public void writeComment(Comment cmt);
+
 	
 	
 }
