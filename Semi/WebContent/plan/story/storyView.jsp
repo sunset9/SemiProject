@@ -365,8 +365,6 @@ hr{
 	
 			for(var i = 0; i < size; i++){
 		        var obj = document.getElementsByName("accountViewName")[i];
-		        	
-
 		        
 		        $(obj).find(".accountPlus").css("display","none");
 		        $(obj).find(".accountRemove").css("display","block");
@@ -416,6 +414,73 @@ hr{
 	        }
 		 }
 	}
+ 	
+ 	var up_cnt = document.getElementsByName("up_accountViewName").length;
+ 	
+ 	function UpappendAccount() {
+ 		
+ 		if (up_cnt < 4){
+			
+			var accountView = $("#up_accountView").clone();
+	 		$("#up_accountViewList").append(accountView);
+	 		
+	 		up_cnt = up_cnt+1;
+			
+			var size = document.getElementsByName("up_accountViewName").length;
+	
+			for(var i = 0; i < size; i++){
+		        var obj = document.getElementsByName("up_accountViewName")[i];
+		        
+		        $(obj).find(".accountPlus").css("display","none");
+		        $(obj).find(".accountRemove").css("display","block");
+		        
+		        if (i == size-1){
+				    $(obj).find(".accountPlus").css("display","block");
+		        	$(obj).find(".cost").val("");
+		        	$(obj).find(".accType").val(1);
+		        	$(obj).find(".currSymbol").val(1);
+		        }
+		        
+		        if (size == 5 && i == size-1){
+			    	 $(obj).find(".accountPlus").css("display","none");
+		        }
+			 }
+		
+		}
+	}
+ 	
+ 	
+	function UpremoveAccount() {
+ 		
+ 		var removeObj = window.event.target.parentElement.parentElement.parentElement.parentElement.parentElement;
+ 		
+ 		removeObj.remove();	
+ 		
+ 		up_cnt = up_cnt-1;
+ 		
+ 		delete removeObj;
+ 		
+ 		var size = document.getElementsByName("up_accountViewName").length;
+ 		
+		for(var i = 0; i < size; i++){
+	        var obj = document.getElementsByName("up_accountViewName")[i];
+	        
+	        if (size == 1){
+	        	$(obj).find(".accountRemove").css("display","none");
+	        }
+	        
+	        $(obj).find(".accountPlus").css("display","none");
+	        
+	        if (i == size-1){
+			     $(obj).find(".accountPlus").css("display","block");
+	        }
+	        
+	        if (size == 5 && i == size-1){
+		    	 $(obj).find(".accountPlus").css("display","none");
+	        }
+		 }
+	}
+ 	
 	
 </script>	
 
@@ -499,12 +564,12 @@ hr{
 					</c:forEach>
 					</c:if>
 					<!-- 플러스버튼  -->
-					<c:if test="${ttb.is_story eq false}">
+					<c:if test="${ttb.is_story eq true}">
 						<br>
 						<div style="margin-left: 60px"><h2><span class="glyphicon glyphicon-map-marker"></span>&nbsp;${ttb.place_name}</h2></div>
 						<br>
 						<font size="10" color="black">
-							<span class ="glyphicon glyphicon-plus-sign storyPlus" 
+								<span class ="glyphicon glyphicon-plus-sign storyPlus" 
 							data-toggle="modal" data-target="#myModal" data-backdrop="static" 
 							data-place="${ttb.place_name}" data-ttbidx="${ttb.ttb_idx}" 
 							data-planidx="${ttb.plan_idx}" onmouseover="mover($(this))" 

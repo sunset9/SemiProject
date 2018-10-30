@@ -36,7 +36,7 @@ public interface StoryService {
 	public boolean updateMini(HttpServletRequest req);
 	
 	//스토리 삽입
-	public void write(Story story);
+	public int write(Story story);
 	
 	//가계부 계산(회의때 추가함!) 
 

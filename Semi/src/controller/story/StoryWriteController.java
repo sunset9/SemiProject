@@ -10,9 +10,12 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import dto.Account.Account;
 import dto.plan.Plan;
 import dto.story.Story;
 import dto.timetable.Timetable;
+import service.account.AccountService;
+import service.account.AccountServiceImpl;
 import service.plan.PlanService;
 import service.plan.PlanServiceImpl;
 import service.stroy.StoryService;
@@ -28,20 +31,12 @@ public class StoryWriteController extends HttpServlet {
 	PlanService pService = new PlanServiceImpl();
 	StoryService sService = new StoryServiceImpl();
 	TimetableService ttbService = new TimetableServiceImpl();
+	AccountService aService = new AccountServiceImpl();
+	
 	@Override
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		
 		req.setCharacterEncoding("utf-8");
-		
-		String[] accType = req.getParameterValues("accType");
-		String[] currSymbol = req.getParameterValues("currSymbol");
-		String[] cost = req.getParameterValues("cost");
-
-		for (int i =0 ;i<accType.length;i++) {
-			System.out.println("accType::"+accType[i]);
-			System.out.println("currSymbol::"+currSymbol[i]);
-			System.out.println("cost::"+cost[i]);
-		}
 		
 	    StoryService sService = new StoryServiceImpl();
 		
@@ -49,9 +44,37 @@ public class StoryWriteController extends HttpServlet {
 		
 		story = sService.getParam(req);
 		
-		sService.write(story);
+		int storyidx = sService.write(story);
 		
 		req.setAttribute("plan_idx", story.getPlan_idx());
+		
+		
+		String[] accType = req.getParameterValues("accType");
+		String[] currSymbol = req.getParameterValues("currSymbol");
+		String[] cost = req.getParameterValues("cost");
+
+		
+		for (int i =0 ;i<accType.length;i++) {
+			
+			if ((cost[i] != null && cost[i] != "")
+				&& (currSymbol[i] != null && currSymbol[i] != null) 
+				&&  (accType[i] != null && accType[i] != null)) {
+				
+				Account account= new Account();
+				
+				account.setCategory(Integer.parseInt(accType[i]));
+				account.setCurr_idx(Integer.parseInt(currSymbol[i]));
+				cost[i]=cost[i].replaceAll(",", "");
+				account.setOrigin_cost(Integer.parseInt(cost[i]));
+				account.setPlan_idx(story.getPlan_idx());
+				account.setStory_idx(storyidx);
+				
+				aService.Write(account);
+			
+			}
+			
+		}
+		
 		
 		//--------------
 		

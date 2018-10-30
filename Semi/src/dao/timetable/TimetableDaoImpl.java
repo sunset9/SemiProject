@@ -24,7 +24,7 @@ public class TimetableDaoImpl implements TimetableDao{
 		List<Timetable> listRes = new ArrayList<>();
 		String sql = "SELECT ttb_idx, plan_idx, loc_idx, start_time, end_time FROM timetable"
 				+ " WHERE plan_idx = ?"
-				+ " ORDER BY ttb_idx";
+				+ " ORDER BY start_time";
 		
 		try {
 			ps = conn.prepareStatement(sql);

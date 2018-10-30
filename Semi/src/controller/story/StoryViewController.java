@@ -13,6 +13,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import service.account.AccountService;
+import service.account.AccountServiceImpl;
 import service.plan.PlanService;
 import service.plan.PlanServiceImpl;
 import service.stroy.StoryService;
@@ -22,6 +24,7 @@ import service.timetable.TimetableServiceImpl;
 import service.user.UserService;
 import service.user.UserServiceImpl;
 import utils.CalcDate;
+import dto.Account.Account;
 import dto.plan.Plan;
 import dto.story.Comment;
 import dto.story.Story;
@@ -39,6 +42,7 @@ public class StoryViewController extends HttpServlet {
 	StoryService sService = new StoryServiceImpl();
 	PlanService pService = new PlanServiceImpl();
 	UserService uService = new UserServiceImpl();
+	AccountService aService = new AccountServiceImpl();
 	
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		request.setCharacterEncoding("utf-8");
@@ -69,8 +73,6 @@ public class StoryViewController extends HttpServlet {
 		
 	    List<Timetable> ttbList = ttbService.getTimetableList(plan);
 	    
-	    
-	    
 		// 플랜번호로 스토리조회
 		StoryList=sService.getStoryList(plan);
     
@@ -81,6 +83,11 @@ public class StoryViewController extends HttpServlet {
 		int diffDays = calcDate.CalcPriod(plan.getStart_date(),plan.getEnd_date());
 		
 		
+		List<Account> accountList = aService.getPlanAccountList(plan);
+		
+		
+		
+		request.setAttribute("accountList",accountList );
 
 		request.setAttribute("ttbList", ttbList);
 		request.setAttribute("diffDays",diffDays);

@@ -106,8 +106,13 @@ public class StoryServiceImpl implements StoryService {
 	}
 
 	@Override
-	public void write(Story story) {
+	public int write(Story story) {
+		
+		story.setStory_idx(storyDao.SelectStoryIdx());
+		
 		storyDao.insert(story);
+		
+		return story.getStory_idx();
 		
 	}
 

@@ -11,9 +11,10 @@ public class Account {
 //	스토리 pk
 	private int story_idx;
 	// 통화구분
-	private String sign; 
+	private int curr_idx; 
+
 	//가계부 분류 카테고리(숙박 등)
-	private String category;
+	private int category;
 	//입력비용 
 	private float origin_cost;
 	//환율적용비용
@@ -22,12 +23,26 @@ public class Account {
 	private Date create_date;
 	
 	
+	
 	@Override
 	public String toString() {
-		return "Account [acc_idx=" + acc_idx + ", plan_idx=" + plan_idx + ", story_idx=" + story_idx + ", sign=" + sign
-				+ ", category=" + category + ", origin_cost=" + origin_cost + ", caled_cost=" + caled_cost + ", create_date=" + create_date+"]";
+		return "Account [acc_idx=" + acc_idx + ", plan_idx=" + plan_idx + ", story_idx=" + story_idx + ", curr_idx="
+				+ curr_idx + ", category=" + category + ", origin_cost=" + origin_cost + ", caled_cost=" + caled_cost
+				+ ", create_date=" + create_date + "]";
+	}
+	public int getCurr_idx() {
+		return curr_idx;
+	}
+	public void setCurr_idx(int curr_idx) {
+		this.curr_idx = curr_idx;
+	}
+	public int getCategory() {
+		return category;
 	}
 	
+	public void setCategory(int category) {
+		this.category = category;
+	}
 	
 	public int getAcc_idx() {
 		return acc_idx;
@@ -46,18 +61,6 @@ public class Account {
 	}
 	public void setStory_idx(int story_idx) {
 		this.story_idx = story_idx;
-	}
-	public String getSign() {
-		return sign;
-	}
-	public void setSign(String sign) {
-		this.sign = sign;
-	}
-	public String getCategory() {
-		return category;
-	}
-	public void setCategory(String category) {
-		this.category = category;
 	}
 	public float getOrigin_cost() {
 		return origin_cost;

@@ -1,17 +1,22 @@
 package service.account;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
 import dao.account.AccountDao;
 import dao.account.AccountDaoImpl;
+import dao.story.StoryDao;
+import dao.story.StoryDaoImpl;
 import dto.Account.Account;
+import dto.plan.Plan;
 import dto.story.Story;
 
 public class AccountServiceImpl implements AccountService {
 	
 	AccountDao accountDao = new AccountDaoImpl();
+	StoryDao storyDao = new StoryDaoImpl();
 
 	@Override
 	public Account getParam(HttpServletRequest req) {
@@ -26,9 +31,13 @@ public class AccountServiceImpl implements AccountService {
 	}
 
 	@Override
-	public List<Account> getPlanAccountList(Story story) {
-		// TODO Auto-generated method stub
-		return null;
+	public List<Account> getPlanAccountList(Plan plan) {
+		
+		List<Account> AccountList = new ArrayList<>();
+		
+		AccountList = accountDao.selectAccountByPlanidx(plan);
+		
+		return AccountList;
 	}
 
 	@Override
@@ -39,7 +48,9 @@ public class AccountServiceImpl implements AccountService {
 
 	@Override
 	public void Write(Account account) {
-		// TODO Auto-generated method stub
+		
+		account.setAcc_idx(accountDao.selectAccIdx());
+		accountDao.insert(account);
 		
 	}
 
