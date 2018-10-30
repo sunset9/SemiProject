@@ -13,12 +13,7 @@ public class ContentsServiceImpl implements ContentsService {
 	//검색한 리스트 가져오기
 	@Override
 	public List<Plan> getList(String category, String searchValue) {
-		
-		conDao.selectList(category, searchValue);
-		
-		
-		
-		return null;
+		return conDao.selectList(category, searchValue);
 	}
 
 }

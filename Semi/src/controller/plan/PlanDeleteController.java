@@ -34,4 +34,23 @@ public class PlanDeleteController extends HttpServlet {
 		req.getRequestDispatcher("")
 		.forward(req, resp);
 	}
+	
+	@Override
+	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+		//요청 파라미터 처리
+		int param = Integer.parseInt(req.getParameter("plan_idx"));
+		System.out.println("planDeleteController : "+param);
+		
+		//plan 모델 
+		Plan plan = new Plan();
+		plan.setPlan_idx(param);
+		
+		//일정 삭제 
+		pService.delete(plan);
+		
+		//연관된 타임테이블 삭제
+		ttService.delete(plan);
+		
+		resp.sendRedirect("/user/myPage");
+	}
 }

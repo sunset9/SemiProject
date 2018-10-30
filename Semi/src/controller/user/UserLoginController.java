@@ -41,30 +41,35 @@ public class UserLoginController extends HttpServlet {
 			//존재하는 회원이면 true반환
 			boolean login = userService.login(param);
 			
-			System.out.println("login :"  +login);
+			if(login == true) {
+				System.out.println("login :"  +login);
+				
+				//유저 정보 얻어오기
+				User user = userService.getUserByid(param);
+				System.out.println("loginController user : "+user);
+				
+				HttpSession session = req.getSession();
+	
+				//세션 정보 저장하기
+				//유저 객체로 넘기기
+				session.setAttribute("user_idx", user.getUser_idx());
+				session.setAttribute("login", login);
+				session.setAttribute("user", user);
 			
-			//유저 정보 얻어오기
-			User user = userService.getUserByid(param);
-			System.out.println("loginController user : "+user);
-			
-			HttpSession session = req.getSession();
-
-			//세션 정보 저장하기
-			//유저 객체로 넘기기
-			session.setAttribute("user_idx", user.getUser_idx());
-			session.setAttribute("login", login);
-			session.setAttribute("user", user);
-		
-			resp.setHeader("Cache-Controll", "no-cache");
-			
-			String grade = user.getGrade();
-			
-//			System.out.println("grade :"+grade);
-			if(grade.equals("관리자")) {
-				resp.sendRedirect("/admin/main");
+				session.setMaxInactiveInterval(18000); 
+				
+				resp.setHeader("Cache-Controll", "no-cache");
+				
+				String grade = user.getGrade();
+				
+	//			System.out.println("grade :"+grade);
+				if(grade.equals("관리자")) {
+					resp.sendRedirect("/admin/main");
+				} else {
+					resp.sendRedirect("/main");
+					}
 			} else {
 				resp.sendRedirect("/main");
-				}
 			}
-	
+	}
 }

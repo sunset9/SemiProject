@@ -11,30 +11,28 @@ import dto.plan.Plan;
 import utils.DBConn;
 
 public class ContentsDaoImpl implements ContentsDao{
+	
 	private Connection conn = DBConn.getConnection();
 	
 	//리스트 검색하기
 	@Override
 	public List<Plan> selectList(String category, String searchValue) {
+		System.out.println(category);
+		System.out.println(searchValue);
 		
-		String sql = "";
-		if(category != null && searchValue != null) {
-			sql = "SELECT * FROM PLANNER WHERE ? LIKE %2%";
-		}
+		String sql = "SELECT * FROM PLANNER WHERE ? LIKE '%' || ? || '%'";
 		
-		//DB 객체
 		PreparedStatement ps = null;
 		ResultSet rs = null;
-		List<Plan> list = null;
+		
+		List<Plan> planList = new ArrayList<>();
 		
 		try {
 			ps = conn.prepareStatement(sql);
-			
 			ps.setString(1, category);
 			ps.setString(2, searchValue);
-			rs = ps.executeQuery();
 			
-			list = new ArrayList<>();
+			rs = ps.executeQuery();
 			
 			while(rs.next()) {
 				Plan plan = new Plan();
@@ -48,23 +46,28 @@ public class ContentsDaoImpl implements ContentsDao{
 				plan.setOpened(rs.getInt("OPENED"));
 				plan.setDistance(rs.getInt("DISTANCE"));
 				plan.setCreate_date(rs.getDate("CREATE_DATE"));
-				plan.setBannerURL(rs.getString("BannerURL"));
+				plan.setBannerURL(rs.getString("BANNERURL"));
 				
-				list.add(plan);
+				System.out.println("ContentsDaoImpl plan : "+plan);
+				
+				planList.add(plan);
+				
 			}
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} finally {
 			try {
-				if(rs!=null)	rs.close();
-				if(ps!=null)	ps.close();
+				// DB객체 닫기
+				if (rs != null)
+					rs.close();
+				if (ps != null)
+					ps.close();
+
 			} catch (SQLException e) {
 				e.printStackTrace();
 			}
 		}
-		
-		return list;
+		return planList;
 	}
 
 }

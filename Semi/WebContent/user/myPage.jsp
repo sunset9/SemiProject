@@ -59,15 +59,19 @@
 			<div>				
 				<div>
 				<div style="display:inline;">
-					<form action="/plan" method="post" style="display:inline;">
+					<form action="/plan/write" method="get" style="display:inline;">
 						<input type="hidden" name="plan_idx" value="${status.current.plan_idx}" />
 						<button type="submit">수정</button>
 					</form>
 				</div>
 				<div style="display:inline;">
-				<button>삭제</button>				
+					<form action="/PlanDeleteController" method="post">
+						<input type="hidden" name="plan_idx" value="${status.current.plan_idx}" />
+						<button type="submit">삭제</button>
+					</form>		
 				</div>
 				</div>
+				
 				<div>
 				<form action="/plan" method="post">
 					<input type="hidden" name="plan_idx" value="${status.current.plan_idx}" />

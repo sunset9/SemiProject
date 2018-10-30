@@ -40,8 +40,8 @@ public class PlanViewController extends HttpServlet {
         Gson gson = gsonBuilder.create();
         
 //		---------------------플래너 파라미터 가져오기
-        System.out.println("4," + req.getSession().getAttribute("plan_idx"));
-        System.out.println("5," + req.getSession().getAttribute("user_idx"));
+        //System.out.println("4," + req.getSession().getAttribute("plan_idx"));
+        //System.out.println("5," + req.getSession().getAttribute("user_idx"));
 		// 요청파라미터(plan_idx) -> Plan 모델 
         Plan planParam = pService.getSession4Plan(req);
 		
@@ -108,7 +108,9 @@ public class PlanViewController extends HttpServlet {
         
 		// 요청파라미터(plan_idx) -> Plan 모델 
 		// param을 받아와야 함
-		Plan param = pService.getSession4Plan(req);
+//		Plan param = pService.getSession4Plan(req);
+        int param = Integer.parseInt(req.getParameter("plan_idx"));
+        
 	 
 		System.out.println("3 "+param);
 		
