@@ -29,7 +29,7 @@ public class StoryCommentWriteController extends HttpServlet {
 	@Override
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		req.setCharacterEncoding("utf-8");
-	
+		
 		Comment comment = new Comment();
 		Gson gson = new Gson();
 		
