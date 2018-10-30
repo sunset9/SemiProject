@@ -48,16 +48,16 @@ $(document).ready(function() {
 <div >
 <table class="table table-bordered">
 <tr>
-<td class = "info"> 글번호</td><td>${qna.qna_idx }</td>
-<td class = "info"> 제목 </td> <td colspan="2">${qna.title }</td>
+<td class = "bg-success"> 글번호</td><td>${qna.qna_idx }</td>
+<td class = "bg-success"> 제목 </td> <td colspan="2">${qna.title }</td>
 </tr>
 
 <tr>
-<td class ="info">아이디</td> <td>${userid }</td>
-<td class = "info">닉네임</td> <td colspan="2">${userNick }</td>
+<td class ="bg-success">아이디</td> <td>${userid }</td>
+<td class = "bg-success">닉네임</td> <td colspan="2">${userNick }</td>
 </tr>
 
-<tr><td class ="info">본문</td> <td colspan="4">
+<tr><td class ="bg-success">본문</td> <td colspan="4">
 <c:if test="${qnaFile.origin_name ne null}">
 <img style="height: 200px ; width: 300px;" src ="/upload/qna/${qnaFile.stored_name }"><br><br>
 </c:if>
@@ -65,11 +65,11 @@ $(document).ready(function() {
 ${qna.content }</td>
 
 <tr>
-<td class ="info">조회수</td><td>${qna.hit }</td>
+<td class ="bg-success">조회수</td><td>${qna.hit }</td>
 </tr>
 
 <tr>
-<td class ="info">작성일</td><td colspan="4">${qna.create_date }</td>
+<td class ="bg-success">작성일</td><td colspan="4">${qna.create_date }</td>
 </tr>
 </table>
 

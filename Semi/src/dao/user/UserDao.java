@@ -22,7 +22,7 @@ public interface UserDao {
 	//회원가입(카카오톡)
 	
 	//회원탈퇴 
-	public void delete(User user);
+	public int delete(User user);
 	
 	//비밀번호 조회 
 	public int chechPw(User user);

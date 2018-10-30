@@ -34,7 +34,7 @@ public class AdminUserGradeController extends HttpServlet {
 		// 등급 올리기 수행 
 		boolean success = adminUserService.upgrade(user);
 		
-		// view 지정 
+		// 결과 보내주기ㅣ이ㅣ
 		resp.getWriter().append("{\"success\":"+success+"}");
 		
 	}

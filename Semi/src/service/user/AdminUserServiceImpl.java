@@ -41,8 +41,14 @@ public class AdminUserServiceImpl implements AdminUserService {
 	}
 
 	@Override
-	public void deleteUser(User user) {
-		userDao.delete(user);
+	public boolean deleteUser(User user) {
+		boolean rs = false;
+		
+		if(userDao.delete(user)==1) {
+			rs = true;
+		}
+		
+		return rs;
 	}
 
 

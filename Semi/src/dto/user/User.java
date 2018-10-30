@@ -12,14 +12,23 @@ public class User implements Serializable{
 	private String profile;
 	private String grade;
 	private int sns_idx;
+	private String snsType;
 	private Date create_date;
 	private int totalPlanCnt; //총 게시글 개수 조회
 	
 	@Override
 	public String toString() {
 		return "User [user_idx=" + user_idx + ", id=" + id + ", password=" + password + ", nickname=" + nickname
-				+ ", profile=" + profile + ", grade=" + grade + ", sns_idx=" + sns_idx + ", create_date=" + create_date
-				+ ", totalPlanCnt=" + totalPlanCnt + "]";
+				+ ", profile=" + profile + ", grade=" + grade + ", sns_idx=" + sns_idx + ", snsType=" + snsType
+				+ ", create_date=" + create_date + ", totalPlanCnt=" + totalPlanCnt + "]";
+	}
+
+	public String getSnsType() {
+		return snsType;
+	}
+
+	public void setSnsType(String snsType) {
+		this.snsType = snsType;
 	}
 
 	public int getUser_idx() {

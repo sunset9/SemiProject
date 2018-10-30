@@ -168,7 +168,7 @@ public class UserDaoImpl implements UserDao{
 
 	//id로 조회 후 회원탈퇴처리
 	@Override
-	public void delete(User user) {
+	public int delete(User user) {
 //		String sql = "";
 //		sql += "DELETE userinfo";
 //		sql += " WHERE id = ?";
@@ -177,12 +177,12 @@ public class UserDaoImpl implements UserDao{
 		sql += " WHERE user_idx = ?";
 		
 		PreparedStatement ps = null;
-		
+		int rs = 0;
 		try {
 			ps = conn.prepareStatement(sql);
 			ps.setInt(1, user.getUser_idx());
 //			System.out.println("dao delete() : "+user.getId());
-			ps.executeUpdate();
+			rs = ps.executeUpdate();
 			
 			conn.commit();
 		} catch (SQLException e) {
@@ -199,7 +199,7 @@ public class UserDaoImpl implements UserDao{
 				e.printStackTrace();
 			}
 		}
-		
+		return rs ;
 		
 	}
 
@@ -760,7 +760,9 @@ public class UserDaoImpl implements UserDao{
 		String sql="";
 		sql += "SELECT * FROM( " ;
 		sql += 	"    SELECT rownum rnum, U.* FROM ( " ;
-		sql += 	"        SELECT * FROM userinfo  ORDER BY user_idx DESC " ;
+		sql += 	"SELECT user_idx, id, nickname, profile, grade, ";
+		sql	+= "( SELECT sns_name FROM snstype S WHERE S.sns_idx = UI.sns_idx) sns_name ,create_date  ";
+		sql	+= "FROM userinfo UI  ORDER BY user_idx DESC " ;
 		sql += 	"       ) U  " ;
 		
 		if(paging.getSearchType()==1) {
@@ -794,9 +796,9 @@ public class UserDaoImpl implements UserDao{
 			while(rs.next()) {
 				User u = new User();
 				u.setUser_idx(rs.getInt("user_idx"));
+				u.setSnsType(rs.getString("sns_name"));
 				u.setId(rs.getString("id"));
 				u.setNickname(rs.getString("nickname"));
-				u.setSns_idx(rs.getInt("sns_idx"));
 				u.setGrade(rs.getString("grade"));
 				u.setCreate_date(rs.getDate("create_date"));
 				u.setProfile(rs.getString("profile"));

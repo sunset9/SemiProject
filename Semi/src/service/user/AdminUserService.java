@@ -19,7 +19,7 @@ public interface AdminUserService {
 	public User getUserByEmail(User user);
 	
 	// 회원 삭제
-	public void deleteUser(User user);
+	public boolean deleteUser(User user);
 	
 	// 회원 등급별 수 조회
 	public int userCnt(String grade); 
