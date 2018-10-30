@@ -33,6 +33,14 @@ public class AdminQnaDeleteController extends HttpServlet {
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		
+		// 로그인 확인
+		boolean check = adminQnaService.loginCheck(req);
+				
+		if(!check) {
+			resp.sendRedirect("/user/login");
+			return;
+		}
+		
 		// 파라미터 얻어오기
 		qna = adminQnaService.getParam(req, resp);
 		

@@ -27,6 +27,14 @@ public class AdminInqDeleteController extends HttpServlet {
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		
+		// 로그인 확인
+		boolean check = adminInquiryService.loginCheck(req);
+				
+		if(!check) {
+			resp.sendRedirect("/user/login");
+			return;
+		}
+		
 		// 파라미터 값 받아오기
 		inquiry = adminInquiryService.getParam(req, resp);
 		

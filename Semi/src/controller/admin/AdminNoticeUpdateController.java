@@ -36,6 +36,14 @@ public class AdminNoticeUpdateController extends HttpServlet {
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
+		// 로그인 확인
+		boolean check = adminNoticeService.loginCheck(req);
+				
+		if(!check) {
+			resp.sendRedirect("/user/login");
+			return;
+		}
+		
 		// 요청 파라미터 얻어오기
 		notice = adminNoticeService.getParam(req, resp);
 

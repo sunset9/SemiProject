@@ -5,6 +5,7 @@ import java.util.List;
 import dto.plan.Plan;
 import dto.user.Bookmark;
 import dto.user.User;
+import utils.Paging;
 
 public interface UserDao {
 
@@ -59,11 +60,22 @@ public interface UserDao {
 	// 관리자 페이지에서만 사용하는 메소드 - 나영
 	
 	// 유저 수 조회
-	public int selectUserCnt(); // 전체
-	public int selectTouristCnt(); // 여행자
-	public int selectAuthorCnt(); // 여행작가
-	public int selectManagerCnt(); // 관리자ㅁ
+	public int selectUserCnt(String grade); 
+
+	// option paging total count 조회 
+	public int selectUserCnt(String search, int searchThype);
 	
+	// 조건 추가된 user list 조회
+	public List<User> selectList(Paging paging);
+	
+	// 선택된 유저 삭제
+	public void deleteUserList(String names);
+	
+	// 회원 등급 조회 
+	public String selectGrade(User user);
+	
+	// 회원 등급 올리기
+	public int updateGrade(User user);
 	
 	
 }

@@ -47,6 +47,7 @@ function deleteReply(rep_idx){
 			rep_idx:rep_idx
 		}
 		, success: function(data) {
+			
 			if(data.success) {
 				
 // 				console.log("삭제 되나여?");

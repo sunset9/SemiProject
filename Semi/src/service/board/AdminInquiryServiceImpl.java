@@ -147,6 +147,17 @@ replyDao.delete(reply);
 		
 	}
 
+	@Override
+	public boolean loginCheck(HttpServletRequest req) {
+		boolean check =false;
+		
+		if(req.getSession().getAttribute("login")!=null){
+			check = (boolean)req.getSession().getAttribute("login");
+		}
+		
+//		System.out.println("check : " +check);
+		return check;
+	}
 	
 	
 

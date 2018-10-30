@@ -52,4 +52,8 @@ public interface AdminQnaService {
 	// 게시글 리스트로 삭제 
 	public void qnaListDelete(String names);
 	
+	// 로그인 체크하기
+	public boolean loginCheck(HttpServletRequest req);
+	
+	
 }

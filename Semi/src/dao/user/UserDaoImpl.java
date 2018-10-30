@@ -9,6 +9,7 @@ import java.util.Date;
 import java.util.List;
 
 import utils.DBConn;
+import utils.Paging;
 import dto.plan.Plan;
 import dto.user.Bookmark;
 import dto.user.User;
@@ -112,7 +113,6 @@ public class UserDaoImpl implements UserDao{
 				if(rs!=null)	rs.close();
 				if(ps!=null)	ps.close();
 			} catch (SQLException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}
@@ -165,40 +165,37 @@ public class UserDaoImpl implements UserDao{
 		}
 		
 	}
-	
-	
-	
-	
-	
-	
-	
 
 	//id로 조회 후 회원탈퇴처리
 	@Override
 	public void delete(User user) {
+//		String sql = "";
+//		sql += "DELETE userinfo";
+//		sql += " WHERE id = ?";
 		String sql = "";
 		sql += "DELETE userinfo";
-
-		sql += " WHERE id = ?";
-
+		sql += " WHERE user_idx = ?";
 		
 		PreparedStatement ps = null;
 		
 		try {
 			ps = conn.prepareStatement(sql);
-			ps.setString(1, user.getId());
-			System.out.println("dao delete() : "+user.getId());
+			ps.setInt(1, user.getUser_idx());
+//			System.out.println("dao delete() : "+user.getId());
 			ps.executeUpdate();
 			
 			conn.commit();
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
+			try {
+				conn.rollback();
+			} catch (SQLException e1) {
+				e1.printStackTrace();
+			}
 			e.printStackTrace();
 		} finally {
 			try {
 				if(ps!=null) ps.close();
 			} catch (SQLException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}
@@ -231,7 +228,6 @@ public class UserDaoImpl implements UserDao{
 			
 			cnt = rs.getInt(1);
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} finally {
 			try {
@@ -269,13 +265,11 @@ public class UserDaoImpl implements UserDao{
 		    
 		    conn.commit();
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} finally {
 			try {
 				if(ps!=null) ps.close();
 			} catch (SQLException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}
@@ -314,7 +308,6 @@ public class UserDaoImpl implements UserDao{
 			}
 			
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}finally {
 			try {
@@ -401,13 +394,11 @@ public class UserDaoImpl implements UserDao{
 
 		    conn.commit();
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} finally {
 			try {
 				if(ps!=null) ps.close();
 			} catch (SQLException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}
@@ -436,14 +427,12 @@ public class UserDaoImpl implements UserDao{
 
 			conn.commit();
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} finally {
 			try {
 				if (ps != null)
 					ps.close();
 			} catch (SQLException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}
@@ -492,7 +481,6 @@ public class UserDaoImpl implements UserDao{
 				list.add(plan);
 			}
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} finally {
 			try {
@@ -541,9 +529,7 @@ public class UserDaoImpl implements UserDao{
 				list.add(bMark);
 			}
 			
-			
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} finally {
 			try {
@@ -659,7 +645,7 @@ public class UserDaoImpl implements UserDao{
 				user.setId(rs.getString("id"));
 				user.setPassword(rs.getString("password"));
 				user.setNickname(rs.getString("nickname"));
-				user.setProfile(rs.getString("profile"));
+				user.setProfile(rs.getString("pr ofile"));
 				user.setGrade(rs.getString("grade"));
 				user.setSns_idx(rs.getInt("sns_idx"));
 				user.setCreate_date(rs.getDate("create_date"));
@@ -672,7 +658,6 @@ public class UserDaoImpl implements UserDao{
 				if(rs!=null)	rs.close();
 				if(ps!=null)	ps.close();
 			} catch (SQLException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}
@@ -685,28 +670,262 @@ public class UserDaoImpl implements UserDao{
 	// 관리자 페이지에서 쓰는 메소드 
 	
 	@Override
-	public int selectUserCnt() {
-		// TODO Auto-generated method stub
-		return 0;
+	public int selectUserCnt(String grade) {
+		String sql = "";
+			   sql +="SELECT COUNT(*) FROM userinfo ";
+	
+		if(grade != null) {
+			sql +=" where grade ='"+grade+"'";   
+		 }
+		
+		// 조회 결과 담을 변수
+		int cnt = 0;
+		
+		PreparedStatement ps = null;
+		ResultSet rs = null;	   
+		
+		try {
+			ps = conn.prepareStatement(sql);
+			
+			rs = ps.executeQuery();
+			
+			while( rs.next()) {
+				cnt = rs.getInt(1);
+			}
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				if(rs!=null)	rs.close();
+				if(ps!=null)	ps.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+		
+		return cnt;
 	}
 
 	@Override
-	public int selectTouristCnt() {
-		// TODO Auto-generated method stub
-		return 0;
+	public int selectUserCnt(String search, int searchType) {
+		
+		String sql = "SELECT COUNT(*) FROM userinfo  ";
+		
+		if(searchType == 1) {
+			sql += "WHERE nickname ";
+		} else if(searchType == 2) {
+			sql += "WHERE id ";
+		}
+		
+		if(search !=null && !"".equals(search)) {
+			sql += " LIKE '%"+search+"%'";
+		}
+		
+		// DB 객체 생성 
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+		
+		int cnt = 0;
+		
+		try {
+			ps = conn.prepareStatement(sql);
+			rs = ps.executeQuery();
+			
+			rs.next();
+			
+			cnt = rs.getInt(1);
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}finally {
+			try {
+				if(ps!=null)	ps.close();
+				if(rs!=null)	rs.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+				
+		return cnt;
 	}
 
 	@Override
-	public int selectAuthorCnt() {
-		// TODO Auto-generated method stub
-		return 0;
+	public List<User> selectList(Paging paging) {
+
+		System.out.println("searchType : " +paging.getSearchType());
+		System.out.println("search: " +paging.getSearch());
+		
+		// 조건으로 검색된 리스트 조회 쿼리
+		String sql="";
+		sql += "SELECT * FROM( " ;
+		sql += 	"    SELECT rownum rnum, U.* FROM ( " ;
+		sql += 	"        SELECT * FROM userinfo  ORDER BY user_idx DESC " ;
+		sql += 	"       ) U  " ;
+		
+		if(paging.getSearchType()==1) {
+			sql+= "WHERE nickname";
+		} else if(paging.getSearchType()==2) {
+			sql+= "WHERE id";
+		}
+		if(paging.getSearch()!=null && !"".equals(paging.getSearch())) {
+			sql += "  LIKE '%"+paging.getSearch()+"%'";
+		}
+		
+		sql += 	"        ORDER BY rnum" ;
+		sql += 	"    )" ;
+		sql += 	"  WHERE rnum between ? AND ?";
+		
+		// DB 객체 생성 
+		PreparedStatement ps = null;
+		ResultSet rs = null; 
+		
+		// 조회 결과 담을 list 생성
+		List<User> list = new ArrayList<>();
+		
+		try {
+			ps = conn.prepareStatement(sql);
+			
+			ps.setInt(1, paging.getStartNo());
+			ps.setInt(2, paging.getEndNo());
+			
+			rs = ps.executeQuery();
+			
+			while(rs.next()) {
+				User u = new User();
+				u.setUser_idx(rs.getInt("user_idx"));
+				u.setId(rs.getString("id"));
+				u.setNickname(rs.getString("nickname"));
+				u.setSns_idx(rs.getInt("sns_idx"));
+				u.setGrade(rs.getString("grade"));
+				u.setCreate_date(rs.getDate("create_date"));
+				u.setProfile(rs.getString("profile"));
+				
+				list.add(u);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}finally {
+			try {
+				//DB객체 닫기
+				if(rs!=null)	rs.close();
+				if(ps!=null)	ps.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+		
+		
+		return list;
 	}
 
 	@Override
-	public int selectManagerCnt() {
-		// TODO Auto-generated method stub
-		return 0;
+	public void deleteUserList(String names) {
+		String sql = "DELETE FROM userinfo WHERE user_idx IN("+names+")";
+		
+		//DB 객체
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+
+		try {
+			conn.setAutoCommit(false);
+			
+			ps = conn.prepareStatement(sql);
+					
+			ps.executeUpdate();
+			
+			conn.commit();
+		} catch (SQLException e) {
+			try {
+				conn.rollback();
+			} catch (SQLException e1) {
+				e1.printStackTrace();
+			}
+			e.printStackTrace();
+		} finally {
+			try {
+				if(ps!=null)	ps.close();
+						
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
 	}
+	
+	@Override
+	public String selectGrade(User user) {
+		String sql="SELECT grade FROM userinfo WHERE user_idx = ?";
+		
+		//DB 객체
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+		
+		// 결과 담을 변수
+		String grade =null;
+		
+		try {
+			ps = conn.prepareStatement(sql);
+			rs = ps.executeQuery();
+			
+			while(rs.next()) {
+				grade = rs.getString(1);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}finally {
+			try {
+				if(ps!=null)	ps.close();
+						
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+		
+		return grade;
+	}
+
+	@Override
+	public int updateGrade(User user) {
+		String sql="UPDATE userinfo SET grade = ?  WHERE user_idx =?";
+		
+		//DB 객체
+		PreparedStatement ps = null;
+		
+		
+		// 결과 담을 변수
+		int result=0;
+		
+		try {
+			conn.setAutoCommit(false);
+			
+			ps =conn.prepareStatement(sql);
+			ps.setString(1, user.getGrade());
+			ps.setInt(2, user.getUser_idx());
+			
+			result = ps.executeUpdate();
+			
+			conn.commit();
+		
+		} catch (SQLException e) {
+			try {
+				conn.rollback();
+			} catch (SQLException e1) {
+				e1.printStackTrace();
+			}
+			e.printStackTrace();
+		}finally {
+			try {
+				if(ps!=null)	ps.close();
+						
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+		
+		return result;
+	}
+
+
 
 
 }

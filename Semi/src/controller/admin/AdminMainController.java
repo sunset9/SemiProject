@@ -25,6 +25,15 @@ public class AdminMainController extends HttpServlet {
 
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+		
+		// 로그인 확인
+		boolean check = adminInquiryService.loginCheck(req);
+				
+		if(!check) {
+			resp.sendRedirect("/user/login");
+			return;
+		}
+		
 		// 현재 페이지 번호 얻기 
 		int curPage = adminInquiryService.getCurPage(req);
 		

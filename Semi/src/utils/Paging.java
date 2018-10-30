@@ -15,7 +15,17 @@ public class Paging {
 	private int endNo;	//게시물리스트 마지막 번호
 	
 	private String search; // 검색어
+	private int searchType; //검색 조건
 	
+	
+	public int getSearchType() {
+		return searchType;
+	}
+
+	public void setSearchType(int searchType) {
+		this.searchType = searchType;
+	}
+
 	public String getSearch() {
 		return search;
 	}
@@ -184,7 +194,8 @@ public class Paging {
 	public String toString() {
 		return "Paging [curPage=" + curPage + ", totalCount=" + totalCount + ", listCount=" + listCount + ", totalPage="
 				+ totalPage + ", pageCount=" + pageCount + ", startPage=" + startPage + ", endPage=" + endPage
-				+ ", startNo=" + startNo + ", endNo=" + endNo + ", search=" + search + "]";
+				+ ", startNo=" + startNo + ", endNo=" + endNo + ", search=" + search + ", searchType=" + searchType
+				+ "]";
 	}
 
 }

@@ -33,10 +33,10 @@ public class ReplyDeleteController extends HttpServlet {
 		
 //		System.out.println("rep_idx?" +rep_idx);
 		
-		boolean success = inquiryService.deleteReply(reply);
+		boolean s = inquiryService.deleteReply(reply);
 		
-		System.out.println("success ?" + success);
+//		System.out.println("success ?" + s);
 		
-		resp.getWriter().append("{\"success\":"+success+"}");
+		resp.getWriter().append("{\"success\":"+s+"}");
 	}
 }

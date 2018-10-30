@@ -26,11 +26,11 @@ $(document).ready(function() {
 		});
 		
 		var names = map.get().join(",");
-		console.log("names : " + names);
+// 		console.log("names : " + names);
 		
-		console.log( "map:" + map );	// 맵
-		console.log( "map->array : " + map.get() );	// 맵->배열
-		console.log( "array tostring : " + map.get().join(",") ); // toString
+// 		console.log( "map:" + map );	// 맵
+// 		console.log( "map->array : " + map.get() );	// 맵->배열
+// 		console.log( "array tostring : " + map.get().join(",") ); // toString
 		
 		// 전송 폼
 		var $form = $("<form>")
@@ -99,7 +99,7 @@ ul.sub li a {
 <div class= "menu">
 <h3><strong>MENU</strong></h3>
 <ul class ="sub">
-<li><a href="/admin/user/list">회원관리</a></li>
+<li><a href="/admin/user/main">회원관리</a></li>
 <li><a href="/admin/plan/list">여행일정 게시글 관리</a></li>
 <li><a href="/admin/comment/list">댓글 관리 </a></li>
 <li><a href="/admin/notice/list">공지사항 관리</a></li>

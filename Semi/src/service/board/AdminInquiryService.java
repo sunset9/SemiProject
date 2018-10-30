@@ -65,4 +65,8 @@ public interface AdminInquiryService {
 	// 리스트에서 게시글 삭제
 	public void inqListDelete(String names);
 	
+	// 로그인 체크하기
+	public boolean loginCheck(HttpServletRequest req);
+	
+	
 }

@@ -27,11 +27,13 @@ public class AdminQnaWriteController extends HttpServlet {
 	
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		if( req.getSession().getAttribute("login")==null) {
-			resp.sendRedirect("/main");
+		// 로그인 확인
+		boolean check = adminQnaService.loginCheck(req);
+				
+		if(!check) {
+			resp.sendRedirect("/user/login");
+			return;
 		}
-		req.getRequestDispatcher("/admin/notice/write.jsp").forward(req, resp);
-		
 	}
 	
 	@Override
