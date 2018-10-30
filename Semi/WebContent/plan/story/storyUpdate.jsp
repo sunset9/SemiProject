@@ -30,33 +30,45 @@
 						</div>
 					</td>
 				</tr>
+				</table>
+				<div id ="up_accountViewList">
+				<div id = "up_accountView" name = "up_accountViewName">
+				<table>
 				<tr>	
 					<td>
-					<select>
-						<option>교통</option>
-						<option>식비</optoin>
-						<option>오락</option>
-					</select>
+						<select name = "up_accType" class="up_accType">
+							<option value="1">항공료</option>
+							<option value="2">교통</optoin>
+							<option value="3">숙박</option>
+							<option value="4">입장료</option>
+							<option value="5">음식</option>
+							<option value="6">오락</option>
+							<option value="7">쇼핑</option>
+							<option value="8">기타</option>
+						</select>
 					</td>
 					<td>
-						<select>
-						<option>USD</option>
-						<option>KRW</optoin>
-						<option>CAD</option>
-						<option>CNY</option>
-					</select>
+						<select name = "up_currSymbol" class="up_currSymbol">
+							<option value = "1">USD</option>
+							<option value = "2">KRW</optoin>
+<!-- 							<option value = "JPY">JPY</option> -->
+						</select>
 					</td>
 					<td>
 					<input type="text" size="40"/>
 					</td>
 					<td>
-						<span class="glyphicon glyphicon-plus"></span>
+						<span class="glyphicon glyphicon-plus accountPlus" onclick = "UpappendAccount()" onmouseover="mover($(this))" 
+							onmouseleave="mleave($(this))" onmousedown="mdown($(this))"></span>
 					</td>
 					<td>
-						<span class="glyphicon glyphicon-remove"></span>
+						<span class="glyphicon glyphicon-remove accountRemove" name = "removeAcoountName" onclick = "UpremoveAccount()" style="display: none" 33onmouseover="mover($(this))" 
+							onmouseleave="mleave($(this))" onmousedown="mdown($(this))"></span>
 					</td>
 				</tr>
 				</table>
+				</div>
+			  </div>
 			</div>
         </form>
         </div> <!-- modal 바디끝 -->
