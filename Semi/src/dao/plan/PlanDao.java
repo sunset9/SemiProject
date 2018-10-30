@@ -9,6 +9,9 @@ import dto.user.User;
 public interface PlanDao {
 
 	// 일정메인 인덱스로 일정 정보 불러오기
+	Plan selectPlanInfoByPlanIdx(int plan_idx);
+	
+	// 일정메인 인덱스로 일정 정보 불러오기(파라미터 타입이 Plan)
 	Plan selectPlanInfoByPlanIdx(Plan plan);
 	
 	// 유저 아이디로 유저 정보 불러오기 -> 게시자 정보
@@ -41,5 +44,14 @@ public interface PlanDao {
 	//제목으로 일정 검색 하기 
 	Plan selectPlanTitle(Plan plan);
 	
+	//새 일정 만들기 파라미터 저장
+	public void insertPlan(Plan param, User user);
+	
+	//plan_idx 가져오기
+	public int getPlan_idx();
+
+	//planner_seq.nextval 가져오기
+	public int getPlannerSeqNextval();
+
 	
 }

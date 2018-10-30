@@ -32,16 +32,15 @@ public class AllContentsCtroller extends HttpServlet {
 	
 	@Override
 		protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-			//Search search = new Search();
+			//한글 인코딩
+			req.setCharacterEncoding("UTF-8");
 		
-			
 			//요청 파리미터 받기 
 			String category = req.getParameter("category");
 			String searchValue = req.getParameter("searchValue");
 
-			System.out.println("올콘텐츠 컨트롤러 카테고리 : "+category); //오키 
-			System.out.println("올콘텐츠 컨트롤러 검색값: "+searchValue); //오키
-			
+			//System.out.println("올콘텐츠 컨트롤러 카테고리 : "+category); //오키 
+			//System.out.println("올콘텐츠 컨트롤러 검색값: "+searchValue); //오키
 			
 			//콘텐츠 리스트 가져오기
 			List<Plan> searchList = conService.getList(category, searchValue);

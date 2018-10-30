@@ -25,11 +25,17 @@ public interface PlanService {
 	// 요청파라미터(plan_idx) -> Plan 모델 
 	Plan getSession4Plan(HttpServletRequest req);
 	
+	// 요청파라미터 처리(main 새일정만들기에서 넘어온 파라미터)
+	Plan getParameter(HttpServletRequest req);
+	
 	// 요청파라미터(user_idx) -> Plan 모델 
 	User getSession4User(HttpServletRequest req);
 		
 	// 일정 기본 정보 가져오기
-	Plan getPlanInfo(Plan plan);
+	Plan getPlanInfo(int plan_idx);
+	
+	// 일정 기본 정보 가져오기 (파라미터가 Plan타입)
+	public Plan getPlanInfo(Plan plan);
 
 	// 가계부 정보 가져오기
 	Account getAccount(Plan plan);
@@ -44,5 +50,11 @@ public interface PlanService {
 	void update(Plan plan);
 
 	Plan getParam4Edit(HttpServletRequest req);
+	
+	//새 일정 만들기 
+	public void createPlan(Plan param, User user_idx);
+
+	//plan_idx 가져오기 
+	public int getPlan_idx();
 
 }

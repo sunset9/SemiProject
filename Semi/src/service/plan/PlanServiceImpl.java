@@ -63,7 +63,8 @@ public class PlanServiceImpl implements PlanService{
 		Date dateEnd = new Date();
 		
 //		req.getParameter("1")
-		int plan_idx = (int)req.getSession().getAttribute("plan_idx");
+//		int plan_idx = (int)req.getSession().getAttribute("plan_idx");
+		int plan_idx = Integer.parseInt(req.getParameter("plan_idx"));
 		plan.setPlan_idx(plan_idx);
 		plan.setUser_idx(1);
 		plan.setTitle(req.getParameter("editTitleView"));
@@ -86,13 +87,22 @@ public class PlanServiceImpl implements PlanService{
 	
 	// 일정 기본 정보 가져오기
 	@Override
-	public Plan getPlanInfo(Plan plan) {
+	public Plan getPlanInfo(int plan_idx) {
 		//조회수 증가
 		//plandao.updateHit(plan);
 		
 		//일정 정보 불러오기(제목, 거리 등)
+		return plandao.selectPlanInfoByPlanIdx(plan_idx);
+	}
+	
+	// 일정 기본 정보 가져오기
+	@Override
+	public Plan getPlanInfo(Plan plan) {
+		// TODO Auto-generated method stub
 		return plandao.selectPlanInfoByPlanIdx(plan);
 	}
+
+	
 	
 	//왼쪽에 띄워줄 유저 정보 가져오기
 	@Override
@@ -138,6 +148,44 @@ public class PlanServiceImpl implements PlanService{
 	public void update(Plan plan) {
 		plandao.update(plan);
 	}
+
+	// 요청파라미터 처리(main 새일정만들기에서 넘어온 파라미터)
+	@Override
+	public Plan getParameter(HttpServletRequest req) {
+		Plan plan = new Plan();
+		Date dateStart = new Date();
+		Date dateEnd = new Date();
+
+		plan.setTitle(req.getParameter("title"));
+		try {
+			dateStart = new SimpleDateFormat("yyyy-MM-dd").parse(req.getParameter("startDate"));
+			dateEnd = new SimpleDateFormat("yyyy-MM-dd").parse(req.getParameter("endDate"));
+			
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		plan.setStart_date(dateStart);
+		plan.setEnd_date(dateEnd);
+		plan.setTraveled(Integer.parseInt(req.getParameter("traveled")));
+
+		return plan;
+	}
+	
+	//새 일정 만들기 
+	@Override
+	public void createPlan(Plan param, User user) {
+		plandao.insertPlan(param, user);
+	}
+
+	//plan_idx 가져오기 
+	@Override
+	public int getPlan_idx() {
+		return plandao.getPlan_idx();
+	}
+
+
 
 	
 }

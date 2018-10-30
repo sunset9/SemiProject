@@ -79,7 +79,7 @@
 	<span class="close">&times;</span>
 	<div><h2>새 일정 만들기</h2></div>
 	<hr>
-	<form action="/main" method="post">
+	<form action="/plan/write" method="post">
 	<div>
 		<input type="text" id="title" name="title" placeholder="여행 제목" /><br>
 		<input type="date" id="startDate" name="startDate" value="" />

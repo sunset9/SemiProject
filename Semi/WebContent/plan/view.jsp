@@ -290,6 +290,7 @@ $(document).ready(function() {
 // 	수정버튼
 	$("#btnModify").click(function() {
 		isModify = 1;
+		$("#Modify").submit();
 		console.log("view.jsp isModify : " + isModify);
 	});
 
@@ -453,8 +454,12 @@ $(document).ready(function() {
 		
 <!-- 		게시자와 열람자가 같은 유저면 수정버튼을 -->
 		<c:if test="${writtenUserView.user_idx eq loginedUserView.user_idx}">
-		    <input id="btnModify" type="button" value="수정" style="float:right;"
-		    onClick="location.href='/plan/write'">
+		    <!-- <input id="btnModify" type="button" value="수정" style="float:right;"
+		    onClick="location.href='/plan/write'"> -->
+		    <form action="/plan/write" method="get" id="Modify">
+		    	<input type="hidden" name="plan_idx" value="${planView.plan_idx}">
+		    	<input id="btnModify" type="button" value="수정" style="float:right;">
+		    </form>
 		</c:if>
 <!-- 		다르면 북마크 버튼을 보여준다 -->
 		<c:if test="${writtenUserView.user_idx ne loginedUserView.user_idx}">
