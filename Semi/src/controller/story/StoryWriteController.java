@@ -31,6 +31,8 @@ public class StoryWriteController extends HttpServlet {
 	@Override
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		
+		
+		System.out.println("스토리라이트 컨트롤러");
 		req.setCharacterEncoding("utf-8");
 		
 		String[] accType = req.getParameterValues("accType");

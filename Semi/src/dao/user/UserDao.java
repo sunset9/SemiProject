@@ -77,5 +77,8 @@ public interface UserDao {
 	// 회원 등급 올리기
 	public int updateGrade(User user);
 	
+	// 현재 유저의 글을 제외한 모든 글 가져오기 
+	public List<Plan> getAllPlanList(User cUser);
+	
 	
 }

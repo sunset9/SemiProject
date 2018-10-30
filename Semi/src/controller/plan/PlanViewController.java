@@ -44,7 +44,9 @@ public class PlanViewController extends HttpServlet {
         //System.out.println("5," + req.getSession().getAttribute("user_idx"));
 		// 요청파라미터(plan_idx) -> Plan 모델 
         Plan planParam = pService.getSession4Plan(req);
-		
+		//int param = (int)req.getAttribute("plan_idx");
+		//Plan planParam = new Plan();
+		//planParam.setPlan_idx(param);
 		
 		// 일정 기본 정보 가져오기
 		Plan planView = pService.getPlanInfo(planParam);

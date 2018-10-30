@@ -97,7 +97,16 @@
 	</div>
 	
 	<div id="inquiryList" class="list" style="display:none">
-		<div><h3>여기는 내 문의 리스트</h3></div>
+		<div><h3>여기는 모든 일정 리스트</h3></div>
+		<c:forEach var="aList" items="${allPlanList}" varStatus="aStatus">
+			<div>
+				<form action="/plan" method="post">
+					<input type="hidden" name="plan_idx" value="${aStatus.current.plan_idx}" />
+					<div><input type="image" src="${aList.getBannerURL()}" style="width: 300px;"></div>
+					<div><button type="submit" style="border:0; ">글 제목 : ${aList.getTitle()}</button></div><hr>
+				</form>	
+			</div>
+		</c:forEach>
 	</div>
 </div>
 </c:if>
@@ -172,7 +181,16 @@
 	</div>
 	
 	<div id="inquiryList" class="list" style="display:none">
-		<div><h3>여기는 내 문의 리스트</h3></div>
+		<div><h3>여기는 모든 일정 리스트</h3></div>
+		<c:forEach var="aList" items="${allPlanList}" varStatus="aStatus">
+			<div>
+				<form action="/plan" method="post">
+					<input type="hidden" name="plan_idx" value="${aStatus.current.plan_idx}" />
+					<div><input type="image" src="${aList.getBannerURL()}" style="width: 300px;"></div>
+					<div><button type="submit" style="border:0; ">글 제목 : ${aList.getTitle()}</button></div><hr>
+				</form>	
+			</div>
+		</c:forEach>
 	</div>
 </div>
 </c:if>
