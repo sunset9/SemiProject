@@ -925,6 +925,57 @@ public class UserDaoImpl implements UserDao{
 		return result;
 	}
 
+	//현재 유저의 글을 제외한 모든 글 가져오기
+	@Override
+	public List<Plan> getAllPlanList(User cUser) {
+		System.out.println(cUser);
+		
+		String sql = "SELECT * FROM PLANNER WHERE USER_IDX != ?";
+		
+		//DB 객체
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+		List<Plan> list = null;
+		
+		try {
+			//DB 작업
+			ps = conn.prepareStatement(sql);
+			ps.setInt(1, cUser.getUser_idx());
+			rs = ps.executeQuery();
+			
+			list = new ArrayList<>();
+
+			while (rs.next()) {
+				Plan plan = new Plan();
+				
+				plan.setPlan_idx(rs.getInt("PLAN_IDX"));
+				plan.setUser_idx(rs.getInt("USER_IDX"));
+				plan.setStart_date(rs.getDate("START_DATE"));
+				plan.setEnd_date(rs.getDate("END_DATE"));
+				plan.setTitle(rs.getString("TITLE"));
+				plan.setTraveled(rs.getInt("TRAVELED"));
+				plan.setOpened(rs.getInt("OPENED"));
+				plan.setDistance(rs.getInt("DISTANCE"));
+				plan.setCreate_date(rs.getDate("CREATE_DATE"));
+				plan.setBannerURL(rs.getString("BANNERURL"));
+				System.out.println("userDaoImpl plan : "+plan);
+				
+				list.add(plan);
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			try {
+				if(ps!=null)	ps.close();
+						
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+		return list;
+	}
+
 
 
 

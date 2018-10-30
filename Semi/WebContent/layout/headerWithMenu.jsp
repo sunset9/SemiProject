@@ -87,12 +87,12 @@ $(document).ready(function(){
 		<div class="search common">
 			<div class="Type common">
 			<form action="/contents/all" method="post">
-				<select name="category">
-					<option value="title">제목</option>
-					<option value="nickname">닉네임</option>
+				<select name="searchType">
+					<option value="1">제목</option>
+					<option value="2">닉네임</option>
 				</select>
 				<div class="searchBox common">
-					<input type="text" name="searchValue" />
+					<input type="text" name="search" />
 				</div>
 				<div><button type="submit">검색</button></div>
 			</form>

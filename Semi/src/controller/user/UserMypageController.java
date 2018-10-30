@@ -49,6 +49,11 @@ public class UserMypageController extends HttpServlet {
 			int totDist = userService.getTotDist(cUser);
 			req.setAttribute("totDist", totDist);
 			
+			//모든 일정 가져오기
+			List<Plan> allPlanList = userService.getAllPlanList(cUser);
+			//System.out.println("userMyPageController allPlanList : "+allPlanList);
+			req.setAttribute("allPlanList", allPlanList);
+			
 			//현재 유저의 북마크 가져오기
 			List<Bookmark> bookMarkList = userService.getBookmarkList(cUser);
 			//bookMarkList

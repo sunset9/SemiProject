@@ -74,7 +74,6 @@ public class StoryServiceImpl implements StoryService {
 	      System.out.println("story가 null 혹은 빈값"); 
 	    }
 	    
-	    
 	   int userIdx =  (int) req.getSession().getAttribute("user_idx");
 	   
 	   story.setUser_idx(userIdx);

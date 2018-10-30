@@ -74,6 +74,7 @@ public class PlanUpdateController extends HttpServlet {
 			// 플랜 정보 파라미터 받기 
 			Plan planParam = pService.getParam4Edit(req);
 			req.getSession().setAttribute("plan_idx", planParam.getPlan_idx());
+			//req.setAttribute("plan_idx", planParam.getPlan_idx());
 			// 요청파라미터 -> 타임테이블, 위치정보 Map 타입
 			Map<Timetable, Location> ttbLocParam = ttbService.getParam(req);
 			

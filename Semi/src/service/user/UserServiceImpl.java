@@ -200,6 +200,13 @@ public class UserServiceImpl implements UserService {
 		return userDao.selectUserAll();
 	}
 
+	//현재 유저의 글을 제외한 모든 글 가져오기 
+	@Override
+	public List<Plan> getAllPlanList(User cUser) {
+		
+		return userDao.getAllPlanList(cUser);
+	}
+
 
 
 
