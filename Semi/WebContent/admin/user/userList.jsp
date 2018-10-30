@@ -6,22 +6,14 @@
 <c:import url="/layout/headerNoMenu.jsp" />
 
 <script type="text/javascript">
-
 $(document).ready(function() {
-	$("#btnSearch").click(function() {
-		$(location).attr("href","/admin/qna/list?search="+$("#search").val());
-	});
-	
-	$("#btnWrite").click(function() {
-		location.href="/admin/notice/write";
-	});
 	
 	// 선택체크 삭제
 	$("#btnDelete").click(function() {
 		// 선택된 체크박스
 		var $checkboxes = $("input:checkbox[name='checkRow']:checked");
 	
-// 		console.log($checkboxes);
+		console.log($checkboxes);
 		
 		//방법2
 		// 체크된 대상들을 map으로 만들고 map을 문자열로 만들기
@@ -30,15 +22,15 @@ $(document).ready(function() {
 		});
 		
 		var names = map.get().join(",");
-		console.log("names : " + names);
+// 		console.log("names : " + names);
 		
-		console.log( "map:" + map );	// 맵
-		console.log( "map->array : " + map.get() );	// 맵->배열
-		console.log( "array tostring : " + map.get().join(",") ); // toString
+// 		console.log( "map:" + map );	// 맵
+// 		console.log( "map->array : " + map.get() );	// 맵->배열
+// 		console.log( "array tostring : " + map.get().join(",") ); // toString
 		
 		// 전송 폼
 		var $form = $("<form>")
-			.attr("action", "/admin/qna/deleteList")
+			.attr("action", "/admin/user/deleteList")
 			.attr("method", "post")
 			.append(
 				$("<input>")
@@ -52,9 +44,58 @@ $(document).ready(function() {
 	});
 });
 
-
 </script>
 
+<script type="text/javascript">
+
+function userDelete(user_idx) {
+
+	$.ajax ( {
+		type : "POST"
+		, url:"/admin/user/delete"
+		, data:{"user_idx":user_idx }
+		, dataType: "html"
+		, success: function(d) {
+			if(d.success) {
+				$("[data-user_idx='"+user_idx+"']").remove();
+			}
+		}
+		,error: function() {
+			console.log("실패")
+		}
+		
+	});
+};
+
+function gradeChange(user_idx,grade) {
+	
+	console.log("user등급: " +grade);
+	
+	$.ajax({
+		type:"post"
+		, url :"/admin/user/grade"
+		, dataType:"json"
+		, data:{
+			user_idx:user_idx,
+			
+			usergrade : grade
+			
+		}
+		,success:function(data){
+			if(data.success){
+				alert ("등급이 변경되었습니다.")
+				
+			} else{
+				alert("등급변경 실패")
+			}
+		}
+		, error: function() {
+			console.log("error")
+		}
+	});
+}
+
+</script>
 
 <style>
 .wrapper {
@@ -89,15 +130,27 @@ ul.sub li a {
 	color:#000;
 }
 
+#listTable{
+	text-align: center;
+	margin : 0 auto;
+}
 
+th{
+	text-align: center;
+}
+
+#searchBox{
+	text-align: center;
+	
+}
 
 </style>
-<title>관리자 자주하는 질문 리스트</title>
+
+<title>유저 조건 조회</title>
 <hr>
+
 <a href ="/admin/main"><h1><strong>관리자 페이지</strong></h1></a>
 <hr>
-
-
 
 <div class= "wrapper">
 <div class= "menu">
@@ -113,30 +166,45 @@ ul.sub li a {
 </div>
 
 <div class="content">
-<h3><strong>자주하는 질문</strong></h3>
+<h3><strong>사용자 조건 조회</strong></h3>
+<hr><br>
+
 <div id ="listTable">
 <table class="table table-hover table-striped table-condensed">
 <thead>
-<tr>
-<td></td>
-<th>번호</th>
-<th>제목</th>
-<th>작성자</th>
 
-<th>조회수</th>
-<th>작성일</th>
+<tr>
+<th></th>
+<th>사용자 번호</th>
+<th>아이디</th>
+<th>닉네임</th>
+<th>로그인 타입</th>
+<th>등급</th>
+<th>가입일</th>
+<th>프로필</th>
+<th>삭제</th>
 </tr>
+
 </thead>
 <tbody>
-<c:forEach items ="${qnaList }" var = "qna">
+<c:forEach items ="${userList }" var = "user">
 <tr>
-<td><input type="checkbox" name="checkRow" value="${qna.qna_idx }" /></td>
-<td>${qna.qna_idx }</td>
-<td><a href="/admin/qna/view?qna_idx=${qna.qna_idx }">${qna.title }</a></td>
-<td>${qna.writer }</td>
+<td><input type="checkbox" name="checkRow" value="${user.user_idx },${user.grade}" /></td>
+<td>${user.user_idx }</td>
+<td>${user.id }</td>
+<td>${user.nickname }</td>
+<td>${user.sns_idx }</td>
+<td>
+	<select id="userGrade" onchange="gradeChange(${ user.user_idx});">
+		<option value="관리자" <c:if test="${user.grade eq '관리자'}">selected</c:if>>관리자</option>
+		<option value="여행작가" <c:if test="${user.grade eq '여행작가'}">selected</c:if>>여행작가</option>
+		<option value="여행자" <c:if test="${user.grade eq '여행자'}">selected</c:if>>여행자</option>
+	</select>
+</td>
+<td>${user.create_date }</td>
+<td>${user.profile }</td>
 
-<td>${qna.hit }</td>
-<td>${qna.create_date }</td>
+<td><button id="userDelete" onclick="userDelete(${user.user_idx });">삭제</button></td>
 </tr>
 </c:forEach>
 </tbody>
@@ -144,12 +212,13 @@ ul.sub li a {
 </table>
 </div>
 
+
 <div id="pagingBox" class="text-center">
   <ul class="pagination pagination-sm">
   	<!-- 처음으로 가기 -->
   	<c:if test="${paging.curPage ne 1 }">
     <li>
-      <a href="/admin/qna/list?search=${paging.search }" aria-label="First">
+      <a href="/admin/user/list?search=${paging.search }&searchType=${paging.searchType}" aria-label="First">
         <span aria-hidden="true">&larr;처음</span>
       </a>
     </li>
@@ -166,7 +235,7 @@ ul.sub li a {
     
   	<c:if test="${paging.curPage ne 1 }">
     <li>
-      <a href="/admin/qna/list?curPage=${paging.curPage-1 }&search=${paging.search }" aria-label="Previous">
+      <a href="/admin/user/list?curPage=${paging.curPage-1 }&search=${paging.search }&searchType=${paging.searchType}" aria-label="Previous">
         <span aria-hidden="true">&laquo;</span>
       </a>
     </li>
@@ -180,10 +249,10 @@ ul.sub li a {
 
 		<!-- 현재 보고 있는 페이지번호만 강조해주기 -->
 		<c:if test="${paging.curPage eq i}">          
-    	  <li class="active"><a href="/admin/qna/list?curPage=${i }&search=${paging.search }">${i }</a></li>
+    	  <li class="active"><a href="/admin/user/list?curPage=${i }&search=${paging.search }&searchType=${paging.searchType}">${i }</a></li>
     	</c:if>
 		<c:if test="${paging.curPage ne i}">          
-    	  <li><a href="/admin/qna/list?curPage=${i }&search=${paging.search }">${i }</a></li>
+    	  <li><a href="/admin/user/list?curPage=${i }&search=${paging.search }&searchType=${paging.searchType}">${i }</a></li>
     	</c:if>
     </c:forEach>
 
@@ -197,23 +266,29 @@ ul.sub li a {
 	
   	<c:if test="${paging.curPage ne paging.totalPage }">
     <li>
-      <a href="/admin/qna/list?curPage=${paging.curPage+1 }&search=${paging.search }" aria-label="Next">
+      <a href="/admin/user/list?curPage=${paging.curPage+1 }&search=${paging.search }&searchType=${paging.searchType}" aria-label="Next">
         <span aria-hidden="true">&raquo;</span>
       </a>
     </li>
     </c:if>
   </ul>
-    <div id="btnBox">
+    <div id="btnDeleteBox">
 	<button id="btnDelete">삭제</button>
-	<button id ="btnWrite">글쓰기</button>
   </div><br>
+  
+  <div id ="searchBox" class="col-xs-2, form-inline" >
+<form action="/admin/user/list" method="get" >	
+	<select name ="searchType" class="form-control" >
+	<option value="1">닉네임</option>
+	<option value="2">아이디</option>
+	</select>
+	<input type="text" name ="search" class="form-control" />
+	<button id="btnSearch">조회</button>
+</form>
 </div>
-<div id="searchBox" class="text-center">
-	<input type="text" id="search"placeholder="제목검색" />
-	<button id="btnSearch">검색</button>
+</div>
 </div>
 
-</div>
 </div>
 </body>
 </html>

@@ -31,6 +31,13 @@ public class AdminInqViewController extends HttpServlet {
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		req.setCharacterEncoding("utf-8");
 
+		// 로그인 확인
+		boolean check = admininquiryService.loginCheck(req);
+				
+		if(!check) {
+			resp.sendRedirect("/user/login");
+			return;
+		}
 		// 요청 파라미터 얻기
 		Inquiry inquiry = admininquiryService.getParam(req, resp);
 

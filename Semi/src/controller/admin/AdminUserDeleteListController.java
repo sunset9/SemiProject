@@ -15,8 +15,8 @@ import service.user.AdminUserServiceImpl;
 import service.user.UserService;
 import service.user.UserServiceImpl;
 
-@WebServlet("/admin/user/delete")
-public class AdminUserDeleteController extends HttpServlet {
+@WebServlet("/admin/user/deleteList")
+public class AdminUserDeleteListController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
 	private User user = new User();
@@ -25,14 +25,15 @@ public class AdminUserDeleteController extends HttpServlet {
 
 	@Override
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		//뷰 지정	
-		user = adminUserService.getParam(req, resp);
-	
-		adminUserService.deleteUser(user);
+
+		String names = req.getParameter("names");
 		
-		req.getRequestDispatcher("/admin/user/main").forward(req, resp);
-
-	}
-	
-
+		if(!"".equals(names) && names != null) {
+			adminUserService.userListDelete(names);
+			
+		}
+		resp.sendRedirect("/admin/user/main");
+		
+		
+		}
 }

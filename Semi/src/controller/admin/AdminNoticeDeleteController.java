@@ -31,10 +31,17 @@ public class AdminNoticeDeleteController extends HttpServlet {
    
 
 	@Override
-	protected void doGet(HttpServletRequest res, HttpServletResponse resp) throws ServletException, IOException {
+	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+		// 로그인 확인
+		boolean check = adminNoticeService.loginCheck(req);
+				
+		if(!check) {
+			resp.sendRedirect("/user/login");
+			return;
+		}
 		
 		// 파라미터 얻어오기
-		notice = adminNoticeService.getParam(res, resp);
+		notice = adminNoticeService.getParam(req, resp);
 		
 		// 게시글 삭제 수행
 		adminNoticeService.delete(notice);

@@ -24,6 +24,14 @@ public class AdminNoticeViewController extends HttpServlet {
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		req.setCharacterEncoding("utf-8");
 
+		// 로그인 확인
+		boolean check = adminNoticeService.loginCheck(req);
+				
+		if(!check) {
+			resp.sendRedirect("/user/login");
+			return;
+		}
+		
 		// 요청 파라미터 얻어오기
 		Notice notice = adminNoticeService.getParam(req, resp);
 
