@@ -5,6 +5,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -17,10 +18,13 @@ import dao.user.UserDaoImpl;
 import dto.plan.Plan;
 import dto.story.Comment;
 import dto.story.Story;
+import dto.timetable.Location;
 import dto.timetable.Timetable;
 import dto.user.User;
 import service.account.AccountService;
 import service.account.AccountServiceImpl;
+import service.timetable.TimetableService;
+import service.timetable.TimetableServiceImpl;
 import utils.CalcDate;
 
 public class StoryServiceImpl implements StoryService {
@@ -103,8 +107,6 @@ public class StoryServiceImpl implements StoryService {
 
 	@Override
 	public void write(Story story) {
-		story.setStory_idx(storyDao.SelectStoryIdx());
-		
 		storyDao.insert(story);
 		
 	}
@@ -182,5 +184,43 @@ public class StoryServiceImpl implements StoryService {
 		
 	}
 
+	@Override
+	public boolean updateMini(HttpServletRequest req) {
+		// Timetable Service 객체 생성
+		TimetableService ttbService = new TimetableServiceImpl();
+		
+		// 요청 파라미터 추출
+		Story storyParam = getParam(req);
+		Map<Timetable, Location> ttbLocParam = ttbService.getMiniParam(req);
+		
+		System.out.println("----- 1.스토리 서비스 param -----");
+		System.out.println(storyParam);
+		System.out.println(ttbLocParam);
+		
+		// ttb_idx가 음수라면(아직 DB저장안된 타임테이블) 새로운 idx 값 가져옴
+		if(storyParam.getTtb_idx() < 0) {
+			int ttb_idx = ttbService.getTtbIdx();
+			
+			// 새로운 타임테이블이기 때문에 타임테이블 저장
+			ttbService.writeTtb(ttb_idx, ttbLocParam);
+			
+			// 미니뷰 스토리 저장 (ttb_idx 세팅한 후 저장)
+			Story story = storyParam;
+			story.setTtb_idx(ttb_idx);
+			System.out.println("----- 2. insert할 객체 -----");
+			System.out.println(story);
+			storyDao.insert(story);
+			
+		} else { // 기존에 있던 타임테이블의 미니뷰 스토리를 수정한 경우
+			// 스토리가 이미 있었던 타임테이블이라면
+			if(ttbService.isStory(ttbLocParam.keySet().iterator().next())) {
+				storyDao.update(storyParam);
+			} else { // 첫 스토리 작성인 경우
+				storyDao.insert(storyParam);
+			}
+		}
+		
+		return true;
+	}
 
 }

@@ -37,6 +37,9 @@ public class StoryUpdateController extends HttpServlet {
 	
 		req.setCharacterEncoding("utf-8");
 		
+		System.out.println("------update 컨트롤러-------");
+		
+		
 		   StoryService sService = new StoryServiceImpl();
 			
 			Story story = new Story();
@@ -88,7 +91,7 @@ public class StoryUpdateController extends HttpServlet {
 			req.setAttribute("diffDays",diffDays);
 			req.setAttribute("storyList", StoryList);
 			
-			req.getRequestDispatcher("h/plan/story/storyView.jsp").forward(req, resp);
+			req.getRequestDispatcher("/plan/story/storyView.jsp").forward(req, resp);
 	
 	
 	}

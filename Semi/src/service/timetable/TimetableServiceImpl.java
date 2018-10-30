@@ -40,8 +40,7 @@ public class TimetableServiceImpl implements TimetableService{
 		if(events!=null & !"".equals(events)) {
 			// JSON String -> Timetable DTO 배열
 			Timetable[] ttbs = gson.fromJson(events, Timetable[].class);
-			// Timetable 리스트 (plan_idx, loc_idx 비어있음)
-			
+			// Timetable 배열 -> 리스트로 변환 (loc_idx 비어있음)
 			ttbList = Arrays.asList(ttbs);
 			
 			// JSON String -> Location DTO 배열
@@ -64,6 +63,33 @@ public class TimetableServiceImpl implements TimetableService{
 		return ttbLoc;
 	}
 	
+	@Override
+	public Map<Timetable, Location> getMiniParam(HttpServletRequest req) {
+		Map<Timetable, Location> ttbLoc = new HashMap<>();
+		
+		// gson 객체생성
+		GsonBuilder gsonBuilder = new GsonBuilder();
+		gsonBuilder.setDateFormat("yyyy-MM-dd HH:mm");
+		Gson gson = gsonBuilder.create();
+		
+		Timetable ttb = null;
+		Location loc = null;
+		
+		// String 형태의 json 파라미터 얻기
+		String ttbStr = req.getParameter("ttbJson");
+		
+		if(ttbStr!=null & !"".equals(ttbStr)) {
+			// JSON String -> Timetable DTO 배열
+			ttb = gson.fromJson(ttbStr, Timetable.class);
+			loc = gson.fromJson(ttbStr, Location.class);
+		}
+		
+		ttbLoc.put(ttb, loc);
+		
+		
+		return ttbLoc;
+	}
+	
 	// Timetable 리스트 가져오기
 	public List<Timetable> getTimetableList(Plan plan){
 		
@@ -77,7 +103,7 @@ public class TimetableServiceImpl implements TimetableService{
 			
 			tb.setTtb_idx(list.get(i).getTtb_idx());
 			
-			list.get(i).setIs_story(ttbDao.selectIsStoryByTimetableIdx(tb));
+			list.get(i).setIs_story(isStory(tb));
 			
 			list.get(i).setDay(ttbDao.selectDay(tb));
 			
@@ -87,7 +113,9 @@ public class TimetableServiceImpl implements TimetableService{
 		return list;
 	}
 	
-	
+	public boolean isStory(Timetable ttb) {
+		return ttbDao.selectIsStoryByTimetableIdx(ttb);
+	}
 	// 해당 Plan의 모든 Location 리스트 가져오기
 	public List<Location> getLocationList(Plan plan){
 		return ttbDao.selectLocationList(plan);
@@ -99,8 +127,8 @@ public class TimetableServiceImpl implements TimetableService{
 		return ttbDao.selectLocationListByStartDate(timetable);
 	}
 	
-	// plan_idx와 loc_idx까지 set된 타임테이블 객체 리스트 반환
-	public List<Timetable> getCompletedTimetable(Plan plan, Map<Timetable, Location> ttbLoc){
+	// loc_idx까지 set된 타임테이블 객체 리스트 반환
+	public List<Timetable> getCompletedTimetable(Map<Timetable, Location> ttbLoc){
 		// Map 반복문 돌면서 loc_idx 삽입해주기
 		List<Timetable> ttbList = new ArrayList<>();
 		
@@ -117,8 +145,6 @@ public class TimetableServiceImpl implements TimetableService{
 				loc_idx = ttbDao.selectLocationIdx(ttbLoc.get(ttb));
 			}
 			
-			// plan_idx 삽입
-			ttb.setPlan_idx(plan.getPlan_idx());
 			// loc_idx 삽입
 			ttb.setLoc_idx(loc_idx);
 			
@@ -131,7 +157,7 @@ public class TimetableServiceImpl implements TimetableService{
 	
 	// 타임테이블 정보 저장하기(수정)
 	public void update(Plan plan, Map<Timetable, Location> ttbLoc) {
-		List<Timetable> ttbList= getCompletedTimetable(plan, ttbLoc);
+		List<Timetable> ttbList= getCompletedTimetable(ttbLoc);
 		
 //		System.out.println(ttbList);
 		
@@ -141,6 +167,7 @@ public class TimetableServiceImpl implements TimetableService{
 		for(Timetable ttb: ttbList) {
 			// 새로 받은 타임테이블 (ttb_idx = 음수) 저장
 			if(ttb.getTtb_idx()<0) { // 새로 추가된 타임테이블은 insert
+				ttb.setTtb_idx(getTtbIdx());
 				ttbDao.insertTimetable(ttb);
 			} else {
 				ttbDao.updateTimetable(ttb);
@@ -152,8 +179,23 @@ public class TimetableServiceImpl implements TimetableService{
 		
 	}
 
+	@Override
+	public void writeTtb(int ttb_idx, Map<Timetable, Location> ttbLoc) {
+		List<Timetable> ttbList= getCompletedTimetable(ttbLoc);
+		
+		Timetable ttb = ttbList.get(0);
+		ttb.setTtb_idx(ttb_idx);
+		
+		ttbDao.insertTimetable(ttb);
+	}
+
 	// 타임테이블 정보 삭제하기
 	public void delete(Plan plan) {
 		
 	}
+
+	public int getTtbIdx() {
+		return ttbDao.selectTtbIdx();
+	}
+
 }

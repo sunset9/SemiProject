@@ -24,10 +24,10 @@
       <div class="modal-body">
 		<!-- div (팝업으로 띄어줄) 본문 내용 -->	
 		<div style="border: 1px solid #9AA3E6; height: auto;" >
-			<form action="/story/mini/update" method="POST" id="formMiniWrite">
-			<input type='hidden' id='miniPlanIdx'>
-			<input type='hidden' id='miniTtbIdx'>
-			<input type='hidden' name='JSON'>
+			<input type='hidden' name='plan_idx' value='${planView.plan_idx}'> <!-- 스토리 -->
+			<input type='hidden' name='JSON'> <!-- 스토리 -->
+			<input type='hidden' name='ttbJson'> <!-- 해당 타임테이블 -->
+			<input type='hidden' name='events'> <!-- 전체 타임테이블 -->
 			<table style="width: 100%;">
 			<tr>
 				<td rowspan="2" style="padding: 10px 15px; width: 60%;">
@@ -57,7 +57,6 @@
 			</tr>
 
 			</table>
-			</form>
 			</div>
       </div>
       <div class="modal-footer">
@@ -119,23 +118,38 @@ $('.storyContent').froalaEditor({
 </script> 
 <script type="text/javascript">
 $("#btnMiniWriteSave").on("click", function(){
-	console.log($('#miniPlanIdx').val());
-	console.log($('#miniTtbIdx').val());
-	console.log( $('.storyContent').froalaEditor('html.get')); 
+	$(this).attr('disabled',"disabled");
+	// submit 할 객체들 json형태로 받기
+	var storyJson = JSON.parse($('input[name=JSON]').val());
+	storyJson.content = $('.storyContent').froalaEditor('html.get'); // story json형태에 스토리 내용도 추가(plan_idx,ttb_idx만 존재)
 	
-	var storyJSON = {
-		plan_idx: $('#miniPlanIdx').val()
-		, ttb_idx: $('#miniTtbIdx').val()
-		, content: $('.storyContent').froalaEditor('html.get')
-	};
+	// json -> string
+	var storyJsonStr = JSON.stringify(storyJson);
 	
-	var jsonData = JSON.stringify(storyJSON);
-	
-	$('input[name=JSON]').val(jsonData);
-	console.log( $('input[name=JSON]').val());
+	// <input태그 value에 값 넣어줌
+	$('input[name=JSON]').val(storyJsonStr);
 
-// 	store();
-// 	$('#formMiniWrite').submit();
+	// 미니뷰 스토리 업데이트 작업 ajax로 실행
+	$.ajax({
+		url: "/story/mini/update"
+		, async: false
+		, type: "POST"
+		, data: {
+			plan_idx: plan_idx
+			, JSON: storyJsonStr
+			, ttbJson: $('input[name=ttbJson]').val()
+		}
+		, dataType: "text"
+		, success: function(isSucc){
+			if(isSucc){
+				// 미니뷰 저장 성공 시 백그라운드에 있는 플랜 정보 저장
+				store(); 
+			}
+		}
+		,  error: function(){
+			console.log("Mini-view Write Ajax 통신 실패");
+		}
+	});
 });
 </script>
 </body>

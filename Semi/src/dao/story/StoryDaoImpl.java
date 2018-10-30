@@ -147,37 +147,35 @@ public class StoryDaoImpl implements StoryDao{
 	public void insert(Story story) {
 		String sql = "";
 		sql += "INSERT INTO STORY(story_idx, plan_idx, ttb_idx, user_idx, content)";
-		sql	+= " VALUES(?,?,?,?,?)";
+		sql	+= " VALUES(story_seq.nextval,?,?,?,?)";
 		
 		try {
+			conn.setAutoCommit(false);
+			
 			ps = conn.prepareStatement(sql);
 			
-			String content = story.getContent();
-			
-			ps.setInt(1,story.getStory_idx());
-			ps.setInt(2,story.getPlan_idx());
-			ps.setInt(3,story.getTtb_idx());
-			ps.setInt(4,story.getUser_idx());
-			ps.setString(5, content);
+//			ps.setInt(1,story.getStory_idx());
+			ps.setInt(1,story.getPlan_idx());
+			ps.setInt(2,story.getTtb_idx());
+			ps.setInt(3,story.getUser_idx());
+			ps.setString(4, story.getContent());
 			
 			ps.executeUpdate();
 			
 			conn.commit();
+			System.out.println("----- 3. 스토리 dao 커밋완료 -----");
 			
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
-		}finally {
+			try {
+				conn.rollback();
+			} catch (SQLException e1) {
+				e1.printStackTrace();
+			}
+		} finally {
 				try {
-					if(ps != null) {
-						ps.close();
-					}
-					
-					if(rs != null){
-						rs.close();
-					}
+					if(ps != null)	ps.close();
 				} catch (SQLException e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
 	
@@ -188,12 +186,12 @@ public class StoryDaoImpl implements StoryDao{
 	@Override
 	public void update(Story story) {
 		
-		String sql = "UPDATE story SET content = ? where story_idx = ?";
+		String sql = "UPDATE story SET content = ? where ttb_idx = ?";
 		
 		try {
 			ps = conn.prepareStatement(sql);
 			ps.setString(1, story.getContent());
-			ps.setInt(2, story.getStory_idx());
+			ps.setInt(2, story.getTtb_idx());
 			ps.executeUpdate();
 			
 			conn.commit();
@@ -205,15 +203,11 @@ public class StoryDaoImpl implements StoryDao{
 				if(ps!= null) {
 				ps.close();
 				}
-				if(rs!= null) {
-					rs.close();
-				}
 			} catch (SQLException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		
-	}
+		}
 		
 	}
 
@@ -234,9 +228,6 @@ public class StoryDaoImpl implements StoryDao{
 				try {
 					if(ps!= null) {
 					ps.close();
-					}
-					if(rs!= null) {
-						rs.close();
 					}
 				} catch (SQLException e) {
 					// TODO Auto-generated catch block

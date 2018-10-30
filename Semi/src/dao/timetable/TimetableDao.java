@@ -40,4 +40,7 @@ public interface TimetableDao {
 	
 	String selectPlacenameByTimetableIdx(Timetable timetable);
 
+	// timetable sequence next값 조회
+	int selectTtbIdx();
+
 }

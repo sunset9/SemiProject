@@ -108,7 +108,7 @@ public class TimetableDaoImpl implements TimetableDao{
 	// 타임테이블 삽입
 	public void insertTimetable(Timetable ttb) {
 		String sql = "INSERT INTO timetable(ttb_idx, plan_idx, loc_idx, start_time, end_time)"
-				+ " VALUES(timetable_seq.nextval, ?, ?"
+				+ " VALUES(?, ?, ?"
 				+ ", TO_DATE(?, 'yyyy/mm/dd hh24:mi')"
 				+ ", TO_DATE(?, 'yyyy/mm/dd hh24:mi')"
 				+ " )";
@@ -119,10 +119,11 @@ public class TimetableDaoImpl implements TimetableDao{
 			
 			ps = conn.prepareStatement(sql);
 			
-			ps.setInt(1, ttb.getPlan_idx());
-			ps.setInt(2, ttb.getLoc_idx());
-			ps.setString(3, new SimpleDateFormat("yyyy-MM-dd HH:mm").format(ttb.getStart_time()));
-			ps.setString(4, new SimpleDateFormat("yyyy-MM-dd HH:mm").format(ttb.getEnd_time()));
+			ps.setInt(1, ttb.getTtb_idx());
+			ps.setInt(2, ttb.getPlan_idx());
+			ps.setInt(3, ttb.getLoc_idx());
+			ps.setString(4, new SimpleDateFormat("yyyy-MM-dd HH:mm").format(ttb.getStart_time()));
+			ps.setString(5, new SimpleDateFormat("yyyy-MM-dd HH:mm").format(ttb.getEnd_time()));
 			
 			ps.executeUpdate();
 			
@@ -396,5 +397,29 @@ public class TimetableDaoImpl implements TimetableDao{
 		}
 		
 		return place_name;
+	}
+
+	@Override
+	public int selectTtbIdx() {
+		String sql = "SELECT timetable_seq.nextval FROM dual";
+		int seq = 0;
+		try {
+			ps = conn.prepareStatement(sql);
+			rs = ps.executeQuery();
+			
+			while(rs.next()) {
+				seq = rs.getInt(1);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				if(ps!=null) ps.close();
+				if(rs!=null) rs.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+		return seq;
 	}
 }

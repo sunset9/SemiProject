@@ -32,7 +32,7 @@ public class PlanUpdateController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
 	PlanService pService = new PlanServiceImpl();
-	TimetableService ttService = new TimetableServiceImpl();
+	TimetableService ttbService = new TimetableServiceImpl();
 	StoryService sService = new StoryServiceImpl();
 	
 	@Override
@@ -68,18 +68,22 @@ public class PlanUpdateController extends HttpServlet {
 	
 		@Override
 		protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+			System.out.println("----- 5. 플랜 업데이트 시작 -----");
 			req.setCharacterEncoding("utf-8");
 			
 			// 플랜 정보 파라미터 받기 
 			Plan planParam = pService.getParam4Edit(req);
 			req.getSession().setAttribute("plan_idx", planParam.getPlan_idx());
 			// 요청파라미터 -> 타임테이블, 위치정보 Map 타입
-			Map<Timetable, Location> ttbLocParam = ttService.getParam(req);
+			Map<Timetable, Location> ttbLocParam = ttbService.getParam(req);
 			
 			// 타임테이블, 위치정보 정보 업데이트
-			ttService.update(planParam, ttbLocParam);
-//			
-			// 글 정보 업데이트
+			ttbService.update(planParam, ttbLocParam);
+			
+			// 미니뷰 정보가 있다면 업데이트
+			sService.updateMini(req);
+			
+			// 일정 정보 업데이트
 			pService.update(planParam);
 			
 			resp.sendRedirect("/plan");	

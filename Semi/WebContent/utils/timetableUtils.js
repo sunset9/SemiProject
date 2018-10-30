@@ -154,15 +154,22 @@ function initFullCalendar(planStartDate, planEndDate, isFirst){
 						$(".miniImg").attr("src", event.photo_url); // 이미지
 						
 						if(isModify){ // 수정모드
-							$("#miniPlanIdx").val(plan_idx);
-							$("#miniTtbIdx").val(event.id);
-							$(".storyContent").froalaEditor('html.set', story.content); // 스토리 내용
+							// ttb정보 json String 형태로 넘겨줌
+							$("input[name=ttbJson]").val(JSON.stringify(getTtbJson(event)));
+							
+							// story 정보 json String 형태로 넘겨줌
+							$('input[name=JSON]').val(JSON.stringify({ 
+								plan_idx: plan_idx // plan_idx
+								, ttb_idx: event.id // ttb_idx
+							}));
+							
+							// 스토리 내용 띄워주기
+							$(".storyContent").froalaEditor('html.set', story.content);
+							
 						} else { // 읽기모드
-							$(".storyContent").html(story.scontent); // 스토리 내용
+							$(".storyContent").html(story.content); // 스토리 내용
 						}
 				
-						console.log(story.content);
-						
 						// 모달 창 닫힌 경우
 						$("#miniViewModal").on('hidden.bs.modal', function () {
 							// 기존 스토리내용 삭제
@@ -246,19 +253,8 @@ function getTimetablesFromBrowser(){
 	var timetables = [];
 	
 	events.forEach(function(event){ // 모든 리스트 돌면서 timetable json 하나씩 생성
-		// timetable json 생성
-//		console.log(event);
-		var timetable = {
-				id: event.id
-				, title: event.title
-				, address: event.address
-				, start: event.start.format("YYYY-MM-DD HH:mm")
-				, end: event.end.format("YYYY-MM-DD HH:mm")
-				, lat: event.lat
-				, lng: event.lng
-				, photo_url: event.photo_url
-				, place_id: event.place_id
-		}
+		// timetable json 형식으로 가져오기
+		var timetable = getTtbJson(event);
 	
 		timetables.push(timetable);
 	});
@@ -280,6 +276,7 @@ function getTimetablesFromServer(){
 	for(var i = 0; i<ttbList.length; i++){
 		var timetable = {
 			id: ttbList[i].ttb_idx
+			, plan_idx: ttbList[i].plan_idx
 			, title: locList[i].place_name
 			, start: ttbList[i].start_time
 			, end: ttbList[i].end_time
@@ -318,4 +315,21 @@ function deleteTimetableByDate(changedStartDate, changedEndDate){
 	      $('#calendar').fullCalendar('removeEvents', ttb.id);
 	   } 
 	});
+}
+
+function getTtbJson(event){
+	var timetable = {
+			ttb_idx: event.id
+			, plan_idx: plan_idx
+			, place_name: event.title
+			, address: event.address
+			, start_time: event.start.format("YYYY-MM-DD HH:mm") // 24시 형태
+			, end_time: event.end.format("YYYY-MM-DD HH:mm") // 24시 형태
+			, lat: event.lat
+			, lng: event.lng
+			, photo_url: event.photo_url
+			, place_id: event.place_id
+	}
+	
+	return timetable;
 }

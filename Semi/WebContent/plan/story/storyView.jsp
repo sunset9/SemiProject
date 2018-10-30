@@ -150,10 +150,11 @@ hr{
 			var story_idx = $(this).data("storyidx");
 			var planidx = plan_idx;
 			var content = $(this).data("content");
+			var ttb_idx = $(this).data("ttbidx");
 			
 			$(".up_modalPlaceName").text(place_name);
 			$(".up_story_idx").val(story_idx);	
-			
+			$(".up_ttb_idx").val(ttb_idx);
 			$('.up_content').froalaEditor('html.set', content);
 			$(".up_plan_idx").val(planidx);	
 			
@@ -197,6 +198,7 @@ hr{
  					story_idx : $(".up_story_idx").val() 
  					, content  : $(".up_content").val()
  					, plan_idx :$(".up_plan_idx").val()
+ 					, ttb_idx : $(".up_ttb_idx").val()
  				};
  				
  				var jsonData = JSON.stringify(storyJSON);
@@ -401,7 +403,7 @@ hr{
 									  onmouseover="mover($(this))" onmouseleave="mleave($(this))" onmousedown="mdown($(this))" 
 									  data-toggle="modal" data-target="#myModal_update" 
 									  data-backdrop="static" data-storyidx="${story.story_idx}" 
-									  data-place="${story.place_name}" data-content= '${story.content}'>
+									  data-place="${story.place_name}" data-content= '${story.content}' data-ttbidx='${story.ttb_idx}'>
 								  </span>
 								  </font>
 								  <div> <h2><span class="glyphicon glyphicon-map-marker"></span>&nbsp;${story.place_name}</h2>
