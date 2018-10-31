@@ -45,7 +45,9 @@
 
 
 <style type="text/css">
-.header {}
+.wholeHeader > div {
+	padding-bottom: 40px;
+}
 
 .common {
 	display: inline-block;
@@ -62,6 +64,23 @@
 	float: left;
 } */
 
+
+.dropdown > ul > li {
+	display: inline-block;
+	position: relative;
+	padding-left: 40px;
+}
+
+.dropdown > ul > li > ul {
+	position: absolute;
+	list-style-type: none;
+	padding-left: 0px;
+	display: none;
+}
+
+.dropdown > ul > li:hover > ul {
+	display: block; /* 마우스 올리면 서브메뉴 보이는 */
+}
 </style>
 
 <script type="text/javascript">
@@ -75,6 +94,7 @@ $(document).ready(function(){
 </script>
 </head>
 <body>
+<div class="wholeHeader">
 <!-- header시작 -->
 <div class="header">
 	<div class="logo common">
@@ -121,25 +141,44 @@ $(document).ready(function(){
 
 <!-- menubar시작 -->
 <div class="menubar">
-	<div class="menu common"><a href="/contents/all">모든콘텐츠</a></div>
-	<div class="menu common"><a>
-		<!-- 로그인 상태일때 -->
-		<c:if test="${login}">
-			<a href="/user/myPage">마이페이지</a>
-		</c:if>
-		
-		<!-- 비로그인 상태일때 -->
-		<c:if test="${not login}">
-			<a onclick="alert('로그인이 필요합니다.');">마이페이지</a>
-		</c:if>
-	</a></div>
-	<div class="menu common"><a href="/notice/list">공지사항</a></div>
-	<div class="menu common"><a href="/qna/list">Q&A</a></div>
-  	<div class="menu common"><a href="/inquiry/list">문의사항</a></div>
+	<div class="dropdown">
+		<ul>
+			<li>
+			<a href="/contents/all">모든 콘텐츠</a>
+				<ul>
+					<li><a href="/contents/recommend">추천 콘텐츠</a></li>
+					<li><a href="/contents/newest">최신 콘텐츠</a></li>
+				</ul>
+			</li>
+
+			<li>
+				<div class="menu common">
+					<!-- 로그인 상태일때 -->
+					<c:if test="${login}">
+						<a href="/user/myPage">마이페이지</a>
+					</c:if>
+				
+					<!-- 비로그인 상태일때 -->
+					<c:if test="${not login}">
+						<a onclick="alert('로그인이 필요합니다.');">마이페이지</a>
+					</c:if>
+				</div>		
+			</li>
+
+			<li>
+				<div class="menu common"><a href="/notice/list">공지사항</a></div>
+			</li>
+			
+			<li>
+				<div class="menu common"><a href="/qna/list">Q&A</a></div>
+			</li>
+			
+			<li>
+				<div class="menu common"><a href="/inquiry/list">문의사항</a></div>
+			</li>
+		</ul>
+	</div>
 </div><br>
-
-<!-- /menubar -->
-
-
 <!-- /menubar끝 -->
+</div>
 

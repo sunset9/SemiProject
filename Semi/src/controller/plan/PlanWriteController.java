@@ -154,8 +154,7 @@ public class PlanWriteController extends HttpServlet {
 			
 //			// 일정 기본 정보 가져오기
 			Plan planView = pService.getPlanInfo(plan_idx);
-//			// System.out.println("플랜뷰컨트롤러 planView : "+planView); --> 지은 확인
-//			System.out.println("플랜라이트 컨트롤러 : "+planView);
+			System.out.println("플랜라이트 컨트롤러 : "+planView);
 
 			// planView MODEL 전달
 			req.setAttribute("planView", planView);
@@ -163,13 +162,14 @@ public class PlanWriteController extends HttpServlet {
 			// 타임테이블 정보 저장
 //			ttService.write(plan,ttLoc);
 			// 일정 정보 저장하기
-			pService.write(planView);
+			//pService.write(planView);
 	
 			// 게시자 유저 정보 가져오기
 			User writtenUserView = pService.getUserInfo(planView);
+			
 			//userView MODEL 전달
 			req.setAttribute("writtenUserView", writtenUserView);
-			System.out.println(writtenUserView);
+			System.out.println("planWriteController writtenUserView : "+writtenUserView);
 			
 			
 //			---------------------로그인 유저 파라미터 가져오기
@@ -179,7 +179,7 @@ public class PlanWriteController extends HttpServlet {
 			User loginedUserView = pService.getUserInfo4Login(userParam);
 			//userView MODEL 전달
 			req.setAttribute("loginedUserView", loginedUserView);
-					System.out.println(loginedUserView);
+					System.out.println("PlanWriteController loginUserView : "+loginedUserView);
 			
 			// timetable, location 리스트 받기
 			List<Timetable> ttbList = ttbService.getTimetableList(planView);
@@ -212,11 +212,62 @@ public class PlanWriteController extends HttpServlet {
 			
 			// insert한 plan의 plan_idx 가져오기
 			int plan_idx = pService.getPlan_idx();
-			System.out.println("plan_idx : " + plan_idx);
+			//System.out.println("plan_idx : " + plan_idx);
 			
-
+			// 일정 기본 정보 가져오기
+			Plan planView = pService.getPlanInfo(plan_idx);
+			
+			// planView Model 전달 
+			req.setAttribute("planView", planView);
+			
+			// 타임테이블 정보 저장
+//			ttService.write(plan,ttLoc);
+			// 일정 정보 저장하기
+			//pService.write(planView);
+	
+			// 게시자 유저 정보 가져오기
+			User writtenUserView = pService.getUserInfo(planView);
+			
+			//userView MODEL 전달
+			req.setAttribute("writtenUserView", writtenUserView);
+			System.out.println("planWriteController writtenUserView : "+writtenUserView);
+			
+			
+//			---------------------로그인 유저 파라미터 가져오기
+			// 요청파라미터(user_idx) -> Plan 모델
+			User userParam = pService.getSession4User(req);
+			// 로그인 유저 정보 가져오기
+			User loginedUserView = pService.getUserInfo4Login(userParam);
+			//userView MODEL 전달
+			req.setAttribute("loginedUserView", loginedUserView);
+					System.out.println("PlanWriteController loginUserView : "+loginedUserView);
+			
+			// timetable, location 리스트 받기
+			List<Timetable> ttbList = ttbService.getTimetableList(planView);
+			List<Location> locList = ttbService.getLocationList(planView, ttbList);
+			
+			// timetable 과 location이 1:1 대응하지 않는 경우 (DB데이터 문제)
+			if(ttbList.size() != locList.size()) {
+				System.out.println("[ERR] 타임테이블과 위치정보의 개수가 일치하지 않습니다.");
+				return;
+			}
+			
+			// JSON 형태로 변환
+			String ttbListStr = gson.toJson(ttbList);
+			String locListStr = gson.toJson(locList);
+			
+			// 파라미터 지정
+			req.setAttribute("ttbList", ttbListStr);
+			req.setAttribute("locList", locListStr);
+			
+			// 가계부 정보 가져오기
+			Account accView = pService.getAccount(planView);
+			//accView MODEL 전달
+			req.setAttribute("accView", accView);
+			
+			
 			//plan_idx 세션에 추가 
-			req.getSession().setAttribute("plan_idx", plan_idx);
+			//req.getSession().setAttribute("plan_idx", plan_idx);
 		}
 		
 		// 뷰 지정
