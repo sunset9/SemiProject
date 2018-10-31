@@ -563,7 +563,7 @@ window.onbeforeunload = function(){
 		<c:if test="${writtenUserView.user_idx eq loginedUserView.user_idx}">
 		    <!-- <input id="btnModify" type="button" value="수정" style="float:right;"
 		    onClick="location.href='/plan/write'"> -->
-		    <form action="/plan/write" method="get" id="Modify">
+		    <form action="/plan/write" method="post" id="Modify">
 		    	<input type="hidden" name="plan_idx" value="${planView.plan_idx}" />
 				<input type="hidden" name="user_idx" value="${planView.user_idx}" />
 				<input type="hidden" name="editTitleView" value="${planView.title}" />
