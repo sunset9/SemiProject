@@ -1013,6 +1013,39 @@ public class UserDaoImpl implements UserDao{
 		
 	}
 
+	// 유저의 profile 변경
+	@Override
+	public void profileUpdate(User cUser) {
+		String sql = "update userinfo set PROFILE = ? where user_idx= ?";
+		
+		//DB 객체
+		PreparedStatement ps = null;
+
+		try {
+			conn.setAutoCommit(false);
+			ps = conn.prepareStatement(sql);
+
+			ps.setString(1, cUser.getProfile());
+			ps.setInt(2, cUser.getUser_idx());
+
+			ps.executeUpdate();
+
+			conn.commit();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			try {
+				if (ps != null)
+					ps.close();
+
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+				
+	}
+
 
 
 
