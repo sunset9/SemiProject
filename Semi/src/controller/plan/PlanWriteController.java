@@ -35,6 +35,7 @@ public class PlanWriteController extends HttpServlet {
 	
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+		System.out.println("[planWrite]doGet실행");
 		GsonBuilder gsonBuilder = new GsonBuilder();
         gsonBuilder.setDateFormat("yyyy-MM-dd HH:mm");
         Gson gson = gsonBuilder.create();
@@ -68,6 +69,7 @@ public class PlanWriteController extends HttpServlet {
 		req.setAttribute("loginedUserView", loginedUserView);
 				System.out.println(loginedUserView);
 		
+				
 		// timetable, location 리스트 받기
 		List<Timetable> ttbList = ttbService.getTimetableList(planView);
 		List<Location> locList = ttbService.getLocationList(planView, ttbList);
@@ -104,6 +106,7 @@ public class PlanWriteController extends HttpServlet {
 	
 	@Override
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+		System.out.println("[planWrite]doPost실행");
 		// 한글 인코딩
 		req.setCharacterEncoding("UTF-8");
 		
