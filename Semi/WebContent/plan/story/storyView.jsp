@@ -564,7 +564,7 @@ hr{
 					</c:forEach>
 					</c:if>
 					<!-- 플러스버튼  -->
-					<c:if test="${ttb.is_story eq true}">
+					<c:if test="${ttb.is_story eq false}">
 						<br>
 						<div style="margin-left: 60px"><h2><span class="glyphicon glyphicon-map-marker"></span>&nbsp;${ttb.place_name}</h2></div>
 						<br>

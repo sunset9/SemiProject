@@ -163,7 +163,6 @@ public class StoryDaoImpl implements StoryDao{
 			ps.executeUpdate();
 			
 			conn.commit();
-			System.out.println("----- 3. 스토리 dao 커밋완료 -----");
 			
 		} catch (SQLException e) {
 			e.printStackTrace();

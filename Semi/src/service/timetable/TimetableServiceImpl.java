@@ -186,6 +186,7 @@ public class TimetableServiceImpl implements TimetableService{
 		
 	}
 
+	// 타임테이블 저장 (미니뷰로 저장한 경우)
 	@Override
 	public void writeTtb(int ttb_idx, Map<Timetable, Location> ttbLoc) {
 		List<Timetable> ttbList= getCompletedTimetable(ttbLoc);
