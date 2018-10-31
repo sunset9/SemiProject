@@ -110,6 +110,7 @@ public class UserFileController extends HttpServlet {
 			String path = "/upload/user/"+uploadFile.getStored_name();
 			
 			User cUser = (User) req.getSession().getAttribute("user");
+			System.out.println("userFileController : "+cUser);
 			cUser.setProfile(path);
 			
 			// DB에서 유저의 profile 수정 
