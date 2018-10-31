@@ -35,6 +35,8 @@ public class UserMypageController extends HttpServlet {
 		if(cUserSocial == null) {
 			System.out.println("아이디 로그인 유저");
 			
+			req.setAttribute("user", cUser);
+			
 			//현재 유저의 일정들 가져오기
 			List<Plan> plannerList = userService.getPlanner(cUser);
 			//planList
@@ -62,6 +64,8 @@ public class UserMypageController extends HttpServlet {
 			
 		} else if(cUser == null) {
 			System.out.println("소셜 로그인 유저");
+			
+			req.setAttribute("socialUser", cUserSocial);
 			
 			//현재 유저의 일정들 가져오기
 			List<Plan> plannerList = userService.getPlanner(cUserSocial);

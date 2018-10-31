@@ -101,23 +101,22 @@ public class UserFileController extends HttpServlet {
 			uploadFile.setOrigin_name(mul.getOriginalFileName("uploadFile"));
 			
 			UserDao userDao = new UserDaoImpl();
-			userDao.insert(uploadFile);
-			
-			//req.setAttribute("fileName", uploadFile.getStored_name());
-			//System.out.println(uploadFile.getStored_name());
-			req.getSession().setAttribute("fileName", uploadFile.getStored_name());
-			
+//			userDao.insert(uploadFile);
+					
 			
 			String fullpath = saveDirectory+"/"+uploadFile.getStored_name();
 			System.out.println("userFileController : "+fullpath);
 			
+			String path = "/upload/user/"+uploadFile.getStored_name();
+			
 			User cUser = (User) req.getSession().getAttribute("user");
-			cUser.setProfile(fullpath);
+			cUser.setProfile(path);
+			
+			// DB에서 유저의 profile 수정 
+			userDao.profileUpdate(cUser);	
 			
 			req.getSession().setAttribute("user", cUser);
-			
-			
-			
+		
 			resp.sendRedirect("/user/update");
 		}
 }
