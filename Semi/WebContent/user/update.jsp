@@ -34,6 +34,11 @@ function deleteCheck(){
 
 </script>
 
+<script type="text/javascript">
+
+
+</script>
+
 <style type="text/css">
 #wrap {
 	width: 580px;
@@ -129,6 +134,7 @@ function deleteCheck(){
 		<input type="file" name="uploadFile">
 		<button>업로드</button>
 	</form>
+	
 </c:if>
 
 

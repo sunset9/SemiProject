@@ -50,6 +50,8 @@ public class SocialUserUpdateController extends HttpServlet {
 			// db에서 유저 정보 가져오기
 			User changedUser = userService.getUserByid(cUser);
 			System.out.println("닉네임 변경됨 : " + changedUser);
+			
+			req.getSession().setAttribute("socialUser", changedUser);
 		}
 
 		// 마이페이지로 이동

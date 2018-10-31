@@ -646,7 +646,7 @@ public class UserDaoImpl implements UserDao{
 				user.setId(rs.getString("id"));
 				user.setPassword(rs.getString("password"));
 				user.setNickname(rs.getString("nickname"));
-				user.setProfile(rs.getString("pr ofile"));
+				user.setProfile(rs.getString("profile"));
 				user.setGrade(rs.getString("grade"));
 				user.setSns_idx(rs.getInt("sns_idx"));
 				user.setCreate_date(rs.getDate("create_date"));

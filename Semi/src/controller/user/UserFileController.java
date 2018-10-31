@@ -18,6 +18,7 @@ import com.oreilly.servlet.multipart.FileRenamePolicy;
 import dao.user.UserDao;
 import dao.user.UserDaoImpl;
 import dto.user.UploadFile;
+import dto.user.User;
 
 /**
  * Servlet implementation class UserFileController
@@ -105,6 +106,15 @@ public class UserFileController extends HttpServlet {
 			//req.setAttribute("fileName", uploadFile.getStored_name());
 			//System.out.println(uploadFile.getStored_name());
 			req.getSession().setAttribute("fileName", uploadFile.getStored_name());
+			
+			
+			String fullpath = saveDirectory+"/"+uploadFile.getStored_name();
+			System.out.println("userFileController : "+fullpath);
+			
+			User cUser = (User) req.getSession().getAttribute("user");
+			cUser.setProfile(fullpath);
+			
+			req.getSession().setAttribute("user", cUser);
 			
 			resp.sendRedirect("/user/update");
 		}
