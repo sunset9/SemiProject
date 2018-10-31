@@ -22,7 +22,7 @@ public interface PlanDao {
 	User selectUserInfoByUserIdx(User user);
 		
 	// 유저의 전체 게시글 수 가져오기
-	int selectPlanCntAll();
+	int selectPlanCntAll(int user);
 	
 	// 유저의 전체 게시글의 총 거리 계산하기 
 	int selectTotalDistance();
@@ -66,5 +66,8 @@ public interface PlanDao {
 
 	// 페이징 된 plan 리스트 조회
 	public List<Plan> selectPagingList(Paging paging);
+	
+	//배너 업데이트 !
+	public void bannerUpdate(Plan plan);
 
 }

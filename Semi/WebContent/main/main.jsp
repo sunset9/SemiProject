@@ -83,7 +83,8 @@
 	<div>
 		<input type="text" id="editTitleView" name="editTitleView" placeholder="여행 제목" /><br>
 		<input type="date" id="editStartDate" name="editStartDate" value="" />
-		<input type="date" id="editEndDate" name="editEndDate" value="" /><br>
+		<input type="date" id="editEndDate" name="editEndDate" value="" />
+		<input type="hidden" id="editOpened" name="editOpened" value="0" /><br>
 		<select name="editTraveled">
 			<option value="1">여행 전</option>
 			<option value="0">여행 후</option>

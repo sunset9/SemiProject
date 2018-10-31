@@ -53,9 +53,10 @@ public class PlanWriteController extends HttpServlet {
 		User cUser = (User) req.getSession().getAttribute("user");
 		User cUserSocial = (User) req.getSession().getAttribute("socialUser");
 		
-		int plan_idxx = pService.getPlan_idx();
-//		System.out.println("플랜 라이트 컨트롤러 plan_idx : "+plan_idx);
-		Plan param = pService.getParam(req);
+		Plan param = new Plan();
+		
+		param = pService.getParam(req);
+		
 		System.out.println("플랜 라이트 컨트롤러 : "+ param);
 		
 		if(cUserSocial == null) {
@@ -73,8 +74,6 @@ public class PlanWriteController extends HttpServlet {
 			//userView MODEL 전달
 			req.setAttribute("writtenUserView", writtenUserView);
 			System.out.println("planWriteController writtenUserView : "+writtenUserView);
-			
-			
 //			---------------------로그인 유저 파라미터 가져오기
 			// 요청파라미터(user_idx) -> Plan 모델
 			User userParam = pService.getSessionUser(req);

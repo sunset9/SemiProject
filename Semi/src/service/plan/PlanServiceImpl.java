@@ -84,7 +84,6 @@ public class PlanServiceImpl implements PlanService{
 		plan.setPlan_idx(plan_idx);
 		plan.setUser_idx(user_idx);
 		plan.setTitle(req.getParameter("editTitleView"));
-		System.out.println(req.getParameter("editTitleView"));
 		
 		try {
 			dateStart = new SimpleDateFormat("yyyy-MM-dd").parse(req.getParameter("editStartDate"));
@@ -96,12 +95,46 @@ public class PlanServiceImpl implements PlanService{
 		
 		plan.setStart_date(dateStart);
 		plan.setEnd_date(dateEnd);
-		
+		System.out.println(req.getParameter("editOpened"));
 		//1 : 여행전, 0 : 여행후
 		plan.setTraveled(Integer.parseInt(req.getParameter("editTraveled")));
+		
+		if( req.getParameter("editOpened").equals("1") && req.getParameter("editOpened") != null) {
+			plan.setOpened(Integer.parseInt(req.getParameter("editOpened")));
+		} else {
+			plan.setOpened(0);
+		}
+		
 		return plan;
 	}
 	
+	// 요청파라미터 처리(main 새일정만들기에서 넘어온 파라미터)
+		@Override
+		public Plan getParamCreate(HttpServletRequest req) {
+			Plan plan = new Plan();
+			Date dateStart = new Date();
+			Date dateEnd = new Date();
+
+			plan.setTitle(req.getParameter("editTitleView"));
+			
+			try {
+				dateStart = new SimpleDateFormat("yyyy-MM-dd").parse(req.getParameter("editStartDate"));
+				dateEnd = new SimpleDateFormat("yyyy-MM-dd").parse(req.getParameter("editEndDate"));
+				
+			} catch (ParseException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			
+			plan.setStart_date(dateStart);
+			plan.setEnd_date(dateEnd);
+			plan.setTraveled(Integer.parseInt(req.getParameter("editTraveled")));
+			plan.setOpened(Integer.parseInt(req.getParameter("editOpened")));
+			plan.setBannerURL("/image/basicBanner.png");
+
+			return plan;
+		}
+		
 	// 일정 기본 정보 가져오기
 	@Override
 	public Plan getPlanInfo(int plan_idx) {
@@ -118,8 +151,6 @@ public class PlanServiceImpl implements PlanService{
 		// TODO Auto-generated method stub
 		return plandao.selectPlanInfoByPlanIdx(plan);
 	}
-
-	
 	
 	//왼쪽에 띄워줄 유저 정보 가져오기
 	@Override
@@ -157,30 +188,6 @@ public class PlanServiceImpl implements PlanService{
 	@Override
 	public void update(Plan plan) {
 		plandao.update(plan);
-	}
-
-	// 요청파라미터 처리(main 새일정만들기에서 넘어온 파라미터)
-	@Override
-	public Plan getParamCreate(HttpServletRequest req) {
-		Plan plan = new Plan();
-		Date dateStart = new Date();
-		Date dateEnd = new Date();
-
-		plan.setTitle(req.getParameter("editTitleView"));
-		try {
-			dateStart = new SimpleDateFormat("yyyy-MM-dd").parse(req.getParameter("editStartDate"));
-			dateEnd = new SimpleDateFormat("yyyy-MM-dd").parse(req.getParameter("editEndDate"));
-			
-		} catch (ParseException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		
-		plan.setStart_date(dateStart);
-		plan.setEnd_date(dateEnd);
-		plan.setTraveled(Integer.parseInt(req.getParameter("editTraveled")));
-
-		return plan;
 	}
 	
 	//새 일정 만들기 
