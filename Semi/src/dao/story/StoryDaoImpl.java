@@ -48,7 +48,7 @@ public class StoryDaoImpl implements StoryDao{
 				" LEFT JOIN planner p ON s.plan_idx = p.plan_idx" + 
 				" LEFT JOIN timetable ttb ON s.ttb_idx = ttb.ttb_idx" + 
 				" LEFT JOIN location loc ON ttb.loc_idx = loc.loc_idx" + 
-				" WHERE plan_idx = ?" + 
+				" WHERE s.plan_idx = ?" + 
 				" ORDER BY" + 
 				"   ttb.start_time";
 		

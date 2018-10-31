@@ -4,7 +4,7 @@
 <%@ page import="dto.story.*" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
-
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <jsp:include page="/plan/story/storyWrite.jsp"/>
 <jsp:include page="/plan/story/storyUpdate.jsp"/>
 
@@ -67,6 +67,7 @@ hr{
 </style>
 <script type="text/javascript">
 	
+// 	console.log(accountList);
 	$(document).ready(function(){
 	    //edit 모드일때, 수정버튼삭제버튼추가버튼 보여주지 않음
 	    function EditMode() {
@@ -155,6 +156,38 @@ hr{
 			$('.up_content').froalaEditor('html.set', content);
 			$(".up_plan_idx").val(planidx);	
 			
+			for (var i =0; i < ${fn:length(accountList)} ; i++) {
+				var acc_story_idx = ${accountList.get(i).getStory_idx()};
+				console.log(i);
+				if( acc_story_idx == story_idx){
+					
+					var accountView = $("#up_accountView").clone();
+			 		$("#up_accountViewList").append(accountView);	
+			 		
+			 		var size = document.getElementsByName("up_accountViewName").length;
+			 		
+			 		for(var i = 0; i < size; i++){
+				        var obj = document.getElementsByName("up_accountViewName")[i];
+				        
+				        $(obj).find(".accountPlus").css("display","none");
+				        $(obj).find(".accountRemove").css("display","block");
+				        
+				        $(obj).find(".up_accType").val() = ${accountList.get(i).getCategory()};
+				        $(obj).find(".up_currSymbol").val() = ${accountList.get(i).getCurr_idx()};
+				        
+				        if (i == size-1){
+						    $(obj).find(".accountPlus").css("display","block");
+				        }
+				        
+				        if (size == 5 && i == size-1){
+					    	 $(obj).find(".accountPlus").css("display","none");
+				        }
+					 }
+				}
+				
+			}
+			
+			
 		})
 
 		
@@ -198,6 +231,7 @@ hr{
 					$('body').removeClass('modal-open');
 				}
 				, error: function () {
+					
 					console.log("실패");
 				}
 				
@@ -521,16 +555,24 @@ hr{
 								  </div>
 						 		  <!-- froala align 적용 되게 하려면 content 표시할 div에 fr-view class를 반영 해줘야함 -->
 						 		  <div class = "fr-view" width="100%" style="overflow:auto; height:auto; padding: 10px;">${story.content}</div>
+								  <hr>
 								</td>
 				    			</tr>
-				    			
-				    			<tr>
-				     			<td colspan="5">
-				     				<hr>
-									<font size="2" color="#999999">[이미지] 오락 | USD 70</font> 
-					 		    </td>
-								</tr>
-								
+				    			<c:forEach var="account" items="${accountList}">
+				    				<c:if test="${account.story_idx eq story.story_idx}">
+						    			<tr>
+						     			<td colspan="5">
+						     			<c:if test="${account.curr_idx_name ne 'USD'}">
+						     			    <fmt:parseNumber var = "caledOriginCost" value= "${account.origin_cost}" integerOnly="true"></fmt:parseNumber>
+											<font size="2" color="#999999"> ${account.category_name } | ${account.curr_idx_name} ${caledOriginCost}</font> 
+										</c:if>
+										<c:if test="${account.curr_idx_name eq 'USD'}">
+											<font size="2" color="#999999"> ${account.category_name } | ${account.curr_idx_name} ${account.origin_cost}</font>
+										</c:if>
+							 		    </td>
+										</tr>
+									</c:if>
+								</c:forEach>
 								<tr>
 								<td colspan="5">
 								<hr>
@@ -539,7 +581,7 @@ hr{
 								</font>
 								</td>
 								</tr>
-								
+						
 								<tr>
 								<td colspan="4">
 									<textarea id = "CommContent${story.story_idx}" style ="resize: none; overflow:visible;" rows="2" cols="100" placeholder="댓글을 입력하세요"></textarea>
