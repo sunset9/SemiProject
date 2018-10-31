@@ -93,48 +93,48 @@ function deleteCheck(){
 <!-- id로 로그인한 유저의 정보수정 -->
 <c:if test="${user.sns_idx == 1 || socialUser.sns_idx == 1}">
 <div id="wrap">
-<form action="/user/update" method="post" enctype="multipart/form-data">
 	<div id="header"><h2>프로필 수정</h2></div>
 	<hr>
 	<div id="container">
 		<div id="left">
-			<label>아이디 : </label>
-			<input type="text" name="userid" value="${user.id}" readonly/><br>
-			<label>내등급 : </label>
-			<input type="text" name="grade" value="${user.grade}" disabled/><br>
-			<label>닉네임 : </label>
-			<input type="text" name="nickname" value="${user.nickname}"/><br>
-			<div id="pwRegion">
-				<label>비밀번호 : </label>
-				<input type="button" class="changePw" name="changePw" value="변경하기" /><br>
-			</div>
-			<div id="morePwRegion">
-				<label>현재 비밀번호 : </label>
-				<input type="password" name="currPw"/><br>
-				<label>새 비밀번호 : </label>
-				<input type="password" name="newPw"/><br>
-				<label>비밀번호 확인 : </label>
-				<input type="password" name="newPwCheck"/><br>
-			</div>
+			<form action="/user/update" method="post" enctype="multipart/form-data">
+				<label>아이디 : </label>
+				<input type="text" name="userid" value="${user.id}" readonly/><br>
+				<label>내등급 : </label>
+				<input type="text" name="grade" value="${user.grade}" disabled/><br>
+				<label>닉네임 : </label>
+				<input type="text" name="nickname" value="${user.nickname}"/><br>
+				<div id="pwRegion">
+					<label>비밀번호 : </label>
+					<input type="button" class="changePw" name="changePw" value="변경하기" /><br>
+				</div>
+				<div id="morePwRegion">
+					<label>현재 비밀번호 : </label>
+					<input type="password" name="currPw"/><br>
+					<label>새 비밀번호 : </label>
+					<input type="password" name="newPw"/><br>
+					<label>비밀번호 확인 : </label>
+					<input type="password" name="newPwCheck"/><br>
+				</div>
+			</form>
 		</div>
+	
 		<div id="right">
-			<img src="${user.profile}" name="image" style="border-radius:70px; width:100px;"/><br>
-			<!-- <div id="changeImage"><input type="button" name="changeImage" value="변경하기"/></div> -->
+			<div><img src="${user.profile}" name="image" style="border-radius:10px; width:110px; height:100px;"/></div><br>
+			<div>
+				<form action="/user/file" method="post" enctype="multipart/form-data">
+					<input type="file" name="uploadFile">
+					<button>업로드</button>
+				</form>
+			</div>
 		</div>
 	</div>
 	<hr>
 	<div id="footer">
 		<button type="submit">저장하기</button>
+		<button onclick="deleteCheck();">회원탈퇴하기</button>
 	</div>
-</form>
-<form action="/user/file" method="post" enctype="multipart/form-data">
-	<input type="file" name="uploadFile">
-	<button>업로드</button>
-</form>
-
-<button onclick="deleteCheck();">회원탈퇴하기</button>
 </div>
-${user.profile}
 </c:if>
 
 

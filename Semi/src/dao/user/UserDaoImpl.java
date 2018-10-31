@@ -1018,6 +1018,8 @@ public class UserDaoImpl implements UserDao{
 	public void profileUpdate(User cUser) {
 		String sql = "update userinfo set PROFILE = ? where user_idx= ?";
 		
+		System.out.println("UserDaoImpl : "+cUser.getProfile());
+		
 		//DB 객체
 		PreparedStatement ps = null;
 
