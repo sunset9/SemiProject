@@ -59,7 +59,6 @@ public class PlanWriteController extends HttpServlet {
 		if(cUserSocial == null) {
 			System.out.println("아이디 로그인 유저");
 			
-//			일정 기본 정보 가져오기
 			Plan planView = pService.getPlanInfo(param);
 			System.out.println("플랜라이트 컨트롤러 : "+planView);
 
@@ -71,7 +70,7 @@ public class PlanWriteController extends HttpServlet {
 			
 			//userView MODEL 전달
 			req.setAttribute("writtenUserView", writtenUserView);
-			System.out.println(writtenUserView);
+			System.out.println("planWriteController writtenUserView : "+writtenUserView);
 			
 			
 //			---------------------로그인 유저 파라미터 가져오기
@@ -85,7 +84,7 @@ public class PlanWriteController extends HttpServlet {
 			
 			// timetable, location 리스트 받기
 			List<Timetable> ttbList = ttbService.getTimetableList(planView);
-			List<Location> locList = ttbService.getLocationList(planView);
+			List<Location> locList = ttbService.getLocationList(planView, ttbList);
 			
 			// timetable 과 location이 1:1 대응하지 않는 경우 (DB데이터 문제)
 			if(ttbList.size() != locList.size()) {
@@ -112,7 +111,6 @@ public class PlanWriteController extends HttpServlet {
 
 			//plan_idx 세션에 추가 
 			req.getSession().setAttribute("plan_idx", param);
-		}
 		
 		// 뷰 지정
 		req.getRequestDispatcher("/plan/write.jsp")

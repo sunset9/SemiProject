@@ -24,9 +24,6 @@ import service.stroy.StoryServiceImpl;
 import service.timetable.TimetableService;
 import service.timetable.TimetableServiceImpl;
 
-/**
- * Servlet implementation class PlanUpdateController
- */
 @WebServlet("/plan/update")
 public class PlanUpdateController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
@@ -76,6 +73,7 @@ public class PlanUpdateController extends HttpServlet {
 			Plan planParam = pService.getParamEdit(req);
 			System.out.println(planParam);
 			req.getSession().setAttribute("plan_idx", planParam.getPlan_idx());
+			//req.setAttribute("plan_idx", planParam.getPlan_idx());
 			// 요청파라미터 -> 타임테이블, 위치정보 Map 타입
 			Map<Timetable, Location> ttbLocParam = ttbService.getParam(req);
 			

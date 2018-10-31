@@ -45,16 +45,16 @@ $(document).ready(function() {
 <div >
 <table class="table table-bordered">
 <tr>
-<td class = "info"> 글번호</td><td>${notice.notice_idx }</td>
-<td class = "info"> 제목 </td> <td colspan="2">${notice.title }</td>
+<td class = "bg-success"> 글번호</td><td>${notice.notice_idx }</td>
+<td class = "bg-success"> 제목 </td> <td colspan="2">${notice.title }</td>
 </tr>
 
 <tr>
-<td class ="info">아이디</td> <td>${userid }</td>
-<td class = "info">닉네임</td> <td colspan="2">${userNick }</td>
+<td class ="bg-success">아이디</td> <td>${userid }</td>
+<td class = "bg-success">닉네임</td> <td colspan="2">${userNick }</td>
 </tr>
 
-<tr><td class ="info">본문</td> <td colspan="4">
+<tr><td class ="bg-success">본문</td> <td colspan="4">
 <c:if test="${noticeFile.origin_name ne null}">
 <img style="height: 150px ; width: 300px;" src ="/upload/notice/${noticeFile.stored_name }"><br><br>
 </c:if>
@@ -62,11 +62,11 @@ $(document).ready(function() {
 ${notice.content }</td>
 
 <tr>
-<td class ="info">조회수</td><td>${notice.hit }</td>
+<td class ="bg-success">조회수</td><td>${notice.hit }</td>
 </tr>
 
 <tr>
-<td class ="info">작성일</td><td colspan="4">${notice.create_date }</td>
+<td class ="bg-success">작성일</td><td colspan="4">${notice.create_date }</td>
 </tr>
 </table>
 

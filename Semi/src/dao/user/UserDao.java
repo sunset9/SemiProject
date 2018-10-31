@@ -2,6 +2,7 @@ package dao.user;
 
 import java.util.List;
 
+import dto.user.UploadFile;
 import dto.plan.Plan;
 import dto.user.Bookmark;
 import dto.user.User;
@@ -22,7 +23,7 @@ public interface UserDao {
 	//회원가입(카카오톡)
 	
 	//회원탈퇴 
-	public void delete(User user);
+	public int delete(User user);
 	
 	//비밀번호 조회 
 	public int chechPw(User user);
@@ -77,5 +78,10 @@ public interface UserDao {
 	// 회원 등급 올리기
 	public int updateGrade(User user);
 	
+	// 현재 유저의 글을 제외한 모든 글 가져오기 
+	public List<Plan> getAllPlanList(User cUser);
 	
+	//파일 업로드 정보 입력
+	public void insert(UploadFile file);
+
 }

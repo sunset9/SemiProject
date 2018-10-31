@@ -13,6 +13,7 @@ import utils.Paging;
 import dto.plan.Plan;
 import dto.user.Bookmark;
 import dto.user.User;
+import dto.user.UploadFile;
 
 public class UserDaoImpl implements UserDao{
 
@@ -168,7 +169,7 @@ public class UserDaoImpl implements UserDao{
 
 	//id로 조회 후 회원탈퇴처리
 	@Override
-	public void delete(User user) {
+	public int delete(User user) {
 //		String sql = "";
 //		sql += "DELETE userinfo";
 //		sql += " WHERE id = ?";
@@ -177,12 +178,12 @@ public class UserDaoImpl implements UserDao{
 		sql += " WHERE user_idx = ?";
 		
 		PreparedStatement ps = null;
-		
+		int rs = 0;
 		try {
 			ps = conn.prepareStatement(sql);
 			ps.setInt(1, user.getUser_idx());
 //			System.out.println("dao delete() : "+user.getId());
-			ps.executeUpdate();
+			rs = ps.executeUpdate();
 			
 			conn.commit();
 		} catch (SQLException e) {
@@ -199,7 +200,7 @@ public class UserDaoImpl implements UserDao{
 				e.printStackTrace();
 			}
 		}
-		
+		return rs ;
 		
 	}
 
@@ -760,7 +761,9 @@ public class UserDaoImpl implements UserDao{
 		String sql="";
 		sql += "SELECT * FROM( " ;
 		sql += 	"    SELECT rownum rnum, U.* FROM ( " ;
-		sql += 	"        SELECT * FROM userinfo  ORDER BY user_idx DESC " ;
+		sql += 	"SELECT user_idx, id, nickname, profile, grade, ";
+		sql	+= "( SELECT sns_name FROM snstype S WHERE S.sns_idx = UI.sns_idx) sns_name ,create_date  ";
+		sql	+= "FROM userinfo UI  ORDER BY user_idx DESC " ;
 		sql += 	"       ) U  " ;
 		
 		if(paging.getSearchType()==1) {
@@ -794,9 +797,9 @@ public class UserDaoImpl implements UserDao{
 			while(rs.next()) {
 				User u = new User();
 				u.setUser_idx(rs.getInt("user_idx"));
+				u.setSnsType(rs.getString("sns_name"));
 				u.setId(rs.getString("id"));
 				u.setNickname(rs.getString("nickname"));
-				u.setSns_idx(rs.getInt("sns_idx"));
 				u.setGrade(rs.getString("grade"));
 				u.setCreate_date(rs.getDate("create_date"));
 				u.setProfile(rs.getString("profile"));
@@ -923,6 +926,91 @@ public class UserDaoImpl implements UserDao{
 		}
 		
 		return result;
+	}
+
+	//현재 유저의 글을 제외한 모든 글 가져오기
+	@Override
+	public List<Plan> getAllPlanList(User cUser) {
+		System.out.println(cUser);
+		
+		String sql = "SELECT * FROM PLANNER WHERE USER_IDX != ?";
+		
+		//DB 객체
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+		List<Plan> list = null;
+		
+		try {
+			//DB 작업
+			ps = conn.prepareStatement(sql);
+			ps.setInt(1, cUser.getUser_idx());
+			rs = ps.executeQuery();
+			
+			list = new ArrayList<>();
+
+			while (rs.next()) {
+				Plan plan = new Plan();
+				
+				plan.setPlan_idx(rs.getInt("PLAN_IDX"));
+				plan.setUser_idx(rs.getInt("USER_IDX"));
+				plan.setStart_date(rs.getDate("START_DATE"));
+				plan.setEnd_date(rs.getDate("END_DATE"));
+				plan.setTitle(rs.getString("TITLE"));
+				plan.setTraveled(rs.getInt("TRAVELED"));
+				plan.setOpened(rs.getInt("OPENED"));
+				plan.setDistance(rs.getInt("DISTANCE"));
+				plan.setCreate_date(rs.getDate("CREATE_DATE"));
+				plan.setBannerURL(rs.getString("BANNERURL"));
+				//System.out.println("userDaoImpl plan : "+plan);
+				
+				list.add(plan);
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			try {
+				if(ps!=null)	ps.close();
+						
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+		return list;
+	}
+
+	//파일 업로드 정보 입력
+	@Override
+	public void insert(UploadFile file) {
+		System.out.println("UserDaoImpl insert() : "+file);
+		String sql = "INSERT INTO uploaduserfile( origin_name, stored_name )";
+		sql += " VALUES ( ?, ? )";
+		
+		PreparedStatement ps = null;
+		
+		try {
+			conn.setAutoCommit(false);
+
+			ps = conn.prepareStatement(sql);
+			
+			ps.setString(1, file.getOrigin_name());
+			ps.setString(2, file.getStored_name());
+			
+			ps.executeUpdate();
+			
+			conn.commit();
+		} catch (SQLException e) {
+			e.printStackTrace();
+			
+		} finally {
+			try {
+				if(ps!=null)	ps.close();
+				
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+		
 	}
 
 

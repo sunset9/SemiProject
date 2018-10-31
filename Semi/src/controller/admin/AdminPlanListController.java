@@ -12,6 +12,7 @@ import javax.servlet.http.HttpServletResponse;
 import dto.plan.Plan;
 import service.plan.AdminPlanService;
 import service.plan.AdminPlanServiceImpl;
+import utils.Paging;
 
 @WebServlet("/admin/plan/list")
 public class AdminPlanListController extends HttpServlet {
@@ -22,12 +23,49 @@ public class AdminPlanListController extends HttpServlet {
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		
+		// 로그인 확인
+		boolean check = adminPlanService.loginCheck(req);
+				
+		if(!check) {
+			resp.sendRedirect("/user/login");
+			return;
+		}
 		
-		// 일정 조회
-		List<Plan> pList = adminPlanService.selectPlanAll();
+		// 현재 페이지 얻어오기 
+		int curPage = adminPlanService.getCurPage(req);
 		
-	
-		req.getRequestDispatcher("")
-		.forward(req, resp);
+		// 검색어 얻어오기 
+		String search = adminPlanService.getSearch(req);
+		
+		
+//		System.out.println("searchType : "+req.getParameter("searchType"));
+		// 검색 조건 얻어오기
+		int searchType=0;
+		
+		if(req.getParameter("searchType")!= null) {
+			searchType =Integer.parseInt(req.getParameter("searchType"));
+		}
+		
+		// 전체 페이지 얻어오기 
+		int totalCount = adminPlanService.getTotalCount(searchType, search);
+		
+		// 페이징 객체 생성 
+		Paging paging = new Paging(totalCount, curPage,9);
+		
+		// 페이징 객체에 검색어 적용 
+		paging.setSearch(search);
+		
+		// 게시글 리스트 조회 
+		List<Plan> list = adminPlanService.getPagingList(paging);
+		System.out.println("controller list: "+list);
+		
+		// 요청에 조회 결과 담기 
+		req.setAttribute("planList", list);
+		
+		// 페이징 결과 요청에 담기 
+		req.setAttribute("paging", paging);
+		
+		// view 페이지 지정
+		req.getRequestDispatcher("/admin/plan/plist.jsp").forward(req, resp);
 	}
 }

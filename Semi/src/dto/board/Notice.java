@@ -4,6 +4,7 @@ import java.util.Date;
 
 public class Notice {
 
+	private int rnum;
 	private int notice_idx;
 	private int user_idx;
 	private String title;
@@ -11,10 +12,18 @@ public class Notice {
 	private String writer;
 	private int hit;
 	private Date create_date;
+	
+	
+	public int getRnum() {
+		return rnum;
+	}
+	public void setRnum(int rnum) {
+		this.rnum = rnum;
+	}
 	@Override
 	public String toString() {
-		return "Notice [notice_idx=" + notice_idx + ", user_idx=" + user_idx + ", title=" + title + ", content="
-				+ content + ", writer=" + writer + ", hit=" + hit + ", create_date=" + create_date + "]";
+		return "Notice [rnum=" + rnum + ", notice_idx=" + notice_idx + ", user_idx=" + user_idx + ", title=" + title
+				+ ", content=" + content + ", writer=" + writer + ", hit=" + hit + ", create_date=" + create_date + "]";
 	}
 	public int getNotice_idx() {
 		return notice_idx;

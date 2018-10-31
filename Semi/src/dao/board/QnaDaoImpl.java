@@ -55,6 +55,7 @@ public class QnaDaoImpl implements QnaDao {
 					Qna qna = new Qna();
 						
 					// rs의 결과 DTO에 하나씩 저장하기
+					qna.setRnum(rs.getInt("rnum"));
 					qna.setQna_idx(rs.getInt("qna_idx"));;
 					qna.setWriter(rs.getString("nick"));
 					qna.setTitle(rs.getString("title"));

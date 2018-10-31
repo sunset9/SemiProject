@@ -3,7 +3,8 @@ package dto.board;
 import java.util.Date;
 
 public class Inquiry {
-
+	
+	private int rnum;
 	private int inq_idx;
 	private int user_idx;
 	private String writer;
@@ -12,6 +13,14 @@ public class Inquiry {
 	private int answer;
 	private int hit;
 	private Date create_date;
+	
+	
+	public int getRnum() {
+		return rnum;
+	}
+	public void setRnum(int rnum) {
+		this.rnum = rnum;
+	}
 	public int getInq_idx() {
 		return inq_idx;
 	}
@@ -62,8 +71,9 @@ public class Inquiry {
 	}
 	@Override
 	public String toString() {
-		return "Inquiry [inq_idx=" + inq_idx + ", user_idx=" + user_idx + ", writer=" + writer + ", title=" + title
-				+ ", content=" + content + ", answer=" + answer + ", hit=" + hit + ", create_date=" + create_date + "]";
+		return "Inquiry [rnum=" + rnum + ", inq_idx=" + inq_idx + ", user_idx=" + user_idx + ", writer=" + writer
+				+ ", title=" + title + ", content=" + content + ", answer=" + answer + ", hit=" + hit + ", create_date="
+				+ create_date + "]";
 	}
 	
 

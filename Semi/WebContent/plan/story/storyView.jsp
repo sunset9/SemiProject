@@ -365,8 +365,6 @@ hr{
 	
 			for(var i = 0; i < size; i++){
 		        var obj = document.getElementsByName("accountViewName")[i];
-		        	
-
 		        
 		        $(obj).find(".accountPlus").css("display","none");
 		        $(obj).find(".accountRemove").css("display","block");
@@ -416,6 +414,73 @@ hr{
 	        }
 		 }
 	}
+ 	
+ 	var up_cnt = document.getElementsByName("up_accountViewName").length;
+ 	
+ 	function UpappendAccount() {
+ 		
+ 		if (up_cnt < 4){
+			
+			var accountView = $("#up_accountView").clone();
+	 		$("#up_accountViewList").append(accountView);
+	 		
+	 		up_cnt = up_cnt+1;
+			
+			var size = document.getElementsByName("up_accountViewName").length;
+	
+			for(var i = 0; i < size; i++){
+		        var obj = document.getElementsByName("up_accountViewName")[i];
+		        
+		        $(obj).find(".accountPlus").css("display","none");
+		        $(obj).find(".accountRemove").css("display","block");
+		        
+		        if (i == size-1){
+				    $(obj).find(".accountPlus").css("display","block");
+		        	$(obj).find(".cost").val("");
+		        	$(obj).find(".accType").val(1);
+		        	$(obj).find(".currSymbol").val(1);
+		        }
+		        
+		        if (size == 5 && i == size-1){
+			    	 $(obj).find(".accountPlus").css("display","none");
+		        }
+			 }
+		
+		}
+	}
+ 	
+ 	
+	function UpremoveAccount() {
+ 		
+ 		var removeObj = window.event.target.parentElement.parentElement.parentElement.parentElement.parentElement;
+ 		
+ 		removeObj.remove();	
+ 		
+ 		up_cnt = up_cnt-1;
+ 		
+ 		delete removeObj;
+ 		
+ 		var size = document.getElementsByName("up_accountViewName").length;
+ 		
+		for(var i = 0; i < size; i++){
+	        var obj = document.getElementsByName("up_accountViewName")[i];
+	        
+	        if (size == 1){
+	        	$(obj).find(".accountRemove").css("display","none");
+	        }
+	        
+	        $(obj).find(".accountPlus").css("display","none");
+	        
+	        if (i == size-1){
+			     $(obj).find(".accountPlus").css("display","block");
+	        }
+	        
+	        if (size == 5 && i == size-1){
+		    	 $(obj).find(".accountPlus").css("display","none");
+	        }
+		 }
+	}
+ 	
 	
 </script>	
 
@@ -458,17 +523,14 @@ hr{
 						 		  <div class = "fr-view" width="100%" style="overflow:auto; height:auto; padding: 10px;">${story.content}</div>
 								</td>
 				    			</tr>
+				    			
 				    			<tr>
 				     			<td colspan="5">
 				     				<hr>
 									<font size="2" color="#999999">[이미지] 오락 | USD 70</font> 
 					 		    </td>
 								</tr>
-								<tr>
-					  			<td colspan="5">
-						  			<font size="2" color="#999999">[이미지] 식비 | KRW 8000</font> 
-					  			</td>
-				    			</tr>
+								
 								<tr>
 								<td colspan="5">
 								<hr>
@@ -477,6 +539,7 @@ hr{
 								</font>
 								</td>
 								</tr>
+								
 								<tr>
 								<td colspan="4">
 									<textarea id = "CommContent${story.story_idx}" style ="resize: none; overflow:visible;" rows="2" cols="100" placeholder="댓글을 입력하세요"></textarea>
@@ -485,7 +548,6 @@ hr{
 								<button id = "saveComm${story.story_idx}" type="button" class="btn btn-secondary" style="margin-bottom: -7px;" onclick="CommSave(${story.story_idx},${story.ttb_idx},${story.plan_idx})">등록</button>
 								</td>
 								</tr>
-							<!-- ajax이용, 댓글 리스트 foreach문 -->
 								<tr>
 								<td colspan="5">
 									<div id = "CommentView${story.story_idx}" style="display: none"></div>
@@ -504,7 +566,7 @@ hr{
 						<div style="margin-left: 60px"><h2><span class="glyphicon glyphicon-map-marker"></span>&nbsp;${ttb.place_name}</h2></div>
 						<br>
 						<font size="10" color="black">
-							<span class ="glyphicon glyphicon-plus-sign storyPlus" 
+								<span class ="glyphicon glyphicon-plus-sign storyPlus" 
 							data-toggle="modal" data-target="#myModal" data-backdrop="static" 
 							data-place="${ttb.place_name}" data-ttbidx="${ttb.ttb_idx}" 
 							data-planidx="${ttb.plan_idx}" onmouseover="mover($(this))" 

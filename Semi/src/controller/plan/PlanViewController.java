@@ -76,6 +76,31 @@ public class PlanViewController extends HttpServlet {
 		User loginedUserView = pService.getUserInfoLogin(userParam);
 		//userView MODEL 전달
 		req.setAttribute("loginedUserView", loginedUserView);
+				
+//		--------------------------------------------
+		// timetable, location 리스트 받기
+		List<Timetable> ttbList = ttbService.getTimetableList(planView);
+		List<Location> locList = ttbService.getLocationList(planView, ttbList);
+		
+		// timetable 과 location이 1:1 대응하지 않는 경우 (DB데이터 문제)
+		if(ttbList.size() != locList.size()) {
+			System.out.println("[ERR] 타임테이블과 위치정보의 개수가 일치하지 않습니다.");
+			return;
+		}
+		
+		// JSON 형태로 변환
+		String ttbListStr = gson.toJson(ttbList);
+		String locListStr = gson.toJson(locList);
+		
+		// 파라미터 지정
+		req.setAttribute("ttbList", ttbListStr);
+		req.setAttribute("locList", locListStr);
+		
+		// 스토리 리스트 가져오기
+		//List<Story> storyList = sService.getStoryList(plan);
+
+		// 스토리 댓글 리스트 가져오기
+		//List<Comment> commList = sService.getCommentList(storyList);
 		
 		Bookmark book = bService.getBookmarkInfo(planParam);
 		
@@ -83,7 +108,7 @@ public class PlanViewController extends HttpServlet {
 //		--------------------------------------------
 		// timetable, location 리스트 받기
 		List<Timetable> ttbList = ttbService.getTimetableList(planView);
-		List<Location> locList = ttbService.getLocationList(planView);
+		List<Location> locList = ttbService.getLocationList(planView, ttbList);
 		
 		// timetable 과 location이 1:1 대응하지 않는 경우 (DB데이터 문제)
 		if(ttbList.size() != locList.size()) {

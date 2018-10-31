@@ -33,10 +33,10 @@ public interface StoryService {
 	public void update(Story story);
 
 	// 미니뷰 업데이트
-	public boolean updateMini(HttpServletRequest req);
+	public void writeMini(int ttb_idx, Story storyParam, boolean isStory);
 	
 	//스토리 삽입
-	public void write(Story story);
+	public int write(Story story);
 	
 	//가계부 계산(회의때 추가함!) 
 

@@ -61,7 +61,7 @@ $(document).ready(function() {
 <tbody>
 <c:forEach items ="${noticeList }" var = "notice">
 <tr>
-<td>${notice.notice_idx }</td>
+<td>${notice.rnum }</td>
 <td><a href="/notice/view?notice_idx=${notice.notice_idx }">${notice.title }</a></td>
 <td>${notice.writer }</td>
 <td>${notice.hit }</td>

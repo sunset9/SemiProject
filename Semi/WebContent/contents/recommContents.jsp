@@ -9,13 +9,6 @@
 </head>
 <body>
 <hr>
-<h2>모든 콘텐츠 페이지</h2>
-
-
-
-
-
-
-
+<h1>Recommended Contents</h1>
 </body>
 </html>

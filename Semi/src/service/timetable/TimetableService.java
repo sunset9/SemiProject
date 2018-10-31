@@ -23,9 +23,9 @@ public interface TimetableService {
 	List<Timetable> getTimetableList(Plan plan);
 	
 	// Location 리스트 가져오기
-	List<Location> getLocationList(Plan plan);
+	List<Location> getLocationList(Plan plan, List<Timetable> ttbList);
 	
-	boolean isStory(Timetable ttb);
+	boolean isStory(int ttb_idx);
 	
 	// 특정 Timetable이 시작하는 날짜의 모든 Location 리스트 가져오기
 	List<Location> getLocatioinList(Timetable timetable);
@@ -44,6 +44,8 @@ public interface TimetableService {
 	
 	// ttb_idx next 값 가져오기
 	int getTtbIdx();
+
+	int getMiniTtbIdx(Map<Timetable, Location> ttbLocParam);
 
 
 	

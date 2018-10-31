@@ -67,4 +67,7 @@ public interface UserService {
 	
 	public List<User> getSelectAll();
 	
+	//현재 유저의 글을 제외한 모든 글 가져오기
+	public List<Plan> getAllPlanList(User cUser);
+	
 }

@@ -159,6 +159,47 @@
 		margin-left: 10px;  /* fc-bg(이벤트 덮고 있는 투명도 있는 판?)css 수정 , 왼쪽에 색 진하게 하는 효과줌*/
 	}
 	
+	/* 	----------------------------------------------------- */  	
+	/* 탭관련 */
+	#tab-main {
+	    margin: 0;
+	    padding: 0;
+	    float: left;
+	    list-style: none;
+	    border-bottom: 1px solid #eee;
+	    border-left: 1px solid #eee;
+	    width: 100%;
+	}
+	#tab-main li {
+	    float: left;
+	    text-align:center;
+	    cursor: pointer;
+	    width: 50%;
+ 	    height: 50px; 
+	    line-height: 50px;
+	    border: 1px solid #eee;
+	    border-left: none;
+	    font-weight: bold;
+	    background: #fafafa;
+	    overflow: hidden;
+	    position: relative;
+	    color: #555;
+	}
+	
+	#tab-main li.active {
+	    background: #FFFFFF;
+	    border-bottom: 5px solid #1e88e5;
+	    color: #306490;
+	    pointer-events: none; /* 이미 선택한 탭은 다시 클릭 안되도록 */
+	}
+	.tab-container {
+	    border: 1px solid #eee;
+	    border-top: none;
+	    clear: both;
+	    float: left;
+        width: 100%; /* 이거 하면 타임테이블 지저분, 안하면 빈 스토리탭 container 좁게 지정*/
+	}
+	
 </style>
 
 <script>
@@ -186,7 +227,6 @@ var cost = [
 	];
 	var airfare = "${airfare}";
 
-
 </script>
 
 <script type="text/javascript">
@@ -198,70 +238,10 @@ $(document).ready(function() {
 	
 	// 브라우저에 timetable 그려주기
 	initFullCalendar(planStartDate, planEndDate, true);
+	$('#calendar').fullCalendar('option', 'editable', false); // 수정 불가능하게
+	$('#calendar').fullCalendar('option', 'droppable', false); // 드롭할 수 없게
 	
-// 	function diplayStory() {
-// 		if( ${is_displayStory ne null} && ${is_displayStory eq ""}){
-// 			is_diplayStory = ${is_displayStory};
-// 		}else{
-// 			is_displayStory = false;
-// 		}
-		
-// 		if(is_display == true){
-// 			document.getElementById("calendar").style.display= "none";
-// 			document.getElementById("viewStory").style.display= "block";
-			
-// 			$.ajax({ 	
-// 				type: "get"
-// 				, url: "/story/view"
-// 				, data: {"plan_idx" : plan_idx }
-// 				, dataType: "html"
-// 				, success: function( d ) {
-// 					$("#viewStory").html(d);
-// 				}
-// 				, error: function() {
-// 					console.log("실패");
-// 				}
-// 			});
-			
-// 		}else{
-// 			document.getElementById("calendar").style.display= "block";
-// 			document.getElementById("viewStory").style.display= "none";
-// 		}
-// 	}
-	
-// 	displayStory();
-	
-// 	스토리탭
-	$("#btnStory").click(function() {
-		document.getElementById("calendar").style.display= "none";
-		document.getElementById("viewStory").style.display= "block";
-		document.getElementById("googleMap").style.display= "none";
-		document.getElementById("googleSearch").style.display= "none";
 
-		
-		//AJAX 처리하기
-		$.ajax({ 	
-			type: "get"
-			, url: "/story/view"
-			, data: {"plan_idx" : plan_idx }
-			, dataType: "html"
-			, success: function( d ) {
-				$("#viewStory").html(d);
-			}
-			, error: function() {
-				console.log("실패");
-			}
-		});
-				
-	});
-// 	타임테이블탭
-	$("#btnPlan").click(function() {
-		document.getElementById("viewStory").style.display= "none";
-		document.getElementById("calendar").style.display= "block";
-		document.getElementById("googleMap").style.display= "block";
-	});
-	
-// 	수정버튼
 	$("#btnModify").click(function() {
 		isModify = 1;
 		$("#Modify").submit();
@@ -281,14 +261,10 @@ $(document).ready(function() {
 			document.getElementById("isClose").style.display= "block";
 			document.getElementById("isOpen").style.display= "none";
 		  }
-			console.log(check);
-		});
+		  
+		  console.log(check);
+	});
 	
-// 		// 타임테이블 읽기 모드로 변경
-// 		$('#calendar').fullCalendar('option', 'editable', false); // 수정 불가능하게
-// 		$('#calendar').fullCalendar('option', 'droppable', false); // 드롭 불가능하게
-
-// 	});
 	
 // 	북마크 버튼
 	$("#btnBookMark").click(function() {
@@ -499,73 +475,62 @@ $(document).ready(function() {
 			});
 	});
 	
-	// 일정 일자 변경할때의 처리
-	var beforeStartDate = planStartDate;
-	var beforeEndDate = planEndDate;
-	$(".planDate").on("change", function(){
-		// 바뀐 날짜 값 받아오기
-		var changedStartDate = $(".planDate[name='editStartDate']").val();
-		var changedEndDate = $(".planDate[name='editEndDate']").val();
+	
+// 	console.log("현재 탭 쿠키 값: " + getCookie('tab'));
+    // 쿠키값이 없거나 tab-ttb 인 경우
+	if(getCookie('tab')==null || getCookie('tab')=='tab-ttb'){
+		$("#tab-main li").removeClass("active");
+	    $("#tab-main li[rel='tab-ttb']").addClass("active");
+		$(".tab-content").css('display', 'none');
+	    $(".tab-content.tab-ttb").show();
+	
+	// 쿠키값이 tab-story인 경우    
+	}else if(getCookie('tab')=='tab-story'){
+		$("#tab-main li").removeClass("active");
+		$("#tab-main li[rel='tab-story']").addClass("active");
+		$(".tab-content").css('display', 'none');
+		$(".tab-content.tab-story").show();
 		
-		// 예외처리
-		if(changedStartDate > changedEndDate){
-			alert("일정의 마지막일이 시작일보다 작을 수 없습니다.");
-			$(".planDate[name='editStartDate']").val(beforeStartDate);
-			$(".planDate[name='editEndDate']").val(beforeEndDate);
-			return;
-		}
-		
-		// 바뀐 시작일이 기존 시작일보다 큰 경우(미래인 경우) 
-		var alertStartDate = moment(changedStartDate) > moment(planStartDate);
-		// 바뀐 종료일이 기족 종료일보다 작은 경우(과거인 경우)
-		var alertEndDate = moment(changedEndDate) <  moment(planEndDate);
-		if( alertStartDate || alertEndDate ){
-			// 경고창 띄워주기
-			$.ajax({
-				url: '/plan/timetable/alert.jsp'
-				, method: "GET"
-				, dataType: "html"
-				, success: function(d){
-					$('body').append(d);
-					$("#alertOnDateChange").modal('show');
-					// 모달창이 켜지면
-					$("#alertOnDateChange").on('shown.bs.modal',function(e){
-						// 클릭 이벤트 걸어줌
-						$("#btnOkOnDateChange").on("click", function(){
-							// 바뀐 날짜 정보 저장해놓기 (추후에 캔슬했을 때 이 값으로 다시 돌려놓음)
-							beforeStartDate = changedStartDate;
-							beforeEndDate = changedEndDate;
-							
-							// 기간 외의 타임테이블 삭제하고
-							deleteTimetableByDate(changedStartDate, changedEndDate);
-							// 캘린더 다시 그려주기
-							initFullCalendar(changedStartDate, changedEndDate, false);
-						});
-						// 취소버튼 누르면
-						$("#btnCancelOnDateChange").on("click", function(){
-							// 바꾸기 전  날짜로 다시 변경
-							if(alertStartDate){
-								$(".planDate[name='editStartDate']").val(beforeStartDate);
-							}else if(alertEndDate){
-								$(".planDate[name='editEndDate']").val(beforeEndDate);
-							}
-						});
-					})
-				}
-			});
-		} else{
-			// 캘린더 다시 그려주기
-			initFullCalendar(changedStartDate, changedEndDate, false);
-		} 
-		
-		// 새로 캘린더 그려서 읽기모드로 세팅 -> 수정  모드로 변경
-		$('#calendar').fullCalendar('option', 'editable', true); // 수정 가능하게
-		$('#calendar').fullCalendar('option', 'droppable', true); // 드롭할 수 있게
-	});
+		// ajax 통신으로 내용 불러오기
+		displayStoryView();
+	}
+
+	$('#tab-main li').click(function(){
+		// active클래스 속성 변경
+		$("#tab-main li").removeClass("active");
+        $(this).addClass("active");
+        
+        // 선택한탭의 내용 띄워지게
+        $(".tab-content").hide();
+        var activeTab = $(this).attr("rel");
+        $("." + activeTab).show();
+        
+        if(activeTab == 'tab-ttb'){ // 타임테이블 탭 선택한 경우
+			setCookie('tab','tab-ttb');
+        }else if(activeTab == 'tab-story'){ // 스토리 탭 선택한 경우
+			setCookie('tab','tab-story');
+        	// ajax 통신으로 내용 불러오기
+			displayStoryView();
+        }
+	}); // tab on click 이벤트 설정
 	
 }); // $(document).ready() End
 	
-	
+function displayStoryView(){
+	//AJAX 처리하기
+	$.ajax({ 	
+		type: "get"
+		, url: "/story/view"
+		, data: {"plan_idx" : plan_idx }
+		, dataType: "html"
+		, success: function( d ) {
+			$("#viewStory").html(d);
+		}
+		, error: function() {
+			console.log("실패");
+		}
+	});
+}	
 </script>
 
 </head>
@@ -696,7 +661,7 @@ $(document).ready(function() {
 		<input id="planCommit" type="button" value="저장" onclick="store();" style="display:none;width:100%;">
 		
 		<!-- 검색 INPUT DIV -->
-		<div id="googleSearch" style="float:bottom;width:100%;border-radius:10px;display:none;">
+		<div id="googleSearch" style="float:bottom;width:100%;border-radius:10px; display:none;">
 		검색 : <input id="pac-input" class="controls" type="text" placeholder="Search Box">
 		    <div id="right-panel"
 		    style="border-top:3px solid; border-bottom:3px solid; border-left:3px dashed; border-right:3px groove; padding:3px;">
@@ -711,19 +676,28 @@ $(document).ready(function() {
 	<!-- 우측 일정 & 타임테이블정보 (지도, 일정탭 & 타임테이블탭 등 )-->
 	<div id="container" style="width:900px; border-radius:10px;float:left;">
 		<!-- 일정 / 스토리 탭 DIV -->
-		<div id="content" style="float:bottom;width:100%;">
-			<button id="btnPlan" style="width:447px;background-color:#ff5555;border-radius:10px;">일정</button>
-			<button id="btnStory" style="width:447px;background-color:#5555ff;border-radius:10px;">스토리</button>
-		</div>
+		<ul class="tabs" id="tab-main">
+			<li rel="tab-ttb">일정</li>
+			<li rel="tab-story">스토리</li>
+		</ul>
+<!-- 		<div id="content" style="float:bottom;width:100%;"> -->
+<!-- 			<button id="btnPlan" style="width:447px;background-color:#ff5555;border-radius:10px;">일정</button> -->
+<!-- 			<button id="btnStory" style="width:447px;background-color:#5555ff;border-radius:10px;">스토리</button> -->
+<!-- 		</div> -->
 		
-		<!-- 구글맵 DIV -->
-		<div id="googleMap" style="background-color:#DDDDDD;height:500px;float:bottom;width:100%;border-radius:10px;">
-			<div id="map"></div>
+		<div class="tab-container">
+		<div id="tab-ttb" class="tab-content tab-ttb">
+			<!-- 구글맵 DIV -->
+				<div id="map" style="background-color:#DDDDDD;height:500px;float:bottom;width:100%;"></div>
+		 	<!-- 타임테이블 -->
+			<div id="calendar"></div>
 	 	</div>
 	 	
-	 	<!-- 타임테이블 & 스토리테이블 -->
-		<div id="calendar"></div>
-		<div id="viewStory"></div>
+	 	<div id="tab-story" class="tab-content tab-story">
+		 	<!-- 스토리테이블 -->
+			<div id="viewStory"></div>
+	 	</div>
+	 	</div>
 		
 	</div>
 </div>
