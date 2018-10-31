@@ -116,6 +116,8 @@ public class UserFileController extends HttpServlet {
 			
 			req.getSession().setAttribute("user", cUser);
 			
+			
+			
 			resp.sendRedirect("/user/update");
 		}
 }

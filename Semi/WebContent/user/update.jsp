@@ -119,6 +119,7 @@ function deleteCheck(){
 		</div>
 		<div id="right">
 			<img src="${user.profile}" name="image" style="border-radius:70px; width:100px;"/><br>
+			<img src="${user.profile }">
 			<div id="changeImage"><input type="button" name="changeImage" value="변경하기"/></div>
 		</div>
 	</div>
@@ -130,11 +131,10 @@ function deleteCheck(){
 <button onclick="deleteCheck();">회원탈퇴하기</button>
 </div>
 
-	<form action="/user/file" method="post" enctype="multipart/form-data">
-		<input type="file" name="uploadFile">
-		<button>업로드</button>
-	</form>
-	
+<form action="/user/file" method="post" enctype="multipart/form-data">
+	<input type="file" name="uploadFile">
+	<button>업로드</button>
+</form>	
 </c:if>
 
 
