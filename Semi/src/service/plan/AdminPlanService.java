@@ -14,7 +14,7 @@ public interface AdminPlanService {
 	public Plan getParam(HttpServletRequest req);
 	
 	// 일정 삭제
-	public void delete(Plan plan);
+	public boolean delete(Plan plan);
 	
 	// 일정 전체 조회 
 	public List<Plan> selectPlanAll();

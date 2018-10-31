@@ -13,7 +13,7 @@ function deletePlan(plan_idx){
 		type:"POST"
 		, url :"/admin/plan/delete"
 		, dataType :"json"
-		,data {
+		,data : {
 			plan_idx: plan_idx
 		}
 		,success: function(d) {
@@ -110,21 +110,22 @@ th{
 	<div id="planList" class="list" >
 
 		<c:forEach items="${planList }" var="plan"> 
-			<div id="planBox" data-plan_idx="${plan.plan_idx }"><a href="/plan?plan_idx=${plan.plan_idx }">
-				
+			<div id="planBox" data-plan_idx="${plan.plan_idx }">
+				<div><a href="/plan?plan_idx=${plan.plan_idx }">
 				<div><img src="/upload/banner/${plan.bannerURL }" style="width: 100%;"></div>
 				<div> Title : ${plan.title} <br> NickName : ${plan.nick }</div>
+				</a></div>
 				<div>
-					<button id ="planDelete" onclick="deletePlan(${plan_idx})">삭제</button>
+					<button id ="planDelete"  onclick="deletePlan(${plan.plan_idx})">삭제</button>
 				</div>
-			</a></div>
+			</div>
 		</c:forEach>
 	</div>
 
 
 
 <div id="pagingBox" class="text-center">
-  <ul class="pagination pagination-sm">s
+  <ul class="pagination pagination-sm">
   	<!-- 처음으로 가기 -->
   	<c:if test="${paging.curPage ne 1 }">
     <li>

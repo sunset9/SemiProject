@@ -36,7 +36,7 @@ public class AdminNoticeWriteController extends HttpServlet {
 			resp.sendRedirect("/user/login");
 			return;
 		}
-		
+		req.getRequestDispatcher("/admin/notice/write.jsp").forward(req, resp);
 	}
 	
 	@Override

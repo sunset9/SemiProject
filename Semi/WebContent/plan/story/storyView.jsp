@@ -69,6 +69,7 @@ hr{
 	
 	$(document).ready(function(){
 	    //edit 모드일때, 수정버튼삭제버튼추가버튼 보여주지 않음
+	    
 	    function EditMode() {
 	    	
 	     var removeStorys = document.getElementsByClassName("removeStory");
@@ -154,8 +155,67 @@ hr{
 			$(".up_ttb_idx").val(ttb_idx);
 			$('.up_content').froalaEditor('html.set', content);
 			$(".up_plan_idx").val(planidx);	
-
 			
+			var accountStoryidx = [];
+			var accountCategory = [];
+			var accountCurridx = [];
+			var accountCost = [];
+
+			<c:forEach items="${accountList}" var="account">
+					accountStoryidx.push("${account.story_idx}");
+					accountCategory.push("${account.category}");
+					accountCurridx.push("${account.curr_idx}");
+					accountCost.push("${account.origin_cost}");
+			</c:forEach>
+			var count = 0;
+			
+			for (var i = 0; i <accountStoryidx.length; i++) {
+					if( story_idx == accountStoryidx[i]){
+						var accountView = $("#up_accountView").clone();
+						
+						if(count != 0){
+							$("#up_accountViewList").append(accountView);	
+						}
+						count = count+1;
+					}
+	
+			}
+					
+		 		var size = document.getElementsByName("up_accountViewName").length;
+		 		
+		 		var accCurrNameList = [];
+		 		var accTypeList = [];
+		 		var accCostList = [];
+		 		
+		 		
+		 		for(var i = 0; i < size; i++){
+			        var obj = document.getElementsByName("up_accountViewName")[i];
+			        
+			        $(obj).find(".accountPlus").css("display","none");
+			        $(obj).find(".accountRemove").css("display","block");
+			        
+			        
+			        for (var i = 0; i <accountStoryidx.length; i++) {
+						if( story_idx == accountStoryidx[i]){
+							accTypeList.push(accountCategory[i]);
+							accCurrNameList.push(accountCurridx[i]);
+							accCostList.push(accountCost[i]);
+						}
+			        }
+			        
+			        $(obj).find(".up_accType").val(accTypeList[i]);
+			        $(obj).find(".up_currSymbol").val(accCurrNameList[i]);
+					$(obj).find(".up_cost").val(accCostList[i]);
+			        
+			        if (i == size-1){
+					    $(obj).find(".accountPlus").css("display","block");
+			        }
+			        
+			        if (size == 5 && i == size-1){
+				    	 $(obj).find(".accountPlus").css("display","none");
+			        }
+				 }
+			 		
 			
 		})
 
