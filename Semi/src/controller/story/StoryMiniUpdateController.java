@@ -27,7 +27,6 @@ import service.timetable.TimetableServiceImpl;
 public class StoryMiniUpdateController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
-	PlanService pService = new PlanServiceImpl();
 	StoryService sService = new StoryServiceImpl();
 	TimetableService ttbService = new TimetableServiceImpl();
 	

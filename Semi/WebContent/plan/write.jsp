@@ -93,7 +93,10 @@
 /* ------------------------------------------------------------------------ */
 /* 	구글 맵 크기 설정 */
 	#map {
-		height: 100%;
+		background-color:#DDDDDD;
+		height:450px;
+		float:bottom;
+		width:100%;
 	}
 /* 	----------------------------------------------------- */  
 	#calendar {
@@ -193,14 +196,24 @@ var locList = ${locList };
 
 var plan_idx = ${planView.plan_idx};
 
+var isCookieTablClear = true;
+
 </script>
 <script>
 //저장하기
-function store(beforeTtbIdx, afterTtbIdx){
+function store(beforeTtbIdx, afterTtbIdx, isSendWriteMode){
+	isCookieTablClear = false;
 	// 캘린더에 있는 모든 이벤트 정보 가져오기
 	var events = $("#calendar").fullCalendar('clientEvents');
 	console.log("저장할 때 events목록");
 	console.log(events);
+	
+	console.log(isSendWriteMode);
+	
+	// 수정모드로 유지하기
+	if(isSendWriteMode){
+		$('input[name=isSendWriteMode]').val(true);
+	}
 	
 	var timetables = [];
 	// form input 생성(넘겨줄 값)
@@ -357,6 +370,7 @@ $(document).ready(function() {
 	
     
 //     console.log("현재 탭 쿠키 값: " + getCookie('tab'));
+//     console.log(isCookieTablClear);
     // 쿠키값이 없거나 tab-ttb 인 경우
 	if(getCookie('tab')==null || getCookie('tab')=='tab-ttb'){
 		$("#tab-main li").removeClass("active");
@@ -397,6 +411,7 @@ $(document).ready(function() {
 
 }); // $(document).ready() End
 
+// 스토리 뷰 ajax통신으로 띄워주기
 function displayStoryView(){
 	//AJAX 처리하기
 	$.ajax({ 	
@@ -412,7 +427,14 @@ function displayStoryView(){
 		}
 	});
 }
-	
+
+// 창이 사라질 때 탭 관련 쿠키 삭제
+window.onbeforeunload = function(){
+	if(isCookieTablClear){
+		deleteCookie('tab');
+	}
+}
+
 </script>
 
 </head>
@@ -436,7 +458,8 @@ function displayStoryView(){
 		
 		<div id="editTitle" >
 			<form action="/plan/update" method="post" id="planForm">
-				<div >
+				<div>
+					<input type="hidden" name="isSendWriteMode" value="false">
 					<input type="hidden" name="plan_idx" value="${planView.plan_idx}" />
 					<input type="hidden" name="user_idx" value="${planView.user_idx}" />
 					
@@ -512,7 +535,7 @@ function displayStoryView(){
 	</div>
 	
 	<!-- 우측 일정 & 타임테이블정보 (지도, 일정탭 & 타임테이블탭 등 )-->
-	<div id="container" style="width:900px; border-radius:10px;float:left;">
+	<div id="container" style="width:900px; border-radius:10px;float:left;margin-left: 20px;">
 		<!-- 일정 / 스토리 탭 DIV -->
 		<ul class="tabs" id="tab-main">
 			<li rel="tab-ttb">일정</li>
@@ -526,7 +549,7 @@ function displayStoryView(){
 		<div class="tab-container">
 		<div id="tab-ttb" class="tab-content tab-ttb">
 			<!-- 구글맵 DIV -->
-				<div id="map" style="background-color:#DDDDDD;height:500px;float:bottom;width:100%;"></div>
+				<div id="map"></div>
 		 	<!-- 타임테이블 -->
 			<div id="calendar"></div>
 	 	</div>

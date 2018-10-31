@@ -35,8 +35,10 @@ public class PlanWriteController extends HttpServlet {
 	
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+
 		System.out.println();
 		System.out.println("----- PlanWriteController -----");
+
 		// 한글 인코딩
 		req.setCharacterEncoding("UTF-8");
 		GsonBuilder gsonBuilder = new GsonBuilder();

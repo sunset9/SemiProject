@@ -112,7 +112,10 @@
 /* 	----------------------------------------------------- */
 /* 	구글 맵 크기 설정 */
 	#map {
-		height: 100%;
+		background-color:#DDDDDD;
+		height:450px;
+		float:bottom;
+		width:100%;
 	}
 /* 	----------------------------------------------------- */  
 	#calendar {
@@ -215,6 +218,8 @@ var plan_idx = ${planView.plan_idx};
 
 var is_diplayStory = false;
 
+var isCookieTablClear = true;
+  
 var cost = [
 		"${airfare}",
 		"${traffic}",
@@ -225,7 +230,6 @@ var cost = [
 		"${shop}",
 		"${etc}"
 	];
-	var airfare = "${airfare}";
 
 </script>
 
@@ -244,6 +248,8 @@ $(document).ready(function() {
 
 	$("#btnModify").click(function() {
 		isModify = 1;
+		isCookieTablClear = false;
+		
 		$("#Modify").submit();
 		console.log("view.jsp isModify : " + isModify);
 	});
@@ -477,6 +483,7 @@ $(document).ready(function() {
 	
 	
 // 	console.log("현재 탭 쿠키 값: " + getCookie('tab'));
+// 	console.log(isCookieTablClear);
     // 쿠키값이 없거나 tab-ttb 인 경우
 	if(getCookie('tab')==null || getCookie('tab')=='tab-ttb'){
 		$("#tab-main li").removeClass("active");
@@ -516,6 +523,7 @@ $(document).ready(function() {
 	
 }); // $(document).ready() End
 	
+//스토리 뷰 ajax통신으로 띄워주기
 function displayStoryView(){
 	//AJAX 처리하기
 	$.ajax({ 	
@@ -531,6 +539,13 @@ function displayStoryView(){
 		}
 	});
 }	
+
+// 창이 사라질 때 탭 관련 쿠키 삭제
+window.onbeforeunload = function(){
+	if(isCookieTablClear){
+		deleteCookie('tab');
+	}
+}
 </script>
 
 </head>
@@ -674,7 +689,7 @@ function displayStoryView(){
 	</div>
 	
 	<!-- 우측 일정 & 타임테이블정보 (지도, 일정탭 & 타임테이블탭 등 )-->
-	<div id="container" style="width:900px; border-radius:10px;float:left;">
+	<div id="container" style="width:900px; border-radius:10px;float:left;margin-left: 20px;">
 		<!-- 일정 / 스토리 탭 DIV -->
 		<ul class="tabs" id="tab-main">
 			<li rel="tab-ttb">일정</li>
@@ -688,7 +703,7 @@ function displayStoryView(){
 		<div class="tab-container">
 		<div id="tab-ttb" class="tab-content tab-ttb">
 			<!-- 구글맵 DIV -->
-				<div id="map" style="background-color:#DDDDDD;height:500px;float:bottom;width:100%;"></div>
+				<div id="map"></div>
 		 	<!-- 타임테이블 -->
 			<div id="calendar"></div>
 	 	</div>

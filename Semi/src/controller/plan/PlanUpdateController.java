@@ -34,33 +34,8 @@ public class PlanUpdateController extends HttpServlet {
 	
 	@Override
 		protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-//		// 요청파라미터(plan_idx) -> Plan 모델 
-//		Plan param = pService.getParam(req);
-//		
-//		// 일정 기본 정보 가져오기
-//		Plan plan = pService.getPlanInfo(param);
-//		
-//		// 유저 정보 가져오기
-//		User user = pService.getUserInfo(plan);
-//		
-//		// 타임테이블 리스트 가져오기
-//		List<Timetable> timetableList = ttService.getTimetableList(plan);
-//		
-//		// 장소정보(타임테이블에 등록한) 리스트 가져오기
-//		List<Location> locList = ttService.getLocationList(plan);
-//		
-//		// 스토리 리스트 가져오기
-//		List<Story> storyList = sService.getStoryList(param);
-//
-//		// 스토리 댓글 리스트 가져오기
-//		List<Comment> commList = sService.getCommentList(storyList);
-//		
-//		// 가계부 정보 가져오기
-//		Account acc = pService.getAccount(param);
-
-		// 업데이트 뷰 폼 띄워주기 
-		req.getRequestDispatcher("/plan/view.jsp")
-		.forward(req, resp);
+			// 업데이트 뷰 폼 띄워주기 
+			req.getRequestDispatcher("/plan/view.jsp").forward(req, resp);
 		}
 	
 		@Override
@@ -83,9 +58,24 @@ public class PlanUpdateController extends HttpServlet {
 			// 미니뷰 정보가 있다면 업데이트
 //			sService.updateMini(req);
 			
-			// 일정 정보 업데이
-			pService.update(planParam);
+      // 일정 정보 업데이트
+      pService.update(planParam);
 			System.out.println(req.getSession().getAttribute("plan_idx"));
-			resp.sendRedirect("/plan");
+      
+			// 저장시 넘어온 파라미터 값으로
+			// 저장 후에 view / write.jsp 보내주는 곳 결정
+			boolean isWriteMode = Boolean.valueOf(req.getParameter("isSendWriteMode"));
+			if(isWriteMode) {
+//				req.getRequestDispatcher("/plan/write").forward(req, resp);
+				String url = "/plan/write";
+				String param = "";
+				if(planParam.getPlan_idx() > 0) {
+					param = "?plan_idx=" + planParam.getPlan_idx();}
+				resp.sendRedirect(url + param);	
+				
+			}else{
+				resp.sendRedirect("/plan");	
+			}
+
 		}
 }

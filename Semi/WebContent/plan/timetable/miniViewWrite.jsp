@@ -146,7 +146,7 @@ $("#btnMiniWriteSave").on("click", function(){
 		, success: function(d){
 			// 미니뷰 저장 성공 시 
 			// 미니뷰 작성한 타임테이블의 이전 idx와 저장 후 idx값 넘겨줌
-			store(ttbJson.ttb_idx, d.ttb_idx); 
+			store(ttbJson.ttb_idx, d.ttb_idx, isSendWriteMode=true); 
 		}
 		,  error: function(){
 			console.log("Mini-view Write Ajax 통신 실패");
