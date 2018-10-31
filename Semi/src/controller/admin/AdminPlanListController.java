@@ -37,14 +37,20 @@ public class AdminPlanListController extends HttpServlet {
 		// 검색어 얻어오기 
 		String search = adminPlanService.getSearch(req);
 		
+		
+//		System.out.println("searchType : "+req.getParameter("searchType"));
 		// 검색 조건 얻어오기
-		int searchType =Integer.parseInt(req.getParameter("searchType"));
+		int searchType=0;
+		
+		if(req.getParameter("searchType")!= null) {
+			searchType =Integer.parseInt(req.getParameter("searchType"));
+		}
 		
 		// 전체 페이지 얻어오기 
-		int totalCount = adminPlanService.getTotalCount(searchType, search );
+		int totalCount = adminPlanService.getTotalCount(searchType, search);
 		
 		// 페이징 객체 생성 
-		Paging paging = new Paging(totalCount, curPage);
+		Paging paging = new Paging(totalCount, curPage,9);
 		
 		// 페이징 객체에 검색어 적용 
 		paging.setSearch(search);

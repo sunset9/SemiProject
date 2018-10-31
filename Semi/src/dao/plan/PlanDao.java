@@ -29,14 +29,11 @@ public interface PlanDao {
 	// 플랜의 가계부 인덱스로 가계부 정보 불러오기
 	Account selectAccountInfoByAccountIdx(Plan plan);
 	
-	// 새로운 일정 저장
-	void insert(Plan plan);
-	
 	// 일정메인 수정값 저장하기
 	void update(Plan plan);
 	
 	// 일정 삭제하기
-	void delete(Plan plan);
+	void deletePlanByPlanIdx(Plan plan);
 	
 	// 전체 일정 불러오기 
 	List<Plan> selectPlanAllList();
@@ -52,6 +49,14 @@ public interface PlanDao {
 
 	//planner_seq.nextval 가져오기
 	public int getPlannerSeqNextval();
-
 	
+	//카테고리별 총 가격
+	int sumAirfareByPlanIdx(Plan plan);
+	int sumTrafficByPlanIdx(Plan plan);
+	int sumStayByPlanIdx(Plan plan);
+	int sumAdmissionByPlanIdx(Plan plan);
+	int sumFoodByPlanIdx(Plan plan);
+	int sumPlayByPlanIdx(Plan plan);
+	int sumShopByPlanIdx(Plan plan);
+	int sumEtcByPlanIdx(Plan plan);
 }

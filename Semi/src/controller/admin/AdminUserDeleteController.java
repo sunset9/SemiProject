@@ -25,7 +25,8 @@ public class AdminUserDeleteController extends HttpServlet {
 
 	@Override
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		//뷰 지정	
+		
+		// 요청 파라미터 받기 	
 		user = adminUserService.getParam(req, resp);
 	
 		boolean s = adminUserService.deleteUser(user);
