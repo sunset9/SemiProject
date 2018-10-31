@@ -30,12 +30,11 @@ public class AdminPlanDeleteController extends HttpServlet {
 		// 일정 삭제 
 		adminPlanService.delete(plan);
 		
-		// 일정 삭제
-	
 		// 연관된 타임테이블 삭제
-		ttService.delete(plan);
+		boolean s = ttService.delete(plan);
 		
-		req.getRequestDispatcher("")
-		.forward(req, resp);
+		// 결과 보내주기ㅣ이ㅣ
+		resp.getWriter().append("{\"success\":"+s+"}");
+
 	}
 }
