@@ -81,19 +81,19 @@ public class ContentsDaoImpl implements ContentsDao{
 	public int selectCntAll(int searchType, String search) {
 		System.out.println("검색어 : "+search);
 		System.out.println("검색타입 : "+searchType);
-		if(searchType == 1) {
-			String type = "title";
-		} else if(searchType == 2) {
-			String type = "nickname";
-		}
-		
 		
 		
 		// 전체 게시글 수 조회
-		String sql = "SELECT COUNT(*) FROM planner";
+		String sql = "SELECT COUNT(*) FROM planner   ";
 
+		if(searchType == 1) {
+			sql += "WHERE title ";
+		} else if(searchType == 2) {
+			sql += "WHERE nickname ";
+		}
+		
 		if (search != null && !"".equals(search)) {
-			sql += " WHERE ? LIKE '%" + search + "%'";
+			sql += " LIKE '%"+search+"%'";
 		}
 
 		// DB객체 생성
@@ -105,7 +105,6 @@ public class ContentsDaoImpl implements ContentsDao{
 
 		try {
 			ps = conn.prepareStatement(sql);
-			ps.setLong(1, searchType);
 			rs = ps.executeQuery();
 
 			rs.next();

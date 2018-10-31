@@ -15,6 +15,7 @@ $(document).ready(function() {
 	
 		console.log($checkboxes);
 		
+		
 		//방법2
 		// 체크된 대상들을 map으로 만들고 map을 문자열로 만들기
 		var map = $checkboxes.map(function() {

@@ -198,8 +198,15 @@ public class TimetableServiceImpl implements TimetableService{
 	}
 
 	// 타임테이블 정보 삭제하기
-	public void delete(Plan plan) {
+	public boolean delete(Plan plan) {
+		boolean rs = false;
 		
+//		if(ttbDao.delete(plan)==1) {
+			rs = true;
+//		}
+		
+		return rs;
+	
 	}
 
 	public int getTtbIdx() {
