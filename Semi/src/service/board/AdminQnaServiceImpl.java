@@ -126,18 +126,20 @@ public class AdminQnaServiceImpl implements  AdminQnaService{
 				
 				// 빈 파일이 아닐 경우 
 				if( item.isFormField()) {
+					System.out.println("빈파일인가아");
 					try {
 						if("title".equals(item.getFieldName())) {
+							System.out.println("타이틀 들어가나?");
 							qna.setTitle(item.getString("utf-8"));
 						}
 						if("content".equals(item.getFieldName())) {
+							System.out.println("내용 들어가나?");
 							qna.setContent(item.getString("utf-8"));
 						}
 						
 					} catch (UnsupportedEncodingException e) {
 						e.printStackTrace();
 					}
-					
 					qna.setWriter((String)req.getSession().getAttribute("nickname"));
 					qna.setUser_idx((int)req.getSession().getAttribute("user_idx"));
 				}else {
@@ -178,6 +180,8 @@ public class AdminQnaServiceImpl implements  AdminQnaService{
 		int qna_idx = qnaDao.selectQnaIdx();
 		
 		if(qna != null) {
+			
+			System.out.println("qna : "+qna);
 			qna.setQna_idx(qna_idx);
 			qnaDao.insert(qna);
 		}

@@ -34,7 +34,7 @@ public interface PlanDao {
 	void update(Plan plan);
 	
 	// 일정 삭제하기
-	void deletePlanByPlanIdx(Plan plan);
+	boolean deletePlanByPlanIdx(Plan plan);
 	
 	// 전체 일정 불러오기 
 	List<Plan> selectPlanAllList();

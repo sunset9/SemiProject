@@ -19,19 +19,16 @@ public class AdminPlanDeleteController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	
 	private AdminPlanService adminPlanService = new AdminPlanServiceImpl();
-	private TimetableService ttService = new TimetableServiceImpl(); 
 	private Plan plan = new Plan();
 	@Override
-	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		
+	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+		System.out.println("admin/plan/list");
 		// 요청 파라미터 받기
 		plan = adminPlanService.getParam(req);
 		
 		// 일정 삭제 
-		adminPlanService.delete(plan);
+		boolean s = adminPlanService.delete(plan);
 		
-		// 연관된 타임테이블 삭제
-		ttService.deleteTimetable(plan);
 		
 		// 결과 보내주기ㅣ이ㅣ
 		resp.getWriter().append("{\"success\":"+s+"}");

@@ -34,7 +34,7 @@ public class QnaDaoImpl implements QnaDao {
 		if(paging.getSearch()!=null && !"".equals(paging.getSearch())) {
 			sql += "WHERE title LIKE '%"+paging.getSearch()+"%'";
 		}
-			sql += " ORDER BY rnum";
+		sql += " ORDER BY rnum";
 			sql += ")";
 			sql += "WHERE rnum between ? AND ?";
 				
@@ -117,7 +117,8 @@ public class QnaDaoImpl implements QnaDao {
 	@Override
 	public Qna selectQnaByQnaIdx(Qna qna) {
 		// 게시글 하나 조회 쿼리
-		String sql ="SELECT qna_idx,(SELECT nickname FROM userinfo U WHERE U.user_idx = Q.user_idx) nick";
+		String sql ="SELECT qna_idx,(SELECT nickname FROM userinfo U WHERE U.user_idx = Q.user_idx) nick , ";
+			   sql +=" (SELECT id FROM userinfo U WHERE U.user_idx = Q.user_idx) writer s";
 			   sql+= ",title, content, hit,create_date  FROM qna Q WHERE qna_idx=?";
 		
 		// DB 객체 
@@ -136,6 +137,7 @@ public class QnaDaoImpl implements QnaDao {
 			
 			while(rs.next()) {
 				q.setQna_idx(rs.getInt("qna_idx"));;
+				q.setWriter(rs.getString("writer"));
 				q.setWriter(rs.getString("nick"));
 				q.setTitle(rs.getString("title"));
 				q.setContent(rs.getString("content"));
@@ -201,13 +203,18 @@ public class QnaDaoImpl implements QnaDao {
 	@Override
 	public void insert(Qna qna) {
 		// 게시글 추가하는 쿼리 
+		
+		System.out.println("dao에서 qna : "+  qna);
 		String sql ="";
 		sql+="INSERT INTO qna (qna_idx, title, user_idx,content,hit)"; 
 		sql+=	"VALUES(qna_seq.nextval,?,?,?,0)";
 						
 		try {
 			conn.setAutoCommit(false);
-					
+			System.out.println("title :" +qna.getTitle());
+			
+			ps = conn.prepareStatement(sql);
+			
 			//DB 작업 
 			ps.setString(1, qna.getTitle());
 			ps.setInt(2, qna.getUser_idx());

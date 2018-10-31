@@ -339,9 +339,11 @@ public class PlanDaoImpl implements PlanDao{
 	
 	// 일정 삭제하기
 	@Override
-	public void deletePlanByPlanIdx(Plan plan) {
+	public boolean deletePlanByPlanIdx(Plan plan) {
 		String sql = "delete planner"
 				+ " where plan_idx = ?";
+		
+		boolean rs = false;
 		try {
 			// 오토커밋 해제
 			conn.setAutoCommit(false);
@@ -350,12 +352,15 @@ public class PlanDaoImpl implements PlanDao{
 			
 			ps.setInt(1, plan.getPlan_idx());
 			
-			ps.executeUpdate();
+			int i =ps.executeUpdate();
+			
+			if(i==1) {
+				rs = true;
+			}
 			
 			conn.commit();
 			
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 			try {
 				conn.rollback();
@@ -369,6 +374,7 @@ public class PlanDaoImpl implements PlanDao{
 				e.printStackTrace();
 			}
 		}
+		return rs ;
 	}
 
 	@Override
