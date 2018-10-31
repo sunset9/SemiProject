@@ -59,7 +59,7 @@
 			<div>				
 				<div>
 				<div style="display:inline;">
-					<form action="/plan/write" style="display:inline;">
+					<form action="/plan/write" method="post" style="display:inline;">
 						<input type="hidden" name="plan_idx" value="${status.current.plan_idx}" />
 						<input type="hidden" name="user_idx" value="${status.current.user_idx}" />
 						<input type="hidden" name="editStartDate" value="${status.current.start_date}" />
