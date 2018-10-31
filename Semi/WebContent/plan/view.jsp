@@ -20,11 +20,6 @@
 <script type="text/javascript" src="/utils/timetableUtils.js"></script>
 <script type="text/javascript" src="/utils/mapUtils.js"></script>
 
-<!-- Maps JavaScript API 로드 -->
-<script async defer
- src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAO-YMjD9aGxBW1nEzgSFdzf7Uj8E4Lm9Q&libraries=places&language=ko&callback=initMap">
-</script>
-
 <!-- 원형 그래프 -->
 <script src= "https://cdn.zingchart.com/zingchart.min.js"></script>
 		<script> zingchart.MODULESDIR = "https://cdn.zingchart.com/modules/";
@@ -716,5 +711,9 @@ window.onbeforeunload = function(){
 		
 	</div>
 </div>
+<!-- Maps JavaScript API 로드 -->
+<script async defer
+ src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAO-YMjD9aGxBW1nEzgSFdzf7Uj8E4Lm9Q&libraries=places&language=ko&callback=initMap">
+</script>
 </body>
 </html>
