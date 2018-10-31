@@ -39,7 +39,7 @@ public class UserMypageController extends HttpServlet {
 			List<Plan> plannerList = userService.getPlanner(cUser);
 			//planList
 			req.setAttribute("plannerList", plannerList);
-			//System.out.println("유저마이페이지컨트롤러에서 plannerList : "+plannerList.get(0).getPlan_idx());
+			System.out.println("유저마이페이지컨트롤러에서 plannerList : "+plannerList);
 			
 			//현재 유저의 포스팅 개수 가져오기 
 			int cntPlan = userService.getCntPlan(cUser);

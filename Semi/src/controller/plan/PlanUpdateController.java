@@ -65,17 +65,17 @@ public class PlanUpdateController extends HttpServlet {
 			// 저장시 넘어온 파라미터 값으로
 			// 저장 후에 view / write.jsp 보내주는 곳 결정
 			boolean isWriteMode = Boolean.valueOf(req.getParameter("isSendWriteMode"));
-			if(isWriteMode) {
-//				req.getRequestDispatcher("/plan/write").forward(req, resp);
-				String url = "/plan/write";
-				String param = "";
-				if(planParam.getPlan_idx() > 0) {
-					param = "?plan_idx=" + planParam.getPlan_idx();}
-				resp.sendRedirect(url + param);	
-				
-			}else{
-				resp.sendRedirect("/plan");	
-			}
+//			if(isWriteMode) {
+////				req.getRequestDispatcher("/plan/write").forward(req, resp);
+//				String url = "/plan/write";
+//				String param = "";
+//				if(planParam.getPlan_idx() > 0) {
+//					param = "?plan_idx=" + planParam.getPlan_idx();}
+//				resp.sendRedirect(url + param);	
+//				
+//			}else{
+				resp.sendRedirect("/plan?plan_idx="+planParam.getPlan_idx());	
+//			}
 
 		}
 }
