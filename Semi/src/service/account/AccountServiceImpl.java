@@ -37,7 +37,66 @@ public class AccountServiceImpl implements AccountService {
 		
 		AccountList = accountDao.selectAccountByPlanidx(plan);
 		
+		for(int i =0; i<AccountList.size();i++) {
+			AccountList.get(i).setCategory_name(cateGoryIntToStr(AccountList.get(i).getCategory()));
+			AccountList.get(i).setCurr_idx_name(currIntToStr(AccountList.get(i).getCurr_idx()));
+		}
+		
+		
 		return AccountList;
+	}
+	
+	public String cateGoryIntToStr(int category) {
+		
+		String category_name = "";
+		
+	  switch (category) {
+	  	case 1:
+	  		category_name ="항공료";
+		    break;
+	  	case 2:
+	  	    category_name ="교통";
+	  	    break;
+	  	case 3:
+	  		category_name ="숙박";
+	  		break;
+	  	case 4:
+	  		category_name ="입장료";
+	  		break;
+	  	case 5:
+	  		category_name ="음식";
+	  		break;
+	  	case 6:
+	  		category_name ="오락";
+	  		break;
+	  	case 7:
+	  		category_name ="쇼핑";
+	  		break;
+	  	case 8:
+	  		category_name ="기타";
+	  		break;
+	  }
+		
+		return category_name;
+	}
+	public String currIntToStr(int curr_idx) {
+		
+		String curr_name = "";
+		
+		switch (curr_idx) {
+		case 1:
+			curr_name ="USD";
+			break;
+		case 2:
+			curr_name ="KRW";
+			break;
+		case 3:
+			curr_name ="JPY";
+			break;
+		
+		}
+		
+		return curr_name;
 	}
 
 	@Override

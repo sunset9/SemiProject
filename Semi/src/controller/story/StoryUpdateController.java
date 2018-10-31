@@ -10,9 +10,12 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import dto.Account.Account;
 import dto.plan.Plan;
 import dto.story.Story;
 import dto.timetable.Timetable;
+import service.account.AccountService;
+import service.account.AccountServiceImpl;
 import service.plan.PlanService;
 import service.plan.PlanServiceImpl;
 import service.stroy.StoryService;
@@ -31,7 +34,7 @@ public class StoryUpdateController extends HttpServlet {
 	PlanService pService = new PlanServiceImpl();
 	StoryService sService = new StoryServiceImpl();
 	TimetableService ttbService = new TimetableServiceImpl();
-	
+	AccountService aService = new AccountServiceImpl();
 	@Override
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 	
@@ -86,6 +89,10 @@ public class StoryUpdateController extends HttpServlet {
 			
 			// 여행기간 계산
 			int diffDays = calcDate.CalcPriod(plan.getStart_date(),plan.getEnd_date());
+			
+			List<Account> accountList = aService.getPlanAccountList(plan);
+			
+			req.setAttribute("accountList",accountList );
 			
 			req.setAttribute("ttbList", ttbList);
 			req.setAttribute("diffDays",diffDays);

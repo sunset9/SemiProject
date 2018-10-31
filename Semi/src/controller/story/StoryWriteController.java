@@ -116,6 +116,10 @@ public class StoryWriteController extends HttpServlet {
 		// 여행기간 계산
 		int diffDays = calcDate.CalcPriod(plan.getStart_date(),plan.getEnd_date());
 		
+		List<Account> accountList = aService.getPlanAccountList(plan);
+		
+		req.setAttribute("accountList",accountList );
+		
 		req.setAttribute("ttbList", ttbList);
 		req.setAttribute("diffDays",diffDays);
 		req.setAttribute("storyList", StoryList);

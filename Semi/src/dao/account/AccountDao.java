@@ -24,7 +24,6 @@ public interface AccountDao {
 	// 해당 AccType 삭제
 	public void deleteByAccType(Account account);
 	
-	
 	public int selectAccIdx();
 	// 업데이트
 	public void update(Account account);
