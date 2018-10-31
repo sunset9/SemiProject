@@ -24,9 +24,6 @@ import service.stroy.StoryServiceImpl;
 import service.timetable.TimetableService;
 import service.timetable.TimetableServiceImpl;
 
-/**
- * Servlet implementation class PlanUpdateController
- */
 @WebServlet("/plan/update")
 public class PlanUpdateController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
@@ -68,7 +65,6 @@ public class PlanUpdateController extends HttpServlet {
 	
 		@Override
 		protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-			System.out.println("----- 5. 플랜 업데이트 시작 -----");
 			req.setCharacterEncoding("utf-8");
 			
 			// 플랜 정보 파라미터 받기 

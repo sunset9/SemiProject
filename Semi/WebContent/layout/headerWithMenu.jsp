@@ -90,6 +90,21 @@ $(document).ready(function(){
 		$(".btnNewPlan").toggle();
 	});
 });
+// 쿠기 설정 메소드
+var setCookie = function(name, value, exp) {
+	  var date = new Date();
+	  date.setTime(date.getTime() + exp*24*60*60*1000);
+	  document.cookie = name + '=' + value + ';expires=' + date.toUTCString() + ';path=/';
+};
+// 쿠키 얻기 메소드
+var getCookie = function(name) {
+	  var value = document.cookie.match('(^|;) ?' + name + '=([^;]*)(;|$)');
+	  return value? value[2] : null;
+};
+// 쿠키 삭제 메소드
+var deleteCookie = function(name) {
+	  document.cookie = name + '=; expires=Thu, 01 Jan 1970 00:00:01 GMT;';
+};
 
 </script>
 </head>

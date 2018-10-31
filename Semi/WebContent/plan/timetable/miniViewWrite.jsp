@@ -142,12 +142,11 @@ $("#btnMiniWriteSave").on("click", function(){
 			, JSON: storyJsonStr
 			, ttbJson: $('input[name=ttbJson]').val()
 		}
-		, dataType: "text"
-		, success: function(ttb_idx){
-			if(ttb_idx > 0){
-				// 미니뷰 저장 성공 시 백그라운드에 있는 플랜 정보 저장
-				store(ttbJson); 
-			}
+		, dataType: "json"
+		, success: function(d){
+			// 미니뷰 저장 성공 시 
+			// 미니뷰 작성한 타임테이블의 이전 idx와 저장 후 idx값 넘겨줌
+			store(ttbJson.ttb_idx, d.ttb_idx); 
 		}
 		,  error: function(){
 			console.log("Mini-view Write Ajax 통신 실패");
