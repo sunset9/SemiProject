@@ -67,7 +67,6 @@ hr{
 </style>
 <script type="text/javascript">
 	
-// 	console.log(accountList);
 	$(document).ready(function(){
 	    //edit 모드일때, 수정버튼삭제버튼추가버튼 보여주지 않음
 	    function EditMode() {
@@ -155,37 +154,7 @@ hr{
 			$(".up_ttb_idx").val(ttb_idx);
 			$('.up_content').froalaEditor('html.set', content);
 			$(".up_plan_idx").val(planidx);	
-			
-			for (var i =0; i < ${fn:length(accountList)} ; i++) {
-				var acc_story_idx = ${accountList.get(i).getStory_idx()};
-				console.log(i);
-				if( acc_story_idx == story_idx){
-					
-					var accountView = $("#up_accountView").clone();
-			 		$("#up_accountViewList").append(accountView);	
-			 		
-			 		var size = document.getElementsByName("up_accountViewName").length;
-			 		
-			 		for(var i = 0; i < size; i++){
-				        var obj = document.getElementsByName("up_accountViewName")[i];
-				        
-				        $(obj).find(".accountPlus").css("display","none");
-				        $(obj).find(".accountRemove").css("display","block");
-				        
-				        $(obj).find(".up_accType").val() = ${accountList.get(i).getCategory()};
-				        $(obj).find(".up_currSymbol").val() = ${accountList.get(i).getCurr_idx()};
-				        
-				        if (i == size-1){
-						    $(obj).find(".accountPlus").css("display","block");
-				        }
-				        
-				        if (size == 5 && i == size-1){
-					    	 $(obj).find(".accountPlus").css("display","none");
-				        }
-					 }
-				}
-				
-			}
+
 			
 			
 		})
