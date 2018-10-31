@@ -61,7 +61,7 @@ $(document).ready(function() {
 <tbody>
 <c:forEach items ="${qnaList }" var = "qna">
 <tr>
-<td>${qna.qna_idx }</td>
+<td>${qna.rnum }</td>
 <td><a href="/qna/view?qna_idx=${qna.qna_idx }">${qna.title }</a></td>
 <td>${qna.writer }</td>
 <td>${qna.hit }</td>

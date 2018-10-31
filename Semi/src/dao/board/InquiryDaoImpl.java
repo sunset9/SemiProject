@@ -96,6 +96,7 @@ public class InquiryDaoImpl implements InquiryDao {
 				Inquiry inq = new Inquiry();
 				
 				// rs의 결과 DTO에 하나씩 저장하기
+				inq.setRnum(rs.getInt("rnum"));
 				inq.setInq_idx(rs.getInt("inq_idx"));
 				inq.setWriter(rs.getString("nick"));
 				inq.setTitle(rs.getString("title"));

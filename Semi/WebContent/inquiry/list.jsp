@@ -74,7 +74,7 @@ $(document).ready(function() {
 <tbody>
 <c:forEach items ="${inquirylist }" var = "inq">
 <tr>
-<td>${inq.inq_idx }</td>
+<td>${inq.rnum }</td>
 <td><a href="/inquiry/view?inq_idx=${inq.inq_idx }">${inq.title }</a></td>
 <td>${inq.writer }</td>
 <td>

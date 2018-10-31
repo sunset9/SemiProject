@@ -84,7 +84,7 @@ public class ContentsDaoImpl implements ContentsDao{
 		if(searchType == 1) {
 			String type = "title";
 		} else if(searchType == 2) {
-			String type = "nickname"
+			String type = "nickname";
 		}
 		
 		
@@ -105,7 +105,7 @@ public class ContentsDaoImpl implements ContentsDao{
 
 		try {
 			ps = conn.prepareStatement(sql);
-			ps.setString(1, searchType);
+			ps.setLong(1, searchType);
 			rs = ps.executeQuery();
 
 			rs.next();
@@ -132,19 +132,25 @@ public class ContentsDaoImpl implements ContentsDao{
 	@Override
 	public List<Plan> selectPagingList(Paging paging) {
 		// 페이징 리스트 조회 쿼리
-		String sql = "";
-		sql += "SELECT * FROM( ";
-		sql += "SELECT rownum rnum, I.* FROM ( ";
-		sql += "SELECT  inq_idx, (SELECT nickname FROM userinfo U WHERE U.user_idx = INQ.user_idx) nick,hit, ";
-		sql += "title, content,create_date,answer FROM inquiry INQ ORDER BY inq_idx DESC ) I ";
-
-		if (paging.getSearch() != null && !"".equals(paging.getSearch())) {
-			sql += "WHERE title LIKE '%" + paging.getSearch() + "%'";
-		}
-
-		sql += " ORDER BY rnum";
-		sql += ")";
-		sql += "WHERE rnum between ? AND ?";
+		String sql = "SELECT * FROM( SELECT rownum rnum, PL.* FROM ( SELECT plan_idx, P.user_idx, " ;
+			   sql +=	"(SELECT nickname FROM userinfo U WHERE U.user_idx = P.user_idx )nickname  " ;
+			   sql +=", start_date, end_date, title, traveled, opened, distance, bannerurl, create_date  " ;
+			   sql +="FROM planner P  ORDER BY user_idx DESC " ; 
+			   sql +=") PL  " ;
+			   
+			   // searchType 1이면 제목으로 조회
+			   if(paging.getSearchType()==1) {
+			   sql +="WHERE title  " ; 
+			   }else if (paging.getSearchType()==2) {
+				   // searchType 2이면 닉네임으로 조회
+				   sql+= "WHERE nickname";
+			   }
+			   
+			   if(paging.getSearch()!=null && !"".equals(paging.getSearch())) {
+					sql += "  LIKE '%"+paging.getSearch()+"%'";
+				}
+			   sql +="ORDER BY rnum   ) WHERE rnum between ? AND ?";
+		
 
 		// DB 객체 생성
 		PreparedStatement ps = null;
@@ -164,18 +170,25 @@ public class ContentsDaoImpl implements ContentsDao{
 
 			// 조회 결과 List에 담기
 			while (rs.next()) {
-//				Inquiry inq = new Inquiry();
-//
-//				// rs의 결과 DTO에 하나씩 저장하기
-//				inq.setInq_idx(rs.getInt("inq_idx"));
-//				inq.setWriter(rs.getString("nick"));
-//				inq.setTitle(rs.getString("title"));
-//				inq.setAnswer(rs.getInt("answer"));
-//				inq.setHit(rs.getInt("hit"));
-//				inq.setCreate_date(rs.getDate("create_date"));
-//
+				Plan p = new Plan();
+				
+				
+			// rs의 결과 DTO에 하나씩 저장하기
+				p.setPlan_idx(rs.getInt("plan_idx"));
+				p.setUser_idx(rs.getInt("user_idx"));
+				p.setStart_date(rs.getDate("start_date"));
+				p.setEnd_date(rs.getDate("end_date"));
+				p.setDistance(rs.getInt("distance"));
+				p.setOpened(rs.getInt("opened"));
+				p.setTitle(rs.getString("title"));
+				p.setBannerURL(rs.getString("bannerurl"));
+				p.setNick(rs.getString("nickname"));
+				
+				p.setCreate_date(rs.getDate("create_date"));
+				
+
 //				// 조회 결과 List에 넣기
-//				list.add(inq);
+				list.add(p);
 
 			}
 

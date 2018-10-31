@@ -26,6 +26,17 @@ public class Plan {
 //	총 여행 거리
 	private int tot_dist;
 	
+	// 유저 nickname 
+	private String nick;
+	
+	public String getNick() {
+		return nick;
+	}
+
+	public void setNick(String nick) {
+		this.nick = nick;
+	}
+
 	public String getBannerURL() {
 		return bannerURL;
 	}
@@ -44,9 +55,10 @@ public class Plan {
 	
 	@Override
 	public String toString() {
-		return "Plan [ plan_idx=" + plan_idx + ", user_idx=" + user_idx + ", start_date=" +  start_date + ", end_date=" +  end_date +
-				", title=" + title + ", traveled=" +  traveled + ", opened=" +  opened + ", distance=" +  distance + ", create_date=" +  create_date +
-				", tot_dist=" + tot_dist + ", bannerURL=" +  bannerURL + " ]";
+		return "Plan [plan_idx=" + plan_idx + ", user_idx=" + user_idx + ", start_date=" + start_date + ", end_date="
+				+ end_date + ", title=" + title + ", traveled=" + traveled + ", opened=" + opened + ", distance="
+				+ distance + ", create_date=" + create_date + ", bannerURL=" + bannerURL + ", tot_dist=" + tot_dist
+				+ ", nick=" + nick + "]";
 	}
 
 	public int getPlan_idx() {
