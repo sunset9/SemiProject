@@ -5,12 +5,12 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
 import dto.Account.Account;
 import dto.plan.Plan;
+import dto.timetable.Location;
 import dto.user.User;
 import utils.DBConn;
 
@@ -819,74 +819,139 @@ public class PlanDaoImpl implements PlanDao{
 
 	@Override
 	public int sumShopByPlanIdx(Plan plan) {
-		//전체 게시글 수 조회 쿼리
-				String sql = "";
-				sql += "select sum(origin_cost) "
-						+ "from account "
-						+ "where acc_cat_idx = 7 "
-						+ "and plan_idx = ?";
-				
-				int cnt = 0;
-				
-				try {
-					
-					ps = conn.prepareStatement(sql);
-					ps.setInt(1, plan.getPlan_idx());
-					rs = ps.executeQuery();
-					rs.next();
-					
-					
-					
-					cnt = rs.getInt(1);
-					
-				} catch (SQLException e) {
-					e.printStackTrace();
-				} finally {
-					try {
-						if(ps!=null)	ps.close();
-						if(rs!=null)	rs.close();
-					} catch (SQLException e) {
-						e.printStackTrace();
-					}
-				}
-				
-				return cnt;
+		String sql = "";
+		sql += "select sum(origin_cost) "
+				+ "from account "
+				+ "where acc_cat_idx = 7 "
+				+ "and plan_idx = ?";
+		
+		int cnt = 0;
+		
+		try {
+			
+			ps = conn.prepareStatement(sql);
+			ps.setInt(1, plan.getPlan_idx());
+			rs = ps.executeQuery();
+			rs.next();
+			
+			
+			
+			cnt = rs.getInt(1);
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				if(ps!=null)	ps.close();
+				if(rs!=null)	rs.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+		
+		return cnt;
 	}
 
 	@Override
 	public int sumEtcByPlanIdx(Plan plan) {
-		//전체 게시글 수 조회 쿼리
-				String sql = "";
-				sql += "select sum(origin_cost) "
-						+ "from account "
-						+ "where acc_cat_idx = 8 "
-						+ "and plan_idx = ?";
-				
-				int cnt = 0;
-				
-				try {
-					
-					ps = conn.prepareStatement(sql);
-					ps.setInt(1, plan.getPlan_idx());
-					rs = ps.executeQuery();
-					rs.next();
-					
-					
-					
-					cnt = rs.getInt(1);
-					
-				} catch (SQLException e) {
-					e.printStackTrace();
-				} finally {
-					try {
-						if(ps!=null)	ps.close();
-						if(rs!=null)	rs.close();
-					} catch (SQLException e) {
-						e.printStackTrace();
-					}
-				}
-				
-				return cnt;
+		String sql = "";
+		sql += "select sum(origin_cost) "
+				+ "from account "
+				+ "where acc_cat_idx = 8 "
+				+ "and plan_idx = ?";
+		
+		int cnt = 0;
+		
+		try {
+			
+			ps = conn.prepareStatement(sql);
+			ps.setInt(1, plan.getPlan_idx());
+			rs = ps.executeQuery();
+			rs.next();
+			
+			
+			
+			cnt = rs.getInt(1);
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				if(ps!=null)	ps.close();
+				if(rs!=null)	rs.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+		
+		return cnt;
 	}
 	
+//	좌표와 좌표 계산
+	//calculate haversine distance for linear distance
+	//startLat : 시작 위도, startLong : 시작 경도, endLat : 도착 위도, endLong : 도착 경도
+	double getDistance(double startLat, double startLong, double endLat, double endLong)
+	{
+		double d2r = (Math.PI / 180.0);
+		
+	    double dlong = (endLong - startLong) * d2r;
+	    double dlat = (endLat - startLat) * d2r;
+	    double a = Math.pow(Math.sin(dlat/2.0), 2) + Math.cos(startLat*d2r) * Math.cos(endLat*d2r) * Math.pow(Math.sin(dlong/2.0), 2);
+	    double c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
+	    double d = 6367 * c;
+
+	    return d;
+	}
+	
+	public double selectLatLongByLocIdx(Plan plan) {
+		
+		String sql = "";
+		sql += "select lat, lng from location"
+				+ " where loc_idx = ( "
+					+ "	select loc_idx from timetable"
+					+ " where row = 1 and plan_idx = ("
+						+ " select plan_idx from planner"
+						+ " where plan_idx = ?"
+					+ " )"
+				+ " ) ";
+		
+		int startLat = 0;
+		int startLng = 0;
+		
+		int endLat = 0;
+		int endLng = 0;
+		
+		int cnt = 1;
+		
+		try {
+			while(rs.next()) {
+				ps = conn.prepareStatement(sql);
+				ps.setInt(1, cnt++);
+				ps.setInt(2, plan.getPlan_idx());
+				rs = ps.executeQuery();
+			
+				if(startLng == 0) {
+					startLat = (int) rs.getLong(1);
+					startLng = (int) rs.getLong(2);
+				} else {
+					endLat = (int) rs.getLong(1);
+					endLng = (int) rs.getLong(2);
+				}
+			}
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				if(ps!=null)	ps.close();
+				if(rs!=null)	rs.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+		
+		double dist = getDistance(startLat, startLng, endLat, endLng);
+		
+		return dist;
+	}
 }

@@ -34,8 +34,6 @@ public class BookmarkInsertController extends HttpServlet {
 		// 플랜 정보 파라미터 받기 
 		Plan planParam = pService.getParam(req);
 		
-		req.getSession().setAttribute("plan_idx", planParam.getPlan_idx());
-		
 		Plan planView = pService.getPlanInfo(planParam);
 		System.out.println(planParam);
 		
@@ -44,6 +42,6 @@ public class BookmarkInsertController extends HttpServlet {
 		Bookmark book = bService.getBookmarkInfo(planParam);
 		System.out.println(book);
 		
-		resp.sendRedirect("/plan");
+		resp.sendRedirect("/plan?plan_idx="+planParam.getPlan_idx());
 	}
 }
