@@ -523,17 +523,14 @@ hr{
 						 		  <div class = "fr-view" width="100%" style="overflow:auto; height:auto; padding: 10px;">${story.content}</div>
 								</td>
 				    			</tr>
+				    			
 				    			<tr>
 				     			<td colspan="5">
 				     				<hr>
 									<font size="2" color="#999999">[이미지] 오락 | USD 70</font> 
 					 		    </td>
 								</tr>
-								<tr>
-					  			<td colspan="5">
-						  			<font size="2" color="#999999">[이미지] 식비 | KRW 8000</font> 
-					  			</td>
-				    			</tr>
+								
 								<tr>
 								<td colspan="5">
 								<hr>
@@ -542,6 +539,7 @@ hr{
 								</font>
 								</td>
 								</tr>
+								
 								<tr>
 								<td colspan="4">
 									<textarea id = "CommContent${story.story_idx}" style ="resize: none; overflow:visible;" rows="2" cols="100" placeholder="댓글을 입력하세요"></textarea>
@@ -550,7 +548,6 @@ hr{
 								<button id = "saveComm${story.story_idx}" type="button" class="btn btn-secondary" style="margin-bottom: -7px;" onclick="CommSave(${story.story_idx},${story.ttb_idx},${story.plan_idx})">등록</button>
 								</td>
 								</tr>
-							<!-- ajax이용, 댓글 리스트 foreach문 -->
 								<tr>
 								<td colspan="5">
 									<div id = "CommentView${story.story_idx}" style="display: none"></div>
