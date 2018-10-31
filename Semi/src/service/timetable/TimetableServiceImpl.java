@@ -169,7 +169,7 @@ public class TimetableServiceImpl implements TimetableService{
 //		System.out.println(ttbList);
 		
 		// 기존에 있던 타임테이블 모두 삭제
-		deleteTimetable(plan);
+		deleteTimetableList(plan, ttbList);
 		
 		for(Timetable ttb: ttbList) {
 			// 새로 받은 타임테이블 (ttb_idx = 음수) 저장
@@ -202,6 +202,13 @@ public class TimetableServiceImpl implements TimetableService{
 	public void deleteTimetable(Plan plan) {
 		ttbDao.deleteTimetableListByPlanIdx(plan);
 	}
+	
+	
+	@Override
+	public void deleteTimetableList(Plan plan, List<Timetable> ttbList) {
+		ttbDao.deleteTimetableList(plan,ttbList);
+		
+	}
 
 	public int getTtbIdx() {
 		return ttbDao.selectTtbIdx();
@@ -218,5 +225,6 @@ public class TimetableServiceImpl implements TimetableService{
 		
 		return ttb_idx;
 	}
+
 
 }

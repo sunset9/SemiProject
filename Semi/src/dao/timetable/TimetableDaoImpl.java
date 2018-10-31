@@ -270,6 +270,37 @@ public class TimetableDaoImpl implements TimetableDao{
 		String sql = "DELETE timetable"
 				+ " WHERE plan_idx=?";
 		
+		try {
+			conn.setAutoCommit(false);
+			
+			ps = conn.prepareStatement(sql);
+			ps.setInt(1, plan.getPlan_idx());
+			
+			ps.executeUpdate();
+			
+			conn.commit();
+		} catch (SQLException e) {
+			e.printStackTrace();
+			try {
+				conn.rollback();
+			} catch (SQLException e1) {
+				e1.printStackTrace();
+			}
+		} finally {
+			try {
+				if(ps!=null) ps.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+	}
+
+
+	@Override
+	public void deleteTimetableList(Plan plan, List<Timetable> ttbList) {
+		String sql = "DELETE timetable"
+				+ " WHERE plan_idx=?";
+		
 		if(ttbList.size() != 0) {
 			sql += " AND ttb_idx NOT IN (";
 			for(int i = 0; i < ttbList.size() -1; i++) {
@@ -302,7 +333,7 @@ public class TimetableDaoImpl implements TimetableDao{
 			}
 		}
 	}
-
+	
 	// 타임테이블 넘버로 스토리 있는지 없는지 유무 
 	public Boolean selectIsStoryByTimetableIdx(int ttb_idx) {
 		String sql = "SELECT count(*) FROM story"
@@ -437,4 +468,5 @@ public class TimetableDaoImpl implements TimetableDao{
 		}
 		return seq;
 	}
+
 }

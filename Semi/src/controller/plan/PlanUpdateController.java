@@ -58,8 +58,8 @@ public class PlanUpdateController extends HttpServlet {
 			// 미니뷰 정보가 있다면 업데이트
 //			sService.updateMini(req);
 			
-      // 일정 정보 업데이트
-      pService.update(planParam);
+			// 일정 정보 업데이트
+			pService.update(planParam);
 			System.out.println(req.getSession().getAttribute("plan_idx"));
       
 			// 저장시 넘어온 파라미터 값으로

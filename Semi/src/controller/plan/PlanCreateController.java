@@ -87,7 +87,7 @@ public class PlanCreateController extends HttpServlet {
 			
 			// timetable, location 리스트 받기
 			List<Timetable> ttbList = ttbService.getTimetableList(planView);
-			List<Location> locList = ttbService.getLocationList(planView);
+			List<Location> locList = ttbService.getLocationList(planView, ttbList);
 			
 			// timetable 과 location이 1:1 대응하지 않는 경우 (DB데이터 문제)
 			if(ttbList.size() != locList.size()) {

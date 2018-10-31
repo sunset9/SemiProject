@@ -113,7 +113,7 @@ public class PlanWriteController extends HttpServlet {
 
 			//plan_idx 세션에 추가 
 			req.getSession().setAttribute("plan_idx", param);
-		
+		}
 		// 뷰 지정
 		req.getRequestDispatcher("/plan/write.jsp")
 		.forward(req, resp);
