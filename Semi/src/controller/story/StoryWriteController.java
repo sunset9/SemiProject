@@ -67,7 +67,7 @@ public class StoryWriteController extends HttpServlet {
 				account.setCategory(Integer.parseInt(accType[i]));
 				account.setCurr_idx(Integer.parseInt(currSymbol[i]));
 				cost[i]=cost[i].replaceAll(",", "");
-				account.setOrigin_cost(Integer.parseInt(cost[i]));
+				account.setOrigin_cost(Float.parseFloat(cost[i]));
 				account.setPlan_idx(story.getPlan_idx());
 				account.setStory_idx(storyidx);
 				

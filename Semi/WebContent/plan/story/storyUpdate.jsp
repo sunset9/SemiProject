@@ -61,7 +61,7 @@
 				</tr>
 				</table>
 				<div id ="up_accountViewList">
-				<div id = "up_accountView" name = "up_accountViewName">
+				<div id = "up_accountView" name = "up_accountViewName" class ="up_accountViewClass">
 				<table>
 				<tr>	
 					<td>
@@ -84,7 +84,7 @@
 						</select>
 					</td>
 					<td>
-					<input type="text" size="48" name = "up_cost" class="cost" onkeypress="Numberchk()" onkeyup="vComma(this)" style = "text-align:right;"/>
+					<input type="text" size="48" name = "up_cost" class="up_cost" onkeypress="Numberchk()" onkeyup="vComma(this)" style = "text-align:right;"/>
 					</td>
 					<td>
 						<span class="glyphicon glyphicon-plus accountPlus" onclick = "UpappendAccount()" onmouseover="mover($(this))" 
@@ -129,6 +129,7 @@
 		    imageEditButtons : ['imageAlign', 'imageRemove', 'imageLink','imageSize','imageDisplay'],
 		    heightMin: 300,
 	        heightMax: 300,
+	        width: '520',
 	      }).on('froalaEditor.image.error', function (e, editor, error, response) {
 	    	  console.log(error);
 	    	  console.log(response);
