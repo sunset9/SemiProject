@@ -65,10 +65,13 @@ public class PlanUpdateController extends HttpServlet {
 	
 		@Override
 		protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+			System.out.println();
+			System.out.println("----- PlanUpdateController -----");
 			req.setCharacterEncoding("utf-8");
 			
 			// 플랜 정보 파라미터 받기 
-			Plan planParam = pService.getParam4Edit(req);
+			Plan planParam = pService.getParamEdit(req);
+			System.out.println(planParam);
 			req.getSession().setAttribute("plan_idx", planParam.getPlan_idx());
 			//req.setAttribute("plan_idx", planParam.getPlan_idx());
 			// 요청파라미터 -> 타임테이블, 위치정보 Map 타입
@@ -77,9 +80,12 @@ public class PlanUpdateController extends HttpServlet {
 			// 타임테이블, 위치정보 정보 업데이트
 			ttbService.update(planParam, ttbLocParam);
 			
-			// 일정 정보 업데이트
-			pService.update(planParam);
+			// 미니뷰 정보가 있다면 업데이트
+//			sService.updateMini(req);
 			
-			resp.sendRedirect("/plan");	
+			// 일정 정보 업데이
+			pService.update(planParam);
+			System.out.println(req.getSession().getAttribute("plan_idx"));
+			resp.sendRedirect("/plan");
 		}
 }

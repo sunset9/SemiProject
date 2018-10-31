@@ -282,8 +282,33 @@ public class StoryDaoImpl implements StoryDao{
 
 
 	@Override
-	public void deleteList(Plan plan) {
-    // TODO Auto-generated method stub
+	public void deleteStoryListByPlanIdx(Plan plan) {
+		String sql = "DELETE story"
+				+ " WHERE plan_idx=?";
+		
+		try {
+			conn.setAutoCommit(false);
+			
+			ps = conn.prepareStatement(sql);
+			ps.setInt(1, plan.getPlan_idx());
+			
+			ps.executeUpdate();
+			
+			conn.commit();
+		} catch (SQLException e) {
+			e.printStackTrace();
+			try {
+				conn.rollback();
+			} catch (SQLException e1) {
+				e1.printStackTrace();
+			}
+		} finally {
+			try {
+				if(ps!=null) ps.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
   }
   
   @Override

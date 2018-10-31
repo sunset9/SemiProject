@@ -29,7 +29,7 @@ public interface StoryDao {
 	public void delete(Plan plan, List<Timetable> ttbList);
 	
 	//플랜 삭제시 스토리 전부 삭제
-	public void deleteList(Plan plan);
+	public void deleteStoryListByPlanIdx(Plan plan);
 	
 	//타임테이블 삭제시 해당 스토리 삭제
 	public void deleteListByTtbIdx(Timetable tb);

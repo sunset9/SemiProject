@@ -31,7 +31,7 @@ public class AdminPlanDeleteController extends HttpServlet {
 		adminPlanService.delete(plan);
 		
 		// 연관된 타임테이블 삭제
-		boolean s = ttService.delete(plan);
+		ttService.deleteTimetable(plan);
 		
 		// 결과 보내주기ㅣ이ㅣ
 		resp.getWriter().append("{\"success\":"+s+"}");

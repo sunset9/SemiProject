@@ -40,7 +40,7 @@ public interface TimetableService {
 	void writeTtb(int ttb_idx, Map<Timetable, Location> ttbLoc);
 	
 	// 타임테이블 정보 삭제하기
-	boolean delete(Plan plan);
+	void deleteTimetable(Plan plan);
 	
 	// ttb_idx next 값 가져오기
 	int getTtbIdx();

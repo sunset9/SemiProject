@@ -164,9 +164,9 @@ public class StoryServiceImpl implements StoryService {
 	}
 
 	@Override
-	public void deleteListByPlanIdx(Plan plan) {
+	public void deleteStory(Plan plan) {
 		// TODO Auto-generated method stub
-		
+		storyDao.deleteStoryListByPlanIdx(plan);
 	}
 
 

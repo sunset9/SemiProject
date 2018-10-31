@@ -14,7 +14,7 @@ public interface PlanService {
 	User getUserInfo(Plan plan);
 	
 	// 로그인 유저 정보 가져오기
-	User getUserInfo4Login(User user);
+	User getUserInfoLogin(User user);
 		
 	// 특정 유저의 일정 목록 가져오기
 	List<Plan> getPlanList(User userinfo);
@@ -23,13 +23,17 @@ public interface PlanService {
 	List<Plan> getBookmarkList(User userinfo);
 
 	// 요청파라미터(plan_idx) -> Plan 모델 
-	Plan getSession4Plan(HttpServletRequest req);
-	
-	// 요청파라미터 처리(main 새일정만들기에서 넘어온 파라미터)
-	Plan getParameter(HttpServletRequest req);
+	Plan getSessionPlan(HttpServletRequest req);
 	
 	// 요청파라미터(user_idx) -> Plan 모델 
-	User getSession4User(HttpServletRequest req);
+		User getSessionUser(HttpServletRequest req);
+		
+	// 요청파라미터 처리(main 새일정만들기에서 넘어온 파라미터)
+	Plan getParamCreate(HttpServletRequest req);
+	
+	Plan getParamEdit(HttpServletRequest req);
+	
+	Plan getParam(HttpServletRequest req);
 		
 	// 일정 기본 정보 가져오기
 	Plan getPlanInfo(int plan_idx);
@@ -41,20 +45,24 @@ public interface PlanService {
 	Account getAccount(Plan plan);
 
 	// 일정 삭제
-	void delete(Plan plan);
-
-	// 일정 저장 (새로운 일정)
-	void write(Plan plan);
+	void deletePlan(Plan plan);
 	
 	// 수정된 일정 저장
 	void update(Plan plan);
-
-	Plan getParam4Edit(HttpServletRequest req);
 	
 	//새 일정 만들기 
 	public void createPlan(Plan param, User user_idx);
 
 	//plan_idx 가져오기 
 	public int getPlan_idx();
-
+	
+	//카테고리별 총 가격 가져오기
+	int getAccountAirfareCost(Plan plan);
+	int getAccountTrafficCost(Plan plan);
+	int getAccountStayCost(Plan plan);
+	int getAccountAdmissionCost(Plan plan);
+	int getAccountFoodCost(Plan plan);
+	int getAccountPlayCost(Plan plan);
+	int getAccountShopCost(Plan plan);
+	int getAccountEtcCost(Plan plan);
 }
