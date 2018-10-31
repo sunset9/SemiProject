@@ -213,8 +213,6 @@ var plan_idx = ${planView.plan_idx};
 
 var is_diplayStory = false;
 
-var isCookieTablClear = true;
-  
 var cost = [
 		"${airfare}",
 		"${traffic}",
@@ -229,12 +227,39 @@ var cost = [
 </script>
 
 <script type="text/javascript">
+
 // 읽기모드일때, 검색창 on/off
 var isModify = 0;
 	console.log("view.jsp isModify : " + isModify);
 	
 $(document).ready(function() {
+	// isCookieTabClear 플래그가 true 이고
+	// 새로고침 된게 아닌 경우 (performance.navigation.type == 1 : 새로고침)
+	if(getCookie("isCookieTabClear") == 'true' && performance.navigation.type != 1){
+		deleteCookie('tab');
+	}
+	setCookie("isCookieTabClear", "true");
 	
+	
+	// 처음 탭 선택하여 띄워주기
+    // 쿠키값이 없거나 tab-ttb 인 경우
+	if(getCookie('tab')==null || getCookie('tab')=='tab-ttb'){
+		$("#tab-main li").removeClass("active");
+	    $("#tab-main li[rel='tab-ttb']").addClass("active");
+		$(".tab-content").css('display', 'none');
+	    $(".tab-content.tab-ttb").show();
+	
+	// 쿠키값이 tab-story인 경우    
+	}else if(getCookie('tab')=='tab-story'){
+		$("#tab-main li").removeClass("active");
+		$("#tab-main li[rel='tab-story']").addClass("active");
+		$(".tab-content").css('display', 'none');
+		$(".tab-content.tab-story").show();
+		
+		// ajax 통신으로 내용 불러오기
+		displayStoryView();
+	}
+    
 	// 브라우저에 timetable 그려주기
 	initFullCalendar(planStartDate, planEndDate, true);
 	$('#calendar').fullCalendar('option', 'editable', false); // 수정 불가능하게
@@ -243,7 +268,7 @@ $(document).ready(function() {
 
 	$("#btnModify").click(function() {
 		isModify = 1;
-		isCookieTablClear = false;
+		setCookie("isCookieTabClear", "false");
 		
 		$("#Modify").submit();
 		console.log("view.jsp isModify : " + isModify);
@@ -476,27 +501,7 @@ $(document).ready(function() {
 			});
 	});
 	
-	
-// 	console.log("현재 탭 쿠키 값: " + getCookie('tab'));
-// 	console.log(isCookieTablClear);
-    // 쿠키값이 없거나 tab-ttb 인 경우
-	if(getCookie('tab')==null || getCookie('tab')=='tab-ttb'){
-		$("#tab-main li").removeClass("active");
-	    $("#tab-main li[rel='tab-ttb']").addClass("active");
-		$(".tab-content").css('display', 'none');
-	    $(".tab-content.tab-ttb").show();
-	
-	// 쿠키값이 tab-story인 경우    
-	}else if(getCookie('tab')=='tab-story'){
-		$("#tab-main li").removeClass("active");
-		$("#tab-main li[rel='tab-story']").addClass("active");
-		$(".tab-content").css('display', 'none');
-		$(".tab-content.tab-story").show();
-		
-		// ajax 통신으로 내용 불러오기
-		displayStoryView();
-	}
-
+	// 탭 선택 시 속성값, 탭쿠키값 변경
 	$('#tab-main li').click(function(){
 		// active클래스 속성 변경
 		$("#tab-main li").removeClass("active");
@@ -535,12 +540,6 @@ function displayStoryView(){
 	});
 }	
 
-// 창이 사라질 때 탭 관련 쿠키 삭제
-window.onbeforeunload = function(){
-	if(isCookieTablClear){
-		deleteCookie('tab');
-	}
-}
 </script>
 
 </head>
