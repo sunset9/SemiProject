@@ -13,7 +13,7 @@ $(document).ready(function() {
 	});
 	
 	$("#btnWrite").click(function() {
-		location.href="/admin/notice/write";
+		location.href="/admin/qna/write";
 	});
 	
 	// 선택체크 삭제
@@ -131,7 +131,7 @@ ul.sub li a {
 <c:forEach items ="${qnaList }" var = "qna">
 <tr>
 <td><input type="checkbox" name="checkRow" value="${qna.qna_idx }" /></td>
-<td>${qna.qna_idx }</td>
+<td>${qna.rnum }</td>
 <td><a href="/admin/qna/view?qna_idx=${qna.qna_idx }">${qna.title }</a></td>
 <td>${qna.writer }</td>
 

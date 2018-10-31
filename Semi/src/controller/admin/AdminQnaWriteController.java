@@ -34,7 +34,10 @@ public class AdminQnaWriteController extends HttpServlet {
 			resp.sendRedirect("/user/login");
 			return;
 		}
+		
+		req.getRequestDispatcher("/admin/qna/write.jsp").forward(req, resp);
 	}
+		
 	
 	@Override
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {

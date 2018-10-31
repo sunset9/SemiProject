@@ -270,6 +270,7 @@ public class TimetableDaoImpl implements TimetableDao{
 		String sql = "DELETE timetable"
 				+ " WHERE plan_idx=?";
 		
+		
 		try {
 			conn.setAutoCommit(false);
 			
@@ -277,6 +278,7 @@ public class TimetableDaoImpl implements TimetableDao{
 			ps.setInt(1, plan.getPlan_idx());
 			
 			ps.executeUpdate();
+			
 			
 			conn.commit();
 		} catch (SQLException e) {

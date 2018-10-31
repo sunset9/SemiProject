@@ -59,7 +59,7 @@
 			<div>				
 				<div>
 				<div style="display:inline;">
-					<form action="/plan/write" style="display:inline;">
+					<form action="/plan/write" method="post" style="display:inline;">
 						<input type="hidden" name="plan_idx" value="${status.current.plan_idx}" />
 						<input type="hidden" name="user_idx" value="${status.current.user_idx}" />
 						<input type="hidden" name="editStartDate" value="${status.current.start_date}" />
@@ -77,11 +77,11 @@
 				</div>
 				
 				<div>
-				<form action="/plan">
+					<a href="/plan?plan_idx=${pList.plan_idx }">
 					<input type="hidden" name="plan_idx" value="${status.current.plan_idx}" />
-					<div><input type="image" src="${pList.getBannerURL()}" style="width: 300px;"></div>
-					<div><button type="submit" style="border:0; ">글 제목 : ${pList.getTitle()}</button></div><hr>
-				</form>
+					<div><input type="image" src="${pList.bannerURL}" style="width: 300px;"></div>
+					<div><button type="submit" style="border:0; ">글 제목 : ${pList.title}</button></div><hr>
+					</a>
 				</div>
 			</div>
 		</c:forEach>
@@ -104,11 +104,11 @@
 		<div><h3>여기는 모든 일정 리스트</h3></div>
 		<c:forEach var="aList" items="${allPlanList}" varStatus="aStatus">
 			<div>
-				<form action="/plan" method="post">
+				<a href="/plan?plan_idx=${pList.plan_idx }">
 					<input type="hidden" name="plan_idx" value="${aStatus.current.plan_idx}" />
 					<div><input type="image" src="${aList.getBannerURL()}" style="width: 300px;"></div>
 					<div><button type="submit" style="border:0; ">글 제목 : ${aList.getTitle()}</button></div><hr>
-				</form>	
+				</a>
 			</div>
 		</c:forEach>
 	</div>
@@ -177,11 +177,11 @@
 				</div>
 				
 				<div>
-				<form action="/plan" method="post">
+					<a href="/plan?plan_idx=${pList.plan_idx }">
 					<input type="hidden" name="plan_idx" value="${status.current.plan_idx}" />
 					<div><input type="image" src="${pList.getBannerURL()}" style="width: 300px;"></div>
 					<div><button type="submit" style="border:0; ">글 제목 : ${pList.getTitle()}</button></div><hr>
-				</form>
+					</a>
 				</div>
 			</div>
 		</c:forEach>
@@ -204,11 +204,11 @@
 		<div><h3>여기는 모든 일정 리스트</h3></div>
 		<c:forEach var="aList" items="${allPlanList}" varStatus="aStatus">
 			<div>
-				<form action="/plan" method="post">
+				<a href="/plan?plan_idx=${pList.plan_idx }">
 					<input type="hidden" name="plan_idx" value="${aStatus.current.plan_idx}" />
 					<div><input type="image" src="${aList.getBannerURL()}" style="width: 300px;"></div>
 					<div><button type="submit" style="border:0; ">글 제목 : ${aList.getTitle()}</button></div><hr>
-				</form>	
+				</a>	
 			</div>
 		</c:forEach>
 	</div>

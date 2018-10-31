@@ -35,11 +35,13 @@ public class UserMypageController extends HttpServlet {
 		if(cUserSocial == null) {
 			System.out.println("아이디 로그인 유저");
 			
+			req.setAttribute("user", cUser);
+			
 			//현재 유저의 일정들 가져오기
 			List<Plan> plannerList = userService.getPlanner(cUser);
 			//planList
 			req.setAttribute("plannerList", plannerList);
-			//System.out.println("유저마이페이지컨트롤러에서 plannerList : "+plannerList.get(0).getPlan_idx());
+			System.out.println("유저마이페이지컨트롤러에서 plannerList : "+plannerList);
 			
 			//현재 유저의 포스팅 개수 가져오기 
 			int cntPlan = userService.getCntPlan(cUser);
@@ -62,6 +64,8 @@ public class UserMypageController extends HttpServlet {
 			
 		} else if(cUser == null) {
 			System.out.println("소셜 로그인 유저");
+			
+			req.setAttribute("socialUser", cUserSocial);
 			
 			//현재 유저의 일정들 가져오기
 			List<Plan> plannerList = userService.getPlanner(cUserSocial);

@@ -83,5 +83,9 @@ public interface UserDao {
 	
 	//파일 업로드 정보 입력
 	public void insert(UploadFile file);
+	
+	// 유저의 profile 변경
+	public void profileUpdate(User cUser);
+	
 
 }

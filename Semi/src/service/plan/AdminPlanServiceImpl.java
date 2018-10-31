@@ -6,8 +6,10 @@ import javax.servlet.http.HttpServletRequest;
 
 import dao.account.AccountDao;
 import dao.account.AccountDaoImpl;
-import dao.contents.ContentsDao;
-import dao.contents.ContentsDaoImpl;
+import dao.plan.PlanDao;
+import dao.plan.PlanDaoImpl;
+import dao.timetable.TimetableDao;
+import dao.timetable.TimetableDaoImpl;
 import dto.Account.Account;
 import dto.plan.Plan;
 import dto.user.User;
@@ -15,19 +17,23 @@ import utils.Paging;
 
 public class AdminPlanServiceImpl implements AdminPlanService{
 	AccountDao accDao = new AccountDaoImpl();
-	ContentsDao contentsDao = new ContentsDaoImpl();
+	PlanDao planDao = new PlanDaoImpl();
+	TimetableDao ttDao = new TimetableDaoImpl();
 	
 	@Override
 	public Plan getParam(HttpServletRequest req) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-	@Override
-	public void delete(Plan plan) {
-		// TODO Auto-generated method stub
+		Plan plan = new Plan();
+		plan.setPlan_idx(Integer.parseInt(req.getParameter("plan_idx")));
 		
+		return plan;
 	}
 	@Override
+	public boolean delete(Plan plan) {
+		ttDao.deleteTimetableListByPlanIdx(plan);
+		return planDao.deletePlanByPlanIdx(plan);
+		}
+	@Override
+	
 	public List<Plan> selectPlanAll() {
 		// TODO Auto-generated method stub
 		return null;
@@ -76,12 +82,12 @@ public class AdminPlanServiceImpl implements AdminPlanService{
 	
 	@Override
 	public int getTotalCount(int searchType, String search ) {
-		return contentsDao.selectCntAll( searchType,search);
+		return planDao.selectCntAll( searchType,search);
 	}
 	
 	@Override
 	public List<Plan> getPagingList(Paging paging) {
-		return contentsDao.selectPagingList(paging);
+		return planDao.selectPagingList(paging);
 	}
 	
 	

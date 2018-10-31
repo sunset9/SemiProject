@@ -5,6 +5,7 @@ import java.util.List;
 import dto.Account.Account;
 import dto.plan.Plan;
 import dto.user.User;
+import utils.Paging;
 
 public interface PlanDao {
 
@@ -33,7 +34,7 @@ public interface PlanDao {
 	void update(Plan plan);
 	
 	// 일정 삭제하기
-	void deletePlanByPlanIdx(Plan plan);
+	boolean deletePlanByPlanIdx(Plan plan);
 	
 	// 전체 일정 불러오기 
 	List<Plan> selectPlanAllList();
@@ -59,4 +60,14 @@ public interface PlanDao {
 	int sumPlayByPlanIdx(Plan plan);
 	int sumShopByPlanIdx(Plan plan);
 	int sumEtcByPlanIdx(Plan plan);
+	
+	//리스트 검색하기
+	public List<Plan> selectList(String category, String searchValue);
+	
+	// 전체 게시물 수 조회
+	public int selectCntAll( int searchType, String search) ;
+
+	// 페이징 된 plan 리스트 조회
+	public List<Plan> selectPagingList(Paging paging);
+
 }

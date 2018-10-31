@@ -47,13 +47,13 @@ public class PlanViewController extends HttpServlet {
         Plan planParam = new Plan();
         System.out.println(req.getParameter("plan_idx"));
         // view로 들어오는 파라미터값 확인
-        if( req.getParameter("plan_idx") != null && !"".equals(req.getParameter("plan_idx"))) {
-//        	req.getSession().setAttribute("plan_idx", planParam.getPlan_idx());
-        	planParam.setPlan_idx(Integer.parseInt(req.getParameter("plan_idx")));
-        } else {
-        	planParam = pService.getSessionPlan(req);
-        }
-        
+//        if( req.getParameter("plan_idx") != null && !"".equals(req.getParameter("plan_idx"))) {
+////        	req.getSession().setAttribute("plan_idx", planParam.getPlan_idx());
+//        	
+//        } else {
+//        	planParam = pService.getSessionPlan(req);
+//        }
+        planParam.setPlan_idx(Integer.parseInt(req.getParameter("plan_idx")));
 //		---------------------플래너 파라미터 가져오기
 		// 요청파라미터(plan_idx) -> Plan 모델 
 		System.out.println("Session 값 : " + planParam);
