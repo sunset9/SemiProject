@@ -62,7 +62,9 @@
 			$("#googlenickname").val(profile.getName());
 			$("#googleprofileImage").val(profile.getImageUrl());
 			
-			nameTxt.innerHTML = 'Welcome <strong> '+profile.getName()+'</strong> ';
+			/* nameTxt.innerHTML = 'Welcome <strong> '+profile.getName()+'</strong> '; */
+			
+			checkLoginStatus2();
 			
 			
 		} else {
@@ -153,6 +155,8 @@
 		}
 	});
 </script>
+
+
 </head>
 
 
@@ -205,7 +209,9 @@ window.fbAsyncInit = function() {
 	<input type="hidden" id="googleprofileImage" name="profileImage" value="" />
 	<input type="hidden" id="googlesnsIdx" name="snsIdx" value="3" />
 </form>
-<br>
+
+<!-- <input type="image" id="loginBtn" src="/upload/user/google-login.png" style="height: 54px; width: 220px;">
+ --><br>
 
 <!-- 카카오톡으로 로그인 -->
 <br>

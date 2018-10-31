@@ -41,12 +41,12 @@ public class UserUpdateController extends HttpServlet {
 		Map<String, String> param = userService.getParamUpdate(req, resp);
 		System.out.println("updateController : "+param);
 		
-
-		User cUser = (User)req.getSession().getAttribute("user"); //현재 유저
-		System.out.println("현재 유저의 닉네임 : "+cUser.getNickname());
-		System.out.println("현재 유저의 비밀번호 : "+cUser.getPassword());
-		System.out.println("요청 파라미터로 넘어온 nickname : "+param.get("nickname"));
-		System.out.println("요청 파라미터로 넘어온 newPw : "+param.get("newPw"));
+		//현재 유저
+		User cUser = (User)req.getSession().getAttribute("user"); 
+		//System.out.println("현재 유저의 닉네임 : "+cUser.getNickname());
+		//System.out.println("현재 유저의 비밀번호 : "+cUser.getPassword());
+		//System.out.println("요청 파라미터로 넘어온 nickname : "+param.get("nickname"));
+		//System.out.println("요청 파라미터로 넘어온 newPw : "+param.get("newPw"));
 		
 		//현재 유저의 닉네임이랑 요청 파라미터로 넘어온 닉네임이 다르다. 가 트루일때
 		
@@ -77,6 +77,10 @@ public class UserUpdateController extends HttpServlet {
 				req.getSession().setAttribute("user", changedUser);
 			}
 		}
+		
+		//프로필 사진 변경
+		
+		
 		
 		//마이페이지로 이동
 		resp.sendRedirect("/user/myPage");

@@ -13,6 +13,7 @@ import utils.Paging;
 import dto.plan.Plan;
 import dto.user.Bookmark;
 import dto.user.User;
+import dto.user.UploadFile;
 
 public class UserDaoImpl implements UserDao{
 
@@ -960,7 +961,7 @@ public class UserDaoImpl implements UserDao{
 				plan.setDistance(rs.getInt("DISTANCE"));
 				plan.setCreate_date(rs.getDate("CREATE_DATE"));
 				plan.setBannerURL(rs.getString("BANNERURL"));
-				System.out.println("userDaoImpl plan : "+plan);
+				//System.out.println("userDaoImpl plan : "+plan);
 				
 				list.add(plan);
 			}
@@ -976,6 +977,40 @@ public class UserDaoImpl implements UserDao{
 			}
 		}
 		return list;
+	}
+
+	//파일 업로드 정보 입력
+	@Override
+	public void insert(UploadFile file) {
+		System.out.println("UserDaoImpl insert() : "+file);
+		String sql = "INSERT INTO uploaduserfile( origin_name, stored_name )";
+		sql += " VALUES ( ?, ? )";
+		
+		PreparedStatement ps = null;
+		
+		try {
+			conn.setAutoCommit(false);
+
+			ps = conn.prepareStatement(sql);
+			
+			ps.setString(1, file.getOrigin_name());
+			ps.setString(2, file.getStored_name());
+			
+			ps.executeUpdate();
+			
+			conn.commit();
+		} catch (SQLException e) {
+			e.printStackTrace();
+			
+		} finally {
+			try {
+				if(ps!=null)	ps.close();
+				
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+		
 	}
 
 

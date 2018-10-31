@@ -2,6 +2,7 @@ package dao.user;
 
 import java.util.List;
 
+import dto.user.UploadFile;
 import dto.plan.Plan;
 import dto.user.Bookmark;
 import dto.user.User;
@@ -80,5 +81,7 @@ public interface UserDao {
 	// 현재 유저의 글을 제외한 모든 글 가져오기 
 	public List<Plan> getAllPlanList(User cUser);
 	
-	
+	//파일 업로드 정보 입력
+	public void insert(UploadFile file);
+
 }
