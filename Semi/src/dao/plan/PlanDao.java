@@ -61,9 +61,6 @@ public interface PlanDao {
 	int sumShopByPlanIdx(Plan plan);
 	int sumEtcByPlanIdx(Plan plan);
 	
-	//리스트 검색하기
-	public List<Plan> selectList(String category, String searchValue);
-	
 	// 전체 게시물 수 조회
 	public int selectCntAll( int searchType, String search) ;
 
