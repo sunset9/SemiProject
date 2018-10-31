@@ -4,6 +4,7 @@ import java.util.Date;
 
 public class Qna {
 
+	private int rnum;
 	private int qna_idx;
 	private int user_idx;
 	private String title;
@@ -11,10 +12,18 @@ public class Qna {
 	private String writer;
 	private int hit;
 	private Date create_date;
+	
+	
+	public int getRnum() {
+		return rnum;
+	}
+	public void setRnum(int rnum) {
+		this.rnum = rnum;
+	}
 	@Override
 	public String toString() {
-		return "Qna [qna_idx=" + qna_idx + ", user_idx=" + user_idx + ", title=" + title + ", content=" + content
-				+ ", writer=" + writer + ", hit=" + hit + ", create_date=" + create_date + "]";
+		return "Qna [rnum=" + rnum + ", qna_idx=" + qna_idx + ", user_idx=" + user_idx + ", title=" + title
+				+ ", content=" + content + ", writer=" + writer + ", hit=" + hit + ", create_date=" + create_date + "]";
 	}
 	public int getQna_idx() {
 		return qna_idx;

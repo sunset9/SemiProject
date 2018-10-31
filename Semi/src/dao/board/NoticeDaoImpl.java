@@ -56,6 +56,7 @@ public class NoticeDaoImpl implements NoticeDao {
 			while(rs.next()) {
 				Notice noti = new Notice();
 				
+				noti.setRnum(rs.getInt("rnum"));
 				noti.setNotice_idx(rs.getInt("notice_idx"));
 				noti.setWriter(rs.getString("nick"));
 				noti.setTitle(rs.getString("title"));
