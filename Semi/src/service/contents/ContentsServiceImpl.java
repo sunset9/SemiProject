@@ -4,20 +4,20 @@ import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
-import dao.contents.ContentsDao;
-import dao.contents.ContentsDaoImpl;
+import dao.plan.PlanDao;
+import dao.plan.PlanDaoImpl;
 import dto.board.Inquiry;
 import dto.plan.Plan;
 import utils.Paging;
 
 public class ContentsServiceImpl implements ContentsService {
 
-	ContentsDao conDao = new ContentsDaoImpl();
+	PlanDao planDao = new PlanDaoImpl();
 	
 	//검색한 리스트 가져오기
 	@Override
 	public List<Plan> getList(String category, String searchValue) {
-		return conDao.selectList(category, searchValue);
+		return planDao.selectList(category, searchValue);
 	}
 
 	//현재 페이지 얻어오기
@@ -55,13 +55,13 @@ public class ContentsServiceImpl implements ContentsService {
 	//전체 게시물 수 얻어오기
 	@Override
 	public int getTotalCount(int searchType, String search) {
-		return conDao.selectCntAll(searchType, search);
+		return planDao.selectCntAll(searchType, search);
 	}
 
 	//페이징 된 리스트 불러오기
 	@Override
 	public List<Plan> getPagingList(Paging paging) {
-		return conDao.selectPagingList(paging);
+		return planDao.selectPagingList(paging);
 	}
 
 

@@ -75,8 +75,10 @@ public class AdminQnaUpdateController extends HttpServlet {
 		
 		adminQnaService.update(req);
 		
+		// 파라미터 얻어오기
+		qna = adminQnaService.getParam(req, resp);
 
-		resp.sendRedirect("/admin/qna/list");
+		resp.sendRedirect("/admin/qna/view?qna_idx="+qna.getQna_idx());
 	
 	}
 }
