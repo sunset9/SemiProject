@@ -42,6 +42,9 @@ public interface TimetableService {
 	// 타임테이블 정보 삭제하기
 	void deleteTimetable(Plan plan);
 	
+	// 타임테이블 지정한 리스트만 삭제하기
+	void deleteTimetableList(Plan plan, List<Timetable> ttbList);
+	
 	// ttb_idx next 값 가져오기
 	int getTtbIdx();
 
