@@ -254,7 +254,8 @@ public class TimetableDaoImpl implements TimetableDao{
 	}
 	
 	// 타임테이블 삭제
-	public void deleteTimetable(Plan plan) {
+	@Override
+	public void deleteTimetableListByPlanIdx(Plan plan) {
 		String sql = "DELETE timetable"
 				+ " WHERE plan_idx=?";
 		

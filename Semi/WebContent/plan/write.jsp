@@ -401,12 +401,24 @@ $('#miniWriteContent').froalaEditor({
 		<div id="editTitle" >
 			<form action="/plan/update" method="post" id="planForm">
 				<div >
-					<input type="hidden" name="plan_idx" value="${planView.plan_idx }">
+					<input type="hidden" name="plan_idx" value="${planView.plan_idx}" />
+					<input type="hidden" name="user_idx" value="${planView.user_idx}" />
+					
 					제목 : <input id="editTitleView" name="editTitleView" type="text" value="${planView.title }" /><br><br>
 					출발일 : <input name="editStartDate" class ="planDate" type="date" value="${planView.start_date }"/>
 					도착일 : <input name="editEndDate" class ="planDate" type="date" value="${planView.end_date }"/><br><br>
-					여행 전 <input id="editTravledBefore" name="editTraveled" type="radio" value="1" checked="checked"/>
-					여행 후 <input id="editTravledAfter" name="editTraveled" type="radio" value="0" /><br><br>
+					<select name="editTraveled" >
+						<c:if test="${planView.traveled eq 1 }">
+							<option value="1" selected="selected">여행 전</option>
+							<option value="0">여행 후</option>
+						</c:if>
+						<c:if test="${planView.traveled eq 0 }">
+							<option value="1" >여행 전</option>
+							<option value="0" selected="selected">여행 후</option>
+						</c:if>
+					</select>
+<!-- 					여행 전 <input id="editTravledBefore" name="editTraveled" type="radio" value="1" checked="checked"/> -->
+<!-- 					여행 후 <input id="editTravledAfter" name="editTraveled" type="radio" value="0" /><br><br> -->
 				</div>
 				
 				<!-- MiniView Modal -->
@@ -486,23 +498,21 @@ $('#miniWriteContent').froalaEditor({
 		
 	 	<!-- 가계부 DIV -->
 		<div id="menu" style="background-color:#CCCCCC;height:100%;float:bottom;width:100%;border-radius:10px;">
-			<b>가계부</b><br><br>
 
-			교통 : 교통비입니다<br>
-			식비 : 식비입니다<br>
-			문화 : 추억의비용입니다<br>
-			기타 : 헛짓거리비용입니다<br><br>
-			총합 : ${accView.origin_cost }<br>
-			환율 : ${accView.caled_cost }<br>
+			항공료 : ${airfare }<br> 
+			교통 : ${traffic }<br>
+			숙박 : ${stay }<br>
+			입장료 : ${admission }<br>
+			음식 : ${food }<br>
+			오락 : ${play }<br>
+			쇼핑 : ${shop }<br>
+			기타 : ${etc }<br><br>
+			<b>총합 : ${acc_total }</b><br>
+			<b>환율 : ${accView.caled_cost }</b><br>
 		</div><br>
 		
 		<!-- 일정 저장 -->
-<!-- 		<div id="menu" style="float:bottom;width:100%;border-radius:10px;"> -->
-<!-- 			<form action="/update/ttb" method="post" id="ttbFrom"> -->
-<%-- 				<input type="hidden" name="plan_idx" value="${planView.plan_idx }"> --%>
-				<input id="planCommit" type="button" value="저장" onclick="store();" style="width:100%;">
-<!-- 			</form> -->
-<!-- 		</div><br> -->
+		<button id="planCommit" name="plan_idx" value="${planView.plan_idx}" onclick="store();" style="width:100%;">저장 </button>
 		
 		<!-- 검색 INPUT DIV -->
 		<div id="googleSearch" style="float:bottom;width:100%;border-radius:10px;">

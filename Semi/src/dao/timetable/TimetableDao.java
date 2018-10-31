@@ -30,7 +30,7 @@ public interface TimetableDao {
 	void updateTimetable(Timetable ttb);
 	
 	// 타임테이블 삭제
-	void deleteTimetable(Plan plan);
+	void deleteTimetableListByPlanIdx(Plan plan);
 	
 	// 타임테이블 넘버로 스토리 있는지 없는지 유무 true:스토리 있음 false:스토리 없음
 	Boolean selectIsStoryByTimetableIdx(Timetable timetable);

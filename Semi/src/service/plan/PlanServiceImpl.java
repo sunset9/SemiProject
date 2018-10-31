@@ -22,7 +22,7 @@ public class PlanServiceImpl implements PlanService{
 	
 	// 요청파라미터(plan_idx) -> Plan 모델
 	@Override
-	public Plan getSession4Plan(HttpServletRequest req) {
+	public Plan getSessionPlan(HttpServletRequest req) {
 		//요청파라미터 정보를 저장할 DTO객체
 		Plan plan = new Plan();
 		
@@ -40,7 +40,7 @@ public class PlanServiceImpl implements PlanService{
 	
 	// 요청파라미터(plan_idx) -> Plan 모델
 	@Override
-	public User getSession4User(HttpServletRequest req) {
+	public User getSessionUser(HttpServletRequest req) {
 		//요청파라미터 정보를 저장할 DTO객체
 		User user = new User();
 		
@@ -57,17 +57,34 @@ public class PlanServiceImpl implements PlanService{
 	}
 	
 	@Override
-	public Plan getParam4Edit(HttpServletRequest req) {
+	public Plan getParam(HttpServletRequest req) {
+		//요청파라미터 정보를 저장할 DTO객체
+		Plan plan = new Plan();
+		
+		//요청파라미터 받기
+		int param = Integer.parseInt(req.getParameter("plan_idx"));
+		plan.setPlan_idx(param);
+//		//null이나 ""이 아니면 int로 변환하여 DTO에 저장
+//		if( param != null && !"".equals(param) ) {
+//			plan.setPlan_idx(Integer.parseInt(param));
+//		}
+		
+		//요청파라미터가 객체로 변환된 DTO 반환
+		return plan;
+	}
+	
+	@Override
+	public Plan getParamEdit(HttpServletRequest req) {
 		Plan plan = new Plan();
 		Date dateStart = new Date();
 		Date dateEnd = new Date();
 		
-//		req.getParameter("1")
-//		int plan_idx = (int)req.getSession().getAttribute("plan_idx");
 		int plan_idx = Integer.parseInt(req.getParameter("plan_idx"));
+		int user_idx = Integer.parseInt(req.getParameter("user_idx"));
 		plan.setPlan_idx(plan_idx);
-		plan.setUser_idx(1);
+		plan.setUser_idx(user_idx);
 		plan.setTitle(req.getParameter("editTitleView"));
+		System.out.println(req.getParameter("editTitleView"));
 		
 		try {
 			dateStart = new SimpleDateFormat("yyyy-MM-dd").parse(req.getParameter("editStartDate"));
@@ -112,7 +129,7 @@ public class PlanServiceImpl implements PlanService{
 	
 	//로그인 유저 정보 가져오기
 	@Override
-	public User getUserInfo4Login(User user) {
+	public User getUserInfoLogin(User user) {
 		return plandao.selectUserInfoByUserIdx(user);
 	}
 	
@@ -130,17 +147,10 @@ public class PlanServiceImpl implements PlanService{
 	@Override
 	public List<Plan> getBookmarkList(User userinfo) {return null;	}
 	
-	// 일정 삭제
 	@Override
-	public void delete(Plan plan) {
+	public void deletePlan(Plan plan) {
 		// 일정 삭제
-		plandao.delete(plan);
-	}
-
-	// 일정 저장 (새로운 일정)
-	@Override
-	public void write(Plan plan) {
-		plandao.insert(plan);
+		plandao.deletePlanByPlanIdx(plan);
 	}
 	
 	// 수정된 일정 저장
@@ -151,15 +161,15 @@ public class PlanServiceImpl implements PlanService{
 
 	// 요청파라미터 처리(main 새일정만들기에서 넘어온 파라미터)
 	@Override
-	public Plan getParameter(HttpServletRequest req) {
+	public Plan getParamCreate(HttpServletRequest req) {
 		Plan plan = new Plan();
 		Date dateStart = new Date();
 		Date dateEnd = new Date();
 
-		plan.setTitle(req.getParameter("title"));
+		plan.setTitle(req.getParameter("editTitleView"));
 		try {
-			dateStart = new SimpleDateFormat("yyyy-MM-dd").parse(req.getParameter("startDate"));
-			dateEnd = new SimpleDateFormat("yyyy-MM-dd").parse(req.getParameter("endDate"));
+			dateStart = new SimpleDateFormat("yyyy-MM-dd").parse(req.getParameter("editStartDate"));
+			dateEnd = new SimpleDateFormat("yyyy-MM-dd").parse(req.getParameter("editEndDate"));
 			
 		} catch (ParseException e) {
 			// TODO Auto-generated catch block
@@ -168,7 +178,7 @@ public class PlanServiceImpl implements PlanService{
 		
 		plan.setStart_date(dateStart);
 		plan.setEnd_date(dateEnd);
-		plan.setTraveled(Integer.parseInt(req.getParameter("traveled")));
+		plan.setTraveled(Integer.parseInt(req.getParameter("editTraveled")));
 
 		return plan;
 	}
@@ -185,7 +195,68 @@ public class PlanServiceImpl implements PlanService{
 		return plandao.getPlan_idx();
 	}
 
+	@Override
+	public int getAccountAirfareCost(Plan plan) {
+		// TODO Auto-generated method stub
+		return plandao.sumAirfareByPlanIdx(plan);
+	}
 
+	@Override
+	public int getAccountTrafficCost(Plan plan) {
+		// TODO Auto-generated method stub
+		return plandao.sumTrafficByPlanIdx(plan);
+	}
 
+	@Override
+	public int getAccountStayCost(Plan plan) {
+		// TODO Auto-generated method stub
+		return plandao.sumStayByPlanIdx(plan);
+	}
+
+	@Override
+	public int getAccountAdmissionCost(Plan plan) {
+		// TODO Auto-generated method stub
+		return plandao.sumAdmissionByPlanIdx(plan);
+	}
+
+	@Override
+	public int getAccountFoodCost(Plan plan) {
+		// TODO Auto-generated method stub
+		return plandao.sumFoodByPlanIdx(plan);
+	}
+
+	@Override
+	public int getAccountPlayCost(Plan plan) {
+		// TODO Auto-generated method stub
+		return plandao.sumPlayByPlanIdx(plan);
+	}
+
+	@Override
+	public int getAccountShopCost(Plan plan) {
+		// TODO Auto-generated method stub
+		return plandao.sumShopByPlanIdx(plan);
+	}
+
+	@Override
+	public int getAccountEtcCost(Plan plan) {
+		// TODO Auto-generated method stub
+		return plandao.sumEtcByPlanIdx(plan);
+	}
+	
+//	좌표와 좌표 계산
+//	#define d2r (M_PI / 180.0)
+//
+//	//calculate haversine distance for linear distance
+//	double haversine_km(double lat1, double long1, double lat2, double long2)
+//	{
+//	    double dlong = (long2 - long1) * d2r;
+//	    double dlat = (lat2 - lat1) * d2r;
+//	    double a = pow(sin(dlat/2.0), 2) + cos(lat1*d2r) * cos(lat2*d2r) * pow(sin(dlong/2.0), 2);
+//	    double c = 2 * atan2(sqrt(a), sqrt(1-a));
+//	    double d = 6367 * c;
+//
+//	    return d;
+//	}
+	
 	
 }

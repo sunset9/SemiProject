@@ -59,13 +59,17 @@
 			<div>				
 				<div>
 				<div style="display:inline;">
-					<form action="/plan/write" method="get" style="display:inline;">
+					<form action="/plan/write" style="display:inline;">
 						<input type="hidden" name="plan_idx" value="${status.current.plan_idx}" />
+						<input type="hidden" name="user_idx" value="${status.current.user_idx}" />
+						<input type="hidden" name="editStartDate" value="${status.current.start_date}" />
+						<input type="hidden" name="editEndDate" value="${status.current.end_date}" />
+						<input type="hidden" name="editTraveled" value="${status.current.traveled}" />
 						<button type="submit">수정</button>
 					</form>
 				</div>
 				<div style="display:inline;">
-					<form action="/PlanDeleteController" method="post">
+					<form action="/plan/delete" method="post">
 						<input type="hidden" name="plan_idx" value="${status.current.plan_idx}" />
 						<button type="submit">삭제</button>
 					</form>		
@@ -73,7 +77,7 @@
 				</div>
 				
 				<div>
-				<form action="/plan" method="post">
+				<form action="/plan">
 					<input type="hidden" name="plan_idx" value="${status.current.plan_idx}" />
 					<div><input type="image" src="${pList.getBannerURL()}" style="width: 300px;"></div>
 					<div><button type="submit" style="border:0; ">글 제목 : ${pList.getTitle()}</button></div><hr>

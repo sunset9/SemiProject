@@ -25,6 +25,11 @@
  src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAO-YMjD9aGxBW1nEzgSFdzf7Uj8E4Lm9Q&libraries=places&language=ko&callback=initMap">
 </script>
 
+<!-- 원형 그래프 -->
+<script src= "https://cdn.zingchart.com/zingchart.min.js"></script>
+		<script> zingchart.MODULESDIR = "https://cdn.zingchart.com/modules/";
+		ZC.LICENSE = ["569d52cefae586f634c54f86dc99e6a9","ee6b7db5b51705a13dc2339db3edaf6d"];</script>
+
 <!-- 공개유무 슬라이드 버튼 -->
 <style type="text/css">
 	/* 가계부 그래프 팝업 */
@@ -33,7 +38,8 @@
 	  margin:0px;
 	  display:inline-block;
 	  font-size:15px;
-/* 	  font-weight:bold; */
+	  width: 700px;
+	  height: 700px;
 	}
 	
 	.pop-layer p.ctxt {
@@ -54,8 +60,8 @@
 	  position: absolute;
 	  top: 50%;
 	  left: 50%;
-	  width: 410px;
-	  height: auto;
+	  width: 800px;
+	  height: 800px;
 	  background-color: #fff;
 	  border: 5px solid #3571B5;
 	  z-index: 10;
@@ -168,6 +174,17 @@ var plan_idx = ${planView.plan_idx};
 
 var is_diplayStory = false;
 
+var cost = [
+		"${airfare}",
+		"${traffic}",
+		"${stay}",
+		"${admission}",
+		"${food}",
+		"${play}",
+		"${shop}",
+		"${etc}"
+	];
+	var airfare = "${airfare}";
 
 
 </script>
@@ -315,13 +332,171 @@ $(document).ready(function() {
 	});
 	
 	$("#totalGraph").click(function() {
-		document.getElementById("viewTotalGraph").style.display= "block";
-		document.getElementById("viewDaliyGraph").style.display= "none";
+		document.getElementById("idTotal").style.display= "block";
+		document.getElementById("idDaily").style.display= "none";
+		
+		var myConfig = {
+				  "type":"pie",
+				  "title":{
+				    "text":"전체"
+				  },
+				  "legend":{
+				    "x":"75%",
+				    "y":"25%",
+				    "border-width":1,
+				    "border-color":"gray",
+				    "border-radius":"5px",
+				    "header":{
+				      "text":"전체",
+				      "font-family":"Georgia",
+				      "font-size":12,
+				      "font-color":"#3333cc",
+				      "font-weight":"normal"
+				    },
+				    "marker":{
+				      "type":"circle"
+				    },
+				    "toggle-action":"remove",
+				    "minimize":true,
+				    "icon":{
+				      "line-color":"#9999ff"
+				    },
+				    "max-items":8,
+				    "overflow":"scroll"
+				  },
+				  "plotarea":{
+				    "margin-right":"30%",
+				    "margin-top":"15%"
+				  },
+				  "plot":{
+				    "value-box":{
+				      "text":"%v",
+				      "font-size":12,
+				      "font-family":"Georgia",
+				      "font-weight":"normal",
+				          "placement":"out",
+				          "font-color":"gray",
+				    },
+				    "tooltip":{
+				      "text":"%t: %v (%npv%)",
+				      "font-color":"black",
+				      "font-family":"Georgia",
+				      "text-alpha":1,
+				      "background-color":"white",
+				      "alpha":0.7,
+				      "border-width":1,
+				      "border-color":"#cccccc",
+				      "line-style":"dotted",
+				      "border-radius":"10px",
+				      "padding":"10%",
+				      "placement":"node:center"
+				    },
+				    "border-width":1,
+				    "border-color":"#cccccc",
+				    "line-style":"dotted"
+				  },
+				  "series":[
+						{ "values":[cost[0]], "background-color":"#cc0000","text":"항공료"},
+					    { "values":[cost[1]], "background-color":"#ff6600", "text":"교통"},
+					    { "values":[cost[2]], "background-color":"#ffcc00", "text":"숙박"},
+					    { "values":[cost[3]], "background-color":"#88cc00", "text":"입장료"},
+					    { "values":[cost[4]], "background-color":"#66ccff", "text":"음식" },
+					    { "values":[cost[5]], "background-color":"#0066ff", "text":"오락" },
+					    { "values":[cost[6]], "background-color":"#6600ff", "text":"쇼핑" },
+					    { "values":[cost[7]], "background-color":"#9999ff", "text":"기타" }
+					  ]
+				};
+				 
+				zingchart.render({ 
+					id : 'total', 
+					data : myConfig, 
+					height: 600, 
+					width: "100%" 
+				});
 	});
 	
-	$("#daliyGraph").click(function() {
-		document.getElementById("viewTotalGraph").style.display= "none";
-		document.getElementById("viewDaliyGraph").style.display= "block";
+	$("#dailyGraph").click(function() {
+		document.getElementById("idTotal").style.display= "none";
+		document.getElementById("idDaily").style.display= "block";
+		
+		var myConfig = {
+			  "type":"pie",
+			  "title":{
+			    "text":"일일"
+			  },
+			  "legend":{
+			    "x":"75%",
+			    "y":"25%",
+			    "border-width":1,
+			    "border-color":"gray",
+			    "border-radius":"5px",
+			    "header":{
+			      "text":"일일",
+			      "font-family":"Georgia",
+			      "font-size":12,
+			      "font-color":"#3333cc",
+			      "font-weight":"normal"
+			    },
+			    "marker":{
+			      "type":"circle"
+			    },
+			    "toggle-action":"remove",
+			    "minimize":true,
+			    "icon":{
+			      "line-color":"#9999ff"
+			    },
+			    "max-items":8,
+			    "overflow":"scroll"
+			  },
+			  "plotarea":{
+			    "margin-right":"30%",
+			    "margin-top":"15%"
+			  },
+			  "plot":{
+			    "value-box":{
+			      "text":"%v",
+			      "font-size":12,
+			      "font-family":"Georgia",
+			      "font-weight":"normal",
+			          "placement":"out",
+			          "font-color":"gray",
+			    },
+			    "tooltip":{
+			      "text":"%t: %v (%npv%)",
+			      "font-color":"black",
+			      "font-family":"Georgia",
+			      "text-alpha":1,
+			      "background-color":"white",
+			      "alpha":0.7,
+			      "border-width":1,
+			      "border-color":"#cccccc",
+			      "line-style":"dotted",
+			      "border-radius":"10px",
+			      "padding":"10%",
+			      "placement":"node:center"
+			    },
+			    "border-width":1,
+			    "border-color":"#cccccc",
+			    "line-style":"dotted"
+			  },
+			  "series":[
+				{ "values":[cost[0]], "background-color":"#cc0000","text":"항공료"},
+			    { "values":[cost[1]], "background-color":"#ff6600", "text":"교통"},
+			    { "values":[cost[2]], "background-color":"#ffcc00", "text":"숙박"},
+			    { "values":[cost[3]], "background-color":"#88cc00", "text":"입장료"},
+			    { "values":[cost[4]], "background-color":"#66ccff", "text":"음식" },
+			    { "values":[cost[5]], "background-color":"#0066ff", "text":"오락" },
+			    { "values":[cost[6]], "background-color":"#6600ff", "text":"쇼핑" },
+			    { "values":[cost[7]], "background-color":"#9999ff", "text":"기타" }
+			  ]
+			};
+			 
+			zingchart.render({ 
+				id : 'daily', 
+				data : myConfig, 
+				height: 600, 
+				width: "100%" 
+			});
 	});
 	
 	// 일정 일자 변경할때의 처리
@@ -414,15 +589,35 @@ $(document).ready(function() {
 		    <!-- <input id="btnModify" type="button" value="수정" style="float:right;"
 		    onClick="location.href='/plan/write'"> -->
 		    <form action="/plan/write" method="get" id="Modify">
-		    	<input type="hidden" name="plan_idx" value="${planView.plan_idx}">
+		    	<input type="hidden" name="plan_idx" value="${planView.plan_idx}" />
+				<input type="hidden" name="user_idx" value="${planView.user_idx}" />
+				<input type="hidden" name="editTitleView" value="${planView.title}" />
+				<input type="hidden" name="editStartDate" value="${planView.start_date}" />
+				<input type="hidden" name="editEndDate" value="${planView.end_date}" />
+				<input type="hidden" name="editTraveled" value="${planView.traveled}" />
+				
 		    	<input id="btnModify" type="button" value="수정" style="float:right;">
 		    </form>
 		</c:if>
 <!-- 		다르면 북마크 버튼을 보여준다 -->
 		<c:if test="${writtenUserView.user_idx ne loginedUserView.user_idx}">
-			<input id="btnBookMark" type="button" value="북마크" style="float:right;">
-		</c:if>
-		
+			
+			<c:if test="${bookmark.plan_idx ne planView.plan_idx}">
+				<form action="/bookmark/insert" method="post">
+					<input type="hidden" name="plan_idx" value="${planView.plan_idx}" />
+					<button id="btnBookMark" type="submit" style="float:right;">북마크 추가</button>
+				</form>
+			</c:if>
+			
+			<c:if test="${bookmark.plan_idx eq planView.plan_idx}">
+				<form action="/bookmark/delete" method="post">
+					<input type="hidden" name="plan_idx" value="${planView.plan_idx}" />
+					<button id="btnBookMark" type="submit" style="float:right;">북마크 삭제</button>
+				</form>
+			</c:if>
+			
+		</c:if> 
+			
 	</div><br>
 		
 	<div id="header" style="background-color:#EEEEEE;text-align:center;">
@@ -430,7 +625,10 @@ $(document).ready(function() {
 			<h1 id="titleView" style="margin-bottom:0;">${planView.title }</h1>
 			<h4 id="planRouteView"> 여행 경로 2개</h4> 
 			<h4 id="dateView">${planView.start_date } ~ ${planView.end_date }</h4>
-			<h4 id="traveledView">${planView.traveled }</h4>
+			<h4 id="traveledView">
+				<c:if test="${planView.traveled eq 1 }">여행 전</c:if>
+				<c:if test="${planView.traveled eq 0 }">여행 후</c:if>
+			</h4>
 		</div>
 			<br>
 	</div>
@@ -456,26 +654,23 @@ $(document).ready(function() {
 		
 	 	<!-- 가계부 DIV -->
 		<div id="menu" style="background-color:#CCCCCC;height:100%;float:bottom;width:100%;border-radius:10px;">
-			<b>가계부</b><br><br>
 			
 <!-- 			가계부 그래프 -->
-			<a href="#layer2" id="btnAccGraph" >가계부 그래프</a><br>
+			<a href="#layer2" id="btnAccGraph" >가계부 그래프</a><br><br>
 			<div class="dim-layer">
 			    <div class="dimBg"></div>
 			    <div id="layer2" class="pop-layer">
 			        <div class="pop-container">
 			            <div class="pop-conts">
 			                <div>
-			                	<button id="totalGraph">전체</button> | <button id="daliyGraph">일일</button>
+			                	<button id="totalGraph">전체</button> <button id="dailyGraph">일일</button>
 			                </div>
-			                
-			                <div id="viewTotalGraph" > 
-			                	그래프 ㅇ_<
-							</div>
-							<div id="viewDaliyGraph" style="display:none;"> 
-			                	그래프 >_ㅇ
-							</div>
-							
+			                <div id="idTotal">
+		                		<div id="total"></div>
+		                	</div>
+		                	<div id="idDaily">
+		                		<div id='daily'></div>
+		                	</div>
 			                <div class="btn-r">
 			                    <a href="#" class="btn-layerClose">X</a>
 			                </div>
@@ -484,12 +679,16 @@ $(document).ready(function() {
 			    </div>
 			</div>
 
-			교통 : 교통비입니다<br>
-			식비 : 식비입니다<br>
-			문화 : 추억의비용입니다<br>
-			기타 : 헛짓거리비용입니다<br><br>
-			총합 : ${accView.origin_cost }<br>
-			환율 : ${accView.caled_cost }<br>
+			항공료 : ${airfare }<br> 
+			교통 : ${traffic }<br>
+			숙박 : ${stay }<br>
+			입장료 : ${admission }<br>
+			음식 : ${food }<br>
+			오락 : ${play }<br>
+			쇼핑 : ${shop }<br>
+			기타 : ${etc }<br><br>
+			<b>총합 : ${acc_total }</b><br>
+			<b>환율 : ${accView.caled_cost }</b><br>
 		</div><br>
 		
 		<!-- 일정 저장 -->

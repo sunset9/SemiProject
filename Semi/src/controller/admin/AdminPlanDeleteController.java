@@ -33,7 +33,7 @@ public class AdminPlanDeleteController extends HttpServlet {
 		// 일정 삭제
 	
 		// 연관된 타임테이블 삭제
-		ttService.delete(plan);
+		ttService.deleteTimetable(plan);
 		
 		req.getRequestDispatcher("")
 		.forward(req, resp);

@@ -4,8 +4,8 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
@@ -244,6 +244,7 @@ public class PlanDaoImpl implements PlanDao{
 	}
 		
 	// 플랜의 가계부 인덱스로 가계부 정보 불러오기
+	@Override
 	public Account selectAccountInfoByAccountIdx(Plan plan) {
 		
 		//planner 조회 쿼리
@@ -288,42 +289,6 @@ public class PlanDaoImpl implements PlanDao{
 		}
 		// 전체조회 결과 반환
 		return accInfo;
-	}
-	
-	// 새로운 일정 저장
-	@Override
-	public void insert(Plan plan) {
-		String sql = "INSERT INTO timetable(ttb_idx, plan_idx, loc_idx, start_time, end_time)"
-				+ " VALUES(timetable_seq.nextval, ?, ?"
-				+ ", TO_DATE(?, 'yyyy/mm/dd hh24:mi')"
-				+ ", TO_DATE(?, 'yyyy/mm/dd hh24:mi')"
-				+ " )";
-
-		try {
-			// 오토커밋 해제
-			conn.setAutoCommit(false);
-			
-			ps = conn.prepareStatement(sql);
-			
-			ps.executeUpdate();
-			
-			conn.commit();
-			
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-			try {
-				conn.rollback();
-			} catch (SQLException e1) {
-				e1.printStackTrace();
-			}
-		} finally {
-			try {
-				if(ps!=null) ps.close();
-			} catch (SQLException e) {
-				e.printStackTrace();
-			}
-		}
 	}
 	
 	// 일정메인 수정값 저장하기
@@ -372,9 +337,37 @@ public class PlanDaoImpl implements PlanDao{
 	}
 	
 	// 일정 삭제하기
-	public void delete(Plan plan) {
-		String sql = "drop table planner"
-				+ " where ?";
+	@Override
+	public void deletePlanByPlanIdx(Plan plan) {
+		String sql = "delete planner"
+				+ " where plan_idx = ?";
+		try {
+			// 오토커밋 해제
+			conn.setAutoCommit(false);
+			
+			ps = conn.prepareStatement(sql);
+			
+			ps.setInt(1, plan.getPlan_idx());
+			
+			ps.executeUpdate();
+			
+			conn.commit();
+			
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			try {
+				conn.rollback();
+			} catch (SQLException e1) {
+				e1.printStackTrace();
+			}
+		} finally {
+			try {
+				if(ps!=null) ps.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
 	}
 
 	@Override
@@ -444,8 +437,6 @@ public class PlanDaoImpl implements PlanDao{
 			ps.setInt(1, plannerSeqNextval);
 			
 			ps.setInt(2, user.getUser_idx());
-			
-			DateFormat df = new SimpleDateFormat("EEE MMM dd HH:mm:ss Z yyyy",Locale.ENGLISH);
 			
 			SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd",Locale.KOREA);
 			
@@ -560,6 +551,342 @@ public class PlanDaoImpl implements PlanDao{
 				}
 				// 전체조회 결과 반환
 				return planInfo;
+	}
+
+//	@Override
+//	public List<Integer> sumCategoryByPlanIdx(Plan plan) {
+//
+//		//전체 게시글 수 조회 쿼리
+//		String sql = "";
+//		sql += "select sum(origin_cost) "
+//				+ "from account "
+//				+ "where acc_cat_idx = ? "
+//				+ "and plan_idx = ?";
+//		
+//		List<Integer> sumInt = new ArrayList<>();
+//		
+//		try {
+//			for(int test = 1; test<9; test++) {
+//				ps = conn.prepareStatement(sql);
+//				ps.setInt(1, test);
+//				System.out.println("1234" + test);
+//				ps.setInt(2, plan.getPlan_idx());
+//				rs = ps.executeQuery();
+//				rs.next();
+//				
+//				while(rs.next()) {	
+//					
+//					int cnt;
+//					
+//					cnt = rs.getInt(1);
+//					
+//					sumInt.add(cnt);
+//					
+//					System.out.println("5687" + sumInt);
+//				}
+//			}
+//			
+//		} catch (SQLException e) {
+//			e.printStackTrace();
+//		} finally {
+//			try {
+//				if(ps!=null)	ps.close();
+//				if(rs!=null)	rs.close();
+//			} catch (SQLException e) {
+//				e.printStackTrace();
+//			}
+//		}
+//		
+//		return sumInt;
+//	}
+	
+	@Override
+	public int sumAirfareByPlanIdx(Plan plan) {
+
+		//전체 게시글 수 조회 쿼리
+		String sql = "";
+		sql += "select sum(origin_cost) "
+				+ "from account "
+				+ "where acc_cat_idx = 1 "
+				+ "and plan_idx = ?";
+		
+		int cnt = 0;
+		
+		try {
+			
+			ps = conn.prepareStatement(sql);
+			ps.setInt(1, plan.getPlan_idx());
+			rs = ps.executeQuery();
+			rs.next();
+			
+			
+			
+			cnt = rs.getInt(1);
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				if(ps!=null)	ps.close();
+				if(rs!=null)	rs.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+		
+		return cnt;
+	}
+
+	@Override
+	public int sumTrafficByPlanIdx(Plan plan) {
+		//전체 게시글 수 조회 쿼리
+				String sql = "";
+				sql += "select sum(origin_cost) "
+						+ "from account "
+						+ "where acc_cat_idx = 2 "
+						+ "and plan_idx = ?";
+				
+				int cnt = 0;
+				
+				try {
+					
+					ps = conn.prepareStatement(sql);
+					ps.setInt(1, plan.getPlan_idx());
+					rs = ps.executeQuery();
+					rs.next();
+					
+					
+					
+					cnt = rs.getInt(1);
+					
+				} catch (SQLException e) {
+					e.printStackTrace();
+				} finally {
+					try {
+						if(ps!=null)	ps.close();
+						if(rs!=null)	rs.close();
+					} catch (SQLException e) {
+						e.printStackTrace();
+					}
+				}
+				
+				return cnt;
+	}
+
+	@Override
+	public int sumStayByPlanIdx(Plan plan) {
+		//전체 게시글 수 조회 쿼리
+				String sql = "";
+				sql += "select sum(origin_cost) "
+						+ "from account "
+						+ "where acc_cat_idx = 3 "
+						+ "and plan_idx = ?";
+				
+				int cnt = 0;
+				
+				try {
+					
+					ps = conn.prepareStatement(sql);
+					ps.setInt(1, plan.getPlan_idx());
+					rs = ps.executeQuery();
+					rs.next();
+					
+					
+					
+					cnt = rs.getInt(1);
+					
+				} catch (SQLException e) {
+					e.printStackTrace();
+				} finally {
+					try {
+						if(ps!=null)	ps.close();
+						if(rs!=null)	rs.close();
+					} catch (SQLException e) {
+						e.printStackTrace();
+					}
+				}
+				
+				return cnt;
+	}
+
+	@Override
+	public int sumAdmissionByPlanIdx(Plan plan) {
+		//전체 게시글 수 조회 쿼리
+				String sql = "";
+				sql += "select sum(origin_cost) "
+						+ "from account "
+						+ "where acc_cat_idx = 4 "
+						+ "and plan_idx = ?";
+				
+				int cnt = 0;
+				
+				try {
+					
+					ps = conn.prepareStatement(sql);
+					ps.setInt(1, plan.getPlan_idx());
+					rs = ps.executeQuery();
+					rs.next();
+					
+					
+					
+					cnt = rs.getInt(1);
+					
+				} catch (SQLException e) {
+					e.printStackTrace();
+				} finally {
+					try {
+						if(ps!=null)	ps.close();
+						if(rs!=null)	rs.close();
+					} catch (SQLException e) {
+						e.printStackTrace();
+					}
+				}
+				
+				return cnt;
+	}
+
+	@Override
+	public int sumFoodByPlanIdx(Plan plan) {
+		//전체 게시글 수 조회 쿼리
+				String sql = "";
+				sql += "select sum(origin_cost) "
+						+ "from account "
+						+ "where acc_cat_idx = 5 "
+						+ "and plan_idx = ?";
+				
+				int cnt = 0;
+				
+				try {
+					
+					ps = conn.prepareStatement(sql);
+					ps.setInt(1, plan.getPlan_idx());
+					rs = ps.executeQuery();
+					rs.next();
+					
+					
+					
+					cnt = rs.getInt(1);
+					
+				} catch (SQLException e) {
+					e.printStackTrace();
+				} finally {
+					try {
+						if(ps!=null)	ps.close();
+						if(rs!=null)	rs.close();
+					} catch (SQLException e) {
+						e.printStackTrace();
+					}
+				}
+				
+				return cnt;
+	}
+
+	@Override
+	public int sumPlayByPlanIdx(Plan plan) {
+		//전체 게시글 수 조회 쿼리
+				String sql = "";
+				sql += "select sum(origin_cost) "
+						+ "from account "
+						+ "where acc_cat_idx = 6 "
+						+ "and plan_idx = ?";
+				
+				int cnt = 0;
+				
+				try {
+					
+					ps = conn.prepareStatement(sql);
+					ps.setInt(1, plan.getPlan_idx());
+					rs = ps.executeQuery();
+					rs.next();
+					
+					
+					
+					cnt = rs.getInt(1);
+					
+				} catch (SQLException e) {
+					e.printStackTrace();
+				} finally {
+					try {
+						if(ps!=null)	ps.close();
+						if(rs!=null)	rs.close();
+					} catch (SQLException e) {
+						e.printStackTrace();
+					}
+				}
+				
+				return cnt;
+	}
+
+	@Override
+	public int sumShopByPlanIdx(Plan plan) {
+		//전체 게시글 수 조회 쿼리
+				String sql = "";
+				sql += "select sum(origin_cost) "
+						+ "from account "
+						+ "where acc_cat_idx = 7 "
+						+ "and plan_idx = ?";
+				
+				int cnt = 0;
+				
+				try {
+					
+					ps = conn.prepareStatement(sql);
+					ps.setInt(1, plan.getPlan_idx());
+					rs = ps.executeQuery();
+					rs.next();
+					
+					
+					
+					cnt = rs.getInt(1);
+					
+				} catch (SQLException e) {
+					e.printStackTrace();
+				} finally {
+					try {
+						if(ps!=null)	ps.close();
+						if(rs!=null)	rs.close();
+					} catch (SQLException e) {
+						e.printStackTrace();
+					}
+				}
+				
+				return cnt;
+	}
+
+	@Override
+	public int sumEtcByPlanIdx(Plan plan) {
+		//전체 게시글 수 조회 쿼리
+				String sql = "";
+				sql += "select sum(origin_cost) "
+						+ "from account "
+						+ "where acc_cat_idx = 8 "
+						+ "and plan_idx = ?";
+				
+				int cnt = 0;
+				
+				try {
+					
+					ps = conn.prepareStatement(sql);
+					ps.setInt(1, plan.getPlan_idx());
+					rs = ps.executeQuery();
+					rs.next();
+					
+					
+					
+					cnt = rs.getInt(1);
+					
+				} catch (SQLException e) {
+					e.printStackTrace();
+				} finally {
+					try {
+						if(ps!=null)	ps.close();
+						if(rs!=null)	rs.close();
+					} catch (SQLException e) {
+						e.printStackTrace();
+					}
+				}
+				
+				return cnt;
 	}
 	
 }
