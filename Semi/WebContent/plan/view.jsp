@@ -211,6 +211,8 @@ var locList = ${locList };
 
 var plan_idx = ${planView.plan_idx};
 
+var isModify = 0;
+
 var is_diplayStory = false;
 
 var cost = [
@@ -229,7 +231,6 @@ var cost = [
 <script type="text/javascript">
 
 // 읽기모드일때, 검색창 on/off
-var isModify = 0;
 var check=0;
 	console.log("view.jsp isModify : " + isModify);
 	
@@ -249,7 +250,7 @@ $(document).ready(function() {
 	    $("#tab-main li[rel='tab-ttb']").addClass("active");
 		$(".tab-content").css('display', 'none');
 	    $(".tab-content.tab-ttb").show();
-	
+		
 	// 쿠키값이 tab-story인 경우    
 	}else if(getCookie('tab')=='tab-story'){
 		$("#tab-main li").removeClass("active");
@@ -611,7 +612,7 @@ function displayStoryView(){
 			<b>${writtenUserView.nickname }</b>님 <br>
 			포스팅 : <b>${writtenUserView.totalPlanCnt }</b>개 <br>
 			등급 : <b>${writtenUserView.grade }</b><br>
-			<b><fmt:formatNumber value='${writtenUserView.totalDist }' pattern=".00"/></b> km<br>
+			<b><fmt:formatNumber value='${writtenUserView.totalDist }' pattern="0.##"/></b> km<br>
 		</div><br>
 		
 	 	<!-- 가계부 DIV -->

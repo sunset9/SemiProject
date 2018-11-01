@@ -183,6 +183,22 @@
         width: 100%; /* 이거 하면 타임테이블 지저분, 안하면 빈 스토리탭 container 좁게 지정*/
 	}
 	
+	/* 저장버튼 활성화 버전*/
+	#planCommit:not([disabled]){
+		background: #3ba4ff;
+	    font-weight: bold;
+	}
+	
+	/* 저장버튼 비활성화 버전*/
+	#planCommit[disabled]{
+		background: #eee;
+		color: #ccc;
+	}
+	
+	/* 탭 변경시 띄워주는 경고창 */
+/* 	.jconfirm .jconfirm-box div.jconfirm-content-pane .jconfirm-content { */
+/*     	white-space: pre-wrap; /* 줄바꿈 가능하게*/*/
+/* 	} */
 </style>
 
 <script>
@@ -196,6 +212,7 @@ var locList = ${locList };
 
 var plan_idx = ${planView.plan_idx};
 
+var isModify = 1;
 </script>
 <script>
 //저장하기
@@ -244,14 +261,14 @@ function store(beforeTtbIdx, afterTtbIdx, isSendWriteMode){
 	// submit
 // 	console.log("---store()----")
 // 	console.log(timetables);
-	$("#planForm").submit();     
+	$("#planForm").submit();
+	
+	return true;
 }
 </script>
 
 <script type="text/javascript">
 // 읽기모드일때, 검색창 on/off
-var isModify = 1;
-
 $(document).ready(function() {
 	// isCookieTabClear 플래그가 true 이고
 	// 새로고침 된게 아닌 경우 (performance.navigation.type == 1 : 새로고침)
@@ -368,28 +385,72 @@ $(document).ready(function() {
 		$('#calendar').fullCalendar('option', 'droppable', true); // 드롭할 수 있게
 	});
 	
+	    
     // 탭 선택 시 속성값, 탭쿠키값 변경
 	$('#tab-main li').click(function(){
-		// active클래스 속성 변경
-		$("#tab-main li").removeClass("active");
-        $(this).addClass("active");
-        
-        // 선택한탭의 내용 띄워지게
-        $(".tab-content").hide();
-        var activeTab = $(this).attr("rel");
-        $("." + activeTab).show();
-        
-        if(activeTab == 'tab-ttb'){ // 타임테이블 탭 선택한 경우
-			setCookie('tab','tab-ttb');
-        }else if(activeTab == 'tab-story'){ // 스토리 탭 선택한 경우
-			setCookie('tab','tab-story');
-        	// ajax 통신으로 내용 불러오기
-			displayStoryView();
-        }
+		var clickTab = $(this);
+		// 저장버튼 활성화 상태이면 탭 안넘어가도록 경고창
+		if($("#planCommit").attr('disabled') == null){
+			// 저장 확인 창 띄움
+			$.confirm({
+			    title: '저장하시겠습니까?',
+			    content: '저장하시지 않으면 작성 중인 정보를 잃습니다.',
+			    buttons: {
+			    	// 확인 버튼
+			    	confirm: {
+			    		text: '저장'
+			    		, btnClass: 'btn-blue'
+			    		, action: function(){
+			    			// 저장 동작
+			    			var succ = store(null,null,true);
+			    			if(succ){
+				    			// 탭 변경
+				    			changeTab(clickTab);
+					            
+					            // 저장 버튼 비활성화
+					            activeStoreBtn(false);
+			    			}
+			    		}
+			        },
+			        // 취소 버튼
+		        	취소: function () {
+			        },
+			    }
+			});
+		} else { // 저장버튼 비활성화 상태면 그냥 진행
+			// 탭 변경
+			changeTab(clickTab);
+		}
+		
 	}); // tab on click 이벤트 설정
-		  
-
+	
+	
+	// 일정 정보 수정하는 경우 저장버튼 활성화
+	$("#planForm").on('change',function(){
+		activeStoreBtn(true);
+	});
+	
 }); // $(document).ready() End
+
+function changeTab(clickTab){
+	// active클래스 속성 변경
+	$("#tab-main li").removeClass("active");
+	clickTab.addClass("active");
+    
+    // 선택한탭의 내용 띄워지게
+    $(".tab-content").hide();
+    var activeTab = clickTab.attr("rel");
+    $("." + activeTab).show();
+    
+    if(activeTab == 'tab-ttb'){ // 타임테이블 탭 선택한 경우
+		setCookie('tab','tab-ttb');
+		initFullCalendar(planStartDate, planEndDate, true);
+    }else if(activeTab == 'tab-story'){ // 스토리 탭 선택한 경우
+		setCookie('tab','tab-story');
+    	// ajax 통신으로 내용 불러오기
+		displayStoryView();
+    }
+} 
 
 // 스토리 뷰 ajax통신으로 띄워주기
 function displayStoryView(){
@@ -408,6 +469,21 @@ function displayStoryView(){
 	});
 }
 
+// 저장버튼 활성화/비활성화 상태 바꿔주는 메소드
+function activeStoreBtn(isEdit){
+	if(isEdit){ // 수정했으면 버튼 활성화
+		$("#planCommit").removeAttr("disabled");
+	}else{ // 저장 상태이면 버튼 비활성화
+		$("#planCommit").attr("disabled", 'disabled');
+	}
+}
+
+window.onbeforeunload = function(){
+	// 저장버튼 활성화 상태이면 페이지나감 경고 메세지 띄워주기
+	if($("#planCommit").attr('disabled') == null){
+		return false;
+	}
+};
 </script>
 
 </head>
@@ -475,7 +551,7 @@ function displayStoryView(){
 			<b>${writtenUserView.nickname }</b>님 <br>
 			포스팅 : <b>${writtenUserView.totalPlanCnt }</b>개 <br>
 			등급 : <b>${writtenUserView.grade }</b><br>
-			<b><fmt:formatNumber value='${writtenUserView.totalDist }' pattern=".00"/></b> km<br>
+			<b><fmt:formatNumber value='${writtenUserView.totalDist }' pattern="0.##"/></b> km<br>
 		</div><br>
 		
 	 	<!-- 가계부 DIV -->
@@ -494,7 +570,7 @@ function displayStoryView(){
 		</div><br>
 		
 		<!-- 일정 저장 -->
-		<button id="planCommit" name="plan_idx" value="${planView.plan_idx}" onclick="store();" style="width:100%;">저장 </button>
+		<button id="planCommit" name="plan_idx" value="${planView.plan_idx}" onclick="store();" style="width:100%;" disabled="true">저장 </button>
 		
 		<!-- 검색 INPUT DIV -->
 		<div id="googleSearch" class="tab-content tab-ttb" style="float:bottom;width:100%;border-radius:10px;">
@@ -534,8 +610,8 @@ function displayStoryView(){
 			<div id="viewStory"></div>
 	 	</div>
 	 	</div>
-		
 	</div>
+	
 </div>
 </body>
 </html>

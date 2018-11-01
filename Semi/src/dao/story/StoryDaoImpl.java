@@ -128,7 +128,7 @@ public class StoryDaoImpl implements StoryDao{
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-	}
+		}
 		return storyRes;
 	}
 	
@@ -156,7 +156,15 @@ public class StoryDaoImpl implements StoryDao{
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+		} finally {
+			try {
+				if (ps != null) ps.close();
+				if (rs != null) rs.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
 		}
+		 
 		
 		return story;
 	}

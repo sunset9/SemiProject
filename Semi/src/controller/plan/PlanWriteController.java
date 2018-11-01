@@ -22,6 +22,8 @@ import service.plan.PlanService;
 import service.plan.PlanServiceImpl;
 import service.timetable.TimetableService;
 import service.timetable.TimetableServiceImpl;
+import service.user.UserService;
+import service.user.UserServiceImpl;
 
 /**
  * Servlet implementation class PlanSaveController
@@ -30,6 +32,7 @@ import service.timetable.TimetableServiceImpl;
 public class PlanWriteController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	
+	UserService uService = new UserServiceImpl();
 	PlanService pService = new PlanServiceImpl();
 	TimetableService ttbService = new TimetableServiceImpl(); 
 	
@@ -70,6 +73,8 @@ public class PlanWriteController extends HttpServlet {
 	
 			// 게시자 유저 정보 가져오기
 			User writtenUserView = pService.getUserInfo(planView);
+			// 총 게시물 수, 총 여행거리 정보 추가된  유저정보 가져오기
+			writtenUserView = uService.getUseraddedInfo(writtenUserView);
 			
 			//userView MODEL 전달
 			req.setAttribute("writtenUserView", writtenUserView);
@@ -199,6 +204,8 @@ public class PlanWriteController extends HttpServlet {
 	
 			// 게시자 유저 정보 가져오기
 			User writtenUserView = pService.getUserInfo(planView);
+			// 총 게시물 수, 총 여행거리 정보 추가된  유저정보 가져오기
+			writtenUserView = uService.getUseraddedInfo(writtenUserView);
 			
 			//userView MODEL 전달
 			req.setAttribute("writtenUserView", writtenUserView);
