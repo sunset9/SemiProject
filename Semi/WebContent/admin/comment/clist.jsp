@@ -11,15 +11,11 @@ $(document).ready(function() {
 	$("table").on("click","tr",function(){
 		var notice_idx = $(this).children("td").eq(0).text();
 		
-		$(location).attr("href","/admin/notice/view?notice_idx="+notice_idx);
+		$(location).attr("href","/admin/comment/view?comm_idx="+comm_idx);
 		
 	});
 	$("#btnSearch").click(function() {
-		$(location).attr("href","/admin/notice/list?search="+$("#search").val());
-	});
-	
-	$("#btnWrite").click(function() {
-		location.href="/admin/notice/write";
+		$(location).attr("href","/admin/comment/list?search="+$("#search").val());
 	});
 	
 	// 선택체크 삭제
@@ -34,15 +30,15 @@ $(document).ready(function() {
 		});
 		
 		var names = map.get().join(",");
-		console.log("names : " + names);
+// 		console.log("names : " + names);
 		
-		console.log( "map:" + map );	// 맵
-		console.log( "map->array : " + map.get() );	// 맵->배열
-		console.log( "array tostring : " + map.get().join(",") ); // toString
+// 		console.log( "map:" + map );	// 맵
+// 		console.log( "map->array : " + map.get() );	// 맵->배열
+// 		console.log( "array tostring : " + map.get().join(",") ); // toString
 		
 		// 전송 폼
 		var $form = $("<form>")
-			.attr("action", "/admin/notice/deleteList")
+			.attr("action", "/admin/comment/deleteList")
 			.attr("method", "post")
 			.append(
 				$("<input>")
@@ -59,6 +55,29 @@ $(document).ready(function() {
 
 </script>
 
+<<script type="text/javascript">
+function deleteComm(comm_idx) {
+// 	console.log("실행쓰?")
+	$.ajax ( {
+		type : "POST"
+		, url:"/admin/comment/delete"
+		, dataType: "json"
+		, data:{comm_idx:comm_idx }
+		, success: function(d) {
+			
+			if(d.success) {
+				$("tr[data-comm_idx="+comm_idx+"]").html($("<td colspan='9'>").text("삭제되었습니다."));
+// 				$("[data-user_idx='"+user_idx+"']").remove();
+			}
+		}
+		,error: function() {
+			console.log("실패")
+		}
+		
+	});
+};
+</script>
+
 
 <style>
 .wrapper {
@@ -67,6 +86,7 @@ $(document).ready(function() {
 	margin :0 auto;
 	display :grid;
 	grid-template-columns : repeat(12, 1fr);
+/* 	grid-template-rows : 700px; */
 }
 .menu {
 	background-color: #ccc;
@@ -91,13 +111,13 @@ ul.sub li a {
 	text-decoration: none;
 	color:#000;
 }
-
 #searchBox{
 	text-align: center;
 }
 
+
 </style>
-<title>관리자 공지사항 리스트</title>
+<title>관리자 댓글관리 리스트</title>
 <hr>
 
 <span><h1><a href ="/admin/main"><strong>관리자 페이지</strong></a></h1></span><hr>
@@ -118,29 +138,30 @@ ul.sub li a {
 </div>
 
 <div class="content">
-<h3><strong>공지사항</strong></h3>
+<h3><strong>댓글 관리</strong></h3>
 <div id ="listTable">
 <table class="table table-hover table-striped table-condensed">
 <thead>
 <tr>
-<td></td>
-<th>번호</th>
-<th>제목</th>
+<th></th>  <!-- 체크박스 공간 -->
+<th>일정번호</th>
+<th>스토리번호</th>
 <th>작성자</th>
-<th>조회수</th>
+<th>내용</th>
 <th>작성일</th>
+<th></th> <!-- 삭제 버튼 공간 -->
 </tr>
 </thead>
 <tbody>
-<c:forEach items ="${noticeList }" var = "notice">
-<tr>
-<td><input type="checkbox" name="checkRow" value="${notice.notice_idx }" /></td>
-<td>${notice.notice_idx }</td>
-<td><a href="/admin/notice/view?notice_idx=${notice.notice_idx }">${notice.title }</a></td>
-<td>${notice.writer }</td>
-
-<td>${notice.hit }</td>
-<td>${notice.create_date }</td>
+<c:forEach items ="${commList }" var = "comm">
+<tr data-comm_idx="${comm.comm_idx }" >
+<td><input type="checkbox" name="checkRow" value="${comm.comm_idx }" /></td>
+<td>${comm.plan_idx }&nbsp;<a href ="/plan?plan_idx=${comm.plan_idx}" target="_blank">[새창]</a></td>
+<td>${comm.place_name }</td>
+<td>${comm.nickname }</td>
+<td>${comm.content }</td>
+<td>${comm.create_date }</td>
+<td><button id="commDelete" onclick="deleteComm(${comm.comm_idx})">삭제</button></td>
 </tr>
 </c:forEach>
 </tbody>
@@ -153,7 +174,7 @@ ul.sub li a {
   	<!-- 처음으로 가기 -->
   	<c:if test="${paging.curPage ne 1 }">
     <li>
-      <a href="/admin/notice/list?search=${paging.search }" aria-label="First">
+      <a href="/admin/comment/list?search=${paging.search }" aria-label="First">
         <span aria-hidden="true">&larr;처음</span>
       </a>
     </li>
@@ -170,7 +191,7 @@ ul.sub li a {
     
   	<c:if test="${paging.curPage ne 1 }">
     <li>
-      <a href="/admin/notice/list?curPage=${paging.curPage-1 }&search=${paging.search }" aria-label="Previous">
+      <a href="/admin/comment/list?curPage=${paging.curPage-1 }&search=${paging.search }" aria-label="Previous">
         <span aria-hidden="true">&laquo;</span>
       </a>
     </li>
@@ -184,10 +205,10 @@ ul.sub li a {
 
 		<!-- 현재 보고 있는 페이지번호만 강조해주기 -->
 		<c:if test="${paging.curPage eq i}">          
-    	  <li class="active"><a href="/admin/notice/list?curPage=${i }&search=${paging.search }">${i }</a></li>
+    	  <li class="active"><a href="/admin/comment/list?curPage=${i }&search=${paging.search }">${i }</a></li>
     	</c:if>
 		<c:if test="${paging.curPage ne i}">          
-    	  <li><a href="/admin/notice/list?curPage=${i }&search=${paging.search }">${i }</a></li>
+    	  <li><a href="/admin/comment/list?curPage=${i }&search=${paging.search }">${i }</a></li>
     	</c:if>
     </c:forEach>
 
@@ -201,7 +222,7 @@ ul.sub li a {
 	
   	<c:if test="${paging.curPage ne paging.totalPage }">
     <li>
-      <a href="/admin/notice/list?curPage=${paging.curPage+1 }&search=${paging.search }" aria-label="Next">
+      <a href="/admin/comment/list?curPage=${paging.curPage+1 }&search=${paging.search }" aria-label="Next">
         <span aria-hidden="true">&raquo;</span>
       </a>
     </li>
@@ -209,11 +230,10 @@ ul.sub li a {
   </ul>
     <div id="btnBox">
 	<button id="btnDelete">삭제</button>
-	<button id="btnWrite">글쓰기</button>
   </div><br>
 </div>
 <div id="searchBox" class="col-xs-2, form-inline">
-	<input type="text" id="search" placeholder="제목검색" class="form-control"/>
+	<input type="text" id="search" placeholder="내용검색" class="form-control "/>
 	<button id="btnSearch">검색</button>
 </div><br>
 

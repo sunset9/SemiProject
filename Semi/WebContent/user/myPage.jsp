@@ -62,7 +62,7 @@ $(document).ready(function(){
 	<!-- 총여행거리 -->
 	<div class="profile common">
 
-		<div class="totalDistance">총 여행거리 : <fmt:formatNumber value='${user.totalDist}' pattern=".##"/>km</div>
+		<div class="totalDistance">총 여행거리 : <fmt:formatNumber value='${user.totalDist}' pattern="0.##"/>km</div>
 	</div>
 </div>
 
@@ -173,7 +173,7 @@ $(document).ready(function(){
 	
 	<!-- 총여행거리 -->
 	<div class="profile common">
-		<div class="totalDistance">총 여행거리 : <fmt:formatNumber value='${user.totalDist}' pattern=".##"/>km</div>
+		<div class="totalDistance">총 여행거리 : <fmt:formatNumber value='${user.totalDist}' pattern="0.##"/>km</div>
 	</div>
 </div>
 

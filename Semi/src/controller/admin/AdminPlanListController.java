@@ -37,8 +37,8 @@ public class AdminPlanListController extends HttpServlet {
 		// 검색어 얻어오기 
 		String search = adminPlanService.getSearch(req);
 		
-		
-//		System.out.println("searchType : "+req.getParameter("searchType"));
+		System.out.println("search : " +search);
+		System.out.println("searchType : "+req.getParameter("searchType"));
 		// 검색 조건 얻어오기
 		int searchType=0;
 		
@@ -54,10 +54,11 @@ public class AdminPlanListController extends HttpServlet {
 		
 		// 페이징 객체에 검색어 적용 
 		paging.setSearch(search);
+		paging.setSearchType(searchType);
 		
 		// 게시글 리스트 조회 
 		List<Plan> list = adminPlanService.getPagingList(paging);
-		System.out.println("controller list: "+list);
+		System.out.println("controller list!: "+list);
 		
 		// 요청에 조회 결과 담기 
 		req.setAttribute("planList", list);

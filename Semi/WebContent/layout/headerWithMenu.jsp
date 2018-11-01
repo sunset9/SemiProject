@@ -22,6 +22,10 @@
 <!-- jQuery 2.2.4 -->
 <script type="text/javascript" src="http://code.jquery.com/jquery-2.2.4.min.js"></script>
 
+<!-- jquery-confirm 3.3.0 -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.0/jquery-confirm.min.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.0/jquery-confirm.min.js"></script>
+
 <!-- froala JS -->
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/froala-editor/2.8.5/js/froala_editor.pkgd.min.js"></script>
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/froala-editor/2.8.5/js/plugins/image.min.js"></script>
@@ -114,7 +118,7 @@ var deleteCookie = function(name) {
 <div class="header">
 	<div class="logo common">
 		<a href="/main">
-			<img src="/image/logo.png" style="width:60px;" />
+			<img src="/image/logo.png" style="width:120px; height: 60px" />
 		</a>
 	</div>
 	

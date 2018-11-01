@@ -21,6 +21,7 @@ import service.stroy.StoryService;
 import service.stroy.StoryServiceImpl;
 import utils.CalcDate;
 import utils.DBConn;
+import utils.Paging;
 
 public class StoryDaoImpl implements StoryDao{
 	
@@ -127,7 +128,7 @@ public class StoryDaoImpl implements StoryDao{
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-	}
+		}
 		return storyRes;
 	}
 	
@@ -155,7 +156,15 @@ public class StoryDaoImpl implements StoryDao{
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+		} finally {
+			try {
+				if (ps != null) ps.close();
+				if (rs != null) rs.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
 		}
+		 
 		
 		return story;
 	}
@@ -350,7 +359,7 @@ public class StoryDaoImpl implements StoryDao{
 
 
 	@Override
-	public void deleteComment(Comment comment) {
+	public boolean deleteComment(Comment comment) {
 		
 		String sql = "DELETE FROM STORY_COMMENT WHERE comm_idx = ?";
 		
@@ -361,7 +370,6 @@ public class StoryDaoImpl implements StoryDao{
 			
 			conn.commit();
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} finally {
 			try {
@@ -373,18 +381,16 @@ public class StoryDaoImpl implements StoryDao{
 				e.printStackTrace();
 			}
 		}
-		
+		return true;
 	}
 
 	@Override
 	public void updateComment(Comment comment) {
-		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
 	public Comment selectCommentByContent(Comment comment) {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
@@ -632,5 +638,144 @@ public class StoryDaoImpl implements StoryDao{
 		return cnt;
 	}
 
+	@Override
+	public int selectCmtCnt(String search) {
+		
+		return 10;
+	}
+
+	@Override
+	public List<Comment> selectCmtPagingList(Paging paging) {
+		
+		String sql="";
+		sql += "SELECT * FROM( ";
+		sql += "SELECT rownum rnum, CL.* FROM ( ";
+		sql+= "SELECT S.comm_idx, S.plan_idx, S.ttb_idx,S.story_idx, ";
+		sql+= "		(SELECT nickname FROM userinfo U WHERE U.user_idx=S.user_idx) nick ,";
+		sql+= "		S.story_comm, l.place_name, S.create_date FROM story_comment S";
+		sql+= "			INNER JOIN timetable T";
+		sql+= "    			ON s.plan_idx = t.plan_idx "; 
+		sql+= "    			AND s.ttb_idx = t.ttb_idx";  
+		sql+= "			INNER JOIN location L";  
+		sql+= "    		ON t.loc_idx = l.loc_idx ORDER BY create_date DESC ) CL";
+		
+		   if(paging.getSearch()!=null && !"".equals(paging.getSearch())) {
+			    
+			  sql+= " WHERE story_comm";
+   		      sql+= " LIKE '%"+paging.getSearch()+"%'";
+			
+		   }
+		   
+		   sql+= " ORDER BY rnum";
+		   sql+= ") WHERE rnum between ? AND ?";
+		   
+		// DB 객체 생성
+			PreparedStatement ps = null;
+			ResultSet rs = null;
+
+			// 조회 결과 담을 list 생성
+			List<Comment> list = new ArrayList<>();
+
+			try {
+				// DB 작업 실행
+				ps = conn.prepareStatement(sql);
+
+				ps.setInt(1, paging.getStartNo());
+				ps.setInt(2, paging.getEndNo());
+
+				rs = ps.executeQuery();
+
+				// 조회 결과 List에 담기
+				while (rs.next()) {
+					Comment comm = new Comment();
+					
+					
+				// rs의 결과 DTO에 하나씩 저장하기
+					comm.setComm_idx(rs.getInt("comm_idx"));
+					comm.setPlan_idx(rs.getInt("plan_idx"));
+					comm.setPlace_name(rs.getString("place_name"));
+					comm.setStory_idx(rs.getInt("story_idx"));
+					comm.setNickname(rs.getString("nick"));
+					comm.setContent(rs.getString("story_comm"));
+					comm.setCreate_date(rs.getDate("create_date"));
+					
+
+//					// 조회 결과 List에 넣기
+					list.add(comm);
+
+				}
+			} catch (SQLException e) {
+				e.printStackTrace();
+			} finally {
+				try {
+					// DB객체 닫기
+					if (rs != null)
+						rs.close();
+					if (ps != null)
+						ps.close();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+			}
+			// 결과 반환
+		return list;
+	}
+
+	@Override
+	public void deleteListComm(String names) {
+		String sql="DELETE FROM story_comment WHERE comm_idx IN("+names+")";
+		
+		// DB 객체 
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+		
+		try {
+			conn.setAutoCommit(false);
+			
+			ps = conn.prepareStatement(sql);
+			ps.executeUpdate();
+			
+			conn.commit();
+		} catch (SQLException e) {
+			try {
+				conn.rollback();
+			} catch (SQLException e1) {
+				e1.printStackTrace();
+			}
+			e.printStackTrace();
+		}finally {
+			try {
+				if(ps!=null)	ps.close();
+				
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+	}
+
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 
 }

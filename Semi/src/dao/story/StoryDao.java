@@ -59,7 +59,7 @@ public interface StoryDao {
 	public void insertComment(Comment comment);
 	
 	//커멘트 삭제
-	public void deleteComment(Comment comment);
+	public boolean deleteComment(Comment comment);
 	
 	//커멘트 업데이트
 	public void updateComment(Comment comment);
@@ -73,5 +73,19 @@ public interface StoryDao {
 	//댓글 갯수
 	public int selectCntComm(Story story);
 
+	
+	//---------------------------------------------------------------
+	
+	// 총 페이지 수 찾기
+	public int selectCmtCnt(String search);
+	
+	
+	// 페이징 리스트 뽑기
+	public List<Comment> selectCmtPagingList(Paging paging);
+	
+	// 댓글 리스트로 삭제
+	public void deleteListComm(String names);
+	
+	
 
 }

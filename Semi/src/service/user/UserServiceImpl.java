@@ -221,7 +221,7 @@ public class UserServiceImpl implements UserService {
 		double totDist = 0;
 		
 		// 등록한 플래너가 하나 이상인 경우
-		if(plannerList.size() > 1) {
+		if(plannerList.size() > 0) {
 			for(Plan plan: plannerList) {
 				// 해당 플랜에 있는 위치 정보들 방문 순서대로 가져온다
 				List<Location> latLngList = userDao.getTotDist(plan);

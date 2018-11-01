@@ -13,13 +13,20 @@ public class Comment {
 	private Date create_date;
 	private String profile;
 	private String nickname;
+	private String place_name;
 	
 
+	public String getPlace_name() {
+		return place_name;
+	}
+	public void setPlace_name(String place_name) {
+		this.place_name = place_name;
+	}
 	@Override
 	public String toString() {
 		return "Comment [comm_idx=" + comm_idx + ", story_idx=" + story_idx + ", plan_idx=" + plan_idx + ", ttb_idx="
 				+ ttb_idx + ", user_idx=" + user_idx + ", content=" + content + ", create_date=" + create_date
-				+ ", profile=" + profile + ", nickname=" + nickname + "]";
+				+ ", profile=" + profile + ", nickname=" + nickname + ", place_name=" + place_name + "]";
 	}
 	public String getProfile() {
 		return profile;

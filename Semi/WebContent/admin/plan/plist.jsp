@@ -73,12 +73,13 @@ th{
 }
 #planList{
 	display: grid; 
-	grid-template-columns:33.3% 33.3% 33.3%;
+	grid-template-columns:33% 33% 33%;
 }
 
 #planBox{
 	border: 1px solid black; 
 	padding:10px;
+	margin : 3px;
 }
 
 </style>
@@ -86,7 +87,7 @@ th{
 <title>일정 조회</title>
 <hr>
 
-<a href ="/admin/main"><h1><strong>관리자 페이지</strong></h1></a>
+<span><h1><a href ="/admin/main"><strong>관리자 페이지</strong></a></h1></span>
 <hr>
 
 <div class= "wrapper">
@@ -111,10 +112,9 @@ th{
 
 		<c:forEach items="${planList }" var="plan"> 
 			<div id="planBox" data-plan_idx="${plan.plan_idx }">
-				<div><a href="/plan?plan_idx=${plan.plan_idx }">
+				<div><a href="/plan?plan_idx=${plan.plan_idx }" target="_blank">새창으로 확인</a></div>
 				<div><img src="/upload/banner/${plan.bannerURL }" style="width: 100%;"></div>
 				<div> Title : ${plan.title} <br> NickName : ${plan.nick }</div>
-				</a></div>
 				<div>
 					<button id ="planDelete"  onclick="deletePlan(${plan.plan_idx})">삭제</button>
 				</div>
@@ -129,7 +129,7 @@ th{
   	<!-- 처음으로 가기 -->
   	<c:if test="${paging.curPage ne 1 }">
     <li>
-      <a href="/admin/user/list?search=${paging.search }&searchType=${paging.searchType}" aria-label="First">
+      <a href="/admin/plan/list?search=${paging.search }&searchType=${paging.searchType}" aria-label="First">
         <span aria-hidden="true">&larr;처음</span>
       </a>
     </li>
@@ -146,7 +146,7 @@ th{
     
   	<c:if test="${paging.curPage ne 1 }">
     <li>
-      <a href="/admin/user/list?curPage=${paging.curPage-1 }&search=${paging.search }&searchType=${paging.searchType}" aria-label="Previous">
+      <a href="/admin/plan/list?curPage=${paging.curPage-1 }&search=${paging.search }&searchType=${paging.searchType}" aria-label="Previous">
         <span aria-hidden="true">&laquo;</span>
       </a>
     </li>
@@ -160,10 +160,10 @@ th{
 
 		<!-- 현재 보고 있는 페이지번호만 강조해주기 -->
 		<c:if test="${paging.curPage eq i}">          
-    	  <li class="active"><a href="/admin/user/list?curPage=${i }&search=${paging.search }&searchType=${paging.searchType}">${i }</a></li>
+    	  <li class="active"><a href="/admin/plan/list?curPage=${i }&search=${paging.search }&searchType=${paging.searchType}">${i }</a></li>
     	</c:if>
 		<c:if test="${paging.curPage ne i}">          
-    	  <li><a href="/admin/user/list?curPage=${i }&search=${paging.search }&searchType=${paging.searchType}">${i }</a></li>
+    	  <li><a href="/admin/plan/list?curPage=${i }&search=${paging.search }&searchType=${paging.searchType}">${i }</a></li>
     	</c:if>
     </c:forEach>
 
@@ -177,7 +177,7 @@ th{
 	
   	<c:if test="${paging.curPage ne paging.totalPage }">
     <li>
-      <a href="/admin/user/list?curPage=${paging.curPage+1 }&search=${paging.search }&searchType=${paging.searchType}" aria-label="Next">
+      <a href="/admin/plan/list?curPage=${paging.curPage+1 }&search=${paging.search }&searchType=${paging.searchType}" aria-label="Next">
         <span aria-hidden="true">&raquo;</span>
       </a>
     </li>
@@ -188,15 +188,15 @@ th{
   </div><br>
   
   <div id ="searchBox" class="col-xs-2, form-inline" >
-<form action="/admin/user/list" method="get" >	
+<form action="/admin/plan/list" method="get" >	
 	<select name ="searchType" class="form-control" >
-	<option value="1">닉네임</option>
-	<option value="2">아이디</option>
+	<option value="1">제목</option>
+	<option value="2">닉네임</option>
 	</select>
 	<input type="text" name ="search" class="form-control" />
 	<button id="btnSearch">조회</button>
 </form>
-</div>
+</div><br>
 </div>
 </div>
 

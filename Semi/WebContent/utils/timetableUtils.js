@@ -277,8 +277,9 @@ function initFullCalendar(planStartDate, planEndDate, isFirst){
 					, error: function(){
 						console.log("Mini-view Ajax 통신 실패");
 					}
-				});
-			})
+				}); // ajax end
+			}) //onClick listener
+			
 		}
 		// 이벤트에 마우스 오버 시 콜백 함수
 		, eventMouseover: function( event, jsEvent, view ){
@@ -320,6 +321,10 @@ function initFullCalendar(planStartDate, planEndDate, isFirst){
 			
 			// 날짜 헤더에 나라 정보 변경
 			displayHeaderCountry();
+			
+			// 저장버튼 활성화
+			activeStoreBtn(true);
+			
 		}
 		// 다른 시간으로 일정 옮길때 호출
 		,eventDrop: function( event, delta, revertFunc, jsEvent, ui, view ){
@@ -329,8 +334,16 @@ function initFullCalendar(planStartDate, planEndDate, isFirst){
 			
 			// 날짜 헤더에 나라 정보 변경
 			displayHeaderCountry();
+			
+			// 저장버튼 활성화
+			activeStoreBtn(true);
 		}
-		
+		// 이벤트 시간 변경했을 때 호출
+		,eventResize: function( event, delta, revertFunc, jsEvent, ui, view ){
+			// 저장버튼 활성화
+			activeStoreBtn(true);
+		}
+
 	}); // end $().fullCalendar() initMethod
 	
 }
@@ -464,7 +477,6 @@ function getSameDayTtb(start_date, timetables){
 function displayHeaderCountry(){
 	$('.fc-day-header').each(function(){
 		var start_date = $(this).attr('data-date');
-		console.log(start_date);
 		timetables = getTimetablesFromBrowser();
 		var sameDayTtb = getSameDayTtb(start_date, timetables);
 
@@ -472,7 +484,6 @@ function displayHeaderCountry(){
 		sameDayTtb.forEach(function(ttb){
 			countryList.push(ttb.country_name); 
 		});
-		console.log(countryList);
 		
 		var length = countryList.length;
 		if(length > 0){

@@ -118,8 +118,8 @@ public class QnaDaoImpl implements QnaDao {
 	public Qna selectQnaByQnaIdx(Qna qna) {
 		// 게시글 하나 조회 쿼리
 		String sql ="SELECT qna_idx,(SELECT nickname FROM userinfo U WHERE U.user_idx = Q.user_idx) nick , ";
-			   sql +=" (SELECT id FROM userinfo U WHERE U.user_idx = Q.user_idx) writer s";
-			   sql+= ",title, content, hit,create_date  FROM qna Q WHERE qna_idx=?";
+			   sql +=" (SELECT id FROM userinfo U WHERE U.user_idx = Q.user_idx) writer";
+			   sql += ",title, content, hit,create_date  FROM qna Q WHERE qna_idx= ?";
 		
 		// DB 객체 
 		PreparedStatement ps = null;
@@ -134,7 +134,6 @@ public class QnaDaoImpl implements QnaDao {
 			ps.setInt(1, qna.getQna_idx());
 			
 			rs = ps.executeQuery();
-			
 			while(rs.next()) {
 				q.setQna_idx(rs.getInt("qna_idx"));;
 				q.setWriter(rs.getString("writer"));
