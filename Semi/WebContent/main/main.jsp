@@ -34,7 +34,7 @@
 	margin: 15% auto; /* 15% from the top and centered */
 	padding: 20px;
 	border: 1px solid #888;
-	width: 50%; /* Could be more or less, depending on screen size */
+	width: 25%; /* Could be more or less, depending on screen size */
 }
 /* The Close Button */
 .close {
@@ -63,7 +63,7 @@
 <!-- Trigger/Open The Modal -->
 <!-- 로그인 상태일때 -->
 <c:if test="${login}">
-	<button id="btnModal" class="btnNewPlan" value='hide/show' style="display: none;">새 일정 만들기</button>
+	<button id="btnModal" class="btnNewPlan" value='hide/show'>새 일정 만들기</button>
 </c:if>
 
 <!-- 비로그인 상태일때 -->

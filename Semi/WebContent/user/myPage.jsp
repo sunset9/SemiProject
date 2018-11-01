@@ -141,7 +141,7 @@ $(document).ready(function(){
 
 
 
-
+${socialUser.profile}
 
 <!-- 소셜로그인한 유저의 마이페이지 -->
 <c:if test="${socialUser.sns_idx != 1 && user.sns_idx != 1}">

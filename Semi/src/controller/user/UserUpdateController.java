@@ -28,7 +28,8 @@ public class UserUpdateController extends HttpServlet {
 		//System.out.println(req.getSession().getAttribute("user"));
 		//System.out.println(req.getSession().getAttribute("login"));
 		//System.out.println(req.getSession().getAttribute("user_idx"));
-		
+		//한글 인코딩 
+		req.setCharacterEncoding("UTF-8");
 		req.getRequestDispatcher("/user/update.jsp").forward(req, resp);
 	}
 	
@@ -96,7 +97,7 @@ public class UserUpdateController extends HttpServlet {
 			}
 		}
 		
-		//프로필 사진 변경
+		
 		
 		
 		

@@ -46,6 +46,7 @@ public class UserServiceImpl implements UserService {
 		User user = new User();
 		
 		user.setId(req.getParameter("id"));
+		System.out.println(req.getParameter("id"));
 		user.setNickname(req.getParameter("nickname"));
 		user.setProfile(req.getParameter("profileImage"));
 		user.setSns_idx(Integer.parseInt(req.getParameter("snsIdx")));
@@ -90,7 +91,9 @@ public class UserServiceImpl implements UserService {
 		boolean checkid = checkid(user);
 		if(checkid) {
 			//true : 존재하지 않는 아이디 -> db에 저장
+			System.out.println("userseviceImpl "+user);
 			userDao.insert(user);
+		
 			return true; 
 		} else {
 			//false : 존재하는 아이디 -> 바로 로그인 처리

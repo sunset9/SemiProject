@@ -57,14 +57,6 @@
 .right {float:right;}
 
 
-
-/* .menu {
-	margin-right:80px;
-	margin-left:80px;
-	float: left;
-} */
-
-
 .dropdown > ul > li {
 	display: inline-block;
 	position: relative;
@@ -80,16 +72,58 @@
 
 .dropdown > ul > li:hover > ul {
 	display: block; /* 마우스 올리면 서브메뉴 보이는 */
+}	
+	
+/* The Modal (background) */
+.newPlanModal {
+    display: none; /* Hidden by default */
+    position: fixed; /* Stay in place */
+    z-index: 1; /* Sit on top */
+    padding-top: 100px; /* Location of the box */
+    left: 0;
+    top: 0;
+    width: 100%; /* Full width */
+    height: 100%; /* Full height */
+    overflow: auto; /* Enable scroll if needed */
+    background-color: rgb(0,0,0); /* Fallback color */
+    background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+  
+}
+
+/* Modal Content */
+.newPlanmodal-content {
+    background-color: #fefefe;
+    margin: auto;
+    padding: 20px;
+    border: 1px solid #888;
+    width: 25%;
+}
+
+/* The Close Button */
+.newPlanModalclose {
+    color: #aaaaaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+}
+
+.newPlanModalclose:hover,
+.newPlanModalclose:focus {
+    color: #000;
+    text-decoration: none;
+    cursor: pointer;
+}
+
 }
 </style>
 
 <script type="text/javascript">
-$(document).ready(function(){
+/* $(document).ready(function(){
 	$(".newPlanClassName").click(function(){
 		console.log("ddd");
 		$(".btnNewPlan").toggle();
 	});
-});
+}); */
 // 쿠기 설정 메소드
 var setCookie = function(name, value, exp) {
 	  var date = new Date();
@@ -196,4 +230,56 @@ var deleteCookie = function(name) {
 </div><br>
 <!-- /menubar끝 -->
 </div>
+
+<!-- The Modal -->
+<div id="newPlanModal" class="newPlanModal">
+
+<!-- Modal content -->
+<div class="newPlanmodal-content">
+	<span class="newPlanModalclose">&times;</span>
+	<div><h2>새 일정 만들기</h2></div>
+	<hr>
+	<form action="/plan/create" method="post">
+	<div>
+		<input type="text" id="editTitleView" name="editTitleView" placeholder="여행 제목" /><br>
+		<input type="date" id="editStartDate" name="editStartDate" value="" />
+		<input type="date" id="editEndDate" name="editEndDate" value="" />
+		<input type="hidden" id="editOpened" name="editOpened" value="0" /><br>
+		<select name="editTraveled">
+			<option value="1">여행 전</option>
+			<option value="0">여행 후</option>
+		</select>
+		<input type="submit" value="새 일정 추가" />
+	</div>
+	</form>
+</div>
+</div>
+
+<script type="text/javascript">
+//Get the modal
+var newPlanModal = document.getElementById('newPlanModal');
+
+// Get the button that opens the modal
+var newPlanbtn = document.getElementById("newPlan");
+
+// Get the <span> element that closes the modal
+var newPlanspan = document.getElementsByClassName("newPlanModalclose")[0];
+
+// When the user clicks the button, open the modal 
+newPlanbtn.onclick = function() {
+	newPlanModal.style.display = "block";
+}
+
+// When the user clicks on <span> (x), close the modal
+newPlanspan.onclick = function() {
+	newPlanModal.style.display = "none";
+}
+
+// When the user clicks anywhere outside of the modal, close it
+window.onclick = function(event) {
+    if (event.target == newPlanModal) {
+    	newPlanModal.style.display = "none";
+    }
+}
+</script>
 
