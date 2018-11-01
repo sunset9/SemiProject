@@ -276,10 +276,10 @@ window.fbAsyncInit = function() {
 <div>
 <form action="/user/login" method="post">
 	<label for="userid">이메일 </label>
-	<input type="email" id="userid" name="userid" /><br>
+	<input type="email" id="useridforemail" name="userid" /><br>
 	<label for="userpw">비밀번호</label>
-	<input type="password" id="userpw" name="userpw" /><br>
-	<input type="hidden" id="snsIdx" name="snsIdx" value="1" />
+	<input type="password" id="userpwforemail" name="userpw" /><br>
+	<input type="hidden" id="snsIdxforemail" name="snsIdx" value="1" />
 	<input type="submit" value="로그인"/>
 </form>
 <!-- 회원가입 open the modal btn -->
