@@ -1,6 +1,7 @@
 package controller.story;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.ServletException;
@@ -10,9 +11,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.google.gson.Gson;
+import com.google.gson.JsonObject;
 
 import dto.Account.Account;
-import dto.plan.Plan;
 import dto.story.Story;
 import service.account.AccountService;
 import service.account.AccountServiceImpl;
@@ -33,6 +34,7 @@ public class StoryMiniViewController extends HttpServlet {
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		resp.setContentType("application/x-json; charset=UTF-8");
+		
 		Gson gson = new Gson();
 		
 		// 파라미터 추출
@@ -40,16 +42,25 @@ public class StoryMiniViewController extends HttpServlet {
 		// 스토리 가져오기
 		Story story = sService.getStory(param);
 		
-		Plan plan = new Plan();
+		//accountList 스토리 하나당 가져오는 부분
 		
-		plan.setPlan_idx(story.getPlan_idx());
-		List<Account> accountList = aService.getPlanAccountList(plan);
+		List<Account> accountList = new ArrayList<Account>();
 		
-		req.setAttribute("accountList",accountList );
+		accountList = aService.getStoryAccountList(story);
+		
 		
 		// json 형식으로 변환
 		String storyStr = gson.toJson(story);
-		resp.getWriter().println(storyStr);
+		String accountListStr = gson.toJson(accountList);
+		JsonObject obj = new JsonObject();
+		obj.addProperty("story", storyStr);
+		obj.addProperty("accountList", accountListStr);
+		
+		System.out.println(accountList);
+		
+		String jsonStr= gson.toJson(obj);
+		
+		resp.getWriter().println(jsonStr);
 	}
 	
 }

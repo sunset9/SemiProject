@@ -27,8 +27,9 @@ public interface AccountService {
 		
 		public void delete(Account account);
 		
-		public Float calcCost(int currSymbol, float Orgin_cost, float USD_rate, float KRW_rate, float JPY_rate);
+		public double calcCost(int currSymbol, double Orgin_cost, double USD_rate, double KRW_rate, double JPY_rate);
 		
-		
+		//미니뷰 account 저장
+		public void writeMini(Story story, Boolean isStory,HttpServletRequest req);
 		
 }

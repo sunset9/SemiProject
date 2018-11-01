@@ -38,8 +38,8 @@ public class AccountDaoImpl implements AccountDao {
 				account.setStory_idx(rs.getInt("story_idx"));
 				account.setCurr_idx(rs.getInt("curr_idx"));
 				account.setCategory(rs.getInt("acc_cat_idx"));
-				account.setOrigin_cost(rs.getFloat("origin_cost"));
-				account.setCaled_cost(rs.getFloat("caled_cost"));
+				account.setOrigin_cost(rs.getDouble("origin_cost"));
+				account.setCaled_cost(rs.getDouble("caled_cost"));
 				
 				AccountList.add(account);
 			}
@@ -63,8 +63,46 @@ public class AccountDaoImpl implements AccountDao {
 
 	@Override
 	public List<Account> SelectAccountByStoryidx(Story story) {
-		// TODO Auto-generated method stub
-		return null;
+		
+		String sql = "SELECT * FROM ACCOUNT WHERE story_idx = ?";
+		
+		
+		List<Account> accountList = new ArrayList<>();
+		
+		try {
+			ps = conn.prepareStatement(sql);
+			ps.setInt(1, story.getStory_idx());
+			rs = ps.executeQuery();
+			
+			while(rs.next()) {
+				Account account = new Account();
+				
+				account.setAcc_idx(rs.getInt("acc_idx"));
+				account.setPlan_idx(rs.getInt("plan_idx"));
+				account.setStory_idx(rs.getInt("story_idx"));
+				account.setCurr_idx(rs.getInt("curr_idx"));
+				account.setCategory(rs.getInt("acc_cat_idx"));
+				account.setOrigin_cost(rs.getDouble("origin_cost"));
+				account.setCaled_cost(rs.getDouble("caled_cost"));
+				
+				accountList.add(account);
+			}
+			
+		
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}finally {
+			try {
+				if (rs != null) rs.close();
+				if (ps != null) ps.close();
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+	}
+		
+		return accountList;
 	}
 
 	@Override
@@ -115,24 +153,29 @@ public class AccountDaoImpl implements AccountDao {
 	@Override
 	public void insert(Account account) {
 		
+		
 		String sql = "INSERT INTO account(acc_idx,plan_idx,story_idx,curr_idx,acc_cat_idx,origin_cost,caled_cost) VALUES(?,?,?,?,?,?,?)";
 		
 		try {
 			ps = conn.prepareStatement(sql);
+			
+			
 			ps.setInt(1, account.getAcc_idx());
 			ps.setInt(2, account.getPlan_idx());
 			ps.setInt(3, account.getStory_idx());
 			ps.setInt(4, account.getCurr_idx());
 			ps.setInt(5, account.getCategory());
-			ps.setFloat(6, account.getOrigin_cost());
-			ps.setFloat(7, account.getCaled_cost());
+			ps.setDouble(6, account.getOrigin_cost());
+			ps.setDouble(7, account.getCaled_cost());
+			
 			
 			ps.executeUpdate();
 			
+			
 			conn.commit();
 			
+			
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} finally {
 				try {
@@ -143,7 +186,6 @@ public class AccountDaoImpl implements AccountDao {
 					e.printStackTrace();
 				}
 		}
-		
 		
 	}
 
@@ -183,6 +225,42 @@ public class AccountDaoImpl implements AccountDao {
 		
 		//게시글 번호 반환
 		return acc_idx;
+	}
+
+	@Override
+	public int selectCntByStoryIdx(Story story) {
+		String sql = "";
+		sql += "select count(1) from account where story_idx = ?";
+		
+		int cnt = 0;
+		
+		try {
+			ps = conn.prepareStatement(sql);
+			
+			ps.setInt(1, story.getStory_idx());
+			
+			rs = ps.executeQuery();
+			
+			rs.next();
+			
+			cnt = rs.getInt(1);
+			
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}finally {
+			try {
+				//DB객체 닫기
+				if(rs!=null)	rs.close();
+				if(ps!=null)	ps.close();
+				
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+		
+		
+		return cnt;
 	}
 
 }

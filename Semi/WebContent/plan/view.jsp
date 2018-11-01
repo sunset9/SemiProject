@@ -194,7 +194,7 @@
 	    border: 1px solid #eee;
 	    border-top: none;
 	    clear: both;
-	    float: left;
+ 	    float: left; 
         width: 100%; /* 이거 하면 타임테이블 지저분, 안하면 빈 스토리탭 container 좁게 지정*/
 	}
 	
@@ -546,7 +546,7 @@ function displayStoryView(){
 </head>
 <body>
 <!-- 플래너 배너 -->
-<div  style="width:100%; height:400px; border-radius:10px; background-image:url('${planView.bannerURL }');background-size: 100% 100%;">
+<div  id="container" style="width:100%; height:400px; border-radius:10px; background-image:url('${planView.bannerURL }');background-size: 100% 100%;">
 	<!-- 플래너 정보(공개유무, 수정버튼, 일정제목 등 UI) -->
 		
 <!-- 		게시자와 열람자가 같은 유저면 수정버튼을 -->

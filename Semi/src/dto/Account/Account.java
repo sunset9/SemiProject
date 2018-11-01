@@ -16,9 +16,9 @@ public class Account {
 	//가계부 분류 카테고리(숙박 등)
 	private int category;
 	//입력비용 
-	private float origin_cost;
+	private double origin_cost;
 	//환율적용비용
-	private float caled_cost;
+	private double caled_cost;
 //	작성일
 	private Date create_date;
 	//통화이름
@@ -30,18 +30,31 @@ public class Account {
 	private int ttb_idx;
 
 	
+	public double getOrigin_cost() {
+		return origin_cost;
+	}
+	public void setOrigin_cost(Double origin_cost) {
+		this.origin_cost = origin_cost;
+	}
+	public double getCaled_cost() {
+		return caled_cost;
+	}
+	public void setCaled_cost(Double caled_cost) {
+		this.caled_cost = caled_cost;
+	}
 	public int getTtb_idx() {
 		return ttb_idx;
 	}
 	public void setTtb_idx(int ttb_idx) {
 		this.ttb_idx = ttb_idx;
 	}
+	
 	@Override
 	public String toString() {
 		return "Account [acc_idx=" + acc_idx + ", plan_idx=" + plan_idx + ", story_idx=" + story_idx + ", curr_idx="
 				+ curr_idx + ", category=" + category + ", origin_cost=" + origin_cost + ", caled_cost=" + caled_cost
 				+ ", create_date=" + create_date + ", curr_idx_name=" + curr_idx_name + ", category_name="
-				+ category_name + "]";
+				+ category_name + ", ttb_idx=" + ttb_idx + "]";
 	}
 	public String getCategory_name() {
 		return category_name;
@@ -91,18 +104,6 @@ public class Account {
 	}
 	public void setStory_idx(int story_idx) {
 		this.story_idx = story_idx;
-	}
-	public float getOrigin_cost() {
-		return origin_cost;
-	}
-	public void setOrigin_cost(float origin_cost) {
-		this.origin_cost = origin_cost;
-	}
-	public float getCaled_cost() {
-		return caled_cost;
-	}
-	public void setCaled_cost(float caled_cost) {
-		this.caled_cost = caled_cost;
 	}
 
 

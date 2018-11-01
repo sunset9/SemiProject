@@ -154,7 +154,14 @@ function initFullCalendar(planStartDate, planEndDate, isFirst){
 							})
 					}
 					, dataType: "json"
-					, success: function(story){
+					, success: function(obj){
+						
+						var story = JSON.parse(obj.story);
+						var accountList = JSON.parse(obj.accountList);
+						
+						console.log(story);
+						console.log(accountList);
+						
 						// miniView modal에 값 채워줌
 						$(".modal-title").text(event.title); // 타이틀 = 장소이름
 						$(".miniTitle").text(event.title); // 장소 이름
@@ -174,8 +181,91 @@ function initFullCalendar(planStartDate, planEndDate, isFirst){
 							$(".storyContent").froalaEditor('html.set', story.content);
 							
 							
+					 		var ttbJson = JSON.parse($('input[name=ttbJson]').val());
+					 		
+					 		//Account Seletion 값 넣어주기
+							
+					 		var count = 0; //처음 한번은 append 안해주기 위해서
+					 		// account 있는 수만큼 가계부 입력공간 추가
+					 		for (var i = 0; i < accountList.length; i++) {
+					 				if( ttbJson.ttb_idx == accountList[i].ttb_idx){
+					 					var accountView = $("#min_accountView").clone();
+					 					if(count != 0){
+					 						$("#min_accountViewList").append(accountView);	
+					 					}
+					 					count = count+1;
+					 				}
+					 		}
+							
+					 		var size = document.getElementsByName("min_accountViewName").length;
+							
+					  		for(var i = 0; i < size; i++){
+					 	        var obj = document.getElementsByName("min_accountViewName")[i];
+						        
+					 	        $(obj).find(".accountPlus").css("display","none");
+					 	        $(obj).find(".accountRemove").css("display","block");
+						        
+					 	        var ch = false;
+					 	        for (var j = 0; j <accountList.length; j++) {
+					 				if( ttbJson.ttb_idx == accountList[j].ttb_idx){
+					 					ch = true;
+					 				}
+					 	        }
+						        
+					 	        if (ch == false) {
+					 			   $(obj).find(".min_accType").val(1);
+					 		        $(obj).find(".min_currSymbol").val(1);
+					 				$(obj).find(".min_cost").val("");
+					 	        }else{
+					 		        $(obj).find(".min_accType").val(accountList[i].category);
+					 		        $(obj).find(".min_currSymbol").val(accountList[i].curr_idx);
+					 		        console.log(accountList[i].origin_cost);
+					 				$(obj).find(".min_cost").val(accountList[i].origin_cost);
+					 	        }
+
+					 	        if (i == size-1){
+					 			    $(obj).find(".accountPlus").css("display","block");
+					 	        }
+						        
+					 	        if (size == 5 && i == size-1){
+					 		    	 $(obj).find(".accountPlus").css("display","none");
+					 	        }
+					 		 }
+					  		
+							
 						} else { // 읽기모드
 							$(".storyContent").html(story.content); // 스토리 내용
+//							var accList = JSON.stringify(accountList);
+							
+							var obj = document.getElementById("accountList");
+							
+							for (var i=0; i<accountList.length;i++){
+
+								var append = $( 
+										'<tr name="account"> <td style="padding-right: 15px" colspan="2"> <font size="2">'
+										+ accountList[i].category_name
+										+' | '
+										+ accountList[i].curr_idx_name
+										+' '
+										+ accountList[i].origin_cost
+										+'</font></td></tr>' 
+										);
+								
+								$(obj).append(append);
+								
+							}
+							
+							if(accountList.length == 0){
+								var append = $('<tr name ="account"> <td style="padding-right: 15px" colspan="2"> <font size="2"> 총액 | KRW 0원 </font></td></tr>');
+								
+								
+								$(obj).append(append);
+							}
+							
+							
+							
+							
+//							$('input[name=accList]').val(accList);
 						}
 				
 						// 모달 창 닫힌 경우

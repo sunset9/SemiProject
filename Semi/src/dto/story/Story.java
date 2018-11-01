@@ -30,12 +30,20 @@ public class Story {
 	
 	private int CommCnt;
 	
+	private int accCnt;
+	
 	@Override
 	public String toString() {
 		return "Story [story_idx=" + story_idx + ", plan_idx=" + plan_idx + ", ttb_idx=" + ttb_idx + ", user_idx="
 				+ user_idx + ", content=" + content + ", create_date=" + create_date + ", travel_day=" + travel_day
 				+ ", start_time=" + start_time + ", end_time=" + end_time + ", place_name=" + place_name + ", calcDay="
-				+ calcDay + ", CommCnt=" + CommCnt + "]";
+				+ calcDay + ", CommCnt=" + CommCnt + ", accCnt=" + accCnt + "]";
+	}
+	public int getAccCnt() {
+		return accCnt;
+	}
+	public void setAccCnt(int accCnt) {
+		this.accCnt = accCnt;
 	}
 	public int getCommCnt() {
 		return CommCnt;

@@ -1,35 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=EUC-KR"
     pageEncoding="EUC-KR"%>
-<script>
-	function Numberchk() { 
-		if (event.keyCode < 46 || event.keyCode > 57) event.returnValue = false; 
-	} 
-	
-	function vComma(obj) { 
-		var str    = "" + obj.value.replace(/,/gi,''); // ÄÞ¸¶ Á¦°Å 
-		var regx    = new RegExp(/(-?\d+)(\d{3})/); 
-		var bExists = str.indexOf(".",0); 
-		var strArr  = str.split('.'); 
-		
-		while(regx.test(strArr[0])){ 
-			strArr[0] = strArr[0].replace(regx,"$1,$2"); 
-		} 
-		if (bExists > -1) 
-			obj.value = strArr[0] + "." + strArr[1]; 
-		else 
-			obj.value = strArr[0]; 
-	} 
-	
-	function trim(str) { 
-		return str.replace(/(^\s*)|(\s*$)/g, ""); 
-	} 
-	
-	function getNumber(str) { 
-		str = "" + str.replace(/,/gi,''); // ÄÞ¸¶ Á¦°Å 
-		str = str.replace(/(^\s*)|(\s*$)/g, ""); // trim 
-		return (new Number(str)); 
-	} 
-</script>   
     
 <div class="modal fade" id="myModal_update" role="dialog">
     <div class="modal-dialog">

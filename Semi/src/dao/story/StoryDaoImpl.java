@@ -452,7 +452,7 @@ public class StoryDaoImpl implements StoryDao{
 				cmt.setTtb_idx(rs.getInt("ttb_idx"));
 				cmt.setStory_idx(rs.getInt("story_idx"));
 				cmt.setUser_idx(rs.getInt("user_idx"));
-				cmt.setContent(rs.getString("story_content"));
+				cmt.setContent(rs.getString("story_comm"));
 				cmt.setCreate_date(rs.getDate("create_date"));
 				
 				CommentList.add(cmt);
@@ -519,7 +519,7 @@ public class StoryDaoImpl implements StoryDao{
 	public void insertComment(Comment comment) {
 		
 		String sql = "";
-		sql += "INSERT INTO STORY_COMMENT(comm_idx,story_idx, plan_idx, ttb_idx, user_idx, story_content)";
+		sql += "INSERT INTO STORY_COMMENT(comm_idx,story_idx, plan_idx, ttb_idx, user_idx, story_comm)";
 		sql	+= " VALUES(?,?,?,?,?,?)";
 		    
 		try {

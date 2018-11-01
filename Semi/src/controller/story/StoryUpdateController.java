@@ -47,7 +47,10 @@ public class StoryUpdateController extends HttpServlet {
 			
 			story = sService.getParam(req);
 			
-			sService.update(story);
+			if ((story.getContent() != null) && (!story.getContent().equals(""))){
+				sService.update(story);
+			}
+			
 			
 			req.setAttribute("plan_idx", story.getPlan_idx());
 			
@@ -57,11 +60,10 @@ public class StoryUpdateController extends HttpServlet {
 			String[] currSymbol = req.getParameterValues("currSymbol");
 			String[] cost = req.getParameterValues("cost");
 			
+			double USD_rate = Float.parseFloat(req.getParameter("USD_rate"));
+			double KRW_rate = Float.parseFloat(req.getParameter("KRW_rate"));
+			double JPY_rate = Float.parseFloat(req.getParameter("JPY_rate"));
 			
-			
-			float USD_rate = Float.parseFloat(req.getParameter("USD_rate"));
-			float KRW_rate = Float.parseFloat(req.getParameter("KRW_rate"));
-			float JPY_rate = Float.parseFloat(req.getParameter("JPY_rate"));
 			System.out.println("USD::"+USD_rate);
 			System.out.println("KRW::"+KRW_rate);
 			System.out.println("JPY::"+JPY_rate);
@@ -77,7 +79,7 @@ public class StoryUpdateController extends HttpServlet {
 					account.setCategory(Integer.parseInt(accType[i]));
 					account.setCurr_idx(Integer.parseInt(currSymbol[i]));
 					cost[i]=cost[i].replaceAll(",", "");
-					account.setOrigin_cost(Float.parseFloat(cost[i]));
+					account.setOrigin_cost(Double.parseDouble(cost[i]));
 					account.setPlan_idx(story.getPlan_idx());
 					account.setStory_idx(story.getStory_idx());
 					account.setCaled_cost(
@@ -92,7 +94,9 @@ public class StoryUpdateController extends HttpServlet {
 			
 			
 			
-//--------------
+//------------------
+			
+			
 			List<Story> StoryList = new ArrayList<>();
 			
 			Plan plan = new Plan();
