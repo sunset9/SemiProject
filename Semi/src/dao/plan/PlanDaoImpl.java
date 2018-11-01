@@ -49,6 +49,7 @@ public class PlanDaoImpl implements PlanDao{
 				planInfo.setTraveled( rs.getInt("traveled") );
 				planInfo.setOpened( rs.getInt("opened") );
 				planInfo.setCreate_date( rs.getDate("create_date") );
+				planInfo.setBannerURL( rs.getString("bannerURL") );
 				
 			}
 			
@@ -98,7 +99,7 @@ public class PlanDaoImpl implements PlanDao{
 				userInfo.setSns_idx( rs.getInt("sns_idx") );
 				userInfo.setCreate_date( rs.getDate("create_date") );
 			}
-			userInfo.setTotalPlanCnt(selectPlanCntAll());
+			userInfo.setTotalPlanCnt(selectPlanCntAll(user.getUser_idx()));
 			
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -146,7 +147,7 @@ public class PlanDaoImpl implements PlanDao{
 				userInfo.setSns_idx( rs.getInt("sns_idx") );
 				userInfo.setCreate_date( rs.getDate("create_date") );
 			}
-			userInfo.setTotalPlanCnt(selectPlanCntAll());
+			userInfo.setTotalPlanCnt(selectPlanCntAll(plan.getUser_idx()));
 			
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -165,7 +166,7 @@ public class PlanDaoImpl implements PlanDao{
 	}
 		
 	// 유저의 전체 게시글 수 가져오기
-	public int selectPlanCntAll() {
+	public int selectPlanCntAll(int user_idx) {
 //			전체 게시글 수의 합 쿼리
 		//planner 조회 쿼리
 		String sql = "";
@@ -178,8 +179,7 @@ public class PlanDaoImpl implements PlanDao{
 		try {
 			//DB작업
 			ps = conn.prepareStatement(sql);
-			//plan.getUser_idx()
-			ps.setInt(1, 1);
+			ps.setInt(1, user_idx);
 			rs = ps.executeQuery();
 			//결과 담기
 			rs.next();
@@ -391,8 +391,8 @@ public class PlanDaoImpl implements PlanDao{
 		int plannerSeqNextval = getPlannerSeqNextval();
 		System.out.println("plandaoimpl plannerSeqNextval : "+plannerSeqNextval);
 		String sql = "";
-		sql += "INSERT INTO PLANNER(plan_idx, user_idx, start_date, end_date, title, traveled, opened, bannerurl)";
-		sql += " VALUES (?, ?, to_date(?, 'yyyy-MM-dd'), to_date(?, 'yyyy-MM-dd'), ?, ?, 0, '/upload/user/paris.jpg')";
+		sql += "INSERT INTO PLANNER(plan_idx, user_idx, start_date, end_date, title, traveled, opened, distance, bannerURL)";
+		sql += " VALUES (?, ?, to_date(?, 'yyyy-MM-dd'), to_date(?, 'yyyy-MM-dd'), ?, ?, ?, 0, ?)";
 		
 		PreparedStatement ps = null;
 		
@@ -416,6 +416,8 @@ public class PlanDaoImpl implements PlanDao{
 			
 			ps.setString(5, param.getTitle());
 			ps.setInt(6, param.getTraveled());
+			ps.setInt(7, param.getOpened());
+			ps.setString(8, "/image/basicBanner.png");
 			
 			ps.executeUpdate();
 			
@@ -497,6 +499,7 @@ public class PlanDaoImpl implements PlanDao{
 						planInfo.setTraveled( rs.getInt("traveled") );
 						planInfo.setOpened( rs.getInt("opened") );
 						planInfo.setCreate_date( rs.getDate("create_date") );
+						planInfo.setBannerURL( rs.getString("bannerURL") );
 						
 					}
 					
@@ -568,7 +571,7 @@ public class PlanDaoImpl implements PlanDao{
 
 		//전체 게시글 수 조회 쿼리
 		String sql = "";
-		sql += "select sum(origin_cost) "
+		sql += "select sum(caled_cost) "
 				+ "from account "
 				+ "where acc_cat_idx = 1 "
 				+ "and plan_idx = ?";
@@ -604,7 +607,7 @@ public class PlanDaoImpl implements PlanDao{
 	public int sumTrafficByPlanIdx(Plan plan) {
 		//전체 게시글 수 조회 쿼리
 				String sql = "";
-				sql += "select sum(origin_cost) "
+				sql += "select sum(caled_cost) "
 						+ "from account "
 						+ "where acc_cat_idx = 2 "
 						+ "and plan_idx = ?";
@@ -640,7 +643,7 @@ public class PlanDaoImpl implements PlanDao{
 	public int sumStayByPlanIdx(Plan plan) {
 		//전체 게시글 수 조회 쿼리
 				String sql = "";
-				sql += "select sum(origin_cost) "
+				sql += "select sum(caled_cost) "
 						+ "from account "
 						+ "where acc_cat_idx = 3 "
 						+ "and plan_idx = ?";
@@ -676,7 +679,7 @@ public class PlanDaoImpl implements PlanDao{
 	public int sumAdmissionByPlanIdx(Plan plan) {
 		//전체 게시글 수 조회 쿼리
 				String sql = "";
-				sql += "select sum(origin_cost) "
+				sql += "select sum(caled_cost) "
 						+ "from account "
 						+ "where acc_cat_idx = 4 "
 						+ "and plan_idx = ?";
@@ -712,7 +715,7 @@ public class PlanDaoImpl implements PlanDao{
 	public int sumFoodByPlanIdx(Plan plan) {
 		//전체 게시글 수 조회 쿼리
 				String sql = "";
-				sql += "select sum(origin_cost) "
+				sql += "select sum(caled_cost) "
 						+ "from account "
 						+ "where acc_cat_idx = 5 "
 						+ "and plan_idx = ?";
@@ -748,7 +751,7 @@ public class PlanDaoImpl implements PlanDao{
 	public int sumPlayByPlanIdx(Plan plan) {
 		//전체 게시글 수 조회 쿼리
 				String sql = "";
-				sql += "select sum(origin_cost) "
+				sql += "select sum(caled_cost) "
 						+ "from account "
 						+ "where acc_cat_idx = 6 "
 						+ "and plan_idx = ?";
@@ -783,7 +786,7 @@ public class PlanDaoImpl implements PlanDao{
 	@Override
 	public int sumShopByPlanIdx(Plan plan) {
 		String sql = "";
-		sql += "select sum(origin_cost) "
+		sql += "select sum(caled_cost) "
 				+ "from account "
 				+ "where acc_cat_idx = 7 "
 				+ "and plan_idx = ?";
@@ -818,7 +821,7 @@ public class PlanDaoImpl implements PlanDao{
 	@Override
 	public int sumEtcByPlanIdx(Plan plan) {
 		String sql = "";
-		sql += "select sum(origin_cost) "
+		sql += "select sum(caled_cost) "
 				+ "from account "
 				+ "where acc_cat_idx = 8 "
 				+ "and plan_idx = ?";
@@ -979,5 +982,40 @@ public class PlanDaoImpl implements PlanDao{
 		}
 		// 결과 반환
 		return list;
+	}
+	
+	// 유저의 profile 변경
+	@Override
+	public void bannerUpdate(Plan plan) {
+		String sql = "update planner set bannerurl = ? where plan_idx= ?";
+		
+		System.out.println("UserDaoImpl : "+plan.getBannerURL());
+		
+		//DB 객체
+		PreparedStatement ps = null;
+
+		try {
+			conn.setAutoCommit(false);
+			ps = conn.prepareStatement(sql);
+
+			ps.setString(1, plan.getBannerURL());
+			ps.setInt(2, plan.getPlan_idx());
+
+			ps.executeUpdate();
+
+			conn.commit();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			try {
+				if (ps != null)
+					ps.close();
+
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+				
 	}
 }

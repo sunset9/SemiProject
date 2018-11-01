@@ -230,6 +230,7 @@ var cost = [
 
 // 읽기모드일때, 검색창 on/off
 var isModify = 0;
+var check=0;
 	console.log("view.jsp isModify : " + isModify);
 	
 $(document).ready(function() {
@@ -544,73 +545,60 @@ function displayStoryView(){
 
 </head>
 <body>
-<!-- 플래너 대문 정보 DIV -->
-<div id="container" style="width:100%; border-radius:10px;background-color:#EEEEEE;">
-
-	<!-- 플래너 대문 정보(공개유무, 수정버튼, 일정제목 등 UI) -->
-	<div style="background-color:#EEEEEE;">
-		
-		<p id="isClose" style="display:none;">비공개</p>
-		<p id="isOpen" style="display:none;">공개 </p>
-		
-		<label id="btnSelectShare" class="switch" style="display:none;" >
-			<input id="isChecked" type="checkbox" name="checkbox" value="check">
-			<span class="slider round"></span>
-		</label>
+<!-- 플래너 배너 -->
+<div  style="width:100%; height:400px; border-radius:10px; background-image:url('${planView.bannerURL }');background-size: 100% 100%;">
+	<!-- 플래너 정보(공개유무, 수정버튼, 일정제목 등 UI) -->
 		
 <!-- 		게시자와 열람자가 같은 유저면 수정버튼을 -->
-		<c:if test="${writtenUserView.user_idx eq loginedUserView.user_idx}">
-		    <!-- <input id="btnModify" type="button" value="수정" style="float:right;"
-		    onClick="location.href='/plan/write'"> -->
-		    <form action="/plan/write" method="post" id="Modify">
-		    	<input type="hidden" name="plan_idx" value="${planView.plan_idx}" />
-				<input type="hidden" name="user_idx" value="${planView.user_idx}" />
-				<input type="hidden" name="editTitleView" value="${planView.title}" />
-				<input type="hidden" name="editStartDate" value="${planView.start_date}" />
-				<input type="hidden" name="editEndDate" value="${planView.end_date}" />
-				<input type="hidden" name="editTraveled" value="${planView.traveled}" />
-				
-		    	<input id="btnModify" type="button" value="수정" style="float:right;">
-		    </form>
-		</c:if>
+	<c:if test="${writtenUserView.user_idx eq loginedUserView.user_idx}">
+	    <!-- <input id="btnModify" type="button" value="수정" style="float:right;"
+	    onClick="location.href='/plan/write'"> -->
+	    <form action="/plan/write" method="post" id="Modify">
+	    	<input type="hidden" name="plan_idx" value="${planView.plan_idx}" />
+			<input type="hidden" name="user_idx" value="${planView.user_idx}" />
+			<input type="hidden" name="editTitleView" value="${planView.title}" />
+			<input type="hidden" name="editStartDate" value="${planView.start_date}" />
+			<input type="hidden" name="editEndDate" value="${planView.end_date}" />
+			<input type="hidden" name="editTraveled" value="${planView.traveled}" />
+			
+	    	<input id="btnModify" type="button" value="수정" style="float:right;">
+	    </form>
+	</c:if>
 <!-- 		다르면 북마크 버튼을 보여준다 -->
-		<c:if test="${writtenUserView.user_idx ne loginedUserView.user_idx}">
-			
-			<c:if test="${bookmark.plan_idx ne planView.plan_idx}">
-				<form action="/bookmark/insert" method="post">
-					<input type="hidden" name="plan_idx" value="${planView.plan_idx}" />
-					<button id="btnBookMark" type="submit" style="float:right;">북마크 추가</button>
-				</form>
-			</c:if>
-			
-			<c:if test="${bookmark.plan_idx eq planView.plan_idx}">
-				<form action="/bookmark/delete" method="post">
-					<input type="hidden" name="plan_idx" value="${planView.plan_idx}" />
-					<button id="btnBookMark" type="submit" style="float:right;">북마크 삭제</button>
-				</form>
-			</c:if>
-			
-		</c:if> 
-			
-	</div><br>
+	<c:if test="${writtenUserView.user_idx ne loginedUserView.user_idx}">
 		
-	<div id="header" style="background-color:#EEEEEE;text-align:center;">
-		<div id="viewTitle">
-			<h1 id="titleView" style="margin-bottom:0;">${planView.title }</h1>
-			<h4 id="planRouteView"> 여행 경로 2개</h4> 
-			<h4 id="dateView">${planView.start_date } ~ ${planView.end_date }</h4>
-			<h4 id="traveledView">
-				<c:if test="${planView.traveled eq 1 }">여행 전</c:if>
-				<c:if test="${planView.traveled eq 0 }">여행 후</c:if>
-			</h4>
-		</div>
-			<br>
+		<c:if test="${bookmark.plan_idx ne planView.plan_idx}">
+			<form action="/bookmark/insert" method="post">
+				<input type="hidden" name="plan_idx" value="${planView.plan_idx}" />
+				<button id="btnBookMark" type="submit" style="float:right;">북마크 추가</button>
+			</form>
+		</c:if>
+		
+		<c:if test="${bookmark.plan_idx eq planView.plan_idx}">
+			<form action="/bookmark/delete" method="post">
+				<input type="hidden" name="plan_idx" value="${planView.plan_idx}" />
+				<button id="btnBookMark" type="submit" style="float:right;">북마크 삭제</button>
+			</form>
+		</c:if>
+		
+	</c:if> 
+	<br>
+		
+	<div id="viewTitle" style="text-align:center;">
+		<h1 id="titleView" style="margin-bottom:0;">${planView.title }</h1>
+		<h4 id="planRouteView"> 여행 경로 2개</h4> 
+		<h4 id="dateView">${planView.start_date } ~ ${planView.end_date }</h4>
+		<h4 id="traveledView">
+			<c:if test="${planView.traveled eq 1 }">여행 전</c:if>
+			<c:if test="${planView.traveled eq 0 }">여행 후</c:if>
+		</h4>
 	</div>
+			<br>
 </div><br>
 <!-- 플래너 입력 정보 DIV -->
-<div id="container" style="width:100%; border-radius:10px;">
+<div  style="width:100%; border-radius:10px;">
 	<!-- 좌측 정보목록 (게시자 정보, 가계부, 검색 등 )-->
-	<div id="container" style="width:230px; border-radius:10px;float:left;">
+	<div  style="width:230px; border-radius:10px;float:left;">
 	
 		<!-- 게시자 정보 DIV -->
 		<div id="menu" style="background-color:#EEEEEE;height:100%;float:bottom;width:100%;border-radius:10px;">
@@ -662,8 +650,32 @@ function displayStoryView(){
 			쇼핑 : ${shop }<br>
 			기타 : ${etc }<br><br>
 			<b>총합 : ${acc_total }</b><br>
-			<b>환율 : ${accView.caled_cost }</b><br>
-		</div><br>
+			<b>환율 : ${accCaledTotal }</b><br>
+			
+<div id='gcw_mainF89vAYf4k' class='gcw_mainF89vAYf4k'></div>
+	<a id='gcw_siteF89vAYf4k' href='https://freecurrencyrates.com/en/'>FreeCurrencyRates.com</a>
+	<script>
+		function reloadF89vAYf4k(){
+			var sc = document.getElementById('scF89vAYf4k');
+			
+			if (sc) {
+				sc.parentNode.removeChild(sc);
+			}
+			
+			sc = document.createElement('script');
+			sc.type = 'text/javascript';
+			sc.charset = 'UTF-8';
+			sc.async = true;
+			sc.id='scF89vAYf4k';
+			sc.src = 'https://freecurrencyrates.com/en/widget-vertical?iso=USDEURGBPJPYCNYXUL&df=2&p=F89vAYf4k&v=fits&source=fcr&width=245&width_title=0&firstrowvalue=1&thm=A6C9E2,FCFDFD,4297D7,5C9CCC,FFFFFF,C5DBEC,FCFDFD,2E6E9E,000000&title=Currency%20Converter&tzo=-540';
+			
+			var div = document.getElementById('gcw_mainF89vAYf4k');
+			div.parentNode.insertBefore(sc, div);
+			}
+			reloadF89vAYf4k();
+	</script>
+
+</div><br>
 		
 		<!-- 일정 저장 -->
 
@@ -683,7 +695,7 @@ function displayStoryView(){
 	</div>
 	
 	<!-- 우측 일정 & 타임테이블정보 (지도, 일정탭 & 타임테이블탭 등 )-->
-	<div id="container" style="width:900px; border-radius:10px;float:left;margin-left: 20px;">
+	<div  style="width:900px; border-radius:10px;float:left;margin-left: 20px;">
 		<!-- 일정 / 스토리 탭 DIV -->
 		<ul class="tabs" id="tab-main">
 			<li rel="tab-ttb">일정</li>

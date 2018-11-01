@@ -48,7 +48,6 @@ public class PlanViewController extends HttpServlet {
         Gson gson = gsonBuilder.create();
         
         Plan planParam = new Plan();
-        System.out.println(req.getParameter("plan_idx"));
         // view로 들어오는 파라미터값 확인
 //        if( req.getParameter("plan_idx") != null && !"".equals(req.getParameter("plan_idx"))) {
 ////        	req.getSession().setAttribute("plan_idx", planParam.getPlan_idx());
@@ -135,6 +134,9 @@ public class PlanViewController extends HttpServlet {
 		
 		int acc_total = airfare+traffic+stay+admission+food+play+shop+etc;
 		req.setAttribute("acc_total", acc_total);
+		
+		int accCaledTotal = acc_total;
+		req.setAttribute("accCaledTotal", accCaledTotal);
 		
 		System.out.println(accView);
 		//accView MODEL 전달

@@ -25,6 +25,14 @@ public class Plan {
 	// 유저 nickname 
 	private String nick;
 	
+	@Override
+	public String toString() {
+		return "Plan [plan_idx=" + plan_idx + ", user_idx=" + user_idx + ", start_date=" + start_date + ", end_date="
+				+ end_date + ", title=" + title + ", traveled=" + traveled + ", opened=" + opened + ", distance="
+				+ distance + ", create_date=" + create_date + ", bannerURL=" + bannerURL + ", tot_dist=" + tot_dist
+				+ ", nick=" + nick + "]";
+	}
+	
 	public String getNick() {
 		return nick;
 	}
@@ -41,13 +49,13 @@ public class Plan {
 		this.bannerURL = bannerURL;
 	}
 
-	
 	@Override
 	public String toString() {
 		return "Plan [plan_idx=" + plan_idx + ", user_idx=" + user_idx + ", start_date=" + start_date + ", end_date="
 				+ end_date + ", title=" + title + ", traveled=" + traveled + ", opened=" + opened
 				+ ", create_date=" + create_date + ", bannerURL=" + bannerURL
 				+ ", nick=" + nick + "]";
+
 	}
 
 	public int getPlan_idx() {
