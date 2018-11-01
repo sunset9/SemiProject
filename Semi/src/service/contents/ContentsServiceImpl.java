@@ -17,7 +17,7 @@ public class ContentsServiceImpl implements ContentsService {
 	//검색한 리스트 가져오기
 	@Override
 	public List<Plan> getList(String category, String searchValue) {
-		return planDao.selectList(category, searchValue);
+		return null;
 	}
 
 	//현재 페이지 얻어오기

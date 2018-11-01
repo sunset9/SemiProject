@@ -129,7 +129,7 @@ th{
   	<!-- 처음으로 가기 -->
   	<c:if test="${paging.curPage ne 1 }">
     <li>
-      <a href="/admin/user/list?search=${paging.search }&searchType=${paging.searchType}" aria-label="First">
+      <a href="/admin/plan/list?search=${paging.search }&searchType=${paging.searchType}" aria-label="First">
         <span aria-hidden="true">&larr;처음</span>
       </a>
     </li>
@@ -146,7 +146,7 @@ th{
     
   	<c:if test="${paging.curPage ne 1 }">
     <li>
-      <a href="/admin/user/list?curPage=${paging.curPage-1 }&search=${paging.search }&searchType=${paging.searchType}" aria-label="Previous">
+      <a href="/admin/plan/list?curPage=${paging.curPage-1 }&search=${paging.search }&searchType=${paging.searchType}" aria-label="Previous">
         <span aria-hidden="true">&laquo;</span>
       </a>
     </li>
@@ -160,10 +160,10 @@ th{
 
 		<!-- 현재 보고 있는 페이지번호만 강조해주기 -->
 		<c:if test="${paging.curPage eq i}">          
-    	  <li class="active"><a href="/admin/user/list?curPage=${i }&search=${paging.search }&searchType=${paging.searchType}">${i }</a></li>
+    	  <li class="active"><a href="/admin/plan/list?curPage=${i }&search=${paging.search }&searchType=${paging.searchType}">${i }</a></li>
     	</c:if>
 		<c:if test="${paging.curPage ne i}">          
-    	  <li><a href="/admin/user/list?curPage=${i }&search=${paging.search }&searchType=${paging.searchType}">${i }</a></li>
+    	  <li><a href="/admin/plan/list?curPage=${i }&search=${paging.search }&searchType=${paging.searchType}">${i }</a></li>
     	</c:if>
     </c:forEach>
 
@@ -177,7 +177,7 @@ th{
 	
   	<c:if test="${paging.curPage ne paging.totalPage }">
     <li>
-      <a href="/admin/user/list?curPage=${paging.curPage+1 }&search=${paging.search }&searchType=${paging.searchType}" aria-label="Next">
+      <a href="/admin/plan/list?curPage=${paging.curPage+1 }&search=${paging.search }&searchType=${paging.searchType}" aria-label="Next">
         <span aria-hidden="true">&raquo;</span>
       </a>
     </li>
@@ -188,9 +188,9 @@ th{
   </div><br>
   
   <div id ="searchBox" class="col-xs-2, form-inline" >
-<form action="/admin/user/list" method="get" >	
+<form action="/admin/plan/list" method="get" >	
 	<select name ="searchType" class="form-control" >
-	<option value="1">닉네임</option>
+	<option value="1">제목</option>
 	<option value="2">아이디</option>
 	</select>
 	<input type="text" name ="search" class="form-control" />
