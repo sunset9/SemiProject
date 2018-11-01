@@ -159,7 +159,7 @@ var deleteCookie = function(name) {
 	<div class="right">
 		<div class="search common">
 			<div class="Type common">
-			<form action="/contents/all" method="post">
+			<form action="/contents/all" method="get">
 				<select name="searchType">
 					<option value="1">제목</option>
 					<option value="2">닉네임</option>
