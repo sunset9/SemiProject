@@ -106,8 +106,10 @@
 
 <script type="text/javascript">
 $("#btnMiniWriteSave").on("click", function(){
-	// 저장 버튼 비활성화
+	// 미니뷰 저장 버튼 비활성화
 	$(this).attr('disabled',"disabled");
+	// 메인 저장 버튼 비활성화
+	activeStoreBtn(false);
 	
 	// submit 할 객체들 json형태로 받기
 	var ttbJson = JSON.parse($('input[name=ttbJson]').val());
