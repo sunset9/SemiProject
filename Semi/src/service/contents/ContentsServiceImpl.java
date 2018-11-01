@@ -13,13 +13,6 @@ import utils.Paging;
 public class ContentsServiceImpl implements ContentsService {
 
 	PlanDao planDao = new PlanDaoImpl();
-	
-
-	//검색한 리스트 가져오기
-	@Override
-	public List<Plan> getList(String category, String searchValue) {
-		return null;
-	}
 
 
 	//현재 페이지 얻어오기
@@ -64,6 +57,16 @@ public class ContentsServiceImpl implements ContentsService {
 	@Override
 	public List<Plan> getPagingList(Paging paging) {
 		return planDao.selectPagingList(paging);
+	}
+
+	@Override
+	public List<Plan> getRecomPagingList(Paging paging) {
+		return planDao.selectRecomPagingList(paging);
+	}
+
+	@Override
+	public List<Plan> getNewPagingList(Paging paging) {
+		return  planDao.selectNewPagingList(paging);
 	}
 
 

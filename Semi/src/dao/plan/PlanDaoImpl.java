@@ -1056,4 +1056,198 @@ public class PlanDaoImpl implements PlanDao{
 		}
 				
 	}
+
+	@Override
+	public List<Plan> selectNewPagingList(Paging paging) {
+		// 페이징 리스트 조회 쿼리
+
+		String sql = "";
+		sql+= "SELECT * FROM (";
+		sql+= " SELECT rownum rnum, PL.*";
+		sql+= " FROM (";
+		sql+= "   SELECT";
+		sql+= "     plan_idx,";
+		sql+= "     P.user_idx,";
+		sql+= "     ( SELECT nickname FROM userinfo U WHERE U.user_idx = P.user_idx ) nickname,";
+		sql+= "     start_date,";
+		sql+= "     end_date,";
+		sql+= "     title,";
+		sql+= "     traveled,";
+		sql+= "     opened,";
+		sql+= "     bannerurl,";
+		sql+= "     create_date";
+		sql+= "   FROM planner P";
+		sql+= "   ORDER BY create_date DESC"; 
+		sql+= " ) PL";
+		   
+		   
+		System.out.println("dao search :" +paging.getSearch());
+		System.out.println("dao searchType : " +paging.getSearchType());
+		if(paging.getSearch()!=null && !"".equals(paging.getSearch())) {
+		    if(paging.getSearchType()==1) {
+		       // searchType 1이면 제목으로 조회
+		       sql+= " WHERE title"; 
+		    } else if (paging.getSearchType()==2) {
+		       // searchType 2이면 닉네임으로 조회
+		    sql+= " WHERE nickname";
+		    }
+			            
+		    sql+= " LIKE '%"+paging.getSearch()+"%'";
+
+		 }
+
+		sql+= " ORDER BY rnum";
+		sql+= ") WHERE rnum between ? AND ?";
+		// DB 객체 생성
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+
+		// 조회 결과 담을 list 생성
+		List<Plan> list = new ArrayList<>();
+
+		try {
+			// DB 작업 실행
+			ps = conn.prepareStatement(sql);
+
+			ps.setInt(1, paging.getStartNo());
+			ps.setInt(2, paging.getEndNo());
+
+			rs = ps.executeQuery();
+
+			// 조회 결과 List에 담기
+			while (rs.next()) {
+				Plan p = new Plan();
+				
+				
+			// rs의 결과 DTO에 하나씩 저장하기
+				p.setPlan_idx(rs.getInt("plan_idx"));
+				p.setUser_idx(rs.getInt("user_idx"));
+				p.setStart_date(rs.getDate("start_date"));
+				p.setEnd_date(rs.getDate("end_date"));
+				p.setOpened(rs.getInt("opened"));
+				p.setTitle(rs.getString("title"));
+				p.setBannerURL(rs.getString("bannerurl"));
+				p.setNick(rs.getString("nickname"));
+				
+				p.setCreate_date(rs.getDate("create_date"));
+				
+
+//				// 조회 결과 List에 넣기
+				list.add(p);
+
+			}
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				// DB객체 닫기
+				if (rs != null)
+					rs.close();
+				if (ps != null)
+					ps.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+		// 결과 반환
+		return list;
+	}
+
+	@Override
+	public List<Plan> selectRecomPagingList(Paging paging) {
+		// 페이징 리스트 조회 쿼리
+
+		   String sql = "";
+		   sql+= "SELECT * FROM (";
+		   sql+= " SELECT rownum rnum, PL.*";
+		   sql+= " FROM (";
+		   sql+= "   SELECT";
+		   sql+= "     plan_idx,";
+		   sql+= "     P.user_idx,";
+		   sql+= "     ( SELECT nickname FROM userinfo U WHERE U.user_idx = P.user_idx ) nickname,";
+		   sql+= "     start_date,";
+		   sql+= "     end_date,";
+		   sql+= "     title,";
+		   sql+= "     traveled,";
+		   sql+= "     opened,";
+		   sql+= "     bannerurl,";
+		   sql+= "     create_date";
+		   sql+= "   FROM planner P";
+		   sql+= "   ORDER BY user_idx DESC"; 
+		   sql+= " ) PL";
+		   
+		   
+		   System.out.println("dao search :" +paging.getSearch());
+		   System.out.println("dao searchType : " +paging.getSearchType());
+		   if(paging.getSearch()!=null && !"".equals(paging.getSearch())) {
+			      if(paging.getSearchType()==1) {
+			         // searchType 1이면 제목으로 조회
+			         sql+= " WHERE title"; 
+			      } else if (paging.getSearchType()==2) {
+			         // searchType 2이면 닉네임으로 조회
+			      sql+= " WHERE nickname";
+			      }
+			            
+			      sql+= " LIKE '%"+paging.getSearch()+"%'";
+
+			   }
+
+		   sql+= " ORDER BY rnum";
+		   sql+= ") WHERE rnum between ? AND ?";
+		// DB 객체 생성
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+
+		// 조회 결과 담을 list 생성
+		List<Plan> list = new ArrayList<>();
+
+		try {
+			// DB 작업 실행
+			ps = conn.prepareStatement(sql);
+
+			ps.setInt(1, paging.getStartNo());
+			ps.setInt(2, paging.getEndNo());
+
+			rs = ps.executeQuery();
+
+			// 조회 결과 List에 담기
+			while (rs.next()) {
+				Plan p = new Plan();
+				
+				
+			// rs의 결과 DTO에 하나씩 저장하기
+				p.setPlan_idx(rs.getInt("plan_idx"));
+				p.setUser_idx(rs.getInt("user_idx"));
+				p.setStart_date(rs.getDate("start_date"));
+				p.setEnd_date(rs.getDate("end_date"));
+				p.setOpened(rs.getInt("opened"));
+				p.setTitle(rs.getString("title"));
+				p.setBannerURL(rs.getString("bannerurl"));
+				p.setNick(rs.getString("nickname"));
+				
+				p.setCreate_date(rs.getDate("create_date"));
+				
+
+//				// 조회 결과 List에 넣기
+				list.add(p);
+
+			}
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				// DB객체 닫기
+				if (rs != null)
+					rs.close();
+				if (ps != null)
+					ps.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+		// 결과 반환
+		return list;
+	}
 }

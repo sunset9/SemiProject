@@ -27,16 +27,20 @@ public class AllContentsCtroller extends HttpServlet {
 
 	private ContentsService conService = new ContentsServiceImpl();
 
-	private InquiryService inquiryService = new InquiryServiceImpl();
 	
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 			
+		System.out.println("allcontentcontroll");
 		// 현재 페이지 번호 얻기 (처음엔 0을 반환받아서 1페이지가 기본으로 뜸)
 		int curPage = conService.getCurPage(req);
 
 		// 검색타입 얻기
-		int searchType = conService.getSearchType(req);
+		int searchType =0;
+		
+		if(req.getParameter("searchType")!= null) {
+			searchType =Integer.parseInt(req.getParameter("searchType"));
+		}
 		
 		// 검색어 얻기
 		String search = conService.getSearch(req);
@@ -54,8 +58,8 @@ public class AllContentsCtroller extends HttpServlet {
 		System.out.println(paging);
 
 		// 게시글 목록 MODEL로 추가 하기
-		List<Plan> allConList = conService.getPagingList(paging);
-		req.setAttribute("allConList", allConList);
+		List<Plan> planList = conService.getPagingList(paging);
+		req.setAttribute("planList", planList);
 
 		// 페이징 객체 MODEL로 추가
 		req.setAttribute("paging", paging);
@@ -68,24 +72,7 @@ public class AllContentsCtroller extends HttpServlet {
 	
 	@Override
 		protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-			//한글 인코딩
-			req.setCharacterEncoding("UTF-8");
-		
-			//요청 파리미터 받기 
-			String category = req.getParameter("category");
-			String searchValue = req.getParameter("searchValue");
 
-			//System.out.println("올콘텐츠 컨트롤러 카테고리 : "+category); //오키 
-			//System.out.println("올콘텐츠 컨트롤러 검색값: "+searchValue); //오키
-			
-			//콘텐츠 리스트 가져오기
-			List<Plan> searchList = conService.getList(category, searchValue);
-			
-			//setAttribute
-			req.setAttribute("searchList", searchList);
-			
-			System.out.println("올콘텐츠컨트롤러 검색결과: "+searchList);
-			req.getRequestDispatcher("/contents/allContents.jsp").forward(req, resp);
 			
 		}
 	

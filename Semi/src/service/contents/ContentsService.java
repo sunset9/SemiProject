@@ -24,5 +24,11 @@ public interface ContentsService {
 
 	// 페이징 된 리스트 불러오기
 	public List<Plan> getPagingList(Paging paging);
+	
+	// 추천 게시물 페이징 해서 불러오기
+	public List<Plan> getRecomPagingList(Paging paging);
+	
+	// 최신 게시물 페이징 해서 불러오기 
+	public List<Plan> getNewPagingList(Paging paging);
 
 }

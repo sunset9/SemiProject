@@ -64,6 +64,11 @@ public interface PlanDao {
 	// 페이징 된 plan 리스트 조회
 	public List<Plan> selectPagingList(Paging paging);
 	
+	// 최신 게시물 페이징 된 plan 리스트 조회
+	public List<Plan> selectNewPagingList(Paging paging);
+	
+	// 추천 게시물 페이징 된 plan 리스트 조회
+	public List<Plan> selectRecomPagingList(Paging paging);
 	//배너 업데이트 !
 	public void bannerUpdate(Plan plan);
 
