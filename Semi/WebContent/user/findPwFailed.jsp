@@ -8,11 +8,7 @@
 </head>
 <body>
 
-<form action="/user/file" method="post" enctype="multipart/form-data">
-	<input type="file" name="uploadFile">
-	<button>업로드</button>
-</form>
-
+<h3> 존재하지 않는 이메일 주소입니다. </h3>
 
 </body>
 </html>

@@ -157,6 +157,53 @@
 </script>
 
 
+<style type="text/css">
+/* The Modal (background) */
+.findPwModal, .joinModal {
+    display: none; /* Hidden by default */
+    position: fixed; /* Stay in place */
+    z-index: 1; /* Sit on top */
+    padding-top: 100px; /* Location of the box */
+    left: 0;
+    top: 0;
+    width: 100%; /* Full width */
+    height: 100%; /* Full height */
+    overflow: auto; /* Enable scroll if needed */
+    background-color: rgb(0,0,0); /* Fallback color */
+    background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+}
+
+/* Modal Content */
+.findPwModal-contents, .joinModal-contents {
+    background-color: #fefefe;
+    margin: auto;
+    padding: 20px;
+    border: 1px solid #888;
+    width: 35%;
+}
+
+/* The Close Button */
+.fClose, .jClose {
+    color: #aaaaaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+}
+
+.fClose:hover,
+.fClose:focus {
+    color: #000;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.jClose:hover,
+.jClose:focus {
+    color: #000;
+    text-decoration: none;
+    cursor: pointer;
+}
+</style>
 </head>
 
 
@@ -228,17 +275,122 @@ window.fbAsyncInit = function() {
 <!-- email로 로그인 -->
 <div>
 <form action="/user/login" method="post">
-	<label for="userid">아이디 </label>
-	<input type="text" id="userid" name="userid" /><br>
+	<label for="userid">이메일 </label>
+	<input type="email" id="userid" name="userid" /><br>
 	<label for="userpw">비밀번호</label>
-	<input type="text" id="userpw" name="userpw" /><br>
+	<input type="password" id="userpw" name="userpw" /><br>
 	<input type="hidden" id="snsIdx" name="snsIdx" value="1" />
 	<input type="submit" value="로그인"/>
 </form>
-<button onclick='window.open("/user/join");'>회원가입</button>
+<!-- 회원가입 open the modal btn -->
+<button id="joinModalBtn" class="joinlogo">회원가입</button>
+
+<!-- 비밀번호 찾기 open the modal btn -->
+<button id="findPwModalBtn" class="findPw">비밀번호 찾기</button>
 </div>
 
+<!-- 비밀번호 찾기 모달 시작 -->
+<!-- 비밀번호 찾기 the modal -->
+<div id="findPwModal" class="findPwModal">
+	
+	<!-- 비밀번호 찾기 modal content -->
+	<div class="findPwModal-contents">
+		<span class="fClose">&times;</span>
+		<h1>비밀번호 찾기</h1>
+		<hr>
+		<form action="/user/findPw" method="post">
+			<input type="email" name="email" placeholder="이메일을 입력해주세요." />
+			<input type="submit" value="입력" />
+		</form>
+		<p>임시 비밀번호를 보내드립니다.</p>
+		<p>가입시 입력하신 이메일 주소를 입력해주세요.</p>
+	</div>
+</div>
+<!-- 비밀번호 찾기 모달 끝 -->
 
+<!-- 회원가입 모달 시작 -->
+<div id="joinModal" class="joinModal">
+	
+	<!-- 회원가입 modal content  -->
+	<div class="joinModal-contents">
+		<span class="jClose">&times;</span>
+		<form action="/user/join" method="post">
+		<div id="sign_up">
+			<div class="header">
+			<h3>회원가입</h3><br>
+			</div>
+			<div class="body">
+				<div class="signUp">
+					<label>이메일 : </label>
+					<input type="email" id="userid" name="userid" placeholder="이메일"><br>
+					<label>비밀번호 : </label>
+					<input type="password" id="userpw" name="userpw" placeholder="비밀번호"><br>
+					<label>비밀번호 확인 : </label>
+					<input type="password" id="pwCheck" name="pwCheck" placeholder="비밀번호 확인"><br>
+					<label>닉네임 : </label>
+					<input type="text" id="usernickname" name="usernickname" placeholder="닉네임"><br>
+					<input type="hidden" id="snsIdx" name="snsIdx" value="1" />
+				</div>
+				<div class="signUpBtn">
+					<button type="submit" class="signUpBtn" >가입하기</button>
+				</div>
+			</div>
+		</div>
+		</form>
+	</div>
+</div>
+<!-- 회원가입 모달 끝 -->
+
+
+<!-- modal script -->
+<script>
+	// Get the modal
+	var fModal = document.getElementById('findPwModal');
+	
+	// Get the button that opens the modal
+	var fBtn = document.getElementById("findPwModalBtn");
+	
+	// Get the <span> element that closes the modal
+	var fSpan = document.getElementsByClassName("fClose")[0];
+	
+	// When the user clicks the button, open the modal 
+	fBtn.onclick = function() {
+		fModal.style.display = "block";
+	}
+	
+	
+	// When the user clicks on <span> (x), close the modal
+	fSpan.onclick = function() {
+		fModal.style.display = "none";
+	}
+	
+	
+	// When the user clicks anywhere outside of the modal, close it
+	window.onclick = function(event) {
+	    if (event.target == fModal) {
+	    	fModal.style.display = "none";
+	    }
+	}
+
+	
+	var jModal = document.getElementById('joinModal');
+	var jBtn = document.getElementById("joinModalBtn");
+	var jSpan = document.getElementsByClassName("jClose")[0];
+
+	jBtn.onclick = function() {
+		jModal.style.display = "block";
+	}
+
+	jSpan.onclick = function() {
+		jModal.style.display = "none";
+	}
+
+	window.onclick = function(event) {
+		if (event.target == jModal) {
+			jModal.style.display = "none";
+		}
+	}
+</script>
 <!-- 바디 태그 로드가 끝나면 init이라는 함수를 호출하라는 뜻 -->
 <script src="https://apis.google.com/js/platform.js?onload=init" async defer></script>
 </body>

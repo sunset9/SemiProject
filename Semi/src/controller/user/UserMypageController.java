@@ -48,8 +48,8 @@ public class UserMypageController extends HttpServlet {
 			req.setAttribute("cntPlan", cntPlan);
 			
 			//현재 유저의 총 여행 거리 가져오기 
-			int totDist = userService.getTotDist(cUser);
-			req.setAttribute("totDist", totDist);
+			//int totDist = userService.getTotDist(cUser);
+			//req.setAttribute("totDist", totDist);
 			
 			//모든 일정 가져오기
 			List<Plan> allPlanList = userService.getAllPlanList(cUser);
@@ -77,8 +77,8 @@ public class UserMypageController extends HttpServlet {
 			req.setAttribute("cntPlan", cntPlan);
 			
 			//현재 유저의 총 여행 거리 가져오기 
-			int totDist = userService.getTotDist(cUserSocial);
-			req.setAttribute("totDist", totDist);
+			//int totDist = userService.getTotDist(cUserSocial);
+			//req.setAttribute("totDist", totDist);
 			
 			//모든 일정 가져오기
 			List<Plan> allPlanList = userService.getAllPlanList(cUserSocial);

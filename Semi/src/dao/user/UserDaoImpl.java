@@ -444,7 +444,7 @@ public class UserDaoImpl implements UserDao{
 	public List<Plan> getPlanner(User user) {
 		
 		String sql = "";
-		sql += "SELECT p.PLAN_IDX, p.USER_IDX, p.START_DATE, p.END_DATE, p.TITLE, p.TRAVELED, p.OPENED, p.DISTANCE, p.CREATE_DATE, p.BannerURL";
+		sql += "SELECT p.PLAN_IDX, p.USER_IDX, p.START_DATE, p.END_DATE, p.TITLE, p.TRAVELED, p.OPENED, p.CREATE_DATE, p.BannerURL";
 		sql += " FROM USERINFO u JOIN PLANNER p";
 		sql += " ON u.user_idx = p.user_idx";
 		sql += " WHERE u.user_idx = ?";
@@ -474,7 +474,7 @@ public class UserDaoImpl implements UserDao{
 				plan.setTitle(rs.getString("TITLE"));
 				plan.setTraveled(rs.getInt("TRAVELED"));
 				plan.setOpened(rs.getInt("OPENED"));
-				plan.setDistance(rs.getInt("DISTANCE"));
+				//plan.setDistance(rs.getInt("DISTANCE"));
 				plan.setCreate_date(rs.getDate("CREATE_DATE"));
 				plan.setBannerURL(rs.getString("BannerURL"));
 				//System.out.println("userDao plan : "+plan);
@@ -584,44 +584,44 @@ public class UserDaoImpl implements UserDao{
 		return cnt;
 	}
 
-	//내 일정들에서 여행거리 리스트에 담기 
-	@Override
-	public int getTotDist(User user) {
-		String sql = "";
-		sql += "SELECT SUM(DISTANCE) FROM PLANNER";
-		sql += " WHERE USER_IDX = ?";
-		
-		//DB객체
-		PreparedStatement ps = null;
-		ResultSet rs = null;
-		
-		int cnt = 0;
-		
-		try {
-			ps = conn.prepareStatement(sql);
-			ps.setInt(1, user.getUser_idx());
-			
-			rs = ps.executeQuery();
-			
-			rs.next();
-			
-			cnt = rs.getInt(1);
-			
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} finally {
-			try {
-				if(rs!=null)	rs.close();
-				if(ps!=null)	ps.close();
-			} catch (SQLException e) {
-				e.printStackTrace();
-			}
-		}
-		
-		
-		return cnt;
-	}
+//	//내 일정들에서 여행거리 리스트에 담기 
+//	@Override
+//	public int getTotDist(User user) {
+//		String sql = "";
+//		sql += "SELECT SUM(DISTANCE) FROM PLANNER";
+//		sql += " WHERE USER_IDX = ?";
+//		
+//		//DB객체
+//		PreparedStatement ps = null;
+//		ResultSet rs = null;
+//		
+//		int cnt = 0;
+//		
+//		try {
+//			ps = conn.prepareStatement(sql);
+//			ps.setInt(1, user.getUser_idx());
+//			
+//			rs = ps.executeQuery();
+//			
+//			rs.next();
+//			
+//			cnt = rs.getInt(1);
+//			
+//		} catch (SQLException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		} finally {
+//			try {
+//				if(rs!=null)	rs.close();
+//				if(ps!=null)	ps.close();
+//			} catch (SQLException e) {
+//				e.printStackTrace();
+//			}
+//		}
+//		
+//		
+//		return cnt;
+//	}
 
 	@Override
 	public User selectUserByUserIdx(User u) {
@@ -958,7 +958,7 @@ public class UserDaoImpl implements UserDao{
 				plan.setTitle(rs.getString("TITLE"));
 				plan.setTraveled(rs.getInt("TRAVELED"));
 				plan.setOpened(rs.getInt("OPENED"));
-				plan.setDistance(rs.getInt("DISTANCE"));
+				//plan.setDistance(rs.getInt("DISTANCE"));
 				plan.setCreate_date(rs.getDate("CREATE_DATE"));
 				plan.setBannerURL(rs.getString("BANNERURL"));
 				//System.out.println("userDaoImpl plan : "+plan);
@@ -1046,6 +1046,40 @@ public class UserDaoImpl implements UserDao{
 			}
 		}
 				
+	}
+
+	// 임시비번으로 비번 변경 
+	@Override
+	public void changeTempPw(String email, String tempPw) {
+		String sql = "UPDATE userinfo SET PASSWORD = ? where id = ?";
+		
+		// DB 객체
+		PreparedStatement ps = null;
+
+		try {
+			conn.setAutoCommit(false);
+			
+			ps = conn.prepareStatement(sql);
+			
+			ps.setString(1, tempPw);
+			ps.setString(2, email);
+
+			ps.executeUpdate();
+
+			conn.commit();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			try {
+				if(ps!=null)	ps.close();
+						
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+					
+		
 	}
 
 

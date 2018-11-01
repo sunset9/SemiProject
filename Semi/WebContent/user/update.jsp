@@ -97,7 +97,7 @@ function deleteCheck(){
 	<hr>
 	<div id="container">
 		<div id="left">
-			<form action="/user/update" method="post" enctype="multipart/form-data">
+			<form action="/user/update" method="post">
 				<label>아이디 : </label>
 				<input type="text" name="userid" value="${user.id}" readonly/><br>
 				<label>내등급 : </label>
@@ -116,22 +116,12 @@ function deleteCheck(){
 					<label>비밀번호 확인 : </label>
 					<input type="password" name="newPwCheck"/><br>
 				</div>
+				<button type="submit">저장하기</button>
 			</form>
-		</div>
-	
-		<div id="right">
-			<div><img src="${user.profile}" name="image" style="border-radius:10px; width:110px; height:100px;"/></div><br>
-			<div>
-				<form action="/user/file" method="post" enctype="multipart/form-data">
-					<input type="file" name="uploadFile">
-					<button>업로드</button>
-				</form>
-			</div>
 		</div>
 	</div>
 	<hr>
 	<div id="footer">
-		<button type="submit">저장하기</button>
 		<button onclick="deleteCheck();">회원탈퇴하기</button>
 	</div>
 </div>
@@ -152,10 +142,6 @@ function deleteCheck(){
 			<input type="text" name="grade" value="${socialUser.grade}" disabled/><br>
 			<label>닉네임 : </label>
 			<input type="text" name="nickname" value="${socialUser.nickname}"/><br>
-		</div>
-		<div id="right">
-			<div id="image"><img src="${socialUser.profile}" style="border-radius:70px; width:100px;"><br></div>
-			<div id="changeImage"><input type="button" name="changeImage" value="변경하기"/></div>
 		</div>
 	</div>
 	<hr>

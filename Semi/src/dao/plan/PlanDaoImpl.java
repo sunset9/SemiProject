@@ -48,7 +48,7 @@ public class PlanDaoImpl implements PlanDao{
 				planInfo.setTitle( rs.getString("title") );
 				planInfo.setTraveled( rs.getInt("traveled") );
 				planInfo.setOpened( rs.getInt("opened") );
-				planInfo.setDistance( rs.getInt("distance") );
+				//planInfo.setDistance( rs.getInt("distance") );
 				planInfo.setCreate_date( rs.getDate("create_date") );
 				
 			}
@@ -432,8 +432,8 @@ public class PlanDaoImpl implements PlanDao{
 		int plannerSeqNextval = getPlannerSeqNextval();
 		System.out.println("plandaoimpl plannerSeqNextval : "+plannerSeqNextval);
 		String sql = "";
-		sql += "INSERT INTO PLANNER(plan_idx, user_idx, start_date, end_date, title, traveled, opened, distance, bannerurl)";
-		sql += " VALUES (?, ?, to_date(?, 'yyyy-MM-dd'), to_date(?, 'yyyy-MM-dd'), ?, ?, 0, 0, '/upload/user/paris.jpg')";
+		sql += "INSERT INTO PLANNER(plan_idx, user_idx, start_date, end_date, title, traveled, opened, bannerurl)";
+		sql += " VALUES (?, ?, to_date(?, 'yyyy-MM-dd'), to_date(?, 'yyyy-MM-dd'), ?, ?, 0, '/upload/user/paris.jpg')";
 		
 		PreparedStatement ps = null;
 		
@@ -537,12 +537,12 @@ public class PlanDaoImpl implements PlanDao{
 						planInfo.setTitle( rs.getString("title") );
 						planInfo.setTraveled( rs.getInt("traveled") );
 						planInfo.setOpened( rs.getInt("opened") );
-						planInfo.setDistance( rs.getInt("distance") );
+						//planInfo.setDistance( rs.getInt("distance") );
 						planInfo.setCreate_date( rs.getDate("create_date") );
 						
 					}
 					
-					planInfo.setTot_dist(selectTotalDistance());
+					//planInfo.setTot_dist(selectTotalDistance());
 					
 				} catch (SQLException e) {
 					e.printStackTrace();

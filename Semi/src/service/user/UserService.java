@@ -62,12 +62,21 @@ public interface UserService {
 	public int getCntPlan(User user);
 	
 	//내 총 여행거리 가져오기 
-	public int getTotDist(User user);
+	//public int getTotDist(User user);
 	
 	
 	public List<User> getSelectAll();
 	
 	//현재 유저의 글을 제외한 모든 글 가져오기
 	public List<Plan> getAllPlanList(User cUser);
+	
+	//임시비번 발급 
+	public String createTempPw(int length);
+	
+	//임시비번으로 비번 변경 
+	public void changeTempPw(String email, String tempPw);
+	
+	//gmailSend()
+	public void gmailSend(String userEmail, String tempPw);
 	
 }

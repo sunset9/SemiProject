@@ -14,6 +14,19 @@
 .tabCommon { float: left; margin-left:30px; margin-right:30px; }
 
 </style>
+<script type="text/javascript">
+
+$(document).ready(function(){
+	$('.profileImage').click(function(){
+		$('.fileBtn').click();
+	});
+	
+	$('.fileBtn').change(function(){
+		$('.uploadForm').submit();
+	})
+});
+	
+</script>
 </head>
 <body>
 
@@ -23,8 +36,14 @@
 <div class="profileBox">
 	<!-- 프로필사진, 정보수정 버튼 -->
 	<div class="profile common">
-		<div class="profileImage">
-			<img src="${user.profile}" style="border-radius:70px; width:100px;">
+		<div id="right">
+			<div><img src="${user.profile}" class="profileImage" name="image" style="border-radius:10px; width:110px; height:100px;"/></div><br>
+			<div>
+				<form action="/user/file" method="post" enctype="multipart/form-data" class="uploadForm">
+					<input type="file" name="uploadFile" class="fileBtn" style="display: none;"/>
+					<input type="submit" value="업로드" class="submitBtn" style="display: none;"/>
+				</form>
+			</div>
 		</div>
 		<div class="updateBtn">
 			<button onclick='location.href="/user/update";'>정보수정</button>	
@@ -127,13 +146,20 @@
 <div class="profileBox">
 	<!-- 프로필사진, 정보수정 버튼 -->
 	<div class="profile common">
-		<div class="profileImage">
-			<img src="${socialUser.profile}" style="border-radius:70px; width:100px;">
+		<div id="right">
+			<div><img src="${socialUser.profile}" class="profileImage" name="image" style="border-radius:10px; width:110px; height:100px;"/></div><br>
+			<div>
+				<form action="/user/file" method="post" enctype="multipart/form-data" class="uploadForm">
+					<input type="file" name="uploadFile" class="fileBtn" style="display: none;"/>
+					<input type="submit" value="업로드" class="submitBtn" style="display: none;"/>
+				</form>
+			</div>
 		</div>
 		<div class="updateBtn">
 			<button onclick='location.href="/socialUser/update";'>정보수정</button>	
 		</div>
 	</div>
+	
 	
 	<!-- 사용자명, 등급, 포스팅개수 -->
 	<div class="profile common">
