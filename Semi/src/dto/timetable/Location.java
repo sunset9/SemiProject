@@ -7,6 +7,8 @@ public class Location {
 	private int loc_idx;
 //	장소 이름
 	private String place_name;
+	
+	private String country_name;
 //	위도
 	private double lat;
 //	경도
@@ -18,10 +20,12 @@ public class Location {
 	
 	private String place_id;
 	
+
 	@Override
 	public String toString() {
-		return "Location [loc_idx=" + loc_idx + ", place_name=" + place_name + ", lat=" + lat + ", lng=" + lng
-				+ ", address=" + address + ", photo_url=" + photo_url + ", place_id=" + place_id + "]";
+		return "Location [loc_idx=" + loc_idx + ", place_name=" + place_name + ", country_name=" + country_name
+				+ ", lat=" + lat + ", lng=" + lng + ", address=" + address + ", photo_url=" + photo_url + ", place_id="
+				+ place_id + "]";
 	}
 
 	public int getLoc_idx() {
@@ -78,6 +82,14 @@ public class Location {
 
 	public void setPlace_id(String place_id) {
 		this.place_id = place_id;
+	}
+
+	public String getCountry_name() {
+		return country_name;
+	}
+
+	public void setCountry_name(String country_name) {
+		this.country_name = country_name;
 	}
 
 	

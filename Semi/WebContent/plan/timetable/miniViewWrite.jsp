@@ -67,6 +67,44 @@
   </div>
 </div>
 
+<script type="text/javascript">
+$("#btnMiniWriteSave").on("click", function(){
+	// 저장 버튼 비활성화
+	$(this).attr('disabled',"disabled");
+	
+	// submit 할 객체들 json형태로 받기
+	var ttbJson = JSON.parse($('input[name=ttbJson]').val());
+	var storyJson = JSON.parse($('input[name=JSON]').val());
+	storyJson.content = $('.storyContent').froalaEditor('html.get'); // story json형태에 스토리 내용도 추가(plan_idx,ttb_idx만 존재)
+	
+	// json -> string
+	var storyJsonStr = JSON.stringify(storyJson);
+	
+	// <input태그 value에 값 넣어줌
+	$('input[name=JSON]').val(storyJsonStr);
+
+	// 미니뷰 스토리 업데이트 작업 ajax로 실행
+	$.ajax({
+		url: "/story/mini/update"
+		, async: false
+		, type: "POST"
+		, data: {
+			plan_idx: plan_idx
+			, JSON: storyJsonStr
+			, ttbJson: $('input[name=ttbJson]').val()
+		}
+		, dataType: "json"
+		, success: function(d){
+			// 미니뷰 저장 성공 시 
+			// 미니뷰 작성한 타임테이블의 이전 idx와 저장 후 idx값 넘겨줌
+			store(ttbJson.ttb_idx, d.ttb_idx, isSendWriteMode=true); 
+		}
+		,  error: function(){
+			console.log("Mini-view Write Ajax 통신 실패");
+		}
+	});
+});
+</script>
 <script>
 $(function() {
 $.FroalaEditor.COMMANDS.imageAlign.options.justify = 'Center';
@@ -116,43 +154,5 @@ $('.storyContent').froalaEditor({
 });
 
 </script> 
-<script type="text/javascript">
-$("#btnMiniWriteSave").on("click", function(){
-	// 저장 버튼 비활성화
-	$(this).attr('disabled',"disabled");
-	
-	// submit 할 객체들 json형태로 받기
-	var ttbJson = JSON.parse($('input[name=ttbJson]').val());
-	var storyJson = JSON.parse($('input[name=JSON]').val());
-	storyJson.content = $('.storyContent').froalaEditor('html.get'); // story json형태에 스토리 내용도 추가(plan_idx,ttb_idx만 존재)
-	
-	// json -> string
-	var storyJsonStr = JSON.stringify(storyJson);
-	
-	// <input태그 value에 값 넣어줌
-	$('input[name=JSON]').val(storyJsonStr);
-
-	// 미니뷰 스토리 업데이트 작업 ajax로 실행
-	$.ajax({
-		url: "/story/mini/update"
-		, async: false
-		, type: "POST"
-		, data: {
-			plan_idx: plan_idx
-			, JSON: storyJsonStr
-			, ttbJson: $('input[name=ttbJson]').val()
-		}
-		, dataType: "json"
-		, success: function(d){
-			// 미니뷰 저장 성공 시 
-			// 미니뷰 작성한 타임테이블의 이전 idx와 저장 후 idx값 넘겨줌
-			store(ttbJson.ttb_idx, d.ttb_idx, isSendWriteMode=true); 
-		}
-		,  error: function(){
-			console.log("Mini-view Write Ajax 통신 실패");
-		}
-	});
-});
-</script>
 </body>
 </html>
