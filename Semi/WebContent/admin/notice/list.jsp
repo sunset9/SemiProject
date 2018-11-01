@@ -67,7 +67,6 @@ $(document).ready(function() {
 	margin :0 auto;
 	display :grid;
 	grid-template-columns : repeat(12, 1fr);
-	grid-template-rows : 500px;
 }
 .menu {
 	background-color: #ccc;
@@ -93,13 +92,15 @@ ul.sub li a {
 	color:#000;
 }
 
-
+#searchBox{
+	text-align: center;
+}
 
 </style>
 <title>관리자 공지사항 리스트</title>
 <hr>
-<a href ="/admin/main"><h1><strong>관리자 페이지</strong></h1></a>
-<hr>
+
+<span><h1><a href ="/admin/main"><strong>관리자 페이지</strong></a></h1></span><hr>
 
 
 
@@ -211,10 +212,10 @@ ul.sub li a {
 	<button id="btnWrite">글쓰기</button>
   </div><br>
 </div>
-<div id="searchBox" class="text-center">
-	<input type="text" id="search" placeholder="제목검색"/>
+<div id="searchBox" class="col-xs-2, form-inline">
+	<input type="text" id="search" placeholder="제목검색" class="form-control"/>
 	<button id="btnSearch">검색</button>
-</div>
+</div><br>
 
 </div>
 </div>

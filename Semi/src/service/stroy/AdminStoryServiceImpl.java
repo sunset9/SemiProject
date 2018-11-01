@@ -64,6 +64,26 @@ public class AdminStoryServiceImpl implements AdminStoryService {
 		return check;
 	}
 
+
+	@Override
+	public Comment getParam(HttpServletRequest req) {
+		Comment comm = new Comment();
+		
+		String comm_idx =req.getParameter("comm_idx");
+		
+		// null 아닐때 저장 
+		if( comm_idx != null && !"".equals(comm_idx)) {
+			comm.setComm_idx(Integer.parseInt(comm_idx));
+		}
+		return comm;
+	}
+
+
+	@Override
+	public void commListDelete(String names) {
+		storyDao.deleteListComm(names);
+	}
+
 	
 
 }

@@ -35,8 +35,8 @@ $(document).ready(function() {
 
 
 </style>
-<a href ="/admin/main"><h1><strong>관리자 페이지</strong></h1></a>
-<hr>
+
+<span><h1><a href ="/admin/main"><strong>관리자 페이지</strong></a></h1></span><hr>
 <div class= "container">
 
 <h2><strong>공지사항 상세보기</strong></h2>

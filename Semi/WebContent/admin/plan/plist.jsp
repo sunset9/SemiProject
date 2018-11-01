@@ -73,12 +73,13 @@ th{
 }
 #planList{
 	display: grid; 
-	grid-template-columns:33.3% 33.3% 33.3%;
+	grid-template-columns:33% 33% 33%;
 }
 
 #planBox{
 	border: 1px solid black; 
 	padding:10px;
+	margin : 3px;
 }
 
 </style>
@@ -86,7 +87,7 @@ th{
 <title>일정 조회</title>
 <hr>
 
-<a href ="/admin/main"><h1><strong>관리자 페이지</strong></h1></a>
+<span><h1><a href ="/admin/main"><strong>관리자 페이지</strong></a></h1></span>
 <hr>
 
 <div class= "wrapper">
@@ -111,10 +112,9 @@ th{
 
 		<c:forEach items="${planList }" var="plan"> 
 			<div id="planBox" data-plan_idx="${plan.plan_idx }">
-				<div><a href="/plan?plan_idx=${plan.plan_idx }">
+				<div><a href="/plan?plan_idx=${plan.plan_idx }" target="_blank">새창으로 확인</a></div>
 				<div><img src="/upload/banner/${plan.bannerURL }" style="width: 100%;"></div>
 				<div> Title : ${plan.title} <br> NickName : ${plan.nick }</div>
-				</a></div>
 				<div>
 					<button id ="planDelete"  onclick="deletePlan(${plan.plan_idx})">삭제</button>
 				</div>
@@ -191,12 +191,12 @@ th{
 <form action="/admin/plan/list" method="get" >	
 	<select name ="searchType" class="form-control" >
 	<option value="1">제목</option>
-	<option value="2">아이디</option>
+	<option value="2">닉네임</option>
 	</select>
 	<input type="text" name ="search" class="form-control" />
 	<button id="btnSearch">조회</button>
 </form>
-</div>
+</div><br>
 </div>
 </div>
 

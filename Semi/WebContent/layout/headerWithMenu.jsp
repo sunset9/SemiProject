@@ -114,7 +114,7 @@ var deleteCookie = function(name) {
 <div class="header">
 	<div class="logo common">
 		<a href="/main">
-			<img src="/image/logo.png" style="width:60px;" />
+			<img src="/image/logo.png" style="width:120px; height: 60px" />
 		</a>
 	</div>
 	

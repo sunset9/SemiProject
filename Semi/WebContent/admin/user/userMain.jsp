@@ -62,8 +62,8 @@ th{
 <title>유저 관리</title>
 <hr>
 
-<a href ="/admin/main"><h1><strong>관리자 페이지</strong></h1></a>
-<hr>
+
+<span><h1><a href ="/admin/main"><strong>관리자 페이지</strong></a></h1></span><hr>
 
 <div class= "wrapper">
 <div class= "menu">

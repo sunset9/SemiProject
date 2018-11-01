@@ -83,6 +83,8 @@ public interface StoryDao {
 	// 페이징 리스트 뽑기
 	public List<Comment> selectCmtPagingList(Paging paging);
 	
+	// 댓글 리스트로 삭제
+	public void deleteListComm(String names);
 	
 	
 

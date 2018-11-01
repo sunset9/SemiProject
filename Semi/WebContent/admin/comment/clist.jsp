@@ -18,7 +18,6 @@ $(document).ready(function() {
 		$(location).attr("href","/admin/comment/list?search="+$("#search").val());
 	});
 	
-	
 	// 선택체크 삭제
 	$("#btnDelete").click(function() {
 		// 선택된 체크박스
@@ -87,7 +86,7 @@ function deleteComm(comm_idx) {
 	margin :0 auto;
 	display :grid;
 	grid-template-columns : repeat(12, 1fr);
-	grid-template-rows : 500px;
+/* 	grid-template-rows : 700px; */
 }
 .menu {
 	background-color: #ccc;
@@ -112,14 +111,16 @@ ul.sub li a {
 	text-decoration: none;
 	color:#000;
 }
-
+#searchBox{
+	text-align: center;
+}
 
 
 </style>
 <title>관리자 댓글관리 리스트</title>
 <hr>
-<a href ="/admin/main"><h1><strong>관리자 페이지</strong></h1></a>
-<hr>
+
+<span><h1><a href ="/admin/main"><strong>관리자 페이지</strong></a></h1></span><hr>
 
 
 
@@ -155,8 +156,8 @@ ul.sub li a {
 <c:forEach items ="${commList }" var = "comm">
 <tr data-comm_idx="${comm.comm_idx }" >
 <td><input type="checkbox" name="checkRow" value="${comm.comm_idx }" /></td>
-<td><a href ="/plan?plan_idx=${comm.plan_idx}">${comm.plan_idx }</a></td>
-<td><a href ="/story/view?story_idx=${comm.story_idx}">${comm.story_idx }</a></td>
+<td>${comm.plan_idx }&nbsp;<a href ="/plan?plan_idx=${comm.plan_idx}" target="_blank">[새창]</a></td>
+<td>${comm.place_name }</td>
 <td>${comm.nickname }</td>
 <td>${comm.content }</td>
 <td>${comm.create_date }</td>
@@ -231,10 +232,10 @@ ul.sub li a {
 	<button id="btnDelete">삭제</button>
   </div><br>
 </div>
-<div id="searchBox" class="text-center">
-	<input type="text" id="search" placeholder="내용검색"/>
+<div id="searchBox" class="col-xs-2, form-inline">
+	<input type="text" id="search" placeholder="내용검색" class="form-control "/>
 	<button id="btnSearch">검색</button>
-</div>
+</div><br>
 
 </div>
 </div>

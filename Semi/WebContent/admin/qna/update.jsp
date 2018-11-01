@@ -41,6 +41,7 @@ $(document).ready(function () {
 }
 </style>
 
+<span><h1><a href ="/admin/main"><strong>관리자 페이지</strong></a></h1></span>
 <div class="container">
 
 <h2><strong>게시글 수정</strong></h2>

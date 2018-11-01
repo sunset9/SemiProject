@@ -116,7 +116,6 @@ function gradeChange(user_idx,grade) {
 	margin :0 auto;
 	display :grid;
 	grid-template-columns : repeat(12, 1fr);
-	grid-template-rows : 500px;
 }
 .menu {
 	background-color: #ccc;
@@ -161,8 +160,8 @@ th{
 <title>유저 조건 조회</title>
 <hr>
 
-<a href ="/admin/main"><h1><strong>관리자 페이지</strong></h1></a>
-<hr>
+
+<span><h1><a href ="/admin/main"><strong>관리자 페이지</strong></a></h1></span><hr>
 
 <div class= "wrapper">
 <div class= "menu">
@@ -297,7 +296,7 @@ th{
 	<input type="text" name ="search" class="form-control" />
 	<button id="btnSearch">조회</button>
 </form>
-</div>
+</div><br>
 </div>
 </div>
 
