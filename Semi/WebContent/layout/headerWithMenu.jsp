@@ -49,6 +49,16 @@
 
 
 <style type="text/css">
+@font-face{
+	font-family: NanumBarunGothic-YetHangul;
+	src:url('/resources/fonts/NanumBarunGothic-YetHangul.ttf');
+}
+body {
+	width: 1160px;
+	margin: 0 auto;
+	font-family: NanumBarunGothic-YetHangul;
+	font-size: 1.6em;
+}
 .wholeHeader > div {
 	padding-bottom: 40px;
 }
