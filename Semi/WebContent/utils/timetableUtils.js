@@ -64,13 +64,20 @@ function initFullCalendar(planStartDate, planEndDate, isFirst){
 			});
 			
 			// 상단 날짜 클릭하면 해당 일의 일정 루트 보여주기
-			var dayHeader  = $('.fc-day-header');
-			dayHeader.on("click", function(){
-				console.log('ss');
+			var dayHeaders  = $('.fc-day-header');
+			dayHeaders.on("click", function(){
 				var ttbDate = {start: $(this).attr('data-date') } ;
 				timetables = getTimetablesFromBrowser();
 				viewMap(ttbDate, timetables);
 			});
+			
+			// 상단 날짜 헤더에 나라이름 표시해 줄 span 태그 만들어 놓기
+			dayHeaders.each(function(){
+				$(this).append("<br><span class='header-country'></span>");
+			});
+			
+			// 헤더에 나라 이름 표시
+			displayHeaderCountry();
 			
 			// 왼쪽 시간 표시 css 수정 
 			// 날짜 표시 있는 td는 셀 수직 병합 & css 수정
@@ -219,12 +226,18 @@ function initFullCalendar(planStartDate, planEndDate, isFirst){
 			dropTimetable.start = date; // 드롭한 일정의 시작시간 json 형태에 저장
 			var timetables = getTimetablesFromBrowser();
 			viewMap(dropTimetable, timetables);
+			
+			// 날짜 헤더에 나라 정보 변경
+			displayHeaderCountry();
 		}
 		// 다른 시간으로 일정 옮길때 호출
 		,eventDrop: function( event, delta, revertFunc, jsEvent, ui, view ){
 			// 지도 뷰 바꿔주기 
 			var timetables = getTimetablesFromBrowser();
-			viewMap(event, timetables);
+			viewMap(event, timetables);	
+			
+			// 날짜 헤더에 나라 정보 변경
+			displayHeaderCountry();
 		}
 		
 	}); // end $().fullCalendar() initMethod
@@ -257,6 +270,7 @@ function getTimetablesFromBrowser(){
 		var timetable = {
 				id: event.id
 				, title: event.title
+				, country_name: event.country_name
 				, address: event.address
 				, start: event.start.format("YYYY-MM-DD HH:mm")
 				, end: event.end.format("YYYY-MM-DD HH:mm")
@@ -288,6 +302,7 @@ function getTimetablesFromServer(){
 			id: ttbList[i].ttb_idx
 			, plan_idx: ttbList[i].plan_idx
 			, title: locList[i].place_name
+			, country_name: locList[i].country_name
 			, start: ttbList[i].start_time
 			, end: ttbList[i].end_time
 			, lat: locList[i].lat
@@ -332,6 +347,7 @@ function getTtbJsonForServer(event){
 			ttb_idx: event.id
 			, plan_idx: plan_idx
 			, place_name: event.title
+			, country_name: event.country_name
 			, address: event.address
 			, start_time: event.start.format("YYYY-MM-DD HH:mm") // 24시 형태
 			, end_time: event.end.format("YYYY-MM-DD HH:mm") // 24시 형태
@@ -342,4 +358,38 @@ function getTtbJsonForServer(event){
 	}
 	
 	return timetable;
+}
+
+function getSameDayTtb(start_date, timetables){
+	var list = [];
+	timetables.forEach(function(ttb){
+		if( getDiffDay(ttb.start, start_date) == 0){
+			list.push(ttb);
+		} 
+	});
+	return list;
+}
+
+function displayHeaderCountry(){
+	$('.fc-day-header').each(function(){
+		var start_date = $(this).attr('data-date');
+		console.log(start_date);
+		timetables = getTimetablesFromBrowser();
+		var sameDayTtb = getSameDayTtb(start_date, timetables);
+
+		var countryList = [];
+		sameDayTtb.forEach(function(ttb){
+			countryList.push(ttb.country_name); 
+		});
+		console.log(countryList);
+		
+		var length = countryList.length;
+		if(length > 0){
+			if(length == 1 || countryList[0] == countryList[length-1]){
+				$(this).find(".header-country").text(countryList[0]);
+			}else{
+				$(this).find(".header-country").text(countryList[0]+">"+countryList[length-1] );
+			}
+		}
+	});
 }

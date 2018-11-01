@@ -62,12 +62,15 @@ public interface UserService {
 	public int getCntPlan(User user);
 	
 	//내 총 여행거리 가져오기 
-	public int getTotDist(User user);
+	public double getTotDist(List<Plan> plannerList);
 	
 	
 	public List<User> getSelectAll();
 	
 	//현재 유저의 글을 제외한 모든 글 가져오기
 	public List<Plan> getAllPlanList(User cUser);
+	
+	// 총 게시물 수, 총 여행거리 정보 추가된 user 객체 반환
+	public User getUseraddedInfo(User user);
 	
 }

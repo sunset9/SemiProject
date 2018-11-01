@@ -5,15 +5,15 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
+import dto.plan.Plan;
+import dto.timetable.Location;
+import dto.user.Bookmark;
+import dto.user.UploadFile;
+import dto.user.User;
 import utils.DBConn;
 import utils.Paging;
-import dto.plan.Plan;
-import dto.user.Bookmark;
-import dto.user.User;
-import dto.user.UploadFile;
 
 public class UserDaoImpl implements UserDao{
 
@@ -444,7 +444,7 @@ public class UserDaoImpl implements UserDao{
 	public List<Plan> getPlanner(User user) {
 		
 		String sql = "";
-		sql += "SELECT p.PLAN_IDX, p.USER_IDX, p.START_DATE, p.END_DATE, p.TITLE, p.TRAVELED, p.OPENED, p.DISTANCE, p.CREATE_DATE, p.BannerURL";
+		sql += "SELECT p.PLAN_IDX, p.USER_IDX, p.START_DATE, p.END_DATE, p.TITLE, p.TRAVELED, p.OPENED, p.CREATE_DATE, p.BannerURL";
 		sql += " FROM USERINFO u JOIN PLANNER p";
 		sql += " ON u.user_idx = p.user_idx";
 		sql += " WHERE u.user_idx = ?";
@@ -474,7 +474,6 @@ public class UserDaoImpl implements UserDao{
 				plan.setTitle(rs.getString("TITLE"));
 				plan.setTraveled(rs.getInt("TRAVELED"));
 				plan.setOpened(rs.getInt("OPENED"));
-				plan.setDistance(rs.getInt("DISTANCE"));
 				plan.setCreate_date(rs.getDate("CREATE_DATE"));
 				plan.setBannerURL(rs.getString("BannerURL"));
 				//System.out.println("userDao plan : "+plan);
@@ -485,8 +484,8 @@ public class UserDaoImpl implements UserDao{
 			e.printStackTrace();
 		} finally {
 			try {
-				if(rs!=null)	rs.close();
 				if(ps!=null)	ps.close();
+				if(rs!=null)	rs.close();
 			} catch (SQLException e) {
 				e.printStackTrace();
 			}
@@ -534,8 +533,8 @@ public class UserDaoImpl implements UserDao{
 			e.printStackTrace();
 		} finally {
 			try {
-				if(rs!=null)	rs.close();
 				if(ps!=null)	ps.close();
+				if(rs!=null)	rs.close();
 			} catch (SQLException e) {
 				e.printStackTrace();
 			}
@@ -574,8 +573,8 @@ public class UserDaoImpl implements UserDao{
 			e.printStackTrace();
 		} finally {
 			try {
-				if(rs!=null)	rs.close();
 				if(ps!=null)	ps.close();
+				if(rs!=null)	rs.close();
 			} catch (SQLException e) {
 				e.printStackTrace();
 			}
@@ -586,41 +585,45 @@ public class UserDaoImpl implements UserDao{
 
 	//내 일정들에서 여행거리 리스트에 담기 
 	@Override
-	public int getTotDist(User user) {
-		String sql = "";
-		sql += "SELECT SUM(DISTANCE) FROM PLANNER";
-		sql += " WHERE USER_IDX = ?";
+	public List<Location> getTotDist(Plan plan) {
+		String sql = "SELECT lat, lng FROM LOCATION L"
+				+ " RIGHT JOIN timetable T"
+				+ " ON L.loc_idx = T.loc_idx"
+				+ " WHERE T.plan_idx = ?"
+				+ " ORDER BY T.start_time";
 		
-		//DB객체
+		
+		List<Location> latLngList = new ArrayList<>();
+		
+		//DB 객체
 		PreparedStatement ps = null;
 		ResultSet rs = null;
-		
-		int cnt = 0;
-		
+				
 		try {
 			ps = conn.prepareStatement(sql);
-			ps.setInt(1, user.getUser_idx());
-			
+			ps.setInt(1, plan.getPlan_idx());
 			rs = ps.executeQuery();
 			
-			rs.next();
-			
-			cnt = rs.getInt(1);
-			
+			while(rs.next()) {
+				Location loc = new Location();
+				
+				loc.setLat(rs.getDouble("lat"));
+				loc.setLng(rs.getDouble("lng"));
+				
+				latLngList.add(loc);
+			}
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} finally {
 			try {
-				if(rs!=null)	rs.close();
 				if(ps!=null)	ps.close();
+				if(rs!=null)	rs.close();
 			} catch (SQLException e) {
 				e.printStackTrace();
 			}
 		}
 		
-		
-		return cnt;
+		return latLngList;
 	}
 
 	@Override
@@ -958,7 +961,6 @@ public class UserDaoImpl implements UserDao{
 				plan.setTitle(rs.getString("TITLE"));
 				plan.setTraveled(rs.getInt("TRAVELED"));
 				plan.setOpened(rs.getInt("OPENED"));
-				plan.setDistance(rs.getInt("DISTANCE"));
 				plan.setCreate_date(rs.getDate("CREATE_DATE"));
 				plan.setBannerURL(rs.getString("BANNERURL"));
 				//System.out.println("userDaoImpl plan : "+plan);

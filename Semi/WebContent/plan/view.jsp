@@ -623,7 +623,7 @@ function displayStoryView(){
 			<b>${writtenUserView.nickname }</b>님 <br>
 			포스팅 : <b>${writtenUserView.totalPlanCnt }</b>개 <br>
 			등급 : <b>${writtenUserView.grade }</b><br>
-			<b>${planView.tot_dist }</b> km<br>
+			<b><fmt:formatNumber value='${writtenUserView.totalDist }' pattern=".00"/></b> km<br>
 		</div><br>
 		
 	 	<!-- 가계부 DIV -->
