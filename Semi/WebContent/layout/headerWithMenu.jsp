@@ -42,17 +42,14 @@
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap-theme.min.css">
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
 
+<link href='https://cdn.rawgit.com/openhiun/hangul/14c0f6faa2941116bb53001d6a7dcd5e82300c3f/nanumbarungothic.css' rel='stylesheet' type='text/css'>
 
 <style type="text/css">
-@font-face{
-	font-family: NanumBarunGothic-YetHangul;
-	src:url('/resources/fonts/NanumBarunGothic-YetHangul.ttf');
-}
 body {
 	width: 1160px;
 	margin: 0 auto;
-	font-family: NanumBarunGothic-YetHangul;
-	font-size: 1.6em;
+	font-family: 'Nanum Barun Gothic', sans-serif;
+	font-size: 15px;
 }
 .wholeHeader > div {
 	padding-bottom: 40px;
