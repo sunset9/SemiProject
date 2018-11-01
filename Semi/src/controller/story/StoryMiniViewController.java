@@ -1,6 +1,7 @@
 package controller.story;
 
 import java.io.IOException;
+import java.util.List;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -10,7 +11,11 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.google.gson.Gson;
 
+import dto.Account.Account;
+import dto.plan.Plan;
 import dto.story.Story;
+import service.account.AccountService;
+import service.account.AccountServiceImpl;
 import service.plan.PlanService;
 import service.plan.PlanServiceImpl;
 import service.stroy.StoryService;
@@ -23,6 +28,7 @@ public class StoryMiniViewController extends HttpServlet {
 
 	PlanService pService = new PlanServiceImpl();
 	StoryService sService = new StoryServiceImpl();
+	AccountService aService = new AccountServiceImpl();
 	
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -33,6 +39,13 @@ public class StoryMiniViewController extends HttpServlet {
 		Story param = sService.getParam(req);
 		// 스토리 가져오기
 		Story story = sService.getStory(param);
+		
+		Plan plan = new Plan();
+		
+		plan.setPlan_idx(story.getPlan_idx());
+		List<Account> accountList = aService.getPlanAccountList(plan);
+		
+		req.setAttribute("accountList",accountList );
 		
 		// json 형식으로 변환
 		String storyStr = gson.toJson(story);

@@ -10,9 +10,6 @@ import utils.Paging;
 
 public interface ContentsService {
 
-	// 검색한 리스트 가져오기
-	public List<Plan> getList(String category, String searchValue);
-	
 	// 현재 페이지 얻어오기 
 	public int getCurPage(HttpServletRequest req);
 

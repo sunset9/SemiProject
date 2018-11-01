@@ -15,8 +15,8 @@
 	</div>
 	<div class="body">
 		<div class="signUp">
-			<label>아이디 : </label>
-			<input type="text" id="userid" name="userid" placeholder="아이디"><br>
+			<label>이메일 : </label>
+			<input type="email" id="userid" name="userid" placeholder="이메일"><br>
 			<label>비밀번호 : </label>
 			<input type="password" id="userpw" name="userpw" placeholder="비밀번호"><br>
 			<label>비밀번호 확인 : </label>
@@ -32,6 +32,4 @@
 </div>
 </form>
 
-<!-- <img src="/image/basicProfile.png" />
- --></body>
 </html>

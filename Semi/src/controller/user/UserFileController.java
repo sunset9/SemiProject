@@ -110,14 +110,29 @@ public class UserFileController extends HttpServlet {
 			String path = "/upload/user/"+uploadFile.getStored_name();
 			
 			User cUser = (User) req.getSession().getAttribute("user");
-			System.out.println("userFileController : "+cUser);
-			cUser.setProfile(path);
+			User cUserSocial = (User) req.getSession().getAttribute("socialUser");
 			
-			// DB에서 유저의 profile 수정 
-			userDao.profileUpdate(cUser);	
+			if(cUserSocial == null) {
+				System.out.println("UserFileController 아이디 로그인 유저");
+				
+				cUser.setProfile(path);
+				
+				// DB에서 유저의 profile 수정 
+				userDao.profileUpdate(cUser);	
+				
+				req.getSession().setAttribute("user", cUser);
+			} else if(cUser == null) {
+				System.out.println("UserFileController 소셜 로그인 유저");
+				
+				cUserSocial.setProfile(path);
+				
+				// DB에서 유저의 profile 수정 
+				userDao.profileUpdate(cUserSocial);	
+				
+				req.getSession().setAttribute("socialUser", cUserSocial);
+			}
 			
-			req.getSession().setAttribute("user", cUser);
 		
-			resp.sendRedirect("/user/update");
+			resp.sendRedirect("/user/myPage");
 		}
 }

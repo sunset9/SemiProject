@@ -34,30 +34,25 @@ public class UserMypageController extends HttpServlet {
 		
 		if(cUserSocial == null) {
 			System.out.println("아이디 로그인 유저");
-			
-			req.setAttribute("user", cUser);
+
+			// 총 게시물 수, 총 여행거리 정보 추가된 user 객체 얻기
+			User user = userService.getUseraddedInfo(cUser);
+			req.setAttribute("user", user);
 			
 			//현재 유저의 일정들 가져오기
-			List<Plan> plannerList = userService.getPlanner(cUser);
+			List<Plan> plannerList = userService.getPlanner(user);
 			//planList
 			req.setAttribute("plannerList", plannerList);
 			System.out.println("유저마이페이지컨트롤러에서 plannerList : "+plannerList);
 			
-			//현재 유저의 포스팅 개수 가져오기 
-			int cntPlan = userService.getCntPlan(cUser);
-			req.setAttribute("cntPlan", cntPlan);
-			
-			//현재 유저의 총 여행 거리 가져오기 
-			int totDist = userService.getTotDist(cUser);
-			req.setAttribute("totDist", totDist);
 			
 			//모든 일정 가져오기
-			List<Plan> allPlanList = userService.getAllPlanList(cUser);
+			List<Plan> allPlanList = userService.getAllPlanList(user);
 			//System.out.println("userMyPageController allPlanList : "+allPlanList);
 			req.setAttribute("allPlanList", allPlanList);
 			
 			//현재 유저의 북마크 가져오기
-			List<Bookmark> bookMarkList = userService.getBookmarkList(cUser);
+			List<Bookmark> bookMarkList = userService.getBookmarkList(user);
 			//bookMarkList
 			req.setAttribute("bookMarkList", bookMarkList);
 			//System.out.println("mypagecontroller bList 잘 가져왔나 : "+bookMarkList); --> OK
@@ -65,29 +60,26 @@ public class UserMypageController extends HttpServlet {
 		} else if(cUser == null) {
 			System.out.println("소셜 로그인 유저");
 			
-			req.setAttribute("socialUser", cUserSocial);
+			// 총 게시물 수, 총 여행거리 정보 추가된 user 객체 얻기
+			User user = userService.getUseraddedInfo(cUserSocial);
+			req.setAttribute("socialUser", user);
+//			req.setAttribute("socialUser", cUserSocial);
 			
 			//현재 유저의 일정들 가져오기
-			List<Plan> plannerList = userService.getPlanner(cUserSocial);
+			List<Plan> plannerList = userService.getPlanner(user);
 			//planList
 			req.setAttribute("plannerList", plannerList);
 			
-			//현재 유저의 포스팅 개수 가져오기 
-			int cntPlan = userService.getCntPlan(cUserSocial);
-			req.setAttribute("cntPlan", cntPlan);
-			
-			//현재 유저의 총 여행 거리 가져오기 
-			int totDist = userService.getTotDist(cUserSocial);
-			req.setAttribute("totDist", totDist);
+
 			
 			//모든 일정 가져오기
-			List<Plan> allPlanList = userService.getAllPlanList(cUserSocial);
+			List<Plan> allPlanList = userService.getAllPlanList(user);
 			//System.out.println("userMyPageController allPlanList : "+allPlanList);
 			req.setAttribute("allPlanList", allPlanList);
 
 			
 			//현재 유저의 북마크 가져오기
-			List<Bookmark> bookMarkList = userService.getBookmarkList(cUserSocial);
+			List<Bookmark> bookMarkList = userService.getBookmarkList(user);
 			//bookMarkList
 			req.setAttribute("bookMarkList", bookMarkList);
 			//System.out.println("mypagecontroller bList 잘 가져왔나 : "+bookMarkList); --> OK

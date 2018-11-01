@@ -26,11 +26,14 @@ import service.stroy.StoryService;
 import service.stroy.StoryServiceImpl;
 import service.timetable.TimetableService;
 import service.timetable.TimetableServiceImpl;
+import service.user.UserService;
+import service.user.UserServiceImpl;
 
 @WebServlet("/plan")
 public class PlanViewController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
+	UserService uService = new UserServiceImpl();
 	PlanService pService = new PlanServiceImpl();
 	TimetableService ttbService = new TimetableServiceImpl();
 	StoryService sService = new StoryServiceImpl();
@@ -45,7 +48,6 @@ public class PlanViewController extends HttpServlet {
         Gson gson = gsonBuilder.create();
         
         Plan planParam = new Plan();
-        System.out.println(req.getParameter("plan_idx"));
         // view로 들어오는 파라미터값 확인
 //        if( req.getParameter("plan_idx") != null && !"".equals(req.getParameter("plan_idx"))) {
 ////        	req.getSession().setAttribute("plan_idx", planParam.getPlan_idx());
@@ -65,6 +67,8 @@ public class PlanViewController extends HttpServlet {
 		System.out.println(planView);
 		// 게시자 유저 정보 가져오기
 		User writtenUserView = pService.getUserInfo(planView);
+		// 총 게시물 수, 총 여행거리 정보 추가된  유저정보 가져오기
+		writtenUserView = uService.getUseraddedInfo(writtenUserView);
 		//userView MODEL 전달
 		req.setAttribute("writtenUserView", writtenUserView);
 		
@@ -130,6 +134,9 @@ public class PlanViewController extends HttpServlet {
 		
 		int acc_total = airfare+traffic+stay+admission+food+play+shop+etc;
 		req.setAttribute("acc_total", acc_total);
+		
+		int accCaledTotal = acc_total;
+		req.setAttribute("accCaledTotal", accCaledTotal);
 		
 		System.out.println(accView);
 		//accView MODEL 전달

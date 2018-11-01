@@ -69,7 +69,28 @@ public class AccountDaoImpl implements AccountDao {
 
 	@Override
 	public void deleteAccountListByStoryidx(Story story) {
-		// TODO Auto-generated method stub
+		String sql = "DELETE FROM ACCOUNT WHERE story_idx = ?";
+		
+		try {
+			ps = conn.prepareStatement(sql);
+			
+			ps.setInt(1, story.getStory_idx());
+			
+			ps.executeQuery();
+			
+			conn.commit();
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}finally {
+			try {
+				if (rs != null) rs.close();
+				if (ps != null) ps.close();
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
 		
 	}
 
