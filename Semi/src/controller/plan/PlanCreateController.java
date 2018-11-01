@@ -31,6 +31,7 @@ public class PlanCreateController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	
 	PlanService pService = new PlanServiceImpl();
+
 	TimetableService ttbService = new TimetableServiceImpl(); 
 	
 	@Override
@@ -170,6 +171,8 @@ public class PlanCreateController extends HttpServlet {
 		req.getRequestDispatcher("/plan/write.jsp")
 		.forward(req, resp);
 	}
+
+	TimetableService ttbService = new TimetableServiceImpl();
 	
 	@Override
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -200,7 +203,6 @@ public class PlanCreateController extends HttpServlet {
 			
 			//등록한 일정 정보 plan_idx가져오기
 			int plan_idx = pService.getPlan_idx();
-			System.out.println(plan_idx);
 			
 			// 일정 기본 정보 가져오기
 			Plan planView = pService.getPlanInfo(plan_idx);

@@ -65,7 +65,7 @@
 				<table>
 				<tr>	
 					<td>
-						<select name = "up_accType" class="up_accType">
+						<select name = "up_accType" class="up_accType" name = "up_accType">
 							<option value="1">항공료</option>
 							<option value="2">교통</optoin>
 							<option value="3">숙박</option>
@@ -77,7 +77,7 @@
 						</select>
 					</td>
 					<td>
-						<select name = "up_currSymbol" class="up_currSymbol">
+						<select name = "up_currSymbol" class="up_currSymbol" name = "up_currSymbol">
 							<option value = "1">USD</option>
 							<option value = "2">KRW</optoin>
 							<option value = "3">JPY</option>

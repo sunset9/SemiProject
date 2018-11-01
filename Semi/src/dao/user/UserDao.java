@@ -4,6 +4,7 @@ import java.util.List;
 
 import dto.user.UploadFile;
 import dto.plan.Plan;
+import dto.timetable.Location;
 import dto.user.Bookmark;
 import dto.user.User;
 import utils.Paging;
@@ -52,8 +53,7 @@ public interface UserDao {
 	//내 일정 포스팅 개수 가져오기
 	public int getCntPlan(User user);
 	
-	//내 일정의 여행거리들 리스트에 담아오기
-	//public int getTotDist(User user);
+	public List<Location> getTotDist(Plan plan);
 	
 	public User selectUserByUserIdx(User user);
 	

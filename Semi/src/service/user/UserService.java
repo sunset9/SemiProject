@@ -61,9 +61,7 @@ public interface UserService {
 	//내 일정 포스팅 개수 가져오기
 	public int getCntPlan(User user);
 	
-	//내 총 여행거리 가져오기 
-	//public int getTotDist(User user);
-	
+	public double getTotDist(List<Plan> plannerList);	
 	
 	public List<User> getSelectAll();
 	
@@ -78,5 +76,9 @@ public interface UserService {
 	
 	//gmailSend()
 	public void gmailSend(String userEmail, String tempPw);
+
+	// 총 게시물 수, 총 여행거리 정보 추가된 user 객체 반환
+	public User getUseraddedInfo(User user);
+
 	
 }

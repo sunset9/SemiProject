@@ -27,10 +27,9 @@
 
 <!-- 공개유무 슬라이드 버튼 -->
 <style type="text/css">
-	/* The switch - the box around the slider */
 	.switch {
 	  position: relative;
-	display: inline-block;
+	  display: inline-block;
 	  width: 60px;
 	  height: 34px;
 	  vertical-align:middle;
@@ -91,6 +90,7 @@
 	font-weight:bold; 
 	} 
 /* ------------------------------------------------------------------------ */
+
 /* 	구글 맵 크기 설정 */
 	#map {
 		background-color:#DDDDDD;
@@ -288,42 +288,22 @@ $(document).ready(function() {
 	$("#isChecked").click(function(){
 			
 // 		  $("p").toggle();
-		  var check = $("input[type='checkbox']").is(':checked');
+		  check = $("input[type='checkbox']").is(':checked');
 		  
 		  if(check) {
+			  check = 1;
 			document.getElementById("isClose").style.display= "none";
 			document.getElementById("isOpen").style.display= "block";
 		  } else {
+			  check = 0;
 			document.getElementById("isClose").style.display= "block";
 			document.getElementById("isOpen").style.display= "none";
 		  }
 			console.log(check);
+			
+			return check;
 		});
-	
-// 	저장버튼
-	$("#planCommit").click(function() {
-		isModify = 0;
-		console.log("wrte.jsp isModify : " + isModify);
-		
-// 		//AJAX 처리하기
-// 		$.ajax({ 	
-// 			type: "get"
-// 			, url: "/plan"
-// 			, data: {"plan_idx" : plan_idx }
-// 			, dataType: "html"
-// 			, success: function( d ) {
-				
-// 				$("#").html(d);
-				
-// 			}
-// 			, error: function() {
-// 				console.log("실패");
-// 			}
-// 		});
-		
-		
-		
-	});
+
 	
 	// 일정 일자 변경할때의 처리
 	var beforeStartDate = planStartDate;
@@ -432,51 +412,53 @@ function displayStoryView(){
 
 </head>
 <body>
-<!-- 플래너 대문 정보 DIV -->
-<div id="container" style="width:100%; border-radius:10px;background-color:#EEEEEE;">
-
+<!-- 플래너 배너 -->
+<div id="container" style="width:100%; height:400px; border-radius:10px; background-image:url('${planView.bannerURL }');background-size: 100% 100%;">
+	<form action="/plan/banner" method="post" enctype="multipart/form-data">
+		<input type="hidden" name="plan_idx" value="${planView.plan_idx}" />
+		<input type="hidden" name="user_idx" value="${planView.user_idx}" />
+		<input type="file" name="uploadFile" style="float:right;">
+		<button style="float:right;">배너 저장</button>
+	</form>
 	<!-- 플래너 대문 정보(공개유무, 수정버튼, 일정제목 등 UI) -->
-	<div style="background-color:#EEEEEE;">
+	<div id="editTitle" style="text-align:center;">
+	
+		<form action="/plan/update" method="post" id="planForm">
 		
-		<p id="isClose" style="display:none;">비공개</p>
-		<p id="isOpen" style="display:none;">공개 </p>
+		<select name="editOpened" >
+			<c:if test="${planView.opened eq 1 }">
+				<option value="1" selected="selected">공개</option>
+				<option value="0">비공개</option>
+			</c:if>
+			<c:if test="${planView.opened eq 0 }">
+				<option value="1" >공개</option>
+				<option value="0" selected="selected">비공개</option>
+			</c:if>
+		</select>
 		
-		<label id="btnSelectShare" class="switch" >
-			<input id="isChecked" type="checkbox" name="checkbox" value="check">
-			<span class="slider round"></span>
-		</label>
-	</div><br>
-		
-	<div id="header" style="background-color:#EEEEEE;text-align:center;">
-		
-		<div id="editTitle" >
-			<form action="/plan/update" method="post" id="planForm">
-				<div>
-					<input type="hidden" name="isSendWriteMode" value="false">
-					<input type="hidden" name="plan_idx" value="${planView.plan_idx}" />
-					<input type="hidden" name="user_idx" value="${planView.user_idx}" />
-					
-					제목 : <input id="editTitleView" name="editTitleView" type="text" value="${planView.title }" /><br><br>
-					출발일 : <input name="editStartDate" class ="planDate" type="date" value="${planView.start_date }"/>
-					도착일 : <input name="editEndDate" class ="planDate" type="date" value="${planView.end_date }"/><br><br>
-					<select name="editTraveled" >
-						<c:if test="${planView.traveled eq 1 }">
-							<option value="1" selected="selected">여행 전</option>
-							<option value="0">여행 후</option>
-						</c:if>
-						<c:if test="${planView.traveled eq 0 }">
-							<option value="1" >여행 전</option>
-							<option value="0" selected="selected">여행 후</option>
-						</c:if>
-					</select>
-<!-- 					여행 전 <input id="editTravledBefore" name="editTraveled" type="radio" value="1" checked="checked"/> -->
-<!-- 					여행 후 <input id="editTravledAfter" name="editTraveled" type="radio" value="0" /><br><br> -->
-				</div>
+			<div>
+				<input type="hidden" name="isSendWriteMode" value="false">
+				<input type="hidden" name="plan_idx" value="${planView.plan_idx}" />
+				<input type="hidden" name="user_idx" value="${planView.user_idx}" />
 				
-			</form>
-		</div>
-			<br>
+				제목 : <input name="editTitleView" type="text" value="${planView.title }" /><br><br>
+				출발일 : <input name="editStartDate" class ="planDate" type="date" value="${planView.start_date }"/>
+				도착일 : <input name="editEndDate" class ="planDate" type="date" value="${planView.end_date }"/><br><br>
+				<select name="editTraveled" >
+					<c:if test="${planView.traveled eq 1 }">
+						<option value="1" selected="selected">여행 전</option>
+						<option value="0">여행 후</option>
+					</c:if>
+					<c:if test="${planView.traveled eq 0 }">
+						<option value="1" >여행 전</option>
+						<option value="0" selected="selected">여행 후</option>
+					</c:if>
+				</select>
+			</div>
+			
+		</form>
 	</div>
+		<br>
 </div><br>
 <!-- 플래너 입력 정보 DIV -->
 <div id="container" style="width:100%; border-radius:10px;">
@@ -493,7 +475,7 @@ function displayStoryView(){
 			<b>${writtenUserView.nickname }</b>님 <br>
 			포스팅 : <b>${writtenUserView.totalPlanCnt }</b>개 <br>
 			등급 : <b>${writtenUserView.grade }</b><br>
-			<b>${planView.tot_dist }</b> km<br>
+			<b><fmt:formatNumber value='${writtenUserView.totalDist }' pattern=".00"/></b> km<br>
 		</div><br>
 		
 	 	<!-- 가계부 DIV -->

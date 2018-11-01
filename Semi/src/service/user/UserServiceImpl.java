@@ -1,6 +1,5 @@
 package service.user;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -20,6 +19,7 @@ import javax.servlet.http.HttpServletResponse;
 import dao.user.UserDao;
 import dao.user.UserDaoImpl;
 import dto.plan.Plan;
+import dto.timetable.Location;
 import dto.user.Bookmark;
 import dto.user.User;
 
@@ -198,11 +198,50 @@ public class UserServiceImpl implements UserService {
 		return userDao.getCntPlan(user);
 	}
 
-//	//내 총 여행거리 가져오기 
-//	@Override
-//	public int getTotDist(User user) {
-//		return userDao.getTotDist(user);
-//	}
+  
+	// 좌표와 좌표 계산
+	//calculate haversine distance for linear distance
+	//startLat : 시작 위도, startLong : 시작 경도, endLat : 도착 위도, endLong : 도착 경도
+	double getDistance(double startLat, double startLong, double endLat, double endLong)
+	{
+		double d2r = (Math.PI / 180.0);
+		
+	    double dlong = (endLong - startLong) * d2r;
+	    double dlat = (endLat - startLat) * d2r;
+	    double a = Math.pow(Math.sin(dlat/2.0), 2) + Math.cos(startLat*d2r) * Math.cos(endLat*d2r) * Math.pow(Math.sin(dlong/2.0), 2);
+	    double c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
+	    double d = 6367 * c;
+
+	    return d;
+	}
+	
+	//내 총 여행거리 가져오기 
+	@Override
+	public double getTotDist(List<Plan> plannerList) {
+		double totDist = 0;
+		
+		// 등록한 플래너가 하나 이상인 경우
+		if(plannerList.size() > 1) {
+			for(Plan plan: plannerList) {
+				// 해당 플랜에 있는 위치 정보들 방문 순서대로 가져온다
+				List<Location> latLngList = userDao.getTotDist(plan);
+				
+				// 플랜 별로 거리계산
+				for(int i = 0 ; i<latLngList.size()-1; i++) {
+					Location startLocation = latLngList.get(i);
+					Location endLocation = latLngList.get(i + 1);
+					
+					// 거리 계산
+					double dist = getDistance(startLocation.getLat(), startLocation.getLng(), endLocation.getLat(), endLocation.getLng());
+					
+					// 총 거리에 합한다
+					totDist += dist;
+				}
+			}
+		}
+		
+		return totDist;
+	}
 
 	@Override
 	public List<User> getSelectAll() {
@@ -293,6 +332,18 @@ public class UserServiceImpl implements UserService {
 			e.printStackTrace();
 		}
 		
+	// 총 게시물 수, 총 여행거리 정보 추가된 user 객체 반환
+	@Override
+	public User getUseraddedInfo(User cUser) {
+		User user = cUser;
+		
+		int cntPlan = getCntPlan(user);
+		double totDist = getTotDist(getPlanner(user));
+		
+		user.setTotalPlanCnt(cntPlan);
+		user.setTotalDist(totDist);
+		
+		return user;
 	}
 
 
