@@ -172,8 +172,6 @@ public class PlanCreateController extends HttpServlet {
 		.forward(req, resp);
 	}
 
-	TimetableService ttbService = new TimetableServiceImpl();
-	
 	@Override
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		System.out.println();
