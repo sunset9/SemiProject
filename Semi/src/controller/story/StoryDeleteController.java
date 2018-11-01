@@ -9,6 +9,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import dto.story.Story;
+import service.account.AccountService;
+import service.account.AccountServiceImpl;
 import service.plan.PlanService;
 import service.plan.PlanServiceImpl;
 import service.stroy.StoryService;
@@ -20,6 +22,7 @@ public class StoryDeleteController extends HttpServlet {
        
 	PlanService pService = new PlanServiceImpl();
 	StoryService sService = new StoryServiceImpl();
+	AccountService aService = new AccountServiceImpl();
 	
 	@Override
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -42,7 +45,8 @@ public class StoryDeleteController extends HttpServlet {
 		      }
 			
 			sService.delete(story);
-			
+			sService.deleteCommentListByStoryIdx(story);
+			aService.deleteAccountListByStoryIdx(story);
 			
 			String plan_idx = req.getParameter("plan_idx");
 			

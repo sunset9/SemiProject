@@ -172,7 +172,8 @@ public class StoryServiceImpl implements StoryService {
 
 	@Override
 	public void deleteCommentListByStoryIdx(Story story) {
-		// TODO Auto-generated method stub
+		
+		storyDao.deleteCommentListByStoryIdx(story);
 		
 	}
 

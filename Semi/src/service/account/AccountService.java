@@ -27,6 +27,8 @@ public interface AccountService {
 		
 		public void delete(Account account);
 		
+		public Float calcCost(int currSymbol, float Orgin_cost, float USD_rate, float KRW_rate, float JPY_rate);
+		
 		
 		
 }
