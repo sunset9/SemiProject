@@ -21,6 +21,7 @@ import service.stroy.StoryService;
 import service.stroy.StoryServiceImpl;
 import utils.CalcDate;
 import utils.DBConn;
+import utils.Paging;
 
 public class StoryDaoImpl implements StoryDao{
 	
@@ -350,7 +351,7 @@ public class StoryDaoImpl implements StoryDao{
 
 
 	@Override
-	public void deleteComment(Comment comment) {
+	public boolean deleteComment(Comment comment) {
 		
 		String sql = "DELETE FROM STORY_COMMENT WHERE comm_idx = ?";
 		
@@ -361,7 +362,6 @@ public class StoryDaoImpl implements StoryDao{
 			
 			conn.commit();
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} finally {
 			try {
@@ -373,18 +373,16 @@ public class StoryDaoImpl implements StoryDao{
 				e.printStackTrace();
 			}
 		}
-		
+		return true;
 	}
 
 	@Override
 	public void updateComment(Comment comment) {
-		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
 	public Comment selectCommentByContent(Comment comment) {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
@@ -632,5 +630,118 @@ public class StoryDaoImpl implements StoryDao{
 		return cnt;
 	}
 
+	@Override
+	public int selectCmtCnt(String search) {
+		
+		return 10;
+	}
+
+	@Override
+	public List<Comment> selectCmtPagingList(Paging paging) {
+		
+		String sql="";
+		sql+= "SELECT * FROM (";
+		   sql+= " SELECT rownum rnum, SC.*";
+		   sql+= " FROM (";
+		   sql+= "   SELECT";
+		   sql+= "    comm_idx,";
+		   sql+= "     story_idx,";
+		   sql+= "     plan_idx,";
+		   sql+= "     ttb_idx,";
+		   sql+= "     (SELECT nickname FROM userinfo U WHERE U.user_idx= C.user_idx) nick,";
+		   sql+= "     (SELECT profile FROM userinfo U WHERE U.user_idx= C.user_idx) profile,";
+		   sql+= "     story_comm,";
+		   sql+= "     create_date ";
+		   sql+= "  FROM story_comment C";
+		   sql+= "   ORDER BY create_date DESC"; 
+		   sql+= " ) SC";
+		   
+		   if(paging.getSearch()!=null && !"".equals(paging.getSearch())) {
+			    
+			  sql+= " WHERE story_comm";
+   		      sql+= " LIKE '%"+paging.getSearch()+"%'";
+			
+		   }
+		   
+		   sql+= " ORDER BY rnum";
+		   sql+= ") WHERE rnum between ? AND ?";
+		   
+		// DB 객체 생성
+			PreparedStatement ps = null;
+			ResultSet rs = null;
+
+			// 조회 결과 담을 list 생성
+			List<Comment> list = new ArrayList<>();
+
+			try {
+				// DB 작업 실행
+				ps = conn.prepareStatement(sql);
+
+				ps.setInt(1, paging.getStartNo());
+				ps.setInt(2, paging.getEndNo());
+
+				rs = ps.executeQuery();
+
+				// 조회 결과 List에 담기
+				while (rs.next()) {
+					Comment comm = new Comment();
+					
+					
+				// rs의 결과 DTO에 하나씩 저장하기
+					comm.setComm_idx(rs.getInt("comm_idx"));
+					comm.setPlan_idx(rs.getInt("plan_idx"));
+					comm.setTtb_idx(rs.getInt("ttb_idx"));
+					comm.setStory_idx(rs.getInt("story_idx"));
+					comm.setNickname(rs.getString("nick"));
+					comm.setProfile(rs.getString("profile"));
+					comm.setContent(rs.getString("story_comm"));
+					comm.setCreate_date(rs.getDate("create_date"));
+					
+
+//					// 조회 결과 List에 넣기
+					list.add(comm);
+
+				}
+			} catch (SQLException e) {
+				e.printStackTrace();
+			} finally {
+				try {
+					// DB객체 닫기
+					if (rs != null)
+						rs.close();
+					if (ps != null)
+						ps.close();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+			}
+			// 결과 반환
+		return list;
+	}
+
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 
 }

@@ -857,22 +857,41 @@ public class PlanDaoImpl implements PlanDao{
 
 	@Override
 	public int selectCntAll(int searchType, String search) {
-		System.out.println("검색어 : "+search);
-		System.out.println("검색타입 : "+searchType);
+		System.out.println("selectCntAll 검색어 : "+search);
+		System.out.println("selectCntAll검색타입 : "+searchType);
 		
 		
 		// 전체 게시글 수 조회
-		String sql = "SELECT COUNT(*) FROM planner   ";
-
-		if(searchType == 1) {
-			sql += "WHERE title ";
-		} else if(searchType == 2) {
-			sql += "WHERE nickname ";
-		}
+		String sql = "";
+		sql += "SELECT COUNT(*) FROM (";
+		sql += " SELECT * FROM (";
+		sql += " 	SELECT";
+		sql += "		PLAN_IDX,";
+		sql += "		USER_IDX,";
+		sql += "		( SELECT nickname FROM userinfo U WHERE P.user_idx = U.user_idx ) nickname,";
+		sql += "		START_DATE,";
+		sql += "		END_DATE,";
+		sql += "		TITLE,";
+		sql += "		TRAVELED,";
+		sql += "		OPENED,";
+		sql += "		DISTANCE,";
+		sql += "		BANNERURL,";
+		sql += "		CREATE_DATE";
+		sql += "	FROM planner P";
+		sql += " ) PL";
+		
 		
 		if (search != null && !"".equals(search)) {
+			if(searchType == 1) {
+				sql += " WHERE title ";
+			} else if(searchType == 2) {
+				sql += " WHERE nickname ";
+			}
 			sql += " LIKE '%"+search+"%'";
 		}
+		
+		sql += ") CNT";
+		
 
 		// DB객체 생성
 		PreparedStatement ps = null;
@@ -909,26 +928,45 @@ public class PlanDaoImpl implements PlanDao{
 	@Override
 	public List<Plan> selectPagingList(Paging paging) {
 		// 페이징 리스트 조회 쿼리
-		String sql = "SELECT * FROM( SELECT rownum rnum, PL.* FROM ( SELECT plan_idx, P.user_idx, " ;
-			   sql +=	"(SELECT nickname FROM userinfo U WHERE U.user_idx = P.user_idx )nickname  " ;
-			   sql +=", start_date, end_date, title, traveled, opened, bannerurl, create_date  " ;
-			   sql +="FROM planner P  ORDER BY user_idx DESC " ; 
-			   sql +=") PL  " ;
-			   
-			   // searchType 1이면 제목으로 조회
-			   if(paging.getSearchType()==1) {
-			   sql +="WHERE title  " ; 
-			   }else if (paging.getSearchType()==2) {
-				   // searchType 2이면 닉네임으로 조회
-				   sql+= "WHERE nickname";
-			   }
-			   
-			   if(paging.getSearch()!=null && !"".equals(paging.getSearch())) {
-					sql += "  LIKE '%"+paging.getSearch()+"%'";
-				}
-			   sql +="ORDER BY rnum   ) WHERE rnum between ? AND ?";
-		
 
+		   String sql = "";
+		   sql+= "SELECT * FROM (";
+		   sql+= " SELECT rownum rnum, PL.*";
+		   sql+= " FROM (";
+		   sql+= "   SELECT";
+		   sql+= "     plan_idx,";
+		   sql+= "     P.user_idx,";
+		   sql+= "     ( SELECT nickname FROM userinfo U WHERE U.user_idx = P.user_idx ) nickname,";
+		   sql+= "     start_date,";
+		   sql+= "     end_date,";
+		   sql+= "     title,";
+		   sql+= "     traveled,";
+		   sql+= "     opened,";
+		   sql+= "     distance,";
+		   sql+= "     bannerurl,";
+		   sql+= "     create_date";
+		   sql+= "   FROM planner P";
+		   sql+= "   ORDER BY user_idx DESC"; 
+		   sql+= " ) PL";
+		   
+		   
+		   System.out.println("dao search :" +paging.getSearch());
+		   System.out.println("dao searchType : " +paging.getSearchType());
+		   if(paging.getSearch()!=null && !"".equals(paging.getSearch())) {
+			      if(paging.getSearchType()==1) {
+			         // searchType 1이면 제목으로 조회
+			         sql+= " WHERE title"; 
+			      } else if (paging.getSearchType()==2) {
+			         // searchType 2이면 닉네임으로 조회
+			      sql+= " WHERE nickname";
+			      }
+			            
+			      sql+= " LIKE '%"+paging.getSearch()+"%'";
+
+			   }
+
+		   sql+= " ORDER BY rnum";
+		   sql+= ") WHERE rnum between ? AND ?";
 		// DB 객체 생성
 		PreparedStatement ps = null;
 		ResultSet rs = null;
