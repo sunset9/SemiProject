@@ -299,31 +299,7 @@ $(document).ready(function() {
 		  }
 			console.log(check);
 		});
-	
-// 	저장버튼
-	$("#planCommit").click(function() {
-		isModify = 0;
-		console.log("wrte.jsp isModify : " + isModify);
-		
-// 		//AJAX 처리하기
-// 		$.ajax({ 	
-// 			type: "get"
-// 			, url: "/plan"
-// 			, data: {"plan_idx" : plan_idx }
-// 			, dataType: "html"
-// 			, success: function( d ) {
-				
-// 				$("#").html(d);
-				
-// 			}
-// 			, error: function() {
-// 				console.log("실패");
-// 			}
-// 		});
-		
-		
-		
-	});
+
 	
 	// 일정 일자 변경할때의 처리
 	var beforeStartDate = planStartDate;
@@ -493,7 +469,7 @@ function displayStoryView(){
 			<b>${writtenUserView.nickname }</b>님 <br>
 			포스팅 : <b>${writtenUserView.totalPlanCnt }</b>개 <br>
 			등급 : <b>${writtenUserView.grade }</b><br>
-			<b>${planView.tot_dist }</b> km<br>
+			<b><fmt:formatNumber value='${writtenUserView.totalDist }' pattern=".00"/></b> km<br>
 		</div><br>
 		
 	 	<!-- 가계부 DIV -->

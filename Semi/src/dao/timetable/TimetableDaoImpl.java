@@ -60,7 +60,7 @@ public class TimetableDaoImpl implements TimetableDao{
 	// plan_idx, ttb_idx가 일치하는 Location 정보 조회
 	public Location selectLocationList(Plan plan, Timetable ttb) {
 		Location loc = new Location();
-		String sql = "SELECT l.loc_idx, l.place_name, l.lat, l.lng, l.address, l.photo_url, l.place_id FROM location l"
+		String sql = "SELECT l.loc_idx, l.place_name, l.country_name, l.lat, l.lng, l.address, l.photo_url, l.place_id FROM location l"
 				+ " RIGHT JOIN timetable t"
 				+ " ON t.loc_idx = l.loc_idx"
 				+ " WHERE t.plan_idx = ? AND t.ttb_idx = ?" ; 
@@ -75,6 +75,7 @@ public class TimetableDaoImpl implements TimetableDao{
 			while(rs.next()) {
 				loc.setLoc_idx(rs.getInt("loc_idx"));
 				loc.setPlace_name(rs.getString("place_name"));
+				loc.setCountry_name(rs.getString("country_name"));
 				loc.setLat(rs.getFloat("lat"));
 				loc.setLng(rs.getFloat("lng"));
 				loc.setAddress(rs.getString("address"));
@@ -201,8 +202,8 @@ public class TimetableDaoImpl implements TimetableDao{
 
 	// 위치 정보 삽입
 	public void insertLocation(Location loc) {
-		String sql = "INSERT INTO location(loc_idx, place_name, lat, lng, address, photo_url, place_id)"
-				+ " VALUES (location_seq.nextval, ?, ?, ?, ?, ?, ?)";
+		String sql = "INSERT INTO location(loc_idx, place_name, country_name, lat, lng, address, photo_url, place_id)"
+				+ " VALUES (location_seq.nextval, ?, ?, ?, ?, ?, ?, ?)";
 		
 		try {
 			// 오토커밋 해제
@@ -210,11 +211,12 @@ public class TimetableDaoImpl implements TimetableDao{
 			
 			ps = conn.prepareStatement(sql);
 			ps.setString(1, loc.getPlace_name());
-			ps.setDouble(2, loc.getLat());
-			ps.setDouble(3, loc.getLng());
-			ps.setString(4, loc.getAddress());
-			ps.setString(5, loc.getPhoto_url());
-			ps.setString(6, loc.getPlace_id());
+			ps.setString(2, loc.getCountry_name());
+			ps.setDouble(3, loc.getLat());
+			ps.setDouble(4, loc.getLng());
+			ps.setString(5, loc.getAddress());
+			ps.setString(6, loc.getPhoto_url());
+			ps.setString(7, loc.getPlace_id());
 			
 			ps.executeUpdate();
 			

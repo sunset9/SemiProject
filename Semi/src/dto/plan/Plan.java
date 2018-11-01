@@ -17,14 +17,10 @@ public class Plan {
 	private int traveled;
 //	공개 여부 -> 1 or 0 값만
 	private int opened;
-//	여행 거리 -> 게시글 마다의 여행 거리
-	private int distance;
 //	작성일
 	private Date create_date;
 //	배너 url
 	private String bannerURL;
-//	총 여행 거리
-	private int tot_dist;
 	
 	// 유저 nickname 
 	private String nick;
@@ -45,19 +41,12 @@ public class Plan {
 		this.bannerURL = bannerURL;
 	}
 
-	public int getTot_dist() {
-		return tot_dist;
-	}
-
-	public void setTot_dist(int tot_dist) {
-		this.tot_dist = tot_dist;
-	}
 	
 	@Override
 	public String toString() {
 		return "Plan [plan_idx=" + plan_idx + ", user_idx=" + user_idx + ", start_date=" + start_date + ", end_date="
-				+ end_date + ", title=" + title + ", traveled=" + traveled + ", opened=" + opened + ", distance="
-				+ distance + ", create_date=" + create_date + ", bannerURL=" + bannerURL + ", tot_dist=" + tot_dist
+				+ end_date + ", title=" + title + ", traveled=" + traveled + ", opened=" + opened
+				+ ", create_date=" + create_date + ", bannerURL=" + bannerURL
 				+ ", nick=" + nick + "]";
 	}
 
@@ -115,14 +104,6 @@ public class Plan {
 
 	public void setOpened(int opened) {
 		this.opened = opened;
-	}
-
-	public int getDistance() {
-		return distance;
-	}
-
-	public void setDistance(int distance) {
-		this.distance = distance;
 	}
 
 	public Date getCreate_date() {

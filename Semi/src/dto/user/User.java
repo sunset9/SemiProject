@@ -15,12 +15,13 @@ public class User implements Serializable{
 	private String snsType;
 	private Date create_date;
 	private int totalPlanCnt; //총 게시글 개수 조회
-	
+	private double totalDist; // 총 여행 거리
+
 	@Override
 	public String toString() {
 		return "User [user_idx=" + user_idx + ", id=" + id + ", password=" + password + ", nickname=" + nickname
 				+ ", profile=" + profile + ", grade=" + grade + ", sns_idx=" + sns_idx + ", snsType=" + snsType
-				+ ", create_date=" + create_date + ", totalPlanCnt=" + totalPlanCnt + "]";
+				+ ", create_date=" + create_date + ", totalPlanCnt=" + totalPlanCnt + ", totalDist=" + totalDist + "]";
 	}
 
 	public String getSnsType() {
@@ -101,6 +102,14 @@ public class User implements Serializable{
 
 	public void setTotalPlanCnt(int totalPlanCnt) {
 		this.totalPlanCnt = totalPlanCnt;
+	}
+
+	public double getTotalDist() {
+		return totalDist;
+	}
+
+	public void setTotalDist(double totalDist) {
+		this.totalDist = totalDist;
 	}
 	
 	
