@@ -125,7 +125,7 @@ public class UserFileController extends HttpServlet {
 				System.out.println("UserFileController 소셜 로그인 유저");
 				
 				cUserSocial.setProfile(path);
-				
+				System.out.println(cUserSocial);
 				// DB에서 유저의 profile 수정 
 				userDao.profileUpdate(cUserSocial);	
 				

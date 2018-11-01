@@ -63,6 +63,7 @@ public class UserMypageController extends HttpServlet {
 			// 총 게시물 수, 총 여행거리 정보 추가된 user 객체 얻기
 			User user = userService.getUseraddedInfo(cUserSocial);
 			req.setAttribute("socialUser", user);
+			System.out.println("userMypage "+user);
 //			req.setAttribute("socialUser", cUserSocial);
 			
 			//현재 유저의 일정들 가져오기

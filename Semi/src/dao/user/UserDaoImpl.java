@@ -124,6 +124,7 @@ public class UserDaoImpl implements UserDao{
 	//회원가입처리(email)
 	@Override
 	public void insert(User user) {
+		System.out.println("userDao "+user);
 		String sql = "";
 
 		sql += "INSERT INTO userinfo(user_idx, id, password, nickname, profile, grade, sns_idx, create_date)";
@@ -133,7 +134,11 @@ public class UserDaoImpl implements UserDao{
 			sql += " VALUES(userinfo_seq.nextval, ?, ?, ?, ?, '여행자', 4, sysdate)";
 		} else if(user.getSns_idx() == 3) {
 			sql += " VALUES(userinfo_seq.nextval, ?, ?, ?, ?, '여행자', 3, sysdate)";
+		} else if(user.getSns_idx() == 2) {
+			sql += " VALUES(userinfo_seq.nextval, ?, ?, ?, ?, '여행자', 2, sysdate)";
 		}
+
+		//sql += " VALUES(userinfo_seq.nextval, ?, ?, ?, ?, '여행자', "+user.getSns_idx()+", sysdate)";
 		
 		PreparedStatement ps = null;
 		
@@ -146,11 +151,15 @@ public class UserDaoImpl implements UserDao{
 			ps.setString(3, user.getNickname());
 			if(user.getSns_idx() == 1) {
 				ps.setString(4, "/image/basicProfile.png");
-			} else if(user.getSns_idx() == 4) {
-				ps.setString(4, user.getProfile());
-			} else if(user.getSns_idx() == 3) {
+			} else {
 				ps.setString(4, user.getProfile());
 			}
+
+//			if(user.getSns_idx() == 1) {
+//				ps.setString(4, "/image/basicProfile.png");
+//			} else {
+//				ps.setString(4, user.getProfile());
+//			}
 			ps.executeUpdate();
 			
 			conn.commit();
