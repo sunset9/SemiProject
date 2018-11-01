@@ -331,6 +331,7 @@ public class UserServiceImpl implements UserService {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+	}
 		
 	// 총 게시물 수, 총 여행거리 정보 추가된 user 객체 반환
 	@Override
