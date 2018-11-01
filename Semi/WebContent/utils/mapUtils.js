@@ -230,18 +230,41 @@ function viewDetails(placeRes, status, prediction){
 		// 띄워줄 텍스트 지정
 		li.text(placeRes.name); 
 		
-		// 주소 레벨에서 우선 적당한거 선택..
+		// 주소 지정
 		var address = placeRes.address_components;
-		var address_name;
-		if(address.length < 3){
-			address_name = address[address.length-1].long_name;
-		}else{
-			address_name = address[address.length-3].long_name
+		// 나라이름 파싱
+		var country_name; 
+		address.forEach(function(addr){
+			if(addr.types.indexOf("country") >= 0){
+				country_name = addr.long_name;
+				return;
+			}
+		});
+		// 지역명 파싱
+		var locality;
+		address.forEach(function(addr){
+			if(addr.types.indexOf("locality") >= 0){
+				locality = addr.long_name;
+				return;
+			}
+		});
+		// 국가 수준 이하의 1 차 행정 수준 파싱
+		var area_level_1; 
+		if(area_level_1 == null){
+			address.forEach(function(addr){
+				if(addr.types.indexOf("administrative_area_level_1") >= 0){
+					area_level_1 = addr.long_name;
+					return;
+				}
+			});
 		}
-		li.text(li.text() + " /" + address_name);
-		
-		// 장소 타입 지정. 우선 전부 다
-		li.text(li.text() + " /" +  placeRes.types);
+		if(locality != null){ // 지역명 있으면 - 나라이름+지역명
+			li.text(li.text() + " /" + country_name + " - " + locality);
+		}else if(area_level_1 != null){ // 지역명 없고, 1차 행정수준명 있으면 - 나라이름+행정수준명
+			li.text(li.text() + " /" + country_name + " - " + area_level_1);
+		} else{ // 둘다 없으면, 나라이름만
+			li.text(li.text() + " /" + country_name);
+		}
 		
 		
 		// 사진 url
@@ -273,6 +296,7 @@ function viewDetails(placeRes, status, prediction){
 			, plan_idx: plan_idx
 			, title: placeRes.name
 			, address: placeRes.formatted_address
+			, country_name: country_name
 			, lat: placeRes.geometry.location.lat()
 			, lng: placeRes.geometry.location.lng()
 			, photo_url: photo_url

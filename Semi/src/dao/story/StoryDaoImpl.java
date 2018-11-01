@@ -133,8 +133,31 @@ public class StoryDaoImpl implements StoryDao{
 	
 	@Override
 	public Story selectStoryByStoryIdx(Story story) {
-		// TODO Auto-generated method stub
-		return null;
+		String sql ="";
+		sql += "SELECT * FROM story where story_idx=?";
+		
+		try {
+			conn.setAutoCommit(false);
+			ps= conn.prepareStatement(sql);
+			
+			ps.setInt(1, story.getStory_idx());
+			
+			rs = ps.executeQuery();
+
+			while(rs.next()) {
+				story.setStory_idx(rs.getInt("story_idx"));
+				story.setPlan_idx(rs.getInt("plan_idx"));
+				story.setTtb_idx(rs.getInt("ttb_idx"));
+				story.setUser_idx(rs.getInt("user_idx"));
+				story.setContent(rs.getString("content"));
+				story.setCreate_date(rs.getDate("create_date"));
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		return story;
 	}
 
 	@Override
@@ -456,7 +479,27 @@ public class StoryDaoImpl implements StoryDao{
 
 	@Override
 	public void deleteCommentListByStoryIdx(Story story) {
-		// TODO Auto-generated method stub
+	String sql = "DELETE FROM STORY_COMMENT WHERE story_idx = ?";
+		
+		try {
+			ps = conn.prepareStatement(sql);
+			ps.setInt(1, story.getStory_idx());
+			ps.executeQuery();
+			
+			conn.commit();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			try {
+				//DB객체 닫기
+				if(rs!=null)	rs.close();
+				if(ps!=null)	ps.close();
+				
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
 		
 	}
 

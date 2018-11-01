@@ -114,7 +114,7 @@
 							onmouseleave="mleave($(this))" onmousedown="mdown($(this))"></span>
 								</td>
 								<td>
-									<span class="glyphicon glyphicon-remove accountRemove" name = "removeAcoountName" onclick = "removeAccount()" style="display: none" 33onmouseover="mover($(this))" 
+									<span class="glyphicon glyphicon-remove accountRemove" name = "removeAcoountName" onclick = "removeAccount()" style="display: none" onmouseover="mover($(this))" 
 							onmouseleave="mleave($(this))" onmousedown="mdown($(this))"></span>
 								</td>
 							</tr>

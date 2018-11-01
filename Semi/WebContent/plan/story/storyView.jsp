@@ -66,12 +66,35 @@ hr{
 
 </style>
 <script type="text/javascript">
-	
+
+var USD_rate=0;
+var KRW_rate=0;
+var JPY_rate=0;
+var cnt = 0;
+var up_cnt = 0;
 	$(document).ready(function(){
-	    //edit 모드일때, 수정버튼삭제버튼추가버튼 보여주지 않음
+	      
+	     $.ajax({ 
+           url: "http://api.manana.kr/exchange/rate/KRW/JPY,KRW,USD.json", 
+           type: "GET", 
+           crossDomain: true, 
+           dataType: "json", 
+           success: function (data) { 
+        	   	 JPY_rate = data[0].rate; 
+                 KRW_rate = data[1].rate;
+                 USD_rate = data[2].rate;
+             },
+           error : function (e) {
+             console.log(e);
+        
+     		}
+		 }); 
+		
+		
+	  
 	    
 	    function EditMode() {
-	    	
+	     //edit 모드일때, 수정버튼삭제버튼추가버튼 보여주지 않음	
 	     var removeStorys = document.getElementsByClassName("removeStory");
 	     var updateStorys = document.getElementsByClassName("updateStory");
 	     var plusStorys = document.getElementsByClassName("storyPlus");
@@ -140,46 +163,48 @@ hr{
 			$(".plan_idx").val(plan_idx);	
 		})
 		
+
+		
 		
 		//수정하기
 		$(".updateStory").click(function() {
 			
-			var place_name =$(this).data("place");
-			var story_idx = $(this).data("storyidx");
-			var planidx = plan_idx;
-			var content = $(this).data("content");
-			var ttb_idx = $(this).data("ttbidx");
+				var place_name =$(this).data("place");
+				var story_idx = $(this).data("storyidx");
+				var planidx = plan_idx;
+				var content = $(this).data("content");
+				var ttb_idx = $(this).data("ttbidx");
 			
-			$(".up_modalPlaceName").text(place_name);
-			$(".up_story_idx").val(story_idx);	
-			$(".up_ttb_idx").val(ttb_idx);
-			$('.up_content').froalaEditor('html.set', content);
-			$(".up_plan_idx").val(planidx);	
-			
-			var accountStoryidx = [];
-			var accountCategory = [];
-			var accountCurridx = [];
-			var accountCost = [];
+				$(".up_modalPlaceName").text(place_name);
+				$(".up_story_idx").val(story_idx);	
+				$(".up_ttb_idx").val(ttb_idx);
+				$('.up_content').froalaEditor('html.set', content);
+				$(".up_plan_idx").val(planidx);	
+				
+				var accountStoryidx = [];
+				var accountCategory = [];
+				var accountCurridx = [];
+				var accountCost = [];
 
-			<c:forEach items="${accountList}" var="account">
+				//업데이트 모달 띄울때, account 표시 하기 위한 account값 가져오기
+				<c:forEach items="${accountList}" var="account">
 					accountStoryidx.push("${account.story_idx}");
 					accountCategory.push("${account.category}");
 					accountCurridx.push("${account.curr_idx}");
 					accountCost.push("${account.origin_cost}");
-			</c:forEach>
-			var count = 0;
-			
-			for (var i = 0; i <accountStoryidx.length; i++) {
-					if( story_idx == accountStoryidx[i]){
-						var accountView = $("#up_accountView").clone();
-						
-						if(count != 0){
-							$("#up_accountViewList").append(accountView);	
+				</c:forEach>
+				
+				var count = 0;
+				for (var i = 0; i <accountStoryidx.length; i++) {
+						if( story_idx == accountStoryidx[i]){
+							var accountView = $("#up_accountView").clone();
+							
+							if(count != 0){
+								$("#up_accountViewList").append(accountView);	
+							}
+							count = count+1;
 						}
-						count = count+1;
-					}
-	
-			}
+				}
 					
 		 		var size = document.getElementsByName("up_accountViewName").length;
 		 		
@@ -187,26 +212,32 @@ hr{
 		 		var accTypeList = [];
 		 		var accCostList = [];
 		 		
-		 		
 		 		for(var i = 0; i < size; i++){
 			        var obj = document.getElementsByName("up_accountViewName")[i];
 			        
 			        $(obj).find(".accountPlus").css("display","none");
 			        $(obj).find(".accountRemove").css("display","block");
 			        
-			        
-			        for (var i = 0; i <accountStoryidx.length; i++) {
-						if( story_idx == accountStoryidx[i]){
-							accTypeList.push(accountCategory[i]);
-							accCurrNameList.push(accountCurridx[i]);
-							accCostList.push(accountCost[i]);
+			        var ch = false;
+			        for (var j = 0; j <accountStoryidx.length; j++) {
+						if( story_idx == accountStoryidx[j]){
+							accTypeList.push(accountCategory[j]);
+							accCurrNameList.push(accountCurridx[j]);
+							accCostList.push(accountCost[j]);
+							ch = true;
 						}
 			        }
 			        
-			        $(obj).find(".up_accType").val(accTypeList[i]);
-			        $(obj).find(".up_currSymbol").val(accCurrNameList[i]);
-					$(obj).find(".up_cost").val(accCostList[i]);
-			        
+			        if (ch == false) {
+					   $(obj).find(".up_accType").val(1);
+				        $(obj).find(".up_currSymbol").val(1);
+						$(obj).find(".up_cost").val("");
+			        }else{
+				        $(obj).find(".up_accType").val(accTypeList[i]);
+				        $(obj).find(".up_currSymbol").val(accCurrNameList[i]);
+						$(obj).find(".up_cost").val(accCostList[i]);
+			        }
+
 			        if (i == size-1){
 					    $(obj).find(".accountPlus").css("display","block");
 			        }
@@ -220,7 +251,8 @@ hr{
 		})
 
 		
-		//저장하기
+	//스토리 새로 만드는 모달 save 버튼클릭 이벤트
+	//스토리저장
 	$(".storySaveBtn").click(function() {
 			
 			var storyJSON = {
@@ -228,7 +260,6 @@ hr{
 				, plan_idx : $(".plan_idx").val() 
 				, content  : $(".content").val()
 			};
-			
 			
 			var accTypeLen = $("select[name='accType']").length;
 		    var accType = new Array(accTypeLen);
@@ -247,12 +278,10 @@ hr{
 			//ajax로 배열 전송하기 위한 방식
 			$.ajaxSettings.traditional = true
 			
-			console.log(accType);
-			
 			$.ajax({
 				type : "POST"
 				, url : "/story/write"
-				, data : {JSON : jsonData, "accType": accType, "currSymbol" :currSymbol, "cost":cost}
+				, data : {JSON : jsonData, "accType": accType, "currSymbol" :currSymbol, "cost":cost,"USD_rate":USD_rate,"KRW_rate":KRW_rate,"JPY_rate":JPY_rate}
 				, dataType : "html"
 				, success : function (res) {
 					$("#viewStory").html(res);
@@ -268,7 +297,8 @@ hr{
 			
  		});
  		
- 		
+ 		// 스토리 업데이트창 save버튼 클릭이벤트
+ 		// 스토리 업데이트
  		$(".storyUpdateBtn").click(function () {
  			var storyJSON = {
  					story_idx : $(".up_story_idx").val() 
@@ -279,10 +309,24 @@ hr{
  				
  				var jsonData = JSON.stringify(storyJSON);
  				
- 				$.ajax({
+ 				
+ 				var accTypeLen = $("select[name='up_accType']").length;
+ 			    var accType = new Array(accTypeLen);
+ 			    var currSymbol = new Array(accTypeLen);
+ 			    var cost = new Array(accTypeLen);
+ 			    
+ 			    for(var i=0; i<accTypeLen; i++){                          
+ 			    	accType[i] = $("select[name='up_accType']")[i].value;
+ 			    	currSymbol[i] = $("select[name='up_currSymbol']")[i].value;
+ 			    	cost[i] = $("input[name='up_cost']")[i].value;
+ 			    }
+ 			    //배열 전송 하기 위한 옵션 
+ 			   $.ajaxSettings.traditional = true
+ 				
+ 			   $.ajax({
  					type : "POST"
  					, url : "/story/update"
- 					, data : {JSON : jsonData}
+ 					, data : {JSON : jsonData,"accType": accType, "currSymbol" :currSymbol, "cost":cost,"USD_rate":USD_rate,"KRW_rate":KRW_rate,"JPY_rate":JPY_rate}
  					, dataType : "html"
  					, success : function (res) {
  						$("#viewStory").html(res);
@@ -296,6 +340,48 @@ hr{
  	 			})
  		});
  		
+ 		//모달 숨겨질때
+ 		$('.modal').on('hidden.bs.modal',function(e){
+ 			
+ 			//업데이트모달 데이터리셋
+ 			var size = document.getElementsByName("up_accountViewName").length
+ 			
+ 			for(var i = size-1; i > 0; i--){
+		        var obj = document.getElementsByName("up_accountViewName")[i];
+		        obj.remove();
+ 			}
+ 			
+ 			var obj1 = document.getElementsByName("up_accountViewName")[0]
+ 			
+ 			$(obj1).find(".up_accType").val(1);
+	        $(obj1).find(".up_currSymbol").val(1);
+			$(obj1).find(".up_cost").val("");
+			
+			//--추가 모달
+			var edit = document.getElementById("edit");
+			
+			$('.content').froalaEditor('html.set', "");
+			
+ 			var size = document.getElementsByName("accountViewName").length
+ 			
+ 			for(var i = size-1; i > 0; i--){
+		        var obj = document.getElementsByName("accountViewName")[i];
+		        obj.remove();
+ 			}
+ 			
+ 			var obj1 = document.getElementsByName("accountViewName")[0]
+ 			
+ 			$(obj1).find(".accType").val(1);
+	        $(obj1).find(".currSymbol").val(1);
+			$(obj1).find(".cost").val("");
+			
+			$(obj1).find(".accountPlus").css("display","block");
+	        $(obj1).find(".accountRemove").css("display","none");
+	        
+	        //모달 닫으면 카운트값 초기화(가계부입력공간 개수)
+	        cnt = 0;
+	        up_cnt = 0;
+ 		})
 	});
 	
 
@@ -321,6 +407,7 @@ hr{
 		}
 	}
 	
+	//댓글 갯수 클릭할때 댓글 보여지기
 	function CommentViewClick(storyIdx,plan_idx) {
 		
 		var commentViewId = "#CommentView"+storyIdx;
@@ -365,6 +452,7 @@ hr{
  		obj.css("color", "#999999");
 	}
 
+ 	//댓글 세이브
  	function CommSave(story_idx,ttb_idx,plan_idx) {
  		
  		var id = "#CommContent"+story_idx;
@@ -395,6 +483,7 @@ hr{
  	
  	
 
+ 	//댓글 삭제
  	function removeComm(comm_idx,story_idx,plan_idx) {
  		
  		var commentViewId = "#CommentView"+story_idx;
@@ -413,11 +502,12 @@ hr{
  		
  	}
  	
- 	var cnt = 0;
+ 
  	
+ 	//가계부 추가
  	function appendAccount() {
  		
- 		if (cnt < 4){
+ 		if (cnt < 5){
 			
 			var accountView = $("#accountView").clone();
 	 		$("#accountViewList").append(accountView);
@@ -441,12 +531,14 @@ hr{
 		        
 		        if (size == 5 && i == size-1){
 			    	 $(obj).find(".accountPlus").css("display","none");
+			    	
 		        }
 			 }
 		
 		}
 	}
  	
+ 	//가계부 삭제
  	function removeAccount() {
  		
  		var removeObj = window.event.target.parentElement.parentElement.parentElement.parentElement.parentElement;
@@ -478,15 +570,18 @@ hr{
 		 }
 	}
  	
- 	var up_cnt = document.getElementsByName("up_accountViewName").length;
  	
+ 	
+ 	//업데이트 가계부 추가
+ 	up_cnt = document.getElementsByName("up_accountViewName").length;
  	function UpappendAccount() {
- 		
- 		if (up_cnt < 4){
-			
+ 		if (up_cnt < 5){
+ 			
+ 			console.log(up_cnt);
+ 			
 			var accountView = $("#up_accountView").clone();
 	 		$("#up_accountViewList").append(accountView);
-	 		
+		    
 	 		up_cnt = up_cnt+1;
 			
 			var size = document.getElementsByName("up_accountViewName").length;
@@ -498,10 +593,11 @@ hr{
 		        $(obj).find(".accountRemove").css("display","block");
 		        
 		        if (i == size-1){
+		        	console.log("1");
 				    $(obj).find(".accountPlus").css("display","block");
-		        	$(obj).find(".cost").val("");
-		        	$(obj).find(".accType").val(1);
-		        	$(obj).find(".currSymbol").val(1);
+		        	$(obj).find(".up_cost").val("");
+		        	$(obj).find(".up_accType").val(1);
+		        	$(obj).find(".up_currSymbol").val(1);
 		        }
 		        
 		        if (size == 5 && i == size-1){
@@ -513,6 +609,7 @@ hr{
 	}
  	
  	
+ 	//업데이트 가계부 삭제
 	function UpremoveAccount() {
  		
  		var removeObj = window.event.target.parentElement.parentElement.parentElement.parentElement.parentElement;

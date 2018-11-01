@@ -48,13 +48,10 @@ public class PlanDaoImpl implements PlanDao{
 				planInfo.setTitle( rs.getString("title") );
 				planInfo.setTraveled( rs.getInt("traveled") );
 				planInfo.setOpened( rs.getInt("opened") );
-				planInfo.setDistance( rs.getInt("distance") );
 				planInfo.setCreate_date( rs.getDate("create_date") );
 				planInfo.setBannerURL( rs.getString("bannerURL") );
 				
 			}
-			
-			planInfo.setTot_dist(selectTotalDistance());
 			
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -70,44 +67,6 @@ public class PlanDaoImpl implements PlanDao{
 		}
 		// 전체조회 결과 반환
 		return planInfo;
-	}
-	
-	// 유저의 전체 게시글의 총 거리 계산하기
-	@Override
-	public int selectTotalDistance() {
-		//planner 조회 쿼리
-		String sql = "";
-		sql += "SELECT SUM(distance) FROM planner";
-		sql += " WHERE user_idx = ?";
-		
-		int tot_dist = 0;
-		
-		try {
-			//DB작업
-			ps = conn.prepareStatement(sql);
-			//plan.getUser_idx()
-			ps.setInt(1, 1);
-			rs = ps.executeQuery();
-			//결과 담기
-			rs.next();
-			
-			//결과 행 DTO에 저장
-			tot_dist = rs.getInt(1) ;
-			
-		} catch (SQLException e) {
-			e.printStackTrace();
-		} finally {
-			try {
-				//DB객체 닫기
-				if(rs!=null)	rs.close();
-				if(ps!=null)	ps.close();
-				
-			} catch (SQLException e) {
-				e.printStackTrace();
-			}
-		}
-		// 전체조회 결과 반환
-		return tot_dist;
 	}
 	
 	// 유저 아이디로 유저 정보 불러오기 -> 게시자 정보
@@ -539,13 +498,10 @@ public class PlanDaoImpl implements PlanDao{
 						planInfo.setTitle( rs.getString("title") );
 						planInfo.setTraveled( rs.getInt("traveled") );
 						planInfo.setOpened( rs.getInt("opened") );
-						planInfo.setDistance( rs.getInt("distance") );
 						planInfo.setCreate_date( rs.getDate("create_date") );
 						planInfo.setBannerURL( rs.getString("bannerURL") );
 						
 					}
-					
-					planInfo.setTot_dist(selectTotalDistance());
 					
 				} catch (SQLException e) {
 					e.printStackTrace();
@@ -897,81 +853,6 @@ public class PlanDaoImpl implements PlanDao{
 		return cnt;
 	}
 	
-//	좌표와 좌표 계산
-	//calculate haversine distance for linear distance
-	//startLat : 시작 위도, startLong : 시작 경도, endLat : 도착 위도, endLong : 도착 경도
-	double getDistance(double startLat, double startLong, double endLat, double endLong)
-	{
-		double d2r = (Math.PI / 180.0);
-		
-	    double dlong = (endLong - startLong) * d2r;
-	    double dlat = (endLat - startLat) * d2r;
-	    double a = Math.pow(Math.sin(dlat/2.0), 2) + Math.cos(startLat*d2r) * Math.cos(endLat*d2r) * Math.pow(Math.sin(dlong/2.0), 2);
-	    double c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
-	    double d = 6367 * c;
-
-	    return d;
-	}
-	
-	public double selectLatLongByLocIdx(Plan plan) {
-		
-		String sql = "";
-		sql += "select lat, lng from location"
-				+ " where loc_idx = ( "
-					+ "	select loc_idx from timetable"
-					+ " where row = 1 and plan_idx = ("
-						+ " select plan_idx from planner"
-						+ " where plan_idx = ?"
-					+ " )"
-				+ " ) ";
-		
-		int startLat = 0;
-		int startLng = 0;
-		
-		int endLat = 0;
-		int endLng = 0;
-		
-		int cnt = 1;
-		
-		try {
-			while(rs.next()) {
-				ps = conn.prepareStatement(sql);
-				ps.setInt(1, cnt++);
-				ps.setInt(2, plan.getPlan_idx());
-				rs = ps.executeQuery();
-			
-				if(startLng == 0) {
-					startLat = (int) rs.getLong(1);
-					startLng = (int) rs.getLong(2);
-				} else {
-					endLat = (int) rs.getLong(1);
-					endLng = (int) rs.getLong(2);
-				}
-			}
-			
-
-	
-		} catch (SQLException e) {
-			e.printStackTrace();
-		} finally {
-			try {
-				if(ps!=null)	ps.close();
-				if(rs!=null)	rs.close();
-				// DB객체 닫기
-				if (rs != null)
-					rs.close();
-				if (ps != null)
-					ps.close();
-
-			} catch (SQLException e) {
-				e.printStackTrace();
-			}
-		}
-		
-		double dist = getDistance(startLat, startLng, endLat, endLng);
-		
-		return dist;
-	}
 
 	@Override
 	public int selectCntAll(int searchType, String search) {
@@ -1029,7 +910,7 @@ public class PlanDaoImpl implements PlanDao{
 		// 페이징 리스트 조회 쿼리
 		String sql = "SELECT * FROM( SELECT rownum rnum, PL.* FROM ( SELECT plan_idx, P.user_idx, " ;
 			   sql +=	"(SELECT nickname FROM userinfo U WHERE U.user_idx = P.user_idx )nickname  " ;
-			   sql +=", start_date, end_date, title, traveled, opened, distance, bannerurl, create_date  " ;
+			   sql +=", start_date, end_date, title, traveled, opened, bannerurl, create_date  " ;
 			   sql +="FROM planner P  ORDER BY user_idx DESC " ; 
 			   sql +=") PL  " ;
 			   
@@ -1073,7 +954,6 @@ public class PlanDaoImpl implements PlanDao{
 				p.setUser_idx(rs.getInt("user_idx"));
 				p.setStart_date(rs.getDate("start_date"));
 				p.setEnd_date(rs.getDate("end_date"));
-				p.setDistance(rs.getInt("distance"));
 				p.setOpened(rs.getInt("opened"));
 				p.setTitle(rs.getString("title"));
 				p.setBannerURL(rs.getString("bannerurl"));

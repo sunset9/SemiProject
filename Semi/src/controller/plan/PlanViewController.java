@@ -26,11 +26,14 @@ import service.stroy.StoryService;
 import service.stroy.StoryServiceImpl;
 import service.timetable.TimetableService;
 import service.timetable.TimetableServiceImpl;
+import service.user.UserService;
+import service.user.UserServiceImpl;
 
 @WebServlet("/plan")
 public class PlanViewController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
+	UserService uService = new UserServiceImpl();
 	PlanService pService = new PlanServiceImpl();
 	TimetableService ttbService = new TimetableServiceImpl();
 	StoryService sService = new StoryServiceImpl();
@@ -64,6 +67,8 @@ public class PlanViewController extends HttpServlet {
 		System.out.println(planView);
 		// 게시자 유저 정보 가져오기
 		User writtenUserView = pService.getUserInfo(planView);
+		// 총 게시물 수, 총 여행거리 정보 추가된  유저정보 가져오기
+		writtenUserView = uService.getUseraddedInfo(writtenUserView);
 		//userView MODEL 전달
 		req.setAttribute("writtenUserView", writtenUserView);
 		

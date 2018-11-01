@@ -141,7 +141,7 @@ public class PlanServiceImpl implements PlanService{
 		//조회수 증가
 		//plandao.updateHit(plan);
 		
-		//일정 정보 불러오기(제목, 거리 등)
+		//일정 정보 불러오기(제목 등)
 		return plandao.selectPlanInfoByPlanIdx(plan_idx);
 	}
 	
@@ -155,7 +155,9 @@ public class PlanServiceImpl implements PlanService{
 	//왼쪽에 띄워줄 유저 정보 가져오기
 	@Override
 	public User getUserInfo(Plan plan) {
-		return plandao.selectUserInfoByUserIdx(plan);
+		User user = plandao.selectUserInfoByUserIdx(plan);
+		
+		return user;
 	}
 	
 	//로그인 유저 정보 가져오기
