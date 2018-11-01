@@ -31,6 +31,7 @@ $(document).ready(function () {
 }
 </style>
 
+<span><h1><a href ="/admin/main"><strong>관리자 페이지</strong></a></h1></span>
 <div class="container">
 
 <h2><strong>QnA 쓰기</strong></h2>

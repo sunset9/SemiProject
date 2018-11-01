@@ -26,7 +26,6 @@ $(document).ready(function() {
 	margin :0 auto;
 	display :grid;
 	grid-template-columns : repeat(12, 1fr);
-	grid-template-rows : 500px;
 }
 .menu {
 	background-color: #ccc;
@@ -178,7 +177,7 @@ ul.sub li a {
 <div id="searchBox" class="text-center">
 	<input type="text" id="search"placeholder="제목검색" />
 	<button id="btnSearch">검색</button>
-</div>
+</div><br>
 
 </div>
 </div>

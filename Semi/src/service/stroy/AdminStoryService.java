@@ -13,6 +13,9 @@ import utils.Paging;
 
 public interface AdminStoryService {
 	
+	// 파라미터 얻어오기 
+	public Comment getParam(HttpServletRequest req);
+	
 	// 로그인 체크
 	public boolean loginCheck(HttpServletRequest req);
 	
@@ -27,6 +30,9 @@ public interface AdminStoryService {
 	
 	//댓글 삭제
 	public boolean deleteComment(Comment cmt);
+
+	//댓글 선택해서 삭제 
+	public void commListDelete(String names);
 
 	// 댓글 내용 검색 내용 페이징 리스트
 	public List<Comment> getPagingList(Paging paging);

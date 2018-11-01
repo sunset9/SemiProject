@@ -458,7 +458,7 @@ public class StoryDaoImpl implements StoryDao{
 				cmt.setTtb_idx(rs.getInt("ttb_idx"));
 				cmt.setStory_idx(rs.getInt("story_idx"));
 				cmt.setUser_idx(rs.getInt("user_idx"));
-				cmt.setContent(rs.getString("story_content"));
+				cmt.setContent(rs.getString("story_comm"));
 				cmt.setCreate_date(rs.getDate("create_date"));
 				
 				CommentList.add(cmt);
@@ -525,7 +525,7 @@ public class StoryDaoImpl implements StoryDao{
 	public void insertComment(Comment comment) {
 		
 		String sql = "";
-		sql += "INSERT INTO STORY_COMMENT(comm_idx,story_idx, plan_idx, ttb_idx, user_idx, story_content)";
+		sql += "INSERT INTO STORY_COMMENT(comm_idx,story_idx, plan_idx, ttb_idx, user_idx, story_comm)";
 		sql	+= " VALUES(?,?,?,?,?,?)";
 		    
 		try {
@@ -648,22 +648,17 @@ public class StoryDaoImpl implements StoryDao{
 	public List<Comment> selectCmtPagingList(Paging paging) {
 		
 		String sql="";
-		sql+= "SELECT * FROM (";
-		   sql+= " SELECT rownum rnum, SC.*";
-		   sql+= " FROM (";
-		   sql+= "   SELECT";
-		   sql+= "    comm_idx,";
-		   sql+= "     story_idx,";
-		   sql+= "     plan_idx,";
-		   sql+= "     ttb_idx,";
-		   sql+= "     (SELECT nickname FROM userinfo U WHERE U.user_idx= C.user_idx) nick,";
-		   sql+= "     (SELECT profile FROM userinfo U WHERE U.user_idx= C.user_idx) profile,";
-		   sql+= "     story_comm,";
-		   sql+= "     create_date ";
-		   sql+= "  FROM story_comment C";
-		   sql+= "   ORDER BY create_date DESC"; 
-		   sql+= " ) SC";
-		   
+		sql += "SELECT * FROM( ";
+		sql += "SELECT rownum rnum, CL.* FROM ( ";
+		sql+= "SELECT S.comm_idx, S.plan_idx, S.ttb_idx,S.story_idx, ";
+		sql+= "		(SELECT nickname FROM userinfo U WHERE U.user_idx=S.user_idx) nick ,";
+		sql+= "		S.story_comm, l.place_name, S.create_date FROM story_comment S";
+		sql+= "			INNER JOIN timetable T";
+		sql+= "    			ON s.plan_idx = t.plan_idx "; 
+		sql+= "    			AND s.ttb_idx = t.ttb_idx";  
+		sql+= "			INNER JOIN location L";  
+		sql+= "    		ON t.loc_idx = l.loc_idx ORDER BY create_date DESC ) CL";
+		
 		   if(paging.getSearch()!=null && !"".equals(paging.getSearch())) {
 			    
 			  sql+= " WHERE story_comm";
@@ -698,10 +693,9 @@ public class StoryDaoImpl implements StoryDao{
 				// rs의 결과 DTO에 하나씩 저장하기
 					comm.setComm_idx(rs.getInt("comm_idx"));
 					comm.setPlan_idx(rs.getInt("plan_idx"));
-					comm.setTtb_idx(rs.getInt("ttb_idx"));
+					comm.setPlace_name(rs.getString("place_name"));
 					comm.setStory_idx(rs.getInt("story_idx"));
 					comm.setNickname(rs.getString("nick"));
-					comm.setProfile(rs.getString("profile"));
 					comm.setContent(rs.getString("story_comm"));
 					comm.setCreate_date(rs.getDate("create_date"));
 					
@@ -725,6 +719,38 @@ public class StoryDaoImpl implements StoryDao{
 			}
 			// 결과 반환
 		return list;
+	}
+
+	@Override
+	public void deleteListComm(String names) {
+		String sql="DELETE FROM story_comment WHERE comm_idx IN("+names+")";
+		
+		// DB 객체 
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+		
+		try {
+			conn.setAutoCommit(false);
+			
+			ps = conn.prepareStatement(sql);
+			ps.executeUpdate();
+			
+			conn.commit();
+		} catch (SQLException e) {
+			try {
+				conn.rollback();
+			} catch (SQLException e1) {
+				e1.printStackTrace();
+			}
+			e.printStackTrace();
+		}finally {
+			try {
+				if(ps!=null)	ps.close();
+				
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
 	}
 
 	

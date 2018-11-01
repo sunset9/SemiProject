@@ -942,7 +942,6 @@ public class PlanDaoImpl implements PlanDao{
 		   sql+= "     title,";
 		   sql+= "     traveled,";
 		   sql+= "     opened,";
-		   sql+= "     distance,";
 		   sql+= "     bannerurl,";
 		   sql+= "     create_date";
 		   sql+= "   FROM planner P";
