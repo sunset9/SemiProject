@@ -48,15 +48,16 @@ public class StoryMiniUpdateController extends HttpServlet {
 		int ttb_idx = ttbService.getMiniTtbIdx(ttbLocParam);
 		boolean isStory = ttbService.isStory(ttb_idx);
 		
-		// 미니뷰 스토리 저장
-		sService.writeMini(ttb_idx, storyParam, isStory);
+		// 미니뷰 스토리 저장(account 저장해주려고 story_idx빼려고 반환값 만들었어용..)
+		Story story = sService.writeMini(ttb_idx, storyParam, isStory);
+		
+		
+		
+		//account 저장
+		aService.writeMini(story, isStory,req);
 		
 		// 해당 타임테이블 저장
 		ttbService.writeTtb(ttb_idx, ttbLocParam);
-		
-		
-		
-//		aService.getStoryAccountList();
 		
 		// 미니뷰 업데이트 성공 시 ajax응답 - 저장한 타임테이블 idx값 넘겨줌
 		Gson gson = new Gson();

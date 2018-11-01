@@ -67,31 +67,10 @@ hr{
 </style>
 <script type="text/javascript">
 
-var USD_rate=0;
-var KRW_rate=0;
-var JPY_rate=0;
 var cnt = 0;
 var up_cnt = 0;
 	$(document).ready(function(){
-	      
-	     $.ajax({ 
-           url: "http://api.manana.kr/exchange/rate/KRW/JPY,KRW,USD.json", 
-           type: "GET", 
-           crossDomain: true, 
-           dataType: "json", 
-           success: function (data) { 
-        	   	 JPY_rate = data[0].rate; 
-                 KRW_rate = data[1].rate;
-                 USD_rate = data[2].rate;
-             },
-           error : function (e) {
-             console.log(e);
-        
-     		}
-		 }); 
-		
-		
-	  
+
 	    
 	    function EditMode() {
 	     //edit 모드일때, 수정버튼삭제버튼추가버튼 보여주지 않음	
@@ -132,13 +111,13 @@ var up_cnt = 0;
 	    //slidmenu 고정
 	    $(window).scroll(function() {
 	        var position = $(this).scrollTop(); // 현재 스크롤바의 위치값을 반환합니다.
-	        var header = $("#header").offset();
-	        var height = $("#header").height();
+	        var header = $("#container").offset();
+	        var height = $("#container").height();
 	        
-	        if(position > 260){
+	        if(position > 600){
 	        	$("#slidemenu").css("position","fixed");
 	        	document.getElementById("slidemenu").style.top ="10px";
-	        }else if (position <= 260){
+	        }else if (position <= 600){
 	        	$("#slidemenu").css("position","absolute");
 	        	document.getElementById("slidemenu").style.top = header.top + height +50+ "px";  		        
 	        }
@@ -281,7 +260,15 @@ var up_cnt = 0;
 			$.ajax({
 				type : "POST"
 				, url : "/story/write"
-				, data : {JSON : jsonData, "accType": accType, "currSymbol" :currSymbol, "cost":cost,"USD_rate":USD_rate,"KRW_rate":KRW_rate,"JPY_rate":JPY_rate}
+				, data : {
+					JSON : jsonData
+					, "accType": accType
+					, "currSymbol" :currSymbol
+					, "cost":cost
+					, "USD_rate":USD_rate
+					, "KRW_rate":KRW_rate
+					, "JPY_rate":JPY_rate
+					}
 				, dataType : "html"
 				, success : function (res) {
 					$("#viewStory").html(res);
@@ -309,6 +296,7 @@ var up_cnt = 0;
  				
  				var jsonData = JSON.stringify(storyJSON);
  				
+ 				console.log($(".up_content").val());
  				
  				var accTypeLen = $("select[name='up_accType']").length;
  			    var accType = new Array(accTypeLen);
@@ -684,21 +672,30 @@ var up_cnt = 0;
 								  <hr>
 								</td>
 				    			</tr>
-				    			<c:forEach var="account" items="${accountList}">
-				    				<c:if test="${account.story_idx eq story.story_idx}">
-						    			<tr>
-						     			<td colspan="5">
-						     			<c:if test="${account.curr_idx_name ne 'USD'}">
-						     			    <fmt:parseNumber var = "caledOriginCost" value= "${account.origin_cost}" integerOnly="true"></fmt:parseNumber>
-											<font size="2" color="#999999"> ${account.category_name } | ${account.curr_idx_name} ${caledOriginCost}</font> 
+				    			<c:if test="${story.accCnt eq 0}">
+				    				<tr>
+				    				<td colspan = "5">
+				    					<font size="2" color="#999999"> 총액 | KRW 0원</font> 
+				    				</td>
+				    				</tr>
+				    			</c:if>
+			    				<c:if test="${story.accCnt ne 0}">
+					    			<c:forEach var="account" items="${accountList}">
+					    				<c:if test="${account.story_idx eq story.story_idx}">
+							    			<tr>
+							     			<td colspan="5">
+							     			<c:if test="${account.curr_idx_name ne 'USD'}">
+							     			    <fmt:parseNumber var = "caledOriginCost" value= "${account.origin_cost}" integerOnly="true"></fmt:parseNumber>
+												<font size="2" color="#999999"> ${account.category_name } | ${account.curr_idx_name} ${caledOriginCost}</font> 
+											</c:if>
+											<c:if test="${account.curr_idx_name eq 'USD'}">
+												<font size="2" color="#999999"> ${account.category_name } | ${account.curr_idx_name} ${account.origin_cost}</font>
+											</c:if>
+								 		    </td>
+											</tr>
 										</c:if>
-										<c:if test="${account.curr_idx_name eq 'USD'}">
-											<font size="2" color="#999999"> ${account.category_name } | ${account.curr_idx_name} ${account.origin_cost}</font>
-										</c:if>
-							 		    </td>
-										</tr>
-									</c:if>
-								</c:forEach>
+									</c:forEach>
+								</c:if>
 								<tr>
 								<td colspan="5">
 								<hr>

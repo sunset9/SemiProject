@@ -48,9 +48,9 @@ public class StoryWriteController extends HttpServlet {
 		
 		req.setAttribute("plan_idx", story.getPlan_idx());
 		
-		float USD_rate = Float.parseFloat(req.getParameter("USD_rate"));
-		float KRW_rate = Float.parseFloat(req.getParameter("KRW_rate"));
-		float JPY_rate = Float.parseFloat(req.getParameter("JPY_rate"));
+		double USD_rate = Float.parseFloat(req.getParameter("USD_rate"));
+		double KRW_rate = Float.parseFloat(req.getParameter("KRW_rate"));
+		double JPY_rate = Float.parseFloat(req.getParameter("JPY_rate"));
 		
 		String[] accType = req.getParameterValues("accType");
 		String[] currSymbol = req.getParameterValues("currSymbol");
@@ -68,7 +68,7 @@ public class StoryWriteController extends HttpServlet {
 				account.setCategory(Integer.parseInt(accType[i]));
 				account.setCurr_idx(Integer.parseInt(currSymbol[i]));
 				cost[i]=cost[i].replaceAll(",", "");
-				account.setOrigin_cost(Float.parseFloat(cost[i]));
+				account.setOrigin_cost(Double.parseDouble(cost[i]));
 				account.setPlan_idx(story.getPlan_idx());
 				account.setStory_idx(storyidx);
 				account.setCaled_cost(
@@ -127,6 +127,7 @@ public class StoryWriteController extends HttpServlet {
 		req.setAttribute("ttbList", ttbList);
 		req.setAttribute("diffDays",diffDays);
 		req.setAttribute("storyList", StoryList);
+		
 		
 		req.getRequestDispatcher("/plan/story/storyView.jsp").forward(req, resp);
 		

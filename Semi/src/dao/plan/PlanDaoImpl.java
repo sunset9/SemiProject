@@ -230,8 +230,8 @@ public class PlanDaoImpl implements PlanDao{
 				accInfo.setStory_idx( rs.getInt("story_idx") );
 //				accInfo.setCurr_idx( rs.getInt("curr_idx") );
 //				accInfo.setAcc_cat_idx( rs.getInt("acc_cat_idx") );
-				accInfo.setOrigin_cost( rs.getInt("origin_cost") );
-				accInfo.setCaled_cost( rs.getInt("caled_cost") );
+				accInfo.setOrigin_cost( rs.getDouble("origin_cost") );
+				accInfo.setCaled_cost( rs.getDouble("caled_cost") );
 				accInfo.setCreate_date( rs.getDate("create_date") );
 			}
 			

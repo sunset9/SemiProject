@@ -26,29 +26,45 @@ public class AccountServiceImpl implements AccountService {
 
 	@Override
 	public List<Account> getStoryAccountList(Story story) {
-		// TODO Auto-generated method stub
-		return null;
+		
+		List<Account> accountList = new ArrayList<>();
+		
+		accountList = accountDao.SelectAccountByStoryidx(story);
+		
+		for(int i =0; i<accountList.size();i++) {
+			//카테고리 이름, 통화명  dto에 string으로 저장 
+			accountList.get(i).setCategory_name(cateGoryIntToStr(accountList.get(i).getCategory()));
+			accountList.get(i).setCurr_idx_name(currIntToStr(accountList.get(i).getCurr_idx()));
+			Story st = new Story();
+			st.setStory_idx(accountList.get(i).getStory_idx());
+			st = storyDao.selectStoryByStoryIdx(story);
+			
+			accountList.get(i).setTtb_idx(story.getTtb_idx());
+		}
+		
+		
+		return accountList;
 	}
 
 	@Override
 	public List<Account> getPlanAccountList(Plan plan) {
 		
-		List<Account> AccountList = new ArrayList<>();
+		List<Account> accountList = new ArrayList<>();
 		
-		AccountList = accountDao.selectAccountByPlanidx(plan);
+		accountList = accountDao.selectAccountByPlanidx(plan);
 		
-		for(int i =0; i<AccountList.size();i++) {
-			AccountList.get(i).setCategory_name(cateGoryIntToStr(AccountList.get(i).getCategory()));
-			AccountList.get(i).setCurr_idx_name(currIntToStr(AccountList.get(i).getCurr_idx()));
+		for(int i =0; i<accountList.size();i++) {
+			accountList.get(i).setCategory_name(cateGoryIntToStr(accountList.get(i).getCategory()));
+			accountList.get(i).setCurr_idx_name(currIntToStr(accountList.get(i).getCurr_idx()));
 			Story story = new Story();
-			story.setStory_idx(AccountList.get(i).getStory_idx());
+			story.setStory_idx(accountList.get(i).getStory_idx());
 			story = storyDao.selectStoryByStoryIdx(story);
 			
-			AccountList.get(i).setTtb_idx(story.getTtb_idx());
+			accountList.get(i).setTtb_idx(story.getTtb_idx());
 		}
 		
 		
-		return AccountList;
+		return accountList;
 	}
 	
 	public String cateGoryIntToStr(int category) {
@@ -132,9 +148,9 @@ public class AccountServiceImpl implements AccountService {
 	}
 
 	@Override
-	public Float calcCost(int currSymbol, float Orgin_cost, float USD_rate, float KRW_rate, float JPY_rate) {
+	public double calcCost(int currSymbol, double Orgin_cost, double USD_rate, double KRW_rate, double JPY_rate) {
 		
-		float result = 0;
+		double result = 0;
 		switch (currSymbol) {
 		case 1:
 			//USD일때
@@ -152,6 +168,68 @@ public class AccountServiceImpl implements AccountService {
 		}
 		
 		return result;
+	}
+
+	@Override
+	public void writeMini(Story story, Boolean isStory, HttpServletRequest req) {
+		
+		//환율 불러오기
+		double USD_rate = Float.parseFloat(req.getParameter("USD_rate"));
+		double KRW_rate = Float.parseFloat(req.getParameter("KRW_rate"));
+		double JPY_rate = Float.parseFloat(req.getParameter("JPY_rate"));
+		
+		String[] accType = req.getParameterValues("accType");
+		String[] currSymbol = req.getParameterValues("currSymbol");
+		String[] cost = req.getParameterValues("cost");
+		
+//		System.out.println("-----------------TEST----------------------");
+//		System.out.println(USD_rate);
+//		System.out.println(KRW_rate);
+//		System.out.println(JPY_rate);
+//		System.out.println("-----------------TEST1111---------------------");
+//		for (int i =0 ; i<accType.length;i++) {
+//			
+//			System.out.println(accType[i]);
+//			System.out.println(currSymbol[i]);
+//			System.out.println(cost[i]);
+//		}
+//		
+//		System.out.println("-----------------TEST----------------------");
+//		
+		
+		if(isStory) { // 이미 작성된 스토리가 있는 경우
+			accountDao.deleteAccountListByStoryidx(story);
+			
+		} else { // 첫 스토리 작성인 경우
+		
+		}
+		
+		for (int i =0 ;i<accType.length;i++) {
+			if ((cost[i] != null && cost[i] != "")
+				&& (currSymbol[i] != null && currSymbol[i] != null) 
+				&&  (accType[i] != null && accType[i] != null)) {
+				
+				Account account= new Account();
+				
+				account.setAcc_idx(accountDao.selectAccIdx());
+				account.setCategory(Integer.parseInt(accType[i]));
+				account.setCurr_idx(Integer.parseInt(currSymbol[i]));
+				cost[i]=cost[i].replaceAll(",", "");
+				account.setOrigin_cost(Double.parseDouble(cost[i]));
+				account.setPlan_idx(story.getPlan_idx());
+				account.setStory_idx(story.getStory_idx());
+				account.setCaled_cost(
+						calcCost(account.getCurr_idx(), account.getOrigin_cost(), USD_rate, KRW_rate, JPY_rate)
+						);
+				accountDao.insert(account);
+			
+			}
+			
+	}
+		
+	
+		
+		
 	}
 
 

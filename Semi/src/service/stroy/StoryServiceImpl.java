@@ -11,6 +11,8 @@ import javax.servlet.http.HttpServletRequest;
 
 import com.google.gson.Gson;
 
+import dao.account.AccountDao;
+import dao.account.AccountDaoImpl;
 import dao.story.StoryDao;
 import dao.story.StoryDaoImpl;
 import dao.user.UserDao;
@@ -21,8 +23,6 @@ import dto.story.Story;
 import dto.timetable.Location;
 import dto.timetable.Timetable;
 import dto.user.User;
-import service.account.AccountService;
-import service.account.AccountServiceImpl;
 import service.timetable.TimetableService;
 import service.timetable.TimetableServiceImpl;
 import utils.CalcDate;
@@ -31,7 +31,7 @@ public class StoryServiceImpl implements StoryService {
 	
 	StoryDao storyDao = new StoryDaoImpl();
 	UserDao userDao = new UserDaoImpl();
-	AccountService accountService = new AccountServiceImpl(); 
+	AccountDao accountDao = new AccountDaoImpl();
 
 	@Override
 	public List<Story> getStoryList(Plan plan) {
@@ -46,11 +46,18 @@ public class StoryServiceImpl implements StoryService {
 				Date date;
 				try {
 					Story story = new Story();
+					
+					// 일차계산
 					date = new SimpleDateFormat("yyyy-MM-dd").parse(StoryList.get(i).getTravel_day());
 					int diffDays = calcDate.CalcPriod(plan.getStart_date(),date);
 					StoryList.get(i).setCalcDay(diffDays);
+					
+					//커멘드 갯수
 					story.setStory_idx(StoryList.get(i).getStory_idx());
 					StoryList.get(i).setCommCnt(storyDao.selectCntComm(story));
+					
+					//가계부 갯수
+					StoryList.get(i).setAccCnt(accountDao.selectCntByStoryIdx(story));
 				} catch (ParseException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
@@ -190,18 +197,23 @@ public class StoryServiceImpl implements StoryService {
 	}
 
 	@Override
-	public void writeMini(int ttb_idx, Story storyParam, boolean isStory) {
+	public Story writeMini(int ttb_idx, Story storyParam, boolean isStory) {
 		Story story = storyParam;
 		
-		story.setStory_idx(storyDao.SelectStoryIdx());
 		story.setTtb_idx(ttb_idx);
 		
 		if(isStory) { // 이미 작성된 스토리가 있는 경우
+			Story st = new Story();
+			st = storyDao.selectStoryByTtbIdx(story);
+			story.setStory_idx(st.getStory_idx());
 			storyDao.update(story);
 		} else { // 첫 스토리 작성인 경우
+			story.setStory_idx(storyDao.SelectStoryIdx());
 			storyDao.insert(story);
 		}
+		
 
+		return story;
 	}
 
 }

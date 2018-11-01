@@ -30,4 +30,6 @@ public interface AccountDao {
 	
 	public void insert(Account account);
 	
+	public int selectCntByStoryIdx(Story story);
+	
 }

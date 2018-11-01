@@ -49,6 +49,13 @@
 <!-- 			오락 | USD 50000 -->
 <!-- 			</td> -->
 <!-- 			</tr> -->
+			<table style="width: 100%;">
+				<tr>
+					<td colspan="2" style="padding: 15px">
+						<div class="storyContent" style="height: 230px;"></div>
+					</td>
+				</tr>
+			</table>
 			<div id ="min_accountViewList">
 					<div id = "min_accountView" name = "min_accountViewName">
 						<table style="width: 100%;">
@@ -86,14 +93,7 @@
 						</table>
 					</div>
 				</div>
-			<table style="width: 100%;">
-			<tr>
-			<td colspan="2" style="padding: 15px">
-				<div class="storyContent" style="height: 230px;"></div>
-			</td>
-			</tr>
-
-			</table>
+	
 			</div>
       </div>
       <div class="modal-footer">
@@ -121,7 +121,21 @@ $("#btnMiniWriteSave").on("click", function(){
 	
 	// <input태그 value에 값 넣어줌
 	$('input[name=JSON]').val(storyJsonStr);
+	
+	//account 내용
+	var accTypeLen = $("select[name='min_accType']").length;
+    var accType = new Array(accTypeLen);
+    var currSymbol = new Array(accTypeLen);
+    var cost = new Array(accTypeLen);
+    
+    for(var i=0; i<accTypeLen; i++){                          
+    	accType[i] = $("select[name='min_accType']")[i].value;
+    	currSymbol[i] = $("select[name='min_currSymbol']")[i].value;
+    	cost[i] = $("input[name='min_cost']")[i].value;
+    }
 
+    //ajax로 배열 전송하기 위한 방식 
+    $.ajaxSettings.traditional = true
 	// 미니뷰 스토리 업데이트 작업 ajax로 실행
 	$.ajax({
 		url: "/story/mini/update"
@@ -131,6 +145,12 @@ $("#btnMiniWriteSave").on("click", function(){
 			plan_idx: plan_idx
 			, JSON: storyJsonStr
 			, ttbJson: $('input[name=ttbJson]').val()
+			, "accType": accType
+			, "currSymbol" :currSymbol
+			, "cost":cost
+			, "USD_rate":USD_rate
+			, "KRW_rate":KRW_rate
+			, "JPY_rate":JPY_rate
 		}
 		, dataType: "json"
 		, success: function(d){
@@ -195,46 +215,7 @@ $('.storyContent').froalaEditor({
 </script> 
 
 <script type="text/javascript">
-var cnt = 0;
-$("#btnMiniWriteSave").on("click", function(){
-	// 저장 버튼 비활성화
-	$(this).attr('disabled',"disabled");
-	
-	// submit 할 객체들 json형태로 받기
-	var ttbJson = JSON.parse($('input[name=ttbJson]').val());
-	var storyJson = JSON.parse($('input[name=JSON]').val());
-	storyJson.content = $('.storyContent').froalaEditor('html.get'); // story json형태에 스토리 내용도 추가(plan_idx,ttb_idx만 존재)
-	
-	// json -> string
-	var storyJsonStr = JSON.stringify(storyJson);
-	
-	// <input태그 value에 값 넣어줌
-	$('input[name=JSON]').val(storyJsonStr);
-
-	// 미니뷰 스토리 업데이트 작업 ajax로 실행
-	$.ajax({
-		url: "/story/mini/update"
-		, async: false
-		, type: "POST"
-		, data: {
-			plan_idx: plan_idx
-			, JSON: storyJsonStr
-			, ttbJson: $('input[name=ttbJson]').val()
-		}
-		, dataType: "json"
-		, success: function(d){
-			// 미니뷰 저장 성공 시 
-			// 미니뷰 작성한 타임테이블의 이전 idx와 저장 후 idx값 넘겨줌
-			store(ttbJson.ttb_idx, d.ttb_idx, isSendWriteMode=true); 
-		}
-		,  error: function(){
-			console.log("Mini-view Write Ajax 통신 실패");
-		}
-	});
-});
-
-
-	
+	var cnt = 0;	
 	//가계부 추가
 	function miniAppendAccount() {
 		
@@ -300,82 +281,7 @@ $("#btnMiniWriteSave").on("click", function(){
 		}
 	}
 	
-	$(document).ready(function(){
-		
-		//가계부 테스트중
-// 		$('.modal').on('shown.bs.modal',function(e){
-			
-// 		var ttbJson = JSON.parse($('input[name=ttbJson]').val());
-			
-// 		//Account Seletion 값 넣어주기
-// 		var accountTtbidx = [];
-// 		var accountCategory = [];
-// 		var accountCurridx = [];
-// 		var accountCost = [];
-		
-// 		//업데이트 모달 띄울때, account 표시 하기 위한 account값 가져오기
-// 		<c:forEach items="${accountList}" var="account">
-// 			accountTtbidx.push('${account.ttb_idx}');
-// 			accountCategory.push('${account.category}');
-// 			accountCurridx.push('${account.curr_idx}');
-// 			accountCost.push('${account.origin_cost}');
-// 		</c:forEach>
-		
-// 		var count = 0; //처음 한번은 append 안해주기 위해서
-// 		// account 있는 수만큼 가계부 입력공간 추가
-// 		for (var i = 0; i <accountTtbidx.length; i++) {
-// 				if( ttbJson.ttb_idx == accountTtbidx[i]){
-// 					var accountView = $("#min_accountView").clone();
-// 					if(count != 0){
-						
-// 						$("#min_accountViewList").append(accountView);	
-// 					}
-// 					count = count+1;
-// 				}
-// 		}
-		
-// 		var size = document.getElementsByName("min_accountViewName").length;
- 		
-//  		var accCurrNameList = [];
-//  		var accTypeList = [];
-//  		var accCostList = [];
-		
-//  		for(var i = 0; i < size; i++){
-// 	        var obj = document.getElementsByName("min_accountViewName")[i];
-	        
-// 	        $(obj).find(".accountPlus").css("display","none");
-// 	        $(obj).find(".accountRemove").css("display","block");
-	        
-// 	        var ch = false;
-// 	        for (var j = 0; j <accountTtbidx.length; j++) {
-// 				if( ttbJson.ttb_idx == accountTtbidx[j]){
-// 					accTypeList.push(accountCategory[j]);
-// 					accCurrNameList.push(accountCurridx[j]);
-// 					accCostList.push(accountCost[j]);
-// 					ch = true;
-// 				}
-// 	        }
-	        
-// 	        if (ch == false) {
-// 			   $(obj).find(".min_accType").val(1);
-// 		        $(obj).find(".min_currSymbol").val(1);
-// 				$(obj).find(".min_cost").val("");
-// 	        }else{
-// 		        $(obj).find(".min_accType").val(accTypeList[i]);
-// 		        $(obj).find(".min_currSymbol").val(accCurrNameList[i]);
-// 				$(obj).find(".min_cost").val(accCostList[i]);
-// 	        }
-
-// 	        if (i == size-1){
-// 			    $(obj).find(".accountPlus").css("display","block");
-// 	        }
-	        
-// 	        if (size == 5 && i == size-1){
-// 		    	 $(obj).find(".accountPlus").css("display","none");
-// 	        }
-// 		 }
-// 		});
-		
+	$(document).ready(function(){	
 		
 	//모달 숨겨질때
 		$('.modal').on('hidden.bs.modal',function(e){
@@ -402,6 +308,7 @@ $("#btnMiniWriteSave").on("click", function(){
 	        
 	        //카운트값 초기화(가계부 입력공간 개수)
 	        cnt = 0;
+	        
 		})	
 	
 	});

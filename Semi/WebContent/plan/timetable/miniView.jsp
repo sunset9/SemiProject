@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -32,25 +33,21 @@
 				</td>
 				<td class="miniTitle" style="font-weight: bold; width: 40%;"><hr></td>
 			</tr>	
+			
 			<tr>
 				<td>
 				추가 정보 란
 				</td>
 			</tr>
 			<tr>
-				<td style="padding-right: 15px" colspan="2">
-					<font size="2">식비 | 10,000 달러($)</font>
+				<td>
+					<div id = "accountList"></div>
 				</td>
 			</tr>
-				<tr>
-					<td style="padding-right: 15px" colspan="2">
-						<font size="2">오락 | 10,000 달러($)</font>
-					</td>
-				</tr>
 			<tr>
-			<td colspan="2" style="padding: 15px">
-				<div class="storyContent" style="overflow-y: scroll; height: 230px; border: 1px solid gray;"></div>
-			</td>
+				<td colspan="2" style="padding: 15px">
+					<div class="storyContent" style="overflow-y: scroll; height: 230px; border: 1px solid gray;"></div>
+				</td>
 			</tr>
 
 			</table>
@@ -62,6 +59,23 @@
     </div>
   </div>
 </div>
+
+<script type="text/javascript">
+
+$(document).ready(function(){	
+	
+	$('.modal').on('hidden.bs.modal',function(e){
+		var obj = document.getElementById("accountList");
+		
+		$(obj).html("");
+	
+		
+	})
+	
+});
+
+
+</script>
 
 </body>
 </html>

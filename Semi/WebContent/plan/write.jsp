@@ -202,6 +202,42 @@
 </style>
 
 <script>
+	
+	//숫자만 입력
+	function Numberchk() { 
+		if (event.keyCode < 46 || event.keyCode > 57) event.returnValue = false; 
+	} 
+
+	//콤마찍기
+	function vComma(obj) { 
+		var str    = "" + obj.value.replace(/,/gi,''); // 콤마 제거 
+		var regx    = new RegExp(/(-?\d+)(\d{3})/); 
+		var bExists = str.indexOf(".",0); 
+		var strArr  = str.split('.'); 
+		
+		while(regx.test(strArr[0])){ 
+			strArr[0] = strArr[0].replace(regx,"$1,$2"); 
+		} 
+		if (bExists > -1) 
+			obj.value = strArr[0] + "." + strArr[1]; 
+		else 
+			obj.value = strArr[0]; 
+	} 
+
+	//공백제거
+	function trim(str) { 
+		return str.replace(/(^\s*)|(\s*$)/g, ""); 
+	} 
+
+	function getNumber(str) { 
+		str = "" + str.replace(/,/gi,''); // 콤마 제거 
+		str = str.replace(/(^\s*)|(\s*$)/g, ""); // trim 
+		return (new Number(str)); 
+	} 
+	
+</script>
+
+<script>
 
 // 서버에서 넘어온 일정의 시작, 끝 날짜 정보
 var planStartDate = '${planView.start_date}';
@@ -212,7 +248,14 @@ var locList = ${locList };
 
 var plan_idx = ${planView.plan_idx};
 
+//환율정보
+var USD_rate=0;
+var KRW_rate=0;
+var JPY_rate=0;
+
+
 var isModify = 1;
+
 </script>
 <script>
 //저장하기
@@ -270,6 +313,23 @@ function store(beforeTtbIdx, afterTtbIdx, isSendWriteMode){
 <script type="text/javascript">
 // 읽기모드일때, 검색창 on/off
 $(document).ready(function() {
+    //환율정보 가져오는 api
+    $.ajax({ 
+      url: "http://api.manana.kr/exchange/rate/KRW/JPY,KRW,USD.json", 
+      type: "GET", 
+      crossDomain: true, 
+      dataType: "json", 
+      success: function (data) { 
+   	   	 JPY_rate = data[0].rate; 
+            KRW_rate = data[1].rate;
+            USD_rate = data[2].rate;
+        },
+      error : function (e) {
+        console.log(e);
+   
+		}
+	 }); 
+	
 	// isCookieTabClear 플래그가 true 이고
 	// 새로고침 된게 아닌 경우 (performance.navigation.type == 1 : 새로고침)
 	if(getCookie("isCookieTabClear") == 'true' && performance.navigation.type != 1){
