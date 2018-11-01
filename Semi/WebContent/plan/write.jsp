@@ -262,12 +262,12 @@ var isModify = 1;
 function store(beforeTtbIdx, afterTtbIdx, isSendWriteMode){
 	setCookie("isCookieTabClear", "false");
 	
+	activeStoreBtn(false);
+	
 	// 캘린더에 있는 모든 이벤트 정보 가져오기
 	var events = $("#calendar").fullCalendar('clientEvents');
 	console.log("저장할 때 events목록");
 	console.log(events);
-	
-	console.log(isSendWriteMode);
 	
 	// 수정모드로 유지하기
 	if(isSendWriteMode){

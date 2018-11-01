@@ -525,6 +525,26 @@ $(document).ready(function() {
 	
 }); // $(document).ready() End
 	
+function changeTab(clickTab){
+	// active클래스 속성 변경
+	$("#tab-main li").removeClass("active");
+	clickTab.addClass("active");
+    
+    // 선택한탭의 내용 띄워지게
+    $(".tab-content").hide();
+    var activeTab = clickTab.attr("rel");
+    $("." + activeTab).show();
+    
+    if(activeTab == 'tab-ttb'){ // 타임테이블 탭 선택한 경우
+		setCookie('tab','tab-ttb');
+		initFullCalendar(planStartDate, planEndDate, true);
+    }else if(activeTab == 'tab-story'){ // 스토리 탭 선택한 경우
+		setCookie('tab','tab-story');
+    	// ajax 통신으로 내용 불러오기
+		displayStoryView();
+    }
+} 
+
 //스토리 뷰 ajax통신으로 띄워주기
 function displayStoryView(){
 	//AJAX 처리하기
