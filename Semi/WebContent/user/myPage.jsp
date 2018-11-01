@@ -126,7 +126,7 @@ $(document).ready(function(){
 		<div><h3>여기는 모든 일정 리스트</h3></div>
 		<c:forEach var="aList" items="${allPlanList}" varStatus="aStatus">
 			<div>
-				<a href="/plan?plan_idx=${pList.plan_idx }">
+				<a href="/plan?plan_idx=${aStatus.current.plan_idx }">
 					<input type="hidden" name="plan_idx" value="${aStatus.current.plan_idx}" />
 					<div><input type="image" src="${aList.getBannerURL()}" style="width: 300px;"></div>
 					<div><button type="submit" style="border:0; ">글 제목 : ${aList.getTitle()}</button></div><hr>
