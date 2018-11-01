@@ -583,6 +583,7 @@ public class UserDaoImpl implements UserDao{
 		return cnt;
 	}
 
+
 	//내 일정들에서 여행거리 리스트에 담기 
 	@Override
 	public List<Location> getTotDist(Plan plan) {
@@ -625,6 +626,7 @@ public class UserDaoImpl implements UserDao{
 		
 		return latLngList;
 	}
+
 
 	@Override
 	public User selectUserByUserIdx(User u) {
@@ -1048,6 +1050,40 @@ public class UserDaoImpl implements UserDao{
 			}
 		}
 				
+	}
+
+	// 임시비번으로 비번 변경 
+	@Override
+	public void changeTempPw(String email, String tempPw) {
+		String sql = "UPDATE userinfo SET PASSWORD = ? where id = ?";
+		
+		// DB 객체
+		PreparedStatement ps = null;
+
+		try {
+			conn.setAutoCommit(false);
+			
+			ps = conn.prepareStatement(sql);
+			
+			ps.setString(1, tempPw);
+			ps.setString(2, email);
+
+			ps.executeUpdate();
+
+			conn.commit();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			try {
+				if(ps!=null)	ps.close();
+						
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+					
+		
 	}
 
 

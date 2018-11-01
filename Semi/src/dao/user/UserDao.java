@@ -53,7 +53,6 @@ public interface UserDao {
 	//내 일정 포스팅 개수 가져오기
 	public int getCntPlan(User user);
 	
-	//내 일정의 여행거리들 리스트에 담아오기
 	public List<Location> getTotDist(Plan plan);
 	
 	public User selectUserByUserIdx(User user);
@@ -87,6 +86,9 @@ public interface UserDao {
 	
 	// 유저의 profile 변경
 	public void profileUpdate(User cUser);
+	
+	// 임시 비번으로 비번 변경 
+	public void changeTempPw(String email, String tempPw);
 	
 
 }

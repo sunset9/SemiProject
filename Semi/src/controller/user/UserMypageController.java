@@ -46,14 +46,6 @@ public class UserMypageController extends HttpServlet {
 			System.out.println("유저마이페이지컨트롤러에서 plannerList : "+plannerList);
 			
 			
-			//현재 유저의 포스팅 개수 가져오기 
-//			int cntPlan = userService.getCntPlan(cUser);
-//			req.setAttribute("cntPlan", cntPlan);
-//			
-//			//현재 유저의 총 여행 거리 가져오기 
-//			double totDist = userService.getTotDist(plannerList);
-//			req.setAttribute("totDist", totDist);
-			
 			//모든 일정 가져오기
 			List<Plan> allPlanList = userService.getAllPlanList(user);
 			//System.out.println("userMyPageController allPlanList : "+allPlanList);
@@ -78,13 +70,7 @@ public class UserMypageController extends HttpServlet {
 			//planList
 			req.setAttribute("plannerList", plannerList);
 			
-//			//현재 유저의 포스팅 개수 가져오기 
-//			int cntPlan = userService.getCntPlan(cUserSocial);
-//			req.setAttribute("cntPlan", cntPlan);
-//			
-//			//현재 유저의 총 여행 거리 가져오기 
-//			double totDist = userService.getTotDist(plannerList);
-//			req.setAttribute("totDist", totDist);
+
 			
 			//모든 일정 가져오기
 			List<Plan> allPlanList = userService.getAllPlanList(user);

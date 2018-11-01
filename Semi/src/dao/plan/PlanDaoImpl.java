@@ -391,8 +391,9 @@ public class PlanDaoImpl implements PlanDao{
 		int plannerSeqNextval = getPlannerSeqNextval();
 		System.out.println("plandaoimpl plannerSeqNextval : "+plannerSeqNextval);
 		String sql = "";
-		sql += "INSERT INTO PLANNER(plan_idx, user_idx, start_date, end_date, title, traveled, opened, distance, bannerURL)";
-		sql += " VALUES (?, ?, to_date(?, 'yyyy-MM-dd'), to_date(?, 'yyyy-MM-dd'), ?, ?, ?, 0, ?)";
+
+		sql += "INSERT INTO PLANNER(plan_idx, user_idx, start_date, end_date, title, traveled, opened, bannerURL)";
+		sql += " VALUES (?, ?, to_date(?, 'yyyy-MM-dd'), to_date(?, 'yyyy-MM-dd'), ?, ?, ?, ?)";
 		
 		PreparedStatement ps = null;
 		
@@ -502,7 +503,7 @@ public class PlanDaoImpl implements PlanDao{
 						planInfo.setBannerURL( rs.getString("bannerURL") );
 						
 					}
-					
+
 				} catch (SQLException e) {
 					e.printStackTrace();
 				} finally {
