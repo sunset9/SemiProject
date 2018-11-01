@@ -36,8 +36,6 @@ public class StoryWriteController extends HttpServlet {
 	@Override
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		
-		
-		System.out.println("스토리라이트 컨트롤러");
 		req.setCharacterEncoding("utf-8");
 		
 	    StoryService sService = new StoryServiceImpl();
@@ -50,6 +48,9 @@ public class StoryWriteController extends HttpServlet {
 		
 		req.setAttribute("plan_idx", story.getPlan_idx());
 		
+		float USD_rate = Float.parseFloat(req.getParameter("USD_rate"));
+		float KRW_rate = Float.parseFloat(req.getParameter("KRW_rate"));
+		float JPY_rate = Float.parseFloat(req.getParameter("JPY_rate"));
 		
 		String[] accType = req.getParameterValues("accType");
 		String[] currSymbol = req.getParameterValues("currSymbol");
@@ -70,6 +71,9 @@ public class StoryWriteController extends HttpServlet {
 				account.setOrigin_cost(Float.parseFloat(cost[i]));
 				account.setPlan_idx(story.getPlan_idx());
 				account.setStory_idx(storyidx);
+				account.setCaled_cost(
+						aService.calcCost(account.getCurr_idx(), account.getOrigin_cost(), USD_rate, KRW_rate, JPY_rate)
+						);
 				
 				aService.Write(account);
 			

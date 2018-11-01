@@ -26,8 +26,16 @@ public class Account {
 
 	//카테고리명
 	private String category_name;
+	
+	private int ttb_idx;
 
 	
+	public int getTtb_idx() {
+		return ttb_idx;
+	}
+	public void setTtb_idx(int ttb_idx) {
+		this.ttb_idx = ttb_idx;
+	}
 	@Override
 	public String toString() {
 		return "Account [acc_idx=" + acc_idx + ", plan_idx=" + plan_idx + ", story_idx=" + story_idx + ", curr_idx="

@@ -40,8 +40,6 @@ public class StoryUpdateController extends HttpServlet {
 	
 		req.setCharacterEncoding("utf-8");
 		
-		System.out.println("------update 컨트롤러-------");
-		
 		
 		   StoryService sService = new StoryServiceImpl();
 			
@@ -52,6 +50,47 @@ public class StoryUpdateController extends HttpServlet {
 			sService.update(story);
 			
 			req.setAttribute("plan_idx", story.getPlan_idx());
+			
+			aService.deleteAccountListByStoryIdx(story);
+			
+			String[] accType = req.getParameterValues("accType");
+			String[] currSymbol = req.getParameterValues("currSymbol");
+			String[] cost = req.getParameterValues("cost");
+			
+			
+			
+			float USD_rate = Float.parseFloat(req.getParameter("USD_rate"));
+			float KRW_rate = Float.parseFloat(req.getParameter("KRW_rate"));
+			float JPY_rate = Float.parseFloat(req.getParameter("JPY_rate"));
+			System.out.println("USD::"+USD_rate);
+			System.out.println("KRW::"+KRW_rate);
+			System.out.println("JPY::"+JPY_rate);
+			
+			for (int i =0 ;i<accType.length;i++) {
+				
+				if ((cost[i] != null && cost[i] != "")
+					&& (currSymbol[i] != null && currSymbol[i] != null) 
+					&&  (accType[i] != null && accType[i] != null)) {
+					
+					Account account= new Account();
+					
+					account.setCategory(Integer.parseInt(accType[i]));
+					account.setCurr_idx(Integer.parseInt(currSymbol[i]));
+					cost[i]=cost[i].replaceAll(",", "");
+					account.setOrigin_cost(Float.parseFloat(cost[i]));
+					account.setPlan_idx(story.getPlan_idx());
+					account.setStory_idx(story.getStory_idx());
+					account.setCaled_cost(
+							aService.calcCost(account.getCurr_idx(), account.getOrigin_cost(), USD_rate, KRW_rate, JPY_rate)
+							);
+					
+					aService.Write(account);
+				
+				}
+				
+			}
+			
+			
 			
 //--------------
 			List<Story> StoryList = new ArrayList<>();

@@ -166,6 +166,7 @@ function initFullCalendar(planStartDate, planEndDate, isFirst){
 							// 스토리 내용 띄워주기
 							$(".storyContent").froalaEditor('html.set', story.content);
 							
+							
 						} else { // 읽기모드
 							$(".storyContent").html(story.content); // 스토리 내용
 						}

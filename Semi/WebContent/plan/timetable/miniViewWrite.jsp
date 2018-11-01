@@ -1,11 +1,14 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/froala-editor/2.5.1//js/froala_editor.pkgd.min.js"></script>
+
+
 <style>
 
 </style>
@@ -40,16 +43,50 @@
 				추가 정보 란
 				</td>
 			</tr>
-			<tr>
-				<td style="padding-right: 15px" colspan="2">
-					<font size="2">식비 | 10,000 달러($)</font>
-				</td>
-			</tr>
-				<tr>
-					<td style="padding-right: 15px" colspan="2">
-						<font size="2">오락 | 10,000 달러($)</font>
-					</td>
-				</tr>
+			</table>
+<!-- 			<tr> -->
+<!-- 			<td> -->
+<!-- 			오락 | USD 50000 -->
+<!-- 			</td> -->
+<!-- 			</tr> -->
+			<div id ="min_accountViewList">
+					<div id = "min_accountView" name = "min_accountViewName">
+						<table style="width: 100%;">
+							<tr>	
+								<td>
+								<select name = "min_accType" class="min_accType">
+									<option value="1">항공료</option>
+									<option value="2">교통</optoin>
+									<option value="3">숙박</option>
+									<option value="4">입장료</option>
+									<option value="5">음식</option>
+									<option value="6">오락</option>
+									<option value="7">쇼핑</option>
+									<option value="8">기타</option>
+								</select>
+								</td>
+								<td>
+								<select name = "min_currSymbol" class="min_currSymbol">
+									<option value = "1">USD</option>
+									<option value = "2">KRW</optoin>
+									<option value = "3">JPY</option>
+								</select>
+								</td>
+								<td>
+<!-- 								<input type="text" size="48" name = "cost" class="cost" onkeyup="inputNumberFormat(this)" style = "text-align:right;"/> -->
+								<input type="text" size="48" name = "min_cost" class="min_cost" onkeypress="Numberchk()" onkeyup="vComma(this)" style = "text-align:right;"/>
+								</td>
+								<td>
+									<span class="glyphicon glyphicon-plus 	accountPlus" onclick = "miniAppendAccount()"></span>
+								</td>
+								<td>
+									<span class="glyphicon glyphicon-remove accountRemove" name = "min_removeAcoountName" onclick = "miniRemoveAccount()" style="display: none"></span>
+								</td>
+							</tr>
+						</table>
+					</div>
+				</div>
+			<table style="width: 100%;">
 			<tr>
 			<td colspan="2" style="padding: 15px">
 				<div class="storyContent" style="height: 230px;"></div>
@@ -117,6 +154,7 @@ $('.storyContent').froalaEditor({
 
 </script> 
 <script type="text/javascript">
+var cnt = 0;
 $("#btnMiniWriteSave").on("click", function(){
 	// 저장 버튼 비활성화
 	$(this).attr('disabled',"disabled");
@@ -153,6 +191,181 @@ $("#btnMiniWriteSave").on("click", function(){
 		}
 	});
 });
+
+
+	
+	//가계부 추가
+	function miniAppendAccount() {
+		
+		if (cnt < 4){
+		
+		var accountView = $("#min_accountView").clone();
+ 		$("#min_accountViewList").append(accountView);
+ 		
+		cnt = cnt+1;
+		
+		var size = document.getElementsByName("min_accountViewName").length;
+
+		for(var i = 0; i < size; i++){
+	        var obj = document.getElementsByName("min_accountViewName")[i];
+	        
+	        $(obj).find(".accountPlus").css("display","none");
+	        $(obj).find(".accountRemove").css("display","block");
+	        
+	        if (i == size-1){
+			    $(obj).find(".accountPlus").css("display","block");
+	        	$(obj).find(".min_cost").val("");
+	        	$(obj).find(".min_accType").val(1);
+	        	$(obj).find(".min_currSymbol").val(1);
+	        }
+	        
+	        if (size == 5 && i == size-1){
+		    	 $(obj).find(".accountPlus").css("display","none");
+	        }
+		 }
+	
+	}
+}
+	
+	//가계부 삭제
+	function miniRemoveAccount() {
+		
+		var removeObj = window.event.target.parentElement.parentElement.parentElement.parentElement.parentElement;
+		
+		removeObj.remove();	
+		
+		cnt = cnt-1;
+		
+		delete removeObj;
+		
+		var size = document.getElementsByName("min_accountViewName").length;
+		
+		for(var i = 0; i < size; i++){
+	        var obj = document.getElementsByName("min_accountViewName")[i];
+	        
+	        if (size == 1){
+	        	$(obj).find(".accountRemove").css("display","none");
+	        }
+	        
+	        $(obj).find(".accountPlus").css("display","none");
+	        
+	        if (i == size-1){
+			     $(obj).find(".accountPlus").css("display","block");
+	        }
+	        
+	        if (size == 5 && i == size-1){
+		    	 $(obj).find(".accountPlus").css("display","none");
+	        }
+		}
+	}
+	
+	$(document).ready(function(){
+		
+		//가계부 테스트중
+// 		$('.modal').on('shown.bs.modal',function(e){
+			
+// 		var ttbJson = JSON.parse($('input[name=ttbJson]').val());
+			
+// 		//Account Seletion 값 넣어주기
+// 		var accountTtbidx = [];
+// 		var accountCategory = [];
+// 		var accountCurridx = [];
+// 		var accountCost = [];
+		
+// 		//업데이트 모달 띄울때, account 표시 하기 위한 account값 가져오기
+// 		<c:forEach items="${accountList}" var="account">
+// 			accountTtbidx.push('${account.ttb_idx}');
+// 			accountCategory.push('${account.category}');
+// 			accountCurridx.push('${account.curr_idx}');
+// 			accountCost.push('${account.origin_cost}');
+// 		</c:forEach>
+		
+// 		var count = 0; //처음 한번은 append 안해주기 위해서
+// 		// account 있는 수만큼 가계부 입력공간 추가
+// 		for (var i = 0; i <accountTtbidx.length; i++) {
+// 				if( ttbJson.ttb_idx == accountTtbidx[i]){
+// 					var accountView = $("#min_accountView").clone();
+// 					if(count != 0){
+						
+// 						$("#min_accountViewList").append(accountView);	
+// 					}
+// 					count = count+1;
+// 				}
+// 		}
+		
+// 		var size = document.getElementsByName("min_accountViewName").length;
+ 		
+//  		var accCurrNameList = [];
+//  		var accTypeList = [];
+//  		var accCostList = [];
+		
+//  		for(var i = 0; i < size; i++){
+// 	        var obj = document.getElementsByName("min_accountViewName")[i];
+	        
+// 	        $(obj).find(".accountPlus").css("display","none");
+// 	        $(obj).find(".accountRemove").css("display","block");
+	        
+// 	        var ch = false;
+// 	        for (var j = 0; j <accountTtbidx.length; j++) {
+// 				if( ttbJson.ttb_idx == accountTtbidx[j]){
+// 					accTypeList.push(accountCategory[j]);
+// 					accCurrNameList.push(accountCurridx[j]);
+// 					accCostList.push(accountCost[j]);
+// 					ch = true;
+// 				}
+// 	        }
+	        
+// 	        if (ch == false) {
+// 			   $(obj).find(".min_accType").val(1);
+// 		        $(obj).find(".min_currSymbol").val(1);
+// 				$(obj).find(".min_cost").val("");
+// 	        }else{
+// 		        $(obj).find(".min_accType").val(accTypeList[i]);
+// 		        $(obj).find(".min_currSymbol").val(accCurrNameList[i]);
+// 				$(obj).find(".min_cost").val(accCostList[i]);
+// 	        }
+
+// 	        if (i == size-1){
+// 			    $(obj).find(".accountPlus").css("display","block");
+// 	        }
+	        
+// 	        if (size == 5 && i == size-1){
+// 		    	 $(obj).find(".accountPlus").css("display","none");
+// 	        }
+// 		 }
+// 		});
+		
+		
+	//모달 숨겨질때
+		$('.modal').on('hidden.bs.modal',function(e){
+			
+		//현재추가된acountDiv의 갯수
+			var size = document.getElementsByName("min_accountViewName").length
+			
+			//한개 빼고 전부 remove
+			for(var i = size-1; i > 0; i--){
+	        	var obj = document.getElementsByName("min_accountViewName")[i];
+	       	 	obj.remove();
+			}
+			
+			//첫번째 accountDivView 가져오기
+			var obj1 = document.getElementsByName("min_accountViewName")[0]
+			
+			//정보 리셋
+			$(obj1).find(".min_accType").val(1);
+        	$(obj1).find(".min_currSymbol").val(1);
+			$(obj1).find(".min_cost").val("");
+			
+			$(obj1).find(".accountPlus").css("display","block");
+	        $(obj1).find(".accountRemove").css("display","none");
+	        
+	        //카운트값 초기화(가계부 입력공간 개수)
+	        cnt = 0;
+		})	
+	
+	});
+
+
 </script>
 </body>
 </html>

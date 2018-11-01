@@ -40,6 +40,11 @@ public class AccountServiceImpl implements AccountService {
 		for(int i =0; i<AccountList.size();i++) {
 			AccountList.get(i).setCategory_name(cateGoryIntToStr(AccountList.get(i).getCategory()));
 			AccountList.get(i).setCurr_idx_name(currIntToStr(AccountList.get(i).getCurr_idx()));
+			Story story = new Story();
+			story.setStory_idx(AccountList.get(i).getStory_idx());
+			story = storyDao.selectStoryByStoryIdx(story);
+			
+			AccountList.get(i).setTtb_idx(story.getTtb_idx());
 		}
 		
 		
@@ -101,7 +106,8 @@ public class AccountServiceImpl implements AccountService {
 
 	@Override
 	public void deleteAccountListByStoryIdx(Story story) {
-		// TODO Auto-generated method stub
+	
+		accountDao.deleteAccountListByStoryidx(story);
 		
 	}
 
@@ -124,5 +130,29 @@ public class AccountServiceImpl implements AccountService {
 		// TODO Auto-generated method stub
 		
 	}
+
+	@Override
+	public Float calcCost(int currSymbol, float Orgin_cost, float USD_rate, float KRW_rate, float JPY_rate) {
+		
+		float result = 0;
+		switch (currSymbol) {
+		case 1:
+			//USD일때
+			result = Orgin_cost*USD_rate;
+			
+			break;
+		case 2:
+			//KRW일때
+			result = Orgin_cost*KRW_rate;
+			break;
+		case 3:
+			//JPY일떄
+			result = Orgin_cost*JPY_rate;
+			break;
+		}
+		
+		return result;
+	}
+
 
 }
