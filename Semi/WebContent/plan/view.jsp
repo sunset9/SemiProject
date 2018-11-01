@@ -564,8 +564,6 @@ function displayStoryView(){
 
 </script>
 
-</head>
-<body>
 <!-- 플래너 배너 -->
 <div  id="container" style="width:100%; height:400px; border-radius:10px; background-image:url('${planView.bannerURL }');background-size: 100% 100%;">
 	<!-- 플래너 정보(공개유무, 수정버튼, 일정제목 등 UI) -->

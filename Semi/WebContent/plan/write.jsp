@@ -546,8 +546,6 @@ window.onbeforeunload = function(){
 };
 </script>
 
-</head>
-<body>
 <!-- 플래너 배너 -->
 <div id="container" style="width:100%; height:400px; border-radius:10px; background-image:url('${planView.bannerURL }');background-size: 100% 100%;">
 	<form action="/plan/banner" method="post" enctype="multipart/form-data">
