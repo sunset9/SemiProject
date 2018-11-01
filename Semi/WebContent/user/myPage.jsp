@@ -62,7 +62,7 @@ $(document).ready(function(){
 	<!-- 총여행거리 -->
 	<div class="profile common">
 
-		<div class="totalDistance">총 여행거리 : <fmt:formatNumber value='${user.totalDist}' pattern=".00"/>km</div>
+		<div class="totalDistance">총 여행거리 : <fmt:formatNumber value='${user.totalDist}' pattern=".##"/>km</div>
 	</div>
 </div>
 
@@ -168,12 +168,12 @@ $(document).ready(function(){
 	<div class="profile common">
 		<div class="nickname">${socialUser.nickname}님의 여행기</div>
 		<div class="grade">등급 : ${socialUser.grade}</div>
-		<div class="planCnt">포스팅 : ${cntPlan} 개</div>
+		<div class="planCnt">포스팅 : ${user.totalPlanCnt} 개</div>
 	</div>
 	
 	<!-- 총여행거리 -->
 	<div class="profile common">
-		<div class="totalDistance">총 여행거리 : ${totDist} km</div>
+		<div class="totalDistance">총 여행거리 : <fmt:formatNumber value='${user.totalDist}' pattern=".##"/>km</div>
 	</div>
 </div>
 
