@@ -5,7 +5,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-import dto.bookmark.Bookmark;
+import dto.user.Bookmark;
 import dto.plan.Plan;
 import utils.DBConn;
 
@@ -15,7 +15,7 @@ public class BookmarkDaoImpl implements BookmarkDao{
 	private PreparedStatement ps = null;
 	private ResultSet rs = null;
 	
-	public void insertBookmarkByPlanIdx(Plan plan) {
+	public void insertBookmarkByPlanIdx(Plan plan, int user_idx) {
 		String sql = "INSERT INTO bookmark("
 				+ "book_idx, user_idx, plan_idx"
 				+ ")"
@@ -28,7 +28,7 @@ public class BookmarkDaoImpl implements BookmarkDao{
 			conn.setAutoCommit(false);
 			ps = conn.prepareStatement(sql);
 			
-			ps.setInt(1, plan.getUser_idx());
+			ps.setInt(1, user_idx );
 			ps.setInt(2, plan.getPlan_idx());
 			
 			
@@ -36,7 +36,6 @@ public class BookmarkDaoImpl implements BookmarkDao{
 			conn.commit();
 			
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 			try {
 				conn.rollback();
@@ -68,7 +67,6 @@ public class BookmarkDaoImpl implements BookmarkDao{
 			conn.commit();
 			
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 			try {
 				conn.rollback();
@@ -83,7 +81,6 @@ public class BookmarkDaoImpl implements BookmarkDao{
 			}
 		}
 	}
-	
 	@Override
 	public Bookmark selectBookmarkByPlanIdx(Plan plan) {
 		String sql = "";

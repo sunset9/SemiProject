@@ -15,6 +15,16 @@
 
 .tabCommon { float: left; margin-left:30px; margin-right:30px; }
 
+.listBox{
+	display: grid; 
+	grid-template-columns:33% 33% 33%;
+}
+
+#planBox{
+	border: 1px solid black; 
+	padding:10px;
+	margin : 3px;
+}
 </style>
 <script type="text/javascript">
 
@@ -66,6 +76,7 @@ $(document).ready(function(){
 	</div>
 </div>
 
+
 <!-- 일정, 북마크 리스트 -->
 <div>
 	<!-- 탭 버튼 -->
@@ -76,63 +87,39 @@ $(document).ready(function(){
 	</div>
 	
 	<div id="planList" class="list">
-	<div><h3>여기는 내 일정 리스트</h3></div>
-		<c:forEach var="pList" items="${plannerList}" varStatus="status">
-			<div>				
+	<h3>여기는 내 일정 리스트</h3>
+	<div id="planList" class="listBox">
+		<c:forEach items="${plannerList }" var="plan"> 
+			<div id="planBox" data-plan_idx="${plan.plan_idx }">
+			<a href="/plan?plan_idx=${plan.plan_idx }">
+				<div><img src="/upload/banner/${plan.bannerURL }" style="width: 100%;"></div>
+				<div> Title : ${plan.title} <br> NickName : ${plan.nick }</div>
 				<div>
-				<div style="display:inline;">
-					<form action="/plan/write" method="post" style="display:inline;">
-						<input type="hidden" name="plan_idx" value="${status.current.plan_idx}" />
-						<input type="hidden" name="user_idx" value="${status.current.user_idx}" />
-						<input type="hidden" name="editStartDate" value="${status.current.start_date}" />
-						<input type="hidden" name="editEndDate" value="${status.current.end_date}" />
-						<input type="hidden" name="editTraveled" value="${status.current.traveled}" />
-						<button type="submit">수정</button>
-					</form>
+					<button id ="planDelete"  onclick="deletePlan(${plan.plan_idx})">삭제</button>
 				</div>
-				<div style="display:inline;">
-					<form action="/plan/delete" method="post">
-						<input type="hidden" name="plan_idx" value="${status.current.plan_idx}" />
-						<button type="submit">삭제</button>
-					</form>		
-				</div>
-				</div>
-				
-				<div>
-					<a href="/plan?plan_idx=${pList.plan_idx }">
-					<input type="hidden" name="plan_idx" value="${status.current.plan_idx}" />
-					<div><input type="image" src="${pList.bannerURL}" style="width: 300px;"></div>
-					<div><button type="submit" style="border:0; ">글 제목 : ${pList.title}</button></div><hr>
-					</a>
-				</div>
-			</div>
+			</a></div>
 		</c:forEach>
+		</div>
+	
 	</div>
 	
 	<div id="bookmarkList" class="list" style="display:none">
 	<div><h3>여기는 북마크 리스트</h3></div>
-		<c:forEach var="bList" items="${bookMarkList}">
-			<div>
-				<div>
-					<button>삭제</button>
-				</div>
-				<div><img src="${bList.getBannerURL()}" style="width: 300px;"></div>
-				<div>북마크 :  ${bList.getTitle()}</div><br>
-			</div>
-		</c:forEach>
-	</div>
 	
-	<div id="inquiryList" class="list" style="display:none">
-		<div><h3>여기는 모든 일정 리스트</h3></div>
-		<c:forEach var="aList" items="${allPlanList}" varStatus="aStatus">
-			<div>
-				<a href="/plan?plan_idx=${aStatus.current.plan_idx }">
-					<input type="hidden" name="plan_idx" value="${aStatus.current.plan_idx}" />
-					<div><input type="image" src="${aList.getBannerURL()}" style="width: 300px;"></div>
-					<div><button type="submit" style="border:0; ">글 제목 : ${aList.getTitle()}</button></div><hr>
-				</a>
-			</div>
+			<div id="planList" class="listBox" >
+
+		<c:forEach items="${bookMarkList }" var="bList"> 
+			<div id="bookmarkBox" data-book_idx="${bList.book_idx }">
+			<a href="/plan?plan_idx=${bList.plan_idx }">
+				<div><img src="/upload/banner/${bList.bannerURL }" style="width: 100%;"></div>
+				<div> Title : ${bList.title} <br> NickName : ${bList.writeNick }</div>
+				<div>
+					<button id ="planDelete"  onclick="deletePlan(${bList.plan_idx})">삭제</button>
+				</div>
+			</a></div>
 		</c:forEach>
+		
+	</div>
 	</div>
 </div>
 </c:if>
@@ -185,50 +172,43 @@ $(document).ready(function(){
 	</div>
 	
 	<div id="planList" class="list">
-	<div><h3>여기는 내 일정 리스트</h3></div>
-		<c:forEach var="pList" items="${plannerList}" varStatus="status">
-			<div>				
+	<h3>여기는 내 일정 리스트</h3>
+	<div id="planList" class="listBox">
+		<c:forEach items="${plannerList }" var="plan"> 
+			<div id="planBox" data-plan_idx="${plan.plan_idx }">
+			<a href="/plan?plan_idx=${plan.plan_idx }">
+				<div><img src="/upload/banner/${plan.bannerURL }" style="width: 100%;"></div>
+				<div> Title : ${plan.title} <br> NickName : ${plan.nick }</div>
 				<div>
-				<div style="display:inline;">
-					<form action="/plan/write" method="get" style="display:inline;">
-						<input type="hidden" name="plan_idx" value="${status.current.plan_idx}" />
-						<button type="submit">수정</button>
-					</form>
+					<button id ="planDelete"  onclick="deletePlan(${plan.plan_idx})">삭제</button>
 				</div>
-				<div style="display:inline;">
-					<form action="/PlanDeleteController" method="post">
-						<input type="hidden" name="plan_idx" value="${status.current.plan_idx}" />
-						<button type="submit">삭제</button>
-					</form>		
-				</div>
-				</div>
-				
-				<div>
-					<a href="/plan?plan_idx=${pList.plan_idx }">
-					<input type="hidden" name="plan_idx" value="${status.current.plan_idx}" />
-					<div><input type="image" src="${pList.getBannerURL()}" style="width: 300px;"></div>
-					<div><button type="submit" style="border:0; ">글 제목 : ${pList.getTitle()}</button></div><hr>
-					</a>
-				</div>
-			</div>
+			</a></div>
 		</c:forEach>
+		</div>
+	
 	</div>
 	
 	<div id="bookmarkList" class="list" style="display:none">
 	<div><h3>여기는 북마크 리스트</h3></div>
-		<c:forEach var="bList" items="${bookMarkList}">
-			<div>
+	
+			<div id="planList" class="listBox" >
+
+		<c:forEach items="${bookMarkList }" var="bList"> 
+			<div id="bookmarkBox" data-book_idx="${bList.book_idx }">
+			<a href="/plan?plan_idx=${bList.plan_idx }">
+				<div><img src="/upload/banner/${bList.bannerURL }" style="width: 100%;"></div>
+				<div> Title : ${bList.title} <br> NickName : ${bList.writeNick }</div>
 				<div>
-					<button>삭제</button>
+					<button id ="planDelete"  onclick="deletePlan(${bList.plan_idx})">삭제</button>
 				</div>
-				<div><img src="${bList.getBannerURL()}" style="width: 300px;"></div>
-				<div>북마크 :  ${bList.getTitle()}</div><br>
-			</div>
+			</a></div>
 		</c:forEach>
+		
+	</div>
 	</div>
 	
 	<div id="inquiryList" class="list" style="display:none">
-		<div><h3>여기는 모든 일정 리스트</h3></div>
+		<div><h3>내가 한 문의</h3></div>
 		<c:forEach var="aList" items="${allPlanList}" varStatus="aStatus">
 			<div>
 				<a href="/plan?plan_idx=${aStatus.current.plan_idx}">
@@ -239,6 +219,46 @@ $(document).ready(function(){
 			</div>
 		</c:forEach>
 	</div>
+	
+	<div class="content">
+<h3><strong>CONTENT</strong></h3>
+<div id ="listTable">
+<table class="table table-hover table-striped table-condensed">
+<thead>
+<tr>
+<th>번호</th>
+<th>제목</th>
+<th>작성자</th>
+<th>답변여부</th>
+<th>조회수</th>
+<th>작성일</th>
+</tr>
+</thead>
+
+<tbody>
+<c:forEach items ="${inqList }" var = "inq">
+<tr>
+<td>${inq.inq_idx }</td>
+<td><a href="/admin/inquiry/view?inq_idx=${inq.inq_idx }">${inq.title }</a></td>
+<td>${inq.writer }</td>
+<td>
+
+<c:if test="${inq.answer eq 0}">
+<font color="FF6666" style="font-weight: bolder;">답변 예정</font>
+</c:if>
+<c:if test="${inq.answer eq 1}">
+답변 완료
+</c:if>
+
+</td>
+<td>${inq.hit }</td>
+<td>${inq.create_date }</td>
+</tr>
+</c:forEach>
+</tbody>
+
+</table>
+</div>
 </div>
 </c:if>
 

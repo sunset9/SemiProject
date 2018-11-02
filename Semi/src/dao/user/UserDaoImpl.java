@@ -510,12 +510,14 @@ public class UserDaoImpl implements UserDao{
 	public List<Bookmark> getBookmarkList(User user) {
 //		System.out.println("userDao getbList 유저 넘어왔나? : "+user); -> OK
 		String sql = "";
-		sql += "SELECT P.TITLE, P.BANNERURL";
-		sql += " FROM USERINFO U JOIN BOOKMARK B";
-		sql += " ON U.USER_IDX = B.USER_IDX";
-		sql += " JOIN PLANNER P";
-		sql += " ON B.PLAN_IDX = P.PLAN_IDX";
-		sql += " WHERE U.USER_IDX = ?";
+		sql += "SELECT B.book_idx, P.TITLE, P.BANNERURL, P.plan_idx, B.user_idx, U.nickname" ;
+		sql +=		"        FROM BOOKMARK B"  ;
+		sql +=		"        INNER JOIN PLANNER P" ; 
+		sql +=		"        ON B.PLAN_IDX = P.PLAN_IDX" ; 
+		sql +=		"        INNER JOiN USERINFO U" ; 
+		sql +=		"        ON P.user_idx = U.user_idx" ; 
+		sql +=		"    WHERE B.USER_IDX =? ";
+	
 		
 		//DB 객체
 		PreparedStatement ps = null;
@@ -531,12 +533,16 @@ public class UserDaoImpl implements UserDao{
 			list = new ArrayList<>();
 
 			while (rs.next()) {
-				Bookmark bMark = new Bookmark();
+				Bookmark b = new Bookmark();
 				
-				bMark.setTitle(rs.getString("TITLE"));
-				bMark.setBannerURL(rs.getString("BANNERURL"));
+				b.setBook_idx(rs.getInt("book_idx"));
+				b.setPlan_idx(rs.getInt("plan_idx"));
+				b.setUser_idx(rs.getInt("user_idx"));
+				b.setWriteNick(rs.getString("nickname"));
+				b.setTitle(rs.getString("TITLE"));
+				b.setBannerURL(rs.getString("BANNERURL"));
 				
-				list.add(bMark);
+				list.add(b);
 			}
 			
 		} catch (SQLException e) {
