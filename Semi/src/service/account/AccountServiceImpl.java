@@ -35,11 +35,13 @@ public class AccountServiceImpl implements AccountService {
 			//카테고리 이름, 통화명  dto에 string으로 저장 
 			accountList.get(i).setCategory_name(cateGoryIntToStr(accountList.get(i).getCategory()));
 			accountList.get(i).setCurr_idx_name(currIntToStr(accountList.get(i).getCurr_idx()));
+			
+			//acountList에 ttb_idx 넣어주기
 			Story st = new Story();
 			st.setStory_idx(accountList.get(i).getStory_idx());
 			st = storyDao.selectStoryByStoryIdx(story);
 			
-			accountList.get(i).setTtb_idx(story.getTtb_idx());
+			accountList.get(i).setTtb_idx(st.getTtb_idx());
 		}
 		
 		
@@ -69,37 +71,38 @@ public class AccountServiceImpl implements AccountService {
 	
 	public String cateGoryIntToStr(int category) {
 		
-		String category_name = "";
-		
-	  switch (category) {
-	  	case 1:
-	  		category_name ="항공료";
-		    break;
-	  	case 2:
-	  	    category_name ="교통";
-	  	    break;
-	  	case 3:
-	  		category_name ="숙박";
-	  		break;
-	  	case 4:
-	  		category_name ="입장료";
-	  		break;
-	  	case 5:
-	  		category_name ="음식";
-	  		break;
-	  	case 6:
-	  		category_name ="오락";
-	  		break;
-	  	case 7:
-	  		category_name ="쇼핑";
-	  		break;
-	  	case 8:
-	  		category_name ="기타";
-	  		break;
-	  }
+		  String category_name = "";
+			
+		  switch (category) {
+		  	case 1:
+		  		category_name ="항공료";
+			    break;
+		  	case 2:
+		  	    category_name ="교통";
+		  	    break;
+		  	case 3:
+		  		category_name ="숙박";
+		  		break;
+		  	case 4:
+		  		category_name ="입장료";
+		  		break;
+		  	case 5:
+		  		category_name ="음식";
+		  		break;
+		  	case 6:
+		  		category_name ="오락";
+		  		break;
+		  	case 7:
+		  		category_name ="쇼핑";
+		  		break;
+		  	case 8:
+		  		category_name ="기타";
+		  		break;
+	     }
 		
 		return category_name;
 	}
+	
 	public String currIntToStr(int curr_idx) {
 		
 		String curr_name = "";
@@ -155,7 +158,6 @@ public class AccountServiceImpl implements AccountService {
 		case 1:
 			//USD일때
 			result = Orgin_cost*USD_rate;
-			
 			break;
 		case 2:
 			//KRW일때
@@ -174,30 +176,16 @@ public class AccountServiceImpl implements AccountService {
 	public void writeMini(Story story, Boolean isStory, HttpServletRequest req) {
 		
 		//환율 불러오기
-		double USD_rate = Float.parseFloat(req.getParameter("USD_rate"));
-		double KRW_rate = Float.parseFloat(req.getParameter("KRW_rate"));
-		double JPY_rate = Float.parseFloat(req.getParameter("JPY_rate"));
+		double USD_rate = Double.parseDouble(req.getParameter("USD_rate"));
+		double KRW_rate = Double.parseDouble(req.getParameter("KRW_rate"));
+		double JPY_rate = Double.parseDouble(req.getParameter("JPY_rate"));
 		
 		String[] accType = req.getParameterValues("accType");
 		String[] currSymbol = req.getParameterValues("currSymbol");
 		String[] cost = req.getParameterValues("cost");
 		
-//		System.out.println("-----------------TEST----------------------");
-//		System.out.println(USD_rate);
-//		System.out.println(KRW_rate);
-//		System.out.println(JPY_rate);
-//		System.out.println("-----------------TEST1111---------------------");
-//		for (int i =0 ; i<accType.length;i++) {
-//			
-//			System.out.println(accType[i]);
-//			System.out.println(currSymbol[i]);
-//			System.out.println(cost[i]);
-//		}
-//		
-//		System.out.println("-----------------TEST----------------------");
-//		
-		
 		if(isStory) { // 이미 작성된 스토리가 있는 경우
+			//storyIdx조회후 검색된 account 모두 삭제
 			accountDao.deleteAccountListByStoryidx(story);
 			
 		} else { // 첫 스토리 작성인 경우
@@ -214,6 +202,7 @@ public class AccountServiceImpl implements AccountService {
 				account.setAcc_idx(accountDao.selectAccIdx());
 				account.setCategory(Integer.parseInt(accType[i]));
 				account.setCurr_idx(Integer.parseInt(currSymbol[i]));
+				//cost의 값은 콤마도포함되어오므로 콤마제거
 				cost[i]=cost[i].replaceAll(",", "");
 				account.setOrigin_cost(Double.parseDouble(cost[i]));
 				account.setPlan_idx(story.getPlan_idx());
