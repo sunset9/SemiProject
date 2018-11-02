@@ -26,12 +26,8 @@ public class UserDeleteController extends HttpServlet {
 		//현재 로그인한 유저 정보 가져오기
 		User user = (User) req.getSession().getAttribute("user");
 		User socialUser = (User) req.getSession().getAttribute("socialUser");
-		//System.out.println("deleteController : "+user);
-		//System.out.println("deleteController : "+socialUser);
 		
-		//유저 삭제 
-//		System.out.println(user != null);
-//		System.out.println(socialUser == null);
+		//탈퇴처리
 		if(user!=null) {
 			userService.deleteUserByid(user);
 		}

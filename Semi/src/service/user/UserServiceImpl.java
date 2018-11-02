@@ -285,7 +285,7 @@ public class UserServiceImpl implements UserService {
 		userDao.changeTempPw(email, tempPw);
 	}
 
-	//gmail send 설정
+	//메일전송설정
 	@Override
 	public void gmailSend(String userEmail, String tempPw) {
 		String user = "semiproject99@gmail.com";

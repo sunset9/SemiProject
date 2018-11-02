@@ -140,9 +140,6 @@ $(document).ready(function(){
 
 
 
-
-${socialUser.profile}
-
 <!-- 소셜로그인한 유저의 마이페이지 -->
 <c:if test="${socialUser.sns_idx != 1 && user.sns_idx != 1}">
 <!-- 유저 정보 -->
@@ -176,6 +173,7 @@ ${socialUser.profile}
 		<div class="totalDistance">총 여행거리 : <fmt:formatNumber value='${user.totalDist}' pattern="0.##"/>km</div>
 	</div>
 </div>
+<hr>
 
 <!-- 일정, 북마크 리스트 -->
 <div>
