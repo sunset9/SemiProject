@@ -10,7 +10,16 @@
 
 
 <style>
+#miniModalContent{
+	border: 1px solid #9AA3E6;
+	height: auto;
+	overflow: hidden;
+}
 
+#miniModalImg{
+	width: 280px;
+	height: 150px;
+}
 </style>
 </head>
 <body>
@@ -21,12 +30,11 @@
     <div class="modal-content">
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-        <h4 class="modal-title">Modal title</h4>
+        <h4 id="miniModalTitle">Modal title</h4>
       </div>
       
-      <div class="modal-body">
+      <div class="modal-body" id= "miniModalBody">
 		<!-- div (팝업으로 띄어줄) 본문 내용 -->	
-		<div style="border: 1px solid #9AA3E6; height: auto;" >
 			<input type='hidden' name='plan_idx' value='${planView.plan_idx}'> <!-- 스토리 -->
 			<input type='hidden' name='JSON'> <!-- 스토리 -->
 			<input type='hidden' name='ttbJson'> <!-- 해당 타임테이블 -->
@@ -34,9 +42,9 @@
 			<table style="width: 100%;">
 			<tr>
 				<td rowspan="2" style="padding: 10px 15px; width: 60%;">
-				<img class="miniImg" width="280" height="150" alt=""/>
+				<img id="miniModalImg" alt=""/>
 				</td>
-				<td class="miniTitle" style="font-weight: bold; width: 40%;"><hr></td>
+				<td id="miniModalPlace" style="font-weight: bold; width: 40%;"><hr></td>
 			</tr>	
 			<tr>
 				<td>
@@ -44,15 +52,10 @@
 				</td>
 			</tr>
 			</table>
-<!-- 			<tr> -->
-<!-- 			<td> -->
-<!-- 			오락 | USD 50000 -->
-<!-- 			</td> -->
-<!-- 			</tr> -->
 			<table style="width: 100%;">
 				<tr>
 					<td colspan="2" style="padding: 15px">
-						<div class="storyContent" style="height: 230px;"></div>
+						<div id="miniModalContent" style="height: 230px;"></div>
 					</td>
 				</tr>
 			</table>
@@ -92,9 +95,8 @@
 							</tr>
 						</table>
 					</div>
-				</div>
 	
-			</div>
+			</div> <!-- min_accountViewList end -->
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-default" data-dismiss="modal">닫기</button>
@@ -114,13 +116,10 @@ $("#btnMiniWriteSave").on("click", function(){
 	// submit 할 객체들 json형태로 받기
 	var ttbJson = JSON.parse($('input[name=ttbJson]').val());
 	var storyJson = JSON.parse($('input[name=JSON]').val());
-	storyJson.content = $('.storyContent').froalaEditor('html.get'); // story json형태에 스토리 내용도 추가(plan_idx,ttb_idx만 존재)
+	storyJson.content = $('#miniModalContent').froalaEditor('html.get'); // story json형태에 스토리 내용도 추가(plan_idx,ttb_idx만 존재)
 	
 	// json -> string
 	var storyJsonStr = JSON.stringify(storyJson);
-	
-	// <input태그 value에 값 넣어줌
-	$('input[name=JSON]').val(storyJsonStr);
 	
 	//account 내용
 	var accTypeLen = $("select[name='min_accType']").length;
@@ -144,7 +143,7 @@ $("#btnMiniWriteSave").on("click", function(){
 		, data: {
 			plan_idx: plan_idx
 			, JSON: storyJsonStr
-			, ttbJson: $('input[name=ttbJson]').val()
+			, ttbJson: JSON.stringify(ttbJson)
 			, "accType": accType
 			, "currSymbol" :currSymbol
 			, "cost":cost
@@ -168,7 +167,7 @@ $("#btnMiniWriteSave").on("click", function(){
 $(function() {
 $.FroalaEditor.COMMANDS.imageAlign.options.justify = 'Center';
 
-$('.storyContent').froalaEditor({
+$('#miniModalContent').froalaEditor({
     // Set the image upload URL.
     enter: $.FroalaEditor.ENTER_DIV,
     charCounterCount: false,
