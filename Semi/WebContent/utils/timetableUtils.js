@@ -13,7 +13,7 @@ function initFullCalendar(planStartDate, planEndDate, isFirst){
 	$('#calendar').fullCalendar({
 		schedulerLicenseKey: 'GPL-My-Project-Is-Open-Source'
 		, defaultView: 'titetable' // 뷰 지정 (아래에 설정값 작성)
-		, height: 833 // 캘린더 높이
+		, height: 'auto' // 캘린더 높이
 		, defaultDate: planStartDate
 		, defaultTimedEventDuration: '02:00:00' // 시간 기간 디폴트 지정 2 hours
 		, forceEventDuration: true // end시간이 지정되지 않으면 강제로 할당
@@ -128,10 +128,16 @@ function initFullCalendar(planStartDate, planEndDate, isFirst){
 			element.css("padding", "6px 15px");
 			
 			// 날짜 별로 색상 다르게 해주기
-			if(getDiffDay(event.start, planStartDate) == 0){
-				element.css("background-color", "green");
-			} else if(getDiffDay(event.start, planStartDate) == 1){
-				element.css("background-color", "orange");
+			if(getDiffDay(event.start, planStartDate) % 5 == 0){
+				element.css("background-color", "#068587");
+			} else if(getDiffDay(event.start, planStartDate) % 5 == 1){
+				element.css("background-color", "#4FB99F");
+			} else if(getDiffDay(event.start, planStartDate) % 5 == 2){
+				element.css("background-color", "#FFCB37");
+			} else if(getDiffDay(event.start, planStartDate) % 5 == 3){
+				element.css("background-color", "#068587");
+			} else if(getDiffDay(event.start, planStartDate) % 5 == 4){
+				element.css("background-color", "#ED553B");
 			}
 			
 			// 이벤트 타이틀에 모달 트리거 속성 삽입
@@ -475,6 +481,7 @@ function getSameDayTtb(start_date, timetables){
 }
 
 function displayHeaderCountry(){
+	// 헤더 돌면서 방문 나라 띄워줌
 	$('.fc-day-header').each(function(){
 		var start_date = $(this).attr('data-date');
 		timetables = getTimetablesFromBrowser();
@@ -487,11 +494,14 @@ function displayHeaderCountry(){
 		
 		var length = countryList.length;
 		if(length > 0){
+			// 방문나라가 한 곳이거나, 하루의 처음 방문나라와 마지막 방문 나라가 같은 경우 : 한 곳만 띄워줌
 			if(length == 1 || countryList[0] == countryList[length-1]){
 				$(this).find(".header-country").text(countryList[0]);
-			}else{
+			}else{ // 방문나라가 두 곳 이상인 경우: '처음나라>마지막 나라' 형식으로 띄워줌
 				$(this).find(".header-country").text(countryList[0]+">"+countryList[length-1] );
 			}
+		} else { // 방문 나라가 없는 경우
+			$(this).find(".header-country").text('');
 		}
 	});
 }

@@ -1,0 +1,117 @@
+@charset "UTF-8";
+
+/* 	구글 맵 크기 설정 */
+#map {
+	background-color:#DDDDDD;
+	height:450px;
+	float:bottom;
+	width:100%;
+	margin-top: 10px;
+
+}
+/* -------------------------------------------- */
+/* 타임테이블 설정*/
+#calendar {
+    float: right;
+    width: 900px;
+    height: 900px;
+    margin-bottom: 20px;
+}
+
+.fc-ltr .fc-time-grid .fc-event-container { /* 일정 이벤트 박스 관련 */ 
+	margin: 0 3px 0 3px; 
+	font-size: 1.1em;
+}
+
+.fc-axis { /* 왼쪽 시간  넓이 수정 */ 
+	width: 60px !important;
+}
+
+#prevBtn { /* 이전날짜 선택 버튼*/
+	cursor: pointer;
+	float: left;
+	margin-left: 5px;
+}
+
+#nextBtn { /* 다음 날짜 선택 버튼*/
+	cursor: pointer;
+	float: right;
+	margin-right: 5px;
+}
+
+.fc-row.fc-widget-header tr{ /* 헤더의 날짜 정보*/
+	height: 50px;
+	font-size: 1.3em;
+}
+
+.fc-title{ /* 이벤트 안의 제목 부분 */
+	cursor: pointer;
+	font-weight: bold;
+	font-size: 1.5em;
+	padding-top: 5px;
+}
+
+/* fc-bg(이벤트 덮고 있는 투명도 있는 판?)css 수정 , 왼쪽에 색 진하게 하는 효과줌 */
+.fc-bg:not(:first-child){
+/* 	margin-left: 10px;  */
+	width: 11px;
+	opacity: .18;
+	background: #000;
+}
+
+/* -------------------------------------------- */
+#userInfoView{
+	background-color:#EEEEEE;
+	height:100%;
+	width:100%;
+	border-radius:10px;
+}
+
+#accountView{
+	background-color:#EEEEEE;
+	height:100%;
+	width:100%;
+	border-radius:10px;
+}
+
+/* 탭관련 */
+#tab-main {
+    margin: 0;
+    padding: 0;
+    float: left;
+    list-style: none;
+    border-bottom: 1px solid #eee;
+    border-left: 1px solid #eee;
+    width: 100%;
+}
+#tab-main li {
+    float: left;
+    text-align:center;
+    cursor: pointer;
+    width: 50%;
+    height: 50px; 
+    line-height: 50px;
+    border: 1px solid #eee;
+    border-left: none;
+/*     font-weight: bold; */
+    background: #fafafa;
+    overflow: hidden;
+    position: relative;
+    color: #4FB99F;
+}
+
+#tab-main li.active {
+    background: #FFFFFF;
+    border-bottom: 5px solid #4FB99F;
+    color: #4FB99F;
+    font-weight: bold;
+    pointer-events: none; /* 이미 선택한 탭은 다시 클릭 안되도록 */
+}
+.tab-container {
+    border: 1px solid #eee;
+    border-top: none;
+    clear: both;
+    float: left;
+    width: 100%; /* 이거 하면 타임테이블 지저분, 안하면 빈 스토리탭 container 좁게 지정*/
+}
+
