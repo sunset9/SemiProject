@@ -425,9 +425,8 @@ $(document).ready(function() {
 	});
 	
 	$("#fileBtn").change(function(){
-// 		$("#uploadForm").submit();
-		submit();
-	});
+		$("#uploadForm").submit();
+	})
 	
 }); // $(document).ready() End
 

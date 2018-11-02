@@ -101,7 +101,7 @@ public class PlanBannerUpdateController extends HttpServlet {
 		planView.setBannerURL(path);
 		
 		// DB에서 유저의 banner 수정 
-//		pDao.bannerUpdate(planView);
+		pDao.bannerUpdate(planView);
 		
 		System.out.println(planView);
 		
