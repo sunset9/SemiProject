@@ -104,6 +104,11 @@
 	background: #000;
 }
 
+.fc-today
+{
+  background-color:inherit !important;
+}
+
 /* -------------------------------------------- */
 /* 탭관련 */
 #tab-main {
