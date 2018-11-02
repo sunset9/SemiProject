@@ -671,7 +671,6 @@ public class UserDaoImpl implements UserDao{
 				user.setGrade(rs.getString("grade"));
 				user.setSns_idx(rs.getInt("sns_idx"));
 				user.setCreate_date(rs.getDate("create_date"));
-				user.setStatus(rs.getInt("status"));
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();

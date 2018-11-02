@@ -9,6 +9,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+
+import dto.user.Bookmark;
 import dto.plan.Plan;
 import dto.user.Bookmark;
 import service.bookmark.BookmarkService;
@@ -42,7 +44,6 @@ public class BookmarkInsertController extends HttpServlet {
 		int user_idx = 	(int)session.getAttribute("user_idx");
 		
 		Plan planView = pService.getPlanInfo(planParam);
-//		System.out.println(planParam);
 		
 		bService.insertBookmark(planView, user_idx);
 		

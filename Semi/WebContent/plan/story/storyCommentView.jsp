@@ -2,15 +2,6 @@
     pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
-<script>
-$(document).ready(function(){
-	console.log('${commentList}');
-	console.log('${story_idx}')
-});
-
-
-</script>
-
 <style>
 
 /*커멘드 삭제*/

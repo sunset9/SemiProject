@@ -42,10 +42,8 @@ public class StoryMiniViewController extends HttpServlet {
 		// 스토리 가져오기
 		Story story = sService.getStory(param);
 		
-		//accountList 스토리 하나당 가져오는 부분
-		
+		//스토리 하나당 accountList 가져오는 부분
 		List<Account> accountList = new ArrayList<Account>();
-		
 		accountList = aService.getStoryAccountList(story);
 		
 		

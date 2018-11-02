@@ -31,11 +31,7 @@ public class StoryCommentDeleteController extends HttpServlet {
 		
 		String commIdx_str = req.getParameter("comm_idx");
 		
-		
-		
 		if (commIdx_str != null && !commIdx_str.equals("")) {
-			
-			
 			comm.setComm_idx(Integer.parseInt(commIdx_str));
 			sService.deleteComment(comm);
 			
@@ -44,12 +40,9 @@ public class StoryCommentDeleteController extends HttpServlet {
 		}
 		
 		
-
-		
+		// 커멘트 삭제후 다시 뿌려주기 위한 동작
 		String storyIdx = req.getParameter("story_idx");
-		
 		if (storyIdx != null && !storyIdx.equals("")) {
-			
 			req.setAttribute("story_idx", storyIdx);
 		}
 		else {
@@ -71,8 +64,8 @@ public class StoryCommentDeleteController extends HttpServlet {
 		
 		List<Comment> CommentList = sService.getCommentList(plan);
 		
+		//커멘트 리스트 값 넘겨주기
 		req.setAttribute("commentList", CommentList);
-		
 		
 		req.getRequestDispatcher("/plan/story/storyCommentView.jsp").forward(req, resp);
 		

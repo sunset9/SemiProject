@@ -45,6 +45,7 @@ public interface StoryService {
 	//플랜의 모든 댓글 리스트 불러오기
 	public List<Comment> getCommentList(Plan plan);
 	
+	//코멘트 가져오기
 	public Comment getCommet(Comment comment);
 	
 	//스토리삭제시 등록된 모든 코멘트 삭제
