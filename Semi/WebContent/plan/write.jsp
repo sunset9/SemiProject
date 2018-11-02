@@ -81,7 +81,7 @@
 	}
 	
 	/* 저장버튼 활성화 버전*/
-	#planCommit:not([disabled]){
+	#planSaveBtn:not([disabled]){
 	    height: 34px;
 		background: #4FB99F;
 	    font-weight: bold;
@@ -89,7 +89,7 @@
 	}
 	
 	/* 저장버튼 비활성화 버전*/
-	#planCommit[disabled]{
+	#planSaveBtn[disabled]{
 		height: 34px;
 		background: #eee;
 		color: #ccc;
@@ -386,7 +386,7 @@ $(document).ready(function() {
 	$('#tab-main li').click(function(){
 		var clickTab = $(this);
 		// 저장버튼 활성화 상태이면 탭 안넘어가도록 경고창
-		if($("#planCommit").attr('disabled') == null){
+		if($("#planSaveBtn").attr('disabled') == null){
 			// 저장 확인 창 띄움
 			$.confirm({
 			    title: '저장하시겠습니까?',
@@ -468,16 +468,16 @@ function displayStoryView(){
 // 저장버튼 활성화/비활성화 상태 바꿔주는 메소드
 function activeStoreBtn(isEdit){
 	if(isEdit){ // 수정했으면 버튼 활성화
-		$("#planCommit").removeAttr("disabled");
+		$("#planSaveBtn").removeAttr("disabled");
 	}else{ // 저장 상태이면 버튼 비활성화
-		$("#planCommit").attr("disabled", 'disabled');
+		$("#planSaveBtn").attr("disabled", 'disabled');
 	}
 }
 
 // 페이지나가거나 새로고침 시 경고 메세지 띄워주기
 window.onbeforeunload = function(){
 	// 저장버튼 활성화 상태이고, 경고창을 아직 띄우지 않았을 경우
-	if($("#planCommit").attr('disabled') == null && isAlreadyAlert == false){
+	if($("#planSaveBtn").attr('disabled') == null && isAlreadyAlert == false){
 		return false;
 	}
 };
@@ -568,7 +568,9 @@ window.onbeforeunload = function(){
 		</div><br>
 		
 		<!-- 일정 저장 -->
-		<button id="planCommit" name="plan_idx" value="${planView.plan_idx}" onclick="store();" style="width:100%;" disabled="true">저장 </button>
+		<button id="planViewModeBtn" onclick="store();" style="width:100%;">읽기 모드로</button>
+		<!-- 일정 저장 -->
+		<button id="planSaveBtn" onclick="store();" style="width:100%;" disabled="true">저장 </button>
 		
 		<!-- 검색 INPUT DIV -->
 		<div id="googleSearch" class="tab-content tab-ttb">
