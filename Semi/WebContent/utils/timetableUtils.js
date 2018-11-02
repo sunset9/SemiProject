@@ -302,6 +302,12 @@ function initFullCalendar(planStartDate, planEndDate, isFirst){
 					// 지도 뷰 바꿔주기 
 					var timetables = getTimetablesFromBrowser();
 					viewMap(event, timetables);
+					
+					// 날짜 헤더에 나라 정보 변경
+					displayHeaderCountry();
+					
+					// 저장버튼 활성화
+					activeStoreBtn(true);
 				});
 			}
 			
