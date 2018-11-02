@@ -17,6 +17,10 @@
     overflow-y: scroll; 
 }
 
+#miniModalBody > tbody tr{
+	height: 40px;
+}
+
 #miniModalImg{
 	width: 280px;
 	height: 150px;
@@ -24,6 +28,7 @@
 
 #miniModalPlace{
 	font-weight: bold;
+	font-size: large;
 	width: 40%;
 }
 

@@ -116,6 +116,7 @@
  	    border: 1px solid #ccc; 
 	    padding: 5px 3px 5px 35px;
 	}
+	
 	#searchResultView{
 		padding:3px;
 	}
@@ -488,6 +489,7 @@ function viewMini(event){
 			// miniView modal에 값 채워줌
 			$("#miniModalTitle").text(event.title); // 타이틀 = 장소이름
 			$("#miniModalPlace").text(event.title); // 장소 이름
+			$("#miniModalAddress").text(event.address);  // 주소
 			$("#miniModalImg").attr("src", event.photo_url); // 이미지
 			
 			// ttb정보 json String 형태로 넘겨줌
