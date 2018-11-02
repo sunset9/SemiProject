@@ -76,6 +76,14 @@ function deleteReply(rep_idx){
 
 /* } */
 
+.winfo {
+	background: rgba(255,203,55,0.5) ;
+}
+
+td, tr{
+
+}
+
 
 </style>
 
@@ -87,29 +95,24 @@ function deleteReply(rep_idx){
 <div >
 <table class="table table-bordered">
 <tr>
-<td class = "info"> 글번호</td><td>${inquiry.inq_idx }</td>
-<td class = "info"> 제목 </td> <td colspan="2">${inquiry.title }</td>
+<td class = "winfo"> 글번호</td><td>${inquiry.inq_idx }</td>
+<td class ="winfo">작성일</td><td colspan="2">${inquiry.create_date }</td>
 </tr>
 
 <tr>
-<td class ="info">아이디</td> <td>${userid }</td>
-<td class = "info">닉네임</td> <td colspan="2">${writerNick }</td>
+<td class ="winfo">아이디</td> <td>${userid }</td>
+<td class = "winfo">닉네임</td> <td colspan="2">${writerNick }</td>
 </tr>
 
-<tr><td class ="info">본문</td> <td colspan="4">
-<c:if test="${inqFile.origin_name ne null}">
-<img style="height: 150px ; width: 300px;" src ="/upload/inquiry/${inqFile.stored_name }"><br><br>
-</c:if>
-${inquiry.content }</td>
-
 <tr>
-<td class ="info">조회수</td><td>${inquiry.hit }</td>
+<td class ="winfo">조회수</td><td>${inquiry.hit }</td>
+<td class ="winfo">답변여부</td>
 
-<td class ="info">답변여부</td>
-
-<td>
+<td >
 <c:if test="${inquiry.answer eq 0}">
-답변 예정
+
+<diV style="color:tomato;">답변 예정</diV>
+
 </c:if>
 <c:if test="${inquiry.answer eq 1}">
 답변 완료
@@ -119,8 +122,14 @@ ${inquiry.content }</td>
 </tr>
 
 <tr>
-<td class ="info">작성일</td><td colspan="4">${inquiry.create_date }</td>
+<td class = "winfo"> 제목 </td> <td colspan="4">${inquiry.title }</td>
 </tr>
+
+<tr><td class ="winfo">본문</td> <td colspan="4">
+<c:if test="${inqFile.origin_name ne null}">
+<img style="height: 150px ; width: 300px;" src ="/upload/inquiry/${inqFile.stored_name }"><br><br>
+</c:if>
+${inquiry.content }</td>
 </table>
 
 </div>

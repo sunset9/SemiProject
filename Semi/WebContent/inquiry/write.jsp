@@ -28,6 +28,17 @@ $(document).ready(function () {
 <style type="text/css">
 #content {
 	width: 99%;
+
+}
+
+.winfo {
+	background: rgba(255,203,55,0.5) ;
+	text-align: center;
+
+}
+
+td, tr{
+	
 }
 </style>
 
@@ -38,11 +49,11 @@ $(document).ready(function () {
 
 <div>
 <form action="/inquiry/write" method="post" enctype="multipart/form-data">
-<table class="table table-bordered">
-<tr><td class ="info">아이디</td><td>${user.id}</td></tr>
-<tr><td class ="info">닉네임</td><td>${user.nickname }</td></tr>
-<tr><td class ="info">제목</td><td><input type="text"name ="title" style="width:100%"/></td></tr>
-<tr><td colspan="2"><textarea id="content" name ="content"></textarea></td></tr>
+<table class="table">
+<tr><td class ="winfo" style="border-top-left-radius:10px;">아이디</td><td>${user.id}</td></tr>
+<tr><td class ="winfo">닉네임</td><td>${user.nickname }</td></tr>
+<tr><td class ="winfo">제목</td><td><input type="text"name ="title" style="width:100%"/></td></tr>
+<tr><td class ="winfo" style="border-bottom-left-radius:15px;">본문</td><td><textarea id="content" name ="content"></textarea></td></tr>
 
 </table>
 

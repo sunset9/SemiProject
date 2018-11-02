@@ -400,8 +400,8 @@ public class InquiryServiceImpl implements InquiryService {
 	}
 
 	@Override
-	public List<Inquiry> getPagingMyList(Paging paging) {
-		return inquiryDao.selectPagingMyList(paging);
+	public List<Inquiry> getPagingMyList(Paging paging,int user_idx) {
+		return inquiryDao.selectPagingMyList(paging, user_idx);
 	}
 
 

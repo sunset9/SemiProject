@@ -45,7 +45,7 @@ $(document).ready(function() {
 </tr>
 
 <tr>
-<td class ="info">아이디</td> <td>${qna.userid }</td>
+<td class ="info">아이디</td> <td>${userid }</td>
 <td class = "info">닉네임</td> <td colspan="2">${qna.writer }</td>
 </tr>
 

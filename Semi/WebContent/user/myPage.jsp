@@ -120,6 +120,49 @@ $(document).ready(function(){
 		</c:forEach>
 		
 	</div>
+	
+	</div>
+	
+	<div id="inquiryList" class="list" style="display:none">
+		<div><h3>내가 한 문의</h3></div>
+		<div id ="listTable">
+			<table class="table table-hover table-striped table-condensed">
+			<thead>
+		<tr>
+		<th>번호</th>
+		<th>제목</th>
+		<th>작성자</th>
+		<th>답변여부</th>
+		<th>조회수</th>
+		<th>작성일</th>
+		</tr>
+		</thead>
+		
+		<tbody>
+			<c:forEach items ="${inqList }" var = "inq">
+			<tr>
+			<td>${inq.inq_idx }</td>
+			<td><a href="/admin/inquiry/view?inq_idx=${inq.inq_idx }">${inq.title }</a></td>
+			<td>${inq.writer }</td>
+			<td>
+			
+			<c:if test="${inq.answer eq 0}">
+			<font color="FF6666" style="font-weight: bolder;">답변 예정</font>
+			</c:if>
+			<c:if test="${inq.answer eq 1}">
+			답변 완료
+			</c:if>
+			
+			</td>
+			<td>${inq.hit }</td>
+			<td>${inq.create_date }</td>
+			</tr>
+			</c:forEach>
+		</tbody>
+	
+	</table>
+	</div>
+		
 	</div>
 </div>
 </c:if>
@@ -178,7 +221,7 @@ $(document).ready(function(){
 			<div id="planBox" data-plan_idx="${plan.plan_idx }">
 			<a href="/plan?plan_idx=${plan.plan_idx }">
 				<div><img src="/upload/banner/${plan.bannerURL }" style="width: 100%;"></div>
-				<div> Title : ${plan.title} <br> NickName : ${plan.nick }</div>
+				<div> Title : ${plan.title}</div>
 				<div>
 					<button id ="planDelete"  onclick="deletePlan(${plan.plan_idx})">삭제</button>
 				</div>
@@ -189,7 +232,7 @@ $(document).ready(function(){
 	</div>
 	
 	<div id="bookmarkList" class="list" style="display:none">
-	<div><h3>여기는 북마크 리스트</h3></div>
+		<div><h3>여기는 북마크 리스트</h3></div>
 	
 			<div id="planList" class="listBox" >
 
@@ -204,61 +247,50 @@ $(document).ready(function(){
 			</a></div>
 		</c:forEach>
 		
-	</div>
+		</div>
 	</div>
 	
 	<div id="inquiryList" class="list" style="display:none">
 		<div><h3>내가 한 문의</h3></div>
-		<c:forEach var="aList" items="${allPlanList}" varStatus="aStatus">
-			<div>
-				<a href="/plan?plan_idx=${aStatus.current.plan_idx}">
-					<input type="hidden" name="plan_idx" value="${aStatus.current.plan_idx}" />
-					<div><input type="image" src="${aList.getBannerURL()}" style="width: 300px;"></div>
-					<div><button type="submit" style="border:0; ">글 제목 : ${aList.getTitle()}</button></div><hr>
-				</a>	
-			</div>
-		</c:forEach>
-	</div>
+		<div id ="listTable">
+			<table class="table table-hover table-striped table-condensed">
+			<thead>
+		<tr>
+		<th>번호</th>
+		<th>제목</th>
+		<th>작성자</th>
+		<th>답변여부</th>
+		<th>조회수</th>
+		<th>작성일</th>
+		</tr>
+		</thead>
+		
+		<tbody>
+			<c:forEach items ="${inqList }" var = "inq">
+			<tr>
+			<td>${inq.inq_idx }</td>
+			<td><a href="/admin/inquiry/view?inq_idx=${inq.inq_idx }">${inq.title }</a></td>
+			<td>${inq.writer }</td>
+			<td>
+			
+			<c:if test="${inq.answer eq 0}">
+			<font color="FF6666" style="font-weight: bolder;">답변 예정</font>
+			</c:if>
+			<c:if test="${inq.answer eq 1}">
+			답변 완료
+			</c:if>
+			
+			</td>
+			<td>${inq.hit }</td>
+			<td>${inq.create_date }</td>
+			</tr>
+			</c:forEach>
+		</tbody>
 	
-	<div class="content">
-<h3><strong>CONTENT</strong></h3>
-<div id ="listTable">
-<table class="table table-hover table-striped table-condensed">
-<thead>
-<tr>
-<th>번호</th>
-<th>제목</th>
-<th>작성자</th>
-<th>답변여부</th>
-<th>조회수</th>
-<th>작성일</th>
-</tr>
-</thead>
-
-<tbody>
-<c:forEach items ="${inqList }" var = "inq">
-<tr>
-<td>${inq.inq_idx }</td>
-<td><a href="/admin/inquiry/view?inq_idx=${inq.inq_idx }">${inq.title }</a></td>
-<td>${inq.writer }</td>
-<td>
-
-<c:if test="${inq.answer eq 0}">
-<font color="FF6666" style="font-weight: bolder;">답변 예정</font>
-</c:if>
-<c:if test="${inq.answer eq 1}">
-답변 완료
-</c:if>
-
-</td>
-<td>${inq.hit }</td>
-<td>${inq.create_date }</td>
-</tr>
-</c:forEach>
-</tbody>
-
-</table>
-</div>
+	</table>
+	</div>
+		
+	</div>
 </div>
 </c:if>
 

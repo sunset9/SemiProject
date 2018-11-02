@@ -9,7 +9,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import dto.bookmark.Bookmark;
+import dto.user.Bookmark;
 import dto.plan.Plan;
 import dto.user.User;
 import service.bookmark.BookmarkService;
