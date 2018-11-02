@@ -100,7 +100,7 @@
 								</select>
 								</td>
 								<td>
-									<input type="text" size="48" name = "min_cost" class="min_cost" onkeypress="Numberchk()" onkeyup="vComma(this)" style = "text-align:right;"/>
+									<input type="text" size="40" name = "min_cost" class="min_cost" onkeypress="Numberchk()" onkeyup="vComma(this)" style = "text-align:right;"/>
 								</td>
 								<td>
 									<span class="glyphicon glyphicon-plus 	accountPlus" onclick = "miniAppendAccount()"></span>

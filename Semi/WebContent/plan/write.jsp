@@ -528,7 +528,7 @@ function viewMini(event){
 			
 	  		for(var i = 0; i < size; i++){
 	 	        var obj = document.getElementsByName("min_accountViewName")[i];
-		        
+	
 	 	        $(obj).find(".accountPlus").css("display","none");
 	 	        $(obj).find(".accountRemove").css("display","block");
 		        
@@ -556,6 +556,12 @@ function viewMini(event){
 	 	        if (size == 5 && i == size-1){
 	 		    	 $(obj).find(".accountPlus").css("display","none");
 	 	        }
+	 	        
+	 	       if (size == 1){ // 1개일때
+		        	// -버튼 안보여주기
+		        	$(obj).find(".accountRemove").css("display","none");
+		        	$(obj).find(".accountPlus").css("display","block");
+		        }
 	 		 }
 		  		
 			// 모달 창 닫힌 경우
