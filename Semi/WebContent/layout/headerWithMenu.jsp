@@ -272,30 +272,33 @@ var newPlanspan = document.getElementsByClassName("newPlanModalclose")[0];
 
 // When the user clicks the button, open the modal 
 newPlanbtn.onclick = function() {
-	// 저장버튼 활성화 상태이면 탭 안넘어가도록 경고창
-	if($("#planCommit").attr('disabled') == null){
-		// 진행 확인 창 띄움
-		$.confirm({
-		    title: '계속하시겠습니까?',
-		    content: '저장하시지 않으면 작성 중인 정보를 잃습니다.',
-		    buttons: {
-		    	// 확인 버튼
-		    	confirm: {
-		    		text: '취소'
-		    		, btnClass: 'btn-blue'
-		        },
-		        // 취소 버튼
-	        	계속: function (){
-	        		isAlreadyAlert = true;
-	        		// 모달 창 띄우기
-    				newPlanModal.style.display = "block";
-		        }
-		    }
-		});
-	} else { // 저장버튼 비활성화 상태면 그냥 진행
+	if($("#planSaveBtn").length == 0){
 		// 모달 창 띄우기
 		newPlanModal.style.display = "block";
-	}
+	}else {
+		// 저장버튼 활성화 상태이면 탭 안넘어가도록 경고창
+		if($("#planSaveBtn").attr('disabled') == null){
+			// 진행 확인 창 띄움
+			$.confirm({
+			    title: '계속하시겠습니까?',
+			    content: '저장하시지 않으면 작성 중인 정보를 잃습니다.',
+			    buttons: {
+			    	cancle: { // 취소 버튼
+			    		text: '취소'
+			    		, btnClass: 'btn-blue'
+			        },
+		        	계속: function (){ // 계속 버튼
+		        		isAlreadyAlert = true;
+		        		// 모달 창 띄우기
+	    				newPlanModal.style.display = "block";
+			        }
+			    }
+			});
+		} else { // 저장버튼 비활성화 상태면 그냥 진행
+			// 모달 창 띄우기
+			newPlanModal.style.display = "block";
+		}
+	} 
 	
 }
 
