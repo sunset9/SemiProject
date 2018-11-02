@@ -7,7 +7,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
+import javax.servlet.http.HttpSession;
 
 import dto.Account.Account;
 import dto.user.Bookmark;
@@ -38,7 +38,10 @@ public class BookmarkDeleteController extends HttpServlet {
 		Plan planParam = pService.getParam(req);
 		System.out.println(planParam);
 		
-		int user_idx = (int)req.getSession().getAttribute("user_idx");
+		HttpSession session = req.getSession();
+		
+		//유저 객체로 넘기기
+		int user_idx = 	(int)session.getAttribute("user_idx");
 		
 		bService.deleteBookmark(user_idx);
 		
