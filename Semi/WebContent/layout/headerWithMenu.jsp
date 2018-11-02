@@ -83,7 +83,8 @@ body {
 }	
 	
 /* The Modal (background) */
-.newPlanModal {
+.newPlanModal, .loginWindowModal,
+.findPwModal, .joinModal {
     display: none; /* Hidden by default */
     position: fixed; /* Stay in place */
     z-index: 1; /* Sit on top */
@@ -99,7 +100,8 @@ body {
 }
 
 /* Modal Content */
-.newPlanmodal-content {
+.newPlanmodal-content, .loginWindowModal-content,
+.findPwModal-contents, .joinModal-contents {
     background-color: #fefefe;
     margin: auto;
     padding: 20px;
@@ -108,7 +110,8 @@ body {
 }
 
 /* The Close Button */
-.newPlanModalclose {
+.newPlanModalclose, .loginWindowModalclose,
+.fClose, .jClose {
     color: #aaaaaa;
     float: right;
     font-size: 28px;
@@ -116,7 +119,13 @@ body {
 }
 
 .newPlanModalclose:hover,
-.newPlanModalclose:focus {
+.newPlanModalclose:focus,
+.loginWindowModalclose:hover,
+.loginWindowModalclose:focus,
+.fClose:hover,
+.fClose:focus,
+.jClose:hover,
+.jClose:focus {
     color: #000;
     text-decoration: none;
     cursor: pointer;
@@ -149,7 +158,13 @@ var deleteCookie = function(name) {
 };
 
 </script>
+
+
+
 </head>
+
+
+
 <body>
 <div class="wholeHeader">
 <!-- header시작 -->
@@ -188,7 +203,7 @@ var deleteCookie = function(name) {
 		
 		<!-- 비로그인 상태일때 -->
 		<c:if test="${not login}">
-			<button id="loginBtn" onclick='location.href="/user/login";'>로그인</button>
+			<button id="MainLoginBtnOnNotLogin" onclick='location.href="/user/login";'>로그인</button>
 		</c:if>
 		</div>
 	</div>
@@ -239,9 +254,9 @@ var deleteCookie = function(name) {
 <!-- /menubar끝 -->
 </div>
 
-<!-- The Modal -->
+<!-- 새일정 만들기 The Modal -->
 <div id="newPlanModal" class="newPlanModal">
-<!-- Modal content -->
+<!-- 새일정 만들기 Modal content -->
 <div class="newPlanmodal-content">
 	<span class="newPlanModalclose">&times;</span>
 	<div><h2>새 일정 만들기</h2></div>
@@ -261,6 +276,10 @@ var deleteCookie = function(name) {
 	</form>
 </div>
 </div>
+<!-- 새일정 만들기 Modal content 끝 -->
+
+
+
 
 <script type="text/javascript">
 //Get the modal
@@ -316,4 +335,5 @@ window.onclick = function(event) {
     }
 }
 </script>
+
 

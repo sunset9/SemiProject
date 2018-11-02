@@ -286,46 +286,20 @@ fjs.parentNode.insertBefore(js, fjs);
 
 <body>
 
-<!-- 페이스북으로 로그인 -->
-<!-- <script type="text/javascript">
-window.fbAsyncInit = function() {
-    FB.init({
-      appId      : '529980714074036',
-      cookie     : true,
-      xfbml      : true,
-      version    : 'v3.1'
-    });
-      
-    FB.AppEvents.logPageView();   
-      
-  };
-
-  (function(d, s, id){
-     var js, fjs = d.getElementsByTagName(s)[0];
-     if (d.getElementById(id)) {return;}
-     js = d.createElement(s); js.id = id;
-     js.src = "https://connect.facebook.net/en_US/sdk.js";
-     fjs.parentNode.insertBefore(js, fjs);
-   }(document, 'script', 'facebook-jssdk'));
-
-</script> -->
-
-<!-- 구글로 로그인 -->
-<!-- 일단 로그인 화면이 뜬 직후엔 버튼을 누르기 전이라서 맨아래 스크립트안에 써있는 init()이 수행된다. -->
-<!-- if this.value(버튼의 value)가 Login인 경우는 즉 로그아웃 상태라는 뜻 -->
+<!-- 구글 로그인 -->
 <form action="/user/socialLogin" method="post" id="googleLogin" >
 	<span id="name"></span> 
 	<input type="button" id="loginBtn" value="checking..." onclick="
 	if(this.value === 'Login'){ 
 		gauth.signIn().then(function(){
 			console.log('gauth.signIn()');
-			checkLoginStatus();
+			checkGoogleLoginStatus();
 			checkLoginStatus2();
 		});
 	}else {
 		gauth.signOut().then(function(){
 			console.log('gauth.signOut()');
-			checkLoginStatus();
+			checkGoogleLoginStatus();
 		});
 	}" />
 	<input type="hidden" id="googleid" name="id" value="" />
@@ -494,6 +468,7 @@ window.fbAsyncInit = function() {
 		}
 	}
 </script>
+
 <!-- 바디 태그 로드가 끝나면 init이라는 함수를 호출하라는 뜻 -->
 <script src="https://apis.google.com/js/platform.js?onload=init" async defer></script>
 </body>
