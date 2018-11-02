@@ -20,10 +20,15 @@
 /* 	opacity: 0; */
 }
 	
-tr,td{
-padding: 2px;
+tr{
+	padding: 2px;
+}
+td{
+	padding: 2px;
+	padding-left: 10px;
 }
 
+/*퀵메뉴, 스토리 수직선*/
 .vl {
     border-left: 4px solid #D3D3D3;
     height: 100%;
@@ -34,10 +39,17 @@ padding: 2px;
     z-index: -100;
 }
 
+/*퀵메뉴 수직선 (따로적용해야 하는 값들)*/
+#vl_slidemennu{
+	margin-top: -20px;
+	margin-left: -13px;
+}
+
 hr{
 	border: 1px solid #D3D3D3;
 }
 
+/*말풍선*/
 .bubble 
 {
 	position: relative;
@@ -48,8 +60,14 @@ hr{
 	-webkit-border-radius: 14px;
 	-moz-border-radius: 14px;
 	border-radius: 14px;
+	margin-left: 60px;
+	width: 750px;
+    table-layout: fixed;
+    white-space: nowrap;
+	 
 }
 
+/*말풍선 꼬리*/
 .bubble:after 
 {
 	content: '';
@@ -59,10 +77,104 @@ hr{
 	border-color: transparent #DCDCDC;
 	display: block;
 	width: 0;
-/* 	z-index: 1; */
 	left: -11px;
 	top: 16px;
 }
+
+/*비행기이미지*/
+.Dayimage{
+	color: #555555;
+}
+
+
+/*일차글씨*/
+.Daytext{
+
+}
+
+/*시작시간*/
+.startTime{
+	margin-left: 18px;
+	color: #D3D3D3;
+}
+
+/*스토리 삭제버튼*/
+.removeStory{
+	float: right;
+	cursor: pointer;
+}
+
+/*스토리 업데이트버튼*/
+.updateStory{
+	float: right;
+	cursor:pointer;
+}
+
+/*장소이름*/
+.storyPlaceName{
+
+}
+
+/* 장소 마커*/
+.placemarker{
+
+}
+
+/*스토리본문쪽*/
+.storycontent{
+	overflow: auto;
+	height: auto;
+	padding: 10px;
+	width: 100%;
+}
+
+
+/*스토리없을때 장소이름*/
+.noStoryplaceName{
+	width: 750px;
+}
+
+/*스토리없을때 장소마커*/
+.noStoryplacemarker{
+}
+
+/*스토리 없을때 +버튼*/
+.storyPlus{
+	margin-left: 60px;
+	cursor: pointer;
+}
+
+
+/*가계부 폰트*/
+.accountText{
+	color: #999999;
+}
+
+/*덧글갯수*/
+.commentCnt{
+	cursor:pointer;
+	color: #999999;
+}
+
+/*덧글 TextArea*/
+.commContent{
+	resize: none;
+	overflow: visible;
+}
+
+/*덧글 저장*/
+.saveCommBtn{
+	margin-bottom: -7px; 
+	margin-left: 310px;
+}
+
+.commentView{
+	display: none;
+}
+
+
+
+
 
 </style>
 <script type="text/javascript">
@@ -136,10 +248,10 @@ var up_cnt = 0;
 			
 			var ttb_idx = $(this).data("ttbidx");
 			
-			$(".ttb_idx").val(ttb_idx);	
+			$(".st_ttb_idx").val(ttb_idx);	
 			
 			var plan_idx = $(this).data("planidx");
-			$(".plan_idx").val(plan_idx);	
+			$(".st_plan_idx").val(plan_idx);	
 		})
 		
 
@@ -235,20 +347,24 @@ var up_cnt = 0;
 	$(".storySaveBtn").click(function() {
 			
 			var storyJSON = {
-				ttb_idx  : $(".ttb_idx").val()
-				, plan_idx : $(".plan_idx").val() 
-				, content  : $(".content").val()
+				ttb_idx  : $(".st_ttb_idx").val()
+				, plan_idx : $(".st_plan_idx").val() 
+				, content  : $(".st_content").val()
 			};
 			
-			var accTypeLen = $("select[name='accType']").length;
+			console.log( $(".st_ttb_idx").val());
+			console.log( $(".st_plan_idx").val());
+			console.log( $(".st_content").val());
+			
+			var accTypeLen = $("select[name='st_accType']").length;
 		    var accType = new Array(accTypeLen);
 		    var currSymbol = new Array(accTypeLen);
 		    var cost = new Array(accTypeLen);
 		    
 		    for(var i=0; i<accTypeLen; i++){                          
-		    	accType[i] = $("select[name='accType']")[i].value;
-		    	currSymbol[i] = $("select[name='currSymbol']")[i].value;
-		    	cost[i] = $("input[name='cost']")[i].value;
+		    	accType[i] = $("select[name='st_accType']")[i].value;
+		    	currSymbol[i] = $("select[name='st_currSymbol']")[i].value;
+		    	cost[i] = $("input[name='st_cost']")[i].value;
 		    }
 
 			
@@ -346,9 +462,9 @@ var up_cnt = 0;
 			$(obj1).find(".up_cost").val("");
 			
 			//--추가 모달
-			var edit = document.getElementById("edit");
+			var edit = document.getElementById("st_edit");
 			
-			$('.content').froalaEditor('html.set', "");
+			$('.st_content').froalaEditor('html.set', "");
 			
  			var size = document.getElementsByName("accountViewName").length
  			
@@ -359,9 +475,9 @@ var up_cnt = 0;
  			
  			var obj1 = document.getElementsByName("accountViewName")[0]
  			
- 			$(obj1).find(".accType").val(1);
-	        $(obj1).find(".currSymbol").val(1);
-			$(obj1).find(".cost").val("");
+ 			$(obj1).find(".st_accType").val(1);
+	        $(obj1).find(".st_currSymbol").val(1);
+			$(obj1).find(".st_cost").val("");
 			
 			$(obj1).find(".accountPlus").css("display","block");
 	        $(obj1).find(".accountRemove").css("display","none");
@@ -497,7 +613,7 @@ var up_cnt = 0;
  		
  		if (cnt < 5){
 			
-			var accountView = $("#accountView").clone();
+			var accountView = $("#story_accountView").clone();
 	 		$("#accountViewList").append(accountView);
 	 		
 			cnt = cnt+1;
@@ -512,9 +628,9 @@ var up_cnt = 0;
 		        
 		        if (i == size-1){
 				    $(obj).find(".accountPlus").css("display","block");
-		        	$(obj).find(".cost").val("");
-		        	$(obj).find(".accType").val(1);
-		        	$(obj).find(".currSymbol").val(1);
+		        	$(obj).find(".st_cost").val("");
+		        	$(obj).find(".st_accType").val(1);
+		        	$(obj).find(".st_currSymbol").val(1);
 		        }
 		        
 		        if (size == 5 && i == size-1){
@@ -636,46 +752,44 @@ var up_cnt = 0;
 
 <input type="hidden" id = "calcDay"/>
 <div>
-  <div class="col-lg-8">
+  <div class="col-lg-4">
 	<!-- Day Foreach문 -->
 		<div id = "Day">
 		</div>
 			<c:forEach var='day' begin = "1" end="${diffDays}">
 			<div id = "DayDiv${day}" >
-			<h1><span class="glyphicon glyphicon-plane Dayimage"style="color: #555555"></span> Day ${day}</h1>
+			<h1 class = "Daytext"><span class="glyphicon glyphicon-plane Dayimage"></span> Day ${day}</h1>
 			<div class="vl"></div>
 			</div>
-			
 			<c:forEach items='${ttbList}' var = 'ttb'>
 				<c:if test="${ttb.day eq day }">
 				<c:if test="${ttb.is_story eq true}">
 					<c:forEach items='${storyList}' var='story'>
 						<c:if test="${story.ttb_idx eq ttb.ttb_idx}">
-						<font size ="3"><span class="glyphicon glyphicon-minus" style="margin-left: 15px; color: #D3D3D3;">${story.start_time}</span></font>
-				    		<table class="bubble" style="margin-left: 60px;" >
+						<font size ="3"><span class="glyphicon glyphicon-minus startTime">${story.start_time}</span></font>
+				    		<table class="bubble">
 				    			<tr>
-				     			<td colspan="5">
-								  <font size="5"><span class = "glyphicon glyphicon-remove removeStory" style="float: right; cursor:pointer" onclick="storyDelete(${story.story_idx})"  onmouseover="mover($(this))" onmouseleave="mleave($(this))" onmousedown="mdown($(this))"></span>
-								  <span class = "glyphicon glyphicon-pencil updateStory" 
-									  style="float: right; cursor:pointer"  
+				     			<td colspan="2">
+								  <font size="5"><span class = "glyphicon glyphicon-remove removeStory" onclick="storyDelete(${story.story_idx})"  onmouseover="mover($(this))" onmouseleave="mleave($(this))" onmousedown="mdown($(this))"></span>
+								  <span class = "glyphicon glyphicon-pencil updateStory"   
 									  onmouseover="mover($(this))" onmouseleave="mleave($(this))" onmousedown="mdown($(this))" 
 									  data-toggle="modal" data-target="#myModal_update" 
 									  data-backdrop="static" data-storyidx="${story.story_idx}" 
 									  data-place="${story.place_name}" data-content= '${story.content}' data-ttbidx='${story.ttb_idx}'>
 								  </span>
 								  </font>
-								  <div> <h2><span class="glyphicon glyphicon-map-marker"></span>&nbsp;${story.place_name}</h2>
+								  <div><h2 class = "storyPlaceName"><span class="glyphicon glyphicon-map-marker placemarker"></span>&nbsp;${story.place_name}</h2>
 								  <hr>
 								  </div>
 						 		  <!-- froala align 적용 되게 하려면 content 표시할 div에 fr-view class를 반영 해줘야함 -->
-						 		  <div class = "fr-view" width="100%" style="overflow:auto; height:auto; padding: 10px;">${story.content}</div>
+						 		  <div class = "fr-view storycontent">${story.content}</div>
 								  <hr>
 								</td>
 				    			</tr>
 				    			<c:if test="${story.accCnt eq 0}">
 				    				<tr>
-				    				<td colspan = "5">
-				    					<font size="2" color="#999999"> 총액 | KRW 0원</font> 
+				    				<td colspan = "2">
+				    					<font class="accountText" size="2"> 총액 | KRW 0원</font> 
 				    				</td>
 				    				</tr>
 				    			</c:if>
@@ -683,13 +797,13 @@ var up_cnt = 0;
 					    			<c:forEach var="account" items="${accountList}">
 					    				<c:if test="${account.story_idx eq story.story_idx}">
 							    			<tr>
-							     			<td colspan="5">
+							     			<td colspan="2">
 							     			<c:if test="${account.curr_idx_name ne 'USD'}">
 							     			    <fmt:parseNumber var = "caledOriginCost" value= "${account.origin_cost}" integerOnly="true"></fmt:parseNumber>
-												<font size="2" color="#999999"> ${account.category_name } | ${account.curr_idx_name} ${caledOriginCost}</font> 
+												<font class ="accountText" size="2"> ${account.category_name } | ${account.curr_idx_name} ${caledOriginCost}</font> 
 											</c:if>
 											<c:if test="${account.curr_idx_name eq 'USD'}">
-												<font size="2" color="#999999"> ${account.category_name } | ${account.curr_idx_name} ${account.origin_cost}</font>
+												<font class ="accountText" size="2"> ${account.category_name } | ${account.curr_idx_name} ${account.origin_cost}</font>
 											</c:if>
 								 		    </td>
 											</tr>
@@ -697,25 +811,25 @@ var up_cnt = 0;
 									</c:forEach>
 								</c:if>
 								<tr>
-								<td colspan="5">
+								<td colspan="2">
 								<hr>
-								<font size="2" color="#999999">
-									<span style="cursor:pointer"  onclick="CommentViewClick(${story.story_idx},${ttb.plan_idx})" onmousedown="mdown($(this))" onmouseleave="mleave_gray($(this))" onmouseover="mover($(this))">덧글 ${story.commCnt}개</span>
+								<font class ="commentCntText" size="2">
+									<span class = "commentCnt"  onclick="CommentViewClick(${story.story_idx},${ttb.plan_idx})" onmousedown="mdown($(this))" onmouseleave="mleave_gray($(this))" onmouseover="mover($(this))">덧글 ${story.commCnt}개</span>
 								</font>
 								</td>
 								</tr>
 						
 								<tr>
-								<td colspan="4">
-									<textarea id = "CommContent${story.story_idx}" style ="resize: none; overflow:visible;" rows="2" cols="100" placeholder="댓글을 입력하세요"></textarea>
+								<td colspan="1">
+									<textarea id = "CommContent${story.story_idx}" class ="commContent" rows="2" cols="80" placeholder="댓글을 입력하세요"></textarea>
 								</td>	
 								<td colspan="1" style="padding-bottom:20px;">
-								<button id = "saveComm${story.story_idx}" type="button" class="btn btn-secondary" style="margin-bottom: -7px;" onclick="CommSave(${story.story_idx},${story.ttb_idx},${story.plan_idx})">등록</button>
+								 <button id = "saveComm${story.story_idx}" type="button" class="btn btn-secondary saveCommBtn" onclick="CommSave(${story.story_idx},${story.ttb_idx},${story.plan_idx})">등록</button>
 								</td>
 								</tr>
 								<tr>
-								<td colspan="5">
-									<div id = "CommentView${story.story_idx}" style="display: none"></div>
+								<td colspan="2">
+									<div id = "CommentView${story.story_idx}" class="commentView"></div>
 								</td>
 								</tr>
 							</table>					
@@ -728,15 +842,14 @@ var up_cnt = 0;
 					<!-- 플러스버튼  -->
 					<c:if test="${ttb.is_story eq false}">
 						<br>
-						<div style="margin-left: 60px"><h2><span class="glyphicon glyphicon-map-marker"></span>&nbsp;${ttb.place_name}</h2></div>
+						<div style="margin-left: 60px"><h2 class = "noStoryplaceName"><span class="glyphicon glyphicon-map-marker noStoryplacemarker"></span>&nbsp;${ttb.place_name}</h2></div>
 						<br>
 						<font size="10" color="black">
 								<span class ="glyphicon glyphicon-plus-sign storyPlus" 
 							data-toggle="modal" data-target="#myModal" data-backdrop="static" 
 							data-place="${ttb.place_name}" data-ttbidx="${ttb.ttb_idx}" 
 							data-planidx="${ttb.plan_idx}" onmouseover="mover($(this))" 
-							onmouseleave="mleave($(this))" onmousedown="mdown($(this))"
-							style="margin-left: 60px; cursor:pointer">
+							onmouseleave="mleave($(this))" onmousedown="mdown($(this))">
 							</span>
 						</font>
 					</c:if>
@@ -745,11 +858,11 @@ var up_cnt = 0;
 			</c:forEach>
 			</c:forEach>
 		</div> <!-- col-lg-8 끝 구간 -->
- <div class="col-lg-4"></div>
+ <div class="col-lg-8"></div>
 	
   <!-- 퀵 메뉴바 -->
   <div id ="slidemenu">
-  <div class="vl" style="margin-top: -20px; margin-left: -13px;"></div>
+  <div id = "vl_slidemennu" class="vl"></div>
   	<ul style="list-style:none;">
   		<c:forEach var = "day" begin="1" end="${diffDays}" step="1">
   		<c:set var = "name" value="DayDiv${day}"/>

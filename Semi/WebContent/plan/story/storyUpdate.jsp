@@ -1,6 +1,30 @@
 <%@ page language="java" contentType="text/html; charset=EUC-KR"
     pageEncoding="EUC-KR"%>
     
+<style>
+/*모달 바디*/
+#storyUpdateDiv{
+	height: auto; 
+	width:500px; 
+	padding: 20px;
+}
+
+/*업데이트 본문쪽 div*/
+#storyUpdateContentDiv{
+	border: 1px solid #B6B7FA; 
+	width: auto; 
+	height: auto;
+}
+
+/*가계부 비용*/
+.up_cost{
+	text-align:right;
+}
+
+
+
+</style>
+    
 <div class="modal fade" id="myModal_update" role="dialog">
     <div class="modal-dialog">
       <!-- Modal content-->
@@ -18,13 +42,12 @@
 			<input type="hidden" value="" name ="up_ttb_idx" class = "up_ttb_idx" />
 			<input type="hidden" value="" name ="up_plan_idx" class = "up_plan_idx" />
 			<input type ="hidden" value="" name ="up_story_idx" class="up_story_idx"/>
-			<div style="height: auto; width:500px; padding: 20px;" id ="StoryWriteDiv">
+			<div  id ="storyUpdateDiv">
 				<table>
 				<tr>
 					<td colspan="4">
-						<div style="border: 1px solid #B6B7FA; width: auto; height: auto" >
+						<div id = storyUpdateContentDiv" >
 							<textarea id = "up_edit" name="up_content" class = "up_content">
-							
 							</textarea>
 						</div>
 					</td>
@@ -54,7 +77,7 @@
 						</select>
 					</td>
 					<td>
-					<input type="text" size="48" name = "up_cost" class="up_cost" onkeypress="Numberchk()" onkeyup="vComma(this)" style = "text-align:right;"/>
+					<input type="text" size="40" name = "up_cost" class="up_cost" onkeypress="Numberchk()" onkeyup="vComma(this)"/>
 					</td>
 					<td>
 						<span class="glyphicon glyphicon-plus accountPlus" onclick = "UpappendAccount()" onmouseover="mover($(this))" 

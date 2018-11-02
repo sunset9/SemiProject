@@ -10,6 +10,15 @@ $(document).ready(function(){
 
 
 </script>
+
+<style>
+
+/*커멘드 삭제*/
+.commentRemoveBtn{
+	cursor:pointer;
+}
+
+</style>
 <c:forEach items="${commentList}" var = 'comment'>
   <c:if test="${comment.story_idx eq story_idx}">
 	<table>
@@ -18,7 +27,9 @@ $(document).ready(function(){
 			<td colspan="2" rowspan="2"><font size="2">&nbsp;&nbsp;&nbsp;${comment.content}</font></td>
 			<td colspan="1" rowspan="2" style="padding:20px"><font size ="1"> ${comment.create_date} </font></td>
 			<td colspan="1" rowspan="2">
-				<span class="glyphicon glyphicon-remove-sign" style="cursor:pointer" onmousedown="mdown($(this))" onmouseleave="mleave($(this))" onmouseover="mover($(this))" onclick="removeComm(${comment.comm_idx},${comment.story_idx},${comment.plan_idx})"></span>
+			<c:if test="${user.user_idx eq comment.user_idx}">
+				<span class="glyphicon glyphicon-remove-sign commentRemoveBtn" onmousedown="mdown($(this))" onmouseleave="mleave($(this))" onmouseover="mover($(this))" onclick="removeComm(${comment.comm_idx},${comment.story_idx},${comment.plan_idx})"></span>
+			</c:if>
 			</td>
 		</tr>
 		<tr>

@@ -123,7 +123,7 @@ public class StoryWriteController extends HttpServlet {
 		List<Account> accountList = aService.getPlanAccountList(plan);
 		
 		req.setAttribute("accountList",accountList );
-		
+		req.getSession().getAttribute("user");
 		req.setAttribute("ttbList", ttbList);
 		req.setAttribute("diffDays",diffDays);
 		req.setAttribute("storyList", StoryList);
