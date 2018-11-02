@@ -465,6 +465,106 @@ function displayStoryView(){
 	});
 }
 
+function viewMini(event){
+	// ajax로 story 정보 가져옴 (content 정보)
+	$.ajax({
+		url: "/story/mini/view"
+		, type: "GET"
+		, data: {
+			JSON: JSON.stringify({
+					plan_idx: plan_idx
+					, ttb_idx: event.id
+				})
+		}
+		, dataType: "json"
+		, success: function(obj){
+			
+			var story = JSON.parse(obj.story);
+			var accountList = JSON.parse(obj.accountList);
+			
+//			console.log(story);
+//			console.log(accountList);
+			
+			// miniView modal에 값 채워줌
+			$("#miniModalTitle").text(event.title); // 타이틀 = 장소이름
+			$("#miniModalPlace").text(event.title); // 장소 이름
+			$("#miniModalImg").attr("src", event.photo_url); // 이미지
+			
+			// ttb정보 json String 형태로 넘겨줌
+			$("input[name=ttbJson]").val(JSON.stringify(getTtbJsonForServer(event)));
+			
+			// story 정보 json String 형태로 넘겨줌
+			$('input[name=JSON]').val(JSON.stringify({ 
+				plan_idx: plan_idx // plan_idx
+				, ttb_idx: event.id // ttb_idx
+			}));
+			
+			// 스토리 내용 띄워주기
+			$("#miniModalContent").froalaEditor('html.set', story.content);
+			
+	 		var ttbJson = JSON.parse($('input[name=ttbJson]').val());
+	 		
+	 		//Account Seletion 값 넣어주기
+			
+	 		var count = 0; //처음 한번은 append 안해주기 위해서
+	 		// account 있는 수만큼 가계부 입력공간 추가
+	 		for (var i = 0; i < accountList.length; i++) {
+	 				if( ttbJson.ttb_idx == accountList[i].ttb_idx){
+	 					var accountView = $("#min_accountView").clone();
+	 					if(count != 0){
+	 						$("#min_accountViewList").append(accountView);	
+	 					}
+	 					count = count+1;
+	 				}
+	 		}
+			
+	 		var size = document.getElementsByName("min_accountViewName").length;
+			
+	  		for(var i = 0; i < size; i++){
+	 	        var obj = document.getElementsByName("min_accountViewName")[i];
+		        
+	 	        $(obj).find(".accountPlus").css("display","none");
+	 	        $(obj).find(".accountRemove").css("display","block");
+		        
+	 	        var ch = false;
+	 	        for (var j = 0; j <accountList.length; j++) {
+	 				if( ttbJson.ttb_idx == accountList[j].ttb_idx){
+	 					ch = true;
+	 				}
+	 	        }
+		        
+	 	        if (ch == false) {
+	 			   $(obj).find(".min_accType").val(1);
+	 		        $(obj).find(".min_currSymbol").val(1);
+	 				$(obj).find(".min_cost").val("");
+	 	        }else{
+	 		        $(obj).find(".min_accType").val(accountList[i].category);
+	 		        $(obj).find(".min_currSymbol").val(accountList[i].curr_idx);
+	 		        console.log(accountList[i].origin_cost);
+	 				$(obj).find(".min_cost").val(accountList[i].origin_cost);
+	 	        }
+
+	 	        if (i == size-1){
+	 			    $(obj).find(".accountPlus").css("display","block");
+	 	        }
+		        
+	 	        if (size == 5 && i == size-1){
+	 		    	 $(obj).find(".accountPlus").css("display","none");
+	 	        }
+	 		 }
+		  		
+			// 모달 창 닫힌 경우
+			$("#miniViewModal").on('hidden.bs.modal', function () {
+				// 기존 스토리내용 삭제
+				$(this).find($("#miniModalContent")).html('');
+			});
+		}
+		, error: function(){
+			console.log("Mini-view Ajax 통신 실패");
+		}
+	}); // ajax end
+}
+
 // 읽기모드로 보내주기
 function changeViewMode(){
 	// 저장버튼 활성화 상태이면  경고창 띄워줌
@@ -511,9 +611,10 @@ window.onbeforeunload = function(){
 };
 </script>
 
+<!-- 일정 기본 정보 -->
 <header>
 <!-- 플래너 배너 -->
-<div id="container" style="width:100%; height:400px; border-radius:10px; background-image:url('${planView.bannerURL }');background-size: 100% 100%;">
+<div id="planInfoHeader" style="background-image:url('${planView.bannerURL }');">
 	<form action="/plan/banner" method="post" enctype="multipart/form-data">
 		<input type="hidden" name="plan_idx" value="${planView.plan_idx}" />
 		<input type="hidden" name="user_idx" value="${planView.user_idx}" />
@@ -561,82 +662,79 @@ window.onbeforeunload = function(){
 		<br>
 </div><br>
 </header>
-<nav>
-<!-- 플래너 입력 정보 DIV -->
-<div id="container" style="width:100%; border-radius:10px;">
-	<!-- 좌측 정보목록 (게시자 정보, 가계부, 검색 등 )-->
-	<div id="container" style="width:230px; border-radius:10px;float:left;">
-	
-		<!-- 게시자 정보 DIV -->
-		<div id="userInfoView">
-			
-			<div class="profileImage">
-				<img src="${writtenUserView.profile }" style="border-radius:70px; width:100px;"/>
-			</div>
-			<br>
-			<b>${writtenUserView.nickname }</b>님 <br>
-			포스팅 : <b>${writtenUserView.totalPlanCnt }</b>개 <br>
-			등급 : <b>${writtenUserView.grade }</b><br>
-			<b><fmt:formatNumber value='${writtenUserView.totalDist }' pattern="0.##"/></b> km<br>
-		</div><br>
-		
-	 	<!-- 가계부 DIV -->
-		<div id="accountView">
 
-			항공료 : ${airfare }<br> 
-			교통 : ${traffic }<br>
-			숙박 : ${stay }<br>
-			입장료 : ${admission }<br>
-			음식 : ${food }<br>
-			오락 : ${play }<br>
-			쇼핑 : ${shop }<br>
-			기타 : ${etc }<br><br>
-			<b>총합 : ${acc_total }</b><br>
-			<b>환율 : ${accView.caled_cost }</b><br>
-		</div><br>
-		
-		<!-- 일정 저장 -->
-		<button id="planViewModeBtn" onclick="changeViewMode()" style="width:100%;">읽기 모드로</button>
-		<!-- 일정 저장 -->
-		<button id="planSaveBtn" onclick="store();" style="width:100%;" disabled="true">저장 </button>
-		
-		<!-- 검색 INPUT DIV -->
-		<div id="googleSearch" class="tab-content tab-ttb">
-		<input id="pac-input" class="controls" type="text" placeholder="장소 검색">
-		    <div id="searchResultView">
-		    <ul>
-				<li id="results" ></li>
-			</ul>
-	    	</div>
-		</div><br>
-	</div>
+<!-- 좌측 정보목록 (게시자 정보, 가계부, 검색 등 )-->
+<nav>
+<div id="planInfoNav">
+	<!-- 게시자 정보 DIV -->
+	<div id="userInfoView">
+		<div class="profileImage">
+			<img id="userInfoProfileImg" src="${writtenUserView.profile }"/>
+		</div>
+		<br>
+		<b>${writtenUserView.nickname }</b>님 <br>
+		포스팅 : <b>${writtenUserView.totalPlanCnt }</b>개 <br>
+		등급 : <b>${writtenUserView.grade }</b><br>
+		<b><fmt:formatNumber value='${writtenUserView.totalDist }' pattern="0.##"/></b> km<br>
+	</div><br>
+	
+ 	<!-- 가계부 DIV -->
+	<div id="accountView">
+
+		항공료 : ${airfare }<br> 
+		교통 : ${traffic }<br>
+		숙박 : ${stay }<br>
+		입장료 : ${admission }<br>
+		음식 : ${food }<br>
+		오락 : ${play }<br>
+		쇼핑 : ${shop }<br>
+		기타 : ${etc }<br><br>
+		<b>총합 : ${acc_total }</b><br>
+		<b>환율 : ${accView.caled_cost }</b><br>
+	</div><br>
+	
+	<!-- 일정 저장 -->
+	<button id="planViewModeBtn" onclick="changeViewMode()" style="width:100%;">읽기 모드로</button>
+	<!-- 일정 저장 -->
+	<button id="planSaveBtn" onclick="store();" style="width:100%;" disabled="true">저장 </button>
+	
+	<!-- 검색 INPUT DIV -->
+	<div id="googleSearch" class="tab-content tab-ttb">
+	<input id="pac-input" class="controls" type="text" placeholder="장소 검색">
+	    <div id="searchResultView">
+	    <ul>
+			<li id="results" ></li>
+		</ul>
+    	</div>
+	</div><br>
 </div>
 </nav>
+
+<!-- 우측 일정 & 타임테이블정보 (지도, 일정탭 & 타임테이블탭 등 )-->
 <section>
-	<!-- 우측 일정 & 타임테이블정보 (지도, 일정탭 & 타임테이블탭 등 )-->
-	<div id="container" style="width:900px; border-radius:10px;float:left;margin-left: 20px;">
-		<!-- 일정 / 스토리 탭  -->
-		<ul class="tabs" id="tab-main">
-			<li rel="tab-ttb">일정</li>
-			<li rel="tab-story">스토리</li>
-		</ul>
-		
-		<div class="tab-container">
-			<div id="tab-ttb" class="tab-content tab-ttb">
-				<!-- 구글맵 DIV -->
-					<div id="map"></div>
-			 	<!-- 타임테이블 -->
-				<div id="calendar"></div>
-		 	</div>
-		 	
-		 	<div id="tab-story" class="tab-content tab-story">
-			 	<!-- 스토리테이블 -->
-				<div id="viewStory"></div>
-		 	</div>
+<div id="planMainSection">
+	<!-- 일정 / 스토리 탭  -->
+	<ul id="tab-main">
+		<li rel="tab-ttb">일정</li>
+		<li rel="tab-story">스토리</li>
+	</ul>
+	
+	<div class="tab-container">
+		<div id="tab-ttb" class="tab-content tab-ttb">
+			<!-- 구글맵 DIV -->
+			<div id="map"></div>
+		 	<!-- 타임테이블 -->
+			<div id="calendar"></div>
+	 	</div>
+	 	
+	 	<div id="tab-story" class="tab-content tab-story">
+		 	<!-- 스토리테이블 -->
+			<div id="viewStory"></div>
 	 	</div>
  	</div>
-
+	</div>
 </section>
+
 <!-- Maps JavaScript API 로드 -->
 <script async defer
  src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAO-YMjD9aGxBW1nEzgSFdzf7Uj8E4Lm9Q&libraries=places&language=ko&callback=initMap">

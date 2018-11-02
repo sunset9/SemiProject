@@ -7,31 +7,40 @@
 <meta charset="UTF-8">
 <title>Insert title here</title>
 <style>
-.storyContent{
+
+#miniModalContent{
+	border: 1px solid #9AA3E6;
 	box-shadow: 0px 5px 28px -9px grey;  /* h-shadow v-shadow blur spread color*/
+	height: auto;
+	overflow: hidden;
 }
+
+#miniModalImg{
+	width: 280px;
+	height: 150px;
+}
+
 </style>
 </head>
 <body>
 
 <!-- Modal -->
-<div class="modal fade" id="miniViewModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+<div class="modal fade " id="miniViewModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-        <h4 class="modal-title">Modal title</h4>
+        <h4 id="miniModalTitle">Modal title</h4>
       </div>
       
-      <div class="modal-body">
 		<!-- div (팝업으로 띄어줄) 본문 내용 -->	
-		<div style="border: 1px solid #9AA3E6; height: auto; overflow: hidden" >
+      <div class="modal-body" id= "miniModalBody">
 			<table style="width: 100%;">
 			<tr>
 				<td rowspan="2" style="padding: 10px 15px; width: 60%;">
-				<img class="miniImg" width="280" height="150" alt=""/>
+				<img id="miniModalImg" alt=""/>
 				</td>
-				<td class="miniTitle" style="font-weight: bold; width: 40%;"><hr></td>
+				<td id="miniModalPlace" style="font-weight: bold; width: 40%;"><hr></td>
 			</tr>	
 			
 			<tr>
@@ -46,12 +55,11 @@
 			</tr>
 			<tr>
 				<td colspan="2" style="padding: 15px">
-					<div class="storyContent" style="overflow-y: scroll; height: 230px; border: 1px solid gray;"></div>
+					<div id="miniModalContent" style="overflow-y: scroll; height: 230px; border: 1px solid gray;"></div>
 				</td>
 			</tr>
 
 			</table>
-			</div>
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
@@ -63,7 +71,6 @@
 <script type="text/javascript">
 
 $(document).ready(function(){	
-	
 	$('.modal').on('hidden.bs.modal',function(e){
 		var obj = document.getElementById("accountList");
 		
@@ -71,7 +78,6 @@ $(document).ready(function(){
 	
 		
 	})
-	
 });
 
 

@@ -111,8 +111,8 @@ var up_cnt = 0;
 	    //slidmenu 고정
 	    $(window).scroll(function() {
 	        var position = $(this).scrollTop(); // 현재 스크롤바의 위치값을 반환합니다.
-	        var header = $("#container").offset();
-	        var height = $("#container").height();
+	        var header = $("#planInfoHeader").offset();
+	        var height = $("#planInfoHeader").height();
 	        
 	        if(position > 600){
 	        	$("#slidemenu").css("position","fixed");
