@@ -10,15 +10,32 @@
 
 
 <style>
-#miniModalContent{
-	border: 1px solid #9AA3E6;
-	height: auto;
-	overflow: hidden;
+#miniModalBody{
+	padding: 30px;
+}
+.modal-open {
+    overflow-y: scroll; 
 }
 
 #miniModalImg{
 	width: 280px;
 	height: 150px;
+}
+
+#miniModalPlace{
+	font-weight: bold;
+	width: 40%;
+}
+
+#miniModalContent{
+	border: 1px solid gray;
+	overflow-y: auto; 
+	height: 230px;
+	margin-top: 15px;
+}
+
+#miniModalAccount{
+	margin-top: 15px;
 }
 </style>
 </head>
@@ -41,10 +58,10 @@
 			<input type='hidden' name='events'> <!-- 전체 타임테이블 -->
 			<table style="width: 100%;">
 			<tr>
-				<td rowspan="2" style="padding: 10px 15px; width: 60%;">
+				<td rowspan="2">
 				<img id="miniModalImg" alt=""/>
 				</td>
-				<td id="miniModalPlace" style="font-weight: bold; width: 40%;"><hr></td>
+				<td id="miniModalPlace"><hr></td>
 			</tr>	
 			<tr>
 				<td>
@@ -54,12 +71,12 @@
 			</table>
 			<table style="width: 100%;">
 				<tr>
-					<td colspan="2" style="padding: 15px">
-						<div id="miniModalContent" style="height: 230px;"></div>
+					<td colspan="2">
+						<div id="miniModalContent"></div>
 					</td>
 				</tr>
 			</table>
-			<div id ="min_accountViewList">
+			<div id ="miniModalAccount">
 					<div id = "min_accountView" name = "min_accountViewName">
 						<table style="width: 100%;">
 							<tr>	
@@ -95,7 +112,7 @@
 						</table>
 					</div>
 	
-			</div> <!-- min_accountViewList end -->
+			</div> <!-- miniModalAccount end -->
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-default" data-dismiss="modal">닫기</button>
@@ -223,7 +240,7 @@ $('#miniModalContent').froalaEditor({
  			
  			//cnt 증가
 			cnt = cnt+1;
-		
+
  			//현재까지 추가된 가계부 갯수 
 			var size = document.getElementsByName("min_accountViewName").length;
 

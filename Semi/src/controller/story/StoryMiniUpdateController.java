@@ -52,7 +52,6 @@ public class StoryMiniUpdateController extends HttpServlet {
 		Story story = sService.writeMini(ttb_idx, storyParam, isStory);
 		
 		
-		
 		//account 저장
 		aService.writeMini(story, isStory,req);
 		
