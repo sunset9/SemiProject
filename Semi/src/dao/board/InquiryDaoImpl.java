@@ -560,4 +560,9 @@ public class InquiryDaoImpl implements InquiryDao {
 			}
 		}
 	}
+	@Override
+	public List<Inquiry> selectPagingMyList(Paging paging) {
+		// TODO Auto-generated method stub
+		return null;
+	}
 }

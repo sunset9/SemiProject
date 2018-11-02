@@ -46,4 +46,7 @@ public interface InquiryDao {
 	
 	// 리스트에서 게시글 삭제
 	public void deleteInqList(String names);
+	
+	// myPage에서 사용하는 내가 질문한 문의사항 조회
+	public List<Inquiry> selectPagingMyList(Paging paging);
 }

@@ -1,10 +1,12 @@
 package service.bookmark;
 
-import dto.bookmark.Bookmark;
+import dto.user.Bookmark;
 import dto.plan.Plan;
 
 public interface BookmarkService {
-	void insertBookmark(Plan plan);
+	
+	// bookmark 추가 하기 
+	void insertBookmark(Plan plan, int user_idx);
 	
 	void deleteBookmark(Plan plan);
 	
