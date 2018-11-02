@@ -54,19 +54,18 @@ public class StoryUpdateController extends HttpServlet {
 			
 			req.setAttribute("plan_idx", story.getPlan_idx());
 			
+			//해당 스토리의 가계부정보 전부삭제
 			aService.deleteAccountListByStoryIdx(story);
 			
+			//가계부정보 가져오기
 			String[] accType = req.getParameterValues("accType");
 			String[] currSymbol = req.getParameterValues("currSymbol");
 			String[] cost = req.getParameterValues("cost");
 			
-			double USD_rate = Float.parseFloat(req.getParameter("USD_rate"));
-			double KRW_rate = Float.parseFloat(req.getParameter("KRW_rate"));
-			double JPY_rate = Float.parseFloat(req.getParameter("JPY_rate"));
-			
-			System.out.println("USD::"+USD_rate);
-			System.out.println("KRW::"+KRW_rate);
-			System.out.println("JPY::"+JPY_rate);
+			//환율정보가져오기
+			double USD_rate = Double.parseDouble(req.getParameter("USD_rate"));
+			double KRW_rate = Double.parseDouble(req.getParameter("KRW_rate"));
+			double JPY_rate = Double.parseDouble(req.getParameter("JPY_rate"));
 			
 			for (int i =0 ;i<accType.length;i++) {
 				
@@ -78,6 +77,7 @@ public class StoryUpdateController extends HttpServlet {
 					
 					account.setCategory(Integer.parseInt(accType[i]));
 					account.setCurr_idx(Integer.parseInt(currSymbol[i]));
+					//cost의 콤마 제거
 					cost[i]=cost[i].replaceAll(",", "");
 					account.setOrigin_cost(Double.parseDouble(cost[i]));
 					account.setPlan_idx(story.getPlan_idx());
@@ -85,7 +85,7 @@ public class StoryUpdateController extends HttpServlet {
 					account.setCaled_cost(
 							aService.calcCost(account.getCurr_idx(), account.getOrigin_cost(), USD_rate, KRW_rate, JPY_rate)
 							);
-					
+					//받아온 가계부정보들 새로저장
 					aService.Write(account);
 				
 				}
@@ -94,7 +94,7 @@ public class StoryUpdateController extends HttpServlet {
 			
 			
 			
-//------------------
+			//스토리다시 뿌려주기위한동작
 			
 			
 			List<Story> StoryList = new ArrayList<>();

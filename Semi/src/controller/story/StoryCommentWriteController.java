@@ -35,10 +35,9 @@ public class StoryCommentWriteController extends HttpServlet {
 		
 		String commJson = req.getParameter("commJson");
 		
-		// plan_idx Set
 	    if(commJson!=null & !"".equals(commJson)){
 	    	comment = gson.fromJson(commJson, Comment.class);
-	    } else { // 테스트용 코드, 테스트 후에는 삭제
+	    } else { 
 	      System.out.println("Comment가 null 혹은 빈값"); 
 	    }
 	    
@@ -46,10 +45,11 @@ public class StoryCommentWriteController extends HttpServlet {
 	   
 	    comment.setUser_idx(userIdx);
 	    
+	    //커멘트 추가
 	    sService.writeComment(comment);
 	    
 	
-		//-----
+		//커멘트 뿌려주기 위한 동작
 		
 		Plan plan = new Plan();
 		
@@ -57,6 +57,8 @@ public class StoryCommentWriteController extends HttpServlet {
 		
 		List<Comment> CommentList = sService.getCommentList(plan);
 		
+		//커멘트 리스트 값 전달하기
+		//스토리idx값 전달하기
 		req.setAttribute("commentList", CommentList);
 		req.setAttribute("story_idx", comment.getStory_idx());
 		req.getRequestDispatcher("/plan/story/storyCommentView.jsp").forward(req, resp);
