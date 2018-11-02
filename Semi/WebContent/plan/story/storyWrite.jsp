@@ -1,8 +1,29 @@
 <%@ page language="java" contentType="text/html; charset=EUC-KR"
     pageEncoding="EUC-KR"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>    
+<style>
+/*스토리 write 모달 div*/
+#StoryWriteDiv{
+	height: auto;
+	padding: 20px;
+}
 
-    
+/*스토리 본문쪽 div*/
+#storyWriteContentDiv{
+	border: 1px solid #B6B7FA;
+	width: auto;
+	height: auto;
+}
+
+/*가계부 비용*/
+.st_cost{
+	text-align:right;
+}
+
+
+
+
+</style>
 <div class="modal fade" id="myModal" role="dialog">
     <div class="modal-dialog">
       <!-- Modal content-->
@@ -17,25 +38,24 @@
 			<form class = "writeForm" action="/story/write" method="POST">
 			
 			<!-- ttb_idx 값 숨겨두기 -->
-			<input type="hidden" value="" name ="ttb_idx" class = "ttb_idx" />
-			<input type="hidden" value="" name ="plan_idx" class = "plan_idx" />
-			<div style="height: auto; padding: 20px;" id ="StoryWriteDiv">
+			<input type="hidden" value="" name ="st_ttb_idx" class = "st_ttb_idx" />
+			<input type="hidden" value="" name ="st_plan_idx" class = "st_plan_idx" />
+			<div id ="StoryWriteDiv">
 				<table>
 				<tr>
 					<td>
-						<div style="border: 1px solid #B6B7FA; width: auto; height: auto" >
-							<textarea id = "edit" name="content" class = "content"></textarea>
+						<div id ="storyWriteContentDiv">
+							<textarea name="st_content" class = "st_content"></textarea>
 						</div>
 					</td>
 				</tr>
 				</table>
 				<div id ="accountViewList">
-				
-					<div id = "accountView" name = "accountViewName">
+					<div id = "story_accountView" name = "accountViewName">
 						<table>
 							<tr>	
 								<td>
-								<select name = "accType" class="accType">
+								<select name = "st_accType" class="st_accType">
 									<option value="1">항공료</option>
 									<option value="2">교통</optoin>
 									<option value="3">숙박</option>
@@ -47,7 +67,7 @@
 								</select>
 								</td>
 								<td>
-								<select name = "currSymbol" class="currSymbol">
+								<select name = "st_currSymbol" class="st_currSymbol">
 									<option value = "1">USD</option>
 									<option value = "2">KRW</optoin>
 									<option value = "3">JPY</option>
@@ -55,8 +75,7 @@
 								</select>
 								</td>
 								<td>
-<!-- 								<input type="text" size="48" name = "cost" class="cost" onkeyup="inputNumberFormat(this)" style = "text-align:right;"/> -->
-								<input type="text" size="48" name = "cost" class="cost" onkeypress="Numberchk()" onkeyup="vComma(this)" style = "text-align:right;"/>
+									<input type="text" size="40" name = "st_cost" class="st_cost" onkeypress="Numberchk()" onkeyup="vComma(this)"/>
 								</td>
 								<td>
 									<span class="glyphicon glyphicon-plus accountPlus" onclick = "appendAccount()" onmouseover="mover($(this))" 
@@ -74,7 +93,7 @@
         </form>
         </div> <!-- modal 바디끝 -->
         <div class="modal-footer" style="text-align: center">
-          <button class ="storySaveBtn" type="button" class="btn btn-warning">Save</button>
+          <button type="button" class="btn btn-warning storySaveBtn">Save</button>
         </div>
         
       </div>
@@ -88,7 +107,7 @@
 
     $(function() {
     $.FroalaEditor.COMMANDS.imageAlign.options.justify = 'Center';
-    $('.content').froalaEditor({
+    $('.st_content').froalaEditor({
         // Set the image upload URL.
         enter: $.FroalaEditor.ENTER_DIV,
         //모달 사용할때 발생하는 문제 : image edit menu가 안뜸, -> 해결법 : zIndex를 높여라
