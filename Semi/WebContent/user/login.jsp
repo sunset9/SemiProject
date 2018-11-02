@@ -36,7 +36,7 @@
 			/* 성공적으로 수행됐다면 로그인 상태를 체크하는 checkLoginStatus()를 호출한다. */
 			gauth.then(function(){
 				console.log('googleAuth success');
-				checkLoginStatus(); 
+				checkGoogleLoginStatus(); 
 			}, function(){
 				console.log('googleAuth fails');
 			});
@@ -46,7 +46,7 @@
 	
 	/* 로그인 상태인지 비로그인 상태인지 판별하는 메소드 */
 	/* 로그인한 상태면 현재 유저의 프로필 정보를 가져온다. */
-	function checkLoginStatus() { 
+	function checkGoogleLoginStatus() { 
 		var loginBtn = document.querySelector('#loginBtn'); /* id가 loginBtn인 요소를 가져와서 loginBtn이란 변수에 담기 */
 		var nameTxt = document.querySelector('#name'); /* id가 name인 요소(span)를 가져와서 nameTxt란 변수에 담기 */
 		if(gauth.isSignedIn.get()){ /* 만약 로그인한 상태라면 */
