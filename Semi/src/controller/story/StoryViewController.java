@@ -85,6 +85,7 @@ public class StoryViewController extends HttpServlet {
 		
 		List<Account> accountList = aService.getPlanAccountList(plan);
 		
+		request.getSession().getAttribute("user");
 		request.setAttribute("accountList",accountList );
 		request.setAttribute("ttbList", ttbList);
 		request.setAttribute("diffDays",diffDays);
