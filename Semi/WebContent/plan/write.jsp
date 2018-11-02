@@ -20,10 +20,7 @@
 <script type="text/javascript" src="/utils/timetableUtils.js"></script>
 <script type="text/javascript" src="/utils/mapUtils.js"></script>
 
-<!-- Maps JavaScript API 로드 -->
-<script async defer
- src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAO-YMjD9aGxBW1nEzgSFdzf7Uj8E4Lm9Q&libraries=places&language=ko&callback=initMap">
-</script>
+<link rel="stylesheet" href="/resources/planCommStyle.css">
 
 <!-- 공개유무 슬라이드 버튼 -->
 <style type="text/css">
@@ -82,123 +79,40 @@
 	.slider.round:before {
 	  border-radius: 50%;
 	}
-	 
-	p {
-	margin:0px;
-	display:inline-block;
-	font-size:15px; 
-	font-weight:bold; 
-	} 
-/* ------------------------------------------------------------------------ */
-
-/* 	구글 맵 크기 설정 */
-	#map {
-		background-color:#DDDDDD;
-		height:450px;
-		float:bottom;
-		width:100%;
-	}
-/* 	----------------------------------------------------- */  
-	#calendar {
-	    float: right;
-	    width: 900px;
-	    height: 833px;
-	    margin-bottom: 20px;
-	}
-	
-	.fc-ltr .fc-time-grid .fc-event-container { /* 일정 이벤트 박스 관련 */ 
-		margin: 0 3px 0 3px; 
-		font-size: 1.1em;
-	}
-	
-	.fc-axis { /* 왼쪽 시간  넓이 수정 */ 
-		width: 60px !important;
-	}
-	
-	#prevBtn { /* 이전날짜 선택 버튼*/
-		cursor: pointer;
-		float: left;
-		margin-left: 5px;
-	}
-	
-	#nextBtn { /* 다음 날짜 선택 버튼*/
-		cursor: pointer;
-		float: right;
-		margin-right: 5px;
-	}
-	
-	.fc-row.fc-widget-header tr{ /* 헤더의 날짜 정보*/
-		height: 50px;
-		font-size: 1.3em;
-	}
-	
-	.fc-title{ /* 이벤트 안의 제목 부분 */
-		font-weight: bold;
-		font-size: 1.5em;
-		padding-top: 5px;
-	}
-	
-	.fc-bg:not(:first-child){
-		margin-left: 10px;  /* fc-bg(이벤트 덮고 있는 투명도 있는 판?)css 수정 , 왼쪽에 색 진하게 하는 효과줌*/
-	}
-	
-/* 	----------------------------------------------------- */  	
-	/* 탭관련 */
-	#tab-main {
-	    margin: 0;
-	    padding: 0;
-	    float: left;
-	    list-style: none;
-	    border-bottom: 1px solid #eee;
-	    border-left: 1px solid #eee;
-	    width: 100%;
-	}
-	#tab-main li {
-	    float: left;
-	    text-align:center;
-	    cursor: pointer;
-	    width: 50%;
- 	    height: 50px; 
-	    line-height: 50px;
-	    border: 1px solid #eee;
-	    border-left: none;
-	    font-weight: bold;
-	    background: #fafafa;
-	    overflow: hidden;
-	    position: relative;
-	    color: #555;
-	}
-	
-	#tab-main li.active {
-	    background: #FFFFFF;
-	    border-bottom: 5px solid #1e88e5;
-	    color: #306490;
-	    pointer-events: none; /* 이미 선택한 탭은 다시 클릭 안되도록 */
-	}
-	.tab-container {
-	    border: 1px solid #eee;
-	    border-top: none;
-	    clear: both;
-	    float: left;
-        width: 100%; /* 이거 하면 타임테이블 지저분, 안하면 빈 스토리탭 container 좁게 지정*/
-	}
 	
 	/* 저장버튼 활성화 버전*/
 	#planCommit:not([disabled]){
-		background: #3ba4ff;
+	    height: 34px;
+		background: #4FB99F;
 	    font-weight: bold;
+	    color: #333;
 	}
 	
 	/* 저장버튼 비활성화 버전*/
 	#planCommit[disabled]{
+		height: 34px;
 		background: #eee;
 		color: #ccc;
 	}
+	 
+	#googleSearch{
+		width:100%;
+		border-radius:10px;
+		margin-top: 10px;
+		border: 1px solid #ccc;
+	}
 	
-	/* 탭 변경시 띄워주는 경고창 */
-/* 	.jconfirm .jconfirm-box div.jconfirm-content-pane .jconfirm-content { */
-/*     	white-space: pre-wrap; /* 줄바꿈 가능하게*/*/
-/* 	} */
+	#pac-input{
+		display: block;
+		margin: 6px auto;
+		width: 93%;
+	    background: url(/resources/img/searchBg.png) -5px center no-repeat;
+ 	    border: 1px solid #ccc; 
+	    padding: 5px 3px 5px 35px;
+	}
+	#searchResultView{
+		padding:3px;
+	}
 </style>
 
 <script>
@@ -253,13 +167,14 @@ var USD_rate=0;
 var KRW_rate=0;
 var JPY_rate=0;
 
-
 var isModify = 1;
+var isStayWriteMode = false;
 
+var isAlreadyAlert = false;
 </script>
 <script>
 //저장하기
-function store(beforeTtbIdx, afterTtbIdx, isSendWriteMode){
+function store(beforeTtbIdx, afterTtbIdx){
 	setCookie("isCookieTabClear", "false");
 	
 	activeStoreBtn(false);
@@ -268,11 +183,6 @@ function store(beforeTtbIdx, afterTtbIdx, isSendWriteMode){
 	var events = $("#calendar").fullCalendar('clientEvents');
 	console.log("저장할 때 events목록");
 	console.log(events);
-	
-	// 수정모드로 유지하기
-	if(isSendWriteMode){
-		$('input[name=isSendWriteMode]').val(true);
-	}
 	
 	var timetables = [];
 	// form input 생성(넘겨줄 값)
@@ -299,14 +209,40 @@ function store(beforeTtbIdx, afterTtbIdx, isSendWriteMode){
 	// input 태그 생성
 	$("#planForm").append("<input type='hidden' name='events'>");
 	// 생성된 태그의 value값 설정 , timetable json 마샬링해서 지정
-	$("input[name='events']:last-child").val(JSON.stringify(timetables));
+	$("input[name='events']:last-child").val();
 	
 	// submit
 // 	console.log("---store()----")
 // 	console.log(timetables);
-	$("#planForm").submit();
+// 	$("#planForm").submit();
 	
-	return true;
+	var succ = false;
+	$.ajax({
+		url: "/plan/update"
+		, type: "post"
+		, async: false
+		, dataType: "html"
+		, data: {
+			plan_idx: '${planView.plan_idx}'
+			, user_idx: '${planView.user_idx}'
+			, editOpened: $('.planInfo[name=editOpened]').val()
+			, editTraveled: $('.planInfo[name=editTraveled]').val()
+			, editTitleView: $('.planInfo[name=editTitleView]').val()
+			, editStartDate: $('.planInfo[name=editStartDate]').val()
+			, editEndDate: $('.planInfo[name=editEndDate]').val()
+			, events: JSON.stringify(timetables)
+		}
+		, success: function(){
+			if(!isStayWriteMode){
+				window.location = "/plan?plan_idx=" + $('input[name=plan_idx]').val();
+			}
+			succ = true;
+		}
+		, error: function(){
+			succ = false;
+		}
+	});
+	return succ;
 }
 </script>
 
@@ -337,24 +273,6 @@ $(document).ready(function() {
 	}
 	setCookie("isCookieTabClear", "true");
 	
-	// 처음 탭 선택하여 띄워주기
-    // 쿠키값이 없거나 tab-ttb 인 경우
-	if(getCookie('tab')==null || getCookie('tab')=='tab-ttb'){
-		$("#tab-main li").removeClass("active");
-	    $("#tab-main li[rel='tab-ttb']").addClass("active");
-		$(".tab-content").css('display', 'none');
-	    $(".tab-content.tab-ttb").show();
-	
-	// 쿠키값이 tab-story인 경우    
-	}else if(getCookie('tab')=='tab-story'){
-		$("#tab-main li").removeClass("active");
-		$("#tab-main li[rel='tab-story']").addClass("active");
-		$(".tab-content").css('display', 'none');
-		$(".tab-content.tab-story").show();
-		
-		// ajax 통신으로 내용 불러오기
-		displayStoryView();
-	}
 	
 	// 브라우저에 timetable 그려주기
 	initFullCalendar(planStartDate, planEndDate, true);
@@ -385,16 +303,16 @@ $(document).ready(function() {
 	// 일정 일자 변경할때의 처리
 	var beforeStartDate = planStartDate;
 	var beforeEndDate = planEndDate;
-	$(".planDate").on("change", function(){
+	$(".planInfo").on("change", function(){
 		// 바뀐 날짜 값 받아오기
-		var changedStartDate = $(".planDate[name='editStartDate']").val();
-		var changedEndDate = $(".planDate[name='editEndDate']").val();
+		var changedStartDate = $(".planInfo[name='editStartDate']").val();
+		var changedEndDate = $(".planInfo[name='editEndDate']").val();
 		
 		// 예외처리
 		if(changedStartDate > changedEndDate){
 			alert("일정의 마지막일이 시작일보다 작을 수 없습니다.");
-			$(".planDate[name='editStartDate']").val(beforeStartDate);
-			$(".planDate[name='editEndDate']").val(beforeEndDate);
+			$(".planInfo[name='editStartDate']").val(beforeStartDate);
+			$(".planInfo[name='editEndDate']").val(beforeEndDate);
 			return;
 		}
 		
@@ -428,9 +346,9 @@ $(document).ready(function() {
 						$("#btnCancelOnDateChange").on("click", function(){
 							// 바꾸기 전  날짜로 다시 변경
 							if(alertStartDate){
-								$(".planDate[name='editStartDate']").val(beforeStartDate);
+								$(".planInfo[name='editStartDate']").val(beforeStartDate);
 							}else if(alertEndDate){
-								$(".planDate[name='editEndDate']").val(beforeEndDate);
+								$(".planInfo[name='editEndDate']").val(beforeEndDate);
 							}
 						});
 					})
@@ -445,8 +363,26 @@ $(document).ready(function() {
 		$('#calendar').fullCalendar('option', 'droppable', true); // 드롭할 수 있게
 	});
 	
+	// 처음 탭 선택하여 띄워주기
+    // 쿠키값이 없거나 tab-ttb 인 경우
+	if(getCookie('tab')==null || getCookie('tab')=='tab-ttb'){
+		$("#tab-main li").removeClass("active");
+	    $("#tab-main li[rel='tab-ttb']").addClass("active");
+		$(".tab-content").css('display', 'none');
+	    $(".tab-content.tab-ttb").show();
+	
+	// 쿠키값이 tab-story인 경우    
+	}else if(getCookie('tab')=='tab-story'){
+		$("#tab-main li").removeClass("active");
+		$("#tab-main li[rel='tab-story']").addClass("active");
+		$(".tab-content").css('display', 'none');
+		$(".tab-content.tab-story").show();
+		
+		// ajax 통신으로 내용 불러오기
+		displayStoryView();
+	}
 	    
-    // 탭 선택 시 속성값, 탭쿠키값 변경
+    // 탭 선택 시 속성값, 탭 쿠키값 변경
 	$('#tab-main li').click(function(){
 		var clickTab = $(this);
 		// 저장버튼 활성화 상태이면 탭 안넘어가도록 경고창
@@ -456,24 +392,21 @@ $(document).ready(function() {
 			    title: '저장하시겠습니까?',
 			    content: '저장하시지 않으면 작성 중인 정보를 잃습니다.',
 			    buttons: {
-			    	// 확인 버튼
-			    	confirm: {
+			    	confirm: { // 확인 버튼
 			    		text: '저장'
 			    		, btnClass: 'btn-blue'
 			    		, action: function(){
-			    			// 저장 동작
-			    			var succ = store(null,null,true);
-			    			if(succ){
-				    			// 탭 변경
-				    			changeTab(clickTab);
-					            
-					            // 저장 버튼 비활성화
+			    			isStayWriteMode = true; // 수정모드 유지
+			    			var succ = store(); // 저장 동작
+				            if(succ){
+				            	// 저장 버튼 비활성화
 					            activeStoreBtn(false);
+				    			// 탭 변경
+				    			changeTab(clickTab); 
+				    		}
 			    			}
-			    		}
-			        },
-			        // 취소 버튼
-		        	취소: function () {
+			        }, 
+		        	취소: function () { // 취소 버튼
 			        },
 			    }
 			});
@@ -504,7 +437,10 @@ function changeTab(clickTab){
     
     if(activeTab == 'tab-ttb'){ // 타임테이블 탭 선택한 경우
 		setCookie('tab','tab-ttb');
-		initFullCalendar(planStartDate, planEndDate, true);
+		initFullCalendar(planStartDate, planEndDate, false);
+		$('#calendar').fullCalendar('option', 'editable', true); // 수정 가능하게
+		$('#calendar').fullCalendar('option', 'droppable', true); // 드롭할 수 있게
+		initMap();
     }else if(activeTab == 'tab-story'){ // 스토리 탭 선택한 경우
 		setCookie('tab','tab-story');
     	// ajax 통신으로 내용 불러오기
@@ -538,14 +474,16 @@ function activeStoreBtn(isEdit){
 	}
 }
 
+// 페이지나가거나 새로고침 시 경고 메세지 띄워주기
 window.onbeforeunload = function(){
-	// 저장버튼 활성화 상태이면 페이지나감 경고 메세지 띄워주기
-	if($("#planCommit").attr('disabled') == null){
+	// 저장버튼 활성화 상태이고, 경고창을 아직 띄우지 않았을 경우
+	if($("#planCommit").attr('disabled') == null && isAlreadyAlert == false){
 		return false;
 	}
 };
 </script>
 
+<header>
 <!-- 플래너 배너 -->
 <div id="container" style="width:100%; height:400px; border-radius:10px; background-image:url('${planView.bannerURL }');background-size: 100% 100%;">
 	<form action="/plan/banner" method="post" enctype="multipart/form-data">
@@ -559,7 +497,7 @@ window.onbeforeunload = function(){
 	
 		<form action="/plan/update" method="post" id="planForm">
 		
-		<select name="editOpened" >
+		<select name="editOpened" class ="planInfo">
 			<c:if test="${planView.opened eq 1 }">
 				<option value="1" selected="selected">공개</option>
 				<option value="0">비공개</option>
@@ -575,10 +513,10 @@ window.onbeforeunload = function(){
 				<input type="hidden" name="plan_idx" value="${planView.plan_idx}" />
 				<input type="hidden" name="user_idx" value="${planView.user_idx}" />
 				
-				제목 : <input name="editTitleView" type="text" value="${planView.title }" /><br><br>
-				출발일 : <input name="editStartDate" class ="planDate" type="date" value="${planView.start_date }"/>
-				도착일 : <input name="editEndDate" class ="planDate" type="date" value="${planView.end_date }"/><br><br>
-				<select name="editTraveled" >
+				제목 : <input name="editTitleView" class="planInfo" type="text" value="${planView.title }" /><br><br>
+				출발일 : <input name="editStartDate" class ="planInfo" type="date" value="${planView.start_date }"/>
+				도착일 : <input name="editEndDate" class ="planInfo" type="date" value="${planView.end_date }"/><br><br>
+				<select name="editTraveled" class ="planInfo" >
 					<c:if test="${planView.traveled eq 1 }">
 						<option value="1" selected="selected">여행 전</option>
 						<option value="0">여행 후</option>
@@ -594,13 +532,15 @@ window.onbeforeunload = function(){
 	</div>
 		<br>
 </div><br>
+</header>
+<nav>
 <!-- 플래너 입력 정보 DIV -->
 <div id="container" style="width:100%; border-radius:10px;">
 	<!-- 좌측 정보목록 (게시자 정보, 가계부, 검색 등 )-->
 	<div id="container" style="width:230px; border-radius:10px;float:left;">
 	
 		<!-- 게시자 정보 DIV -->
-		<div id="menu" style="background-color:#EEEEEE;height:100%;float:bottom;width:100%;border-radius:10px;">
+		<div id="userInfoView">
 			
 			<div class="profileImage">
 				<img src="${writtenUserView.profile }" style="border-radius:70px; width:100px;"/>
@@ -613,7 +553,7 @@ window.onbeforeunload = function(){
 		</div><br>
 		
 	 	<!-- 가계부 DIV -->
-		<div id="menu" style="background-color:#CCCCCC;height:100%;float:bottom;width:100%;border-radius:10px;">
+		<div id="accountView">
 
 			항공료 : ${airfare }<br> 
 			교통 : ${traffic }<br>
@@ -631,45 +571,45 @@ window.onbeforeunload = function(){
 		<button id="planCommit" name="plan_idx" value="${planView.plan_idx}" onclick="store();" style="width:100%;" disabled="true">저장 </button>
 		
 		<!-- 검색 INPUT DIV -->
-		<div id="googleSearch" class="tab-content tab-ttb" style="float:bottom;width:100%;border-radius:10px;">
-		검색 : <input id="pac-input" class="controls" type="text" placeholder="Search Box">
-		    <div id="right-panel"
-		    style="border-top:3px solid; border-bottom:3px solid; border-left:3px dashed; border-right:3px groove; padding:3px;">
+		<div id="googleSearch" class="tab-content tab-ttb">
+		<input id="pac-input" class="controls" type="text" placeholder="장소 검색">
+		    <div id="searchResultView">
 		    <ul>
-		     <li id="results" ></li>
-		     </ul>
-		    </div>
+				<li id="results" ></li>
+			</ul>
+	    	</div>
 		</div><br>
-		
 	</div>
-	
+</div>
+</nav>
+<section>
 	<!-- 우측 일정 & 타임테이블정보 (지도, 일정탭 & 타임테이블탭 등 )-->
 	<div id="container" style="width:900px; border-radius:10px;float:left;margin-left: 20px;">
-		<!-- 일정 / 스토리 탭 DIV -->
+		<!-- 일정 / 스토리 탭  -->
 		<ul class="tabs" id="tab-main">
 			<li rel="tab-ttb">일정</li>
 			<li rel="tab-story">스토리</li>
 		</ul>
-<!-- 		<div id="content" style="float:bottom;width:100%;"> -->
-<!-- 			<button id="btnPlan" style="width:447px;background-color:#ff5555;border-radius:10px;">일정</button> -->
-<!-- 			<button id="btnStory" style="width:447px;background-color:#5555ff;border-radius:10px;">스토리</button> -->
-<!-- 		</div> -->
 		
 		<div class="tab-container">
-		<div id="tab-ttb" class="tab-content tab-ttb">
-			<!-- 구글맵 DIV -->
-				<div id="map"></div>
-		 	<!-- 타임테이블 -->
-			<div id="calendar"></div>
+			<div id="tab-ttb" class="tab-content tab-ttb">
+				<!-- 구글맵 DIV -->
+					<div id="map"></div>
+			 	<!-- 타임테이블 -->
+				<div id="calendar"></div>
+		 	</div>
+		 	
+		 	<div id="tab-story" class="tab-content tab-story">
+			 	<!-- 스토리테이블 -->
+				<div id="viewStory"></div>
+		 	</div>
 	 	</div>
-	 	
-	 	<div id="tab-story" class="tab-content tab-story">
-		 	<!-- 스토리테이블 -->
-			<div id="viewStory"></div>
-	 	</div>
-	 	</div>
-	</div>
-	
-</div>
+ 	</div>
+
+</section>
+<!-- Maps JavaScript API 로드 -->
+<script async defer
+ src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAO-YMjD9aGxBW1nEzgSFdzf7Uj8E4Lm9Q&libraries=places&language=ko&callback=initMap">
+</script>
 </body>
 </html>

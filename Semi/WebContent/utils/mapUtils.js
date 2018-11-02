@@ -17,9 +17,11 @@ function initMap() {
 //		rotateControl: false,
 //		fullscreenControl: false
 	});
-	
-	// searchBox 설정 초기화
-	initSearchBox();
+
+	if(isModify){
+		// searchBox 설정 초기화
+		initSearchBox();
+	}
 	
 	// 서버로부터 받은 타임테이블 뿌려주기
 	var timetables = getTimetablesFromServer();
@@ -133,7 +135,7 @@ function viewMap(timetable, timetables){
 	// 경로 그리기
 	route = new google.maps.Polyline({
 		path: locations,
-		strokeColor: '#0078FF',
+		strokeColor: '#4FB99F',
 		strokeOpacity: 1.0,
 		strokeWeight: 2
 	});

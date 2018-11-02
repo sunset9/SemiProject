@@ -25,7 +25,8 @@
 		<script> zingchart.MODULESDIR = "https://cdn.zingchart.com/modules/";
 		ZC.LICENSE = ["569d52cefae586f634c54f86dc99e6a9","ee6b7db5b51705a13dc2339db3edaf6d"];</script>
 
-<!-- 공개유무 슬라이드 버튼 -->
+<link rel="stylesheet" href="/resources/planCommStyle.css">
+
 <style type="text/css">
 	/* 가계부 그래프 팝업 */
 	.pop-layer .pop-container {
@@ -104,99 +105,6 @@
 	  background-color: #1f326a;
 	  color: #fff;
 	}
-/* 	----------------------------------------------------- */
-/* 	구글 맵 크기 설정 */
-	#map {
-		background-color:#DDDDDD;
-		height:450px;
-		float:bottom;
-		width:100%;
-	}
-/* 	----------------------------------------------------- */  
-	#calendar {
-	    float: right;
-	    width: 900px;
-	    height: 833px;
-	    margin-bottom: 20px;
-	}
-	
-	.fc-ltr .fc-time-grid .fc-event-container { /* 일정 이벤트 박스 관련 */ 
-		margin: 0 3px 0 3px; 
-		font-size: 1.1em;
-	}
-	
-	.fc-axis { /* 왼쪽 시간  넓이 수정 */ 
-		width: 60px !important;
-	}
-	
-	#prevBtn { /* 이전날짜 선택 버튼*/
-		cursor: pointer;
-		float: left;
-		margin-left: 5px;
-	}
-	
-	#nextBtn { /* 다음 날짜 선택 버튼*/
-		cursor: pointer;
-		float: right;
-		margin-right: 5px;
-	}
-	
-	.fc-row.fc-widget-header tr{ /* 헤더의 날짜 정보*/
-		height: 50px;
-		font-size: 1.3em;
-	}
-	
-	.fc-title{ /* 이벤트 안의 제목 부분 */
-		cursor: pointer;
-		font-weight: bold;
-		font-size: 1.5em;
-		padding-top: 5px;
-	}
-	
-	.fc-bg:not(:first-child){
-		margin-left: 10px;  /* fc-bg(이벤트 덮고 있는 투명도 있는 판?)css 수정 , 왼쪽에 색 진하게 하는 효과줌*/
-	}
-	
-	/* 	----------------------------------------------------- */  	
-	/* 탭관련 */
-	#tab-main {
-	    margin: 0;
-	    padding: 0;
-	    float: left;
-	    list-style: none;
-	    border-bottom: 1px solid #eee;
-	    border-left: 1px solid #eee;
-	    width: 100%;
-	}
-	#tab-main li {
-	    float: left;
-	    text-align:center;
-	    cursor: pointer;
-	    width: 50%;
- 	    height: 50px; 
-	    line-height: 50px;
-	    border: 1px solid #eee;
-	    border-left: none;
-	    font-weight: bold;
-	    background: #fafafa;
-	    overflow: hidden;
-	    position: relative;
-	    color: #555;
-	}
-	
-	#tab-main li.active {
-	    background: #FFFFFF;
-	    border-bottom: 5px solid #1e88e5;
-	    color: #306490;
-	    pointer-events: none; /* 이미 선택한 탭은 다시 클릭 안되도록 */
-	}
-	.tab-container {
-	    border: 1px solid #eee;
-	    border-top: none;
-	    clear: both;
- 	    float: left; 
-        width: 100%; /* 이거 하면 타임테이블 지저분, 안하면 빈 스토리탭 container 좁게 지정*/
-	}
 	
 </style>
 
@@ -243,25 +151,6 @@ $(document).ready(function() {
 	setCookie("isCookieTabClear", "true");
 	
 	
-	// 처음 탭 선택하여 띄워주기
-    // 쿠키값이 없거나 tab-ttb 인 경우
-	if(getCookie('tab')==null || getCookie('tab')=='tab-ttb'){
-		$("#tab-main li").removeClass("active");
-	    $("#tab-main li[rel='tab-ttb']").addClass("active");
-		$(".tab-content").css('display', 'none');
-	    $(".tab-content.tab-ttb").show();
-		
-	// 쿠키값이 tab-story인 경우    
-	}else if(getCookie('tab')=='tab-story'){
-		$("#tab-main li").removeClass("active");
-		$("#tab-main li[rel='tab-story']").addClass("active");
-		$(".tab-content").css('display', 'none');
-		$(".tab-content.tab-story").show();
-		
-		// ajax 통신으로 내용 불러오기
-		displayStoryView();
-	}
-    
 	// 브라우저에 timetable 그려주기
 	initFullCalendar(planStartDate, planEndDate, true);
 	$('#calendar').fullCalendar('option', 'editable', false); // 수정 불가능하게
@@ -503,7 +392,26 @@ $(document).ready(function() {
 			});
 	});
 	
-	// 탭 선택 시 속성값, 탭쿠키값 변경
+	// 처음 탭 선택하여 띄워주기
+ 	// 쿠키값이 없거나 tab-ttb 인 경우
+	if(getCookie('tab')==null || getCookie('tab')=='tab-ttb'){
+		$("#tab-main li").removeClass("active");
+	    $("#tab-main li[rel='tab-ttb']").addClass("active");
+		$("#tab-story").css('display', 'none');
+	    $("#tab-ttb").show();
+		
+	// 쿠키값이 tab-story인 경우    
+	}else if(getCookie('tab')=='tab-story'){
+		$("#tab-main li").removeClass("active");
+		$("#tab-main li[rel='tab-story']").addClass("active");
+		$("#tab-ttb").css('display', 'none');
+		$("#tab-story").show();
+		
+		// ajax 통신으로 내용 불러오기
+		displayStoryView();
+	}
+
+	// 탭 선택 시 속성값, 탭 쿠키값 변경
 	$('#tab-main li').click(function(){
 		// active클래스 속성 변경
 		$("#tab-main li").removeClass("active");
@@ -512,7 +420,7 @@ $(document).ready(function() {
         // 선택한탭의 내용 띄워지게
         $(".tab-content").hide();
         var activeTab = $(this).attr("rel");
-        $("." + activeTab).show();
+        $("#" + activeTab).show();
         
         if(activeTab == 'tab-ttb'){ // 타임테이블 탭 선택한 경우
 			setCookie('tab','tab-ttb');
@@ -525,25 +433,6 @@ $(document).ready(function() {
 	
 }); // $(document).ready() End
 	
-function changeTab(clickTab){
-	// active클래스 속성 변경
-	$("#tab-main li").removeClass("active");
-	clickTab.addClass("active");
-    
-    // 선택한탭의 내용 띄워지게
-    $(".tab-content").hide();
-    var activeTab = clickTab.attr("rel");
-    $("." + activeTab).show();
-    
-    if(activeTab == 'tab-ttb'){ // 타임테이블 탭 선택한 경우
-		setCookie('tab','tab-ttb');
-		initFullCalendar(planStartDate, planEndDate, true);
-    }else if(activeTab == 'tab-story'){ // 스토리 탭 선택한 경우
-		setCookie('tab','tab-story');
-    	// ajax 통신으로 내용 불러오기
-		displayStoryView();
-    }
-} 
 
 //스토리 뷰 ajax통신으로 띄워주기
 function displayStoryView(){
@@ -564,6 +453,7 @@ function displayStoryView(){
 
 </script>
 
+<header>
 <!-- 플래너 배너 -->
 <div  id="container" style="width:100%; height:400px; border-radius:10px; background-image:url('${planView.bannerURL }');background-size: 100% 100%;">
 	<!-- 플래너 정보(공개유무, 수정버튼, 일정제목 등 UI) -->
@@ -614,14 +504,15 @@ function displayStoryView(){
 	</div>
 			<br>
 </div><br>
+</header>
+<nav>
 <!-- 플래너 입력 정보 DIV -->
 <div  style="width:100%; border-radius:10px;">
 	<!-- 좌측 정보목록 (게시자 정보, 가계부, 검색 등 )-->
 	<div  style="width:230px; border-radius:10px;float:left;">
 	
 		<!-- 게시자 정보 DIV -->
-		<div id="menu" style="background-color:#EEEEEE;height:100%;float:bottom;width:100%;border-radius:10px;">
-			
+		<div id="userInfoView">
 			<div class="profileImage">
 				<img src="${writtenUserView.profile }" style="border-radius:70px; width:100px;"/>
 			</div>
@@ -634,9 +525,8 @@ function displayStoryView(){
 		</div><br>
 		
 	 	<!-- 가계부 DIV -->
-		<div id="menu" style="background-color:#CCCCCC;height:100%;float:bottom;width:100%;border-radius:10px;">
-			
-<!-- 			가계부 그래프 -->
+		<div id="accountView">
+				<!-- 가계부 그래프 -->
 			<a href="#layer2" id="btnAccGraph" >가계부 그래프</a><br><br>
 			<div class="dim-layer">
 			    <div class="dimBg"></div>
@@ -671,76 +561,56 @@ function displayStoryView(){
 			<b>총합 : ${acc_total }</b><br>
 			<b>환율 : ${accCaledTotal }</b><br>
 			
-<div id='gcw_mainF89vAYf4k' class='gcw_mainF89vAYf4k'></div>
-	<a id='gcw_siteF89vAYf4k' href='https://freecurrencyrates.com/en/'>FreeCurrencyRates.com</a>
-	<script>
-		function reloadF89vAYf4k(){
-			var sc = document.getElementById('scF89vAYf4k');
-			
-			if (sc) {
-				sc.parentNode.removeChild(sc);
-			}
-			
-			sc = document.createElement('script');
-			sc.type = 'text/javascript';
-			sc.charset = 'UTF-8';
-			sc.async = true;
-			sc.id='scF89vAYf4k';
-			sc.src = 'https://freecurrencyrates.com/en/widget-vertical?iso=USDEURGBPJPYCNYXUL&df=2&p=F89vAYf4k&v=fits&source=fcr&width=245&width_title=0&firstrowvalue=1&thm=A6C9E2,FCFDFD,4297D7,5C9CCC,FFFFFF,C5DBEC,FCFDFD,2E6E9E,000000&title=Currency%20Converter&tzo=-540';
-			
-			var div = document.getElementById('gcw_mainF89vAYf4k');
-			div.parentNode.insertBefore(sc, div);
-			}
-			reloadF89vAYf4k();
-	</script>
-
-</div><br>
-		
-		<!-- 일정 저장 -->
-
-		<input id="planCommit" type="button" value="저장" onclick="store();" style="display:none;width:100%;">
-		
-		<!-- 검색 INPUT DIV -->
-		<div id="googleSearch" style="float:bottom;width:100%;border-radius:10px; display:none;">
-		검색 : <input id="pac-input" class="controls" type="text" placeholder="Search Box">
-		    <div id="right-panel"
-		    style="border-top:3px solid; border-bottom:3px solid; border-left:3px dashed; border-right:3px groove; padding:3px;">
-		    <ul>
-		     <li id="results" ></li>
-		     </ul>
-		    </div>
-		</div><br>
-		
+		<div id='gcw_mainF89vAYf4k' class='gcw_mainF89vAYf4k'></div>
+			<a id='gcw_siteF89vAYf4k' href='https://freecurrencyrates.com/en/'>FreeCurrencyRates.com</a>
+			<script>
+				function reloadF89vAYf4k(){
+					var sc = document.getElementById('scF89vAYf4k');
+					
+					if (sc) {
+						sc.parentNode.removeChild(sc);
+					}
+					
+					sc = document.createElement('script');
+					sc.type = 'text/javascript';
+					sc.charset = 'UTF-8';
+					sc.async = true;
+					sc.id='scF89vAYf4k';
+					sc.src = 'https://freecurrencyrates.com/en/widget-vertical?iso=USDEURGBPJPYCNYXUL&df=2&p=F89vAYf4k&v=fits&source=fcr&width=245&width_title=0&firstrowvalue=1&thm=A6C9E2,FCFDFD,4297D7,5C9CCC,FFFFFF,C5DBEC,FCFDFD,2E6E9E,000000&title=Currency%20Converter&tzo=-540';
+					
+					var div = document.getElementById('gcw_mainF89vAYf4k');
+					div.parentNode.insertBefore(sc, div);
+					}
+					reloadF89vAYf4k();
+			</script>
+		</div><br> <!-- 가게부 end -->
 	</div>
-	
+</div>
+</nav>
+<section>
 	<!-- 우측 일정 & 타임테이블정보 (지도, 일정탭 & 타임테이블탭 등 )-->
 	<div  style="width:900px; border-radius:10px;float:left;margin-left: 20px;">
-		<!-- 일정 / 스토리 탭 DIV -->
-		<ul class="tabs" id="tab-main">
+		<!-- 일정 / 스토리 탭  -->
+		<ul class="tabs" id="tab-main" >
 			<li rel="tab-ttb">일정</li>
 			<li rel="tab-story">스토리</li>
 		</ul>
-<!-- 		<div id="content" style="float:bottom;width:100%;"> -->
-<!-- 			<button id="btnPlan" style="width:447px;background-color:#ff5555;border-radius:10px;">일정</button> -->
-<!-- 			<button id="btnStory" style="width:447px;background-color:#5555ff;border-radius:10px;">스토리</button> -->
-<!-- 		</div> -->
 		
 		<div class="tab-container">
-		<div id="tab-ttb" class="tab-content tab-ttb">
-			<!-- 구글맵 DIV -->
-				<div id="map"></div>
-		 	<!-- 타임테이블 -->
-			<div id="calendar"></div>
+			<div id="tab-ttb" class="tab-content tab-ttb">
+				<!-- 구글맵 DIV -->
+					<div id="map"></div>
+			 	<!-- 타임테이블 -->
+				<div id="calendar"></div>
+		 	</div>
+		 	
+		 	<div id="tab-story" class="tab-content tab-story">
+			 	<!-- 스토리테이블 -->
+				<div id="viewStory"></div>
+		 	</div>
 	 	</div>
-	 	
-	 	<div id="tab-story" class="tab-content tab-story">
-		 	<!-- 스토리테이블 -->
-			<div id="viewStory"></div>
-	 	</div>
-	 	</div>
-		
-	</div>
-</div>
+	</div>	
+</section>
 <!-- Maps JavaScript API 로드 -->
 <script async defer
  src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAO-YMjD9aGxBW1nEzgSFdzf7Uj8E4Lm9Q&libraries=places&language=ko&callback=initMap">

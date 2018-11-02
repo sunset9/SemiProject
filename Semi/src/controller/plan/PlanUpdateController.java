@@ -47,16 +47,11 @@ public class PlanUpdateController extends HttpServlet {
 			// 플랜 정보 파라미터 받기 
 			Plan planParam = pService.getParamEdit(req);
 			
-//			req.getSession().setAttribute("plan_idx", planParam.getPlan_idx());
-			//req.setAttribute("plan_idx", planParam.getPlan_idx());
 			// 요청파라미터 -> 타임테이블, 위치정보 Map 타입
 			Map<Timetable, Location> ttbLocParam = ttbService.getParam(req);
 			
 			// 타임테이블, 위치정보 정보 업데이트
 			ttbService.update(planParam, ttbLocParam);
-			
-			// 미니뷰 정보가 있다면 업데이트
-//			sService.updateMini(req);
 			
 			// 일정 정보 업데이트
 			pService.update(planParam);
@@ -64,18 +59,18 @@ public class PlanUpdateController extends HttpServlet {
       
 			// 저장시 넘어온 파라미터 값으로
 			// 저장 후에 view / write.jsp 보내주는 곳 결정
-			boolean isWriteMode = Boolean.valueOf(req.getParameter("isSendWriteMode"));
-			if(isWriteMode) {
-//				req.getRequestDispatcher("/plan/write").forward(req, resp);
-				String url = "/plan/write";
-				String param = "";
-				if(planParam.getPlan_idx() > 0) {
-					param = "?plan_idx=" + planParam.getPlan_idx();}
-				resp.sendRedirect(url + param);	
-				
-			}else{
-				resp.sendRedirect("/plan?plan_idx="+planParam.getPlan_idx());	
-			}
+//			boolean isWriteMode = Boolean.valueOf(req.getParameter("isSendWriteMode"));
+//			if(isWriteMode) {
+////				req.getRequestDispatcher("/plan/write").forward(req, resp);
+//				String url = "/plan/write";
+//				String param = "";
+//				if(planParam.getPlan_idx() > 0) {
+//					param = "?plan_idx=" + planParam.getPlan_idx();}
+//				resp.sendRedirect(url + param);	
+//				
+//			}else{
+//				resp.sendRedirect("/plan?plan_idx="+planParam.getPlan_idx());	
+//			}
 
 		}
 }
