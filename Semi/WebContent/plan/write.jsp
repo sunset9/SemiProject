@@ -236,6 +236,7 @@ function store(beforeTtbIdx, afterTtbIdx){
 			if(!isStayWriteMode){
 				window.location = "/plan?plan_idx=" + $('input[name=plan_idx]').val();
 			}
+			isStayWriteMode = false; 
 			succ = true;
 		}
 		, error: function(){
