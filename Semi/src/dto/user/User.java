@@ -14,22 +14,16 @@ public class User implements Serializable{
 	private int sns_idx;
 	private String snsType;
 	private Date create_date;
+	private int status; //탈퇴회원 여부 -> 1:존재하는 회원, 0:탈퇴회원
 	private int totalPlanCnt; //총 게시글 개수 조회
 	private double totalDist; // 총 여행 거리
-
+	
 	@Override
 	public String toString() {
 		return "User [user_idx=" + user_idx + ", id=" + id + ", password=" + password + ", nickname=" + nickname
 				+ ", profile=" + profile + ", grade=" + grade + ", sns_idx=" + sns_idx + ", snsType=" + snsType
-				+ ", create_date=" + create_date + ", totalPlanCnt=" + totalPlanCnt + ", totalDist=" + totalDist + "]";
-	}
-
-	public String getSnsType() {
-		return snsType;
-	}
-
-	public void setSnsType(String snsType) {
-		this.snsType = snsType;
+				+ ", create_date=" + create_date + ", status=" + status + ", totalPlanCnt=" + totalPlanCnt
+				+ ", totalDist=" + totalDist + "]";
 	}
 
 	public int getUser_idx() {
@@ -88,12 +82,28 @@ public class User implements Serializable{
 		this.sns_idx = sns_idx;
 	}
 
+	public String getSnsType() {
+		return snsType;
+	}
+
+	public void setSnsType(String snsType) {
+		this.snsType = snsType;
+	}
+
 	public Date getCreate_date() {
 		return create_date;
 	}
 
 	public void setCreate_date(Date create_date) {
 		this.create_date = create_date;
+	}
+
+	public int getStatus() {
+		return status;
+	}
+
+	public void setStatus(int status) {
+		this.status = status;
 	}
 
 	public int getTotalPlanCnt() {
@@ -111,6 +121,7 @@ public class User implements Serializable{
 	public void setTotalDist(double totalDist) {
 		this.totalDist = totalDist;
 	}
+
 	
 	
 }
