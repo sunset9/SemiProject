@@ -2,7 +2,7 @@ package service.bookmark;
 
 import dao.bookmark.BookmarkDao;
 import dao.bookmark.BookmarkDaoImpl;
-import dto.bookmark.Bookmark;
+import dto.user.Bookmark;
 import dto.plan.Plan;
 
 public class BookmarkServiceImpl implements BookmarkService{

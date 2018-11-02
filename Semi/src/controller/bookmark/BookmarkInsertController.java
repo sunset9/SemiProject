@@ -7,9 +7,12 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
-import dto.bookmark.Bookmark;
+
+import dto.user.Bookmark;
 import dto.plan.Plan;
+import dto.user.Bookmark;
 import service.bookmark.BookmarkService;
 import service.bookmark.BookmarkServiceImpl;
 import service.plan.PlanService;
@@ -24,6 +27,7 @@ public class BookmarkInsertController extends HttpServlet {
 
 	PlanService pService = new PlanServiceImpl();
 	BookmarkService bService = new BookmarkServiceImpl();
+	
 
 	@Override
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -33,12 +37,16 @@ public class BookmarkInsertController extends HttpServlet {
 		
 		// 플랜 정보 파라미터 받기 
 		Plan planParam = pService.getParam(req);
+					
+		HttpSession session = req.getSession();
+		
+		//유저 객체로 넘기기
+		int user_idx = 	(int)session.getAttribute("user_idx");
 		
 		Plan planView = pService.getPlanInfo(planParam);
-		System.out.println(planParam);
 		
 		int user_idx = (int)req.getSession().getAttribute("user_idx");
-		
+	
 		bService.insertBookmark(planView, user_idx);
 		
 		Bookmark book = bService.getBookmarkInfo(planParam);

@@ -399,6 +399,11 @@ public class InquiryServiceImpl implements InquiryService {
 		replyDao.answerUpdate(reply);
 	}
 
+	@Override
+	public List<Inquiry> getPagingMyList(Paging paging) {
+		return inquiryDao.selectPagingMyList(paging);
+	}
+
 
 
 

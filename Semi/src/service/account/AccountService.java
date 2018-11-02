@@ -14,6 +14,7 @@ public interface AccountService {
 	
 		// 스토리당 가계부 모두 불러오기
 		public List<Account> getStoryAccountList(Story story);
+		
 		// 플랜당 가계부 모두 불러오기
 		public List<Account> getPlanAccountList(Plan plan);
 	
@@ -23,10 +24,13 @@ public interface AccountService {
 		//저장하기
 		public void Write(Account account);
 		
+		//업데이트하기
 		public void Update(Account account);
 		
+		//삭제하기
 		public void delete(Account account);
 		
+		//비용 환율 적용해서 계산하기
 		public double calcCost(int currSymbol, double Orgin_cost, double USD_rate, double KRW_rate, double JPY_rate);
 		
 		//미니뷰 account 저장

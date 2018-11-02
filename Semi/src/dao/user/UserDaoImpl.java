@@ -106,6 +106,7 @@ public class UserDaoImpl implements UserDao{
 				user.setGrade(rs.getString("grade"));
 				user.setSns_idx(rs.getInt("sns_idx"));
 				user.setCreate_date(rs.getDate("create_date"));
+				user.setStatus(rs.getInt("status"));
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -127,15 +128,15 @@ public class UserDaoImpl implements UserDao{
 		System.out.println("userDao "+user);
 		String sql = "";
 
-		sql += "INSERT INTO userinfo(user_idx, id, password, nickname, profile, grade, sns_idx, create_date)";
+		sql += "INSERT INTO userinfo(user_idx, id, password, nickname, profile, grade, sns_idx, create_date, status)";
 		if(user.getSns_idx() == 1) {
-			sql += " VALUES(userinfo_seq.nextval, ?, ?, ?, ?, '여행자', 1, sysdate)"; 
+			sql += " VALUES(userinfo_seq.nextval, ?, ?, ?, ?, '여행자', 1, sysdate, 1)"; 
 		} else if(user.getSns_idx() == 4) {
-			sql += " VALUES(userinfo_seq.nextval, ?, ?, ?, ?, '여행자', 4, sysdate)";
+			sql += " VALUES(userinfo_seq.nextval, ?, ?, ?, ?, '여행자', 4, sysdate, 1)";
 		} else if(user.getSns_idx() == 3) {
-			sql += " VALUES(userinfo_seq.nextval, ?, ?, ?, ?, '여행자', 3, sysdate)";
+			sql += " VALUES(userinfo_seq.nextval, ?, ?, ?, ?, '여행자', 3, sysdate, 1)";
 		} else if(user.getSns_idx() == 2) {
-			sql += " VALUES(userinfo_seq.nextval, ?, ?, ?, ?, '여행자', 2, sysdate)";
+			sql += " VALUES(userinfo_seq.nextval, ?, ?, ?, ?, '여행자', 2, sysdate, 1)";
 		}
 
 		//sql += " VALUES(userinfo_seq.nextval, ?, ?, ?, ?, '여행자', "+user.getSns_idx()+", sysdate)";
@@ -150,7 +151,7 @@ public class UserDaoImpl implements UserDao{
 			ps.setString(2, user.getPassword());
 			ps.setString(3, user.getNickname());
 			if(user.getSns_idx() == 1) {
-				ps.setString(4, "/image/basicProfile.png");
+				ps.setString(4, "/upload/user/basicProfile.png");
 			} else {
 				ps.setString(4, user.getProfile());
 			}
@@ -176,22 +177,22 @@ public class UserDaoImpl implements UserDao{
 		
 	}
 
-	//id로 조회 후 회원탈퇴처리
+	//회원탈퇴처리
+	//STATUS = 0 : 탈퇴회원
 	@Override
 	public int delete(User user) {
-//		String sql = "";
-//		sql += "DELETE userinfo";
-//		sql += " WHERE id = ?";
+		
 		String sql = "";
-		sql += "DELETE userinfo";
-		sql += " WHERE user_idx = ?";
+		sql += "UPDATE userinfo SET id = null, "
+				+ "PROFILE = '/upload/user/basicProfile.png', "
+				+ "status = 0 "
+				+ "where user_idx = ?";
 		
 		PreparedStatement ps = null;
 		int rs = 0;
 		try {
 			ps = conn.prepareStatement(sql);
 			ps.setInt(1, user.getUser_idx());
-//			System.out.println("dao delete() : "+user.getId());
 			rs = ps.executeUpdate();
 			
 			conn.commit();
@@ -312,7 +313,7 @@ public class UserDaoImpl implements UserDao{
 				user.setGrade(rs.getString("gread"));
 				user.setSns_idx(rs.getInt("sns_idx"));
 				user.setCreate_date(rs.getDate("create_date"));
-				
+				user.setStatus(rs.getInt("status"));
 				userList.add(user);
 				
 			}
@@ -509,12 +510,14 @@ public class UserDaoImpl implements UserDao{
 	public List<Bookmark> getBookmarkList(User user) {
 //		System.out.println("userDao getbList 유저 넘어왔나? : "+user); -> OK
 		String sql = "";
-		sql += "SELECT P.TITLE, P.BANNERURL";
-		sql += " FROM USERINFO U JOIN BOOKMARK B";
-		sql += " ON U.USER_IDX = B.USER_IDX";
-		sql += " JOIN PLANNER P";
-		sql += " ON B.PLAN_IDX = P.PLAN_IDX";
-		sql += " WHERE U.USER_IDX = ?";
+		sql += "SELECT B.book_idx, P.TITLE, P.BANNERURL, P.plan_idx, B.user_idx, U.nickname" ;
+		sql +=		"        FROM BOOKMARK B"  ;
+		sql +=		"        INNER JOIN PLANNER P" ; 
+		sql +=		"        ON B.PLAN_IDX = P.PLAN_IDX" ; 
+		sql +=		"        INNER JOiN USERINFO U" ; 
+		sql +=		"        ON P.user_idx = U.user_idx" ; 
+		sql +=		"    WHERE B.USER_IDX =? ";
+	
 		
 		//DB 객체
 		PreparedStatement ps = null;
@@ -530,12 +533,16 @@ public class UserDaoImpl implements UserDao{
 			list = new ArrayList<>();
 
 			while (rs.next()) {
-				Bookmark bMark = new Bookmark();
+				Bookmark b = new Bookmark();
 				
-				bMark.setTitle(rs.getString("TITLE"));
-				bMark.setBannerURL(rs.getString("BANNERURL"));
+				b.setBook_idx(rs.getInt("book_idx"));
+				b.setPlan_idx(rs.getInt("plan_idx"));
+				b.setUser_idx(rs.getInt("user_idx"));
+				b.setWriteNick(rs.getString("nickname"));
+				b.setTitle(rs.getString("TITLE"));
+				b.setBannerURL(rs.getString("BANNERURL"));
 				
-				list.add(bMark);
+				list.add(b);
 			}
 			
 		} catch (SQLException e) {
@@ -664,7 +671,6 @@ public class UserDaoImpl implements UserDao{
 				user.setGrade(rs.getString("grade"));
 				user.setSns_idx(rs.getInt("sns_idx"));
 				user.setCreate_date(rs.getDate("create_date"));
-				
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -817,7 +823,8 @@ public class UserDaoImpl implements UserDao{
 				u.setGrade(rs.getString("grade"));
 				u.setCreate_date(rs.getDate("create_date"));
 				u.setProfile(rs.getString("profile"));
-				
+				u.setStatus(rs.getInt("status"));
+			
 				list.add(u);
 			}
 		} catch (SQLException e) {

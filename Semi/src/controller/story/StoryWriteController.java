@@ -48,10 +48,12 @@ public class StoryWriteController extends HttpServlet {
 		
 		req.setAttribute("plan_idx", story.getPlan_idx());
 		
-		double USD_rate = Float.parseFloat(req.getParameter("USD_rate"));
-		double KRW_rate = Float.parseFloat(req.getParameter("KRW_rate"));
-		double JPY_rate = Float.parseFloat(req.getParameter("JPY_rate"));
+		//환율정보가져오기
+		double USD_rate = Double.parseDouble(req.getParameter("USD_rate"));
+		double KRW_rate = Double.parseDouble(req.getParameter("KRW_rate"));
+		double JPY_rate = Double.parseDouble(req.getParameter("JPY_rate"));
 		
+		//가계부정보가져오기
 		String[] accType = req.getParameterValues("accType");
 		String[] currSymbol = req.getParameterValues("currSymbol");
 		String[] cost = req.getParameterValues("cost");
@@ -67,6 +69,7 @@ public class StoryWriteController extends HttpServlet {
 				
 				account.setCategory(Integer.parseInt(accType[i]));
 				account.setCurr_idx(Integer.parseInt(currSymbol[i]));
+				//cost 콤마제거
 				cost[i]=cost[i].replaceAll(",", "");
 				account.setOrigin_cost(Double.parseDouble(cost[i]));
 				account.setPlan_idx(story.getPlan_idx());
@@ -82,7 +85,7 @@ public class StoryWriteController extends HttpServlet {
 		}
 		
 		
-		//--------------
+		//스토리다시뿌려주기
 		
 		List<Story> StoryList = new ArrayList<>();
 		
@@ -123,7 +126,7 @@ public class StoryWriteController extends HttpServlet {
 		List<Account> accountList = aService.getPlanAccountList(plan);
 		
 		req.setAttribute("accountList",accountList );
-		
+		req.getSession().getAttribute("user");
 		req.setAttribute("ttbList", ttbList);
 		req.setAttribute("diffDays",diffDays);
 		req.setAttribute("storyList", StoryList);

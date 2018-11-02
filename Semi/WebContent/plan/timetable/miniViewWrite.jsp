@@ -10,7 +10,33 @@
 
 
 <style>
+#miniModalBody{
+	padding: 30px;
+}
+.modal-open {
+    overflow-y: scroll; 
+}
 
+#miniModalImg{
+	width: 280px;
+	height: 150px;
+}
+
+#miniModalPlace{
+	font-weight: bold;
+	width: 40%;
+}
+
+#miniModalContent{
+	border: 1px solid gray;
+	overflow-y: auto; 
+	height: 230px;
+	margin-top: 15px;
+}
+
+#miniModalAccount{
+	margin-top: 15px;
+}
 </style>
 </head>
 <body>
@@ -21,22 +47,21 @@
     <div class="modal-content">
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-        <h4 class="modal-title">Modal title</h4>
+        <h4 id="miniModalTitle">Modal title</h4>
       </div>
       
-      <div class="modal-body">
+      <div class="modal-body" id= "miniModalBody">
 		<!-- div (팝업으로 띄어줄) 본문 내용 -->	
-		<div style="border: 1px solid #9AA3E6; height: auto;" >
 			<input type='hidden' name='plan_idx' value='${planView.plan_idx}'> <!-- 스토리 -->
 			<input type='hidden' name='JSON'> <!-- 스토리 -->
 			<input type='hidden' name='ttbJson'> <!-- 해당 타임테이블 -->
 			<input type='hidden' name='events'> <!-- 전체 타임테이블 -->
 			<table style="width: 100%;">
 			<tr>
-				<td rowspan="2" style="padding: 10px 15px; width: 60%;">
-				<img class="miniImg" width="280" height="150" alt=""/>
+				<td rowspan="2">
+				<img id="miniModalImg" alt=""/>
 				</td>
-				<td class="miniTitle" style="font-weight: bold; width: 40%;"><hr></td>
+				<td id="miniModalPlace"><hr></td>
 			</tr>	
 			<tr>
 				<td>
@@ -44,19 +69,14 @@
 				</td>
 			</tr>
 			</table>
-<!-- 			<tr> -->
-<!-- 			<td> -->
-<!-- 			오락 | USD 50000 -->
-<!-- 			</td> -->
-<!-- 			</tr> -->
 			<table style="width: 100%;">
 				<tr>
-					<td colspan="2" style="padding: 15px">
-						<div class="storyContent" style="height: 230px;"></div>
+					<td colspan="2">
+						<div id="miniModalContent"></div>
 					</td>
 				</tr>
 			</table>
-			<div id ="min_accountViewList">
+			<div id ="miniModalAccount">
 					<div id = "min_accountView" name = "min_accountViewName">
 						<table style="width: 100%;">
 							<tr>	
@@ -80,8 +100,7 @@
 								</select>
 								</td>
 								<td>
-<!-- 								<input type="text" size="48" name = "cost" class="cost" onkeyup="inputNumberFormat(this)" style = "text-align:right;"/> -->
-								<input type="text" size="48" name = "min_cost" class="min_cost" onkeypress="Numberchk()" onkeyup="vComma(this)" style = "text-align:right;"/>
+									<input type="text" size="48" name = "min_cost" class="min_cost" onkeypress="Numberchk()" onkeyup="vComma(this)" style = "text-align:right;"/>
 								</td>
 								<td>
 									<span class="glyphicon glyphicon-plus 	accountPlus" onclick = "miniAppendAccount()"></span>
@@ -92,9 +111,8 @@
 							</tr>
 						</table>
 					</div>
-				</div>
 	
-			</div>
+			</div> <!-- miniModalAccount end -->
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-default" data-dismiss="modal">닫기</button>
@@ -114,13 +132,10 @@ $("#btnMiniWriteSave").on("click", function(){
 	// submit 할 객체들 json형태로 받기
 	var ttbJson = JSON.parse($('input[name=ttbJson]').val());
 	var storyJson = JSON.parse($('input[name=JSON]').val());
-	storyJson.content = $('.storyContent').froalaEditor('html.get'); // story json형태에 스토리 내용도 추가(plan_idx,ttb_idx만 존재)
+	storyJson.content = $('#miniModalContent').froalaEditor('html.get'); // story json형태에 스토리 내용도 추가(plan_idx,ttb_idx만 존재)
 	
 	// json -> string
 	var storyJsonStr = JSON.stringify(storyJson);
-	
-	// <input태그 value에 값 넣어줌
-	$('input[name=JSON]').val(storyJsonStr);
 	
 	//account 내용
 	var accTypeLen = $("select[name='min_accType']").length;
@@ -144,7 +159,7 @@ $("#btnMiniWriteSave").on("click", function(){
 		, data: {
 			plan_idx: plan_idx
 			, JSON: storyJsonStr
-			, ttbJson: $('input[name=ttbJson]').val()
+			, ttbJson: JSON.stringify(ttbJson)
 			, "accType": accType
 			, "currSymbol" :currSymbol
 			, "cost":cost
@@ -168,7 +183,7 @@ $("#btnMiniWriteSave").on("click", function(){
 $(function() {
 $.FroalaEditor.COMMANDS.imageAlign.options.justify = 'Center';
 
-$('.storyContent').froalaEditor({
+$('#miniModalContent').froalaEditor({
     // Set the image upload URL.
     enter: $.FroalaEditor.ENTER_DIV,
     charCounterCount: false,
@@ -215,35 +230,44 @@ $('.storyContent').froalaEditor({
 </script> 
 
 <script type="text/javascript">
-	var cnt = 0;	
+	
+	var cnt = 0; //가계부 5개까지만 추가 하기 위한 count
 	//가계부 추가
 	function miniAppendAccount() {
-		
 		if (cnt < 4){
-		
-		var accountView = $("#min_accountView").clone();
- 		$("#min_accountViewList").append(accountView);
- 		
-		cnt = cnt+1;
-		
-		var size = document.getElementsByName("min_accountViewName").length;
+			var accountView = $("#min_accountView").clone();
+ 			$("#min_accountViewList").append(accountView);
+ 			
+ 			//cnt 증가
+			cnt = cnt+1;
 
-		for(var i = 0; i < size; i++){
-	        var obj = document.getElementsByName("min_accountViewName")[i];
-	        
-	        $(obj).find(".accountPlus").css("display","none");
-	        $(obj).find(".accountRemove").css("display","block");
-	        
-	        if (i == size-1){
-			    $(obj).find(".accountPlus").css("display","block");
-	        	$(obj).find(".min_cost").val("");
-	        	$(obj).find(".min_accType").val(1);
-	        	$(obj).find(".min_currSymbol").val(1);
-	        }
-	        
-	        if (size == 5 && i == size-1){
-		    	 $(obj).find(".accountPlus").css("display","none");
-	        }
+ 			//현재까지 추가된 가계부 갯수 
+			var size = document.getElementsByName("min_accountViewName").length;
+
+			for(var i = 0; i < size; i++){
+		        var obj = document.getElementsByName("min_accountViewName")[i];
+		        
+		        // + 버튼 안보여주기
+		        // - 버튼 보여주기
+		        $(obj).find(".accountPlus").css("display","none");
+		        $(obj).find(".accountRemove").css("display","block");
+		        
+		        // i == size-1 (현재 추가된 가계부중 마지막의 가계부일때)
+		        if (i == size-1){
+		        	//+버튼 보여주기
+				    $(obj).find(".accountPlus").css("display","block");
+		        	
+		        	//비용,가계부타입, 환율코드 초기화
+		        	$(obj).find(".min_cost").val("");
+		        	$(obj).find(".min_accType").val(1);
+		        	$(obj).find(".min_currSymbol").val(1);
+		        }
+		        
+		        //현재 추가된 가계부중 마지막 이면서 총 갯수가 5일때
+		        if (size == 5 && i == size-1){
+		        	//+ 버튼 안보여주기
+			    	 $(obj).find(".accountPlus").css("display","none");
+		        }
 		 }
 	
 	}
@@ -252,30 +276,41 @@ $('.storyContent').froalaEditor({
 	//가계부 삭제
 	function miniRemoveAccount() {
 		
-		var removeObj = window.event.target.parentElement.parentElement.parentElement.parentElement.parentElement;
-		
+		var removeObj = window.event.target.parentElement.parentElement.parentElement.parentElement.parentElement; //가계부 div 객체
+		//가계부 div 삭제
 		removeObj.remove();	
 		
+		//가계부 5개까지만 추가 하기 위한 count 감소
 		cnt = cnt-1;
 		
+		//var removeObj 라고 메모리에 할당되어있으면 완벽하게 삭제가 되지 않음
+		//메모리에서도 가계부 div를 삭제 시켜줌
 		delete removeObj;
 		
+		//삭제되고 남은 가계부 총 개수
 		var size = document.getElementsByName("min_accountViewName").length;
 		
 		for(var i = 0; i < size; i++){
 	        var obj = document.getElementsByName("min_accountViewName")[i];
 	        
+	        //삭제하고 남은 가계부의 개수가 1개일때
 	        if (size == 1){
+	        	// - 버튼 안보여주기
 	        	$(obj).find(".accountRemove").css("display","none");
 	        }
 	        
+	        // + 버튼 안보여주기
 	        $(obj).find(".accountPlus").css("display","none");
 	        
+	        // 현재 가계부가 마지막 가계부일때
 	        if (i == size-1){
+	        	//+버튼 보여주기
 			     $(obj).find(".accountPlus").css("display","block");
 	        }
 	        
+	        //현재 가계부가 마지막 이면서 총 갯수가 5일때
 	        if (size == 5 && i == size-1){
+	        	//+ 버튼 안보여주기
 		    	 $(obj).find(".accountPlus").css("display","none");
 	        }
 		}
@@ -303,6 +338,8 @@ $('.storyContent').froalaEditor({
         	$(obj1).find(".min_currSymbol").val(1);
 			$(obj1).find(".min_cost").val("");
 			
+			//+버튼 보여주기
+			//-버튼 안보여주기
 			$(obj1).find(".accountPlus").css("display","block");
 	        $(obj1).find(".accountRemove").css("display","none");
 	        

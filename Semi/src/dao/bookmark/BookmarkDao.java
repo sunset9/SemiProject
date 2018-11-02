@@ -1,6 +1,6 @@
 package dao.bookmark;
 
-import dto.bookmark.Bookmark;
+import dto.user.Bookmark;
 import dto.plan.Plan;
 
 public interface BookmarkDao {

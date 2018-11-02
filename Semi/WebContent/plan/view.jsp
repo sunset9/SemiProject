@@ -106,6 +106,12 @@
 	  color: #fff;
 	}
 	
+	/* 수정 모드로 버튼*/
+	#planWriteModeBtn{
+		margin-bottom: 5px;
+		background: #eee;
+	}
+	
 </style>
 
 <script>
@@ -158,11 +164,10 @@ $(document).ready(function() {
 	
 
 	$("#btnModify").click(function() {
-		isModify = 1;
+		// 탭 유지하면서 화면 전환
 		setCookie("isCookieTabClear", "false");
 		
 		$("#Modify").submit();
-		console.log("view.jsp isModify : " + isModify);
 	});
 
 	// 	수정모드일 때, 공개유무버튼
@@ -432,7 +437,6 @@ $(document).ready(function() {
 	}); // tab on click 이벤트 설정
 	
 }); // $(document).ready() End
-	
 
 //스토리 뷰 ajax통신으로 띄워주기
 function displayStoryView(){
@@ -451,17 +455,81 @@ function displayStoryView(){
 	});
 }	
 
+function viewMini(event){
+	// ajax로 story 정보 가져옴 (content 정보)
+	$.ajax({
+		url: "/story/mini/view"
+		, type: "GET"
+		, data: {
+			JSON: JSON.stringify({
+					plan_idx: plan_idx
+					, ttb_idx: event.id
+				})
+		}
+		, dataType: "json"
+		, success: function(obj){
+			
+			var story = JSON.parse(obj.story);
+			var accountList = JSON.parse(obj.accountList);
+			
+//			console.log(story);
+//			console.log(accountList);
+			
+			// miniView modal에 값 채워줌
+			$("#miniModalTitle").text(event.title); // 타이틀 = 장소이름
+			$("#miniModalPlace").text(event.title); // 장소 이름
+			$("#miniModalAddress").text(event.address);  // 주소
+			$("#miniModalImg").attr("src", event.photo_url); // 이미지
+			
+			$("#miniModalContent").html(story.content); // 스토리 내용
+			var obj = document.getElementById("miniModalAccount");
+			
+			for (var i=0; i<accountList.length;i++){
+				var append = $( 
+						'<tr name="account"> <td style="padding-right: 15px" colspan="2"> <font size="2">'
+						+ accountList[i].category_name
+						+' | '
+						+ accountList[i].curr_idx_name
+						+' '
+						+ accountList[i].origin_cost
+						+'</font></td></tr>' 
+						);
+				$(obj).append(append);
+			}
+			if(accountList.length == 0){
+				var append = $('<tr name ="account"> <td style="padding-right: 15px" colspan="2"> <font size="2"> 총액 | KRW 0원 </font></td></tr>');
+				
+				$(obj).append(append);
+			}
+	
+			// 모달 창 닫힌 경우
+			$("#miniViewModal").on('hidden.bs.modal', function () {
+				// 기존 스토리내용 삭제
+				$(this).find($("#miniModalContent")).html('');
+			});
+		}
+		, error: function(){
+			console.log("Mini-view Ajax 통신 실패");
+		}
+	}); // ajax end
+}
+
+function changeViewMode(){
+	// 탭 유지하면서 화면 전환
+	setCookie("isCookieTabClear", "false");
+	
+	$("#Modify").submit();
+}
 </script>
 
+<!-- 일정 기본 정보 -->
 <header>
 <!-- 플래너 배너 -->
-<div  id="container" style="width:100%; height:400px; border-radius:10px; background-image:url('${planView.bannerURL }');background-size: 100% 100%;">
-	<!-- 플래너 정보(공개유무, 수정버튼, 일정제목 등 UI) -->
+<div id="planInfoHeader" style="background-image:url('${planView.bannerURL }');">
+	<!-- 플래너 대문 정보(공개유무, 수정버튼, 일정제목 등 UI) -->
 		
-<!-- 		게시자와 열람자가 같은 유저면 수정버튼을 -->
+	<!-- 게시자와 열람자가 같은 유저면 수정버튼을 -->
 	<c:if test="${writtenUserView.user_idx eq loginedUserView.user_idx}">
-	    <!-- <input id="btnModify" type="button" value="수정" style="float:right;"
-	    onClick="location.href='/plan/write'"> -->
 	    <form action="/plan/write" method="post" id="Modify">
 	    	<input type="hidden" name="plan_idx" value="${planView.plan_idx}" />
 			<input type="hidden" name="user_idx" value="${planView.user_idx}" />
@@ -473,7 +541,7 @@ function displayStoryView(){
 	    	<input id="btnModify" type="button" value="수정" style="float:right;">
 	    </form>
 	</c:if>
-<!-- 		다르면 북마크 버튼을 보여준다 -->
+	<!-- 다르면 북마크 버튼을 보여준다 -->
 	<c:if test="${writtenUserView.user_idx ne loginedUserView.user_idx}">
 		
 		<c:if test="${bookmark.user_idx ne loginedUserView.user_idx}">
@@ -505,112 +573,115 @@ function displayStoryView(){
 			<br>
 </div><br>
 </header>
-<nav>
-<!-- 플래너 입력 정보 DIV -->
-<div  style="width:100%; border-radius:10px;">
-	<!-- 좌측 정보목록 (게시자 정보, 가계부, 검색 등 )-->
-	<div  style="width:230px; border-radius:10px;float:left;">
-	
-		<!-- 게시자 정보 DIV -->
-		<div id="userInfoView">
-			<div class="profileImage">
-				<img src="${writtenUserView.profile }" style="border-radius:70px; width:100px;"/>
-			</div>
-			
-			<br>
-			<b>${writtenUserView.nickname }</b>님 <br>
-			포스팅 : <b>${writtenUserView.totalPlanCnt }</b>개 <br>
-			등급 : <b>${writtenUserView.grade }</b><br>
-			<b><fmt:formatNumber value='${writtenUserView.totalDist }' pattern="0.##"/></b> km<br>
-		</div><br>
-		
-	 	<!-- 가계부 DIV -->
-		<div id="accountView">
-				<!-- 가계부 그래프 -->
-			<a href="#layer2" id="btnAccGraph" >가계부 그래프</a><br><br>
-			<div class="dim-layer">
-			    <div class="dimBg"></div>
-			    <div id="layer2" class="pop-layer">
-			        <div class="pop-container">
-			            <div class="pop-conts">
-			                <div>
-			                	<button id="totalGraph">전체</button> <button id="dailyGraph">일일</button>
-			                </div>
-			                <div id="idTotal">
-		                		<div id="total"></div>
-		                	</div>
-		                	<div id="idDaily">
-		                		<div id='daily'></div>
-		                	</div>
-			                <div class="btn-r">
-			                    <a href="#" class="btn-layerClose">X</a>
-			                </div>
-			            </div>
-			        </div>
-			    </div>
-			</div>
 
-			항공료 : ${airfare }<br> 
-			교통 : ${traffic }<br>
-			숙박 : ${stay }<br>
-			입장료 : ${admission }<br>
-			음식 : ${food }<br>
-			오락 : ${play }<br>
-			쇼핑 : ${shop }<br>
-			기타 : ${etc }<br><br>
-			<b>총합 : ${acc_total }</b><br>
-			<b>환율 : ${accCaledTotal }</b><br>
-			
-		<div id='gcw_mainF89vAYf4k' class='gcw_mainF89vAYf4k'></div>
-			<a id='gcw_siteF89vAYf4k' href='https://freecurrencyrates.com/en/'>FreeCurrencyRates.com</a>
-			<script>
-				function reloadF89vAYf4k(){
-					var sc = document.getElementById('scF89vAYf4k');
-					
-					if (sc) {
-						sc.parentNode.removeChild(sc);
-					}
-					
-					sc = document.createElement('script');
-					sc.type = 'text/javascript';
-					sc.charset = 'UTF-8';
-					sc.async = true;
-					sc.id='scF89vAYf4k';
-					sc.src = 'https://freecurrencyrates.com/en/widget-vertical?iso=USDEURGBPJPYCNYXUL&df=2&p=F89vAYf4k&v=fits&source=fcr&width=245&width_title=0&firstrowvalue=1&thm=A6C9E2,FCFDFD,4297D7,5C9CCC,FFFFFF,C5DBEC,FCFDFD,2E6E9E,000000&title=Currency%20Converter&tzo=-540';
-					
-					var div = document.getElementById('gcw_mainF89vAYf4k');
-					div.parentNode.insertBefore(sc, div);
-					}
-					reloadF89vAYf4k();
-			</script>
-		</div><br> <!-- 가게부 end -->
-	</div>
+<!-- 좌측 정보목록 (게시자 정보, 가계부, 검색 등 )-->
+<nav>
+<div id="planInfoNav">
+	<!-- 게시자 정보 DIV -->
+	<div id="userInfoView">
+		<div class="profileImage">
+			<img id="userInfoProfileImg" src="${writtenUserView.profile }"/>
+		</div>
+		
+		<br>
+		<b>${writtenUserView.nickname }</b>님 <br>
+		포스팅 : <b>${writtenUserView.totalPlanCnt }</b>개 <br>
+		등급 : <b>${writtenUserView.grade }</b><br>
+		<b><fmt:formatNumber value='${writtenUserView.totalDist }' pattern="0.##"/></b> km<br>
+	</div><br>
+	
+ 	<!-- 가계부 DIV -->
+	<div id="accountView">
+			<!-- 가계부 그래프 -->
+		<a href="#layer2" id="btnAccGraph" >가계부 그래프</a><br><br>
+		<div class="dim-layer">
+		    <div class="dimBg"></div>
+		    <div id="layer2" class="pop-layer">
+		        <div class="pop-container">
+		            <div class="pop-conts">
+		                <div>
+		                	<button id="totalGraph">전체</button> <button id="dailyGraph">일일</button>
+		                </div>
+		                <div id="idTotal">
+	                		<div id="total"></div>
+	                	</div>
+	                	<div id="idDaily">
+	                		<div id='daily'></div>
+	                	</div>
+		                <div class="btn-r">
+		                    <a href="#" class="btn-layerClose">X</a>
+		                </div>
+		            </div>
+		        </div>
+		    </div>
+		</div>
+
+		항공료 : ${airfare }<br> 
+		교통 : ${traffic }<br>
+		숙박 : ${stay }<br>
+		입장료 : ${admission }<br>
+		음식 : ${food }<br>
+		오락 : ${play }<br>
+		쇼핑 : ${shop }<br>
+		기타 : ${etc }<br><br>
+		<b>총합 : ${acc_total }</b><br>
+		<b>환율 : ${accCaledTotal }</b><br>
+	
+	<div id='gcw_mainF89vAYf4k' class='gcw_mainF89vAYf4k'></div>
+		<a id='gcw_siteF89vAYf4k' href='https://freecurrencyrates.com/en/'>FreeCurrencyRates.com</a>
+		<script>
+			function reloadF89vAYf4k(){
+				var sc = document.getElementById('scF89vAYf4k');
+				
+				if (sc) {
+					sc.parentNode.removeChild(sc);
+				}
+				
+				sc = document.createElement('script');
+				sc.type = 'text/javascript';
+				sc.charset = 'UTF-8';
+				sc.async = true;
+				sc.id='scF89vAYf4k';
+				sc.src = 'https://freecurrencyrates.com/en/widget-vertical?iso=USDEURGBPJPYCNYXUL&df=2&p=F89vAYf4k&v=fits&source=fcr&width=245&width_title=0&firstrowvalue=1&thm=A6C9E2,FCFDFD,4297D7,5C9CCC,FFFFFF,C5DBEC,FCFDFD,2E6E9E,000000&title=Currency%20Converter&tzo=-540';
+				
+				var div = document.getElementById('gcw_mainF89vAYf4k');
+				div.parentNode.insertBefore(sc, div);
+				}
+				reloadF89vAYf4k();
+		</script>
+	</div><br> <!-- 가게부 end -->
+	
+	<!-- 일정 수정 모드-->
+	<button id="planWriteModeBtn" onclick="changeViewMode()" style="width:100%;">수정 모드로</button>
+	
 </div>
 </nav>
+
+<!-- 우측 일정 & 타임테이블정보 (지도, 일정탭 & 타임테이블탭 등 )-->
 <section>
-	<!-- 우측 일정 & 타임테이블정보 (지도, 일정탭 & 타임테이블탭 등 )-->
-	<div  style="width:900px; border-radius:10px;float:left;margin-left: 20px;">
-		<!-- 일정 / 스토리 탭  -->
-		<ul class="tabs" id="tab-main" >
-			<li rel="tab-ttb">일정</li>
-			<li rel="tab-story">스토리</li>
-		</ul>
-		
-		<div class="tab-container">
-			<div id="tab-ttb" class="tab-content tab-ttb">
-				<!-- 구글맵 DIV -->
-					<div id="map"></div>
-			 	<!-- 타임테이블 -->
-				<div id="calendar"></div>
-		 	</div>
-		 	
-		 	<div id="tab-story" class="tab-content tab-story">
-			 	<!-- 스토리테이블 -->
-				<div id="viewStory"></div>
-		 	</div>
+<div id="planMainSection" >
+	<!-- 일정 / 스토리 탭  -->
+	<ul id="tab-main" >
+		<li rel="tab-ttb">일정</li>
+		<li rel="tab-story">스토리</li>
+	</ul>
+	
+	<div class="tab-container">
+		<div id="tab-ttb" class="tab-content tab-ttb">
+			<!-- 구글맵 DIV -->
+			<div id="map"></div>
+		 	<!-- 타임테이블 -->
+			<div id="calendar"></div>
 	 	</div>
-	</div>	
+	 	
+	 	<div id="tab-story" class="tab-content tab-story">
+		 	<!-- 스토리테이블 -->
+			<div id="viewStory"></div>
+	 	</div>
+ 	</div>
+</div>	
 </section>
+
 <!-- Maps JavaScript API 로드 -->
 <script async defer
  src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAO-YMjD9aGxBW1nEzgSFdzf7Uj8E4Lm9Q&libraries=places&language=ko&callback=initMap">

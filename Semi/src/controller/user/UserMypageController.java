@@ -9,11 +9,15 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import dto.board.Inquiry;
 import dto.plan.Plan;
 import dto.user.Bookmark;
 import dto.user.User;
+import service.board.InquiryService;
+import service.board.InquiryServiceImpl;
 import service.user.UserService;
 import service.user.UserServiceImpl;
+import utils.Paging;
 
 /**
  * Servlet implementation class UserUpdateController
@@ -23,6 +27,7 @@ public class UserMypageController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
 	UserService userService = new UserServiceImpl();
+	InquiryService inqService = new InquiryServiceImpl();
 	
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -57,6 +62,32 @@ public class UserMypageController extends HttpServlet {
 			req.setAttribute("bookMarkList", bookMarkList);
 			//System.out.println("mypagecontroller bList 잘 가져왔나 : "+bookMarkList); --> OK
 			
+//---------------------------------------------------------------------------------------------------
+			
+			// 현재 페이지 번호 얻기 
+			int curPage = inqService.getCurPage(req);
+			
+			//검색어 얻기 
+			String search = null;
+			
+			// 전체 게시물 수 얻기 
+			int totalCount = inqService.getTotalCount(search);
+					
+			// 페이징 객체 생성
+			Paging paging = new Paging (totalCount, curPage);
+			
+			// 페이징 객체에 검색어 적용 
+			paging.setSearch(search);
+			
+			// 내가 문의한 게시물 불러오기 
+			List<Inquiry> inqList = inqService.getPagingMyList(paging);
+			
+			req.setAttribute("inqList", inqList);
+			
+			// 페이징 객체 요청에 담기 
+			req.setAttribute("paging", paging);
+			
+			
 		} else if(cUser == null) {
 			System.out.println("소셜 로그인 유저");
 			
@@ -84,6 +115,11 @@ public class UserMypageController extends HttpServlet {
 			//bookMarkList
 			req.setAttribute("bookMarkList", bookMarkList);
 			//System.out.println("mypagecontroller bList 잘 가져왔나 : "+bookMarkList); --> OK
+			
+			// 내가 한 문의사항 가져오기
+			
+			
+			
 		}
 		
 		//정보수정페이지(마이페이지)로 이동

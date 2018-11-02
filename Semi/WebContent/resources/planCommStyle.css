@@ -1,19 +1,64 @@
 @charset "UTF-8";
 
+/* 플래너 대문 정보*/
+#planInfoHeader {
+	width: 100%;
+	height: 400px;
+	border-radius: 10px;
+	background-size: 100% 100%;
+}
+
+/* 좌측 정보목록*/
+#planInfoNav {
+	width: 230px; 
+	border-radius: 10px; 
+	float: left;
+}
+
+/* 유저 정보*/
+#userInfoView {
+	background-color: #EEEEEE;
+	height: 100%;
+	width: 100%;
+	border-radius: 10px;
+}
+
+/* 게시자 프로파일 이미지*/
+#userInfoProfileImg {
+	border-radius: 70px; 
+	width: 100px;
+}
+
+/* 좌측 가계부 정보 */
+#accountView {
+	background-color: #EEEEEE;
+	height: 100%;
+	width: 100%;
+	border-radius: 10px;
+}
+
+/* 우측의 메인 기능 있는 공간 */
+#planMainSection {
+	width: 900px; 
+	border-radius: 10px;
+	float: right;
+	margin-left: 20px;
+}
+
+/* -------------------------------------------- */
 /* 	구글 맵 크기 설정 */
 #map {
 	background-color:#DDDDDD;
 	height:450px;
 	float:bottom;
-	width:100%;
 	margin-top: 10px;
 
 }
+
 /* -------------------------------------------- */
 /* 타임테이블 설정*/
 #calendar {
     float: right;
-    width: 900px;
     height: 900px;
     margin-bottom: 20px;
 }
@@ -60,20 +105,6 @@
 }
 
 /* -------------------------------------------- */
-#userInfoView{
-	background-color:#EEEEEE;
-	height:100%;
-	width:100%;
-	border-radius:10px;
-}
-
-#accountView{
-	background-color:#EEEEEE;
-	height:100%;
-	width:100%;
-	border-radius:10px;
-}
-
 /* 탭관련 */
 #tab-main {
     margin: 0;
