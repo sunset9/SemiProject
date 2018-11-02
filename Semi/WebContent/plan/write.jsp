@@ -512,7 +512,7 @@ function viewMini(event){
 	 				if( ttbJson.ttb_idx == accountList[i].ttb_idx){
 	 					var accountView = $("#min_accountView").clone();
 	 					if(count != 0){
-	 						$("#min_accountViewList").append(accountView);	
+	 						$("#miniModalAccount").append(accountView);	
 	 					}
 	 					count = count+1;
 	 				}
@@ -540,7 +540,6 @@ function viewMini(event){
 	 	        }else{
 	 		        $(obj).find(".min_accType").val(accountList[i].category);
 	 		        $(obj).find(".min_currSymbol").val(accountList[i].curr_idx);
-	 		        console.log(accountList[i].origin_cost);
 	 				$(obj).find(".min_cost").val(accountList[i].origin_cost);
 	 	        }
 
@@ -693,7 +692,7 @@ window.onbeforeunload = function(){
 		<b>환율 : ${accView.caled_cost }</b><br>
 	</div><br>
 	
-	<!-- 일정 저장 -->
+	<!-- 일정 읽기 모드-->
 	<button id="planViewModeBtn" onclick="changeViewMode()" style="width:100%;">읽기 모드로</button>
 	<!-- 일정 저장 -->
 	<button id="planSaveBtn" onclick="store();" style="width:100%;" disabled="true">저장 </button>

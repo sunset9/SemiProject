@@ -106,6 +106,12 @@
 	  color: #fff;
 	}
 	
+	/* 수정 모드로 버튼*/
+	#planWriteModeBtn{
+		margin-bottom: 5px;
+		background: #eee;
+	}
+	
 </style>
 
 <script>
@@ -158,11 +164,10 @@ $(document).ready(function() {
 	
 
 	$("#btnModify").click(function() {
-		isModify = 1;
+		// 탭 유지하면서 화면 전환
 		setCookie("isCookieTabClear", "false");
 		
 		$("#Modify").submit();
-		console.log("view.jsp isModify : " + isModify);
 	});
 
 	// 	수정모드일 때, 공개유무버튼
@@ -473,10 +478,11 @@ function viewMini(event){
 			// miniView modal에 값 채워줌
 			$("#miniModalTitle").text(event.title); // 타이틀 = 장소이름
 			$("#miniModalPlace").text(event.title); // 장소 이름
+			$("#miniModalAddress").text(event.address);  // 주소
 			$("#miniModalImg").attr("src", event.photo_url); // 이미지
 			
 			$("#miniModalContent").html(story.content); // 스토리 내용
-			var obj = document.getElementById("accountList");
+			var obj = document.getElementById("miniModalAccount");
 			
 			for (var i=0; i<accountList.length;i++){
 				var append = $( 
@@ -506,6 +512,13 @@ function viewMini(event){
 			console.log("Mini-view Ajax 통신 실패");
 		}
 	}); // ajax end
+}
+
+function changeViewMode(){
+	// 탭 유지하면서 화면 전환
+	setCookie("isCookieTabClear", "false");
+	
+	$("#Modify").submit();
 }
 </script>
 
@@ -613,7 +626,7 @@ function viewMini(event){
 		기타 : ${etc }<br><br>
 		<b>총합 : ${acc_total }</b><br>
 		<b>환율 : ${accCaledTotal }</b><br>
-		
+	
 	<div id='gcw_mainF89vAYf4k' class='gcw_mainF89vAYf4k'></div>
 		<a id='gcw_siteF89vAYf4k' href='https://freecurrencyrates.com/en/'>FreeCurrencyRates.com</a>
 		<script>
@@ -637,6 +650,10 @@ function viewMini(event){
 				reloadF89vAYf4k();
 		</script>
 	</div><br> <!-- 가게부 end -->
+	
+	<!-- 일정 수정 모드-->
+	<button id="planWriteModeBtn" onclick="changeViewMode()" style="width:100%;">수정 모드로</button>
+	
 </div>
 </nav>
 

@@ -174,9 +174,9 @@ public class AccountServiceImpl implements AccountService {
 	public void writeMini(Story story, Boolean isStory, HttpServletRequest req) {
 		
 		//환율 불러오기
-		double USD_rate = Float.parseFloat(req.getParameter("USD_rate"));
-		double KRW_rate = Float.parseFloat(req.getParameter("KRW_rate"));
-		double JPY_rate = Float.parseFloat(req.getParameter("JPY_rate"));
+		double USD_rate = Double.parseDouble(req.getParameter("USD_rate"));
+		double KRW_rate = Double.parseDouble(req.getParameter("KRW_rate"));
+		double JPY_rate = Double.parseDouble(req.getParameter("JPY_rate"));
 		
 		String[] accType = req.getParameterValues("accType");
 		String[] currSymbol = req.getParameterValues("currSymbol");

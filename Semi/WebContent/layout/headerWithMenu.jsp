@@ -50,7 +50,9 @@ body {
 	margin: 0 auto;
 	font-family: 'Nanum Barun Gothic', sans-serif;
 	font-size: 15px;
+	padding-right: 0 !important; /* 모달 오픈 시 padding-right 생김. 해당 작동 막기위함 */
 }
+
 .wholeHeader > div {
 	padding-bottom: 40px;
 }
