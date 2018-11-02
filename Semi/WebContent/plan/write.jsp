@@ -225,6 +225,7 @@ function store(beforeTtbIdx, afterTtbIdx){
 		, data: {
 			plan_idx: '${planView.plan_idx}'
 			, user_idx: '${planView.user_idx}'
+			, uploadFile: '${planView.bannerURL}'
 			, editOpened: $('.planInfo[name=editOpened]').val()
 			, editTraveled: $('.planInfo[name=editTraveled]').val()
 			, editTitleView: $('.planInfo[name=editTitleView]').val()
@@ -424,6 +425,11 @@ $(document).ready(function() {
 		activeStoreBtn(true);
 	});
 	
+	$("#fileBtn").change(function(){
+// 		$("#uploadForm").submit();
+		submit();
+	});
+	
 }); // $(document).ready() End
 
 function changeTab(clickTab){
@@ -482,16 +488,17 @@ window.onbeforeunload = function(){
 		return false;
 	}
 };
+
 </script>
 
 <header>
 <!-- 플래너 배너 -->
 <div id="container" style="width:100%; height:400px; border-radius:10px; background-image:url('${planView.bannerURL }');background-size: 100% 100%;">
-	<form action="/plan/banner" method="post" enctype="multipart/form-data">
+	<form id="uploadForm" action="/plan/banner" method="post" enctype="multipart/form-data">
 		<input type="hidden" name="plan_idx" value="${planView.plan_idx}" />
 		<input type="hidden" name="user_idx" value="${planView.user_idx}" />
-		<input type="file" name="uploadFile" style="float:right;">
-		<button style="float:right;">배너 저장</button>
+		
+		<input id="fileBtn" type="file" name="uploadFile"/>
 	</form>
 	<!-- 플래너 대문 정보(공개유무, 수정버튼, 일정제목 등 UI) -->
 	<div id="editTitle" style="text-align:center;">

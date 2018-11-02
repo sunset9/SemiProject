@@ -37,7 +37,9 @@ public class BookmarkInsertController extends HttpServlet {
 		Plan planView = pService.getPlanInfo(planParam);
 		System.out.println(planParam);
 		
-		bService.insertBookmark(planView);
+		int user_idx = (int)req.getSession().getAttribute("user_idx");
+		
+		bService.insertBookmark(planView, user_idx);
 		
 		Bookmark book = bService.getBookmarkInfo(planParam);
 		System.out.println(book);

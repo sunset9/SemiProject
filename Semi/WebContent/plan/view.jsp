@@ -476,14 +476,14 @@ function displayStoryView(){
 <!-- 		다르면 북마크 버튼을 보여준다 -->
 	<c:if test="${writtenUserView.user_idx ne loginedUserView.user_idx}">
 		
-		<c:if test="${bookmark.plan_idx ne planView.plan_idx}">
+		<c:if test="${bookmark.user_idx ne loginedUserView.user_idx}">
 			<form action="/bookmark/insert" method="post">
 				<input type="hidden" name="plan_idx" value="${planView.plan_idx}" />
 				<button id="btnBookMark" type="submit" style="float:right;">북마크 추가</button>
 			</form>
 		</c:if>
 		
-		<c:if test="${bookmark.plan_idx eq planView.plan_idx}">
+		<c:if test="${bookmark.user_idx eq loginedUserView.user_idx}">
 			<form action="/bookmark/delete" method="post">
 				<input type="hidden" name="plan_idx" value="${planView.plan_idx}" />
 				<button id="btnBookMark" type="submit" style="float:right;">북마크 삭제</button>

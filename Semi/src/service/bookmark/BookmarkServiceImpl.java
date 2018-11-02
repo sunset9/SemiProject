@@ -10,13 +10,13 @@ public class BookmarkServiceImpl implements BookmarkService{
 	BookmarkDao bDao = new BookmarkDaoImpl();
 	
 	@Override
-	public void insertBookmark(Plan plan) {
-		bDao.insertBookmarkByPlanIdx(plan);
+	public void insertBookmark(Plan plan, int user_idx) {
+		bDao.insertBookmarkByPlanIdx(plan, user_idx);
 	}
 	
 	@Override
-	public void deleteBookmark(Plan plan) {
-		bDao.deleteBookmarkByPlanIdx(plan);
+	public void deleteBookmark(int user_idx) {
+		bDao.deleteBookmarkByPlanIdx(user_idx);
 	}
 	
 	@Override
