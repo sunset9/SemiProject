@@ -10,19 +10,18 @@
 
 <style type="text/css">
 
+/*슬라이드메뉴*/
 #slidemenu{
-/* 	background:#12cf3d; */
 	background-color: rgba( 255, 255, 255, 0 );
 	position:absolute;
 	width:100px;
-/*  	top:200px; */
 	right:0;
-/* 	opacity: 0; */
 }
 	
 tr{
 	padding: 2px;
 }
+
 td{
 	padding: 2px;
 	padding-left: 10px;
@@ -178,39 +177,45 @@ hr{
 
 </style>
 <script type="text/javascript">
-
+//write 가계부 카운트 (초기값)
 var cnt = 0;
+//update 가계부 카운트 (초기값)
 var up_cnt = 0;
-	$(document).ready(function(){
 
-	    
+	$(document).ready(function(){
+		
+		//edit 모드일때, 수정버튼삭제버튼추가버튼 보여주지 않음	
 	    function EditMode() {
-	     //edit 모드일때, 수정버튼삭제버튼추가버튼 보여주지 않음	
 	     var removeStorys = document.getElementsByClassName("removeStory");
 	     var updateStorys = document.getElementsByClassName("updateStory");
 	     var plusStorys = document.getElementsByClassName("storyPlus");
 	     
-	     console.log("isModify::"+isModify);
-	     
 	    	if (isModify == 1){
+	    		//isModify가 1일때 (수정모드일때)
    			  for(var i = 0; i < removeStorys.length; i++){
+   				  //업데이트버튼,삭제버튼 보여주기
 	    		  removeStorys[i].style.display = "block"; 
 	    		  updateStorys[i].style.display = "block";
 	    		 
 	    	   }
    			  
    			  for(var i=0; i<plusStorys.length;i++){
+   				  //스토리추가버튼보여주기
    				 plusStorys[i].style.display = "block";
    			  }
    			  
 	    	}else{
+	    		//isModify가 1이아닐때 (읽기모드일때)
     		  for(var i = 0; i < removeStorys.length; i++){
+    			  
+    			  //업데이트,삭제버튼 보여주지 않기
 	    		  removeStorys[i].style.display = "none"; 
 	    		  updateStorys[i].style.display = "none";
 	    		 
 	    	   }
     		  
     		  for(var i=0; i<plusStorys.length;i++){
+    			  //플러스버튼 보여주지않기
     			  plusStorys[i].style.display = "none";
     		  }
 	    	}
@@ -223,49 +228,58 @@ var up_cnt = 0;
 	    //slidmenu 고정
 	    $(window).scroll(function() {
 	        var position = $(this).scrollTop(); // 현재 스크롤바의 위치값을 반환합니다.
-	        var header = $("#planInfoHeader").offset();
-	        var height = $("#planInfoHeader").height();
+	        var header = $("#planInfoHeader").offset(); //배너를 객체로 만들어 header에저장
+	        var height = $("#planInfoHeader").height(); //배너의 높이
 	        
-	        if(position > 600){
+	        if(position > 600){ //스크롤바의 위치가 600보다 클때
+	        	//슬라이드메뉴 고정
 	        	$("#slidemenu").css("position","fixed");
 	        	document.getElementById("slidemenu").style.top ="10px";
 	        }else if (position <= 600){
+	        	//스크롤바의위치가 600보다 작거나 같을때
+				//슬라이드바 움직이도록 
 	        	$("#slidemenu").css("position","absolute");
+	        	//배너의 상단+배너의높이+50 픽셀만큼 떨어진 위치
 	        	document.getElementById("slidemenu").style.top = header.top + height +50+ "px";  		        
 	        }
 	        
 	    });
 
-		//추가하기
+		//스토리 추가 모달 띄어주는 버튼
 		$(".storyPlus").click(function() {
 			
-			
+			//모달에 place값 전달
 			var place_name = $(this).data("place");
 			
-			console.log(place_name);
-			
+			//모달의 modalPlaceName(장소이름들어갈곳)에 값을 넣어줌
 			$(".modalPlaceName").text(place_name);
 			
+			//모달에 ttbidx 값 전달
 			var ttb_idx = $(this).data("ttbidx");
 			
+			//모달 hidden 객체인 st_ttb_idx에 ttb_idx값 넣어줌
 			$(".st_ttb_idx").val(ttb_idx);	
 			
+			//모달에 planidx값전달
 			var plan_idx = $(this).data("planidx");
+			//모달 hidden 객체인 st_plan_idx에 값을 넣어줌
 			$(".st_plan_idx").val(plan_idx);	
 		})
 		
 
 		
 		
-		//수정하기
+		//스토리 수정 모달 띄어주는 버튼
 		$(".updateStory").click(function() {
 			
+				//모달에 값 전달
 				var place_name =$(this).data("place");
 				var story_idx = $(this).data("storyidx");
 				var planidx = plan_idx;
 				var content = $(this).data("content");
 				var ttb_idx = $(this).data("ttbidx");
 			
+				//각 전달해야 하는 모달객체에 값을 넣어줌
 				$(".up_modalPlaceName").text(place_name);
 				$(".up_story_idx").val(story_idx);	
 				$(".up_ttb_idx").val(ttb_idx);
@@ -285,18 +299,21 @@ var up_cnt = 0;
 					accountCost.push("${account.origin_cost}");
 				</c:forEach>
 				
+				//가계부가 한개만 저장되어 있다면, 추가해주는 행위 해주지 않기위한 카운트
 				var count = 0;
 				for (var i = 0; i <accountStoryidx.length; i++) {
 						if( story_idx == accountStoryidx[i]){
 							var accountView = $("#up_accountView").clone();
 							
 							if(count != 0){
+								//저장된 가계부의 갯수가 2개 이상일때
 								$("#up_accountViewList").append(accountView);	
 							}
 							count = count+1;
 						}
 				}
 					
+				//현재 추가된 가계부 갯수
 		 		var size = document.getElementsByName("up_accountViewName").length;
 		 		
 		 		var accCurrNameList = [];
@@ -306,11 +323,15 @@ var up_cnt = 0;
 		 		for(var i = 0; i < size; i++){
 			        var obj = document.getElementsByName("up_accountViewName")[i];
 			        
+			        //+버튼 안보여주기
+			        //-버튼 보여주기
 			        $(obj).find(".accountPlus").css("display","none");
 			        $(obj).find(".accountRemove").css("display","block");
-			        
+			      	
+			        //가계부가 있는지 없는지 확인
 			        var ch = false;
 			        for (var j = 0; j <accountStoryidx.length; j++) {
+			        	//가계부가 있을때
 						if( story_idx == accountStoryidx[j]){
 							accTypeList.push(accountCategory[j]);
 							accCurrNameList.push(accountCurridx[j]);
@@ -320,21 +341,32 @@ var up_cnt = 0;
 			        }
 			        
 			        if (ch == false) {
+			        	//가계부가 없다면 모든값 초기화
 					   $(obj).find(".up_accType").val(1);
 				        $(obj).find(".up_currSymbol").val(1);
 						$(obj).find(".up_cost").val("");
 			        }else{
+			        	//가계부가 있다면 해당 값 넣어주기
 				        $(obj).find(".up_accType").val(accTypeList[i]);
 				        $(obj).find(".up_currSymbol").val(accCurrNameList[i]);
 						$(obj).find(".up_cost").val(accCostList[i]);
 			        }
-
+						
+			        //현재 가계부가 추가된것중 마지막 가계부일때
 			        if (i == size-1){
+			        	//+버튼보여주기
 					    $(obj).find(".accountPlus").css("display","block");
 			        }
 			        
+			        //현재 가계부가 마지막가계부이면서 5번째일대
 			        if (size == 5 && i == size-1){
+			        	//+버튼 안보여주기
 				    	 $(obj).find(".accountPlus").css("display","none");
+			        }
+			        if (size == 1){ // 1개일때
+			        	// -버튼 안보여주기
+			        	$(obj).find(".accountRemove").css("display","none");
+			        	$(obj).find(".accountPlus").css("display","block");
 			        }
 				 }
 			 		
@@ -346,21 +378,20 @@ var up_cnt = 0;
 	//스토리저장
 	$(".storySaveBtn").click(function() {
 			
+			//storyJSON으로 저장할 값 넣어주기
 			var storyJSON = {
 				ttb_idx  : $(".st_ttb_idx").val()
 				, plan_idx : $(".st_plan_idx").val() 
 				, content  : $(".st_content").val()
 			};
 			
-			console.log( $(".st_ttb_idx").val());
-			console.log( $(".st_plan_idx").val());
-			console.log( $(".st_content").val());
-			
+			//가계부 값들(배열)로 전달 하기 위한 변수
 			var accTypeLen = $("select[name='st_accType']").length;
 		    var accType = new Array(accTypeLen);
 		    var currSymbol = new Array(accTypeLen);
 		    var cost = new Array(accTypeLen);
 		    
+		    //선언된 가계부변수에 값 넣어주기
 		    for(var i=0; i<accTypeLen; i++){                          
 		    	accType[i] = $("select[name='st_accType']")[i].value;
 		    	currSymbol[i] = $("select[name='st_currSymbol']")[i].value;
@@ -368,6 +399,7 @@ var up_cnt = 0;
 		    }
 
 			
+		    //jsonData data를 string으로
 			var jsonData = JSON.stringify(storyJSON);
 			
 			//ajax로 배열 전송하기 위한 방식
@@ -403,6 +435,8 @@ var up_cnt = 0;
  		// 스토리 업데이트창 save버튼 클릭이벤트
  		// 스토리 업데이트
  		$(".storyUpdateBtn").click(function () {
+ 			
+ 			//업데이트할 스토리 정보 
  			var storyJSON = {
  					story_idx : $(".up_story_idx").val() 
  					, content  : $(".up_content").val()
@@ -410,15 +444,16 @@ var up_cnt = 0;
  					, ttb_idx : $(".up_ttb_idx").val()
  				};
  				
+ 				//jsonData data를 string으로
  				var jsonData = JSON.stringify(storyJSON);
  				
- 				console.log($(".up_content").val());
- 				
+ 				//가계부 값들(배열)로 전달 하기 위한 변수
  				var accTypeLen = $("select[name='up_accType']").length;
  			    var accType = new Array(accTypeLen);
  			    var currSymbol = new Array(accTypeLen);
  			    var cost = new Array(accTypeLen);
  			    
+ 			   //선언된 가계부변수에 값 넣어주기
  			    for(var i=0; i<accTypeLen; i++){                          
  			    	accType[i] = $("select[name='up_accType']")[i].value;
  			    	currSymbol[i] = $("select[name='up_currSymbol']")[i].value;
@@ -446,28 +481,30 @@ var up_cnt = 0;
  		
  		//모달 숨겨질때
  		$('.modal').on('hidden.bs.modal',function(e){
- 			
  			//업데이트모달 데이터리셋
  			var size = document.getElementsByName("up_accountViewName").length
  			
+ 			//현재 추가되어있는 가계부 1개빼고 삭제
  			for(var i = size-1; i > 0; i--){
 		        var obj = document.getElementsByName("up_accountViewName")[i];
 		        obj.remove();
  			}
  			
+ 			//첫번째 가계부객체
  			var obj1 = document.getElementsByName("up_accountViewName")[0]
  			
  			$(obj1).find(".up_accType").val(1);
 	        $(obj1).find(".up_currSymbol").val(1);
 			$(obj1).find(".up_cost").val("");
 			
-			//--추가 모달
+			//추가 모달 데이터 리셋
 			var edit = document.getElementById("st_edit");
 			
 			$('.st_content').froalaEditor('html.set', "");
 			
  			var size = document.getElementsByName("accountViewName").length
  			
+ 			//현재 추가되어있는 가계부 1개빼고 삭제
  			for(var i = size-1; i > 0; i--){
 		        var obj = document.getElementsByName("accountViewName")[i];
 		        obj.remove();
@@ -479,6 +516,7 @@ var up_cnt = 0;
 	        $(obj1).find(".st_currSymbol").val(1);
 			$(obj1).find(".st_cost").val("");
 			
+			//+버튼 보여주기, -버튼 안보여주기
 			$(obj1).find(".accountPlus").css("display","block");
 	        $(obj1).find(".accountRemove").css("display","none");
 	        
@@ -492,8 +530,10 @@ var up_cnt = 0;
 	//삭제하기
 	function storyDelete(storyIdx) {
 		
+		//예/아니오 alart 창 띄우기
 		var r = confirm("스토리를 삭제 하시겠습니까?");
 		
+		//예 눌렀을때 삭제
 		if (r == true) {
 			$.ajax({
 				type : "POST"
@@ -515,13 +555,17 @@ var up_cnt = 0;
 	function CommentViewClick(storyIdx,plan_idx) {
 		
 		var commentViewId = "#CommentView"+storyIdx;
-		if($(commentViewId).is(":visible")){
+		
+		if($(commentViewId).is(":visible")){//현재 커멘드가 보여지고 있다면
+			
+			//커멘드뷰 안보여주기
 			$(commentViewId).css("display","none");
+		}else{//현재 커멘드가 안보여지고 있다면
 			
-		}else{
-			
+			//커멘드뷰 보여주기
 			$(commentViewId).css("display","block");
 			
+			//댓글 list 불러오기
 			$.ajax({
 				//display : none일 경우
 				type : "get"
@@ -544,14 +588,17 @@ var up_cnt = 0;
  	   obj.css( "color", "orange" );
  	}
     
+    //마우스 클릭시 색바꾸기
     function mdown(obj){
  	   obj.css( "color", "blue" );
     }
     
+    //마우스 떠날때 색바꾸기
  	function mleave(obj) {
  		obj.css("color", "black");
  	}
  	
+    //마우스떠날때 색 gray로바꾸기
  	function mleave_gray(obj) {
  		obj.css("color", "#999999");
 	}
@@ -583,6 +630,9 @@ var up_cnt = 0;
 				console.log(e);
 			}
 		})
+		
+		//댓글 추가하고 댓글 content textarea 값 초기화시켜주기
+		$(id).val("");
 	}
  	
  	
@@ -611,31 +661,47 @@ var up_cnt = 0;
  	//가계부 추가
  	function appendAccount() {
  		
+ 		//가계부가 5개 일때는 추가하면 안됨
  		if (cnt < 5){
-			
 			var accountView = $("#story_accountView").clone();
 	 		$("#accountViewList").append(accountView);
 	 		
 			cnt = cnt+1;
 			
+			//현재 추가된 가계부의 개수
 			var size = document.getElementsByName("accountViewName").length;
 	
 			for(var i = 0; i < size; i++){
 		        var obj = document.getElementsByName("accountViewName")[i];
+		    
 		        
+		        //+버튼 안보여주기 -버튼 보여주기
 		        $(obj).find(".accountPlus").css("display","none");
 		        $(obj).find(".accountRemove").css("display","block");
 		        
+		        //마지막가계부일때
 		        if (i == size-1){
+		        	//+버튼보여주기
 				    $(obj).find(".accountPlus").css("display","block");
+		        	
+		        	//가계부내용 초기화
 		        	$(obj).find(".st_cost").val("");
 		        	$(obj).find(".st_accType").val(1);
 		        	$(obj).find(".st_currSymbol").val(1);
 		        }
 		        
+		        //마지막가계부이면서 5번째일때
 		        if (size == 5 && i == size-1){
-			    	 $(obj).find(".accountPlus").css("display","none");
+			    	//+버튼 안보여주기 
+		        	$(obj).find(".accountPlus").css("display","none");
 			    	
+		        }
+		        
+		        
+		        if (size == 1){ // 1개일때
+		        	// -버튼 안보여주기
+		        	$(obj).find(".accountRemove").css("display","none");
+		        	$(obj).find(".accountPlus").css("display","block");
 		        }
 			 }
 		
@@ -645,31 +711,42 @@ var up_cnt = 0;
  	//가계부 삭제
  	function removeAccount() {
  		
+ 		//삭제할 가계부 객체 찾기
  		var removeObj = window.event.target.parentElement.parentElement.parentElement.parentElement.parentElement;
  		
+ 		//가계부삭제
  		removeObj.remove();	
  		
+ 		//cnt 감소
  		cnt = cnt-1;
  		
+ 		//메모리에 저장된 removeObj 변수 삭제
  		delete removeObj;
  		
+ 		//현재 추가되어있는 가계부 개수
  		var size = document.getElementsByName("accountViewName").length;
  		
 		for(var i = 0; i < size; i++){
 	        var obj = document.getElementsByName("accountViewName")[i];
 	        
-	        if (size == 1){
+	        if (size == 1){ // 1개일때
+	        	// -버튼 안보여주기
 	        	$(obj).find(".accountRemove").css("display","none");
 	        }
 	        
+	        // +버튼 안보여주기
 	        $(obj).find(".accountPlus").css("display","none");
 	        
+	        //마지막 가계부일때
 	        if (i == size-1){
+	        	//+버튼 보여주기
 			     $(obj).find(".accountPlus").css("display","block");
 	        }
 	        
+	        //마지막가계부이면서 5번째일때
 	        if (size == 5 && i == size-1){
-		    	 $(obj).find(".accountPlus").css("display","none");
+		    	//+버튼 안보여주기
+	        	$(obj).find(".accountPlus").css("display","none");
 	        }
 		 }
 	}
@@ -677,34 +754,41 @@ var up_cnt = 0;
  	
  	
  	//업데이트 가계부 추가
+ 	//up_cnt를 현재추가된 가계부 갯수로 
  	up_cnt = document.getElementsByName("up_accountViewName").length;
  	function UpappendAccount() {
- 		if (up_cnt < 5){
- 			
- 			console.log(up_cnt);
- 			
+ 		
+ 		if (up_cnt < 5){ //현재 추가되 가계부 갯수가 5개 보다 적을때
 			var accountView = $("#up_accountView").clone();
 	 		$("#up_accountViewList").append(accountView);
 		    
+	 		//up_cnt증가
 	 		up_cnt = up_cnt+1;
 			
+	 		//현재 추가된 가계부 갯수 
 			var size = document.getElementsByName("up_accountViewName").length;
 	
 			for(var i = 0; i < size; i++){
 		        var obj = document.getElementsByName("up_accountViewName")[i];
 		        
+		        //+버튼안보여주기, -버튼 보여주기
 		        $(obj).find(".accountPlus").css("display","none");
 		        $(obj).find(".accountRemove").css("display","block");
 		        
+		        //마지막가계부일때
 		        if (i == size-1){
-		        	console.log("1");
-				    $(obj).find(".accountPlus").css("display","block");
-		        	$(obj).find(".up_cost").val("");
+					//+버튼 보여주기
+		        	$(obj).find(".accountPlus").css("display","block");
+		        	//가계부정보 초기화
+					$(obj).find(".up_cost").val("");
 		        	$(obj).find(".up_accType").val(1);
 		        	$(obj).find(".up_currSymbol").val(1);
 		        }
 		        
+		        //마지막가계부이면서 5번째일때
 		        if (size == 5 && i == size-1){
+		        	
+		        	//+버튼 보여주기
 			    	 $(obj).find(".accountPlus").css("display","none");
 		        }
 			 }
@@ -716,30 +800,42 @@ var up_cnt = 0;
  	//업데이트 가계부 삭제
 	function UpremoveAccount() {
  		
+ 		//삭제할 가계부 객체 찾기
  		var removeObj = window.event.target.parentElement.parentElement.parentElement.parentElement.parentElement;
  		
+ 		//가계부객체 삭제
  		removeObj.remove();	
  		
+ 		//cnt 감소
  		up_cnt = up_cnt-1;
  		
+ 		//메모리에서 removeObj변수삭제
  		delete removeObj;
  		
+ 		//현재추가된 가계부갯수 
  		var size = document.getElementsByName("up_accountViewName").length;
  		
 		for(var i = 0; i < size; i++){
 	        var obj = document.getElementsByName("up_accountViewName")[i];
 	        
+	        //1번째일때
 	        if (size == 1){
+	        	//-버튼 안보여주기
 	        	$(obj).find(".accountRemove").css("display","none");
 	        }
 	        
+	        //+버튼 안보여주기
 	        $(obj).find(".accountPlus").css("display","none");
 	        
+	        //마지막가계부일때
 	        if (i == size-1){
+	        	//+버튼보여주기
 			     $(obj).find(".accountPlus").css("display","block");
 	        }
 	        
+	        //마지막가계부이면서 5번째일때
 	        if (size == 5 && i == size-1){
+	        	//+버튼 안보여주기
 		    	 $(obj).find(".accountPlus").css("display","none");
 	        }
 		 }

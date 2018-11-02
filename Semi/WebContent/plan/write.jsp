@@ -116,6 +116,7 @@
  	    border: 1px solid #ccc; 
 	    padding: 5px 3px 5px 35px;
 	}
+	
 	#searchResultView{
 		padding:3px;
 	}
@@ -229,6 +230,7 @@ function store(beforeTtbIdx, afterTtbIdx){
 		, data: {
 			plan_idx: '${planView.plan_idx}'
 			, user_idx: '${planView.user_idx}'
+			, uploadFile: '${planView.bannerURL}'
 			, editOpened: $('.planInfo[name=editOpened]').val()
 			, editTraveled: $('.planInfo[name=editTraveled]').val()
 			, editTitleView: $('.planInfo[name=editTitleView]').val()
@@ -422,6 +424,11 @@ $(document).ready(function() {
 		activeStoreBtn(true);
 	});
 	
+	$("#fileBtn").change(function(){
+// 		$("#uploadForm").submit();
+		submit();
+	});
+	
 }); // $(document).ready() End
 
 // 탭 변경해주기
@@ -488,6 +495,7 @@ function viewMini(event){
 			// miniView modal에 값 채워줌
 			$("#miniModalTitle").text(event.title); // 타이틀 = 장소이름
 			$("#miniModalPlace").text(event.title); // 장소 이름
+			$("#miniModalAddress").text(event.address);  // 주소
 			$("#miniModalImg").attr("src", event.photo_url); // 이미지
 			
 			// ttb정보 json String 형태로 넘겨줌
@@ -512,7 +520,7 @@ function viewMini(event){
 	 				if( ttbJson.ttb_idx == accountList[i].ttb_idx){
 	 					var accountView = $("#min_accountView").clone();
 	 					if(count != 0){
-	 						$("#min_accountViewList").append(accountView);	
+	 						$("#miniModalAccount").append(accountView);	
 	 					}
 	 					count = count+1;
 	 				}
@@ -522,7 +530,7 @@ function viewMini(event){
 			
 	  		for(var i = 0; i < size; i++){
 	 	        var obj = document.getElementsByName("min_accountViewName")[i];
-		        
+	
 	 	        $(obj).find(".accountPlus").css("display","none");
 	 	        $(obj).find(".accountRemove").css("display","block");
 		        
@@ -540,7 +548,6 @@ function viewMini(event){
 	 	        }else{
 	 		        $(obj).find(".min_accType").val(accountList[i].category);
 	 		        $(obj).find(".min_currSymbol").val(accountList[i].curr_idx);
-	 		        console.log(accountList[i].origin_cost);
 	 				$(obj).find(".min_cost").val(accountList[i].origin_cost);
 	 	        }
 
@@ -551,6 +558,12 @@ function viewMini(event){
 	 	        if (size == 5 && i == size-1){
 	 		    	 $(obj).find(".accountPlus").css("display","none");
 	 	        }
+	 	        
+	 	       if (size == 1){ // 1개일때
+		        	// -버튼 안보여주기
+		        	$(obj).find(".accountRemove").css("display","none");
+		        	$(obj).find(".accountPlus").css("display","block");
+		        }
 	 		 }
 		  		
 			// 모달 창 닫힌 경우
@@ -609,17 +622,18 @@ window.onbeforeunload = function(){
 		return false;
 	}
 };
+
 </script>
 
 <!-- 일정 기본 정보 -->
 <header>
-<!-- 플래너 배너 -->
+<!-- 플래너 배너 -->	
 <div id="planInfoHeader" style="background-image:url('${planView.bannerURL }');">
-	<form action="/plan/banner" method="post" enctype="multipart/form-data">
+	<form id="uploadForm" action="/plan/banner" method="post" enctype="multipart/form-data">
 		<input type="hidden" name="plan_idx" value="${planView.plan_idx}" />
 		<input type="hidden" name="user_idx" value="${planView.user_idx}" />
-		<input type="file" name="uploadFile" style="float:right;">
-		<button style="float:right;">배너 저장</button>
+		
+		<input id="fileBtn" type="file" name="uploadFile"/>
 	</form>
 	<!-- 플래너 대문 정보(공개유무, 수정버튼, 일정제목 등 UI) -->
 	<div id="editTitle" style="text-align:center;">
@@ -693,7 +707,7 @@ window.onbeforeunload = function(){
 		<b>환율 : ${accView.caled_cost }</b><br>
 	</div><br>
 	
-	<!-- 일정 저장 -->
+	<!-- 일정 읽기 모드-->
 	<button id="planViewModeBtn" onclick="changeViewMode()" style="width:100%;">읽기 모드로</button>
 	<!-- 일정 저장 -->
 	<button id="planSaveBtn" onclick="store();" style="width:100%;" disabled="true">저장 </button>

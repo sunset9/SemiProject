@@ -36,7 +36,7 @@ public class PlanBannerUpdateController extends HttpServlet {
 	@Override
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		System.out.println();
-		System.out.println("----- PlanViewController -----");
+		System.out.println("----- PlanBannerUpdateController -----");
 		// 인코딩 설정 
 		req.setCharacterEncoding("UTF-8");
 		resp.setContentType("text/html;charset=utf-8");
@@ -100,8 +100,8 @@ public class PlanBannerUpdateController extends HttpServlet {
 		
 		planView.setBannerURL(path);
 		
-		// DB에서 유저의 profile 수정 
-		pDao.bannerUpdate(planView);
+		// DB에서 유저의 banner 수정 
+//		pDao.bannerUpdate(planView);
 		
 		System.out.println(planView);
 		

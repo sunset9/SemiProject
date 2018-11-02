@@ -24,10 +24,8 @@ public class storyCommentViewController extends HttpServlet {
 	@Override
 		protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 			req.setCharacterEncoding("utf-8");
-	
 			
 			Plan plan = new Plan();
-			
 			
 			String planidx = req.getParameter("plan_idx");
 			
@@ -43,6 +41,7 @@ public class storyCommentViewController extends HttpServlet {
 			
 			List<Comment> CommentList = sService.getCommentList(plan);
 			
+			//커멘트리스트, story_idx 값 넘겨주기
 			req.setAttribute("commentList", CommentList);
 			req.setAttribute("story_idx", storyIdx);
 			req.getRequestDispatcher("/plan/story/storyCommentView.jsp").forward(req, resp);

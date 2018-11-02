@@ -28,9 +28,8 @@ public class BookmarkDaoImpl implements BookmarkDao{
 			conn.setAutoCommit(false);
 			ps = conn.prepareStatement(sql);
 			
-			ps.setInt(1, user_idx );
+			ps.setInt(1, user_idx);
 			ps.setInt(2, plan.getPlan_idx());
-			
 			
 			ps.executeUpdate();
 			conn.commit();
@@ -51,16 +50,16 @@ public class BookmarkDaoImpl implements BookmarkDao{
 		}
 	}
 	
-	public void deleteBookmarkByPlanIdx(Plan plan) {
+	public void deleteBookmarkByPlanIdx(int user_idx) {
 		String sql = "delete bookmark"
-				+ " where plan_idx = ?";
+				+ " where user_idx = ?";
 		try {
 			// 오토커밋 해제
 			conn.setAutoCommit(false);
 			
 			ps = conn.prepareStatement(sql);
 			
-			ps.setInt(1, plan.getPlan_idx());
+			ps.setInt(1, user_idx);
 			
 			ps.executeUpdate();
 			

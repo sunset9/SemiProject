@@ -63,12 +63,14 @@
 <!-- Trigger/Open The Modal -->
 <!-- 로그인 상태일때 -->
 <c:if test="${login}">
-	<button id="btnModal" class="btnNewPlan" value='hide/show'>새 일정 만들기</button>
+	<button id="btnModal" class="btnNewPlan" >새 일정 만들기</button>
+	<button id="btnModal2" style="display: none;">새 일정 만들기</button>
 </c:if>
 
 <!-- 비로그인 상태일때 -->
 <c:if test="${not login}">
-	<button id="btnModal" class="btnNewPlan" onclick="alert('로그인이 필요합니다.');" style="display: none;">새 일정 만들기</button>
+	<button id="btnModal" class="btnNewPlan" style="display: none;">새 일정 만들기</button>
+	<button id="btnModal2" onclick="alert('로그인이 필요합니다.');">새 일정 만들기</button>
 </c:if>
 
 <!-- The Modal -->

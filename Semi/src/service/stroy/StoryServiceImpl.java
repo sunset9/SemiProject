@@ -74,10 +74,9 @@ public class StoryServiceImpl implements StoryService {
 		
 		String storyJSON = req.getParameter("JSON");
 		
-		// plan_idx Set
 	    if(storyJSON!=null & !"".equals(storyJSON)){
 	      story = gson.fromJson(storyJSON, Story.class);
-	    } else { // 테스트용 코드, 테스트 후에는 삭제
+	    } else { 
 	      System.out.println("story가 null 혹은 빈값"); 
 	    }
 	    

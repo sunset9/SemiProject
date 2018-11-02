@@ -8,11 +8,15 @@
 <title>Insert title here</title>
 <style>
 
-#miniModalContent{
-	border: 1px solid #9AA3E6;
-	box-shadow: 0px 5px 28px -9px grey;  /* h-shadow v-shadow blur spread color*/
-	height: auto;
-	overflow: hidden;
+#miniModalBody{
+	padding: 30px;
+}
+.modal-open {
+    overflow-y: scroll; 
+}
+
+#miniModalBody > tbody tr{
+	height: 40px;
 }
 
 #miniModalImg{
@@ -20,12 +24,31 @@
 	height: 150px;
 }
 
+#miniModalPlace{
+	font-weight: bold;
+	font-size: large;
+	width: 40%;
+	
+}
+
+#miniModalContent{
+	border: 1px solid gray;
+	box-shadow: 0px 5px 28px -9px grey;  /* h-shadow v-shadow blur spread color*/
+	overflow-y: auto; 
+	height: 230px;
+	margin-top: 15px;
+}
+
+#miniModalAccount{
+	margin-top: 15px;
+}
+
 </style>
 </head>
 <body>
 
 <!-- Modal -->
-<div class="modal fade " id="miniViewModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+<div class="modal fade" id="miniViewModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
@@ -37,25 +60,25 @@
       <div class="modal-body" id= "miniModalBody">
 			<table style="width: 100%;">
 			<tr>
-				<td rowspan="2" style="padding: 10px 15px; width: 60%;">
+				<td rowspan="2">
 				<img id="miniModalImg" alt=""/>
 				</td>
-				<td id="miniModalPlace" style="font-weight: bold; width: 40%;"><hr></td>
+				<td id="miniModalPlace"><hr></td>
 			</tr>	
 			
 			<tr>
 				<td>
-				추가 정보 란
+					<div id="miniModalAddress"></div>
+				</td>
+			</tr>
+			<tr>
+				<td colspan="2" >
+					<div id="miniModalContent"></div>
 				</td>
 			</tr>
 			<tr>
 				<td>
-					<div id = "accountList"></div>
-				</td>
-			</tr>
-			<tr>
-				<td colspan="2" style="padding: 15px">
-					<div id="miniModalContent" style="overflow-y: scroll; height: 230px; border: 1px solid gray;"></div>
+					<div id = "miniModalAccount"></div>
 				</td>
 			</tr>
 
@@ -72,7 +95,7 @@
 
 $(document).ready(function(){	
 	$('.modal').on('hidden.bs.modal',function(e){
-		var obj = document.getElementById("accountList");
+		var obj = document.getElementById("miniModalAccount");
 		
 		$(obj).html("");
 	
