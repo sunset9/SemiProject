@@ -36,11 +36,11 @@ public class BookmarkDeleteController extends HttpServlet {
 		
 		// 플랜 정보 파라미터 받기 
 		Plan planParam = pService.getParam(req);
-		
-		Plan planView = pService.getPlanInfo(planParam);
 		System.out.println(planParam);
 		
-		bService.deleteBookmark(planView);
+		int user_idx = (int)req.getSession().getAttribute("user_idx");
+		
+		bService.deleteBookmark(user_idx);
 		
 		Bookmark book = bService.getBookmarkInfo(planParam);
 		System.out.println(book);

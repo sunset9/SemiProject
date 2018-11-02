@@ -15,8 +15,8 @@ public class BookmarkServiceImpl implements BookmarkService{
 	}
 	
 	@Override
-	public void deleteBookmark(Plan plan) {
-		bDao.deleteBookmarkByPlanIdx(plan);
+	public void deleteBookmark(int user_idx) {
+		bDao.deleteBookmarkByPlanIdx(user_idx);
 	}
 	
 	@Override
