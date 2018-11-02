@@ -241,7 +241,7 @@ $('#miniModalContent').froalaEditor({
 	function miniAppendAccount() {
 		if (cnt < 4){
 			var accountView = $("#min_accountView").clone();
- 			$("#min_accountViewList").append(accountView);
+ 			$("#miniModalAccount").append(accountView);
  			
  			//cnt 증가
 			cnt = cnt+1;
