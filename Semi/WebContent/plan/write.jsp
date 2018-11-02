@@ -80,6 +80,12 @@
 	  border-radius: 50%;
 	}
 	
+	/* 읽기 모드로 버튼*/
+	#planViewModeBtn{
+		margin-bottom: 5px;
+		background: #eee;
+	}
+	
 	/* 저장버튼 활성화 버전*/
 	#planSaveBtn:not([disabled]){
 	    height: 34px;
@@ -116,7 +122,6 @@
 </style>
 
 <script>
-	
 	//숫자만 입력
 	function Numberchk() { 
 		if (event.keyCode < 46 || event.keyCode > 57) event.returnValue = false; 
@@ -175,6 +180,7 @@ var isAlreadyAlert = false;
 <script>
 //저장하기
 function store(beforeTtbIdx, afterTtbIdx){
+	// 탭 바뀌지 않게 하기
 	setCookie("isCookieTabClear", "false");
 	
 	activeStoreBtn(false);
@@ -189,7 +195,6 @@ function store(beforeTtbIdx, afterTtbIdx){
 	events.forEach(function(event){ // 모든 리스트 돌면서 timetable json 하나씩 생성
 		// timetable json 생성
 		var timetable = getTtbJsonForServer(event);
-	
 		timetables.push(timetable);
 	});
 
@@ -214,7 +219,6 @@ function store(beforeTtbIdx, afterTtbIdx){
 	// submit
 // 	console.log("---store()----")
 // 	console.log(timetables);
-// 	$("#planForm").submit();
 	
 	var succ = false;
 	$.ajax({
@@ -234,7 +238,7 @@ function store(beforeTtbIdx, afterTtbIdx){
 		}
 		, success: function(){
 			if(!isStayWriteMode){
-				window.location = "/plan?plan_idx=" + $('input[name=plan_idx]').val();
+				window.location = "/plan?plan_idx=" + ${planView.plan_idx};
 			}
 			isStayWriteMode = false; 
 			succ = true;
@@ -250,6 +254,15 @@ function store(beforeTtbIdx, afterTtbIdx){
 <script type="text/javascript">
 // 읽기모드일때, 검색창 on/off
 $(document).ready(function() {
+	// isCookieTabClear 플래그가 true 이고
+	// 새로고침 된게 아닌 경우 = 다른 페이지에서 넘어온 경우 (performance.navigation.type == 1 : 새로고침)
+	if(getCookie("isCookieTabClear") == 'true' && performance.navigation.type != 1){
+		deleteCookie('tab');
+	}
+	// 한 번 탭 변경하지 않고 넘어갔으면 그 다음엔 탭 정보 저장 쿠키 다시 삭제하게
+	setCookie("isCookieTabClear", "true");
+	
+	
     //환율정보 가져오는 api
     $.ajax({ 
       url: "http://api.manana.kr/exchange/rate/KRW/JPY,KRW,USD.json", 
@@ -266,14 +279,6 @@ $(document).ready(function() {
    
 		}
 	 }); 
-	
-	// isCookieTabClear 플래그가 true 이고
-	// 새로고침 된게 아닌 경우 (performance.navigation.type == 1 : 새로고침)
-	if(getCookie("isCookieTabClear") == 'true' && performance.navigation.type != 1){
-		deleteCookie('tab');
-	}
-	setCookie("isCookieTabClear", "true");
-	
 	
 	// 브라우저에 timetable 그려주기
 	initFullCalendar(planStartDate, planEndDate, true);
@@ -399,21 +404,14 @@ $(document).ready(function() {
 			    		, action: function(){
 			    			isStayWriteMode = true; // 수정모드 유지
 			    			var succ = store(); // 저장 동작
-				            if(succ){
-				            	// 저장 버튼 비활성화
-					            activeStoreBtn(false);
-				    			// 탭 변경
-				    			changeTab(clickTab); 
-				    		}
-			    			}
+				            if(succ) {	changeTab(clickTab); }  // 탭 변경
+			    		}
 			        }, 
-		        	취소: function () { // 취소 버튼
-			        },
+		        	취소: function () {} // 취소 버튼
 			    }
 			});
 		} else { // 저장버튼 비활성화 상태면 그냥 진행
-			// 탭 변경
-			changeTab(clickTab);
+			changeTab(clickTab); // 탭 변경
 		}
 		
 	}); // tab on click 이벤트 설정
@@ -426,6 +424,7 @@ $(document).ready(function() {
 	
 }); // $(document).ready() End
 
+// 탭 변경해주기
 function changeTab(clickTab){
 	// active클래스 속성 변경
 	$("#tab-main li").removeClass("active");
@@ -464,6 +463,34 @@ function displayStoryView(){
 			console.log("실패");
 		}
 	});
+}
+
+// 읽기모드로 보내주기
+function changeViewMode(){
+	// 저장버튼 활성화 상태이면  경고창 띄워줌
+	if($("#planSaveBtn").attr('disabled') == null){
+		// 저장 확인 창 띄움
+		$.confirm({
+		    title: '저장하시겠습니까?',
+		    content: '저장하시지 않으면 작성 중인 정보를 잃습니다.',
+		    buttons: {
+		    	confirm: { // 확인 버튼
+		    		text: '저장'
+		    		, btnClass: 'btn-blue'
+		    		, action: function(){
+		    			var succ = store(); // 저장 동작
+			            if(succ){ // 저장 성공 시 읽기 모드로 보내줌
+				            window.location = "/plan?plan_idx=" + ${planView.plan_idx};
+			    		}
+		    		}
+		        }, 
+	        	취소: function (){} // 취소 버튼
+		    }
+		});
+	} else { // 저장버튼 비활성화 상태면 바로 읽기모드로
+		setCookie("isCookieTabClear", "false"); // 탭 바꾸지 않기
+		window.location = "/plan?plan_idx=" + ${planView.plan_idx};
+	}
 }
 
 // 저장버튼 활성화/비활성화 상태 바꿔주는 메소드
@@ -569,7 +596,7 @@ window.onbeforeunload = function(){
 		</div><br>
 		
 		<!-- 일정 저장 -->
-		<button id="planViewModeBtn" onclick="store();" style="width:100%;">읽기 모드로</button>
+		<button id="planViewModeBtn" onclick="changeViewMode()" style="width:100%;">읽기 모드로</button>
 		<!-- 일정 저장 -->
 		<button id="planSaveBtn" onclick="store();" style="width:100%;" disabled="true">저장 </button>
 		
