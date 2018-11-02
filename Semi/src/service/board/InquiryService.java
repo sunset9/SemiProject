@@ -66,5 +66,5 @@ public interface InquiryService {
 	public boolean deleteReply(Reply reply);
 	
 	// myPage 에서 사용하는 !!!! 내가 질문한 문의사항 불러오기
-	public List<Inquiry> getPagingMyList(Paging paging);
+	public List<Inquiry> getPagingMyList(Paging paging, int user_idx);
 }

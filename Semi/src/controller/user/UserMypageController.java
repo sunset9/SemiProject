@@ -79,9 +79,11 @@ public class UserMypageController extends HttpServlet {
 			// 페이징 객체에 검색어 적용 
 			paging.setSearch(search);
 			
-			// 내가 문의한 게시물 불러오기 
-			List<Inquiry> inqList = inqService.getPagingMyList(paging);
+			int user_idx = (int) req.getSession().getAttribute("user_idx");
 			
+			// 내가 문의한 게시물 불러오기 
+			List<Inquiry> inqList = inqService.getPagingMyList(paging,user_idx);
+			System.out.println("myPage - inqList??" +inqList);
 			req.setAttribute("inqList", inqList);
 			
 			// 페이징 객체 요청에 담기 
