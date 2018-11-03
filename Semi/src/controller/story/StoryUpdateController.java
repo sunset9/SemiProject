@@ -10,6 +10,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import dto.Account.AccType;
 import dto.Account.Account;
 import dto.plan.Plan;
 import dto.story.Story;
@@ -75,7 +76,7 @@ public class StoryUpdateController extends HttpServlet {
 					
 					Account account= new Account();
 					
-					account.setCategory(Integer.parseInt(accType[i]));
+					account.setAccType(AccType.getValue(Integer.parseInt(accType[i])));
 					account.setCurr_idx(Integer.parseInt(currSymbol[i]));
 					//cost의 콤마 제거
 					cost[i]=cost[i].replaceAll(",", "");

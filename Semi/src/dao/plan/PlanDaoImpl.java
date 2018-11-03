@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
+import dto.Account.AccType;
 import dto.Account.Account;
 import dto.plan.Plan;
 import dto.user.User;
@@ -567,29 +568,24 @@ public class PlanDaoImpl implements PlanDao{
 //		return sumInt;
 //	}
 	
-	@Override
-	public int sumAirfareByPlanIdx(Plan plan) {
 
-		//전체 게시글 수 조회 쿼리
-		String sql = "";
-		sql += "select sum(caled_cost) "
-				+ "from account "
-				+ "where acc_cat_idx = 1 "
-				+ "and plan_idx = ?";
+	@Override
+	public int sumAccTypeCost(Plan plan, AccType accType) {
+		String sql = "SELECT sum(caled_cost)"
+				+ " FROM account"
+				+ "	WHERE acc_cat_idx=?"
+				+ " AND plan_idx=?";
 		
-		int cnt = 0;
+		int sumCost = 0;
 		
 		try {
-			
 			ps = conn.prepareStatement(sql);
-			ps.setInt(1, plan.getPlan_idx());
+			ps.setInt(1, accType.getIdx());
+			ps.setInt(2, plan.getPlan_idx());
 			rs = ps.executeQuery();
 			rs.next();
 			
-			
-			
-			cnt = rs.getInt(1);
-			
+			sumCost = rs.getInt(1);
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {
@@ -601,259 +597,8 @@ public class PlanDaoImpl implements PlanDao{
 			}
 		}
 		
-		return cnt;
+		return sumCost;
 	}
-
-	@Override
-	public int sumTrafficByPlanIdx(Plan plan) {
-		//전체 게시글 수 조회 쿼리
-				String sql = "";
-				sql += "select sum(caled_cost) "
-						+ "from account "
-						+ "where acc_cat_idx = 2 "
-						+ "and plan_idx = ?";
-				
-				int cnt = 0;
-				
-				try {
-					
-					ps = conn.prepareStatement(sql);
-					ps.setInt(1, plan.getPlan_idx());
-					rs = ps.executeQuery();
-					rs.next();
-					
-					
-					
-					cnt = rs.getInt(1);
-					
-				} catch (SQLException e) {
-					e.printStackTrace();
-				} finally {
-					try {
-						if(ps!=null)	ps.close();
-						if(rs!=null)	rs.close();
-					} catch (SQLException e) {
-						e.printStackTrace();
-					}
-				}
-				
-				return cnt;
-	}
-
-	@Override
-	public int sumStayByPlanIdx(Plan plan) {
-		//전체 게시글 수 조회 쿼리
-				String sql = "";
-				sql += "select sum(caled_cost) "
-						+ "from account "
-						+ "where acc_cat_idx = 3 "
-						+ "and plan_idx = ?";
-				
-				int cnt = 0;
-				
-				try {
-					
-					ps = conn.prepareStatement(sql);
-					ps.setInt(1, plan.getPlan_idx());
-					rs = ps.executeQuery();
-					rs.next();
-					
-					
-					
-					cnt = rs.getInt(1);
-					
-				} catch (SQLException e) {
-					e.printStackTrace();
-				} finally {
-					try {
-						if(ps!=null)	ps.close();
-						if(rs!=null)	rs.close();
-					} catch (SQLException e) {
-						e.printStackTrace();
-					}
-				}
-				
-				return cnt;
-	}
-
-	@Override
-	public int sumAdmissionByPlanIdx(Plan plan) {
-		//전체 게시글 수 조회 쿼리
-				String sql = "";
-				sql += "select sum(caled_cost) "
-						+ "from account "
-						+ "where acc_cat_idx = 4 "
-						+ "and plan_idx = ?";
-				
-				int cnt = 0;
-				
-				try {
-					
-					ps = conn.prepareStatement(sql);
-					ps.setInt(1, plan.getPlan_idx());
-					rs = ps.executeQuery();
-					rs.next();
-					
-					
-					
-					cnt = rs.getInt(1);
-					
-				} catch (SQLException e) {
-					e.printStackTrace();
-				} finally {
-					try {
-						if(ps!=null)	ps.close();
-						if(rs!=null)	rs.close();
-					} catch (SQLException e) {
-						e.printStackTrace();
-					}
-				}
-				
-				return cnt;
-	}
-
-	@Override
-	public int sumFoodByPlanIdx(Plan plan) {
-		//전체 게시글 수 조회 쿼리
-				String sql = "";
-				sql += "select sum(caled_cost) "
-						+ "from account "
-						+ "where acc_cat_idx = 5 "
-						+ "and plan_idx = ?";
-				
-				int cnt = 0;
-				
-				try {
-					
-					ps = conn.prepareStatement(sql);
-					ps.setInt(1, plan.getPlan_idx());
-					rs = ps.executeQuery();
-					rs.next();
-					
-					
-					
-					cnt = rs.getInt(1);
-					
-				} catch (SQLException e) {
-					e.printStackTrace();
-				} finally {
-					try {
-						if(ps!=null)	ps.close();
-						if(rs!=null)	rs.close();
-					} catch (SQLException e) {
-						e.printStackTrace();
-					}
-				}
-				
-				return cnt;
-	}
-
-	@Override
-	public int sumPlayByPlanIdx(Plan plan) {
-		//전체 게시글 수 조회 쿼리
-				String sql = "";
-				sql += "select sum(caled_cost) "
-						+ "from account "
-						+ "where acc_cat_idx = 6 "
-						+ "and plan_idx = ?";
-				
-				int cnt = 0;
-				
-				try {
-					
-					ps = conn.prepareStatement(sql);
-					ps.setInt(1, plan.getPlan_idx());
-					rs = ps.executeQuery();
-					rs.next();
-					
-					
-					
-					cnt = rs.getInt(1);
-					
-				} catch (SQLException e) {
-					e.printStackTrace();
-				} finally {
-					try {
-						if(ps!=null)	ps.close();
-						if(rs!=null)	rs.close();
-					} catch (SQLException e) {
-						e.printStackTrace();
-					}
-				}
-				
-				return cnt;
-	}
-
-	@Override
-	public int sumShopByPlanIdx(Plan plan) {
-		String sql = "";
-		sql += "select sum(caled_cost) "
-				+ "from account "
-				+ "where acc_cat_idx = 7 "
-				+ "and plan_idx = ?";
-		
-		int cnt = 0;
-		
-		try {
-			
-			ps = conn.prepareStatement(sql);
-			ps.setInt(1, plan.getPlan_idx());
-			rs = ps.executeQuery();
-			rs.next();
-			
-			
-			
-			cnt = rs.getInt(1);
-			
-		} catch (SQLException e) {
-			e.printStackTrace();
-		} finally {
-			try {
-				if(ps!=null)	ps.close();
-				if(rs!=null)	rs.close();
-			} catch (SQLException e) {
-				e.printStackTrace();
-			}
-		}
-		
-		return cnt;
-	}
-
-	@Override
-	public int sumEtcByPlanIdx(Plan plan) {
-		String sql = "";
-		sql += "select sum(caled_cost) "
-				+ "from account "
-				+ "where acc_cat_idx = 8 "
-				+ "and plan_idx = ?";
-		
-		int cnt = 0;
-		
-		try {
-			
-			ps = conn.prepareStatement(sql);
-			ps.setInt(1, plan.getPlan_idx());
-			rs = ps.executeQuery();
-			rs.next();
-			
-			
-			
-			cnt = rs.getInt(1);
-			
-		} catch (SQLException e) {
-			e.printStackTrace();
-		} finally {
-			try {
-				if(ps!=null)	ps.close();
-				if(rs!=null)	rs.close();
-			} catch (SQLException e) {
-				e.printStackTrace();
-			}
-		}
-		
-		return cnt;
-	}
-	
 
 	@Override
 	public int selectCntAll(int searchType, String search) {

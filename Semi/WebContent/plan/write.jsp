@@ -84,6 +84,7 @@
 	#planViewModeBtn{
 		margin-bottom: 5px;
 		background: #eee;
+		border: none;
 	}
 	
 	/* 저장버튼 활성화 버전*/
@@ -91,7 +92,8 @@
 	    height: 34px;
 		background: #4FB99F;
 	    font-weight: bold;
-	    color: #333;
+	    color: #fff;
+	    border: none;
 	}
 	
 	/* 저장버튼 비활성화 버전*/
@@ -99,6 +101,7 @@
 		height: 34px;
 		background: #eee;
 		color: #ccc;
+		border: none;
 	}
 	 
 	#googleSearch{
@@ -168,11 +171,6 @@ var locList = ${locList };
 
 var plan_idx = ${planView.plan_idx};
 
-//환율정보
-var USD_rate=0;
-var KRW_rate=0;
-var JPY_rate=0;
-
 var isModify = 1;
 var isStayWriteMode = false;
 
@@ -239,6 +237,7 @@ function store(beforeTtbIdx, afterTtbIdx){
 			, events: JSON.stringify(timetables)
 		}
 		, success: function(){
+			// 저장 후 수정모드 유지 변수가 false이면, 읽기 모드로 보냄
 			if(!isStayWriteMode){
 				window.location = "/plan?plan_idx=" + ${planView.plan_idx};
 			}
@@ -253,7 +252,7 @@ function store(beforeTtbIdx, afterTtbIdx){
 }
 </script>
 
-<script type="text/javascript">
+<script>
 // 읽기모드일때, 검색창 on/off
 $(document).ready(function() {
 	// isCookieTabClear 플래그가 true 이고
@@ -264,25 +263,6 @@ $(document).ready(function() {
 	// 한 번 탭 변경하지 않고 넘어갔으면 그 다음엔 탭 정보 저장 쿠키 다시 삭제하게
 	setCookie("isCookieTabClear", "true");
 	
-	
-    //환율정보 가져오는 api
-    $.ajax({ 
-      url: "http://api.manana.kr/exchange/rate/KRW/JPY,KRW,USD.json", 
-      type: "GET", 
-      crossDomain: true, 
-      dataType: "json", 
-      success: function (data) { 
-   	   	 JPY_rate = data[0].rate; 
-            KRW_rate = data[1].rate;
-            USD_rate = data[2].rate;
-        },
-      error : function (e) {
-        console.log(e);
-   
-		}
-	 }); 
-	
-	// 브라우저에 timetable 그려주기
 	initFullCalendar(planStartDate, planEndDate, true);
 	$('#calendar').fullCalendar('option', 'editable', true); // 수정 가능하게
 	$('#calendar').fullCalendar('option', 'droppable', true); // 드롭할 수 있게
@@ -484,18 +464,14 @@ function viewMini(event){
 		}
 		, dataType: "json"
 		, success: function(obj){
-			
 			var story = JSON.parse(obj.story);
 			var accountList = JSON.parse(obj.accountList);
 			
-//			console.log(story);
-//			console.log(accountList);
-			
 			// miniView modal에 값 채워줌
-			$("#miniModalTitle").text(event.title); // 타이틀 = 장소이름
-			$("#miniModalPlace").text(event.title); // 장소 이름
-			$("#miniModalAddress").text(event.address);  // 주소
-			$("#miniModalImg").attr("src", event.photo_url); // 이미지
+			$("#miniWriteTitle").text(event.title); // 타이틀 = 장소이름
+			$("#miniWritePlace").text(event.title); // 장소 이름
+			$("#miniWriteAddress").text(event.address);  // 주소
+			$("#miniWriteImg").attr("src", event.photo_url); // 이미지
 			
 			// ttb정보 json String 형태로 넘겨줌
 			$("input[name=ttbJson]").val(JSON.stringify(getTtbJsonForServer(event)));
@@ -507,7 +483,11 @@ function viewMini(event){
 			}));
 			
 			// 스토리 내용 띄워주기
-			$("#miniModalContent").froalaEditor('html.set', story.content);
+			if(story.content != null){
+				$("#miniWriteContent").froalaEditor('html.set', story.content);
+			} else{
+				$("#miniWriteContent").froalaEditor('html.set', '');
+			}
 			
 	 		var ttbJson = JSON.parse($('input[name=ttbJson]').val());
 	 		
@@ -517,21 +497,21 @@ function viewMini(event){
 	 		// account 있는 수만큼 가계부 입력공간 추가
 	 		for (var i = 0; i < accountList.length; i++) {
 	 				if( ttbJson.ttb_idx == accountList[i].ttb_idx){
-	 					var accountView = $("#min_accountView").clone();
+	 					var accountView = $("#w-min_accountView").clone();
 	 					if(count != 0){
-	 						$("#miniModalAccount").append(accountView);	
+	 						$("#w-miniModalAccount").append(accountView);
 	 					}
 	 					count = count+1;
 	 				}
 	 		}
 			
-	 		var size = document.getElementsByName("min_accountViewName").length;
+	 		var size = document.getElementsByName("w-min_accountViewName").length;
 			
 	  		for(var i = 0; i < size; i++){
-	 	        var obj = document.getElementsByName("min_accountViewName")[i];
+	 	        var obj = document.getElementsByName("w-min_accountViewName")[i];
 	
-	 	        $(obj).find(".accountPlus").css("display","none");
-	 	        $(obj).find(".accountRemove").css("display","block");
+	 	        $(obj).find(".w-accountPlus").css("display","none");
+	 	        $(obj).find(".w-accountRemove").css("display","block");
 		        
 	 	        var ch = false;
 	 	        for (var j = 0; j <accountList.length; j++) {
@@ -541,34 +521,34 @@ function viewMini(event){
 	 	        }
 		        
 	 	        if (ch == false) {
-	 			   $(obj).find(".min_accType").val(1);
-	 		        $(obj).find(".min_currSymbol").val(1);
-	 				$(obj).find(".min_cost").val("");
+	 			   $(obj).find(".w-min_accType").val('airfare');
+	 		        $(obj).find(".w-min_currSymbol").val(1);
+	 				$(obj).find(".w-min_cost").val("");
 	 	        }else{
-	 		        $(obj).find(".min_accType").val(accountList[i].category);
-	 		        $(obj).find(".min_currSymbol").val(accountList[i].curr_idx);
-	 				$(obj).find(".min_cost").val(accountList[i].origin_cost);
+	 		        $(obj).find(".w-min_accType").val(accountList[i].accType);
+	 		        $(obj).find(".w-min_currSymbol").val(accountList[i].curr_idx);
+	 				$(obj).find(".w-min_cost").val(accountList[i].origin_cost);
 	 	        }
 
 	 	        if (i == size-1){
-	 			    $(obj).find(".accountPlus").css("display","block");
+	 			    $(obj).find(".w-accountPlus").css("display","block");
 	 	        }
 		        
 	 	        if (size == 5 && i == size-1){
-	 		    	 $(obj).find(".accountPlus").css("display","none");
+	 		    	 $(obj).find(".w-accountPlus").css("display","none");
 	 	        }
 	 	        
 	 	       if (size == 1){ // 1개일때
 		        	// -버튼 안보여주기
-		        	$(obj).find(".accountRemove").css("display","none");
-		        	$(obj).find(".accountPlus").css("display","block");
+		        	$(obj).find(".w-accountRemove").css("display","none");
+		        	$(obj).find(".w-accountPlus").css("display","block");
 		        }
 	 		 }
 		  		
 			// 모달 창 닫힌 경우
-			$("#miniViewModal").on('hidden.bs.modal', function () {
+			$("#miniWriteModal").on('hidden.bs.modal', function () {
 				// 기존 스토리내용 삭제
-				$(this).find($("#miniModalContent")).html('');
+				$("#miniWriteContent").froalaEditor('html.set', '');
 			});
 		}
 		, error: function(){

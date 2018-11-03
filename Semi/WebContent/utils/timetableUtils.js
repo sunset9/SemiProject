@@ -144,7 +144,7 @@ function initFullCalendar(planStartDate, planEndDate, isFirst){
 			var titleElement = element.find(".fc-title");
 			titleElement.attr("data-toggle", "modal");
 			if(isModify){ // 수정모드인 경우 띄워주는 미니뷰
-				titleElement.attr("data-target", "#miniViewWriteModal");
+				titleElement.attr("data-target", "#miniWriteModal");
 			} else { // 읽기모드 미니뷰
 				titleElement.attr("data-target", "#miniViewModal");
 			}
@@ -330,8 +330,8 @@ function getTtbJsonForServer(event){
 			, place_name: event.title
 			, country_name: event.country_name
 			, address: event.address
-			, start_time: event.start.format("YYYY-MM-DD HH:mm") // 24시 형태
-			, end_time: event.end.format("YYYY-MM-DD HH:mm") // 24시 형태
+			, start_time: moment(event.start).format("YYYY-MM-DD HH:mm") // 24시 형태
+			, end_time: moment(event.end).format("YYYY-MM-DD HH:mm") // 24시 형태
 			, lat: event.lat
 			, lng: event.lng
 			, photo_url: event.photo_url

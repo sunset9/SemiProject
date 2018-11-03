@@ -50,7 +50,6 @@
 #map {
 	background-color:#DDDDDD;
 	height:450px;
-	float:bottom;
 	margin-top: 10px;
 
 }
@@ -130,7 +129,7 @@
     border: 1px solid #eee;
     border-left: none;
 /*     font-weight: bold; */
-    background: #fafafa;
+    background: #f9f9f9;
     overflow: hidden;
     position: relative;
     color: #4FB99F;
@@ -138,9 +137,10 @@
 
 #tab-main li.active {
     background: #FFFFFF;
-    border-bottom: 5px solid #4FB99F;
+/*     border-bottom: 5px solid #4FB99F; */
     color: #4FB99F;
     font-weight: bold;
+    font-size: large;
     pointer-events: none; /* 이미 선택한 탭은 다시 클릭 안되도록 */
 }
 .tab-container {

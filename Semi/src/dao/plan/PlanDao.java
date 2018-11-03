@@ -2,6 +2,7 @@ package dao.plan;
 
 import java.util.List;
 
+import dto.Account.AccType;
 import dto.Account.Account;
 import dto.plan.Plan;
 import dto.user.User;
@@ -49,14 +50,7 @@ public interface PlanDao {
 	public int getPlannerSeqNextval();
 	
 	//카테고리별 총 가격
-	int sumAirfareByPlanIdx(Plan plan);
-	int sumTrafficByPlanIdx(Plan plan);
-	int sumStayByPlanIdx(Plan plan);
-	int sumAdmissionByPlanIdx(Plan plan);
-	int sumFoodByPlanIdx(Plan plan);
-	int sumPlayByPlanIdx(Plan plan);
-	int sumShopByPlanIdx(Plan plan);
-	int sumEtcByPlanIdx(Plan plan);
+	int sumAccTypeCost(Plan plan, AccType accType);
 	
 	// 전체 게시물 수 조회
 	public int selectCntAll( int searchType, String search) ;
@@ -71,5 +65,6 @@ public interface PlanDao {
 	public List<Plan> selectRecomPagingList(Paging paging);
 	//배너 업데이트 !
 	public void bannerUpdate(Plan plan);
+
 
 }

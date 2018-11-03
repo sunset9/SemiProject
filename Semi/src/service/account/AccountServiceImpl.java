@@ -9,6 +9,7 @@ import dao.account.AccountDao;
 import dao.account.AccountDaoImpl;
 import dao.story.StoryDao;
 import dao.story.StoryDaoImpl;
+import dto.Account.AccType;
 import dto.Account.Account;
 import dto.plan.Plan;
 import dto.story.Story;
@@ -33,7 +34,7 @@ public class AccountServiceImpl implements AccountService {
 		
 		for(int i =0; i<accountList.size();i++) {
 			//카테고리 이름, 통화명  dto에 string으로 저장 
-			accountList.get(i).setCategory_name(cateGoryIntToStr(accountList.get(i).getCategory()));
+			accountList.get(i).setAccType(accountList.get(i).getAccType());
 			accountList.get(i).setCurr_idx_name(currIntToStr(accountList.get(i).getCurr_idx()));
 			
 			//acountList에 ttb_idx 넣어주기
@@ -56,7 +57,7 @@ public class AccountServiceImpl implements AccountService {
 		accountList = accountDao.selectAccountByPlanidx(plan);
 		
 		for(int i =0; i<accountList.size();i++) {
-			accountList.get(i).setCategory_name(cateGoryIntToStr(accountList.get(i).getCategory()));
+			accountList.get(i).setAccType(accountList.get(i).getAccType());
 			accountList.get(i).setCurr_idx_name(currIntToStr(accountList.get(i).getCurr_idx()));
 			Story story = new Story();
 			story.setStory_idx(accountList.get(i).getStory_idx());
@@ -67,40 +68,6 @@ public class AccountServiceImpl implements AccountService {
 		
 		
 		return accountList;
-	}
-	
-	public String cateGoryIntToStr(int category) {
-		
-		  String category_name = "";
-			
-		  switch (category) {
-		  	case 1:
-		  		category_name ="항공료";
-			    break;
-		  	case 2:
-		  	    category_name ="교통";
-		  	    break;
-		  	case 3:
-		  		category_name ="숙박";
-		  		break;
-		  	case 4:
-		  		category_name ="입장료";
-		  		break;
-		  	case 5:
-		  		category_name ="음식";
-		  		break;
-		  	case 6:
-		  		category_name ="오락";
-		  		break;
-		  	case 7:
-		  		category_name ="쇼핑";
-		  		break;
-		  	case 8:
-		  		category_name ="기타";
-		  		break;
-	     }
-		
-		return category_name;
 	}
 	
 	public String currIntToStr(int curr_idx) {
@@ -200,7 +167,7 @@ public class AccountServiceImpl implements AccountService {
 				Account account= new Account();
 				
 				account.setAcc_idx(accountDao.selectAccIdx());
-				account.setCategory(Integer.parseInt(accType[i]));
+				account.setAccType(AccType.valueOf(accType[i]));
 				account.setCurr_idx(Integer.parseInt(currSymbol[i]));
 				//cost의 값은 콤마도포함되어오므로 콤마제거
 				cost[i]=cost[i].replaceAll(",", "");

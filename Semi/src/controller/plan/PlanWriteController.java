@@ -180,10 +180,6 @@ public class PlanWriteController extends HttpServlet {
         gsonBuilder.setDateFormat("yyyy-MM-dd HH:mm");
         Gson gson = gsonBuilder.create();
 
-//				// 요청 파라미터 받아오기
-		//Plan plan = pService.getParam4Edit(req);
-		Map<Timetable, Location> ttLoc = ttbService.getParam(req);
-		
 		// user_idx 구하기
 		User cUser = (User) req.getSession().getAttribute("user");
 		User cUserSocial = (User) req.getSession().getAttribute("socialUser");

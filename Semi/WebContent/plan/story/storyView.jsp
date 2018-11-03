@@ -294,7 +294,7 @@ var up_cnt = 0;
 				//업데이트 모달 띄울때, account 표시 하기 위한 account값 가져오기
 				<c:forEach items="${accountList}" var="account">
 					accountStoryidx.push("${account.story_idx}");
-					accountCategory.push("${account.category}");
+					accountCategory.push("${account.accType.getIdx()}");
 					accountCurridx.push("${account.curr_idx}");
 					accountCost.push("${account.origin_cost}");
 				</c:forEach>
@@ -896,10 +896,10 @@ var up_cnt = 0;
 							     			<td colspan="2">
 							     			<c:if test="${account.curr_idx_name ne 'USD'}">
 							     			    <fmt:parseNumber var = "caledOriginCost" value= "${account.origin_cost}" integerOnly="true"></fmt:parseNumber>
-												<font class ="accountText" size="2"> ${account.category_name } | ${account.curr_idx_name} ${caledOriginCost}</font> 
+												<font class ="accountText" size="2"> ${account.accType.getName() } | ${account.curr_idx_name} ${caledOriginCost}</font> 
 											</c:if>
 											<c:if test="${account.curr_idx_name eq 'USD'}">
-												<font class ="accountText" size="2"> ${account.category_name } | ${account.curr_idx_name} ${account.origin_cost}</font>
+												<font class ="accountText" size="2"> ${account.accType.getName() } | ${account.curr_idx_name} ${account.origin_cost}</font>
 											</c:if>
 								 		    </td>
 											</tr>
