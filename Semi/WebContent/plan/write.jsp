@@ -120,8 +120,62 @@
 	    padding: 5px 3px 5px 35px;
 	}
 	
+	/* 검색 결과 창*/
 	#searchResultView{
 		padding:3px;
+	}
+	
+	.searchRes {
+	    border: 1px solid #dfdfdf;
+    	height: 95px;
+ 		margin-bottom: 1px;
+	}
+	
+	.searchRes:hover {
+		transform: scale(0.98);
+		border: 2px solid #dfdfdf;
+	}
+	
+	.searchResImg {
+ 	 	float: left;
+	    display: inline;
+		width: 90px;
+		height: 90px;
+		overflow: hidden;
+	}
+	
+	.placeImg {
+		object-fit: cover;
+		weight: auto;
+		height: 100%;
+	}
+	
+	.searchResInfo {
+	    padding: 3px 2px 2px 95px;
+	    height: inherit;
+	}
+	
+	.infoName {
+		font-weight: bold;
+		line-height: 1.2em;
+ 		height: 3.6em;
+		display: -webkit-box;
+    	-webkit-line-clamp: 3;
+		-webkit-box-orient:vertical;
+		overflow:hidden;
+		text-overflow:ellipsis; /* 글자 ... 처리*/
+/* 		white-space:nowrap; /*공백문자가 있는 경우 줄바꿈하지 않고 한줄로 나오게 처리 */ 
+
+	}
+	
+	.infoAddr {
+		margin-top: 2px;
+		font-size: small;
+		color: #999;
+		height: 41%;
+		overflow:hidden;
+		text-overflow:ellipsis; /* 글자 ... 처리*/
+		line-height: 1.2em;
 	}
 </style>
 
@@ -695,9 +749,6 @@ window.onbeforeunload = function(){
 	<div id="googleSearch" class="tab-content tab-ttb">
 	<input id="pac-input" class="controls" type="text" placeholder="장소 검색">
 	    <div id="searchResultView">
-	    <ul>
-			<li id="results" ></li>
-		</ul>
     	</div>
 	</div><br>
 </div>

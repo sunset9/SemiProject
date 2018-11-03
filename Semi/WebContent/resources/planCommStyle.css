@@ -10,7 +10,7 @@
 
 /* 좌측 정보목록*/
 #planInfoNav {
-	width: 230px; 
+	width: 250px; 
 	border-radius: 10px; 
 	float: left;
 }
@@ -39,10 +39,10 @@
 
 /* 우측의 메인 기능 있는 공간 */
 #planMainSection {
-	width: 900px; 
+	width: 895px; 
 	border-radius: 10px;
 	float: right;
-	margin-left: 20px;
+	margin-left: 10px;
 }
 
 /* -------------------------------------------- */
