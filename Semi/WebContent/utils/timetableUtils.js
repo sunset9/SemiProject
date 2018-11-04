@@ -9,6 +9,9 @@ function initFullCalendar(planStartDate, planEndDate, isFirst){
 		$('#calendar').fullCalendar('destroy');
 	}
 	
+	//새로운 일정 id값 지정을 위한 변수
+	var id_idx = -1;
+	
 	// 타임테이블 init
 	$('#calendar').fullCalendar({
 		schedulerLicenseKey: 'GPL-My-Project-Is-Open-Source'
@@ -73,7 +76,7 @@ function initFullCalendar(planStartDate, planEndDate, isFirst){
 			
 			// 상단 날짜 헤더에 나라이름 표시해 줄 span 태그 만들어 놓기
 			dayHeaders.each(function(){
-				$(this).append("<br><span class='header-country'></span>");
+				$(this).append("<div class='header-country'></div>");
 			});
 			
 			// 헤더에 나라 이름 표시
@@ -84,7 +87,10 @@ function initFullCalendar(planStartDate, planEndDate, isFirst){
 			var tdSpan = $("td.fc-axis.fc-time:has(span)");
 			tdSpan.attr("rowspan","2");
 			tdSpan.css("vertical-align","top");
-			tdSpan.css("color","#888");
+			tdSpan.css("font-size", "14px");
+			tdSpan.css("padding-top", "3px");
+			
+			tdSpan.css("color","#a7a7a7");
 			// 날짜 표시 아래에 내용 없는 빈 td는 숨기기
 			var tdNotSpan = $("td.fc-axis.fc-time:not(:has(span))");
 			tdNotSpan.hide();
@@ -124,20 +130,38 @@ function initFullCalendar(planStartDate, planEndDate, isFirst){
 		}
 		// 이벤트 랜더링 콜백함수
 		, eventRender: function(event, element, view) {
+			// 새로 추가한 요소의 id - 음수로 주기.
+			if(event.id == 0){
+				event.id = id_idx-- ; 
+				console.log(event);
+				console.log(element);
+				$('#calendar').fullCalendar('updateEvent', event);
+			}
+			
 			// 이벤트 안의 텍스트 padding
 			element.css("padding", "6px 15px");
 			
 			// 날짜 별로 색상 다르게 해주기
 			if(getDiffDay(event.start, planStartDate) % 5 == 0){
 				element.css("background-color", "#068587");
+				element.css("border", "1px solid #061c1c3d");
+				element.find("div.fc-bg").css("background", "#061c1c");
 			} else if(getDiffDay(event.start, planStartDate) % 5 == 1){
 				element.css("background-color", "#4FB99F");
+				element.css("border", "1px solid #18312a3d");
+				element.find("div.fc-bg").css("background", "#18312a");
 			} else if(getDiffDay(event.start, planStartDate) % 5 == 2){
 				element.css("background-color", "#FFCB37");
+				element.css("border", "1px solid #7463313d");
+				element.find("div.fc-bg").css("background", "#746331");
 			} else if(getDiffDay(event.start, planStartDate) % 5 == 3){
-				element.css("background-color", "#068587");
+				element.css("background-color", "1C4D6B");
+				element.css("border", "1px solid #0E27363d");
+				element.find("div.fc-bg").css("background", "#0E2736");
 			} else if(getDiffDay(event.start, planStartDate) % 5 == 4){
 				element.css("background-color", "#ED553B");
+				element.css("border", "1px solid #190a083d");
+				element.find("div.fc-bg").css("background", "#190a08");
 			}
 			
 			// 이벤트 타이틀에 모달 트리거 속성 삽입
@@ -188,6 +212,7 @@ function initFullCalendar(planStartDate, planEndDate, isFirst){
 			var timetables = getTimetablesFromBrowser();
 			viewMap(calEvent, timetables);
 		}
+
 		// 검색 결과에서 끌어다가 드롭 이벤트 발생시 호출
 		, drop: function( date , jsEvent , ui , resourceId ){
 			// 지도 뷰 바꿔주기 - 드롭한 날짜와 같은 날에 있는 모든 일정의 좌표로
@@ -365,14 +390,17 @@ function displayHeaderCountry(){
 		
 		var length = countryList.length;
 		if(length > 0){
+			$(this).find(".header-country").html('');
 			// 방문나라가 한 곳이거나, 하루의 처음 방문나라와 마지막 방문 나라가 같은 경우 : 한 곳만 띄워줌
 			if(length == 1 || countryList[0] == countryList[length-1]){
-				$(this).find(".header-country").text(countryList[0]);
+				$(this).find(".header-country").append($("<span>").text(countryList[0]));
 			}else{ // 방문나라가 두 곳 이상인 경우: '처음나라>마지막 나라' 형식으로 띄워줌
-				$(this).find(".header-country").text(countryList[0]+">"+countryList[length-1] );
+				$(this).find(".header-country").append($("<span>").text(countryList[0]));
+				$(this).find(".header-country").append("<div class='glyphicon glyphicon-menu-right' style='font-size: 10px;'><div>");
+				$(this).find(".header-country").append($("<span>").text(countryList[length-1]));
 			}
 		} else { // 방문 나라가 없는 경우
-			$(this).find(".header-country").text('');
+			$(this).find(".header-country").html('');
 		}
 	});
 }

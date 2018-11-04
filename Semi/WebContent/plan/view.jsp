@@ -110,13 +110,8 @@
 	#planWriteModeBtn{
 		margin-bottom: 5px;
 		background: #eee;
+		border-radius: 6px;
 	}
-	
-	/* 환율 변환기 */
- 	.gcw_headerF89vAYf4k { 
- 	    border: 1px solid #419983 !important; 
-    	background-color: #4fb99f !important; 
- 	} 
 	
 	#accTypeCost p{
 		margin: 0;
@@ -671,7 +666,7 @@ function changeViewMode(){
 				sc.charset = 'UTF-8';
 				sc.async = true;
 				sc.id='scF89vAYf4k';
-				sc.src = 'https://freecurrencyrates.com/en/widget-vertical?iso=USDEURGBPJPYCNYXUL&df=2&p=F89vAYf4k&v=fits&source=fcr&width=245&width_title=0&firstrowvalue=1&thm=4FB99F,FFFFFF,4297D7,B5E1D6,FFFFFF,C5DBEC,FFFFFF,4FB99F,000000&title=Currency%20Converter&tzo=-540';
+				sc.src = 'https://freecurrencyrates.com/en/widget-vertical?iso=USDEURGBPJPYCNYXUL&df=2&p=F89vAYf4k&v=fits&source=fcr&width=245&width_title=0&firstrowvalue=1&thm=4FB99F,FFFFFF,4FB99F,B5E1D6,FFFFFF,C5DBEC,FFFFFF,4FB99F,000000&title=Currency%20Converter&tzo=-540';
 				// 1: 테두리 , 2: 배경 , 
 				var div = document.getElementById('gcw_mainF89vAYf4k');
 				div.parentNode.insertBefore(sc, div);
@@ -691,8 +686,8 @@ function changeViewMode(){
 <div id="planMainSection" >
 	<!-- 일정 / 스토리 탭  -->
 	<ul id="tab-main" >
-		<li rel="tab-ttb">일정</li>
-		<li rel="tab-story">스토리</li>
+		<li rel="tab-ttb"><img id="ttb-icon" src="/resources/img/timetable-tab.png">일정</li>
+		<li rel="tab-story"><img id="story-icon" src="/resources/img/story-tab.png">스토리</li>
 	</ul>
 	
 	<div class="tab-container">

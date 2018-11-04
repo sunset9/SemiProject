@@ -15,8 +15,20 @@
     overflow-y: scroll; 
 }
 
+.modal-header {
+	background: #4FB99F;
+	border-radius: 6px 6px 0px 0px;
+}
+
 #miniModalBody > tbody tr{
 	height: 40px;
+}
+
+#miniViewTitle{
+    width: 500px;
+    overflow:hidden;
+	text-overflow:ellipsis; /* 글자 ... 처리*/
+	white-space:nowrap; /*공백문자가 있는 경우 줄바꿈하지 않고 한줄로 나오게 처리 */ 
 }
 
 #miniViewImg{
@@ -27,8 +39,16 @@
 #miniViewPlace{
 	font-weight: bold;
 	font-size: large;
-	width: 40%;
+	width: 42%;
 	
+}
+
+#miniViewAddress {
+	font-size: 14px;
+	color: #888;
+	color: #b1b0b0;
+    line-height: 1.2em;
+    overflow: hidden;
 }
 
 #miniViewContent{
@@ -36,35 +56,43 @@
 	box-shadow: 0px 5px 28px -9px grey;  /* h-shadow v-shadow blur spread color*/
 	overflow-y: auto; 
 	height: 230px;
-	margin-top: 15px;
+	margin-top: 26px;
+	padding: 6px;
 }
 
 #miniModalAccount{
 	margin-top: 15px;
 }
 
-/* 수정버튼*/
+/* 수정 버튼*/
 #miniEditModeBtn{
 	float: right;
-    opacity: .4;
+    opacity: .7; 
+	color: white;
     font-size: 19px;
     margin-right: 5px;
-    margin-top: 1px;
+    margin-top: 7px;
 }
-/* 수정버튼 위에 마우스 놓을때 */
+/* 수정 버튼 위에 마우스 놓을때 */
 #miniEditModeBtn:focus, #miniEditModeBtn:hover{
 	float: right;
-    opacity: .7;
+	opacity: .7; 
+	color: black;
     cursor: pointer;
+    text-shadow: 0 1px 0 #fff;	
 }
+
 /* 닫기 버튼 */
 button.close{
-    opacity: .4;
+    opacity: .7; 
+	color: white;
     font-size: 30px;
+    margin-top: 4px !important;
 }
 /* 닫기 버튼 위에 마우스 */
 button.close:focus, button.close:hover{
     opacity: .7;
+    color: black;
     font-size: 30px;
 }
 

@@ -85,15 +85,33 @@
 		margin-bottom: 5px;
 		background: #eee;
 		border: none;
+		border-radius: 6px;
 	}
 	
 	/* 저장버튼 활성화 버전*/
 	#planSaveBtn:not([disabled]){
 	    height: 34px;
-		background: #4FB99F;
+ 		background: #4FB99F; 
 	    font-weight: bold;
-	    color: #fff;
+	    color: #fff; 
 	    border: none;
+	    font-size: 18px;
+	    border-radius: 6px;
+	}
+	
+	/* 저장버튼 활성화/hover 버전*/
+	#planSaveBtn:not([disabled]):hover{
+	    height: 34px;
+	    font-weight: bold;
+	    color: #fff; 
+	    border: none;
+	    font-size: 18px;
+		background-image: -webkit-linear-gradient(top, #56C9AD, #4BB097);
+		background-image: -moz-linear-gradient(top, #56C9AD, #4BB097);
+		background-image: -ms-linear-gradient(top, #56C9AD, #4BB097);
+		background-image: -o-linear-gradient(top, #56C9AD, #4BB097);
+		background-image: linear-gradient(to bottom, #56C9AD, #4BB097);
+	    border-radius: 6px;
 	}
 	
 	/* 저장버튼 비활성화 버전*/
@@ -102,6 +120,8 @@
 		background: #eee;
 		color: #ccc;
 		border: none;
+		font-size: 18px;
+		border-radius: 6px;
 	}
 	 
 	#googleSearch{
@@ -133,7 +153,7 @@
 	
 	.searchRes:hover {
 		transform: scale(0.98);
-		border: 2px solid #dfdfdf;
+		border: 2px solid #4FB99F;
 	}
 	
 	.searchResImg {
@@ -146,7 +166,7 @@
 	
 	.placeImg {
 		object-fit: cover;
-		weight: auto;
+		width: auto;
 		height: 100%;
 	}
 	
@@ -161,9 +181,9 @@
  		height: 3.6em;
 		display: -webkit-box;
     	-webkit-line-clamp: 3;
-		-webkit-box-orient:vertical;
-		overflow:hidden;
-		text-overflow:ellipsis; /* 글자 ... 처리*/
+		-webkit-box-orient: vertical;
+		overflow: hidden;
+		text-overflow: ellipsis; /* 글자 ... 처리*/
 /* 		white-space:nowrap; /*공백문자가 있는 경우 줄바꿈하지 않고 한줄로 나오게 처리 */ 
 
 	}
@@ -274,34 +294,34 @@ function store(beforeTtbIdx, afterTtbIdx){
 // 	console.log(timetables);
 	
 	var succ = false;
-	$.ajax({
-		url: "/plan/update"
-		, type: "post"
-		, async: false
-		, dataType: "html"
-		, data: {
-			plan_idx: '${planView.plan_idx}'
-			, user_idx: '${planView.user_idx}'
-			, uploadFile: '${planView.bannerURL}'
-			, editOpened: $('.planInfo[name=editOpened]').val()
-			, editTraveled: $('.planInfo[name=editTraveled]').val()
-			, editTitleView: $('.planInfo[name=editTitleView]').val()
-			, editStartDate: $('.planInfo[name=editStartDate]').val()
-			, editEndDate: $('.planInfo[name=editEndDate]').val()
-			, events: JSON.stringify(timetables)
-		}
-		, success: function(){
-			// 저장 후 수정모드 유지 변수가 false이면, 읽기 모드로 보냄
-			if(!isStayWriteMode){
-				window.location = "/plan?plan_idx=" + ${planView.plan_idx};
-			}
-			isStayWriteMode = false; 
-			succ = true;
-		}
-		, error: function(){
-			succ = false;
-		}
-	});
+// 	$.ajax({
+// 		url: "/plan/update"
+// 		, type: "post"
+// 		, async: false
+// 		, dataType: "html"
+// 		, data: {
+// 			plan_idx: '${planView.plan_idx}'
+// 			, user_idx: '${planView.user_idx}'
+// 			, uploadFile: '${planView.bannerURL}'
+// 			, editOpened: $('.planInfo[name=editOpened]').val()
+// 			, editTraveled: $('.planInfo[name=editTraveled]').val()
+// 			, editTitleView: $('.planInfo[name=editTitleView]').val()
+// 			, editStartDate: $('.planInfo[name=editStartDate]').val()
+// 			, editEndDate: $('.planInfo[name=editEndDate]').val()
+// 			, events: JSON.stringify(timetables)
+// 		}
+// 		, success: function(){
+// 			// 저장 후 수정모드 유지 변수가 false이면, 읽기 모드로 보냄
+// 			if(!isStayWriteMode){
+// 				window.location = "/plan?plan_idx=" + ${planView.plan_idx};
+// 			}
+// 			isStayWriteMode = false; 
+// 			succ = true;
+// 		}
+// 		, error: function(){
+// 			succ = false;
+// 		}
+// 	});
 	return succ;
 }
 </script>
@@ -759,8 +779,8 @@ window.onbeforeunload = function(){
 <div id="planMainSection">
 	<!-- 일정 / 스토리 탭  -->
 	<ul id="tab-main">
-		<li rel="tab-ttb">일정</li>
-		<li rel="tab-story">스토리</li>
+		<li rel="tab-ttb"><img id="ttb-icon" src="/resources/img/timetable-tab.png">일정</li>
+		<li rel="tab-story"><img id="story-icon" src="/resources/img/story-tab.png">스토리</li>
 	</ul>
 	
 	<div class="tab-container">

@@ -17,8 +17,21 @@
     overflow-y: scroll; 
 }
 
+.modal-header {
+	background: #4FB99F;
+	border-radius: 6px 6px 0px 0px;
+}
+
 #miniModalBody > tbody tr{
 	height: 40px;
+}
+
+
+#miniViewTitle{
+    width: 500px;
+    overflow:hidden;
+	text-overflow:ellipsis; /* 글자 ... 처리*/
+	white-space:nowrap; /*공백문자가 있는 경우 줄바꿈하지 않고 한줄로 나오게 처리 */ 
 }
 
 #miniWriteImg{
@@ -29,18 +42,52 @@
 #miniWritePlace{
 	font-weight: bold;
 	font-size: large;
-	width: 40%;
+	width: 42%;
+}
+
+#miniViewAddress {
+	font-size: 14px;
+	color: #888;
+	color: #b1b0b0;
+    line-height: 1.2em;
+    overflow: hidden;
 }
 
 #miniWriteContent{
 	border: 1px solid gray;
 	overflow-y: auto; 
-	height: 230px;
-	margin-top: 15px;
+	height: 250px;
+	margin-top: 26px;
 }
 
 #w-miniModalAccount{
 	margin-top: 15px;
+}
+
+/* 닫기 버튼 */
+button.close{
+    opacity: .7; 
+	color: white;
+    font-size: 30px;
+    margin-top: 4px !important;
+}
+/* 닫기 버튼 위에 마우스 */
+button.close:focus, button.close:hover{
+    opacity: .7;
+    color: black;
+    font-size: 30px;
+}
+
+/* 저장 버튼 */
+#btnMiniWriteSave {
+    background-image: linear-gradient(to bottom, #50b69c 0,#429480 100%);
+	border-color: #28715e;
+}
+
+/* 저장 버튼 위에 마우스*/
+#btnMiniWriteSave:hover {
+    background: #429480;
+	border-color: #28715e;
 }
 </style>
 <script type="text/javascript">
@@ -373,8 +420,8 @@ $('#miniWriteContent').froalaEditor({
       id: 'my_editor'
     },
  imageEditButtons : ['imageAlign', 'imageRemove', 'imageLink','imageSize','imageDisplay'],
- heightMin: 185,
-    heightMax: 185,
+ heightMin: 205,
+    heightMax: 205,
   }).on('froalaEditor.image.error', function (e, editor, error, response) {
 	  console.log(error);
 	  console.log(response);

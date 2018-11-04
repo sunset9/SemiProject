@@ -99,7 +99,7 @@ function viewMap(timetable, timetables){
 	locations.forEach(function(loc){
 		// 아이콘 정의
 		var icon = {
-				url: '/resources/img/mapMarker/' + (labelIdx++) +'cb.png', // url
+				url: '/resources/img/mapMarker/' + (labelIdx++) +'g.png', // url
 				scaledSize: new google.maps.Size(30, 32), // scaled size
 				origin: new google.maps.Point(0, 0), // origin
 				anchor: new google.maps.Point(8, 15) // anchor
@@ -217,9 +217,6 @@ function autoSearchQuery(predictions, status) {
 	});
 }
 
-//새로운 일정 id값 지정을 위한 변수
-var id_idx = -1;
-
 // 상세 정보 가져온 것 띄워주기
 function viewDetails(placeRes, status, prediction){
 //	console.log(placeRes);
@@ -249,10 +246,10 @@ function viewDetails(placeRes, status, prediction){
 		// 넓이 높이 조정 (긴걸로 맞춤)
 		if(photo != null){
 			if(photo.width >= photo.height){
-				img.css("weight", "auto");
+				img.css("width", "auto");
 				img.css("height", "100%");
 			} else{
-				img.css("weight", "100%");
+				img.css("width", "100%");
 				img.css("height", "auto");
 			}
 		}
@@ -320,7 +317,7 @@ function viewDetails(placeRes, status, prediction){
 		
 		// json data 설정
 		resDiv.data('event', {
-			id: id_idx-- // 새로 추가한 요소는 음수
+			id: 0
 			, plan_idx: plan_idx
 			, title: placeRes.name
 			, address: placeRes.formatted_address
