@@ -18,11 +18,11 @@
 	right:0;
 }
 	
-tr{
+.storytr{
 	padding: 2px;
 }
 
-td{
+.storytd{
 	padding: 2px;
 	padding-left: 10px;
 }
@@ -55,7 +55,7 @@ hr{
 	width: 280px;
 	height: 175px;
 	padding: 18px;
-	background: #DCDCDC;
+	background: rgba( 79, 185, 159, 0.5 );
 	-webkit-border-radius: 14px;
 	-moz-border-radius: 14px;
 	border-radius: 14px;
@@ -73,7 +73,7 @@ hr{
 	position: absolute;
 	border-style: solid;
 	border-width: 7px 11px 7px 0;
-	border-color: transparent #DCDCDC;
+	border-color: transparent rgba( 79, 185, 159, 0.5 );
 	display: block;
 	width: 0;
 	left: -11px;
@@ -111,12 +111,12 @@ hr{
 
 /*장소이름*/
 .storyPlaceName{
-
+	color: #112F41;
 }
 
 /* 장소 마커*/
 .placemarker{
-
+	color: #112F41;
 }
 
 /*스토리본문쪽*/
@@ -125,20 +125,24 @@ hr{
 	height: auto;
 	padding: 10px;
 	width: 100%;
+	color: #112F41;
 }
 
 
 /*스토리없을때 장소이름*/
 .noStoryplaceName{
+	color: #112F41;
 	width: 750px;
 }
 
 /*스토리없을때 장소마커*/
 .noStoryplacemarker{
+	color: #112F41;
 }
 
 /*스토리 없을때 +버튼*/
 .storyPlus{
+	color: #112F41;
 	margin-left: 60px;
 	cursor: pointer;
 }
@@ -885,8 +889,8 @@ var up_cnt = 0;
 						<c:if test="${story.ttb_idx eq ttb.ttb_idx}">
 						<font size ="3"><span class="glyphicon glyphicon-minus startTime">${story.start_time}</span></font>
 				    		<table class="bubble">
-				    			<tr>
-				     			<td colspan="2">
+				    			<tr class = "storytr">
+				     			<td colspan="2" class ="storytd">
 								  <font size="5"><span class = "glyphicon glyphicon-remove removeStory" onclick="storyDelete(${story.story_idx})"  onmouseover="mover($(this))" onmouseleave="mleave($(this))" onmousedown="mdown($(this))"></span>
 								  <span class = "glyphicon glyphicon-pencil updateStory"   
 									  onmouseover="mover($(this))" onmouseleave="mleave($(this))" onmousedown="mdown($(this))" 
@@ -904,8 +908,8 @@ var up_cnt = 0;
 								</td>
 				    			</tr>
 				    			<c:if test="${story.accCnt eq 0}">
-				    				<tr>
-				    				<td colspan = "2">
+				    				<tr class = "storytr">
+				    				<td colspan = "2" class = "storytd">
 				    					<font class="accountText" size="2">
 				    					<span class = "glyphicon glyphicon-usd"></span>
 				    					 총액 | KRW 0원
@@ -916,8 +920,8 @@ var up_cnt = 0;
 			    				<c:if test="${story.accCnt ne 0}">
 					    			<c:forEach var="account" items="${accountList}">
 					    				<c:if test="${account.story_idx eq story.story_idx}">
-							    			<tr>
-							     			<td colspan="2">
+							    			<tr class "storytr">
+							     			<td colspan="2" class = "storytd">
 							     			<c:if test="${account.curr_idx_name ne 'USD'}">
 							     			    <fmt:parseNumber var = "caledOriginCost" value= "${account.origin_cost}" integerOnly="true"></fmt:parseNumber>
 												<font class ="accountText" size="2">
@@ -936,8 +940,8 @@ var up_cnt = 0;
 										</c:if>
 									</c:forEach>
 								</c:if>
-								<tr>
-								<td colspan="2">
+								<tr class = "storytr">
+								<td colspan="2" class="storytd">
 								<hr>
 								<font class ="commentCntText" size="2">
 									<span class = "commentCnt"  onclick="CommentViewClick(${story.story_idx},${ttb.plan_idx})" onmousedown="mdown($(this))" onmouseleave="mleave_gray($(this))" onmouseover="mover($(this))">덧글 ${story.commCnt}개</span>
@@ -945,16 +949,16 @@ var up_cnt = 0;
 								</td>
 								</tr>
 						
-								<tr>
-								<td colspan="1">
+								<tr class = "storytr">
+								<td colspan="1" class = "storytd">
 									<textarea id = "CommContent${story.story_idx}" class ="commContent" rows="2" cols="80" placeholder="댓글을 입력하세요"></textarea>
 								</td>	
-								<td colspan="1" style="padding-bottom:20px;">
+								<td class="storytd" colspan="1" style="padding-bottom:20px;">
 								 <button id = "saveComm${story.story_idx}" type="button" class="btn btn-secondary saveCommBtn" onclick="CommSave(${story.story_idx},${story.ttb_idx},${story.plan_idx})">등록</button>
 								</td>
 								</tr>
-								<tr>
-								<td colspan="2">
+								<tr class="storytr">
+								<td colspan="2" class="storytd">
 									<div id = "CommentView${story.story_idx}" class="commentView"></div>
 								</td>
 								</tr>

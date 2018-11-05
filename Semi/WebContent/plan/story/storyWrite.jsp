@@ -49,8 +49,8 @@
 			<input type="hidden" value="" name ="st_plan_idx" class = "st_plan_idx" />
 			<div id ="StoryWriteDiv">
 				<table>
-				<tr>
-					<td>
+				<tr class="storytr">
+					<td class="storytd">
 						<div id ="storyWriteContentDiv">
 							<textarea name="st_content" class = "st_content"></textarea>
 						</div>
@@ -60,11 +60,11 @@
 				<div id ="accountViewList">
 					<div id = "story_accountView" name = "accountViewName">
 						<table>
-							<tr>	
-							  <td>
+							<tr class="storytr">	
+							  <td class="storytd">
 							  <span class = "glyphicon glyphicon-usd moneyImage"></span>
 							  </td>
-								<td>
+								<td class="storytd">
 								<select name = "st_accType" class="st_accType">
 									<option value="1">항공료</option>
 									<option value="2">교통</optoin>
@@ -76,7 +76,7 @@
 									<option value="8">기타</option>
 								</select>
 								</td>
-								<td>
+								<td class="storytd">
 								<select name = "st_currSymbol" class="st_currSymbol">
 									<option value = "1">USD</option>
 									<option value = "2">KRW</optoin>
@@ -84,10 +84,10 @@
 <!-- 									<option value = "JPY">JPY</option> -->
 								</select>
 								</td>
-								<td>
+								<td class="storytd">
 									<input type="text" size="40" name = "st_cost" class="st_cost" onkeypress="Numberchk()" onkeyup="vComma(this)"/>
 								</td>
-								<td>
+								<td class="storytd">
 									<span class="glyphicon glyphicon-plus accountPlus" onclick = "appendAccount()" onmouseover="mover($(this))" 
 							onmouseleave="mleave($(this))" onmousedown="mdown($(this))"></span>
 								</td>
