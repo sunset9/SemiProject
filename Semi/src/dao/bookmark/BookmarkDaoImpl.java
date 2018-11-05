@@ -50,16 +50,16 @@ public class BookmarkDaoImpl implements BookmarkDao{
 		}
 	}
 	
-	public void deleteBookmarkByPlanIdx(int user_idx) {
+	public void deleteBookmark(Bookmark book) {
 		String sql = "delete bookmark"
-				+ " where user_idx = ?";
+				+ " where book_idx = ?";
 		try {
 			// 오토커밋 해제
 			conn.setAutoCommit(false);
 			
 			ps = conn.prepareStatement(sql);
 			
-			ps.setInt(1, user_idx);
+			ps.setInt(1, book.getBook_idx());
 			
 			ps.executeUpdate();
 			

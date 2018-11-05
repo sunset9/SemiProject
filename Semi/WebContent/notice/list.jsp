@@ -8,12 +8,12 @@
 
 <script type="text/javascript">
 $(document).ready(function() {
-	$("table").on("click","tr",function(){
-		var notice_idx = $(this).children("td").eq(0).text();
+// 	$("table").on("click","tr",function(){
+// 		var notice_idx = $(this).children("td").eq(0).text();
 		
-		$(location).attr("href","/notice/view?notice_idx="+notice_idx);
+// 		$(location).attr("href","/notice/view?notice_idx="+notice_idx);
 		
-	});
+// 	});
 	
 	
 	$("#btnSearch").click(function() {
@@ -37,6 +37,9 @@ $(document).ready(function() {
 #writebtn {
 	position: relative;
 	text-align:right;
+}
+thead{
+ 	background-color:  #ED553B;
 }
 
 </style>

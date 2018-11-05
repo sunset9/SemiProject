@@ -8,12 +8,12 @@
 
 <script type="text/javascript">
 $(document).ready(function() {
-	$("table").on("click","tr",function(){
-		var inq_idx = $(this).children("td").eq(0).text();
+// 	$("table").on("click","tr",function(){
+// 		var inq_idx = $(this).children("td").eq(0).text();
 		
-		$(location).attr("href","/inquiry/view?inq_idx="+inq_idx);
+// 		$(location).attr("href","/inquiry/view?inq_idx="+inq_idx);
 		
-	});
+// 	});
 	
 	$("#inqWrite").click(function() {
 		location.href="/inquiry/write";
@@ -43,6 +43,9 @@ $(document).ready(function() {
 #writebtn {
 	position: relative;
 	text-align:right;
+}
+thead{
+ 	background-color:  #068587;
 }
 
 </style>

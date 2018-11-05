@@ -71,19 +71,35 @@ function deleteReply(rep_idx){
 	
 }
 
-/* #btnGroup { */
-/* 	text-align: center; */
-
-/* } */
-
 .winfo {
 	background: rgba(255,203,55,0.5) ;
 }
 
-td, tr{
 
+.inqContent{
+  	border: 1px solid #ddd;
+	border-radius: 10px;
 }
 
+td{
+    border-top: 1px solid #ddd;
+	padding: 8px;
+}
+
+table{
+    width: 100%;
+    max-width: 100%;
+
+    display: table;
+	border-collapse: collapse;
+    border-spacing: 0;
+}
+
+
+.replist{
+	margin-bottom: 10%;
+	border: 1px solid #ddd;
+}
 
 </style>
 
@@ -92,10 +108,10 @@ td, tr{
 <h2><strong>문의 사항 상세보기</strong></h2>
 <hr>
 
-<div >
-<table class="table table-bordered">
-<tr>
-<td class = "winfo"> 글번호</td><td>${inquiry.inq_idx }</td>
+<div class ="inqContent">
+<table >
+<tr style="border-top-style: hidden;">
+<td class = "winfo" style="border-top-left-radius:10px; "> 글번호</td><td>${inquiry.inq_idx }</td>
 <td class ="winfo">작성일</td><td colspan="2">${inquiry.create_date }</td>
 </tr>
 
@@ -125,14 +141,14 @@ td, tr{
 <td class = "winfo"> 제목 </td> <td colspan="4">${inquiry.title }</td>
 </tr>
 
-<tr><td class ="winfo">본문</td> <td colspan="4">
+<tr><td class ="winfo" style="border-bottom-left-radius:10px;">본문</td> <td colspan="4">
 <c:if test="${inqFile.origin_name ne null}">
 <img style="height: 150px ; width: 300px;" src ="/upload/inquiry/${inqFile.stored_name }"><br><br>
 </c:if>
 ${inquiry.content }</td>
 </table>
 
-</div>
+</div> <br><br><br>
 
 <div class="btnGroup" style ="text-align: center;">
 	<button id = "btnList"  class="btn btn-success">목록</button>
@@ -152,7 +168,8 @@ ${inquiry.content }</td>
 </div>
 
 <!-- 댓글 리스트 부분 -->
-<table class="table table-striped table-hover table-condensed">
+<div class="replist">
+<table class="table table-striped table-condensed">
 <thead>
 <tr>
 	<th style="width: 10%;">작성자</th>
@@ -177,7 +194,7 @@ ${inquiry.content }</td>
 </tbody>
 
 </table>
-
+</div>
 
 
 </div>

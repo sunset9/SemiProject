@@ -24,11 +24,33 @@ $(document).ready(function() {
 	
 }
 
-/* #btnGroup { */
-/* 	text-align: center; */
+.winfo {
+	background: rgba(255,203,55,0.5) ;
+}
 
-/* } */
 
+.notiContent{
+  	border: 1px solid #ddd;
+	border-radius: 10px;
+}
+
+td{
+    border-top: 1px solid #ddd;
+	padding: 8px;
+}
+
+table{
+    width: 100%;
+    max-width: 100%;
+
+    display: table;
+	border-collapse: collapse;
+    border-spacing: 0;
+}
+.btnGroup {
+	text-align: center;
+	margin-bottom: 10%;
+}
 
 </style>
 
@@ -37,19 +59,23 @@ $(document).ready(function() {
 <h2><strong>공지 사항 상세보기</strong></h2>
 <hr>
 
-<div >
-<table class="table table-bordered">
-<tr>
-<td class = "info"> 글번호</td><td>${notice.notice_idx }</td>
-<td class = "info"> 제목 </td> <td colspan="2">${notice.title }</td>
+<div class="notiContent">
+<table >
+<tr  style="border-top-style: hidden;">
+<td class = "winfo" style="border-top-left-radius:10px; "> 글번호</td><td>${notice.notice_idx }</td>
+<td class = "winfo"> 제목 </td> <td colspan="2">${notice.title }</td>
 </tr>
 
 <tr>
-<td class ="info">아이디</td> <td>${userid }</td>
-<td class = "info">닉네임</td> <td colspan="2">${notice.writer }</td>
+<td class ="winfo">아이디</td> <td>${userid }</td>
+<td class = "winfo">닉네임</td> <td colspan="2">${notice.writer }</td>
 </tr>
+<tr>
+<td class ="winfo">조회수</td><td>${notice.hit }</td>
 
-<tr><td class ="info">본문</td> <td colspan="4">
+<td class ="winfo">작성일</td><td colspan="2">${notice.create_date }</td>
+</tr>
+<tr><td class ="winfo" style="border-bottom-left-radius:10px;">본문</td> <td colspan="4">
 
 <c:if test="${noticeFile.origin_name ne null}">
 <img style="height: 200px ; width: 300px;" src ="/upload/notice/${noticeFile.stored_name }"><br><br>
@@ -57,19 +83,12 @@ $(document).ready(function() {
 
 ${notice.content }</td>
 
-<tr>
-<td class ="info">조회수</td><td>${notice.hit }</td>
 
-</tr>
-
-<tr>
-<td class ="info">작성일</td><td colspan="4">${notice.create_date }</td>
-</tr>
 </table>
 
-</div>
+</div><br><br><br>
 
-<div class="btnGroup" style ="text-align: center;">
+<div class="btnGroup" >
 	<button id = "btnList"  class="btn btn-success">목록</button>
 
 </div>
