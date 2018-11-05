@@ -183,7 +183,7 @@ public class UserDaoImpl implements UserDao{
 	public int delete(User user) {
 		
 		String sql = "";
-		sql += "UPDATE userinfo SET id = null, "
+		sql += "UPDATE userinfo SET "
 				+ "PROFILE = '/upload/user/basicProfile.png', "
 				+ "status = 0 "
 				+ "where user_idx = ?";
@@ -216,9 +216,9 @@ public class UserDaoImpl implements UserDao{
 
 	//현재 로그인한 유저의 비밀번호 확인(탈퇴할때)
 	@Override
-	public int chechPw(User user) {
+	public int checkPw(User user) {
 		String sql = "";
-		sql += "SELECT * FROM userinfo";
+		sql += "SELECT COUNT(*) FROM userinfo";
 		if(user.getPassword() != null) {
 			sql += " WHERE id = ? AND password = ?";			
 		}
@@ -229,8 +229,8 @@ public class UserDaoImpl implements UserDao{
 		try {
 			ps = conn.prepareStatement(sql);
 			if(user.getPassword() != null) {
-				
-				ps.setString(1, user.getPassword());
+				ps.setString(1, user.getId());
+				ps.setString(2, user.getPassword());
 			}
 			
 			rs = ps.executeQuery();
@@ -361,7 +361,7 @@ public class UserDaoImpl implements UserDao{
 
 			rs.next();
 
-			System.out.println(rs.getInt(1));
+			//System.out.println("UserDaoImpl checkid() : "+rs.getInt(1));
 			cnt = rs.getInt(1);
 
 		} catch (SQLException e) {

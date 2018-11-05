@@ -27,7 +27,7 @@ public interface UserDao {
 	public int delete(User user);
 	
 	//비밀번호 조회 
-	public int chechPw(User user);
+	public int checkPw(User user);
 	
 	//회원정보수정 
 	public void update(User user);

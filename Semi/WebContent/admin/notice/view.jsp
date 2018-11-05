@@ -11,9 +11,11 @@ $(document).ready(function() {
 	$("#btnList").click(function() {
 		$(location).attr("href", history.go(-1));
 	});
+	
 	$("#btnUpdate").click(function() {
 		$(location).attr("href","/admin/notice/update?notice_idx=${notice.notice_idx}");
 	});
+	
 	$("#btnDelete").click(function() {
 		$(location).attr("href", "/admin/notice/delete?notice_idx=${notice.notice_idx}");
 	});

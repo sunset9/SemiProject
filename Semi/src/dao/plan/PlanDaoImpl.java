@@ -944,7 +944,7 @@ public class PlanDaoImpl implements PlanDao{
 		   sql+= "     opened,";
 		   sql+= "     bannerurl,";
 		   sql+= "     create_date";
-		   sql+= "   FROM planner P";
+		   sql+= "   FROM planner P WHERE opened=1 ";
 		   sql+= "   ORDER BY user_idx DESC"; 
 		   sql+= " ) PL";
 		   
@@ -1057,6 +1057,7 @@ public class PlanDaoImpl implements PlanDao{
 				
 	}
 
+	// 최신 게시물 페이징 해서 불러오기 
 	@Override
 	public List<Plan> selectNewPagingList(Paging paging) {
 		// 페이징 리스트 조회 쿼리
@@ -1076,7 +1077,7 @@ public class PlanDaoImpl implements PlanDao{
 		sql+= "     opened,";
 		sql+= "     bannerurl,";
 		sql+= "     create_date";
-		sql+= "   FROM planner P";
+		sql+= "   FROM planner P WHERE opened=1 ";
 		sql+= "   ORDER BY create_date DESC"; 
 		sql+= " ) PL";
 		   
@@ -1154,32 +1155,27 @@ public class PlanDaoImpl implements PlanDao{
 		return list;
 	}
 
+	// 추천 게시물 페이징 해서 불러오기
 	@Override
 	public List<Plan> selectRecomPagingList(Paging paging) {
 		// 페이징 리스트 조회 쿼리
 
 		   String sql = "";
-		   sql+= "SELECT * FROM (";
-		   sql+= " SELECT rownum rnum, PL.*";
-		   sql+= " FROM (";
-		   sql+= "   SELECT";
-		   sql+= "     plan_idx,";
-		   sql+= "     P.user_idx,";
-		   sql+= "     ( SELECT nickname FROM userinfo U WHERE U.user_idx = P.user_idx ) nickname,";
-		   sql+= "     start_date,";
-		   sql+= "     end_date,";
-		   sql+= "     title,";
-		   sql+= "     traveled,";
-		   sql+= "     opened,";
-		   sql+= "     bannerurl,";
-		   sql+= "     create_date";
-		   sql+= "   FROM planner P";
-		   sql+= "   ORDER BY user_idx DESC"; 
-		   sql+= " ) PL";
-		   
+		   sql+= "SELECT * FROM \n" ;
+		   sql+=		"    (SELECT rownum rnum, BL.*, P.user_idx, P.opened, P.title, P.bannerurl, p.create_date," ; 
+		   sql+=		"        ( SELECT nickname FROM userinfo U WHERE P.user_idx= U.user_idx) nickname " ; 
+		   sql+= 		"            FROM"; 
+		   sql+=		"                ( SELECT count(plan_idx) bookCnt, plan_idx " ; 
+		   sql+=		"                FROM bookmark B   " ;
+		   sql+=		"                GROUP BY B.plan_idx" ; 
+		   sql+=		"                ORDER BY bookCnt DESC " ;
+		   sql+=		"                ) BL" ; 
+		   sql+=		"            INNER JOIN planner P" ;
+		   sql+=		"            ON P.plan_idx = BL.plan_idx";
 		   
 		   System.out.println("dao search :" +paging.getSearch());
 		   System.out.println("dao searchType : " +paging.getSearchType());
+		   
 		   if(paging.getSearch()!=null && !"".equals(paging.getSearch())) {
 			      if(paging.getSearchType()==1) {
 			         // searchType 1이면 제목으로 조회
@@ -1194,7 +1190,7 @@ public class PlanDaoImpl implements PlanDao{
 			   }
 
 		   sql+= " ORDER BY rnum";
-		   sql+= ") WHERE rnum between ? AND ?";
+		   sql+= ") WHERE rnum between ?  AND ?";
 		// DB 객체 생성
 		PreparedStatement ps = null;
 		ResultSet rs = null;
@@ -1219,13 +1215,10 @@ public class PlanDaoImpl implements PlanDao{
 			// rs의 결과 DTO에 하나씩 저장하기
 				p.setPlan_idx(rs.getInt("plan_idx"));
 				p.setUser_idx(rs.getInt("user_idx"));
-				p.setStart_date(rs.getDate("start_date"));
-				p.setEnd_date(rs.getDate("end_date"));
 				p.setOpened(rs.getInt("opened"));
 				p.setTitle(rs.getString("title"));
 				p.setBannerURL(rs.getString("bannerurl"));
 				p.setNick(rs.getString("nickname"));
-				
 				p.setCreate_date(rs.getDate("create_date"));
 				
 
@@ -1249,5 +1242,67 @@ public class PlanDaoImpl implements PlanDao{
 		}
 		// 결과 반환
 		return list;
+	}
+
+	// 최신 게시물 리스트 조회 
+	@Override
+	public List<Plan> selectNewList() {
+		// grade가 '여행작가'인 유저의 글중 최신글부터 나열한 리스트
+		String sql = "";
+		sql += "SELECT P.plan_idx, U.user_idx, U.nickname, P.start_date, P.end_date, P.title, P.traveled, P.opened, P.bannerURL, P.create_date";
+		sql += " FROM planner P JOIN userinfo U on P.user_idx = U.user_idx";
+		sql += " WHERE U.grade = '여행작가' ORDER BY P.create_date desc";
+		
+		// DB 객체 생성
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+
+		// 조회 결과 담을 list 생성
+		List<Plan> list = new ArrayList<>();
+
+		try {
+			// DB 작업 시작
+			ps = conn.prepareStatement(sql);
+			rs = ps.executeQuery();
+
+			// 결과 리스트에 담기
+			while (rs.next()) {
+				Plan plan = new Plan();
+				
+				plan.setPlan_idx(rs.getInt("plan_idx"));
+				plan.setUser_idx(rs.getInt("user_idx"));
+				plan.setNick(rs.getString("nickname"));
+				plan.setStart_date(rs.getDate("start_date"));
+				plan.setEnd_date(rs.getDate("end_date"));
+				plan.setTitle(rs.getString("title"));
+				plan.setTraveled(rs.getInt("traveled"));
+				plan.setOpened(rs.getInt("opened"));
+				plan.setBannerURL(rs.getString("bannerURL"));
+				plan.setCreate_date(rs.getDate("create_date"));
+				
+				list.add(plan);
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			try {
+				// DB객체 닫기
+				if (rs != null)
+					rs.close();
+				if (ps != null)
+					ps.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+		return list;
+	}
+
+	// 추천 게시물 리스트 조회
+	@Override
+	public List<Plan> selectRecomList() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 }

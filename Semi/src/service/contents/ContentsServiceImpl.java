@@ -59,14 +59,29 @@ public class ContentsServiceImpl implements ContentsService {
 		return planDao.selectPagingList(paging);
 	}
 
+	// 추천 게시물 페이징 해서 불러오기
 	@Override
 	public List<Plan> getRecomPagingList(Paging paging) {
 		return planDao.selectRecomPagingList(paging);
 	}
 
+	// 최신 게시물 페이징 해서 불러오기 
 	@Override
 	public List<Plan> getNewPagingList(Paging paging) {
 		return  planDao.selectNewPagingList(paging);
+	}
+
+	// 추천 게시물 불러오기
+	@Override
+	public List<Plan> getRecomList() {
+		planDao.selectRecomList();
+		return null;
+	}
+
+	// 최신 게시물 불러오기
+	@Override
+	public List<Plan> getNewList() {
+		return planDao.selectNewList();
 	}
 
 

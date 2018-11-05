@@ -21,8 +21,7 @@ public class Plan {
 	private Date create_date;
 //	배너 url
 	private String bannerURL;
-	
-	// 유저 nickname 
+// 유저 nickname 
 	private String nick;
 	
 	public String getNick() {

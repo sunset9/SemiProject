@@ -13,70 +13,66 @@
 
 <!-- 구글 api  -->
 <script type="text/javascript">
-	function init() { /* auth객체 생성자 : 바디태그를 다 읽은 후 이 메소드가 제일 먼저 호출된다. */
-		console.log('init');
-	
-		/* gapi(구글 api) 중 auth2라는 기능을 가져온후, 다음에 정의한 function을 수행하라는 뜻. */
-		gapi.load('auth2', function() { 
-			
-			/* var gauth가 아니라 window.gauth라고 해주면 전역 변수로 사용 가능하다. 아래 바디 태그에서도 사용가능 */
-			window.gauth = gapi.auth2.init({  /* 인증(허가) 객체 초기화 메소드 */
-				client_id:'261787449656-7thgl5h7flg6lvb5sa3vb22r1tqfo4fc.apps.googleusercontent.com'
-			})
-			/* 바로 위에 gapi.auth2.init()의 리턴 타입은 gapi.auth2.GoogleAuth이다.
-			그래서 아래의 gauth 라는 변수의 데이터 타입은 GoogleAuth.(GoogleAuth gauth)
-			그리고 init()의 파라미터로 client_id를 전달해주면 
-			gauth는 나의 auth(허가, authorization) 정보를 가진 객체가 된다.
-			허가 정보가 있어야 구글이 아닌 다른 웹페이지에서도 구글 정보를 가지고 로그인이 가능
-			*/
-			
-			/* 밑에 then이라는 함수는 inti() 후 상태를 알려준다. 
-			첫번째 인자는 init()이 성공적으로 수행됐을때 호출되고,
-			두번째 인자는 init()이 호출되는데 문제가 생겼을때 호출된다.*/
-			/* 성공적으로 수행됐다면 로그인 상태를 체크하는 checkLoginStatus()를 호출한다. */
-			gauth.then(function(){
-				console.log('googleAuth success');
-				checkGoogleLoginStatus(); 
-			}, function(){
-				console.log('googleAuth fails');
-			});
+function init() { /* auth객체 생성자 : 바디태그를 다 읽은 후 이 메소드가 제일 먼저 호출된다. */
+	console.log('init');
+
+	/* gapi(구글 api) 중 auth2라는 기능을 가져온후, 다음에 정의한 function을 수행하라는 뜻. */
+	gapi.load('auth2', function() { 
+		
+		/* var gauth가 아니라 window.gauth라고 해주면 전역 변수로 사용 가능하다. 아래 바디 태그에서도 사용가능 */
+		window.gauth = gapi.auth2.init({  /* 인증(허가) 객체 초기화 메소드 */
+			client_id:'261787449656-7thgl5h7flg6lvb5sa3vb22r1tqfo4fc.apps.googleusercontent.com'
+		})
+		/* 바로 위에 gapi.auth2.init()의 리턴 타입은 gapi.auth2.GoogleAuth이다.
+		그래서 아래의 gauth 라는 변수의 데이터 타입은 GoogleAuth.(GoogleAuth gauth)
+		그리고 init()의 파라미터로 client_id를 전달해주면 
+		gauth는 나의 auth(허가, authorization) 정보를 가진 객체가 된다.
+		허가 정보가 있어야 구글이 아닌 다른 웹페이지에서도 구글 정보를 가지고 로그인이 가능
+		*/
+		
+		/* 밑에 then이라는 함수는 inti() 후 상태를 알려준다. 
+		첫번째 인자는 init()이 성공적으로 수행됐을때 호출되고,
+		두번째 인자는 init()이 호출되는데 문제가 생겼을때 호출된다.*/
+		/* 성공적으로 수행됐다면 로그인 상태를 체크하는 checkLoginStatus()를 호출한다. */
+		gauth.then(function(){
+			console.log('googleAuth success');
+			if(gauth.isSignedIn.get()){
+				console.log('구글 로그인 상태');
+			} else {
+				console.log('구글 로그아웃 상태');
+			}
+		}, function(){
+			console.log('googleAuth fails');
 		});
-	}
-	
-	
-	/* 로그인 상태인지 비로그인 상태인지 판별하는 메소드 */
-	/* 로그인한 상태면 현재 유저의 프로필 정보를 가져온다. */
-	function checkGoogleLoginStatus() { 
-		var loginBtn = document.querySelector('#loginBtn'); /* id가 loginBtn인 요소를 가져와서 loginBtn이란 변수에 담기 */
-		var nameTxt = document.querySelector('#name'); /* id가 name인 요소(span)를 가져와서 nameTxt란 변수에 담기 */
-		if(gauth.isSignedIn.get()){ /* 만약 로그인한 상태라면 */
-			console.log('logined'); /* 콘솔에 로그인드를 찍어줌 */
-			loginBtn.value = 'Logout'; /* loginBtn의 글자가 Logout으로 바뀜 */
-			window.profile = gauth.currentUser.get().getBasicProfile(); /* gauth객체는 현재 유저의 프로필을 가져올 수 있는 메소드를 가지고 있다. */
-			console.log(profile.getEmail()); /* 가져온 프로필 정보 출력 */
-			console.log(profile.getImageUrl());
-			console.log(profile.getName());
-			console.log(profile.getId());
-			console.log(profile);
-			$("#googleid").val(profile.getEmail());
-			$("#googlenickname").val(profile.getName());
-			$("#googleprofileImage").val(profile.getImageUrl());
-			
-			/* nameTxt.innerHTML = 'Welcome <strong> '+profile.getName()+'</strong> '; */
-			
-			checkLoginStatus2();
-			
-			
-		} else {
-			console.log('logouted'); /* 만약 로그아웃한 상태라면 */
-			loginBtn.value = 'Login'; /* 버튼의 글자가 Login으로 설정됨 */
-			nameTxt.innerHTML = '';
-		}
-	};
-	
-	function checkLoginStatus2() {
-		document.getElementById("googleLogin").submit();
-	};
+	});
+}
+
+/* 로그인창 띄워주고 그 후 처리 */
+function startGoogleLogin() {
+	gauth.signIn().then(function(){
+		console.log('gauth.signIn()');
+		window.profile = gauth.currentUser.get().getBasicProfile();
+		
+		/* 가져온 프로필 정보 출력 */
+		console.log(profile.getEmail()); 
+		console.log(profile.getImageUrl());
+		console.log(profile.getName());
+		console.log(profile.getId());
+		console.log(profile);
+		
+		/* 구글 로그인폼에 가져온 프로필 넣어주기 */
+		$("#googleid").val(profile.getEmail());
+		$("#googlenickname").val(profile.getName());
+		$("#googleprofileImage").val(profile.getImageUrl());
+		
+		submitGoogleLogin();
+	})
+}
+
+function submitGoogleLogin() {
+	document.getElementById("googleLogin").submit();
+};
+
 </script>
 
 <!-- 카카오톡 api -->
@@ -156,43 +152,16 @@
 	});
 </script>
 
-<!-- 페이스북 api -->
+<!-- 페이스북 로그인 api -->
 <script type="text/javascript">
-
-var checkLoginStatus = function(response){
-	console.log(response);
-	if(response.status == 'connected'){
-		/* connected는 1. 페북에도 로그인했고 앱에도 로그인한 상태 */
-		document.querySelector("#authBtn").value = 'Logout';
-		
-		
-		FB.api('/me', 'GET',{"fields":"id,name,picture"},function(response) {
-			window.userProfile = response;
-			
-			console.log(userProfile);
-			
-			console.log(userProfile.id);
-			console.log(userProfile.name);
-			console.log(userProfile.picture.data.url);
-			
-			$("#facebookid").val(userProfile.id);
-			$("#facebooknickname").val(userProfile.name);
-			$("#facebookprofileImage").val(userProfile.picture.data.url);
-			//$("#test").val(response.picture.data.url);
-			
-			checkFacebookLoginStatus2();
-		});
-	} else {
-		document.querySelector("#authBtn").value = 'Login';
-		document.querySelector('#name').innerHTML = '';
-
-	}
-}
-
-function checkFacebookLoginStatus2() {
-	document.getElementById("facebookLogin").submit();
-}
-
+/* 페이스북 sdk 로드하는 즉시실행함수 */
+(function(d, s, id) {
+var js, fjs = d.getElementsByTagName(s)[0];
+if (d.getElementById(id)) return;
+js = d.createElement(s); js.id = id;
+js.src = "//connect.facebook.net/en_US/sdk.js";
+fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));
 
 
 /* fbAsyncInit 함수 : sdk 로드가 끝난 후 실행 */
@@ -211,27 +180,104 @@ window.fbAsyncInit = function() {
 	// the callback you provide. They can be:
 	//
 	// 1. 페북에도 로그인했고 앱에도 로그인했을때 ('connected')
-	// 2. 페북은 했고 앱은 안했을때 ('not_authorized')
-	// 3. 페북도 앱도 안했을때 ('unknown')
+	// 2. 페북은 로그인했고 앱은 안했을때 ('not_authorized')
+	// 3. 페북도 앱도 로그인 안했을때 ('unknown')
 	//
 	// These three cases are handled in the callback function.
 
 	//로그인 되었는지 안되었는지 상태를 가져오는 함수
-	//인자로 콜백함수를 갖는다.
+	//인자로 checkLoginStatus라는 함수를 전달해서 
+	//status
 	//response 안에 status 정보가 담겨있음 -> 개발자 도구에서 확인 가능
-	FB.getLoginStatus(checkLoginStatus);
+	//FB.getLoginStatus(checkLoginStatus);
 
 	};
 
+	
+	function startFacebookLogin(){
+		FB.login(function(res){
+			checkLoginStatus(res);
+		})
+	};
+	
+	var checkLoginStatus = function(response){
+		console.log(response);
+		
+		if(response.status == 'connected'){			
+			
+			FB.api('/me', 'GET',{"fields":"id,name,picture"},function(response) {
+				window.userProfile = response;
+				
+				console.log(userProfile);
+				
+				console.log(userProfile.id);
+				console.log(userProfile.name);
+				console.log(userProfile.picture.data.url);
+				
+				$("#facebookid").val(userProfile.id);
+				$("#facebooknickname").val(userProfile.name);
+				$("#facebookprofileImage").val(userProfile.picture.data.url);
+				//$("#test").val(response.picture.data.url);
+				
+				checkFacebookLoginStatus2();
+			});
+		} else {
+			console.log('not connected');
+			/* FB.logout(function(res){
+				console.log('logouted');
+			}) */
+		}
+		
+	}
+	
+	function checkFacebookLoginStatus2() {
+		document.getElementById("facebookLogin").submit();
+	}
+</script>
 
-//페이스북 sdk 로드 부분
-(function(d, s, id) {
-var js, fjs = d.getElementsByTagName(s)[0];
-if (d.getElementById(id)) return;
-js = d.createElement(s); js.id = id;
-js.src = "//connect.facebook.net/en_US/sdk.js";
-fjs.parentNode.insertBefore(js, fjs);
-}(document, 'script', 'facebook-jssdk'));
+<script type="text/javascript">
+/* 회원가입 관련 */
+function sendJoinForm(){
+	if(joinForm.userid.value == ""){
+		alert("이메일을 입력해주세요.");
+		joinForm.userid.focus(); //포커스 안해주면 그냥 서브밋 되어버림
+		return false;
+	}
+	
+	if(joinForm.userpw.value == ""){
+		alert("비밀번호를 입력해주세요.");
+		joinForm.userpw.focus();
+		return false;
+	}
+	
+	if(joinForm.userpw.value.length<10){
+		alert("비밀번호는 10자 이상 입력해주세요.");
+		joinForm.userpw.focus();
+		joinForm.userpw.select(); //드래그로 선택됨
+		return false;
+	}
+	
+	if(joinForm.userpw.value != joinForm.pwCheck.value){
+		alert("비밀번호가 일치하지 않습니다.");
+		joinForm.pwCheck.value = "";
+		joinForm.pwCheck.focus();
+		return false;
+	}
+	
+	if(joinForm.usernickname.value == ""){
+		alert("닉네임을 입력해주세요.");
+		joinForm.usernickname.focus();
+		return false;
+	}
+	
+	if(joinForm.usernickname.value.length > 10){
+		alert("닉네임은 10자까지만 가능합니다.");
+		joinForm.usernickname.focus();
+		return false;
+	}
+} 
+ 
+ 
 </script>
 
 <style type="text/css">
@@ -287,21 +333,8 @@ fjs.parentNode.insertBefore(js, fjs);
 <body>
 
 <!-- 구글 로그인 -->
+<button onclick="startGoogleLogin();"> 로그인 </button>
 <form action="/user/socialLogin" method="post" id="googleLogin" >
-	<span id="name"></span> 
-	<input type="button" id="loginBtn" value="checking..." onclick="
-	if(this.value === 'Login'){ 
-		gauth.signIn().then(function(){
-			console.log('gauth.signIn()');
-			checkGoogleLoginStatus();
-			checkLoginStatus2();
-		});
-	}else {
-		gauth.signOut().then(function(){
-			console.log('gauth.signOut()');
-			checkGoogleLoginStatus();
-		});
-	}" />
 	<input type="hidden" id="googleid" name="id" value="" />
 	<input type="hidden" id="googlenickname" name="nickname" value="" />
 	<input type="hidden" id="googleprofileImage" name="profileImage" value="" />
@@ -325,22 +358,8 @@ fjs.parentNode.insertBefore(js, fjs);
 
 
 <!-- 페이스북 로그인 -->
+<input type="button" onclick="startFacebookLogin();" value="페이스북 로그인"/>
 <form action="/user/socialLogin" method="post" id="facebookLogin">
-<input type="button" id="authBtn" value="checking..." onclick="
-	if(this.value === 'Login'){
-		// now logout
-		FB.login(function(res){
-			console.log('login => ', res);
-			checkLoginStatus(res);
-		});
-	} else {
-		// now login
-		FB.logout(function(res){
-			console.log('logout => ', res);
-			checkLoginStatus(res);
-		});
-	}
-">
 	<input type="hidden" id="facebookid" name="id" value="" />
 	<input type="hidden" id="facebooknickname" name="nickname" value=""/>
 	<input type="hidden" id="facebookprofileImage" name="profileImage" value=""/>
@@ -391,7 +410,7 @@ fjs.parentNode.insertBefore(js, fjs);
 	<!-- 회원가입 modal content  -->
 	<div class="joinModal-contents">
 		<span class="jClose">&times;</span>
-		<form action="/user/join" method="post">
+		<form id="joinForm" action="/user/join" method="post" onsubmit="return sendJoinForm();">
 		<div id="sign_up">
 			<div class="header">
 			<h3>회원가입</h3><br>
@@ -419,7 +438,7 @@ fjs.parentNode.insertBefore(js, fjs);
 <!-- 회원가입 모달 끝 -->
 
 
-<!-- modal script -->
+<!-- login modal script -->
 <script>
 	// Get the modal
 	var fModal = document.getElementById('findPwModal');

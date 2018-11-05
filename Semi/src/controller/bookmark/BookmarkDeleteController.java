@@ -27,7 +27,11 @@ public class BookmarkDeleteController extends HttpServlet {
 
 	PlanService pService = new PlanServiceImpl();
 	BookmarkService bService = new BookmarkServiceImpl();
-
+	
+	@Override
+	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+		doPost(req, resp);
+	}
 	@Override
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		System.out.println();
@@ -35,19 +39,13 @@ public class BookmarkDeleteController extends HttpServlet {
 		req.setCharacterEncoding("utf-8");
 		
 		// 플랜 정보 파라미터 받기 
-		Plan planParam = pService.getParam(req);
-		System.out.println(planParam);
+		Bookmark book = bService.getParam (req);
 		
-		HttpSession session = req.getSession();
 		
-		//유저 객체로 넘기기
-		int user_idx = 	(int)session.getAttribute("user_idx");
 		
-		bService.deleteBookmark(user_idx);
+		bService.deleteBookmark(book);
 		
-		Bookmark book = bService.getBookmarkInfo(planParam);
-		System.out.println(book);
 		
-		resp.sendRedirect("/plan?plan_idx="+planParam.getPlan_idx());
+		resp.sendRedirect("/user/myPage");
 	}
 }
