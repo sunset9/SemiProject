@@ -84,7 +84,7 @@
 						</select>
 					</td>
 					<td class="storytd">
-					<input type="text" size="40" name = "up_cost" class="up_cost" onkeypress="Numberchk()" onkeyup="vComma(this)"/>
+					<input type="text" size="33" name = "up_cost" class="up_cost" onkeypress="Numberchk()" onkeyup="vComma(this)"/>
 					</td>
 					<td class="storytd">
 						<span class="glyphicon glyphicon-plus accountPlus" onclick = "UpappendAccount()" onmouseover="mover($(this))" 
