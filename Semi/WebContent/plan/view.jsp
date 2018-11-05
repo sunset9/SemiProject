@@ -573,7 +573,7 @@ function mdown(obj){
 
 //마우스 떠날때 색바꾸기
 	function mleave(obj) {
-		obj.css("color", "#777777");
+		obj.css("color", "#ffffff");
 	}
 	
 //마우스떠날때 색 gray로바꾸기
@@ -610,8 +610,7 @@ function mdown(obj){
 			<form action="/bookmark/insert" method="post" id="addBookmark">
 				<input type="hidden" name="plan_idx" value="${planView.plan_idx}" />
 				<span id="plusBookmark" class = "glyphicon glyphicon-bookmark"   
-				  onmouseover="mover($(this))" onmouseleave="mleave($(this))" onmousedown="mdown($(this))" 
-				  data-toggle="modal" data-target="#myModal_update" style="float:right;font-size:35px;cursor:pointer;" >
+				  onmouseover="mover($(this))" onmouseleave="mleave($(this))" onmousedown="mdown($(this))">
 				</span>
 			</form>
 		</c:if>
@@ -621,8 +620,7 @@ function mdown(obj){
 				<input type="hidden" name="book_idx" value="${bookmark.book_idx}" />
 				<input type="hidden" name="plan_idx" value="${planView.plan_idx}" />
 				<span id="minusBookmark" class = "glyphicon glyphicon-remove"   
-				  onmouseover="mover($(this))" onmouseleave="mleave($(this))" onmousedown="mdown($(this))" 
-				  data-toggle="modal" data-target="#myModal_update" style="float:right;font-size:35px;cursor:pointer;" >
+				  onmouseover="mover($(this))" onmouseleave="mleave($(this))" onmousedown="mdown($(this))">
 				</span>
 			</form>
 		</c:if>
@@ -661,7 +659,15 @@ function mdown(obj){
  	<!-- 가계부 DIV -->
 	<div id="accountView">
 			<!-- 가계부 그래프 -->
-		<br><a href="#layer2" id="btnAccGraph" >가계부 그래프</a><br>
+		<br>	
+			<a href="#layer2" id="btnAccGraph">
+			<span id="AccGraph" class = "glyphicon glyphicon-signal"   
+				  onmouseover="mover($(this))" onmouseleave="mleave($(this))" onmousedown="mdown($(this))">
+				</span>
+			</a>
+		<br>		
+<!-- 		<a href="#layer2" id="btnAccGraph" >가계부 그래프</a> -->
+		
 		<div class="dim-layer">
 		    <div class="dimBg"></div>
 		    <div id="layer2" class="pop-layer">
