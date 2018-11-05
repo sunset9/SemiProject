@@ -31,9 +31,11 @@ public class MainController extends HttpServlet {
 
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+		System.out.println("--------------- MainController 시작 ---------------");
 		// 추천콘텐츠 리스트 가져오기
 		List<Plan> recomPlanList = conService.getRecomList();
-
+		System.out.println("MainController recomPlanList : "+recomPlanList);
+		
 		// 최신콘텐츠 리스트 가져오기
 		List<Plan> newestPlanList = conService.getNewList();
 		System.out.println("MainController newestPlanList : "+newestPlanList);
@@ -44,6 +46,8 @@ public class MainController extends HttpServlet {
 
 		// 뷰 지정해주기
 		req.getRequestDispatcher("/main/main.jsp").forward(req, resp);
+		
+		System.out.println("--------------- MainController  ---------------");
 	}
 
 //	@Override
