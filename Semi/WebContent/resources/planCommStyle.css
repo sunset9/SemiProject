@@ -7,19 +7,25 @@
 	border-radius: 10px;
 	background-size: 100% 100%;
 	
-	padding: 40px;
-    
+	padding: 10px;
 }
-
+/* 배너 보기 */
 #viewTitle {
 	width: 100%;
-	height: 280px;
-	padding: 30px;
-    font-weight: bold;
+	height: 380px;
     text-align: center;
+    padding: 0px 10px;
     color: #fff;
-    background-color: #ffffff;
+    border-radius: 10px;
     background-color: rgba( 0, 0, 0, 0.3 );
+}
+
+/* 수정 버튼 */
+#btnModify {
+	float:right;
+	font-color:#fff;
+	font-size:35px;
+	cursor:pointer;
 }
 /* 좌측 정보목록*/
 #planInfoNav {
@@ -28,30 +34,38 @@
 	float: left;
 }
 
-/* 유저 정보*/
+/* 게시자  정보*/
 #userInfoView {
-	background-color: #112F41;
 	height: 100%;
 	width: 100%;
-	color: #ffffff;
+	padding: 10px;
 	border-radius: 10px;
 	text-align:center;
+	background-color: #F0F0F0;
+/* 	background-color: rgba( 79, 251, 159, 0.05 ); */
+}
+
+/* 게시자 정보 텍스트 */
+#userInfoText {
+	color:#4FB99F;
+	font-size:20px;
 }
 
 /* 게시자 프로파일 이미지*/
 #userInfoProfileImg {
-	border-radius: 70px; 
+	border-radius: 70px;
 	width: 100px;
 }
 
 /* 좌측 가계부 정보 */
 #accountView {
-	background-color: #112F41;
+	
 	height: 100%;
 	width: 100%;
-	color: #ffffff;
 	border-radius: 10px;
 	text-align:center;
+	background-color: #F0F0F0;
+/* 	background-color: rgba( 79, 251, 159, 0.05 ); */
 }
 
 /* 우측의 메인 기능 있는 공간 */
@@ -63,25 +77,22 @@
 }
 
 
+/**************EDIT 부분*******************/
 #editTitle {
 	width: 100%;
-	height: 280px;
+	height: 320px;
 	padding: 30px;
-    font-weight: bold;
     text-align: center;
-    background-color: #ffffff;
-    background-color: rgba( 255, 255, 255, 0.7 );
+    border-radius: 10px;
+    background-color: rgba( 0, 0, 0, 0.3 );
 }
 
-#editInput {
-	padding: 10px 40px;
+#editBannerText {
+	color: #fff;
+	font-size: 25px;
 }
 
-
-#bannerText {
-	font-size: 20px;
-}
-
+/***********************************************************/
 section {
 	overflow: hidden;
 }
