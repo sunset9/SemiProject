@@ -513,10 +513,10 @@ public class UserDaoImpl implements UserDao{
 		sql += "SELECT B.book_idx, P.TITLE, P.BANNERURL, P.plan_idx, B.user_idx, U.nickname" ;
 		sql +=		"        FROM BOOKMARK B"  ;
 		sql +=		"        INNER JOIN PLANNER P" ; 
-		sql +=		"        ON B.PLAN_IDX = P.PLAN_IDX" ; 
+		sql +=		"        ON B.PLAN_IDX = P.PLAN_IDX  " ; 
 		sql +=		"        INNER JOiN USERINFO U" ; 
 		sql +=		"        ON P.user_idx = U.user_idx" ; 
-		sql +=		"    WHERE B.USER_IDX =? ";
+		sql +=		"    WHERE  P.opened =1 and B.USER_IDX =? ";
 	
 		
 		//DB 객체

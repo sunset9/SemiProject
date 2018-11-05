@@ -37,6 +37,70 @@ $(document).ready(function () {
 #content {
 	width: 98%;
 }
+.winfo {
+	background:rgba(79	,185,159,0.5) ;
+	text-align: center;
+
+}
+#btnUpdate{
+/* 	background-color: #4FB99F; */
+  	width:80px;
+    background-color: #FFCB37;
+    border: none;
+    color:#fff;
+	padding: 5px 0;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 15px;
+    margin: 4px;
+    border-radius:10px;
+}
+#btnCancel{
+/* 	background-color: #4FB99F; */
+  	width:80px;
+    background-color: #ED553B;
+    border: none;
+    color:#fff;
+	padding: 5px 0;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 15px;
+    margin: 4px;
+    border-radius:10px;
+}
+#fileDelete{
+  	width:50px;
+    background-color: #ED553B;
+    border: none;
+    color:#fff;
+	padding: 3px 0;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 10px;
+    margin: 3px;
+    border-radius:5px;
+}
+.inqContent{
+  	border: 1px solid #ddd;
+	border-radius: 10px;
+}
+
+td{
+    border-top: 1px solid #ddd;
+	padding: 8px;
+}
+
+table{
+    width: 100%;
+    max-width: 100%;
+    display: table;
+	border-collapse: collapse;
+    border-spacing: 0;
+}
+
 </style>
 
 <div class="container">
@@ -47,15 +111,15 @@ $(document).ready(function () {
 <div>
 <form action="/inquiry/update"  method="post" enctype="multipart/form-data">
 <input type="hidden" name = "inq_idx" value= "${inquiry.inq_idx }"/>
-<table class="table table-bordered"> 
-<tr><td class ="info">아이디</td><td>${userid }</td></tr>
-<tr><td class ="info">닉네임</td><td>${writerNick }</td></tr>
-<tr><td class ="info">제목</td><td><input type="text"  name ="title" style="width:100%" value="${inquiry.title }"/></td></tr>
-<tr><td class="info" colspan="2">본문</td></tr>
-<tr><td colspan="2"><textarea id="content" name ="content">${inquiry.content}</textarea></td></tr>
+<div class="inqContent">
+<table > 
+<tr style="border-top-style: hidden;"><td class ="winfo" style="border-top-left-radius:10px;">아이디</td><td>${userid }</td></tr>
+<tr><td class ="winfo">닉네임</td><td>${writerNick }</td></tr>
+<tr><td class ="winfo">제목</td><td><input type="text"  name ="title" style="width:100%" value="${inquiry.title }"/></td></tr>
+<tr><td class="winfo"  style="border-bottom-left-radius:10px;">본문</td><td><textarea id="content" name ="content">${inquiry.content}</textarea></td></tr>
 
 </table>
-
+</div>
 <c:if test="${inqFile.origin_name ne null}">
 <div id="fileSection"> 기존 첨부파일 : ${inqFile.origin_name }<button id ="fileDelete" type="button">삭제</button></div><br>
 </c:if>
@@ -71,7 +135,7 @@ $(document).ready(function () {
 <div class="text-center">	
 	<button type="button" id="btnUpdate" class="btn btn-warning">수정</button>
 	<button type="button" id="btnCancel" class="btn btn-danger">취소</button>
-</div>
+</div><br>
 </div>
 
 <script type="text/javascript">

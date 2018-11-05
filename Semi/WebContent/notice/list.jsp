@@ -39,8 +39,24 @@ $(document).ready(function() {
 	text-align:right;
 }
 thead{
- 	background-color: rgba(255,203,55) ;
+ 	background-color: #4FB99F ;
 }
+th {
+	border: 1px solid #DDD;
+	text-align: center;
+	color: #FFF;
+	border-top-left-radius: 10px;
+	border-top-right-radius: 10px;
+}
+
+tbody tr:last-child{
+	border-bottom: 1px solid black;
+}
+
+tr td{
+	text-align: center;
+}
+
 
 </style>
 <div class ="container">
@@ -53,11 +69,11 @@ thead{
 <table class="table table-hover table-striped table-condensed">
 <thead>
 <tr>
-<th>번호</th>
-<th>제목</th>
-<th>작성자</th>
-<th>조회수</th>
-<th>작성일</th>
+<th style ="width :5%;">번호</th>
+<th style ="width :50%;">제목</th>
+<th style ="width :10%;"> 작성자</th>
+<th style ="width :10%;">조회수</th>
+<th style ="width :15%;">작성일</th>
 </tr>
 </thead>
 
@@ -144,9 +160,9 @@ thead{
     </c:if>
   </ul>
   
-  <div id="searchBox" class="text-center">
-	<input type="text" id="search" placeholder="제목검색"/>
-	<button id="btnSearch">검색</button>
+  <div id="searchBox" class="col-xs-2, form-inline">
+	<input class="form-control" type="text" id="search" placeholder="제목검색"/>
+	<button id="btnSearch" class="btn btn-default btn-sm">검색</button>
 </div><br>
 
 </div>

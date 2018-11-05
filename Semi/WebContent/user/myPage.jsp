@@ -20,7 +20,7 @@
 	grid-template-columns:33% 33% 33%;
 }
 
-#planBox{
+#planBox,#bookmarkBox{
 	border: 1px solid black; 
 	padding:10px;
 	margin : 3px;
