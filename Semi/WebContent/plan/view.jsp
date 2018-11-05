@@ -114,8 +114,11 @@
 		border-radius: 6px;
 		height: 38px;
 		width: 100%;
+		font-size: 17px;
 	}
-	
+	#planWriteModeBtn:hover {
+		background: #dadada;
+	}
 	#planWriteModeBtn span {
 		right: 4px;
 	    top: 3px;

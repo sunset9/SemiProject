@@ -77,18 +77,6 @@
 }
 
 
-#planWriteModeBtn {
-	background-color: #4FB99F;
-    width:100%;
-/*     background-color: #ED553B; */
-    border: none;
-  	padding: 10px 0;
-    text-align: center;
-    text-decoration: none;
-    display: inline-block;
-    font-size: 20px;
-    border-radius:10px;
-}
 /**************EDIT 부분*******************/
 #editTitle {
 	width: 100%;

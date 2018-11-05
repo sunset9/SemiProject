@@ -25,10 +25,18 @@
 }
 
 #miniViewTitle{
-    width: 500px;
+    width: 460px;
     overflow:hidden;
+    padding-left: 18px;
 	text-overflow:ellipsis; /* 글자 ... 처리*/
 	white-space:nowrap; /*공백문자가 있는 경우 줄바꿈하지 않고 한줄로 나오게 처리 */ 
+}
+
+#miniViewModal .glyphicon-map-marker {
+	float: left;
+    top: 7px;
+    left: 5px;
+    font-size: 25px;
 }
 
 #miniViewImg{
@@ -248,7 +256,7 @@ function displayMiniWrite(writeHtml){
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
         <span id="miniEditModeBtn" class="glyphicon glyphicon-pencil"></span>
-        <h4 id="miniViewTitle">Modal title</h4>
+        <span class='glyphicon glyphicon-map-marker'></span><h4 id="miniViewTitle">Modal title</h4>
       </div>
       
 		<!-- div (팝업으로 띄어줄) 본문 내용 -->	

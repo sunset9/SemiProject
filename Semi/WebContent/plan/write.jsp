@@ -169,6 +169,9 @@
 		height: 30px;
 		width: 100%;
 	}
+	#planViewModeBtn:hover {
+		background: #dadada;
+	}
 	
 	/* 저장버튼 활성화 버전*/
 	#planSaveBtn:not([disabled]){
