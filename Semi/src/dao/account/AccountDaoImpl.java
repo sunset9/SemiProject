@@ -11,6 +11,7 @@ import dto.Account.AccType;
 import dto.Account.Account;
 import dto.plan.Plan;
 import dto.story.Story;
+import dto.timetable.Timetable;
 import utils.DBConn;
 
 public class AccountDaoImpl implements AccountDao {
@@ -265,6 +266,57 @@ public class AccountDaoImpl implements AccountDao {
 		
 		
 		return cnt;
+	}
+
+	@Override
+	public void deleteAccountListByTtbList(Plan plan, List<Timetable> ttbList) {
+		String sql = "DELETE account Acc"
+				+ " WHERE Acc.acc_idx = ("
+				+ "		SELECT A.acc_idx FROM account A"
+				+ " 	RIGHT JOIN ("
+				+ " 		SELECT S.* FROM story S"
+				+ "	        	LEFT JOIN timetable T"
+				+ "		      	ON S.ttb_idx = T.ttb_idx"
+				+ "		    WHERE 1=1 "; 
+		// 저장하려는 ttb_idx를 가지고 있지 않은 스토리 선택하는 쿼리
+		if(ttbList.size() != 0) {
+			sql += " 			AND T.ttb_idx NOT IN (";
+			for(int i = 0; i < ttbList.size() -1; i++) {
+				sql += ttbList.get(i).getTtb_idx() + ",";
+			}
+			sql += ttbList.get(ttbList.size()-1).getTtb_idx() +") "
+					+ ") S";
+		}
+		sql	+= " 	ON A.story_idx = S.story_idx" + 
+				" 	WHERE A.plan_idx = ? )";
+		
+		System.out.println("----account Dao");
+		System.out.println(sql);
+		
+		try {
+			conn.setAutoCommit(false);
+			
+			ps = conn.prepareStatement(sql);
+			ps.setInt(1, plan.getPlan_idx());
+			
+			ps.executeUpdate();
+			
+			conn.commit();
+		} catch (SQLException e) {
+			e.printStackTrace();
+			try {
+				conn.rollback();
+			} catch (SQLException e1) {
+				e1.printStackTrace();
+			}
+		} finally {
+			try {
+				if(ps!=null) ps.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+		
 	}
 
 }

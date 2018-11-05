@@ -258,9 +258,36 @@ $(document).ready(function(){
 			, dataType: "json"
 			, success: function(d){
 				if(isModify){ // 수정 모드인 경우
-					isStayWriteMode = true;					
+					isStayWriteMode = true;	
+					
+					var timetables = [];
+					var events = $("#calendar").fullCalendar('clientEvents');
+					events.forEach(function(event){ // 모든 리스트 돌면서 timetable json 하나씩 생성
+						var timetable = getTtbJsonForServer(event);
+						timetables.push(timetable);
+					});
+
+					// ttb_idx바꿔야하는 타임테이블 찾아서 ttb_idx값 변경
+					var beforeTtbIdx = ttbJson.ttb_idx;
+					var afterTtbIdx = d.ttb_idx;
+					if(beforeTtbIdx!=null && afterTtbIdx != null){
+						for(var i = 0; i<timetables.length; i++){
+							if(timetables[i].ttb_idx == beforeTtbIdx){
+								timetables[i].ttb_idx = afterTtbIdx;
+								break;
+							}
+						}
+					}
+					
 					// 미니뷰 저장 성공 시 , 미니뷰 작성한 타임테이블의 이전 idx와 저장 후 idx값 넘겨줌
-					store(ttbJson.ttb_idx, d.ttb_idx);
+					var succ = store(timetables);
+					
+					// 뒤에 타임테이블 다시 그려주기
+					if(succ){
+						location.reload();
+					}
+					
+					// 모달 닫기
 					$("#miniWriteModal").modal('hide');
 				} else{ // 읽기 모드인 경우 (= 미니뷰 수정 상황)
 					// 미니뷰 수정모드 모달 삭제

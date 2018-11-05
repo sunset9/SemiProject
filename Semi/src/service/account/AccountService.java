@@ -7,6 +7,7 @@ import javax.servlet.http.HttpServletRequest;
 import dto.Account.Account;
 import dto.plan.Plan;
 import dto.story.Story;
+import dto.timetable.Timetable;
 
 public interface AccountService {
 	
@@ -35,5 +36,8 @@ public interface AccountService {
 		
 		//미니뷰 account 저장
 		public void writeMini(Story story, Boolean isStory,HttpServletRequest req);
+		
+		// 삭제한 타임테이블 리스트에 해당하는 가계부 리스트 삭제
+		public void deleteList(Plan planParam, List<Timetable> ttbList);
 		
 }

@@ -1,5 +1,6 @@
 package service.account;
 
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -13,6 +14,7 @@ import dto.Account.AccType;
 import dto.Account.Account;
 import dto.plan.Plan;
 import dto.story.Story;
+import dto.timetable.Timetable;
 
 public class AccountServiceImpl implements AccountService {
 	
@@ -185,6 +187,12 @@ public class AccountServiceImpl implements AccountService {
 		
 	
 		
+		
+	}
+
+	@Override
+	public void deleteList(Plan planParam, List<Timetable> ttbList) {
+		accountDao.deleteAccountListByTtbList(planParam, ttbList);
 		
 	}
 
