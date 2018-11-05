@@ -1057,6 +1057,7 @@ public class PlanDaoImpl implements PlanDao{
 				
 	}
 
+	// 최신 게시물 페이징 해서 불러오기 
 	@Override
 	public List<Plan> selectNewPagingList(Paging paging) {
 		// 페이징 리스트 조회 쿼리
@@ -1154,6 +1155,7 @@ public class PlanDaoImpl implements PlanDao{
 		return list;
 	}
 
+	// 추천 게시물 페이징 해서 불러오기
 	@Override
 	public List<Plan> selectRecomPagingList(Paging paging) {
 		// 페이징 리스트 조회 쿼리
@@ -1249,5 +1251,67 @@ public class PlanDaoImpl implements PlanDao{
 		}
 		// 결과 반환
 		return list;
+	}
+
+	// 최신 게시물 리스트 조회 
+	@Override
+	public List<Plan> selectNewList() {
+		// grade가 '여행작가'인 유저의 글중 최신글부터 나열한 리스트
+		String sql = "";
+		sql += "SELECT P.plan_idx, U.user_idx, U.nickname, P.start_date, P.end_date, P.title, P.traveled, P.opened, P.bannerURL, P.create_date";
+		sql += " FROM planner P JOIN userinfo U on P.user_idx = U.user_idx";
+		sql += " WHERE U.grade = '여행작가' ORDER BY P.create_date desc";
+		
+		// DB 객체 생성
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+
+		// 조회 결과 담을 list 생성
+		List<Plan> list = new ArrayList<>();
+
+		try {
+			// DB 작업 시작
+			ps = conn.prepareStatement(sql);
+			rs = ps.executeQuery();
+
+			// 결과 리스트에 담기
+			while (rs.next()) {
+				Plan plan = new Plan();
+				
+				plan.setPlan_idx(rs.getInt("plan_idx"));
+				plan.setUser_idx(rs.getInt("user_idx"));
+				plan.setNick(rs.getString("nickname"));
+				plan.setStart_date(rs.getDate("start_date"));
+				plan.setEnd_date(rs.getDate("end_date"));
+				plan.setTitle(rs.getString("title"));
+				plan.setTraveled(rs.getInt("traveled"));
+				plan.setOpened(rs.getInt("opened"));
+				plan.setBannerURL(rs.getString("bannerURL"));
+				plan.setCreate_date(rs.getDate("create_date"));
+				
+				list.add(plan);
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			try {
+				// DB객체 닫기
+				if (rs != null)
+					rs.close();
+				if (ps != null)
+					ps.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+		return list;
+	}
+
+	// 추천 게시물 리스트 조회
+	@Override
+	public List<Plan> selectRecomList() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 }

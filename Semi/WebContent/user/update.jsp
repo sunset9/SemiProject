@@ -11,6 +11,7 @@
 <meta charset="UTF-8">
 <title>Insert title here</title>
 <script type="text/javascript" src="http://code.jquery.com/jquery-2.2.4.min.js"></script>
+<!-- 비밀번호 변경하기 버튼 눌렀을때 -->
 <script type="text/javascript">
 	$(document).ready(function(){
 		$("#morePwRegion").hide();
@@ -21,6 +22,7 @@
 	});
 </script>
 
+<!-- 탈퇴하기 눌렀을때 -->
 <script type="text/javascript">
 function deleteCheck(){
 	var message = confirm("정말로 탈퇴하시겠습니까?");
@@ -30,13 +32,30 @@ function deleteCheck(){
 		return false;
 	}
 }
-
-
 </script>
 
 <script type="text/javascript">
-
-
+	function sendUpdateForm(){
+		if(UserUpdateForm.newPw.value != UserUpdateForm.newPwCheck.value){
+			alert("비밀번호가 일치하지 않습니다.");
+			UserUpdateForm.newPwCheck.focus();
+			UserUpdateForm.newPwCheck.select();
+			return false;
+		}
+		
+		if(UserUpdateForm.currPw.value.length<10){
+			alert("비밀번호는 10자 이상 입력해주세요.");
+			UserUpdateForm.newPw.focus();
+			return false;
+		}
+		
+		if(UserUpdateForm.newPw.value.length<10){
+			alert("비밀번호는 10자 이상 입력해주세요.");
+			UserUpdateForm.newPw.focus();
+			return false;
+		}
+	}
+	
 </script>
 
 <style type="text/css">
@@ -97,7 +116,7 @@ function deleteCheck(){
 	<hr>
 	<div id="container">
 		<div id="left">
-			<form action="/user/update" method="post">
+			<form action="/user/update" method="post" id="UserUpdateForm" onsubmit="return sendUpdateForm();">
 				<label>아이디 : </label>
 				<input type="text" name="userid" value="${user.id}" readonly/><br>
 				<label>내등급 : </label>
@@ -110,11 +129,11 @@ function deleteCheck(){
 				</div>
 				<div id="morePwRegion">
 					<label>현재 비밀번호 : </label>
-					<input type="password" name="currPw"/><br>
+					<input type="password" id="currPw" name="currPw"/><br>
 					<label>새 비밀번호 : </label>
-					<input type="password" name="newPw"/><br>
+					<input type="password" id="newPw" name="newPw"/><br>
 					<label>비밀번호 확인 : </label>
-					<input type="password" name="newPwCheck"/><br>
+					<input type="password" id="newPwCheck" name="newPwCheck"/><br>
 				</div>
 				<button type="submit">저장하기</button>
 			</form>

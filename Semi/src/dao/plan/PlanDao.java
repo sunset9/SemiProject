@@ -69,7 +69,13 @@ public interface PlanDao {
 	
 	// 추천 게시물 페이징 된 plan 리스트 조회
 	public List<Plan> selectRecomPagingList(Paging paging);
+
 	//배너 업데이트 !
 	public void bannerUpdate(Plan plan);
-
+	
+	// 최신 게시물 리스트 조회 
+	public List<Plan> selectNewList();
+	
+	// 추천 게시물 리스트 조회
+	public List<Plan> selectRecomList();
 }
