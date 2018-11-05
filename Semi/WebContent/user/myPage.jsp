@@ -119,9 +119,19 @@ $(document).ready(function(){
 	
 	$('.fileBtn').change(function(){
 		$('.uploadForm').submit();
-	})
-});
+	});
 	
+});
+
+function deletePlan(plan_idx){
+	$(location).attr("href", "/plan/delete?plan_idx="+plan_idx);
+}
+function updatePlan(plan_idx){
+	$(location).attr("href", "/plan/update?plan_idx="+plan_idx);
+}
+function deleteBook(book_idx){
+	$(location).attr("href", "/bookmark/delete?book_idx="+book_idx);
+}
 </script>
 <!-- 비밀번호 변경하기 버튼 눌렀을때 -->
 <script type="text/javascript">
@@ -299,15 +309,20 @@ function deleteCheck(){
 			<div id="planBox" data-plan_idx="${plan.plan_idx }">
 			<a href="/plan?plan_idx=${plan.plan_idx }">
 				<div><img src="/upload/banner/${plan.bannerURL }" style="width: 100%;"></div>
-				<div> Title : ${plan.title} <br> NickName : ${plan.nick }</div>
-				<div>
-					<button id ="planDelete"  onclick="deletePlan(${plan.plan_idx})">삭제</button>
+				<div> Title : ${plan.title}</div>
+				
+			</a>
+			<div>
+					<button id ="planDelete" onclick="deletePlan(${plan.plan_idx })">삭제</button>
+					<button id ="planUpdate" onclick="updatePlan(${plan.plan_idx })">수정</button>
 				</div>
-			</a></div>
-		</c:forEach>
-		</div>
-	
+			</div>
+				</c:forEach>
 	</div>
+			</div>			
+			</div>
+		
+
 	
 	<div id="bookmarkList" class="list" style="display:none">
 	<div><h3>여기는 북마크 리스트</h3></div>
@@ -319,10 +334,11 @@ function deleteCheck(){
 			<a href="/plan?plan_idx=${bList.plan_idx }">
 				<div><img src="/upload/banner/${bList.bannerURL }" style="width: 100%;"></div>
 				<div> Title : ${bList.title} <br> NickName : ${bList.writeNick }</div>
+				</a>
 				<div>
-					<button id ="planDelete"  onclick="deletePlan(${bList.plan_idx})">삭제</button>
+					<button id ="bookDelete" onclick="deleteBook(${bList.book_idx })" >삭제</button>
 				</div>
-			</a></div>
+			</div>
 		</c:forEach>
 		
 	</div>
@@ -348,7 +364,7 @@ function deleteCheck(){
 			<c:forEach items ="${inqList }" var = "inq">
 			<tr>
 			<td>${inq.inq_idx }</td>
-			<td><a href="/admin/inquiry/view?inq_idx=${inq.inq_idx }">${inq.title }</a></td>
+			<td><a href="/inquiry/view?inq_idx=${inq.inq_idx }">${inq.title }</a></td>
 			<td>${inq.writer }</td>
 			<td>
 			
@@ -454,12 +470,15 @@ function deleteCheck(){
 			<a href="/plan?plan_idx=${plan.plan_idx }">
 				<div><img src="/upload/banner/${plan.bannerURL }" style="width: 100%;"></div>
 				<div> Title : ${plan.title}</div>
-				<div>
-					<button id ="planDelete"  onclick="deletePlan(${plan.plan_idx})">삭제</button>
-				</div>
+			
 			</a></div>
+			<div>
+					<button id ="planDelete">삭제</button>
+					<button id ="planUpdate" >수정</button>
+			</div>
 		</c:forEach>
-		</div>
+	</div>
+	</div>
 	
 	</div>
 	
@@ -473,10 +492,10 @@ function deleteCheck(){
 			<a href="/plan?plan_idx=${bList.plan_idx }">
 				<div><img src="/upload/banner/${bList.bannerURL }" style="width: 100%;"></div>
 				<div> Title : ${bList.title} <br> NickName : ${bList.writeNick }</div>
-				<div>
-					<button id ="planDelete"  onclick="deletePlan(${bList.plan_idx})">삭제</button>
+				</a><div>
+					<button id ="planDelete"  onclick="deleteBook(${bList.book_idx })" >삭제</button>
 				</div>
-			</a></div>
+			</div>
 		</c:forEach>
 		
 		</div>
@@ -501,7 +520,7 @@ function deleteCheck(){
 			<c:forEach items ="${inqList }" var = "inq">
 			<tr>
 			<td>${inq.inq_idx }</td>
-			<td><a href="/admin/inquiry/view?inq_idx=${inq.inq_idx }">${inq.title }</a></td>
+			<td><a href="/inquiry/view?inq_idx=${inq.inq_idx }">${inq.title }</a></td>
 			<td>${inq.writer }</td>
 			<td>
 			

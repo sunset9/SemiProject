@@ -23,12 +23,32 @@ $(document).ready(function() {
 	width: 1000px;
 	
 }
+.winfo {
+	background: rgba(255,203,55,0.5) ;
+	text-align: center;
+}
+.qnaContent{
+  	border: 1px solid #ddd;
+	border-radius: 10px;
+}
 
-/* #btnGroup { */
-/* 	text-align: center; */
+td{
+    border-top: 1px solid #ddd;
+	padding: 8px;
+}
 
-/* } */
+table{
+    width: 100%;
+    max-width: 100%;
 
+    display: table;
+	border-collapse: collapse;
+    border-spacing: 0;
+}
+.btnGroup {
+	text-align: center;
+	margin-bottom: 10%;
+}
 
 </style>
 
@@ -37,35 +57,33 @@ $(document).ready(function() {
 <h2><strong>자주하는 질문 상세보기</strong></h2>
 <hr>
 
-<div >
-<table class="table table-bordered">
-<tr>
-<td class = "info"> 글번호</td><td>${qna.qna_idx }</td>
-<td class = "info"> 제목 </td> <td colspan="2">${qna.title }</td>
+<div class="qnaContent">
+<table >
+<tr style="border-top-style: hidden;">
+<td class = "winfo" style="border-top-left-radius:10px; "> 글번호</td><td>${qna.qna_idx }</td>
+<td class = "winfo"> 제목 </td> <td colspan="2">${qna.title }</td>
 </tr>
 
 <tr>
-<td class ="info">아이디</td> <td>${userid }</td>
-<td class = "info">닉네임</td> <td colspan="2">${qna.writer }</td>
+<td class ="winfo">아이디</td> <td>${userid }</td>
+<td class = "winfo">닉네임</td> <td colspan="2">${qna.writer }</td>
 </tr>
 
-<tr><td class ="info">본문</td> <td colspan="4">
+<tr>
+<td class ="winfo">조회수</td><td>${qna.hit }</td>
+<td class ="winfo">작성일</td><td colspan="4">${qna.create_date }</td>
+</tr>
+
+<tr><td class ="winfo" style="border-bottom-left-radius:10px;">본문</td> <td colspan="4">
 <c:if test="${qnaFile.origin_name ne null}">
 <img style="height: 150px ; width: 300px;" src ="/upload/qna/${qnaFile.stored_name }"><br><br>
 </c:if>
 ${qna.content }</td>
 
-<tr>
-<td class ="info">조회수</td><td>${qna.hit }</td>
 
-</tr>
-
-<tr>
-<td class ="info">작성일</td><td colspan="4">${qna.create_date }</td>
-</tr>
 </table>
 
-</div>
+</div><br><br><br>
 
 <div class="btnGroup" style ="text-align: center;">
 	<button id = "btnList"  class="btn btn-success">목록</button>

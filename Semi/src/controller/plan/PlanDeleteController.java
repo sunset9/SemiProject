@@ -25,6 +25,10 @@ public class PlanDeleteController extends HttpServlet {
 	StoryService sService = new StoryServiceImpl();
 	
 	@Override
+	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+		doPost(req,resp);
+	}
+	@Override
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		System.out.println();
 		System.out.println("----- PlanDeleteController -----");
