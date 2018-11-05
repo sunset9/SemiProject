@@ -695,13 +695,14 @@ window.onbeforeunload = function(){
 		<input type="hidden" name="user_idx" value="${planView.user_idx}" />
 		
 		<input id="fileBtn" type="file" name="uploadFile"/>
+		<button></button>
 	</form>
 	<!-- 플래너 대문 정보(공개유무, 수정버튼, 일정제목 등 UI) -->
 	<div id="editTitle" >
-		<div style="text-align:right;margin:0px auto;width: 400px;">
+		<div style="text-align:right;margin:0px auto;width:400px;">
 			<form action="/plan/update" method="post" id="planForm">
-			<b id="bannerText">공개유무 : </b>
-			<select id="editInput" name="editOpened" class ="planInfo" >
+			<b id="editBannerText">공개유무 : </b>
+			<select name="editOpened" class ="planInfo" style="padding: 10px 40px;border-radius: 10px;">
 				<c:if test="${planView.opened eq 1 }">
 					<option value="1" selected="selected">공개</option>
 					<option value="0">비공개</option>
@@ -717,17 +718,17 @@ window.onbeforeunload = function(){
 					<input type="hidden" name="plan_idx" value="${planView.plan_idx}" />
 					<input type="hidden" name="user_idx" value="${planView.user_idx}" />
 					
-					<b id="bannerText">글제목 : </b>
-					<input id="editInput" name="editTitleView" class="planInfo" type="text" value="${planView.title }"/><br>
+					<b id="editBannerText">글제목 : </b>
+					<input name="editTitleView" class="planInfo" type="text" value="${planView.title }" style="padding: 10px 40px;border-radius: 10px;"/><br>
 					
-					<b id="bannerText">출발일 : </b>
-					<input id="editInput" name="editStartDate" class ="planInfo" type="date" value="${planView.start_date }"/><br>
+					<b id="editBannerText">출발일 : </b>
+					<input name="editStartDate" class ="planInfo" type="date" value="${planView.start_date }" style="padding: 10px 40px;border-radius: 10px;"/><br>
 					
-					<b id="bannerText">도착일 : </b>
-					<input id="editInput" name="editEndDate" class ="planInfo" type="date" value="${planView.end_date }"/><br>
+					<b id="editBannerText">도착일 : </b>
+					<input name="editEndDate" class ="planInfo" type="date" value="${planView.end_date }" style="padding: 10px 40px;border-radius: 10px;"/><br>
 					
-					<b id="bannerText">여행전후 : </b>
-					<select id="editInput" name="editTraveled" class ="planInfo" >
+					<b id="editBannerText">여행전후 : </b>
+					<select name="editTraveled" class ="planInfo" style="padding: 10px 40px;border-radius: 10px;">
 						<c:if test="${planView.traveled eq 1 }">
 							<option value="1" selected="selected">여행 전</option>
 							<option value="0">여행 후</option>
@@ -754,10 +755,10 @@ window.onbeforeunload = function(){
 			<img id="userInfoProfileImg" src="${writtenUserView.profile }"/>
 		</div>
 		<br>
-		<b>${writtenUserView.nickname }</b>님 <br>
-		포스팅 : <b>${writtenUserView.totalPlanCnt }</b>개 <br>
-		등급 : <b>${writtenUserView.grade }</b><br>
-		<b><fmt:formatNumber value='${writtenUserView.totalDist }' pattern="0.##"/></b> km<br>
+		<b id="userInfoText">${writtenUserView.nickname }</b>님 <br>
+		포스팅 : <b id="userInfoText">${writtenUserView.totalPlanCnt }</b>개 <br>
+		등급 : <b id="userInfoText">${writtenUserView.grade }</b><br>
+		<b id="userInfoText"><fmt:formatNumber value='${writtenUserView.totalDist }' pattern="0.##"/></b> km<br>
 	</div><br>
 	
 	<!-- 일정 읽기 모드-->
