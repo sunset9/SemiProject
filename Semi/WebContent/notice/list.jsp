@@ -39,7 +39,7 @@ $(document).ready(function() {
 	text-align:right;
 }
 thead{
- 	background-color:  #ED553B;
+ 	background-color: rgba(255,203,55) ;
 }
 
 </style>

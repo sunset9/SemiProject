@@ -73,6 +73,7 @@ function deleteReply(rep_idx){
 
 .winfo {
 	background: rgba(255,203,55,0.5) ;
+	text-align: center;
 }
 
 
@@ -85,6 +86,7 @@ td{
     border-top: 1px solid #ddd;
 	padding: 8px;
 }
+
 
 table{
     width: 100%;

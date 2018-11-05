@@ -25,6 +25,7 @@ $(document).ready(function() {
 }
 .winfo {
 	background: rgba(255,203,55,0.5) ;
+	text-align: center;
 }
 .qnaContent{
   	border: 1px solid #ddd;

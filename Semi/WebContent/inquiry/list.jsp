@@ -44,8 +44,9 @@ $(document).ready(function() {
 	position: relative;
 	text-align:right;
 }
+
 thead{
- 	background-color:  #068587;
+ 	background-color: rgba(255,203,55) ;
 }
 
 </style>

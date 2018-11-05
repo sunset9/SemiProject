@@ -38,8 +38,9 @@ $(document).ready(function() {
 	position: relative;
 	text-align:right;
 }
+
 thead{
- 	background-color:  #4FB99F;
+ 	background-color: rgba(255,203,55) ;
 }
 </style>
 <div class ="container">
