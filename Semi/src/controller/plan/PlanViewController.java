@@ -56,7 +56,7 @@ public class PlanViewController extends HttpServlet {
 //        } else {
 //        	planParam = pService.getSessionPlan(req);
 //        }
-        System.out.println("잘 나오나 "+req.getParameter("plan_idx"));
+
         Plan planParam = pService.getParam(req);
         
 //		---------------------플래너 파라미터 가져오기

@@ -25,6 +25,90 @@
 	padding:10px;
 	margin : 3px;
 }
+
+#wrap, #wrap2 {
+	width: 400px;
+	overflow: hidden;
+	height: auto;
+	border: 1px solid black;	
+	padding: 10px;
+}
+
+#header {height: 40px;}
+
+#left {
+/* 	width: 406px;
+ 	height: 150px;
+	float: left;	
+ */}
+
+.filebox label { 
+	display: inline-block; 
+	padding: .5em .75em; 
+	color: #999; 
+	font-size: inherit; 
+	line-height: normal; 
+	vertical-align: middle; 
+	background-color: #fdfdfd; 
+	cursor: pointer; 
+	border: 1px solid #ebebeb; 
+	border-bottom-color: #e2e2e2; 
+	border-radius: .25em; } 
+	
+.filebox input[type="file"] { 
+	/* 파일 필드 숨기기 */ 
+	position: absolute; 
+	width: 1px; 
+	height: 1px; 
+	padding: 0; 
+	margin: -1px;
+	overflow: hidden; 
+	clip:rect(0,0,0,0); 
+	border: 0; }
+
+
+/* The Modal (background) */
+.UserUpdateModal, .sUserUpdateModal {
+    display: none; /* Hidden by default */
+    position: fixed; /* Stay in place */
+    z-index: 1; /* Sit on top */
+    left: 0;
+    top: 0;
+    width: 100%; /* Full width */
+    height: 100%; /* Full height */
+    overflow: auto; /* Enable scroll if needed */
+    background-color: rgb(0,0,0); /* Fallback color */
+    background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+}
+
+/* Modal Content/Box */
+.UserUpdateModal-content, .sUserUpdateModal-content {
+    background-color: #fefefe;
+    margin: 8% auto; /* 8% from the top and centered */
+    padding: 20px;
+    border: 1px solid #888;
+    width: 445px; /* Could be more or less, depending on screen size */
+    overflow: hidden;
+    height: auto;
+}
+
+/* The Close Button */
+.UserUpdateModalClose, .sUserUpdateModalClose {
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+}
+
+.UserUpdateModalClose:hover,
+.UserUpdateModalClose:focus,
+.sUserUpdateModalClose:hover,
+.sUserUpdateModalClose:focus {
+    color: black;
+    text-decoration: none;
+    cursor: pointer;
+}
+
 </style>
 <script type="text/javascript">
 
@@ -35,8 +119,100 @@ $(document).ready(function(){
 	
 	$('.fileBtn').change(function(){
 		$('.uploadForm').submit();
-	})
+	});
+	
 });
+
+function deletePlan(plan_idx){
+	$(location).attr("href", "/plan/delete?plan_idx="+plan_idx);
+}
+function updatePlan(plan_idx){
+	$(location).attr("href", "/plan/update?plan_idx="+plan_idx);
+}
+function deleteBook(book_idx){
+	$(location).attr("href", "/bookmark/delete?book_idx="+book_idx);
+}
+</script>
+<!-- 비밀번호 변경하기 버튼 눌렀을때 -->
+<script type="text/javascript">
+	$(document).ready(function(){
+		$("#morePwRegion").hide();
+		$(".changePw").click(function(){
+			$("#morePwRegion").toggle();
+			$("#container").toggleClass('container');
+		});
+	});
+</script>
+
+<!-- 탈퇴하기 눌렀을때 -->
+<script type="text/javascript">
+function deleteCheck(){
+	var message = confirm("정말로 탈퇴하시겠습니까?");
+	if(message == true){
+		location.href="/user/delete";
+	}else {
+		return false;
+	}
+}
+</script>
+
+<script type="text/javascript">
+	function sendUpdateForm(){
+		if(UserUpdateForm.currPw.value != ""){
+			if(UserUpdateForm.newPw.value != UserUpdateForm.newPwCheck.value){
+				alert("비밀번호가 일치하지 않습니다.");
+				UserUpdateForm.newPwCheck.focus();
+				UserUpdateForm.newPwCheck.select();
+				return false;
+			}
+			
+			if(UserUpdateForm.currPw.value.length<10){
+				alert("비밀번호는 10자 이상 입력해주세요.");
+				UserUpdateForm.newPw.focus();
+				return false;
+			}
+			
+			if(UserUpdateForm.newPw.value.length<10){
+				alert("비밀번호는 10자 이상 입력해주세요.");
+				UserUpdateForm.newPw.focus();
+				return false;
+			}
+			if(UserUpdateForm.currPw.value != "" &&
+					UserUpdateForm.newPw.value != "" &&
+					UserUpdateForm.newPwCheck.value != ""){
+				if (UserUpdateForm.afterCheckCurrPw.value == "현재 비밀번호와 일치"){	
+					$("#UserUpdateForm").submit();
+				}	
+			}
+		} else if(UserUpdateForm.currPw.value == ""){
+			$("#UserUpdateForm").submit();
+		}
+	}
+	
+ 	function checkCurrPw() {
+		var inputUserId = $("#UserIdForUpdate").val();
+		var inputUserPw = $("#currPw").val();
+		$.ajax({
+			type: 'POST',
+			url : '/user/check',
+			data : {
+				inputUserId : inputUserId,
+				inputUserPw : inputUserPw
+			},
+			success : function(result){
+				if(result == 2){
+					$("#afterCheckCurrPw").val("현재 비밀번호와 불일치");
+					$("#afterCheckCurrPw").css("color", "red");
+					$("#userUpdateSubmit").prop("disabled",true);
+				} else {
+					$("#afterCheckCurrPw").val("현재 비밀번호와 일치");
+					$("#afterCheckCurrPw").css("color", "blue");
+					$("#userUpdateSubmit").prop("disabled",false);
+				}
+			}
+		});
+	}
+	
 	
 </script>
 </head>
@@ -58,7 +234,7 @@ $(document).ready(function(){
 			</div>
 		</div>
 		<div class="updateBtn">
-			<button onclick='location.href="/user/update";'>정보수정</button>	
+			<button id="UserUpdateModalBtn">정보수정</button>	
 		</div>
 	</div>
 	
@@ -76,6 +252,46 @@ $(document).ready(function(){
 	</div>
 </div>
 
+<!-- 아이디 로그인 유저의 정보수정 The Modal -->
+<div id="UserUpdateModal" class="UserUpdateModal">
+	
+	<!-- 정보수정 Modal Content -->
+	<div class="UserUpdateModal-content">	
+		<div id="wrap">
+		<span class="UserUpdateModalClose">&times;</span>
+		<div id="header"><h2>프로필 수정</h2></div>
+		<hr>
+		<div id="container">
+			<div id="left">
+				<form action="/user/update" method="post" id="UserUpdateForm">
+					<label>아이디 : </label>
+					<input type="text" id="UserIdForUpdate" name="userid" value="${user.id}" readonly/><br>
+					<label>내등급 : </label>
+					<input type="text" name="grade" value="${user.grade}" disabled/><br>
+					<label>닉네임 : </label>
+					<input type="text" name="nickname" value="${user.nickname}"/><br>
+					<div id="pwRegion">
+						<label>비밀번호 : </label>
+						<input type="button" class="changePw" name="changePw" value="변경하기" /><br>
+					</div>
+					<div id="morePwRegion">
+						<label>현재 비밀번호 : </label>
+						<input type="password" id="currPw" name="currPw"/><br>
+						<input type="text" id="afterCheckCurrPw" /><br>
+						<label>새 비밀번호 : </label>
+						<input type="password" id="newPw" name="newPw" onfocus="checkCurrPw();"/><br>
+						<label>비밀번호 확인 : </label>
+						<input type="password" id="newPwCheck" name="newPwCheck" /><br>
+					</div>
+					<input type="button" id="userUpdateSubmit" value="저장하기" onclick="sendUpdateForm();" />
+				</form>
+				<button onclick="deleteCheck();">회원탈퇴하기</button>
+			</div>
+		</div>
+	</div>
+	</div>
+</div>
+
 
 <!-- 일정, 북마크 리스트 -->
 <div>
@@ -88,20 +304,25 @@ $(document).ready(function(){
 	
 	<div id="planList" class="list">
 	<h3>여기는 내 일정 리스트</h3>
-	<div id="planList" class="listBox">
-		<c:forEach items="${plannerList }" var="plan"> 
-			<div id="planBox" data-plan_idx="${plan.plan_idx }">
-			<a href="/plan?plan_idx=${plan.plan_idx }">
-				<div><img src="/upload/banner/${plan.bannerURL }" style="width: 100%;"></div>
-				<div> Title : ${plan.title} <br> NickName : ${plan.nick }</div>
-				<div>
-					<button id ="planDelete"  onclick="deletePlan(${plan.plan_idx})">삭제</button>
-				</div>
-			</a></div>
-		</c:forEach>
-		</div>
-	
+    <div id="planList" class="listBox">
+      <c:forEach items="${plannerList }" var="plan"> 
+        <div id="planBox" data-plan_idx="${plan.plan_idx }">
+        <a href="/plan?plan_idx=${plan.plan_idx }">
+          <div><img src="/upload/banner/${plan.bannerURL }" style="width: 100%;"></div>
+          <div> Title : ${plan.title}</div>
+
+        </a>
+          <div>
+              <button id ="planDelete" onclick="deletePlan(${plan.plan_idx })">삭제</button>
+              <button id ="planUpdate" onclick="updatePlan(${plan.plan_idx })">수정</button>
+          </div>
+        </div>
+      </c:forEach>
+    </div>
 	</div>
+			</div>
+		
+
 	
 	<div id="bookmarkList" class="list" style="display:none">
 	<div><h3>여기는 북마크 리스트</h3></div>
@@ -113,10 +334,11 @@ $(document).ready(function(){
 			<a href="/plan?plan_idx=${bList.plan_idx }">
 				<div><img src="/upload/banner/${bList.bannerURL }" style="width: 100%;"></div>
 				<div> Title : ${bList.title} <br> NickName : ${bList.writeNick }</div>
+				</a>
 				<div>
-					<button id ="planDelete"  onclick="deletePlan(${bList.plan_idx})">삭제</button>
+					<button id ="bookDelete" onclick="deleteBook(${bList.book_idx })" >삭제</button>
 				</div>
-			</a></div>
+			</div>
 		</c:forEach>
 		
 	</div>
@@ -142,7 +364,7 @@ $(document).ready(function(){
 			<c:forEach items ="${inqList }" var = "inq">
 			<tr>
 			<td>${inq.inq_idx }</td>
-			<td><a href="/admin/inquiry/view?inq_idx=${inq.inq_idx }">${inq.title }</a></td>
+			<td><a href="/inquiry/view?inq_idx=${inq.inq_idx }">${inq.title }</a></td>
 			<td>${inq.writer }</td>
 			<td>
 			
@@ -186,7 +408,7 @@ $(document).ready(function(){
 			</div>
 		</div>
 		<div class="updateBtn">
-			<button onclick='location.href="/socialUser/update";'>정보수정</button>	
+			<button id="sUserUpdateModalBtn">정보수정</button>	
 		</div>
 	</div>
 	
@@ -205,6 +427,32 @@ $(document).ready(function(){
 </div>
 <hr>
 
+<!-- 소셜유저 정보수정 The Modal -->
+<div id="sUserUpdateModal" class="sUserUpdateModal">
+	<!-- 소셜유저 정보수정 Modal Content -->
+	<div class="sUserUpdateModal-content">
+		<div id="wrap2">
+		<span class="sUserUpdateModalClose">&times;</span>
+		<form action="/socialUser/update" method="post">
+			<div id="header"><h2>프로필 수정</h2></div>
+			<hr>
+			<div id="container">
+				<div id="left">
+					<label>아이디 : </label>
+					<input type="text" id="sUserId" name="userid" value="${socialUser.id}" readonly/><br>
+					<label>내등급 : </label>
+					<input type="text" name="grade" value="${socialUser.grade}" disabled/><br>
+					<label>닉네임 : </label>
+					<input type="text" name="nickname" value="${socialUser.nickname}"/><br>
+				</div>
+			</div>
+				<button type="submit">저장하기</button>
+		</form>
+		<button onclick="deleteCheck();">회원탈퇴하기</button>
+		</div>
+	</div>
+</div>
+
 <!-- 일정, 북마크 리스트 -->
 <div>
 	<!-- 탭 버튼 -->
@@ -222,12 +470,15 @@ $(document).ready(function(){
 			<a href="/plan?plan_idx=${plan.plan_idx }">
 				<div><img src="/upload/banner/${plan.bannerURL }" style="width: 100%;"></div>
 				<div> Title : ${plan.title}</div>
-				<div>
-					<button id ="planDelete"  onclick="deletePlan(${plan.plan_idx})">삭제</button>
-				</div>
+			
 			</a></div>
+			<div>
+					<button id ="planDelete">삭제</button>
+					<button id ="planUpdate" >수정</button>
+			</div>
 		</c:forEach>
-		</div>
+	</div>
+	</div>
 	
 	</div>
 	
@@ -241,10 +492,10 @@ $(document).ready(function(){
 			<a href="/plan?plan_idx=${bList.plan_idx }">
 				<div><img src="/upload/banner/${bList.bannerURL }" style="width: 100%;"></div>
 				<div> Title : ${bList.title} <br> NickName : ${bList.writeNick }</div>
-				<div>
-					<button id ="planDelete"  onclick="deletePlan(${bList.plan_idx})">삭제</button>
+				</a><div>
+					<button id ="planDelete"  onclick="deleteBook(${bList.book_idx })" >삭제</button>
 				</div>
-			</a></div>
+			</div>
 		</c:forEach>
 		
 		</div>
@@ -269,7 +520,7 @@ $(document).ready(function(){
 			<c:forEach items ="${inqList }" var = "inq">
 			<tr>
 			<td>${inq.inq_idx }</td>
-			<td><a href="/admin/inquiry/view?inq_idx=${inq.inq_idx }">${inq.title }</a></td>
+			<td><a href="/inquiry/view?inq_idx=${inq.inq_idx }">${inq.title }</a></td>
 			<td>${inq.writer }</td>
 			<td>
 			
@@ -309,6 +560,43 @@ $(document).ready(function(){
 	function submitWithTitle() {
 		
 	}
+</script>
+
+<!-- 정보수정 모달 스크립트 -->
+<script type="text/javascript">
+/* 일반유저 */
+var UserUpdateModal = document.getElementById('UserUpdateModal');
+var UserUpdateModalBtn = document.getElementById("UserUpdateModalBtn");
+var UserUpdateModalClose = document.getElementsByClassName("UserUpdateModalClose")[0];
+UserUpdateModalBtn.onclick = function() {
+	UserUpdateModal.style.display = "block";
+}
+UserUpdateModalClose.onclick = function() {
+	UserUpdateModal.style.display = "none";
+}
+window.onclick = function(event) {
+    if (event.target == UserUpdateModal) {
+    	UserUpdateModal.style.display = "none";
+    }
+}
+</script>
+
+<script type="text/javascript">
+/* 소셜유저 */
+var sUserUpdateModal = document.getElementById('sUserUpdateModal');
+var sUserUpdateModalBtn = document.getElementById("sUserUpdateModalBtn");
+var sUserUpdateModalClose = document.getElementsByClassName("sUserUpdateModalClose")[0];
+sUserUpdateModalBtn.onclick = function() {
+	sUserUpdateModal.style.display = "block";
+}
+sUserUpdateModalClose.onclick = function() {
+	sUserUpdateModal.style.display = "none";
+}
+window.onclick = function(event) {
+    if (event.target == sUserUpdateModal) {
+    	sUserUpdateModal.style.display = "none";
+    }
+}
 </script>
 </body>
 </html>

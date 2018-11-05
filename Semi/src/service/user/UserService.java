@@ -38,7 +38,7 @@ public interface UserService {
 	public void deleteUserByid(User user);
 	
 	//비밀번호 조회
-	public int checkPw(User user);
+	public boolean checkPw(User user);
 	
 	//이메일 중복확인
 	public boolean checkid(User user);
@@ -80,5 +80,4 @@ public interface UserService {
 	// 총 게시물 수, 총 여행거리 정보 추가된 user 객체 반환
 	public User getUseraddedInfo(User user);
 
-	
 }

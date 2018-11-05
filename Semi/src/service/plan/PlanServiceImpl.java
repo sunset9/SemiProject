@@ -64,6 +64,7 @@ public class PlanServiceImpl implements PlanService{
 		Plan plan = new Plan();
 		
 		//요청파라미터 받기
+		System.out.println("plan_idx"+req.getParameter("plan_idx"));
 		int param = Integer.parseInt(req.getParameter("plan_idx"));
 		plan.setPlan_idx(param);
 //		//null이나 ""이 아니면 int로 변환하여 DTO에 저장

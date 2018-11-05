@@ -21,6 +21,10 @@
 	text-align:right;
 }
 
+/*가계부 옆에 이미지*/
+.moneyImage_up{
+
+}
 
 
 </style>
@@ -44,8 +48,8 @@
 			<input type ="hidden" value="" name ="up_story_idx" class="up_story_idx"/>
 			<div  id ="storyUpdateDiv">
 				<table>
-				<tr>
-					<td colspan="4">
+				<tr class="storytr">
+					<td colspan="4" class="storytd">
 						<div id = storyUpdateContentDiv" >
 							<textarea id = "up_edit" name="up_content" class = "up_content">
 							</textarea>
@@ -56,8 +60,11 @@
 				<div id ="up_accountViewList">
 				<div id = "up_accountView" name = "up_accountViewName" class ="up_accountViewClass">
 				<table>
-				<tr>	
-					<td>
+				<tr class="storytr">
+				 <td class="storytd">
+					<span class = "glyphicon glyphicon-usd moneyImage_up"></span>
+					</td>	
+					<td class="storytd">
 						<select name = "up_accType" class="up_accType" name = "up_accType">
 							<option value="1">항공료</option>
 							<option value="2">교통</optoin>
@@ -69,21 +76,21 @@
 							<option value="8">기타</option>
 						</select>
 					</td>
-					<td>
+					<td class="storytd">
 						<select name = "up_currSymbol" class="up_currSymbol" name = "up_currSymbol">
 							<option value = "1">USD</option>
 							<option value = "2">KRW</optoin>
 							<option value = "3">JPY</option>
 						</select>
 					</td>
-					<td>
+					<td class="storytd">
 					<input type="text" size="40" name = "up_cost" class="up_cost" onkeypress="Numberchk()" onkeyup="vComma(this)"/>
 					</td>
-					<td>
+					<td class="storytd">
 						<span class="glyphicon glyphicon-plus accountPlus" onclick = "UpappendAccount()" onmouseover="mover($(this))" 
 							onmouseleave="mleave($(this))" onmousedown="mdown($(this))"></span>
 					</td>
-					<td>
+					<td class="storytd">
 						<span class="glyphicon glyphicon-remove accountRemove" name = "removeAcoountName" onclick = "UpremoveAccount()" style="display: none" 33onmouseover="mover($(this))" 
 							onmouseleave="mleave($(this))" onmousedown="mdown($(this))"></span>
 					</td>

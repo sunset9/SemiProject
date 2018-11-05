@@ -41,7 +41,7 @@ public class RecommContentsController extends HttpServlet {
 		int totalCount = conService.getTotalCount(searchType, search);
 
 		// 페이징 객체 생성
-		Paging paging = new Paging(totalCount, curPage, 10);
+		Paging paging = new Paging(totalCount, curPage, 9);
 
 		// 페이징 객체에 검색어 적용
 		paging.setSearch(search);

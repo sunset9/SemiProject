@@ -114,19 +114,13 @@ public class UserServiceImpl implements UserService {
 		System.out.println("INSERT success");
 	}
 
-	//아이디로 회원 삭제
+	//회원 탈퇴 처리
 	@Override
 	public void deleteUserByid(User user) {
 		userDao.delete(user);
 		
 	}
 
-	//현재 로그인한 유저의 비밀번호 확인
-	@Override
-	public int checkPw(User user) {
-		
-		return userDao.chechPw(user);
-	}
 
 	//회원정보수정
 	@Override
@@ -136,8 +130,8 @@ public class UserServiceImpl implements UserService {
 		user.setId(param.get("userid"));
 		user.setPassword(param.get("currPw"));
 
-		System.out.println("제대로나오나:"+user.getId());
-		System.out.println("제대로나오나:"+user.getPassword());
+		//System.out.println("제대로나오나:"+user.getId());
+		//System.out.println("제대로나오나:"+user.getPassword());
 		
 //		if (userDao.chechPw(user) == 1)
 		
@@ -149,10 +143,23 @@ public class UserServiceImpl implements UserService {
 	@Override
 	public boolean checkid(User user) {
 		if( userDao.checkid(user) == 0 ) {
-			System.out.println("아이디 중복되지 않음, 존재하지 않는 아이디");
+			//System.out.println("UserServiceImpl checkid() : 아이디 중복되지 않음, 존재하지 않는 아이디");
 			return true;
 		} else {
-			System.out.println("아이디 중복, 존재하는 아이디");
+			//0이 아니면 이미 아이디가 존재한다는 뜻
+			//System.out.println("UserServiceImpl checkid() : 아이디 중복, 존재하는 아이디");
+			return false;
+		}
+	}
+
+	//현재 로그인한 유저의 비밀번호 확인
+	@Override
+	public boolean checkPw(User user) {
+		if(userDao.checkPw(user) == 1) {
+			//비밀번호 맞음 
+			return true;
+		} else {
+			//비밀번호 틀림
 			return false;
 		}
 	}
@@ -349,8 +356,5 @@ public class UserServiceImpl implements UserService {
 		
 		return user;
 	}
-
-
-
 
 }

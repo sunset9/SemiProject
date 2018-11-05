@@ -760,21 +760,6 @@ window.onbeforeunload = function(){
 		<b><fmt:formatNumber value='${writtenUserView.totalDist }' pattern="0.##"/></b> km<br>
 	</div><br>
 	
- 	<!-- 가계부 DIV -->
-	<div id="accountView">
-
-		항공료 : ${airfare }<br> 
-		교통 : ${traffic }<br>
-		숙박 : ${stay }<br>
-		입장료 : ${admission }<br>
-		음식 : ${food }<br>
-		오락 : ${play }<br>
-		쇼핑 : ${shop }<br>
-		기타 : ${etc }<br><br>
-		<b>총합 : ${acc_total }</b><br>
-		<b>환율 : ${accView.caled_cost }</b><br>
-	</div><br>
-	
 	<!-- 일정 읽기 모드-->
 	<button id="planViewModeBtn" onclick="changeViewMode()" style="width:100%;">일정 보기</button>
 	<!-- 일정 저장 -->

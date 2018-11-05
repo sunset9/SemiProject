@@ -561,11 +561,11 @@ function changeViewMode(){
 }
 </script>
 
+    
 <!-- 일정 기본 정보 -->
 <header>
 <!-- 플래너 배너 -->
 <div id="planInfoHeader" style="background-image:url('${planView.bannerURL }');">
-	<!-- 플래너 대문 정보(공개유무, 수정버튼, 일정제목 등 UI) -->
 
 	<!-- 게시자와 열람자가 같은 유저면 수정버튼을 -->
 	<c:if test="${writtenUserView.user_idx eq loginedUserView.user_idx}">
