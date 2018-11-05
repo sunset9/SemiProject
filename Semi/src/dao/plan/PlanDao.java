@@ -72,4 +72,6 @@ public interface PlanDao {
 	
 	// 추천 게시물 리스트 조회
 	public List<Plan> selectRecomList();
+	
+	String[] rownumCountryName(Plan plan);
 }

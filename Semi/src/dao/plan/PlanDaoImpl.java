@@ -567,6 +567,45 @@ public class PlanDaoImpl implements PlanDao{
 //		
 //		return sumInt;
 //	}
+	@Override
+	public String[] rownumCountryName(Plan plan) {
+
+		//전체 게시글 수 조회 쿼리
+		String sql = "";
+		sql += "select country_name from( "
+				+ "select country_name from location l "
+				+ "right join timetable t "
+				+ "on l.loc_idx = t.loc_idx "
+				+ "where plan_idx = ? "
+				+ "order by t.start_time desc ) "
+				+ "where rownum <=2 "
+				+ "order by rownum desc";
+		
+		String [] cName = {"없음", "없음"};
+		try {
+			ps = conn.prepareStatement(sql);
+			
+			ps.setInt(1, plan.getPlan_idx());
+			rs = ps.executeQuery();
+			
+			int i = 0;
+			
+			while(rs.next()) {
+				cName[i++] = rs.getString(1);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				if(ps!=null)	ps.close();
+				if(rs!=null)	rs.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+//		
+		return cName;
+	}
 	
 
 	@Override

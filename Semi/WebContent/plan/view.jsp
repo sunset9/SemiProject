@@ -167,38 +167,26 @@ $(document).ready(function() {
 	$('#calendar').fullCalendar('option', 'editable', false); // 수정 불가능하게
 	$('#calendar').fullCalendar('option', 'droppable', false); // 드롭할 수 없게
 	
-	// 수정 버튼 클릭리스너
+// 	수정버튼 submit
 	$("#btnModify").click(function() {
 		// 탭 유지하면서 화면 전환
 		setCookie("isCookieTabClear", "false");
 		
 		$("#Modify").submit();
 	});
-
-	// 	수정모드일 때, 공개유무버튼
-	$("#isChecked").click(function(){
-			
-// 		  $("p").toggle();
-		  var check = $("input[type='checkbox']").is(':checked');
-		  
-		  if(check) {
-			document.getElementById("isClose").style.display= "none";
-			document.getElementById("isOpen").style.display= "block";
-		  } else {
-			document.getElementById("isClose").style.display= "block";
-			document.getElementById("isOpen").style.display= "none";
-		  }
-		  
-		  console.log(check);
+	
+// 	북마크 add submit
+	$("#plusBookmark").click(function() {
+		// 탭 유지하면서 화면 전환
+		setCookie("isCookieTabClear", "false");
+		$("#addBookmark").submit();
 	});
 	
-	
-// 	북마크 버튼
-	$("#btnBookMark").click(function() {
-		document.getElementById("viewStory").style.display= "none";
-		document.getElementById("calendar").style.display= "block";
-		document.getElementById("googleMap").style.display= "block";
-		document.getElementById("googleSearch").style.display= "block";
+// 	북마크 delete submit
+	$("#minusBookmark").click(function() {
+		// 탭 유지하면서 화면 전환
+		setCookie("isCookieTabClear", "false");
+		$("#deleteBookmark").submit();
 	});
 	
 	// 가계부 그려주기
@@ -559,6 +547,27 @@ function changeViewMode(){
 	
 	$("#Modify").submit();
 }
+
+// 마우스 over down leave 색 변경
+function mover(obj) {
+ 	   obj.css( "color", "orange" );
+ 	}
+    
+    //마우스 클릭시 색바꾸기
+    function mdown(obj){
+ 	   obj.css( "color", "blue" );
+    }
+    
+    //마우스 떠날때 색바꾸기
+ 	function mleave(obj) {
+ 		obj.css("color", "black");
+ 	}
+ 	
+    //마우스떠날때 색 gray로바꾸기
+ 	function mleave_gray(obj) {
+ 		obj.css("color", "#999999");
+	}
+    
 </script>
 
     
@@ -576,40 +585,49 @@ function changeViewMode(){
 			<input type="hidden" name="editStartDate" value="${planView.start_date}" />
 			<input type="hidden" name="editEndDate" value="${planView.end_date}" />
 			<input type="hidden" name="editTraveled" value="${planView.traveled}" />
-			
-	    	<input id="btnModify" type="button" value="수정" style="float:right;">
+
+	    	<span id="btnModify" class = "glyphicon glyphicon-pencil"   
+				  onmouseover="mover($(this))" onmouseleave="mleave($(this))" onmousedown="mdown($(this))" 
+				  data-toggle="modal" data-target="#myModal_update" style="float:right;font-size:35px;cursor:pointer;" >
+			</span>
 	    </form>
 	</c:if>
 	<!-- 다르면 북마크 버튼을 보여준다 -->
 	<c:if test="${writtenUserView.user_idx ne loginedUserView.user_idx}">
 		
 		<c:if test="${bookmark.user_idx ne loginedUserView.user_idx}">
-			<form action="/bookmark/insert" method="post">
+			<form action="/bookmark/insert" method="post" id="addBookmark">
 				<input type="hidden" name="plan_idx" value="${planView.plan_idx}" />
-				<button id="btnBookMark" type="submit" style="float:right;">북마크 추가</button>
+				<span id="plusBookmark" class = "glyphicon glyphicon-bookmark"   
+				  onmouseover="mover($(this))" onmouseleave="mleave($(this))" onmousedown="mdown($(this))" 
+				  data-toggle="modal" data-target="#myModal_update" style="float:right;font-size:35px;cursor:pointer;" >
+				</span>
 			</form>
 		</c:if>
 		
 		<c:if test="${bookmark.user_idx eq loginedUserView.user_idx}">
-			<form action="/bookmark/delete" method="post">
+			<form action="/bookmark/delete" method="post" id="deleteBookmark">
+				<input type="hidden" name="book_idx" value="${bookmark.book_idx}" />
 				<input type="hidden" name="plan_idx" value="${planView.plan_idx}" />
-				<button id="btnBookMark" type="submit" style="float:right;">북마크 삭제</button>
+				<span id="minusBookmark" class = "glyphicon glyphicon-remove"   
+				  onmouseover="mover($(this))" onmouseleave="mleave($(this))" onmousedown="mdown($(this))" 
+				  data-toggle="modal" data-target="#myModal_update" style="float:right;font-size:35px;cursor:pointer;" >
+				</span>
 			</form>
 		</c:if>
 		
 	</c:if> 
 	<br>
 		
-	<div id="viewTitle" style="text-align:center;">
-		<h1 id="titleView" style="margin-bottom:0;">${planView.title }</h1>
-		<h4 id="planRouteView"> 여행 경로 2개</h4> 
-		<h4 id="dateView">${planView.start_date } ~ ${planView.end_date }</h4>
-		<h4 id="traveledView">
+	<div id="viewTitle" >
+		<h1 id="titleView" style="font-size:100px;">${planView.title }</h1>
+		<h4 id="planRouteView" style="font-size:25px;"> ${cName1 } ${cName2 }</h4> 
+		<h4 id="dateView" style="font-size:25px;">${planView.start_date } ~ ${planView.end_date }</h4>
+		<h4 id="traveledView" style="font-size:15px;">
 			<c:if test="${planView.traveled eq 1 }">여행 전</c:if>
 			<c:if test="${planView.traveled eq 0 }">여행 후</c:if>
 		</h4>
-	</div>
-			<br>
+	</div><br>
 </div><br>
 </header>
 
@@ -617,22 +635,22 @@ function changeViewMode(){
 <nav>
 <div id="planInfoNav">
 	<!-- 게시자 정보 DIV -->
-	<div id="userInfoView">
+	<div id="userInfoView"><br>
 		<div class="profileImage">
 			<img id="userInfoProfileImg" src="${writtenUserView.profile }"/>
 		</div>
 		
 		<br>
-		<b>${writtenUserView.nickname }</b>님 <br>
-		포스팅 : <b>${writtenUserView.totalPlanCnt }</b>개 <br>
-		등급 : <b>${writtenUserView.grade }</b><br>
-		<b><fmt:formatNumber value='${writtenUserView.totalDist }' pattern="0.##"/></b> km<br>
+		<b style="font-size:30px">${writtenUserView.nickname }</b>님 <br>
+		포스팅 : <b style="font-size:20px">${writtenUserView.totalPlanCnt }</b>개 <br>
+		등급 : <b style="font-size:20px">${writtenUserView.grade }</b><br>
+		<b style="font-size:20px"><fmt:formatNumber value='${writtenUserView.totalDist }' pattern="0.##"/></b> km<br>
 	</div><br>
 	
  	<!-- 가계부 DIV -->
 	<div id="accountView">
 			<!-- 가계부 그래프 -->
-		<a href="#layer2" id="btnAccGraph" >가계부 그래프</a><br><br>
+		<br><a href="#layer2" id="btnAccGraph" >가계부 그래프</a><br>
 		<div class="dim-layer">
 		    <div class="dimBg"></div>
 		    <div id="layer2" class="pop-layer">
@@ -661,7 +679,6 @@ function changeViewMode(){
 		
 	
 	<div id='gcw_mainF89vAYf4k' class='gcw_mainF89vAYf4k'></div>
-		<a id='gcw_siteF89vAYf4k' href='https://freecurrencyrates.com/en/'></a>
 		<script>
 			function reloadF89vAYf4k(){
 				var sc = document.getElementById('scF89vAYf4k');
@@ -687,7 +704,6 @@ function changeViewMode(){
 	<!-- 일정 수정 모드-->
 	<button id="planWriteModeBtn" onclick="changeViewMode()">
 		<span class='glyphicon glyphicon-pencil'></span>일정 수정하기</button>
-	
 </div>
 </nav>
 

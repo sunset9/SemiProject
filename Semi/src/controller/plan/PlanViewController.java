@@ -13,7 +13,7 @@ import javax.servlet.http.HttpServletResponse;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
-import dto.Account.AccType;
+import dao.plan.PlanDao;
 import dto.Account.Account;
 import dto.plan.Plan;
 import dto.timetable.Location;
@@ -61,10 +61,14 @@ public class PlanViewController extends HttpServlet {
         
 //		---------------------플래너 파라미터 가져오기
 		// 요청파라미터(plan_idx) -> Plan 모델 
-		System.out.println("Session 값 : " + planParam);
+//		System.out.println("Session 값 : " + planParam);
 		
 		// 일정 기본 정보 가져오기
 		Plan planView = pService.getPlanInfo(planParam);
+		// 일정 마지막날, 시간순서로 빠른 2곳 나라이름 띄워주기
+		String [] cName = pService.getCountryName(planView);
+		req.setAttribute("cName1", cName[0]);
+		req.setAttribute("cName2", cName[1]);
 		//planView MODEL 전달
 		req.setAttribute("planView", planView);
 		System.out.println(planView);

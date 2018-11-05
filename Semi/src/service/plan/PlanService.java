@@ -58,7 +58,8 @@ public interface PlanService {
 	//plan_idx 가져오기 
 	public int getPlan_idx();
 	
-	//카테고리별 총 가격 가져오기
+
+	String[] getCountryName(Plan plan);
 	int getAccountAccTpeCost(Plan plan, AccType accType);
 	
 	// 해당 플랜의 총 지출 비용

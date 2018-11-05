@@ -7,11 +7,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
-import dto.Account.Account;
-import dto.user.Bookmark;
-import dto.plan.Plan;
 import dto.user.Bookmark;
 import service.bookmark.BookmarkService;
 import service.bookmark.BookmarkServiceImpl;
@@ -39,13 +35,12 @@ public class BookmarkDeleteController extends HttpServlet {
 		req.setCharacterEncoding("utf-8");
 		
 		// 플랜 정보 파라미터 받기 
-		Bookmark book = bService.getParam (req);
-		
-		
+		Bookmark book = bService.getParam(req);
+		System.out.println(book);
 		
 		bService.deleteBookmark(book);
+		System.out.println(book);
 		
-		
-		resp.sendRedirect("/user/myPage");
+		resp.sendRedirect("/plan?plan_idx="+req.getParameter("plan_idx"));
 	}
 }
