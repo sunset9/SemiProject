@@ -9,7 +9,11 @@
 
 $(document).ready(function() {
 	$("#btnSearch").click(function() {
-		$(location).attr("href","/admin/main?search="+$("#search").val());
+// 		$("a[href^='http']").attr('target','_blank');
+		$(location).attr("href","/admin/main?search="+$("#search").val())
+
+// 		open('/admin/main?search="+$("#search").val()');
+		
 	});
 	
 	
@@ -74,7 +78,7 @@ ul.sub li a {
 </ul>
 </div>
 
-<div class="content">
+<div class="content" >
 <h3><strong>CONTENT</strong></h3>
 <div id ="listTable">
 <table class="table table-hover table-striped table-condensed">
@@ -93,7 +97,7 @@ ul.sub li a {
 <c:forEach items ="${inqList }" var = "inq">
 <tr>
 <td>${inq.inq_idx }</td>
-<td><a href="/admin/inquiry/view?inq_idx=${inq.inq_idx }">${inq.title }</a></td>
+<td><a href="/admin/inquiry/view?inq_idx=${inq.inq_idx }" target="_black" >${inq.title }</a></td>
 <td>${inq.writer }</td>
 <td>
 

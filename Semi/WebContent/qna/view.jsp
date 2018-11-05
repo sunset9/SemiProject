@@ -9,7 +9,7 @@
 <script type = "text/javascript">
 $(document).ready(function() {
 	$("#btnList").click(function() {
-		$(location).attr("href", "/qna/list");
+		history.back();
 	});
 
 });
@@ -24,7 +24,7 @@ $(document).ready(function() {
 	
 }
 .winfo {
-	background: rgba(255,203,55,0.5) ;
+	background: rgba(79	,185,159,0.5) ;
 	text-align: center;
 }
 .qnaContent{
@@ -49,7 +49,20 @@ table{
 	text-align: center;
 	margin-bottom: 10%;
 }
-
+#btnList{
+/* 	background-color: #4FB99F; */
+  	width:80px;
+    background-color: #4FB99F;
+    border: none;
+    color:#fff;
+	padding: 5px 0;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 15px;
+    margin: 4px;
+    border-radius:10px;
+}
 </style>
 
 <div class= "container">
@@ -86,7 +99,7 @@ ${qna.content }</td>
 </div><br><br><br>
 
 <div class="btnGroup" style ="text-align: center;">
-	<button id = "btnList"  class="btn btn-success">목록</button>
+	<button id = "btnList" >목록</button>
 
 </div>
 

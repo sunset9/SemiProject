@@ -43,10 +43,43 @@ $(document).ready(function() {
 #writebtn {
 	position: relative;
 	text-align:right;
+	
+}
+#inqWrite{
+/* 	background-color: #4FB99F; */
+  	width:80px;
+    background-color: #4FB99F;
+    border: none;
+    color:#fff;
+	padding: 5px 0;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 15px;
+    margin: 4px;
+    border-radius:10px;
+
 }
 
 thead{
- 	background-color: rgba(255,203,55) ;
+ 	background-color: #4FB99F ;
+ 	
+}
+
+th {
+	border: 1px solid #DDD;
+	text-align: center;
+	color:#fff;
+	border-top-left-radius: 10px;
+	border-top-right-radius: 10px;
+}
+
+tbody tr:last-child{
+	border-bottom: 1px solid black;
+}
+
+tr td{
+	text-align: center;
 }
 
 </style>
@@ -54,11 +87,6 @@ thead{
 
 <h2> <strong>◎ 문의 사항 ◎</strong> </h2> 
 
-<div id ="writebtn">
-<c:if test="${login }">
-<button id ="inqWrite" class="btn btn-warning">문의 하기</button>
-</c:if>
-</div>
 
 <hr>
 
@@ -66,19 +94,19 @@ thead{
 <table class="table table-hover table-striped table-condensed">
 <thead>
 <tr>
-<th>번호</th>
-<th>제목</th>
-<th>작성자</th>
-<th>답변여부</th>
-<th>조회수</th>
-<th>작성일</th>
+<th style ="width :5%;">번호</th>
+<th style ="width:40%;">제목</th>
+<th  style ="width:15%;">작성자</th>
+<th style="width: 15%;">답변여부</th>
+<th style ="width:10%;" >조회수</th>
+<th style ="width:15%;">작성일</th>
 </tr>
 </thead>
 
 <tbody>
 <c:forEach items ="${inquirylist }" var = "inq">
 <tr>
-<td>${inq.rnum }</td>
+<td >${inq.rnum }</td>
 <td><a href="/inquiry/view?inq_idx=${inq.inq_idx }">${inq.title }</a></td>
 <td>${inq.writer }</td>
 <td>
@@ -92,12 +120,20 @@ thead{
 
 </td>
 <td>${inq.hit }</td>
-<td>${inq.create_date }</td>
+<td >${inq.create_date }</td>
 </tr>
+
 </c:forEach>
 </tbody>
 
 </table>
+
+<div id ="writebtn">
+<c:if test="${login }">
+<button id ="inqWrite" >문의 하기</button>
+</c:if>
+</div>
+
 </div>
 
 <div id="pagingBox" class="text-center">
@@ -170,10 +206,11 @@ thead{
     </c:if>
   </ul>
   
-  <div id="searchBox" class="text-center">
-	<input type="text" id="search" placeholder="제목검색"/>
-	<button id="btnSearch">검색</button>
+  <div id="searchBox" class="col-xs-2, form-inline">
+	<input class="form-control" type="text" id="search" placeholder="제목검색"/>
+	<button id="btnSearch" class="btn btn-default btn-sm">검색</button>
 </div><br>
+
 
 </div>
 </div>
