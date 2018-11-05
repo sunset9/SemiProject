@@ -114,9 +114,6 @@ th{
     </li>
     </c:if>
   </ul>
-    <div id="btnDeleteBox">
-	<button id="btnDelete">삭제</button>
-  </div><br>
   
   <div id ="searchBox" class="col-xs-2, form-inline" >
 <form action="/admin/plan/list" method="get" >	
@@ -131,6 +128,4 @@ th{
 </div>
 </div>
 
-</div>
-</body>
-</html>
+<jsp:include page="../layout/footer.jsp" />

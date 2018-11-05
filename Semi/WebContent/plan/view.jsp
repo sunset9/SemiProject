@@ -733,9 +733,10 @@ function mover(obj) {
 </div>	
 </section>
 
+<jsp:include page="../layout/footer.jsp" />
+
 <!-- Maps JavaScript API 로드 -->
 <script async defer
  src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAO-YMjD9aGxBW1nEzgSFdzf7Uj8E4Lm9Q&libraries=places&language=ko&callback=initMap">
 </script>
-</body>
-</html>
+
