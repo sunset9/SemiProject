@@ -470,16 +470,26 @@ function displayAcc(accCostJson){
 	
 	// display
 	$("#accTypeCost").html('');
-	$("#accTypeCost").append("<p>항공료 : " + accTypeCost.airfare + "원</p>");
-	$("#accTypeCost").append("<p>교통 : " + accTypeCost.traffic + "원</p>");
-	$("#accTypeCost").append("<p>숙박 : " + accTypeCost.stay + "원</p>");
-	$("#accTypeCost").append("<p>입장료 : " + accTypeCost.admission + "원</p>");
-	$("#accTypeCost").append("<p>음식 : " + accTypeCost.food + "원</p>");
-	$("#accTypeCost").append("<p>오락 : " + accTypeCost.play + "원</p>");
-	$("#accTypeCost").append("<p>쇼핑 : " + accTypeCost.shop + "원</p>");
-	$("#accTypeCost").append("<p>기타 : " + accTypeCost.etc + "원</p>");
-	$("#accTypeCost").append("<p>총합 : " + accTotal + "원</p>");
-	$("#accTypeCost").append("<p>환율 : " + accCalcedTotal + "</p>");
+	$("#accTypeCost").append("항공료 : <b style=\"color:#4FB99F;font-size:20px\">" + accTypeCost.airfare + "</b>원<br>");
+	$("#accTypeCost").append("교통 : <b style=\"color:#4FB99F;font-size:20px\">" + accTypeCost.traffic + "</b>원<br>");
+	$("#accTypeCost").append("숙박 : <b style=\"color:#4FB99F;font-size:20px\">" + accTypeCost.stay + "</b>원<br>");
+	$("#accTypeCost").append("입장료 : <b style=\"color:#4FB99F;font-size:20px\">" + accTypeCost.admission + "</b>원<br>");
+	$("#accTypeCost").append("음식 : <b style=\"color:#4FB99F;font-size:20px\">" + accTypeCost.food + "</b>원<br>");
+	$("#accTypeCost").append("오락 : <b style=\"color:#4FB99F;font-size:20px\">" + accTypeCost.play + "</b>원<br>");
+	$("#accTypeCost").append("쇼핑 : <b style=\"color:#4FB99F;font-size:20px\">" + accTypeCost.shop + "</b>원<br>");
+	$("#accTypeCost").append("기타 : <b style=\"color:#4FB99F;font-size:20px\">" + accTypeCost.etc + "</b>원<br>");
+	$("#accTypeCost").append("총합 : <b style=\"color:#4FB99F;font-size:20px\">" + accTotal + "</b>원<br>");
+	$("#accTypeCost").append("환율 : <b style=\"color:#4FB99F;font-size:20px\">" + accCalcedTotal + "</b>원<br>");
+	
+// 	$("#accTypeCost").append("<p>교통 : " + accTypeCost.traffic + "원</p>");
+// 	$("#accTypeCost").append("<p>숙박 : " + accTypeCost.stay + "원</p>");
+// 	$("#accTypeCost").append("<p>입장료 : " + accTypeCost.admission + "원</p>");
+// 	$("#accTypeCost").append("<p>음식 : " + accTypeCost.food + "원</p>");
+// 	$("#accTypeCost").append("<p>오락 : " + accTypeCost.play + "원</p>");
+// 	$("#accTypeCost").append("<p>쇼핑 : " + accTypeCost.shop + "원</p>");
+// 	$("#accTypeCost").append("<p>기타 : " + accTypeCost.etc + "원</p>");
+// 	$("#accTypeCost").append("<p>총합 : " + accTotal + "원</p>");
+// 	$("#accTypeCost").append("<p>환율 : " + accCalcedTotal + "</p>");
 }
 
 var eventMini; // 수정모드를 위한 event 값 전송에 사용하는 전역변수
@@ -575,6 +585,7 @@ function mdown(obj){
 <!-- 플래너 배너 -->
 <div id="planInfoHeader" style="background-image:url('${planView.bannerURL }');">
 
+	<div id="viewTitle" ><br>
 	<!-- 게시자와 열람자가 같은 유저면 수정버튼을 -->
 	<c:if test="${writtenUserView.user_idx eq loginedUserView.user_idx}">
 	    <form action="/plan/write" method="post" id="Modify">
@@ -584,9 +595,8 @@ function mdown(obj){
 			<input type="hidden" name="editStartDate" value="${planView.start_date}" />
 			<input type="hidden" name="editEndDate" value="${planView.end_date}" />
 			<input type="hidden" name="editTraveled" value="${planView.traveled}" />
-
 	    	<span id="btnModify" class = "glyphicon glyphicon-pencil"   
-				  onmouseover="mover($(this))" onmouseleave="mleave($(this))" onmousedown="mdown($(this))" style="float:right;font-size:35px;cursor:pointer;" >
+				  onmouseover="mover($(this))" onmouseleave="mleave($(this))" onmousedown="mdown($(this))">
 			</span>
 	    </form>
 	</c:if>
@@ -614,10 +624,9 @@ function mdown(obj){
 			</form>
 		</c:if>
 		
-	</c:if> 
-	<br>
-		
-	<div id="viewTitle" >
+	</c:if>
+<!-- 	</div> -->
+<!-- 	<div id="viewTitle" > -->
 		<h1 id="titleView" style="font-size:100px;">${planView.title }</h1>
 		<h4 id="planRouteView" style="font-size:25px;"> ${cName1 } ${cName2 }</h4> 
 		<h4 id="dateView" style="font-size:25px;">${planView.start_date } ~ ${planView.end_date }</h4>
@@ -625,7 +634,8 @@ function mdown(obj){
 			<c:if test="${planView.traveled eq 1 }">여행 전</c:if>
 			<c:if test="${planView.traveled eq 0 }">여행 후</c:if>
 		</h4>
-	</div><br>
+	</div>
+	<br>
 </div><br>
 </header>
 
@@ -633,16 +643,16 @@ function mdown(obj){
 <nav>
 <div id="planInfoNav">
 	<!-- 게시자 정보 DIV -->
-	<div id="userInfoView"><br>
+	<div id="userInfoView">
 		<div class="profileImage">
 			<img id="userInfoProfileImg" src="${writtenUserView.profile }"/>
 		</div>
 		
 		<br>
-		<b style="font-size:30px">${writtenUserView.nickname }</b>님 <br>
-		포스팅 : <b style="font-size:20px">${writtenUserView.totalPlanCnt }</b>개 <br>
-		등급 : <b style="font-size:20px">${writtenUserView.grade }</b><br>
-		<b style="font-size:20px"><fmt:formatNumber value='${writtenUserView.totalDist }' pattern="0.##"/></b> km<br>
+		<b id="userInfoText">${writtenUserView.nickname }</b>님 <br>
+		포스팅 : <b id="userInfoText">${writtenUserView.totalPlanCnt }</b>개 <br>
+		등급 : <b id="userInfoText">${writtenUserView.grade }</b><br>
+		<b id="userInfoText"><fmt:formatNumber value='${writtenUserView.totalDist }' pattern="0.##"/></b> km<br>
 	</div><br>
 	
  	<!-- 가계부 DIV -->
@@ -731,9 +741,10 @@ function mdown(obj){
 </div>	
 </section>
 
+<jsp:include page="../layout/footer.jsp" />
+
 <!-- Maps JavaScript API 로드 -->
 <script async defer
  src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAO-YMjD9aGxBW1nEzgSFdzf7Uj8E4Lm9Q&libraries=places&language=ko&callback=initMap">
 </script>
-</body>
-</html>
+

@@ -35,10 +35,10 @@ th{
 
 		<c:forEach items="${planList }" var="plan"> 
 			<div id="planBox" data-plan_idx="${plan.plan_idx }">
-				<div><a href="/plan?plan_idx=${plan.plan_idx }" ></a></div>
+				<a href="/plan?plan_idx=${plan.plan_idx }" >
 				<div><img src="/upload/banner/${plan.bannerURL }" style="width: 100%;"></div>
 				<div> Title : ${plan.title}  NickName : ${plan.nick }</div>
-				
+				</a>
 			</div>
 		</c:forEach>
 	</div>
@@ -104,9 +104,6 @@ th{
     </li>
     </c:if>
   </ul>
-    <div id="btnDeleteBox">
-	<button id="btnDelete">삭제</button>
-  </div><br>
   
   <div id ="searchBox" class="col-xs-2, form-inline" >
 <form action="/contents/newest" method="get" >	
@@ -121,6 +118,5 @@ th{
 </div>
 </div>
 
-</div>
-</body>
-</html>
+
+<jsp:include page="../layout/footer.jsp" />

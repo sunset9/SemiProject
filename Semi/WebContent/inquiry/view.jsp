@@ -247,5 +247,5 @@ ${inquiry.content }</td>
 
 </div>
 
-</body>
-</html>
+
+<jsp:include page="../layout/footer.jsp" />

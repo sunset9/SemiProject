@@ -141,5 +141,5 @@ function submitContents(elClickedObj) {
 
 
 </script>
-</body>
-</html>
+
+<jsp:include page="../layout/footer.jsp" />
