@@ -57,12 +57,11 @@ body {
 	padding-bottom: 40px;
 }
 
-.common {
+ .common {
 	display: inline-block;
-	margin: 0 auto;
 }
 
-.right {float:right;}
+/* .right {float:left;} */
 
 
 .dropdown > ul > li {
@@ -132,7 +131,16 @@ body {
     cursor: pointer;
 }
 
+.form-control {
+/* 	border: 1px solid #bfb9bf;
+	border-radius: 10px;
+	background: radial-gradient( circle, white, #bfb9bf, white );
+	width: 180px;
+	height: 30px;
+	font-size: 15px; */
 }
+
+
 </style>
 
 <script type="text/javascript">
@@ -321,8 +329,8 @@ function sendJoinForm(){
 		joinForm.userpw.focus();
 		return false;
 	}
-	if(joinForm.userpw.value.length<10){
-		alert("비밀번호는 10자 이상 입력해주세요.");
+	if(joinForm.userpw.value.length<3){
+		alert("비밀번호는 3자 이상 입력해주세요.");
 		joinForm.userpw.focus();
 		joinForm.userpw.select(); //드래그로 선택됨
 		return false;
@@ -409,34 +417,29 @@ function checkLoginInfo(){
 	</div>
 	
 	<div class="right">
-		<div class="search common">
-			<div class="Type common">
+		<div>
 			<form action="/contents/all" method="get">
-				<select name="searchType">
-					<option value="1">제목</option>
-					<option value="2">닉네임</option>
-				</select>
-				<div class="searchBox common">
-					<input type="text" name="search" />
-				</div>
-				<div><button type="submit">검색</button></div>
+					<select name="searchType">
+						<option value="1">제목</option>
+						<option value="2">닉네임</option>
+					</select>
+					<input type="text" name="search"/>
+				<button type="submit" class="btn btn-default">검색</button>	
 			</form>
-			</div>
 		</div>
-		
-		<div class="newPlan common">
-			<button id="newPlan" class="newPlanClassName">새일정</button>
-		</div>
-		
+				
 		<div class="loginBtn common">
-			<!-- 로그인 상태일때 -->
+		<!-- 로그인 상태일때 -->
 		<c:if test="${login}">
-			<button onclick='location.href="/user/logout";'>로그아웃</button>
+			<div class="newPlan common">
+				<button id="newPlan" class="btn btn-default">새일정</button>
+			</div>
+			<button onclick='location.href="/user/logout";'class="btn btn-default">로그아웃</button>
 		</c:if>
 		
 		<!-- 비로그인 상태일때 -->
 		<c:if test="${not login}">
-			<button id="MainLoginBtnOnNotLogin" onclick='location.href="/user/login";'>로그인</button>
+			<button id="MainLoginBtnOnNotLogin" class="btn btn-default" onclick='location.href="/user/login";' style="display:inline; float:left;">로그인</button>
 		</c:if>
 		</div>
 	</div>

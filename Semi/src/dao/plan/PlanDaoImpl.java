@@ -1302,7 +1302,59 @@ public class PlanDaoImpl implements PlanDao{
 	// 추천 게시물 리스트 조회
 	@Override
 	public List<Plan> selectRecomList() {
-		// TODO Auto-generated method stub
-		return null;
+		String sql = "";
+		   sql+= "SELECT * FROM \n" ;
+		   sql+=		"    (SELECT rownum rnum, BL.*, P.user_idx, P.opened, P.title, P.bannerurl, p.create_date," ; 
+		   sql+=		"        ( SELECT nickname FROM userinfo U WHERE P.user_idx= U.user_idx) nickname " ; 
+		   sql+= 		"            FROM"; 
+		   sql+=		"                ( SELECT count(plan_idx) bookCnt, plan_idx " ; 
+		   sql+=		"                FROM bookmark B   " ;
+		   sql+=		"                GROUP BY B.plan_idx" ; 
+		   sql+=		"                ORDER BY bookCnt DESC " ;
+		   sql+=		"                ) BL" ; 
+		   sql+=		"            INNER JOIN planner P" ;
+		   sql+=		"            ON P.plan_idx = BL.plan_idx) order by rnum";
+		   
+			// DB 객체 생성
+			PreparedStatement ps = null;
+			ResultSet rs = null;
+
+			// 조회 결과 담을 list 생성
+			List<Plan> list = new ArrayList<>();
+
+			try {
+				// DB작업 시작
+				ps = conn.prepareStatement(sql);
+				rs = ps.executeQuery();
+				
+				while(rs.next()) {
+					Plan p = new Plan();
+					
+					p.setPlan_idx(rs.getInt("plan_idx"));
+					p.setUser_idx(rs.getInt("user_idx"));
+					p.setOpened(rs.getInt("opened"));
+					p.setTitle(rs.getString("title"));
+					p.setBannerURL(rs.getString("bannerurl"));
+					p.setNick(rs.getString("nickname"));
+					p.setCreate_date(rs.getDate("create_date"));
+
+					list.add(p);
+				}
+				
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} finally {
+				try {
+					// DB객체 닫기
+					if (rs != null)
+						rs.close();
+					if (ps != null)
+						ps.close();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+			}
+		return list;
 	}
 }
