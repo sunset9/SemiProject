@@ -32,7 +32,7 @@ $(document).ready(function() {
 
 <style>
 .container {
-	position: absolute;
+/* 	position: absolute; */
 }
 
 #listTable {
@@ -214,5 +214,7 @@ tr td{
 
 </div>
 </div>
-</body>
-</html>
+
+
+
+<c:import url="../layout/footer.jsp" />

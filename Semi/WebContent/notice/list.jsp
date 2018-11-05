@@ -167,5 +167,5 @@ tr td{
 
 </div>
 </div>
-</body>
-</html>
+
+<jsp:include page="../layout/footer.jsp" />
