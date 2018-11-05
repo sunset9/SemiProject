@@ -50,15 +50,15 @@ public class PlanUpdateController extends HttpServlet {
 			Map<Timetable, Location> ttbLocParam = ttbService.getParam(req);
 			System.out.println(ttbLocParam);
 			
-			// 타임테이블, 위치정보 정보 업데이트
-			List<Timetable> updatedTtbList = null; 
-			updatedTtbList = ttbService.update(planParam, ttbLocParam);
-			System.out.println(updatedTtbList);
-			// 삭제된 타임테이블에 해당하는 스토리 삭제
-			sService.deleteList(planParam, updatedTtbList);
-			
+			// 업데이트 하려는 타임테이블 리스트로 받기 
+			List<Timetable> updateTtbList = ttbService.getCompletedTimetable(ttbLocParam); 
 			// 삭제된 타임테이블에 해당하는 가계부 정보 삭제
-			aService.deleteList(planParam, updatedTtbList);
+			aService.deleteList(planParam, updateTtbList);
+			// 삭제된 타임테이블에 해당하는 스토리 삭제
+			sService.deleteList(planParam, updateTtbList);
+			// 타임테이블, 위치정보 정보 업데이트
+			ttbService.update(planParam, ttbLocParam);
+			
 			
 			// 일정 정보 업데이트
 			pService.update(planParam);

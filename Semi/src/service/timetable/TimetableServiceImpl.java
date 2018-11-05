@@ -167,7 +167,7 @@ public class TimetableServiceImpl implements TimetableService{
 	}
 	
 	// 타임테이블 정보 저장하기(수정), 업데이트한 타임테이블 목록 반환
-	public List<Timetable> update(Plan plan, Map<Timetable, Location> ttbLoc) {
+	public void update(Plan plan, Map<Timetable, Location> ttbLoc) {
 		List<Timetable> ttbList = getCompletedTimetable(ttbLoc);
 		
 //		System.out.println(ttbList);
@@ -184,8 +184,6 @@ public class TimetableServiceImpl implements TimetableService{
 				ttbDao.updateTimetable(ttb);
 			}
 		}
-		
-		return ttbList;
 		
 	}
 
