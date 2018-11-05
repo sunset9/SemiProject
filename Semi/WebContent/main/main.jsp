@@ -49,6 +49,34 @@
 	text-decoration: none;
 	cursor: pointer;
 }
+
+.newConDiv {
+	float: left;
+	width: 33%;
+	padding: 5px;
+}
+
+.newConDivInner {
+	border: 1px solid gray;
+	width: 310px;
+	height: 200px;
+	position: relative;
+	margin: auto;
+}
+
+.newConImg {
+	text-align: center;
+	position: absolute;
+}
+
+.newConP {
+	text-align: center;
+	background-color: rgba( 255, 255, 255, 0.5 );
+	font-color: gray;
+	position: absolute;
+	width: 100%;
+	top: 91%;
+}
 </style>
 
 </head>
@@ -83,10 +111,10 @@
 	<hr>
 	<form action="/plan/create" method="post">
 	<div>
-		<input type="text" id="editTitleView" name="editTitleView" placeholder="여행 제목" /><br>
-		<input type="date" id="editStartDate" name="editStartDate" value="" />
-		<input type="date" id="editEndDate" name="editEndDate" value="" />
-		<input type="hidden" id="editOpened" name="editOpened" value="0" /><br>
+		<input type="text" id="editTitleViewInMain" name="editTitleView" placeholder="여행 제목" /><br>
+		<input type="date" id="editStartDateInMain" name="editStartDate" value="" />
+		<input type="date" id="editEndDateInMain" name="editEndDate" value="" />
+		<input type="hidden" id="editOpenedInMain" name="editOpened" value="0" /><br>
 		<select name="editTraveled">
 			<option value="1">여행 전</option>
 			<option value="0">여행 후</option>
@@ -99,12 +127,25 @@
 <hr>
 
 <div>
-<h2>추천 콘텐츠 부분</h2>
+<h2>추천 콘텐츠</h2>
 </div>
 <hr>
 
 <div>
-<h2>최신 콘텐츠 부분</h2>
+<h2>최신 콘텐츠</h2>
+<div class="newContents">
+	<c:forEach var="nList" items="${newestPlanList}" varStatus="nStatus">
+		<div class="newConDiv">
+			<div class="newConDivInner">
+				<img class="newConImg" src="${nList.bannerURL}" style="width: 100%; height: 100%;" /><br>
+				<p class="newConP">${nList.title}</p>
+			</div>
+		</div>
+	</c:forEach>
+</div>
+<div>
+
+</div>
 </div>
 <script type="text/javascript">
 // Get the modal
