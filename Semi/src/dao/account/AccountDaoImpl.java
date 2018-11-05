@@ -7,6 +7,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import dto.Account.AccType;
 import dto.Account.Account;
 import dto.plan.Plan;
 import dto.story.Story;
@@ -37,7 +38,8 @@ public class AccountDaoImpl implements AccountDao {
 				account.setPlan_idx(rs.getInt("plan_idx"));
 				account.setStory_idx(rs.getInt("story_idx"));
 				account.setCurr_idx(rs.getInt("curr_idx"));
-				account.setCategory(rs.getInt("acc_cat_idx"));
+				account.setAccType(AccType.getValue(rs.getInt("acc_cat_idx")));
+//				account.setCategory(rs.getInt("acc_cat_idx"));
 				account.setOrigin_cost(rs.getDouble("origin_cost"));
 				account.setCaled_cost(rs.getDouble("caled_cost"));
 				
@@ -81,7 +83,8 @@ public class AccountDaoImpl implements AccountDao {
 				account.setPlan_idx(rs.getInt("plan_idx"));
 				account.setStory_idx(rs.getInt("story_idx"));
 				account.setCurr_idx(rs.getInt("curr_idx"));
-				account.setCategory(rs.getInt("acc_cat_idx"));
+				account.setAccType(AccType.getValue(rs.getInt("acc_cat_idx")));
+//				account.setCategory(rs.getInt("acc_cat_idx"));
 				account.setOrigin_cost(rs.getDouble("origin_cost"));
 				account.setCaled_cost(rs.getDouble("caled_cost"));
 				
@@ -164,7 +167,8 @@ public class AccountDaoImpl implements AccountDao {
 			ps.setInt(2, account.getPlan_idx());
 			ps.setInt(3, account.getStory_idx());
 			ps.setInt(4, account.getCurr_idx());
-			ps.setInt(5, account.getCategory());
+			ps.setInt(5, account.getAccType().getIdx());
+//			ps.setInt(5, account.getCategory());
 			ps.setDouble(6, account.getOrigin_cost());
 			ps.setDouble(7, account.getCaled_cost());
 			

@@ -59,6 +59,7 @@ var markers = [];
 // 경로
 var route;
 
+// 지도 그려주는 메소드
 // timetable : 선택한 타임테이블
 // timetables : 현재 띄워져있는 모든 타임테이블
 function viewMap(timetable, timetables){
@@ -99,7 +100,7 @@ function viewMap(timetable, timetables){
 	locations.forEach(function(loc){
 		// 아이콘 정의
 		var icon = {
-				url: '/resources/img/mapMarker/' + (labelIdx++) +'cb.png', // url
+				url: '/resources/img/mapMarker/' + (labelIdx++) +'g.png', // url
 				scaledSize: new google.maps.Size(30, 32), // scaled size
 				origin: new google.maps.Point(0, 0), // origin
 				anchor: new google.maps.Point(8, 15) // anchor
@@ -168,7 +169,7 @@ function displaySearch(places, input_search){
 	// idx 초기화
 	searchId_idx = 0;
 	// 검색결과 화면 초기화
-	$("#results").empty();
+	$("#searchResultView").empty();
 	
 	// 세션 생성
 	sessionToken = new google.maps.places.AutocompleteSessionToken();
@@ -217,21 +218,55 @@ function autoSearchQuery(predictions, status) {
 	});
 }
 
-//새로운 일정 id값 지정을 위한 변수
-var id_idx = -1;
-
 // 상세 정보 가져온 것 띄워주기
 function viewDetails(placeRes, status, prediction){
 //	console.log(placeRes);
 	if (status === google.maps.places.PlacesServiceStatus.OK){
 		// 결과 띄워주기 위한 태그 생성
-		var li = $("<li>"); // 태그 생성
-		// id지정
-		li.attr("id", "search_"+(searchId_idx++)); 
+		var resDiv = $("<div class='searchRes'>"); // 태그 생성
+
+		// 0. id지정
+		resDiv.attr("id", "search_"+(searchId_idx++)); 
 		
-		// 띄워줄 텍스트 지정
-		li.text(placeRes.name); 
+		// 1. 장소 사진
+		var photo;
+		var photo_url;
+		var imgDiv = $("<div class='searchResImg'>");
+		var img = $("<img class='placeImg'>");
+		if(placeRes.hasOwnProperty("photos")){ // 구글 제공 이미지 있는 경우
+			if(placeRes.photos.length > 2){
+				photo = placeRes.photos[2];
+			}else{
+				photo = placeRes.photos[0];
+			}
+			photo_url = photo.getUrl();
+			
+		}else{ // 제공 이미지 없는 경우
+			photo_url = '/resources/img/placeNoPhoto.png';
+		}
+		// 넓이 높이 조정 (긴걸로 맞춤)
+		if(photo != null){
+			if(photo.width >= photo.height){
+				img.css("width", "auto");
+				img.css("height", "100%");
+			} else{
+				img.css("width", "100%");
+				img.css("height", "auto");
+			}
+		}
+		img.attr("src", photo_url);
+		imgDiv.append(img);
+		resDiv.append(imgDiv);
 		
+		// 2,3
+		var infoDiv = $("<div class='searchResInfo'>");
+		
+		// 2. 장소 이름
+		var infoName = $("<div class='infoName'>");
+		infoName.text(placeRes.name);
+		infoDiv.append(infoName);
+		
+		// 3. 장소 지역명 정보
 		// 주소 지정
 		var address = placeRes.address_components;
 		// 나라이름 파싱
@@ -260,32 +295,21 @@ function viewDetails(placeRes, status, prediction){
 				}
 			});
 		}
+		var addrText = country_name;
 		if(locality != null){ // 지역명 있으면 - 나라이름+지역명
-			li.text(li.text() + " /" + country_name + " - " + locality);
+			addrText = country_name + " " + locality;
 		}else if(area_level_1 != null){ // 지역명 없고, 1차 행정수준명 있으면 - 나라이름+행정수준명
-			li.text(li.text() + " /" + country_name + " - " + area_level_1);
-		} else{ // 둘다 없으면, 나라이름만
-			li.text(li.text() + " /" + country_name);
-		}
+			addrText = country_name + " " + area_level_1;
+		} 
 		
+		var infoAddr = $("<div class='infoAddr'>");
+		infoAddr.text(addrText);
+		infoDiv.append(infoAddr);
 		
-		// 사진 url
-		var photo_url;
-		if(placeRes.hasOwnProperty("photos")){
-			if(placeRes.photos.length > 2){
-				photo_url = placeRes.photos[2].getUrl();
-			}else{
-				photo_url = placeRes.photos[0].getUrl();
-			}
-		}else{
-			photo_url = '/resources/img/placeNoPhoto.png';
-		}
-		var img = $("<img width='150' height='90'>");
-		img.attr("src", photo_url);
-		li.append(img);
+		resDiv.append(infoDiv);
 		
 		// 드래그 가능하게 설정
-		li.draggable({
+		resDiv.draggable({
 			zIndex: 999,
 			revert: true,		// will cause the event to go back to its
 			revertDuration: 0,  //  되돌려지는 시간
@@ -293,8 +317,8 @@ function viewDetails(placeRes, status, prediction){
 		});
 		
 		// json data 설정
-		li.data('event', {
-			id: id_idx-- // 새로 추가한 요소는 음수
+		resDiv.data('event', {
+			id: 0
 			, plan_idx: plan_idx
 			, title: placeRes.name
 			, address: placeRes.formatted_address
@@ -307,7 +331,7 @@ function viewDetails(placeRes, status, prediction){
 		});
 		
 		// 결과 공간에 띄워줌
-		$("#results").append(li);
+		$("#searchResultView").append(resDiv);
 		
 	}
 }
