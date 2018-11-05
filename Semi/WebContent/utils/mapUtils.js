@@ -59,6 +59,7 @@ var markers = [];
 // 경로
 var route;
 
+// 지도 그려주는 메소드
 // timetable : 선택한 타임테이블
 // timetables : 현재 띄워져있는 모든 타임테이블
 function viewMap(timetable, timetables){

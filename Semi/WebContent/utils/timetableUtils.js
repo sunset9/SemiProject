@@ -87,8 +87,8 @@ function initFullCalendar(planStartDate, planEndDate, isFirst){
 			var tdSpan = $("td.fc-axis.fc-time:has(span)");
 			tdSpan.attr("rowspan","2");
 			tdSpan.css("vertical-align","top");
-			tdSpan.css("font-size", "14px");
-			tdSpan.css("padding-top", "3px");
+			tdSpan.css("font-size", "13px");
+			tdSpan.css("padding-top", "4px");
 			
 			tdSpan.css("color","#a7a7a7");
 			// 날짜 표시 아래에 내용 없는 빈 td는 숨기기
@@ -130,11 +130,9 @@ function initFullCalendar(planStartDate, planEndDate, isFirst){
 		}
 		// 이벤트 랜더링 콜백함수
 		, eventRender: function(event, element, view) {
-			// 새로 추가한 요소의 id - 음수로 주기.
+			// 새로 추가한 요소의 id값을 음수로 지정 (겹치지 않게)
 			if(event.id == 0){
-				event.id = id_idx-- ; 
-				console.log(event);
-				console.log(element);
+				event.id = id_idx-- ;
 				$('#calendar').fullCalendar('updateEvent', event);
 			}
 			

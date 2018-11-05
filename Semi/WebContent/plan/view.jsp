@@ -106,11 +106,20 @@
 	  color: #fff;
 	}
 	
-	/* 수정 모드로 버튼*/
+	/* 일정 수정하기 버튼*/
 	#planWriteModeBtn{
 		margin-bottom: 5px;
 		background: #eee;
+		border: none;
 		border-radius: 6px;
+		height: 38px;
+		width: 100%;
+	}
+	
+	#planWriteModeBtn span {
+		right: 4px;
+	    top: 3px;
+	    color: #444;
 	}
 	
 	#accTypeCost p{
@@ -676,7 +685,8 @@ function changeViewMode(){
 	</div><br> <!-- 가게부 end -->
 	
 	<!-- 일정 수정 모드-->
-	<button id="planWriteModeBtn" onclick="changeViewMode()" style="width:100%;">수정 모드로</button>
+	<button id="planWriteModeBtn" onclick="changeViewMode()">
+		<span class='glyphicon glyphicon-pencil'></span>일정 수정하기</button>
 	
 </div>
 </nav>

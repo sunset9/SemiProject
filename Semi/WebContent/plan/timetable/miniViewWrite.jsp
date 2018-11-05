@@ -11,15 +11,20 @@
 <!-- miniViewWrite CSS -->
 <style>
 #miniModalBody{
-	padding: 30px;
+    padding: 27px 30px 14px 30px;
 }
+
 .modal-open {
     overflow-y: scroll; 
 }
 
 .modal-header {
 	background: #4FB99F;
+	padding: 10px 15px;
 	border-radius: 6px 6px 0px 0px;
+}
+.modal-footer {
+	padding: 10px 15px;
 }
 
 #miniModalBody > tbody tr{
@@ -57,7 +62,7 @@
 	border: 1px solid gray;
 	overflow-y: auto; 
 	height: 250px;
-	margin-top: 26px;
+	margin-top: 20px;
 }
 
 #w-miniModalAccount{
@@ -69,7 +74,7 @@ button.close{
     opacity: .7; 
 	color: white;
     font-size: 30px;
-    margin-top: 4px !important;
+    margin-top: 6px !important;
 }
 /* 닫기 버튼 위에 마우스 */
 button.close:focus, button.close:hover{
@@ -89,6 +94,61 @@ button.close:focus, button.close:hover{
     background: #429480;
 	border-color: #28715e;
 }
+
+/* 가계부 입력 폼 */
+#w-min_accountView{
+	margin-bottom: 1px;
+}
+
+.form-control {
+	height: 26px;
+    padding: 4px 11px;
+}
+
+/* 가계부 카테고리 select */
+#w-min_accountView td:nth-child(1) {
+    width: 88px;
+    padding-right: 3px;
+}
+/* 가계부 화폐단위 select */
+#w-min_accountView td:nth-child(2) {
+	width: 82px;
+	padding-right: 3px;
+}
+/* 금액 입력 */
+#w-min_accountView td:nth-child(3) {
+    width: 338px;
+    padding-right: 20px;
+}
+
+/* 가계부 목록 삭제, 추가 버튼 */
+#w-min_accountView span.glyphicon{
+	color: #bbb;
+}
+
+/* 가계부 목록 삭제*/
+.w-accountRemove {
+	display: inline;
+	position: relative;
+	top: 0px;
+	left: -1px;
+}
+.w-accountRemove:hover {
+	color: #444 !important;
+}
+
+/* 가계부 목록 추가 */
+.w-accountPlus {
+	display: inline;
+	position: relative;
+	top: 0px;
+	left: -10px;
+}
+
+.w-accountPlus:hover {
+	color: #48a38d !important;
+}
+
 </style>
 <script type="text/javascript">
 //환율정보
@@ -267,6 +327,7 @@ function miniAppendAccount() {
 		    	 $(obj).find(".w-accountPlus").css("display","none");
 	        }
 		 }
+		
 	}
 }
 	
@@ -319,7 +380,7 @@ function miniRemoveAccount() {
 <body>
 
 <!-- Modal -->
-<div class="modal fade" id="miniWriteModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+<div class="modal fade" id="miniWriteModal" tabindex="-1" role="dialog" data-backdrop="static" aria-labelledby="myModalLabel" aria-hidden="true">
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
@@ -358,7 +419,7 @@ function miniRemoveAccount() {
 						<table style="width: 100%;">
 							<tr>	
 								<td>
-								<select name = "w-min_accType" class="w-min_accType">
+								<select name = "w-min_accType" class="form-control w-min_accType">
 									<option value="airfare">항공료</option>
 									<option value="traffic">교통</optoin>
 									<option value="stay">숙박</option>
@@ -370,20 +431,20 @@ function miniRemoveAccount() {
 								</select>
 								</td>
 								<td>
-								<select name = "w-min_currSymbol" class="w-min_currSymbol">
+								<select name = "w-min_currSymbol" class="form-control w-min_currSymbol">
 									<option value = "1">USD</option>
 									<option value = "2">KRW</optoin>
 									<option value = "3">JPY</option>
 								</select>
 								</td>
 								<td>
-									<input type="text" size="40" name = "w-min_cost" class="w-min_cost" onkeypress="Numberchk()" onkeyup="vComma(this)" style = "text-align:right;"/>
+									<input type="text" size="40" name = "w-min_cost" class="form-control w-min_cost" onkeypress="Numberchk()" onkeyup="vComma(this)" style = "text-align:right;"/>
 								</td>
 								<td>
-									<span class="glyphicon glyphicon-plus 	w-accountPlus" onclick = "miniAppendAccount()"></span>
+									<span class="glyphicon glyphicon-plus w-accountPlus" onclick = "miniAppendAccount()"></span>
 								</td>
 								<td>
-									<span class="glyphicon glyphicon-remove w-accountRemove" name = "w-min_removeAcoountName" onclick = "miniRemoveAccount()" style="display: none"></span>
+									<span class="glyphicon glyphicon-remove w-accountRemove" name = "w-min_removeAcoountName" onclick = "miniRemoveAccount()"></span>
 								</td>
 							</tr>
 						</table>

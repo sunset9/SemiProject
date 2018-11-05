@@ -80,7 +80,7 @@
 	  border-radius: 50%;
 	}
 	
-	/* 읽기 모드로 버튼*/
+	/* 일정 보기 버튼*/
 	#planViewModeBtn{
 		margin-bottom: 5px;
 		background: #eee;
@@ -106,11 +106,13 @@
 	    color: #fff; 
 	    border: none;
 	    font-size: 18px;
-		background-image: -webkit-linear-gradient(top, #56C9AD, #4BB097);
-		background-image: -moz-linear-gradient(top, #56C9AD, #4BB097);
-		background-image: -ms-linear-gradient(top, #56C9AD, #4BB097);
-		background-image: -o-linear-gradient(top, #56C9AD, #4BB097);
-		background-image: linear-gradient(to bottom, #56C9AD, #4BB097);
+	    background: #429480;
+	    background-image: linear-gradient(to bottom, #50b69c 0,#429480 100%);
+/* 		background-image: -webkit-linear-gradient(top, #56C9AD, #4BB097); */
+/* 		background-image: -moz-linear-gradient(top, #56C9AD, #4BB097); */
+/* 		background-image: -ms-linear-gradient(top, #56C9AD, #4BB097); */
+/* 		background-image: -o-linear-gradient(top, #56C9AD, #4BB097); */
+/* 		background-image: linear-gradient(to bottom, #56C9AD, #4BB097); */
 	    border-radius: 6px;
 	}
 	
@@ -124,13 +126,16 @@
 		border-radius: 6px;
 	}
 	 
+	/* 검색, 검색 결과 */ 
 	#googleSearch{
 		width:100%;
 		border-radius:10px;
 		margin-top: 10px;
 		border: 1px solid #ccc;
+		background-color: #eee;
 	}
 	
+	/* 검색 입력 창 */
 	#pac-input{
 		display: block;
 		margin: 6px auto;
@@ -138,6 +143,7 @@
 	    background: url(/resources/img/searchBg.png) -5px center no-repeat;
  	    border: 1px solid #ccc; 
 	    padding: 5px 3px 5px 35px;
+	    background-color: white;
 	}
 	
 	/* 검색 결과 창*/
@@ -145,34 +151,36 @@
 		padding:3px;
 	}
 	
-	.searchRes {
-	    border: 1px solid #dfdfdf;
-    	height: 95px;
- 		margin-bottom: 1px;
+	
+	div.searchRes {
+/* 	    border: 1px solid #dfdfdf; */
+    	height: 94px;
+ 		margin-bottom: 2px;
+ 		background-color: white;
 	}
 	
-	.searchRes:hover {
+	div.searchRes:hover {
 		transform: scale(0.98);
 		border: 2px solid #4FB99F;
 	}
 	
-	.searchResImg {
- 	 	float: left;
+	div.searchResImg {
 	    display: inline;
+ 	 	float: left;
 		width: 90px;
 		height: 90px;
 		overflow: hidden;
 	}
 	
-	.placeImg {
+	img.placeImg {
 		object-fit: cover;
 		width: auto;
 		height: 100%;
 	}
 	
 	.searchResInfo {
-	    padding: 3px 2px 2px 95px;
-	    height: inherit;
+	    padding: 2px 2px 2px 95px;
+	    height: 90px;
 	}
 	
 	.infoName {
@@ -185,7 +193,6 @@
 		overflow: hidden;
 		text-overflow: ellipsis; /* 글자 ... 처리*/
 /* 		white-space:nowrap; /*공백문자가 있는 경우 줄바꿈하지 않고 한줄로 나오게 처리 */ 
-
 	}
 	
 	.infoAddr {
@@ -197,6 +204,14 @@
 		text-overflow:ellipsis; /* 글자 ... 처리*/
 		line-height: 1.2em;
 	}
+	
+	/* 저장 경고창 */
+	.jconfirm .jconfirm-box .jconfirm-buttons button.btn-blue {
+    	background-color: #4FB99F;
+    }
+	.jconfirm .jconfirm-box .jconfirm-buttons button.btn-blue:hover {
+    	background-color: #429480;
+    }
 </style>
 
 <script>
@@ -294,34 +309,34 @@ function store(beforeTtbIdx, afterTtbIdx){
 // 	console.log(timetables);
 	
 	var succ = false;
-// 	$.ajax({
-// 		url: "/plan/update"
-// 		, type: "post"
-// 		, async: false
-// 		, dataType: "html"
-// 		, data: {
-// 			plan_idx: '${planView.plan_idx}'
-// 			, user_idx: '${planView.user_idx}'
-// 			, uploadFile: '${planView.bannerURL}'
-// 			, editOpened: $('.planInfo[name=editOpened]').val()
-// 			, editTraveled: $('.planInfo[name=editTraveled]').val()
-// 			, editTitleView: $('.planInfo[name=editTitleView]').val()
-// 			, editStartDate: $('.planInfo[name=editStartDate]').val()
-// 			, editEndDate: $('.planInfo[name=editEndDate]').val()
-// 			, events: JSON.stringify(timetables)
-// 		}
-// 		, success: function(){
-// 			// 저장 후 수정모드 유지 변수가 false이면, 읽기 모드로 보냄
-// 			if(!isStayWriteMode){
-// 				window.location = "/plan?plan_idx=" + ${planView.plan_idx};
-// 			}
-// 			isStayWriteMode = false; 
-// 			succ = true;
-// 		}
-// 		, error: function(){
-// 			succ = false;
-// 		}
-// 	});
+	$.ajax({
+		url: "/plan/update"
+		, type: "post"
+		, async: false
+		, dataType: "html"
+		, data: {
+			plan_idx: '${planView.plan_idx}'
+			, user_idx: '${planView.user_idx}'
+			, uploadFile: '${planView.bannerURL}'
+			, editOpened: $('.planInfo[name=editOpened]').val()
+			, editTraveled: $('.planInfo[name=editTraveled]').val()
+			, editTitleView: $('.planInfo[name=editTitleView]').val()
+			, editStartDate: $('.planInfo[name=editStartDate]').val()
+			, editEndDate: $('.planInfo[name=editEndDate]').val()
+			, events: JSON.stringify(timetables)
+		}
+		, success: function(){
+			// 저장 후 수정모드 유지 변수가 false이면, 읽기 모드로 보냄
+			if(!isStayWriteMode){
+				window.location = "/plan?plan_idx=" + ${planView.plan_idx};
+			}
+			isStayWriteMode = false; 
+			succ = true;
+		}
+		, error: function(){
+			succ = false;
+		}
+	});
 	return succ;
 }
 </script>
@@ -761,7 +776,7 @@ window.onbeforeunload = function(){
 	</div><br>
 	
 	<!-- 일정 읽기 모드-->
-	<button id="planViewModeBtn" onclick="changeViewMode()" style="width:100%;">읽기 모드로</button>
+	<button id="planViewModeBtn" onclick="changeViewMode()" style="width:100%;">일정 보기</button>
 	<!-- 일정 저장 -->
 	<button id="planSaveBtn" onclick="store();" style="width:100%;" disabled="true">저장 </button>
 	

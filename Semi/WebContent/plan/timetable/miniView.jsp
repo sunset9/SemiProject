@@ -71,7 +71,7 @@
 	color: white;
     font-size: 19px;
     margin-right: 5px;
-    margin-top: 7px;
+    margin-top: 9px;
 }
 /* 수정 버튼 위에 마우스 놓을때 */
 #miniEditModeBtn:focus, #miniEditModeBtn:hover{
@@ -87,7 +87,7 @@ button.close{
     opacity: .7; 
 	color: white;
     font-size: 30px;
-    margin-top: 4px !important;
+    margin-top: 6px !important;
 }
 /* 닫기 버튼 위에 마우스 */
 button.close:focus, button.close:hover{
@@ -281,7 +281,7 @@ function displayMiniWrite(writeHtml){
 			</table>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-default" data-dismiss="modal">닫기</button>
       </div>
     </div>
   </div>
