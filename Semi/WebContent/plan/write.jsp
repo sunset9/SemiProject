@@ -335,6 +335,27 @@ function store(miniTimetables){
 	});
 	return succ;
 }
+
+//마우스오버시 색바꾸기
+function mover(obj) {
+	   obj.css( "color", "#4FB99F" );
+	}
+
+//마우스 클릭시 색바꾸기
+function mdown(obj){
+	   obj.css( "color", "#777777" );
+}
+
+//마우스 떠날때 색바꾸기
+	function mleave(obj) {
+		obj.css("color", "#777777");
+	}
+	
+//마우스떠날때 색 gray로바꾸기
+	function mleave_gray(obj) {
+		obj.css("color", "#777777");
+}
+
 </script>
 
 <script>

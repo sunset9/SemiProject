@@ -18,6 +18,7 @@
 /*가계부 비용*/
 .st_cost{
 	text-align:right;
+	width: 270px;
 }
 
 .modal-content{
@@ -29,6 +30,16 @@
 
 }
 
+.st_accType{
+	width: 85px;
+}
+
+.st_currSymbol{
+	width: 75px;
+
+}
+
+
 
 </style>
 <div class="modal fade" id="myModal" role="dialog">
@@ -37,7 +48,7 @@
       <div class="modal-content">
         <div class="modal-header">
           <button type="button" class="close" data-dismiss="modal">×</button>
-          <h4 class="modal-title"><span class="glyphicon glyphicon-map-marker modalPlaceName" id ="placename" style="font-weight: bold;font-size: 25px"><font size="5">place_name</font></span></h4>
+          <h4 class="modal-title"><span class="glyphicon glyphicon-map-marker modalPlaceName" id ="placename" style="font-size: 25px"><font size="5">place_name</font></span></h4>
         </div>
         <div class="modal-body">
 		 
@@ -65,7 +76,7 @@
 							  <span class = "glyphicon glyphicon-usd moneyImage"></span>
 							  </td>
 								<td class="storytd">
-								<select name = "st_accType" class="st_accType">
+								<select name = "st_accType" class="form-control st_accType">
 									<option value="1">항공료</option>
 									<option value="2">교통</optoin>
 									<option value="3">숙박</option>
@@ -77,7 +88,7 @@
 								</select>
 								</td>
 								<td class="storytd">
-								<select name = "st_currSymbol" class="st_currSymbol">
+								<select name = "st_currSymbol" class="form-control st_currSymbol">
 									<option value = "1">USD</option>
 									<option value = "2">KRW</optoin>
 									<option value = "3">JPY</option>
@@ -85,7 +96,7 @@
 								</select>
 								</td>
 								<td class="storytd">
-									<input type="text" size="33" name = "st_cost" class="st_cost" onkeypress="Numberchk()" onkeyup="vComma(this)"/>
+									<input type="text" size="33" name = "st_cost" class="form-control st_cost" onkeypress="Numberchk()" onkeyup="vComma(this)"/>
 								</td>
 								<td class="storytd">
 									<span class="glyphicon glyphicon-plus accountPlus" onclick = "appendAccount()" onmouseover="mover($(this))" 

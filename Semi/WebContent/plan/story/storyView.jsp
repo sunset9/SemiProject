@@ -17,6 +17,7 @@
 	position:absolute;
 	width:100px;
 	right:0;
+	color:#112F41;
 }
 	
 .storytr{
@@ -195,6 +196,7 @@ hr{
 	resize: none;
 	overflow: visible;
 	color: #112F41;
+	width: 650px;
 }
 
 /*덧글 저장*/
@@ -202,7 +204,10 @@ hr{
 	margin-bottom: -7px; 
 	margin-left: 310px;
 }
-
+.saveCommBtn:hover{
+/*     background: #429480; */
+    background-image: linear-gradient(to bottom, #50b69c 0,#429480 100%);
+}
 .commentView{
 	display: none;
 	color: #112F41;
@@ -220,6 +225,7 @@ hr{
     padding-bottom: 5px;
     border:0;
     outline:0;
+    color: #fff;
 }
 
 
@@ -645,25 +651,7 @@ var up_cnt = 0;
 		
 	}
 	
-    // 마우스오버시 색바꾸기
-    function mover(obj) {
- 	   obj.css( "color", "#4FB99F" );
- 	}
-    
-    //마우스 클릭시 색바꾸기
-    function mdown(obj){
- 	   obj.css( "color", "#777777" );
-    }
-    
-    //마우스 떠날때 색바꾸기
- 	function mleave(obj) {
- 		obj.css("color", "#777777");
- 	}
- 	
-    //마우스떠날때 색 gray로바꾸기
- 	function mleave_gray(obj) {
- 		obj.css("color", "#777777");
-	}
+
 
  	//댓글 세이브
  	function CommSave(story_idx,ttb_idx,plan_idx) {
@@ -1005,7 +993,7 @@ var up_cnt = 0;
 								</tr>
 								<tr class = "storytr">
 								<td colspan="1" class = "storytd">
-									<textarea id = "CommContent${story.story_idx}" class ="commContent" rows="2" cols="80" placeholder="댓글을 입력하세요"></textarea>
+									<textarea id = "CommContent${story.story_idx}" class ="form-control commContent" rows="2" cols="80" placeholder="댓글을 입력하세요"></textarea>
 								</td>	
 								<td class="storytd" colspan="1" style="padding-bottom:20px;">
 								 <button class = "savecomm" id = "saveComm${story.story_idx}" type="button" class="btn btn-secondary saveCommBtn" onclick="CommSave(${story.story_idx},${story.ttb_idx},${story.plan_idx})">등록</button>
@@ -1050,7 +1038,7 @@ var up_cnt = 0;
   	<ul style="list-style:none;">
   		<c:forEach var = "day" begin="1" end="${diffDays}" step="1">
   		<c:set var = "name" value="DayDiv${day}"/>
-  			<a href="#${name}"><li> Day ${day} </li></a>
+  			<a href="#${name}" onmouseover="mover($(this))" onmouseleave="mleave($(this))" onmousedown="mdown($(this))"><li> Day ${day} </li></a>
   		</c:forEach>
 	</ul>
   </div>

@@ -561,26 +561,25 @@ function changeViewMode(){
 	$("#Modify").submit();
 }
 
-// 마우스 over down leave 색 변경
+// 마우스오버시 색바꾸기
 function mover(obj) {
- 	   obj.css( "color", "orange" );
- 	}
-    
-    //마우스 클릭시 색바꾸기
-    function mdown(obj){
- 	   obj.css( "color", "blue" );
-    }
-    
-    //마우스 떠날때 색바꾸기
- 	function mleave(obj) {
- 		obj.css("color", "#fff");
- 	}
- 	
-    //마우스떠날때 색 gray로바꾸기
- 	function mleave_gray(obj) {
- 		obj.css("color", "#999999");
+	   obj.css( "color", "#4FB99F" );
 	}
-    
+
+//마우스 클릭시 색바꾸기
+function mdown(obj){
+	   obj.css( "color", "#777777" );
+}
+
+//마우스 떠날때 색바꾸기
+	function mleave(obj) {
+		obj.css("color", "#777777");
+	}
+	
+//마우스떠날때 색 gray로바꾸기
+	function mleave_gray(obj) {
+		obj.css("color", "#777777");
+}
 </script>
 
     
@@ -599,7 +598,6 @@ function mover(obj) {
 			<input type="hidden" name="editStartDate" value="${planView.start_date}" />
 			<input type="hidden" name="editEndDate" value="${planView.end_date}" />
 			<input type="hidden" name="editTraveled" value="${planView.traveled}" />
-
 	    	<span id="btnModify" class = "glyphicon glyphicon-pencil"   
 				  onmouseover="mover($(this))" onmouseleave="mleave($(this))" onmousedown="mdown($(this))">
 			</span>
