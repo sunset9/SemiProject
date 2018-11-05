@@ -482,15 +482,15 @@ function displayAcc(accCostJson){
 	
 	// display
 	$("#accTypeCost").html('');
-	$("#accTypeCost").append("<p>항공료 : " + accTypeCost.airfare + "</p>");
-	$("#accTypeCost").append("<p>교통 : " + accTypeCost.traffic + "</p>");
-	$("#accTypeCost").append("<p>숙박 : " + accTypeCost.stay + "</p>");
-	$("#accTypeCost").append("<p>입장료 : " + accTypeCost.admission + "</p>");
-	$("#accTypeCost").append("<p>음식 : " + accTypeCost.food + "</p>");
-	$("#accTypeCost").append("<p>오락 : " + accTypeCost.play + "</p>");
-	$("#accTypeCost").append("<p>쇼핑 : " + accTypeCost.shop + "</p>");
-	$("#accTypeCost").append("<p>기타 : " + accTypeCost.etc + "</p>");
-	$("#accTypeCost").append("<p>총합 : " + accTotal + "</p>");
+	$("#accTypeCost").append("<p>항공료 : " + accTypeCost.airfare + "원</p>");
+	$("#accTypeCost").append("<p>교통 : " + accTypeCost.traffic + "원</p>");
+	$("#accTypeCost").append("<p>숙박 : " + accTypeCost.stay + "원</p>");
+	$("#accTypeCost").append("<p>입장료 : " + accTypeCost.admission + "원</p>");
+	$("#accTypeCost").append("<p>음식 : " + accTypeCost.food + "원</p>");
+	$("#accTypeCost").append("<p>오락 : " + accTypeCost.play + "원</p>");
+	$("#accTypeCost").append("<p>쇼핑 : " + accTypeCost.shop + "원</p>");
+	$("#accTypeCost").append("<p>기타 : " + accTypeCost.etc + "원</p>");
+	$("#accTypeCost").append("<p>총합 : " + accTotal + "원</p>");
 	$("#accTypeCost").append("<p>환율 : " + accCalcedTotal + "</p>");
 }
 
