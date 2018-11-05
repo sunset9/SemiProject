@@ -199,21 +199,13 @@ hr{
 	width: 650px;
 }
 
-/*덧글 저장*/
-.saveCommBtn{
-	margin-bottom: -7px; 
-	margin-left: 310px;
-}
-.saveCommBtn:hover{
-/*     background: #429480; */
-    background-image: linear-gradient(to bottom, #50b69c 0,#429480 100%);
-}
 .commentView{
 	display: none;
 	color: #112F41;
 }
 
 
+/*댓글저장*/
 .savecomm{
 	background: #87cebd;
     border-radius: 6px;
@@ -226,6 +218,12 @@ hr{
     border:0;
     outline:0;
     color: #fff;
+}
+
+.savecomm:hover{
+     background: #429480;  
+     background-image: linear-gradient(to bottom, #50b69c 0,#87cebd 100%); 
+
 }
 
 
@@ -895,7 +893,25 @@ var up_cnt = 0;
 	        }
 		 }
 	}
- 	
+
+function st_mover(obj) {
+	 obj.css( "color", "#4FB99F" );
+}
+
+//마우스 클릭시 색바꾸기
+function st_mdown(obj){
+	  obj.css( "color", "#777777" );
+}
+
+//마우스 떠날때 색바꾸기
+function st_mleave(obj) {
+	obj.css("color", "#777777");
+}
+	
+//마우스떠날때 색 gray로바꾸기
+function st_mleave_gray(obj) {
+	obj.css("color", "#777777");
+}
 	
 </script>	
 
@@ -925,9 +941,9 @@ var up_cnt = 0;
 				    		<table class="bubble">
 				    			<tr class = "storytr">
 				     			<td colspan="2" class ="storytd">
-								  <font size="5"><span class = "glyphicon glyphicon-remove removeStory" onclick="storyDelete(${story.story_idx})"  onmouseover="mover($(this))" onmouseleave="mleave($(this))" onmousedown="mdown($(this))"></span>
+								  <font size="5"><span class = "glyphicon glyphicon-remove removeStory" onclick="storyDelete(${story.story_idx})"  onmouseover="st_mover($(this))" onmouseleave="mleave($(this))" onmousedown="mdown($(this))"></span>
 								  <span class = "glyphicon glyphicon-pencil updateStory"   
-									  onmouseover="mover($(this))" onmouseleave="mleave($(this))" onmousedown="mdown($(this))" 
+									  onmouseover="st_mover($(this))" onmouseleave="st_mleave($(this))" onmousedown="st_mdown($(this))" 
 									  data-toggle="modal" data-target="#myModal_update" 
 									  data-backdrop="static" data-storyidx="${story.story_idx}" 
 									  data-place="${story.place_name}" data-content= '${story.content}' data-ttbidx='${story.ttb_idx}'>
@@ -987,7 +1003,7 @@ var up_cnt = 0;
 								<td colspan="2" class="storytd">
 								<hr>
 								<font class ="commentCntText" size="2">
-									<span class = "commentCnt"  onclick="CommentViewClick(${story.story_idx},${ttb.plan_idx})" onmousedown="mdown($(this))" onmouseleave="mleave_gray($(this))" onmouseover="mover($(this))">덧글 ${story.commCnt}개</span>
+									<span class = "commentCnt"  onclick="CommentViewClick(${story.story_idx},${ttb.plan_idx})" onmousedown="st_mdown($(this))" onmouseleave="st_mleave($(this))" onmouseover="st_mover($(this))">덧글 ${story.commCnt}개</span>
 								</font>
 								</td>
 								</tr>
@@ -996,7 +1012,7 @@ var up_cnt = 0;
 									<textarea id = "CommContent${story.story_idx}" class ="form-control commContent" rows="2" cols="80" placeholder="댓글을 입력하세요"></textarea>
 								</td>	
 								<td class="storytd" colspan="1" style="padding-bottom:20px;">
-								 <button class = "savecomm" id = "saveComm${story.story_idx}" type="button" class="btn btn-secondary saveCommBtn" onclick="CommSave(${story.story_idx},${story.ttb_idx},${story.plan_idx})">등록</button>
+								 <button class = "savecomm" id = "saveComm${story.story_idx}" type="button" onclick="CommSave(${story.story_idx},${story.ttb_idx},${story.plan_idx})">등록</button>
 								</td>
 								</tr>
 								<tr class="storytr">
@@ -1020,8 +1036,8 @@ var up_cnt = 0;
 								<span class ="glyphicon glyphicon-plus-sign storyPlus" 
 							data-toggle="modal" data-target="#myModal" data-backdrop="static" 
 							data-place="${ttb.place_name}" data-ttbidx="${ttb.ttb_idx}" 
-							data-planidx="${ttb.plan_idx}" onmouseover="mover($(this))" 
-							onmouseleave="mleave($(this))" onmousedown="mdown($(this))">
+							data-planidx="${ttb.plan_idx}" onmouseover="st_mover($(this))" 
+							onmouseleave="st_mleave($(this))" onmousedown="st_mdown($(this))">
 							</span>
 						</font>
 					</c:if>
@@ -1038,7 +1054,7 @@ var up_cnt = 0;
   	<ul style="list-style:none;">
   		<c:forEach var = "day" begin="1" end="${diffDays}" step="1">
   		<c:set var = "name" value="DayDiv${day}"/>
-  			<a href="#${name}" onmouseover="mover($(this))" onmouseleave="mleave($(this))" onmousedown="mdown($(this))"><li> Day ${day} </li></a>
+  			<a href="#${name}" onmouseover="st_mover($(this))" onmouseleave="st_mleave($(this))" onmousedown="st_mdown($(this))"><li> Day ${day} </li></a>
   		</c:forEach>
 	</ul>
   </div>
