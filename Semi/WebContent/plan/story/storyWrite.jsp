@@ -20,7 +20,14 @@
 	text-align:right;
 }
 
+.modal-content{
+	width: 620px;
+}
 
+/*가계부 옆 이미지*/
+.moneyImage{
+
+}
 
 
 </style>
@@ -54,6 +61,9 @@
 					<div id = "story_accountView" name = "accountViewName">
 						<table>
 							<tr>	
+							  <td>
+							  <span class = "glyphicon glyphicon-usd moneyImage"></span>
+							  </td>
 								<td>
 								<select name = "st_accType" class="st_accType">
 									<option value="1">항공료</option>
@@ -123,7 +133,7 @@
 	    imageEditButtons : ['imageAlign', 'imageRemove', 'imageLink','imageSize','imageDisplay'],
 	    heightMin: 300,
         heightMax: 300,
-        width: '520',
+        width: '530',
       }).on('froalaEditor.image.error', function (e, editor, error, response) {
     	  console.log(error);
     	  console.log(response);

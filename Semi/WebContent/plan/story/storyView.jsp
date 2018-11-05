@@ -377,6 +377,12 @@ var up_cnt = 0;
 	//스토리 새로 만드는 모달 save 버튼클릭 이벤트
 	//스토리저장
 	$(".storySaveBtn").click(function() {
+		
+			var content = $(".st_content").val();
+			if (content == null || content == ""){
+				alert("스토리의 본문내용을 써주세요.");
+				return;
+			}
 			
 			//storyJSON으로 저장할 값 넣어주기
 			var storyJSON = {
@@ -435,6 +441,12 @@ var up_cnt = 0;
  		// 스토리 업데이트창 save버튼 클릭이벤트
  		// 스토리 업데이트
  		$(".storyUpdateBtn").click(function () {
+ 			
+ 			var content = $(".up_content").val();
+			if (content == null || content == ""){
+				alert("스토리의 본문내용을 써주세요.");
+				return;
+			}
  			
  			//업데이트할 스토리 정보 
  			var storyJSON = {
@@ -607,6 +619,11 @@ var up_cnt = 0;
  	function CommSave(story_idx,ttb_idx,plan_idx) {
  		
  		var id = "#CommContent"+story_idx;
+ 		
+ 		if ($(id).val() == null || $(id).val() == ""){
+			alert("댓글 내용을 써주세요.");
+			return;
+		}
  		
  		var commentViewId = "#CommentView"+story_idx;
  		var commJson = {
@@ -859,6 +876,10 @@ var up_cnt = 0;
 			</div>
 			<c:forEach items='${ttbList}' var = 'ttb'>
 				<c:if test="${ttb.day eq day }">
+				<c:if test = "${ttb.is_story eq false}">
+				<fmt:formatDate var="start_time" value="${ttb.start_time}" pattern="kk:mm" type="time"/>
+				<font size ="3"><span class="glyphicon glyphicon-minus startTime"><c:out value="${start_time}"></c:out></span></font>
+				</c:if>
 				<c:if test="${ttb.is_story eq true}">
 					<c:forEach items='${storyList}' var='story'>
 						<c:if test="${story.ttb_idx eq ttb.ttb_idx}">
@@ -885,7 +906,10 @@ var up_cnt = 0;
 				    			<c:if test="${story.accCnt eq 0}">
 				    				<tr>
 				    				<td colspan = "2">
-				    					<font class="accountText" size="2"> 총액 | KRW 0원</font> 
+				    					<font class="accountText" size="2">
+				    					<span class = "glyphicon glyphicon-usd"></span>
+				    					 총액 | KRW 0원
+				    					</font> 
 				    				</td>
 				    				</tr>
 				    			</c:if>
@@ -896,10 +920,16 @@ var up_cnt = 0;
 							     			<td colspan="2">
 							     			<c:if test="${account.curr_idx_name ne 'USD'}">
 							     			    <fmt:parseNumber var = "caledOriginCost" value= "${account.origin_cost}" integerOnly="true"></fmt:parseNumber>
-												<font class ="accountText" size="2"> ${account.category_name } | ${account.curr_idx_name} ${caledOriginCost}</font> 
+												<font class ="accountText" size="2">
+												<span class = "glyphicon glyphicon-usd"></span>
+												 ${account.category_name } | ${account.curr_idx_name} ${caledOriginCost}
+												</font> 
 											</c:if>
 											<c:if test="${account.curr_idx_name eq 'USD'}">
-												<font class ="accountText" size="2"> ${account.category_name } | ${account.curr_idx_name} ${account.origin_cost}</font>
+												<font class ="accountText" size="2">
+												<span class = "glyphicon glyphicon-usd"></span>
+												 ${account.category_name } | ${account.curr_idx_name} ${account.origin_cost}
+												 </font>
 											</c:if>
 								 		    </td>
 											</tr>

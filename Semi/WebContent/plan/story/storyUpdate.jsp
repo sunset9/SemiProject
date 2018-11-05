@@ -21,6 +21,10 @@
 	text-align:right;
 }
 
+/*가계부 옆에 이미지*/
+.moneyImage_up{
+
+}
 
 
 </style>
@@ -56,7 +60,10 @@
 				<div id ="up_accountViewList">
 				<div id = "up_accountView" name = "up_accountViewName" class ="up_accountViewClass">
 				<table>
-				<tr>	
+				<tr>
+				 <td>
+					<span class = "glyphicon glyphicon-usd moneyImage_up"></span>
+					</td>	
 					<td>
 						<select name = "up_accType" class="up_accType" name = "up_accType">
 							<option value="1">항공료</option>
