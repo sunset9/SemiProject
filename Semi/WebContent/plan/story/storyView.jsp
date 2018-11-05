@@ -29,7 +29,7 @@
 
 /*퀵메뉴, 스토리 수직선*/
 .vl {
-    border-left: 4px solid #D3D3D3;
+    border-left: 4px solid #DCDCDC;
     height: 100%;
     position: absolute;
     left: 36px; 
@@ -46,6 +46,8 @@
 
 hr{
 	border: 1px solid #D3D3D3;
+	margin-right: 20px;
+    margin-left: 8px;
 }
 
 /*말풍선*/
@@ -55,7 +57,7 @@ hr{
 	width: 280px;
 	height: 175px;
 	padding: 18px;
-	background: rgba( 79, 185, 159, 0.5 );
+	background: #DCDCDC;
 	-webkit-border-radius: 14px;
 	-moz-border-radius: 14px;
 	border-radius: 14px;
@@ -73,7 +75,7 @@ hr{
 	position: absolute;
 	border-style: solid;
 	border-width: 7px 11px 7px 0;
-	border-color: transparent rgba( 79, 185, 159, 0.5 );
+	border-color: transparent #DCDCDC;
 	display: block;
 	width: 0;
 	left: -11px;
@@ -82,19 +84,19 @@ hr{
 
 /*비행기이미지*/
 .Dayimage{
-	color: #555555;
+	color: #194661;
 }
 
 
 /*일차글씨*/
 .Daytext{
-
+	color: #194661;
 }
 
 /*시작시간*/
 .startTime{
 	margin-left: 18px;
-	color: #D3D3D3;
+	color:  #DCDCDC;
 }
 
 /*스토리 삭제버튼*/
@@ -150,19 +152,20 @@ hr{
 
 /*가계부 폰트*/
 .accountText{
-	color: #999999;
+	color: rgba( 25, 70, 97,0.5);
 }
 
 /*덧글갯수*/
 .commentCnt{
 	cursor:pointer;
-	color: #999999;
+	color: rgba( 25, 70, 97,0.5);
 }
 
 /*덧글 TextArea*/
 .commContent{
 	resize: none;
 	overflow: visible;
+	color: #112F41;
 }
 
 /*덧글 저장*/
@@ -173,6 +176,7 @@ hr{
 
 .commentView{
 	display: none;
+	color: #112F41;
 }
 
 
@@ -382,9 +386,10 @@ var up_cnt = 0;
 	//스토리저장
 	$(".storySaveBtn").click(function() {
 		
+			var cost = $("input[name='st_cost']")[0].value
 			var content = $(".st_content").val();
-			if (content == null || content == ""){
-				alert("스토리의 본문내용을 써주세요.");
+			if ((content == null || content == "") && (cost = null || cost == "")){
+				alert("스토리의 본문내용 혹은 가계부를 써주세요");
 				return;
 			}
 			
@@ -446,9 +451,10 @@ var up_cnt = 0;
  		// 스토리 업데이트
  		$(".storyUpdateBtn").click(function () {
  			
- 			var content = $(".up_content").val();
-			if (content == null || content == ""){
-				alert("스토리의 본문내용을 써주세요.");
+ 			var cost = $("input[name='up_cost']")[0].value
+			var content = $(".up_content").val();
+			if ((content == null || content == "") && (cost = null || cost == "")){
+				alert("스토리의 본문내용 혹은 가계부를 써주세요");
 				return;
 			}
  			
