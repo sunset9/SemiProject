@@ -36,6 +36,39 @@
 
 }
 
+/* 닫기 버튼 */
+button.close{
+    opacity: .7; 
+	color: white;
+    font-size: 30px;
+    margin-top: 6px !important;
+}
+/* 닫기 버튼 위에 마우스 */
+button.close:focus, button.close:hover{
+    opacity: .7;
+    color: black;
+    font-size: 30px;
+}
+
+.storyUpdateBtn{
+	background-image: linear-gradient(to bottom, #50b69c 0,#429480 100%);
+	border-color: #28715e;
+}
+
+.storyUpdateBtn:hover{
+    background: #429480;
+	border-color: #28715e;
+}
+
+.accountRemove{
+	color:#777777;
+}
+
+.accountPlus{
+	color:#777777;
+}
+
+
 
 </style>
     
@@ -97,12 +130,12 @@
 					<input type="text" size="33" name = "up_cost" class="form-control up_cost" onkeypress="Numberchk()" onkeyup="vComma(this)"/>
 					</td>
 					<td class="storytd" style="padding: inherit;">
-						<span class="glyphicon glyphicon-plus accountPlus" onclick = "UpappendAccount()" onmouseover="mover($(this))" 
-							onmouseleave="mleave($(this))" onmousedown="mdown($(this))"></span>
+						<span class="glyphicon glyphicon-plus accountPlus" onclick = "UpappendAccount()" onmouseover="st_mover($(this))" 
+							onmouseleave="st_mleave($(this))" onmousedown="st_mdown($(this))"></span>
 					</td>
 					<td class="storytd" style="padding: inherit;">
-						<span class="glyphicon glyphicon-remove accountRemove" name = "removeAcoountName" onclick = "UpremoveAccount()" style="display: none" 33onmouseover="mover($(this))" 
-							onmouseleave="mleave($(this))" onmousedown="mdown($(this))"></span>
+						<span class="glyphicon glyphicon-remove accountRemove" name = "removeAcoountName" onclick = "UpremoveAccount()" style="display: none" onmouseover="st_mover($(this))" 
+							onmouseleave="st_mleave($(this))" onmousedown="st_mdown($(this))"></span>
 					</td>
 				</tr>
 				</table>
@@ -111,8 +144,9 @@
 			</div>
         </form>
         </div> <!-- modal 바디끝 -->
-        <div class="modal-footer" style="text-align: center">
-          <button class ="storyUpdateBtn" type="button" class="btn btn-warning">Save</button>
+        <div class="modal-footer">
+       	  <button type="button" class="btn btn-default" data-dismiss="modal">닫기</button>
+          <button class ="btn btn-primary storyUpdateBtn" type="button">저장</button>
         </div>
         
       </div>
