@@ -167,7 +167,7 @@ $(document).ready(function() {
 	$('#calendar').fullCalendar('option', 'editable', false); // 수정 불가능하게
 	$('#calendar').fullCalendar('option', 'droppable', false); // 드롭할 수 없게
 	
-	// 수정 버튼 클릭리스너
+// 	수정버튼 submit
 	$("#btnModify").click(function() {
 		// 탭 유지하면서 화면 전환
 		setCookie("isCookieTabClear", "false");
@@ -701,7 +701,6 @@ function mover(obj) {
 	</div><br> <!-- 가게부 end -->
 	
 	<!-- 일정 수정 모드-->
-	
 	<c:if test="${writtenUserView.user_idx eq loginedUserView.user_idx}">
 		<button id="planWriteModeBtn" onclick="changeViewMode()">
 			<span class='glyphicon glyphicon-pencil'></span>일정 수정하기</button>
