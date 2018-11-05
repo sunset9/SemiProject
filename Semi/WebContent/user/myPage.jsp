@@ -91,13 +91,14 @@ $(document).ready(function(){
 	<div id="planList" class="listBox">
 		<c:forEach items="${plannerList }" var="plan"> 
 			<div id="planBox" data-plan_idx="${plan.plan_idx }">
-			<a href="/plan?plan_idx=${plan.plan_idx }">
-				<div><img src="/upload/banner/${plan.bannerURL }" style="width: 100%;"></div>
-				<div> Title : ${plan.title} <br> NickName : ${plan.nick }</div>
-				<div>
-					<button id ="planDelete"  onclick="deletePlan(${plan.plan_idx})">삭제</button>
-				</div>
-			</a></div>
+					<a href="/plan?plan_idx=${plan.plan_idx }">
+					<div><img src="/upload/banner/${plan.bannerURL }" style="width: 100%;"></div>
+					<div> Title : ${plan.title} <br> NickName : ${plan.nick }</div>
+					</a>
+					<div>
+						<button id ="planDelete"  onclick="deletePlan(${plan.plan_idx})">삭제</button>
+					</div>
+			</div>
 		</c:forEach>
 		</div>
 	

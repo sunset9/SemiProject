@@ -34,11 +34,22 @@ th{
 <div id="planList" class="list" >
 
 		<c:forEach items="${planList }" var="plan"> 
-			<div id="planBox" data-plan_idx="${plan.plan_idx }"><a href="/plan?plan_idx=${plan.plan_idx }" >
-				<div><img src="/upload/banner/${plan.bannerURL }" style="width: 100%;"></div>
-				<div> Title : ${plan.title}  NickName : ${plan.nick }</div>
-				</a>
+			<div id="planBox" data-plan_idx="${plan.plan_idx }">
+			
+				<c:if test="${plan.opened eq 0 && plan.user_idx ne user.user_idx}">
+					<a href="/contents/all" onclick="alert('비공개 게시글입니다.');">
+				</c:if>
+				<c:if test="${plan.opened eq 1 }">
+					<a href="/plan?plan_idx=${plan.plan_idx }">
+				</c:if>
+				<c:if test="${plan.opened eq 0 && plan.user_idx eq user.user_idx}">
+					<a href="/plan?plan_idx=${plan.plan_idx }">
+				</c:if>
+						<div><img src="/upload/banner/${plan.bannerURL }" style="width: 100%;"></div>
+						<div> Title : ${plan.title} <br> NickName : ${plan.nick }</div>
+						</a>
 			</div>
+			
 		</c:forEach>
 	</div>
 

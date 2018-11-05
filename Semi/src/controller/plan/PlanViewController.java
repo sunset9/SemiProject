@@ -55,7 +55,6 @@ public class PlanViewController extends HttpServlet {
 //        } else {
 //        	planParam = pService.getSessionPlan(req);
 //        }
-        System.out.println("잘 나오나 "+req.getParameter("plan_idx"));
         planParam.setPlan_idx(Integer.parseInt(req.getParameter("plan_idx")));
 //		---------------------플래너 파라미터 가져오기
 		// 요청파라미터(plan_idx) -> Plan 모델 
@@ -123,7 +122,7 @@ public class PlanViewController extends HttpServlet {
 		int play = pService.getAccountPlayCost(planParam);
 		int shop = pService.getAccountShopCost(planParam);
 		int etc = pService.getAccountEtcCost(planParam);
-		
+//		
 		req.setAttribute("airfare", airfare);
 		req.setAttribute("traffic", traffic);
 		req.setAttribute("stay", stay);
@@ -133,7 +132,8 @@ public class PlanViewController extends HttpServlet {
 		req.setAttribute("shop", shop);
 		req.setAttribute("etc", etc);
 		
-		int acc_total = airfare+traffic+stay+admission+food+play+shop+etc;
+		//총합 1의 자리 수 반올림
+		int acc_total = (int)accView.getCaled_cost();
 		req.setAttribute("acc_total", acc_total);
 		
 		int accCaledTotal = acc_total;
