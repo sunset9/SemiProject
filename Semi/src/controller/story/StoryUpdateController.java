@@ -48,11 +48,9 @@ public class StoryUpdateController extends HttpServlet {
 			
 			story = sService.getParam(req);
 			
-			if ((story.getContent() != null) && (!story.getContent().equals(""))){
-				sService.update(story);
-			}
-			
-			
+		
+			sService.update(story);
+
 			req.setAttribute("plan_idx", story.getPlan_idx());
 			
 			//해당 스토리의 가계부정보 전부삭제
