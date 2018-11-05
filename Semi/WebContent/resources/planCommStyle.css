@@ -94,6 +94,10 @@
 #bannerText {
 	font-size: 20px;
 }
+
+section {
+	overflow: hidden;
+}
 /* -------------------------------------------- */
 /* 	구글 맵 크기 설정 */
 #map {
