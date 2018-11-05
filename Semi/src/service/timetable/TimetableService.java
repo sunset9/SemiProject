@@ -34,7 +34,7 @@ public interface TimetableService {
 	List<Timetable> getCompletedTimetable(Map<Timetable, Location> ttbLoc);
 	
 	// 타임테이블 수정 정보 저장하기
-	List<Timetable> update(Plan plan, Map<Timetable, Location> ttbLoc);
+	void update(Plan plan, Map<Timetable, Location> ttbLoc);
 	
 	// 새로운 타임테이블 저장 ( 미니뷰용, 저장하려는 미니뷰스토리에 해당하는 타임테이블 하나만 저장)
 	void writeTtb(int ttb_idx, Map<Timetable, Location> ttbLoc);

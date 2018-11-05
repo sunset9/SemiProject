@@ -278,17 +278,19 @@ public class AccountDaoImpl implements AccountDao {
 				+ "	        	LEFT JOIN timetable T"
 				+ "		      	ON S.ttb_idx = T.ttb_idx"
 				+ "		    WHERE 1=1 "; 
+		
 		// 저장하려는 ttb_idx를 가지고 있지 않은 스토리 선택하는 쿼리
 		if(ttbList.size() != 0) {
 			sql += " 			AND T.ttb_idx NOT IN (";
 			for(int i = 0; i < ttbList.size() -1; i++) {
 				sql += ttbList.get(i).getTtb_idx() + ",";
 			}
-			sql += ttbList.get(ttbList.size()-1).getTtb_idx() +") "
-					+ ") S";
+			sql += ttbList.get(ttbList.size()-1).getTtb_idx() +") ";
 		}
-		sql	+= " 	ON A.story_idx = S.story_idx" + 
-				" 	WHERE A.plan_idx = ? )";
+		
+		sql	+= ") S"
+				+ " 	ON A.story_idx = S.story_idx"
+				+ " 	WHERE A.plan_idx = ? )";
 		
 		System.out.println("----account Dao");
 		System.out.println(sql);
