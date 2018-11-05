@@ -304,22 +304,22 @@ function deleteCheck(){
 	
 	<div id="planList" class="list">
 	<h3>여기는 내 일정 리스트</h3>
-	<div id="planList" class="listBox">
-		<c:forEach items="${plannerList }" var="plan"> 
-			<div id="planBox" data-plan_idx="${plan.plan_idx }">
-			<a href="/plan?plan_idx=${plan.plan_idx }">
-				<div><img src="/upload/banner/${plan.bannerURL }" style="width: 100%;"></div>
-				<div> Title : ${plan.title}</div>
-				
-			</a>
-			<div>
-					<button id ="planDelete" onclick="deletePlan(${plan.plan_idx })">삭제</button>
-					<button id ="planUpdate" onclick="updatePlan(${plan.plan_idx })">수정</button>
-				</div>
-			</div>
-				</c:forEach>
+    <div id="planList" class="listBox">
+      <c:forEach items="${plannerList }" var="plan"> 
+        <div id="planBox" data-plan_idx="${plan.plan_idx }">
+        <a href="/plan?plan_idx=${plan.plan_idx }">
+          <div><img src="/upload/banner/${plan.bannerURL }" style="width: 100%;"></div>
+          <div> Title : ${plan.title}</div>
+
+        </a>
+          <div>
+              <button id ="planDelete" onclick="deletePlan(${plan.plan_idx })">삭제</button>
+              <button id ="planUpdate" onclick="updatePlan(${plan.plan_idx })">수정</button>
+          </div>
+        </div>
+      </c:forEach>
+    </div>
 	</div>
-			</div>			
 			</div>
 		
 

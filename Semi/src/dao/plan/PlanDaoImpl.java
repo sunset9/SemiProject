@@ -569,38 +569,38 @@ public class PlanDaoImpl implements PlanDao{
 	
 	@Override
 	public int sumAirfareByPlanIdx(Plan plan) {
-
-		//전체 게시글 수 조회 쿼리
-		String sql = "";
-		sql += "select sum(caled_cost) "
-				+ "from account "
-				+ "where acc_cat_idx = 1 "
-				+ "and plan_idx = ?";
-		
+//
+//		//전체 게시글 수 조회 쿼리
+//		String sql = "";
+//		sql += "select round(sum(caled_cost), -1) "
+//				+ "from account "
+//				+ "where acc_cat_idx = 1 "
+//				+ "and plan_idx = ?";
+//		
 		int cnt = 0;
-		
-		try {
-			
-			ps = conn.prepareStatement(sql);
-			ps.setInt(1, plan.getPlan_idx());
-			rs = ps.executeQuery();
-			rs.next();
-			
-			
-			
-			cnt = rs.getInt(1);
-			
-		} catch (SQLException e) {
-			e.printStackTrace();
-		} finally {
-			try {
-				if(ps!=null)	ps.close();
-				if(rs!=null)	rs.close();
-			} catch (SQLException e) {
-				e.printStackTrace();
-			}
-		}
-		
+//		
+//		try {
+//			
+//			ps = conn.prepareStatement(sql);
+//			ps.setInt(1, plan.getPlan_idx());
+//			rs = ps.executeQuery();
+//			rs.next();
+//			
+//			
+//			
+//			cnt = rs.getInt(1);
+//			
+//		} catch (SQLException e) {
+//			e.printStackTrace();
+//		} finally {
+//			try {
+//				if(ps!=null)	ps.close();
+//				if(rs!=null)	rs.close();
+//			} catch (SQLException e) {
+//				e.printStackTrace();
+//			}
+//		}
+//		
 		return cnt;
 	}
 
@@ -608,7 +608,7 @@ public class PlanDaoImpl implements PlanDao{
 	public int sumTrafficByPlanIdx(Plan plan) {
 		//전체 게시글 수 조회 쿼리
 				String sql = "";
-				sql += "select sum(caled_cost) "
+				sql += "select round(sum(caled_cost), -1) "
 						+ "from account "
 						+ "where acc_cat_idx = 2 "
 						+ "and plan_idx = ?";
@@ -644,7 +644,7 @@ public class PlanDaoImpl implements PlanDao{
 	public int sumStayByPlanIdx(Plan plan) {
 		//전체 게시글 수 조회 쿼리
 				String sql = "";
-				sql += "select sum(caled_cost) "
+				sql += "select round(sum(caled_cost), -1) "
 						+ "from account "
 						+ "where acc_cat_idx = 3 "
 						+ "and plan_idx = ?";
@@ -680,7 +680,7 @@ public class PlanDaoImpl implements PlanDao{
 	public int sumAdmissionByPlanIdx(Plan plan) {
 		//전체 게시글 수 조회 쿼리
 				String sql = "";
-				sql += "select sum(caled_cost) "
+				sql += "select round(sum(caled_cost), -1) "
 						+ "from account "
 						+ "where acc_cat_idx = 4 "
 						+ "and plan_idx = ?";
@@ -716,7 +716,7 @@ public class PlanDaoImpl implements PlanDao{
 	public int sumFoodByPlanIdx(Plan plan) {
 		//전체 게시글 수 조회 쿼리
 				String sql = "";
-				sql += "select sum(caled_cost) "
+				sql += "select round(sum(caled_cost), -1) "
 						+ "from account "
 						+ "where acc_cat_idx = 5 "
 						+ "and plan_idx = ?";
@@ -752,7 +752,7 @@ public class PlanDaoImpl implements PlanDao{
 	public int sumPlayByPlanIdx(Plan plan) {
 		//전체 게시글 수 조회 쿼리
 				String sql = "";
-				sql += "select sum(caled_cost) "
+				sql += "select round(sum(caled_cost), -1) "
 						+ "from account "
 						+ "where acc_cat_idx = 6 "
 						+ "and plan_idx = ?";
@@ -787,7 +787,7 @@ public class PlanDaoImpl implements PlanDao{
 	@Override
 	public int sumShopByPlanIdx(Plan plan) {
 		String sql = "";
-		sql += "select sum(caled_cost) "
+		sql += "select round(sum(caled_cost), -1) "
 				+ "from account "
 				+ "where acc_cat_idx = 7 "
 				+ "and plan_idx = ?";
@@ -822,7 +822,7 @@ public class PlanDaoImpl implements PlanDao{
 	@Override
 	public int sumEtcByPlanIdx(Plan plan) {
 		String sql = "";
-		sql += "select sum(caled_cost) "
+		sql += "select round(sum(caled_cost), -1) "
 				+ "from account "
 				+ "where acc_cat_idx = 8 "
 				+ "and plan_idx = ?";
