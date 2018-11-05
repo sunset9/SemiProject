@@ -80,51 +80,6 @@
 	  border-radius: 50%;
 	}
 	
-	/* 일정 보기 버튼*/
-	#planViewModeBtn{
-		margin-bottom: 5px;
-		background: #eee;
-		border: none;
-		border-radius: 6px;
-	}
-	
-	/* 저장버튼 활성화 버전*/
-	#planSaveBtn:not([disabled]){
-	    height: 34px;
- 		background: #4FB99F; 
-	    font-weight: bold;
-	    color: #fff; 
-	    border: none;
-	    font-size: 18px;
-	    border-radius: 6px;
-	}
-	
-	/* 저장버튼 활성화/hover 버전*/
-	#planSaveBtn:not([disabled]):hover{
-	    height: 34px;
-	    font-weight: bold;
-	    color: #fff; 
-	    border: none;
-	    font-size: 18px;
-	    background: #429480;
-	    background-image: linear-gradient(to bottom, #50b69c 0,#429480 100%);
-/* 		background-image: -webkit-linear-gradient(top, #56C9AD, #4BB097); */
-/* 		background-image: -moz-linear-gradient(top, #56C9AD, #4BB097); */
-/* 		background-image: -ms-linear-gradient(top, #56C9AD, #4BB097); */
-/* 		background-image: -o-linear-gradient(top, #56C9AD, #4BB097); */
-/* 		background-image: linear-gradient(to bottom, #56C9AD, #4BB097); */
-	    border-radius: 6px;
-	}
-	
-	/* 저장버튼 비활성화 버전*/
-	#planSaveBtn[disabled]{
-		height: 34px;
-		background: #eee;
-		color: #ccc;
-		border: none;
-		font-size: 18px;
-		border-radius: 6px;
-	}
 	 
 	/* 검색, 검색 결과 */ 
 	#googleSearch{
@@ -205,6 +160,50 @@
 		line-height: 1.2em;
 	}
 	
+	/* 일정 보기 버튼*/
+	#planViewModeBtn{
+		margin-bottom: 5px;
+		background: #eee;
+		border: none;
+		border-radius: 6px;
+		height: 30px;
+		width: 100%;
+	}
+	
+	/* 저장버튼 활성화 버전*/
+	#planSaveBtn:not([disabled]){
+		width: 100%;
+	    height: 34px;
+ 		background: #4FB99F; 
+	    font-weight: bold;
+	    color: #fff; 
+	    border: none;
+	    font-size: 18px;
+	    border-radius: 6px;
+	}
+	
+	/* 저장버튼 활성화/hover 버전*/
+	#planSaveBtn:not([disabled]):hover{
+	    background: #429480;
+	    background-image: linear-gradient(to bottom, #50b69c 0,#429480 100%);
+/* 		background-image: -webkit-linear-gradient(top, #56C9AD, #4BB097); */
+/* 		background-image: -moz-linear-gradient(top, #56C9AD, #4BB097); */
+/* 		background-image: -ms-linear-gradient(top, #56C9AD, #4BB097); */
+/* 		background-image: -o-linear-gradient(top, #56C9AD, #4BB097); */
+/* 		background-image: linear-gradient(to bottom, #56C9AD, #4BB097); */
+	}
+	
+	/* 저장버튼 비활성화 버전*/
+	#planSaveBtn[disabled]{
+		width: 100%;
+		height: 34px;
+		background: #eee;
+		color: #ccc;
+		border: none;
+		font-size: 18px;
+		border-radius: 6px;
+	}
+	
 	/* 저장 경고창 */
 	.jconfirm .jconfirm-box .jconfirm-buttons button.btn-blue {
     	background-color: #4FB99F;
@@ -267,7 +266,7 @@ var isAlreadyAlert = false;
 </script>
 <script>
 //저장하기
-function store(beforeTtbIdx, afterTtbIdx){
+function store(miniTimetables){
 	// 탭 바뀌지 않게 하기
 	setCookie("isCookieTabClear", "false");
 	
@@ -279,24 +278,18 @@ function store(beforeTtbIdx, afterTtbIdx){
 	console.log(events);
 	
 	var timetables = [];
-	// form input 생성(넘겨줄 값)
-	events.forEach(function(event){ // 모든 리스트 돌면서 timetable json 하나씩 생성
-		// timetable json 생성
-		var timetable = getTtbJsonForServer(event);
-		timetables.push(timetable);
-	});
-
-	
-	// 미니뷰 작성인 경우
-	// ttb_idx바꿔야하는 타임테이블 찾아서 ttb_idx값 변경
-	if(beforeTtbIdx!=null && afterTtbIdx != null){
-		for(var i = 0; i<timetables.length; i++){
-			if(timetables[i].ttb_idx == beforeTtbIdx){
-				timetables[i].ttb_idx = afterTtbIdx;
-				break;
-			}
-		}
+	if(miniTimetables != null) {
+		timetables = miniTimetables;
+		
+	}else {
+		// form input 생성(넘겨줄 값)
+		events.forEach(function(event){ // 모든 리스트 돌면서 timetable json 하나씩 생성
+			// timetable json 생성
+			var timetable = getTtbJsonForServer(event);
+			timetables.push(timetable);
+		});
 	}
+
 	
 	// --- json list 로 묶어서 넘겨주기
 	// input 태그 생성
@@ -305,8 +298,8 @@ function store(beforeTtbIdx, afterTtbIdx){
 	$("input[name='events']:last-child").val();
 	
 	// submit
-// 	console.log("---store()----")
-// 	console.log(timetables);
+	console.log("---store()----")
+	console.log(timetables);
 	
 	var succ = false;
 	$.ajax({
@@ -761,9 +754,9 @@ window.onbeforeunload = function(){
 	</div><br>
 	
 	<!-- 일정 읽기 모드-->
-	<button id="planViewModeBtn" onclick="changeViewMode()" style="width:100%;">일정 보기</button>
+	<button id="planViewModeBtn" onclick="changeViewMode()">일정 보기</button>
 	<!-- 일정 저장 -->
-	<button id="planSaveBtn" onclick="store();" style="width:100%;" disabled="true">저장 </button>
+	<button id="planSaveBtn" onclick="store();"disabled="true">저장 </button>
 	
 	<!-- 검색 INPUT DIV -->
 	<div id="googleSearch" class="tab-content tab-ttb">
