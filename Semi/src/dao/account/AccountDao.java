@@ -1,6 +1,7 @@
 package dao.account;
 
 import dto.story.Story;
+import dto.timetable.Timetable;
 
 import java.util.List;
 
@@ -31,5 +32,7 @@ public interface AccountDao {
 	public void insert(Account account);
 	
 	public int selectCntByStoryIdx(Story story);
+
+	public void deleteAccountListByTtbList(Plan plan, List<Timetable> ttbList);
 	
 }

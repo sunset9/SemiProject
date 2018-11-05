@@ -9,7 +9,7 @@
 <script type = "text/javascript">
 $(document).ready(function() {
 	$("#btnList").click(function() {
-		$(location).attr("href", "/inquiry/list");
+		history.back();
 	});
 	$("#btnUpdate").click(function() {
 		$(location).attr("href","/inquiry/update?inq_idx=${inquiry.inq_idx}");
@@ -72,7 +72,7 @@ function deleteReply(rep_idx){
 }
 
 .winfo {
-	background: rgba(255,203,55,0.5) ;
+	background:  rgba(79	,185,159,0.5) ;
 	text-align: center;
 }
 
@@ -101,6 +101,48 @@ table{
 .replist{
 	margin-bottom: 10%;
 	border: 1px solid #ddd;
+}
+#btnList{
+/* 	background-color: #4FB99F; */
+  	width:80px;
+    background-color: #4FB99F;
+    border: none;
+    color:#fff;
+	padding: 5px 0;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 15px;
+    margin: 4px;
+    border-radius:10px;
+}
+#btnUpdate{
+/* 	background-color: #4FB99F; */
+  	width:80px;
+    background-color: #FFCB37;
+    border: none;
+    color:#fff;
+	padding: 5px 0;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 15px;
+    margin: 4px;
+    border-radius:10px;
+}
+#btnDelete{
+/* 	background-color: #4FB99F; */
+  	width:80px;
+    background-color: #ED553B;
+    border: none;
+    color:#fff;
+	padding: 5px 0;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 15px;
+    margin: 4px;
+    border-radius:10px;
 }
 
 </style>
@@ -153,10 +195,10 @@ ${inquiry.content }</td>
 </div> <br><br><br>
 
 <div class="btnGroup" style ="text-align: center;">
-	<button id = "btnList"  class="btn btn-success">목록</button>
+	<button id = "btnList" >목록</button>
 	<c:if test="${user.user_idx eq inquiry.user_idx }">
-	<button id="btnUpdate" class="btn btn-warning">수정</button>
-	<button id="btnDelete" class="btn btn-danger">삭제</button>
+	<button id="btnUpdate">수정</button>
+	<button id="btnDelete" >삭제</button>
 	</c:if>
 </div>
 

@@ -4,6 +4,7 @@ package service.plan;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.EnumMap;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -12,6 +13,7 @@ import dao.account.AccountDao;
 import dao.account.AccountDaoImpl;
 import dao.plan.PlanDao;
 import dao.plan.PlanDaoImpl;
+import dto.Account.AccType;
 import dto.Account.Account;
 import dto.plan.Plan;
 import dto.user.User;
@@ -202,52 +204,20 @@ public class PlanServiceImpl implements PlanService{
 		return plandao.getPlan_idx();
 	}
 
+	// 카테고리 별 총합
 	@Override
-	public int getAccountAirfareCost(Plan plan) {
-		// TODO Auto-generated method stub
-		return plandao.sumAirfareByPlanIdx(plan);
+	public int getAccountAccTpeCost(Plan plan, AccType accType) {
+		return plandao.sumAccTypeCost(plan, accType);
 	}
 
+	// 한 일정의 가계부 비용 총합
 	@Override
-	public int getAccountTrafficCost(Plan plan) {
-		// TODO Auto-generated method stub
-		return plandao.sumTrafficByPlanIdx(plan);
-	}
-
-	@Override
-	public int getAccountStayCost(Plan plan) {
-		// TODO Auto-generated method stub
-		return plandao.sumStayByPlanIdx(plan);
-	}
-
-	@Override
-	public int getAccountAdmissionCost(Plan plan) {
-		// TODO Auto-generated method stub
-		return plandao.sumAdmissionByPlanIdx(plan);
-	}
-
-	@Override
-	public int getAccountFoodCost(Plan plan) {
-		// TODO Auto-generated method stub
-		return plandao.sumFoodByPlanIdx(plan);
-	}
-
-	@Override
-	public int getAccountPlayCost(Plan plan) {
-		// TODO Auto-generated method stub
-		return plandao.sumPlayByPlanIdx(plan);
-	}
-
-	@Override
-	public int getAccountShopCost(Plan plan) {
-		// TODO Auto-generated method stub
-		return plandao.sumShopByPlanIdx(plan);
-	}
-
-	@Override
-	public int getAccountEtcCost(Plan plan) {
-		// TODO Auto-generated method stub
-		return plandao.sumEtcByPlanIdx(plan);
+	public int getAccountTotal(EnumMap<AccType, Integer> accEnumMap) {
+		int total = 0;
+		for(int cost : accEnumMap.values()) {
+			total += cost;
+		}
+		return total;
 	}
 	
 	@Override

@@ -1,6 +1,7 @@
 package controller.plan;
 
 import java.io.IOException;
+import java.util.EnumMap;
 import java.util.List;
 
 import javax.servlet.ServletException;
@@ -12,8 +13,7 @@ import javax.servlet.http.HttpServletResponse;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
-import dao.plan.PlanDao;
-import dto.Account.Account;
+import dto.Account.AccType;
 import dto.plan.Plan;
 import dto.timetable.Location;
 import dto.timetable.Timetable;
@@ -48,7 +48,6 @@ public class PlanViewController extends HttpServlet {
         gsonBuilder.setDateFormat("yyyy-MM-dd HH:mm");
         Gson gson = gsonBuilder.create();
         
-        Plan planParam = new Plan();
         // view로 들어오는 파라미터값 확인
 //        if( req.getParameter("plan_idx") != null && !"".equals(req.getParameter("plan_idx"))) {
 ////        	req.getSession().setAttribute("plan_idx", planParam.getPlan_idx());
@@ -56,7 +55,9 @@ public class PlanViewController extends HttpServlet {
 //        } else {
 //        	planParam = pService.getSessionPlan(req);
 //        }
-        planParam.setPlan_idx(Integer.parseInt(req.getParameter("plan_idx")));
+
+        Plan planParam = pService.getParam(req);
+        
 //		---------------------플래너 파라미터 가져오기
 		// 요청파라미터(plan_idx) -> Plan 모델 
 //		System.out.println("Session 값 : " + planParam);
@@ -117,37 +118,25 @@ public class PlanViewController extends HttpServlet {
 //		--------------------------------------------
 		
 		// 가계부 정보 가져오기
-		Account accView = pService.getAccount(planParam);
+		EnumMap<AccType, Integer> accEnumMap = new EnumMap<AccType, Integer>(AccType.class);
+	
+		accEnumMap.put(AccType.airfare, pService.getAccountAccTpeCost(planParam, AccType.airfare));
+		accEnumMap.put(AccType.traffic, pService.getAccountAccTpeCost(planParam, AccType.traffic));
+		accEnumMap.put(AccType.stay, pService.getAccountAccTpeCost(planParam, AccType.stay));
+		accEnumMap.put(AccType.admission, pService.getAccountAccTpeCost(planParam, AccType.admission));
+		accEnumMap.put(AccType.food, pService.getAccountAccTpeCost(planParam, AccType.food));
+		accEnumMap.put(AccType.play, pService.getAccountAccTpeCost(planParam, AccType.play));
+		accEnumMap.put(AccType.shop, pService.getAccountAccTpeCost(planParam, AccType.shop));
+		accEnumMap.put(AccType.etc, pService.getAccountAccTpeCost(planParam, AccType.etc));
 		
-		int airfare = pService.getAccountAirfareCost(planParam);
-		int traffic = pService.getAccountTrafficCost(planParam);
-		int stay = pService.getAccountStayCost(planParam);
-		int admission = pService.getAccountAdmissionCost(planParam);
-		int food = pService.getAccountFoodCost(planParam);
-		int play = pService.getAccountPlayCost(planParam);
-		int shop = pService.getAccountShopCost(planParam);
-		int etc = pService.getAccountEtcCost(planParam);
+		req.setAttribute("accTypeCost", new Gson().toJson(accEnumMap));
 		
-		req.setAttribute("airfare", airfare);
-		req.setAttribute("traffic", traffic);
-		req.setAttribute("stay", stay);
-		req.setAttribute("admission", admission);
-		req.setAttribute("food", food);
-		req.setAttribute("play", play);
-		req.setAttribute("shop", shop);
-		req.setAttribute("etc", etc);
-		
-		//총합 1의 자리 수 반올림
-		int acc_total = airfare + traffic + stay + admission + food + play + shop + etc;
+		int acc_total = pService.getAccountTotal(accEnumMap);
 		req.setAttribute("acc_total", acc_total);
 		
-		int accCaledTotal = acc_total;
-		req.setAttribute("accCaledTotal", accCaledTotal);
+		int accCalcedTotal = acc_total;
+		req.setAttribute("accCalcedTotal", accCalcedTotal);
 		
-		System.out.println(accView);
-		//accView MODEL 전달
-		req.setAttribute("accView", accView);
-	    
 		// view 폼 띄우기
 		req.getRequestDispatcher("/plan/view.jsp").forward(req, resp);
 	}

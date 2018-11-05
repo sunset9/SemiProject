@@ -32,14 +32,58 @@ $(document).ready(function () {
 }
 
 .winfo {
-	background: rgba(255,203,55,0.5) ;
+	background:rgba(79	,185,159,0.5) ;
 	text-align: center;
 
 }
-
-td, tr{
-	
+#btnWrite{
+/* 	background-color: #4FB99F; */
+  	width:80px;
+    background-color: #FFCB37;
+    border: none;
+    color:#fff;
+	padding: 5px 0;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 15px;
+    margin: 4px;
+    border-radius:10px;
 }
+#btnCancel{
+/* 	background-color: #4FB99F; */
+  	width:80px;
+    background-color: #ED553B;
+    border: none;
+    color:#fff;
+	padding: 5px 0;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 15px;
+    margin: 4px;
+    border-radius:10px;
+}
+.inqContent{
+  	border: 1px solid #ddd;
+	border-radius: 10px;
+}
+
+td{
+    border-top: 1px solid #ddd;
+	padding: 8px;
+}
+
+table{
+    width: 100%;
+    max-width: 100%;
+
+    display: table;
+	border-collapse: collapse;
+    border-spacing: 0;
+}
+
+
 </style>
 
 <div class="container">
@@ -49,14 +93,15 @@ td, tr{
 
 <div>
 <form action="/inquiry/write" method="post" enctype="multipart/form-data">
-<table class="table">
-<tr><td class ="winfo" style="border-top-left-radius:10px;">아이디</td><td>${user.id}</td></tr>
+<div class="inqContent">
+<table >
+<tr style="border-top-style: hidden;"><td class ="winfo" style="border-top-left-radius:10px;">아이디</td><td>${user.id}</td></tr>
 <tr><td class ="winfo">닉네임</td><td>${user.nickname }</td></tr>
 <tr><td class ="winfo">제목</td><td><input type="text"name ="title" style="width:100%"/></td></tr>
-<tr><td class ="winfo" style="border-bottom-left-radius:15px;">본문</td><td><textarea id="content" name ="content"></textarea></td></tr>
+<tr><td class ="winfo" style="border-bottom-left-radius:10px;">본문</td><td><textarea id="content" name ="content"></textarea></td></tr>
 
 </table>
-
+</div>
 <label>첨부파일 : <input type ="file" name ="file"/></label>
 
 
@@ -64,8 +109,8 @@ td, tr{
 </div>
 
 <div class="text-center">
-	<button type ="button" id ="btnWrite" class="btn btn-warning">작성</button>
-	<button type ="button" id ="btnCancel"  class="btn btn-danger">취소</button>
+	<button type ="button" id ="btnWrite" >작성</button>
+	<button type ="button" id ="btnCancel">취소</button>
 </div>
 
 </div>

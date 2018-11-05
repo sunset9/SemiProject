@@ -23,7 +23,7 @@
 }
 /* 좌측 정보목록*/
 #planInfoNav {
-	width: 230px; 
+	width: 250px; 
 	border-radius: 10px; 
 	float: left;
 }
@@ -56,10 +56,10 @@
 
 /* 우측의 메인 기능 있는 공간 */
 #planMainSection {
-	width: 900px; 
+	width: 895px; 
 	border-radius: 10px;
 	float: right;
-	margin-left: 20px;
+	margin-left: 10px;
 }
 
 
@@ -68,7 +68,6 @@
     width:100%;
     background-color: #ED553B;
     border: none;
-    color:#fff;
   	padding: 10px 0;
     text-align: center;
     text-decoration: none;
@@ -100,7 +99,6 @@
 #map {
 	background-color:#DDDDDD;
 	height:450px;
-	float:bottom;
 	margin-top: 10px;
 
 }
@@ -125,33 +123,45 @@
 #prevBtn { /* 이전날짜 선택 버튼*/
 	cursor: pointer;
 	float: left;
-	margin-left: 5px;
+	position: absolute;
+    top: 14px;
+    left: 79px;
 }
 
 #nextBtn { /* 다음 날짜 선택 버튼*/
 	cursor: pointer;
 	float: right;
-	margin-right: 5px;
+	position: absolute;
+    top: 14px;
+    right: 6px;
 }
 
 .fc-row.fc-widget-header tr{ /* 헤더의 날짜 정보*/
-	height: 50px;
-	font-size: 1.3em;
+	background: #1d1d1d;
+	height: 45px;
+	font-size: 1.1em;
+    color: #ffffffd6;
 }
 
+.header-country { 
+    font-size: 13px;
+	font-weight: normal;
+    margin-top: -3px;
+}
 .fc-title{ /* 이벤트 안의 제목 부분 */
 	cursor: pointer;
 	font-weight: bold;
-	font-size: 1.5em;
-	padding-top: 5px;
+	font-size: 1.4em;
+	line-height: 1.3em;
+	
 }
 
 /* fc-bg(이벤트 덮고 있는 투명도 있는 판?)css 수정 , 왼쪽에 색 진하게 하는 효과줌 */
 .fc-bg:not(:first-child){
 /* 	margin-left: 10px;  */
-	width: 11px;
-	opacity: .18;
-	background: #000;
+	width: 10px;
+/* 	opacity: .18; */
+/* 	background: #000; */
 }
 
 .fc-today
@@ -180,24 +190,36 @@
     border: 1px solid #eee;
     border-left: none;
 /*     font-weight: bold; */
-    background: #fafafa;
+    background: #f9f9f9;
     overflow: hidden;
     position: relative;
     color: #4FB99F;
 }
 
+#ttb-icon {
+    margin-right: 5px;
+    width: 19px;
+    position: relative;
+    top: -2px;
+}
+
+#story-icon {
+    margin-right: 5px;
+    width: 19px;
+}
+
 #tab-main li.active {
     background: #FFFFFF;
-    border-bottom: 5px solid #4FB99F;
+/*     border-bottom: 5px solid #4FB99F; */
     color: #4FB99F;
     font-weight: bold;
+    font-size: large;
     pointer-events: none; /* 이미 선택한 탭은 다시 클릭 안되도록 */
 }
 .tab-container {
-    border: 1px solid #eee;
     border-top: none;
     clear: both;
     float: left;
-    width: 100%; /* 이거 하면 타임테이블 지저분, 안하면 빈 스토리탭 container 좁게 지정*/
+    width: 100%;
 }
 

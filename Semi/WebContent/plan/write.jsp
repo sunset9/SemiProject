@@ -80,34 +80,17 @@
 	  border-radius: 50%;
 	}
 	
-	/* 읽기 모드로 버튼*/
-	#planViewModeBtn{
-		margin-bottom: 5px;
-		background: #eee;
-	}
-	
-	/* 저장버튼 활성화 버전*/
-	#planSaveBtn:not([disabled]){
-	    height: 34px;
-		background: #4FB99F;
-	    font-weight: bold;
-	    color: #333;
-	}
-	
-	/* 저장버튼 비활성화 버전*/
-	#planSaveBtn[disabled]{
-		height: 34px;
-		background: #eee;
-		color: #ccc;
-	}
 	 
+	/* 검색, 검색 결과 */ 
 	#googleSearch{
 		width:100%;
 		border-radius:10px;
 		margin-top: 10px;
 		border: 1px solid #ccc;
+		background-color: #eee;
 	}
 	
+	/* 검색 입력 창 */
 	#pac-input{
 		display: block;
 		margin: 6px auto;
@@ -115,11 +98,119 @@
 	    background: url(/resources/img/searchBg.png) -5px center no-repeat;
  	    border: 1px solid #ccc; 
 	    padding: 5px 3px 5px 35px;
+	    background-color: white;
 	}
 	
+	/* 검색 결과 창*/
 	#searchResultView{
 		padding:3px;
 	}
+	
+	
+	div.searchRes {
+/* 	    border: 1px solid #dfdfdf; */
+    	height: 94px;
+ 		margin-bottom: 2px;
+ 		background-color: white;
+	}
+	
+	div.searchRes:hover {
+		transform: scale(0.98);
+		border: 2px solid #4FB99F;
+	}
+	
+	div.searchResImg {
+	    display: inline;
+ 	 	float: left;
+		width: 90px;
+		height: 90px;
+		overflow: hidden;
+	}
+	
+	img.placeImg {
+		object-fit: cover;
+		width: auto;
+		height: 100%;
+	}
+	
+	.searchResInfo {
+	    padding: 2px 2px 2px 95px;
+	    height: 90px;
+	}
+	
+	.infoName {
+		font-weight: bold;
+		line-height: 1.2em;
+ 		height: 3.6em;
+		display: -webkit-box;
+    	-webkit-line-clamp: 3;
+		-webkit-box-orient: vertical;
+		overflow: hidden;
+		text-overflow: ellipsis; /* 글자 ... 처리*/
+/* 		white-space:nowrap; /*공백문자가 있는 경우 줄바꿈하지 않고 한줄로 나오게 처리 */ 
+	}
+	
+	.infoAddr {
+		margin-top: 2px;
+		font-size: small;
+		color: #999;
+		height: 41%;
+		overflow:hidden;
+		text-overflow:ellipsis; /* 글자 ... 처리*/
+		line-height: 1.2em;
+	}
+	
+	/* 일정 보기 버튼*/
+	#planViewModeBtn{
+		margin-bottom: 5px;
+		background: #eee;
+		border: none;
+		border-radius: 6px;
+		height: 30px;
+		width: 100%;
+	}
+	
+	/* 저장버튼 활성화 버전*/
+	#planSaveBtn:not([disabled]){
+		width: 100%;
+	    height: 34px;
+ 		background: #4FB99F; 
+	    font-weight: bold;
+	    color: #fff; 
+	    border: none;
+	    font-size: 18px;
+	    border-radius: 6px;
+	}
+	
+	/* 저장버튼 활성화/hover 버전*/
+	#planSaveBtn:not([disabled]):hover{
+	    background: #429480;
+	    background-image: linear-gradient(to bottom, #50b69c 0,#429480 100%);
+/* 		background-image: -webkit-linear-gradient(top, #56C9AD, #4BB097); */
+/* 		background-image: -moz-linear-gradient(top, #56C9AD, #4BB097); */
+/* 		background-image: -ms-linear-gradient(top, #56C9AD, #4BB097); */
+/* 		background-image: -o-linear-gradient(top, #56C9AD, #4BB097); */
+/* 		background-image: linear-gradient(to bottom, #56C9AD, #4BB097); */
+	}
+	
+	/* 저장버튼 비활성화 버전*/
+	#planSaveBtn[disabled]{
+		width: 100%;
+		height: 34px;
+		background: #eee;
+		color: #ccc;
+		border: none;
+		font-size: 18px;
+		border-radius: 6px;
+	}
+	
+	/* 저장 경고창 */
+	.jconfirm .jconfirm-box .jconfirm-buttons button.btn-blue {
+    	background-color: #4FB99F;
+    }
+	.jconfirm .jconfirm-box .jconfirm-buttons button.btn-blue:hover {
+    	background-color: #429480;
+    }
 </style>
 
 <script>
@@ -168,11 +259,6 @@ var locList = ${locList };
 
 var plan_idx = ${planView.plan_idx};
 
-//환율정보
-var USD_rate=0;
-var KRW_rate=0;
-var JPY_rate=0;
-
 var isModify = 1;
 var isStayWriteMode = false;
 
@@ -180,7 +266,7 @@ var isAlreadyAlert = false;
 </script>
 <script>
 //저장하기
-function store(beforeTtbIdx, afterTtbIdx){
+function store(miniTimetables){
 	// 탭 바뀌지 않게 하기
 	setCookie("isCookieTabClear", "false");
 	
@@ -192,24 +278,18 @@ function store(beforeTtbIdx, afterTtbIdx){
 	console.log(events);
 	
 	var timetables = [];
-	// form input 생성(넘겨줄 값)
-	events.forEach(function(event){ // 모든 리스트 돌면서 timetable json 하나씩 생성
-		// timetable json 생성
-		var timetable = getTtbJsonForServer(event);
-		timetables.push(timetable);
-	});
-
-	
-	// 미니뷰 작성인 경우
-	// ttb_idx바꿔야하는 타임테이블 찾아서 ttb_idx값 변경
-	if(beforeTtbIdx!=null && afterTtbIdx != null){
-		for(var i = 0; i<timetables.length; i++){
-			if(timetables[i].ttb_idx == beforeTtbIdx){
-				timetables[i].ttb_idx = afterTtbIdx;
-				break;
-			}
-		}
+	if(miniTimetables != null) {
+		timetables = miniTimetables;
+		
+	}else {
+		// form input 생성(넘겨줄 값)
+		events.forEach(function(event){ // 모든 리스트 돌면서 timetable json 하나씩 생성
+			// timetable json 생성
+			var timetable = getTtbJsonForServer(event);
+			timetables.push(timetable);
+		});
 	}
+
 	
 	// --- json list 로 묶어서 넘겨주기
 	// input 태그 생성
@@ -218,8 +298,8 @@ function store(beforeTtbIdx, afterTtbIdx){
 	$("input[name='events']:last-child").val();
 	
 	// submit
-// 	console.log("---store()----")
-// 	console.log(timetables);
+	console.log("---store()----")
+	console.log(timetables);
 	
 	var succ = false;
 	$.ajax({
@@ -239,6 +319,7 @@ function store(beforeTtbIdx, afterTtbIdx){
 			, events: JSON.stringify(timetables)
 		}
 		, success: function(){
+			// 저장 후 수정모드 유지 변수가 false이면, 읽기 모드로 보냄
 			if(!isStayWriteMode){
 				window.location = "/plan?plan_idx=" + ${planView.plan_idx};
 			}
@@ -253,7 +334,7 @@ function store(beforeTtbIdx, afterTtbIdx){
 }
 </script>
 
-<script type="text/javascript">
+<script>
 // 읽기모드일때, 검색창 on/off
 $(document).ready(function() {
 	// isCookieTabClear 플래그가 true 이고
@@ -264,25 +345,6 @@ $(document).ready(function() {
 	// 한 번 탭 변경하지 않고 넘어갔으면 그 다음엔 탭 정보 저장 쿠키 다시 삭제하게
 	setCookie("isCookieTabClear", "true");
 	
-	
-    //환율정보 가져오는 api
-    $.ajax({ 
-      url: "http://api.manana.kr/exchange/rate/KRW/JPY,KRW,USD.json", 
-      type: "GET", 
-      crossDomain: true, 
-      dataType: "json", 
-      success: function (data) { 
-   	   	 JPY_rate = data[0].rate; 
-            KRW_rate = data[1].rate;
-            USD_rate = data[2].rate;
-        },
-      error : function (e) {
-        console.log(e);
-   
-		}
-	 }); 
-	
-	// 브라우저에 timetable 그려주기
 	initFullCalendar(planStartDate, planEndDate, true);
 	$('#calendar').fullCalendar('option', 'editable', true); // 수정 가능하게
 	$('#calendar').fullCalendar('option', 'droppable', true); // 드롭할 수 있게
@@ -484,18 +546,14 @@ function viewMini(event){
 		}
 		, dataType: "json"
 		, success: function(obj){
-			
 			var story = JSON.parse(obj.story);
 			var accountList = JSON.parse(obj.accountList);
 			
-//			console.log(story);
-//			console.log(accountList);
-			
 			// miniView modal에 값 채워줌
-			$("#miniModalTitle").text(event.title); // 타이틀 = 장소이름
-			$("#miniModalPlace").text(event.title); // 장소 이름
-			$("#miniModalAddress").text(event.address);  // 주소
-			$("#miniModalImg").attr("src", event.photo_url); // 이미지
+			$("#miniWriteTitle").text(event.title); // 타이틀 = 장소이름
+			$("#miniWritePlace").text(event.title); // 장소 이름
+			$("#miniWriteAddress").text(event.address);  // 주소
+			$("#miniWriteImg").attr("src", event.photo_url); // 이미지
 			
 			// ttb정보 json String 형태로 넘겨줌
 			$("input[name=ttbJson]").val(JSON.stringify(getTtbJsonForServer(event)));
@@ -507,7 +565,11 @@ function viewMini(event){
 			}));
 			
 			// 스토리 내용 띄워주기
-			$("#miniModalContent").froalaEditor('html.set', story.content);
+			if(story.content != null){
+				$("#miniWriteContent").froalaEditor('html.set', story.content);
+			} else{
+				$("#miniWriteContent").froalaEditor('html.set', '');
+			}
 			
 	 		var ttbJson = JSON.parse($('input[name=ttbJson]').val());
 	 		
@@ -517,21 +579,21 @@ function viewMini(event){
 	 		// account 있는 수만큼 가계부 입력공간 추가
 	 		for (var i = 0; i < accountList.length; i++) {
 	 				if( ttbJson.ttb_idx == accountList[i].ttb_idx){
-	 					var accountView = $("#min_accountView").clone();
+	 					var accountView = $("#w-min_accountView").clone();
 	 					if(count != 0){
-	 						$("#miniModalAccount").append(accountView);	
+	 						$("#w-miniModalAccount").append(accountView);
 	 					}
 	 					count = count+1;
 	 				}
 	 		}
 			
-	 		var size = document.getElementsByName("min_accountViewName").length;
+	 		var size = document.getElementsByName("w-min_accountViewName").length;
 			
 	  		for(var i = 0; i < size; i++){
-	 	        var obj = document.getElementsByName("min_accountViewName")[i];
+	 	        var obj = document.getElementsByName("w-min_accountViewName")[i];
 	
-	 	        $(obj).find(".accountPlus").css("display","none");
-	 	        $(obj).find(".accountRemove").css("display","block");
+	 	        $(obj).find(".w-accountPlus").css("display","none");
+	 	        $(obj).find(".w-accountRemove").css("display","block");
 		        
 	 	        var ch = false;
 	 	        for (var j = 0; j <accountList.length; j++) {
@@ -541,34 +603,34 @@ function viewMini(event){
 	 	        }
 		        
 	 	        if (ch == false) {
-	 			   $(obj).find(".min_accType").val(1);
-	 		        $(obj).find(".min_currSymbol").val(1);
-	 				$(obj).find(".min_cost").val("");
+	 			   $(obj).find(".w-min_accType").val('airfare');
+	 		        $(obj).find(".w-min_currSymbol").val(1);
+	 				$(obj).find(".w-min_cost").val("");
 	 	        }else{
-	 		        $(obj).find(".min_accType").val(accountList[i].category);
-	 		        $(obj).find(".min_currSymbol").val(accountList[i].curr_idx);
-	 				$(obj).find(".min_cost").val(accountList[i].origin_cost);
+	 		        $(obj).find(".w-min_accType").val(accountList[i].accType);
+	 		        $(obj).find(".w-min_currSymbol").val(accountList[i].curr_idx);
+	 				$(obj).find(".w-min_cost").val(accountList[i].origin_cost);
 	 	        }
 
 	 	        if (i == size-1){
-	 			    $(obj).find(".accountPlus").css("display","block");
+	 			    $(obj).find(".w-accountPlus").css("display","block");
 	 	        }
 		        
 	 	        if (size == 5 && i == size-1){
-	 		    	 $(obj).find(".accountPlus").css("display","none");
+	 		    	 $(obj).find(".w-accountPlus").css("display","none");
 	 	        }
 	 	        
 	 	       if (size == 1){ // 1개일때
 		        	// -버튼 안보여주기
-		        	$(obj).find(".accountRemove").css("display","none");
-		        	$(obj).find(".accountPlus").css("display","block");
+		        	$(obj).find(".w-accountRemove").css("display","none");
+		        	$(obj).find(".w-accountPlus").css("display","block");
 		        }
 	 		 }
 		  		
 			// 모달 창 닫힌 경우
-			$("#miniViewModal").on('hidden.bs.modal', function () {
+			$("#miniWriteModal").on('hidden.bs.modal', function () {
 				// 기존 스토리내용 삭제
-				$(this).find($("#miniModalContent")).html('');
+				$("#miniWriteContent").froalaEditor('html.set', '');
 			});
 		}
 		, error: function(){
@@ -699,17 +761,14 @@ window.onbeforeunload = function(){
 	</div><br>
 	
 	<!-- 일정 읽기 모드-->
-	<button id="planViewModeBtn" onclick="changeViewMode()" style="width:100%;">읽기 모드로</button>
+	<button id="planViewModeBtn" onclick="changeViewMode()">일정 보기</button>
 	<!-- 일정 저장 -->
-	<button id="planSaveBtn" onclick="store();" style="width:100%;" disabled="true">저장 </button>
+	<button id="planSaveBtn" onclick="store();"disabled="true">저장 </button>
 	
 	<!-- 검색 INPUT DIV -->
 	<div id="googleSearch" class="tab-content tab-ttb">
 	<input id="pac-input" class="controls" type="text" placeholder="장소 검색">
 	    <div id="searchResultView">
-	    <ul>
-			<li id="results" ></li>
-		</ul>
     	</div>
 	</div><br>
 </div>
@@ -720,8 +779,8 @@ window.onbeforeunload = function(){
 <div id="planMainSection">
 	<!-- 일정 / 스토리 탭  -->
 	<ul id="tab-main">
-		<li rel="tab-ttb">일정</li>
-		<li rel="tab-story">스토리</li>
+		<li rel="tab-ttb"><img id="ttb-icon" src="/resources/img/timetable-tab.png">일정</li>
+		<li rel="tab-story"><img id="story-icon" src="/resources/img/story-tab.png">스토리</li>
 	</ul>
 	
 	<div class="tab-container">

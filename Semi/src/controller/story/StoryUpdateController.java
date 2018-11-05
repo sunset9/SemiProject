@@ -10,6 +10,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import dto.Account.AccType;
 import dto.Account.Account;
 import dto.plan.Plan;
 import dto.story.Story;
@@ -47,11 +48,9 @@ public class StoryUpdateController extends HttpServlet {
 			
 			story = sService.getParam(req);
 			
-			if ((story.getContent() != null) && (!story.getContent().equals(""))){
-				sService.update(story);
-			}
-			
-			
+		
+			sService.update(story);
+
 			req.setAttribute("plan_idx", story.getPlan_idx());
 			
 			//해당 스토리의 가계부정보 전부삭제
@@ -75,7 +74,7 @@ public class StoryUpdateController extends HttpServlet {
 					
 					Account account= new Account();
 					
-					account.setCategory(Integer.parseInt(accType[i]));
+					account.setAccType(AccType.getValue(Integer.parseInt(accType[i])));
 					account.setCurr_idx(Integer.parseInt(currSymbol[i]));
 					//cost의 콤마 제거
 					cost[i]=cost[i].replaceAll(",", "");

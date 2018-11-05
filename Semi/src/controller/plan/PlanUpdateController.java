@@ -10,13 +10,11 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import dto.Account.Account;
 import dto.plan.Plan;
-import dto.user.User;
-import dto.story.Comment;
-import dto.story.Story;
 import dto.timetable.Location;
 import dto.timetable.Timetable;
+import service.account.AccountService;
+import service.account.AccountServiceImpl;
 import service.plan.PlanService;
 import service.plan.PlanServiceImpl;
 import service.stroy.StoryService;
@@ -31,6 +29,7 @@ public class PlanUpdateController extends HttpServlet {
 	PlanService pService = new PlanServiceImpl();
 	TimetableService ttbService = new TimetableServiceImpl();
 	StoryService sService = new StoryServiceImpl();
+	AccountService aService = new AccountServiceImpl();
 	
 	@Override
 		protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -49,9 +48,17 @@ public class PlanUpdateController extends HttpServlet {
 			
 			// 요청파라미터 -> 타임테이블, 위치정보 Map 타입
 			Map<Timetable, Location> ttbLocParam = ttbService.getParam(req);
+			System.out.println(ttbLocParam);
 			
 			// 타임테이블, 위치정보 정보 업데이트
-			ttbService.update(planParam, ttbLocParam);
+			List<Timetable> updatedTtbList = null; 
+			updatedTtbList = ttbService.update(planParam, ttbLocParam);
+			System.out.println(updatedTtbList);
+			// 삭제된 타임테이블에 해당하는 스토리 삭제
+			sService.deleteList(planParam, updatedTtbList);
+			
+			// 삭제된 타임테이블에 해당하는 가계부 정보 삭제
+			aService.deleteList(planParam, updatedTtbList);
 			
 			// 일정 정보 업데이트
 			pService.update(planParam);

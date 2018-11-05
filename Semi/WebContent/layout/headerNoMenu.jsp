@@ -30,7 +30,8 @@
 </style>
   
 </head>
-<body>
+<body vlink="#DDD">
+
 <!-- header -->
 <div class="header">
 	<div class="logo common">

@@ -10,6 +10,7 @@
 
 <style type="text/css">
 
+
 /*슬라이드메뉴*/
 #slidemenu{
 	background-color: rgba( 255, 255, 255, 0 );
@@ -24,18 +25,30 @@
 
 .storytd{
 	padding: 2px;
-	padding-left: 10px;
+	padding-left: 15px;
 }
 
 /*퀵메뉴, 스토리 수직선*/
 .vl {
-    border-left: 4px solid #D3D3D3;
+    border-left: 4px solid #d4d4d4;
     height: 100%;
     position: absolute;
-    left: 36px; 
+    left: 36px;
     margin-left: -3px;
     top: 20px;
-    z-index: -100;
+    z-index: 0;
+}
+
+.vlstory {
+ 	border-left: 4px solid #ddd;
+    height: inherit;
+    position: absolute;
+    left: 39px;
+    margin-left: -3px;
+    top: 72px;
+    /* bottom: -49px; */
+    /* margin: -6px; */
+    margin-bottom: -39px;
 }
 
 /*퀵메뉴 수직선 (따로적용해야 하는 값들)*/
@@ -45,7 +58,11 @@
 }
 
 hr{
-	border: 1px solid #D3D3D3;
+	border: 0.5px solid #e8e7e7;
+	margin-right: 20px;
+    margin-left: 8px;
+    margin-top: 5px;
+    margin-bottom: 5px;
 }
 
 /*말풍선*/
@@ -55,7 +72,7 @@ hr{
 	width: 280px;
 	height: 175px;
 	padding: 18px;
-	background: rgba( 79, 185, 159, 0.5 );
+	background: #f9f9f9;
 	-webkit-border-radius: 14px;
 	-moz-border-radius: 14px;
 	border-radius: 14px;
@@ -73,7 +90,7 @@ hr{
 	position: absolute;
 	border-style: solid;
 	border-width: 7px 11px 7px 0;
-	border-color: transparent rgba( 79, 185, 159, 0.5 );
+	border-color: transparent #f9f9f9;
 	display: block;
 	width: 0;
 	left: -11px;
@@ -82,87 +99,102 @@ hr{
 
 /*비행기이미지*/
 .Dayimage{
-	color: #555555;
+	color: #888;
+    z-index: 50;
 }
 
 
 /*일차글씨*/
 .Daytext{
-
+	color: #888;
 }
 
 /*시작시간*/
 .startTime{
-	margin-left: 18px;
-	color: #D3D3D3;
+	    margin-left: 18px;
+    color: #d4d4d4;
 }
 
 /*스토리 삭제버튼*/
 .removeStory{
 	float: right;
 	cursor: pointer;
+	color: #777;
 }
 
 /*스토리 업데이트버튼*/
 .updateStory{
 	float: right;
 	cursor:pointer;
+	color: #777;
 }
 
 /*장소이름*/
 .storyPlaceName{
-	color: #112F41;
+	color: #777777;
 }
 
 /* 장소 마커*/
 .placemarker{
-	color: #112F41;
+	color: #4fb99fab;
 }
 
 /*스토리본문쪽*/
 .storycontent{
 	overflow: auto;
-	height: auto;
-	padding: 10px;
-	width: 100%;
-	color: #112F41;
+    height: auto;
+    width: 100%;
+    color: #112F41;
+    padding-top: 0px;
+    margin-left: 14px;
 }
 
+.storycontenttd{
+    display: inline-block;
+    padding-left: 4px solid black;
+/*     border-left: 4px solid black; */
+    padding-left: 10px;
+    margin-left: 31px;
+}
 
 /*스토리없을때 장소이름*/
 .noStoryplaceName{
-	color: #112F41;
+	color: #777777;
 	width: 750px;
 }
 
 /*스토리없을때 장소마커*/
 .noStoryplacemarker{
-	color: #112F41;
+	color: #4fb99fab;
 }
 
 /*스토리 없을때 +버튼*/
 .storyPlus{
-	color: #112F41;
+	color: #777;
 	margin-left: 60px;
 	cursor: pointer;
+	font-size: 40px;
 }
 
 
 /*가계부 폰트*/
 .accountText{
-	color: #999999;
+	color: rgba( 25, 70, 97,0.5);
+    padding-left: 10px;
+/* 	border-left: 4px solid black; */
 }
 
 /*덧글갯수*/
 .commentCnt{
 	cursor:pointer;
-	color: #999999;
+	color: rgba( 25, 70, 97,0.5);
 }
 
 /*덧글 TextArea*/
 .commContent{
 	resize: none;
 	overflow: visible;
+	color: #112F41;
 }
 
 /*덧글 저장*/
@@ -173,10 +205,22 @@ hr{
 
 .commentView{
 	display: none;
+	color: #112F41;
 }
 
 
-
+.savecomm{
+	background: #87cebd;
+    border-radius: 6px;
+    margin-left: 296px;
+    margin-top: 5px;
+    padding-left: 10px;
+    padding-right: 10px;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    border:0;
+    outline:0;
+}
 
 
 </style>
@@ -298,7 +342,7 @@ var up_cnt = 0;
 				//업데이트 모달 띄울때, account 표시 하기 위한 account값 가져오기
 				<c:forEach items="${accountList}" var="account">
 					accountStoryidx.push("${account.story_idx}");
-					accountCategory.push("${account.category}");
+					accountCategory.push("${account.accType.getIdx()}");
 					accountCurridx.push("${account.curr_idx}");
 					accountCost.push("${account.origin_cost}");
 				</c:forEach>
@@ -382,9 +426,10 @@ var up_cnt = 0;
 	//스토리저장
 	$(".storySaveBtn").click(function() {
 		
+			var cost = $("input[name='st_cost']")[0].value
 			var content = $(".st_content").val();
-			if (content == null || content == ""){
-				alert("스토리의 본문내용을 써주세요.");
+			if ((content == null || content == "") && (cost = null || cost == "")){
+				alert("스토리의 본문내용 혹은 가계부를 써주세요");
 				return;
 			}
 			
@@ -446,9 +491,10 @@ var up_cnt = 0;
  		// 스토리 업데이트
  		$(".storyUpdateBtn").click(function () {
  			
- 			var content = $(".up_content").val();
-			if (content == null || content == ""){
-				alert("스토리의 본문내용을 써주세요.");
+ 			var cost = $("input[name='up_cost']")[0].value
+			var content = $(".up_content").val();
+			if ((content == null || content == "") && (cost = null || cost == "")){
+				alert("스토리의 본문내용 혹은 가계부를 써주세요");
 				return;
 			}
  			
@@ -601,22 +647,22 @@ var up_cnt = 0;
 	
     // 마우스오버시 색바꾸기
     function mover(obj) {
- 	   obj.css( "color", "orange" );
+ 	   obj.css( "color", "#4FB99F" );
  	}
     
     //마우스 클릭시 색바꾸기
     function mdown(obj){
- 	   obj.css( "color", "blue" );
+ 	   obj.css( "color", "#777777" );
     }
     
     //마우스 떠날때 색바꾸기
  	function mleave(obj) {
- 		obj.css("color", "black");
+ 		obj.css("color", "#777777");
  	}
  	
     //마우스떠날때 색 gray로바꾸기
  	function mleave_gray(obj) {
- 		obj.css("color", "#999999");
+ 		obj.css("color", "#777777");
 	}
 
  	//댓글 세이브
@@ -900,46 +946,55 @@ var up_cnt = 0;
 								  </span>
 								  </font>
 								  <div><h2 class = "storyPlaceName"><span class="glyphicon glyphicon-map-marker placemarker"></span>&nbsp;${story.place_name}</h2>
-								  <hr>
-								  </div>
+								</div>
+								  </td>
+								  </tr>
+								  <tr class="storytr">
+								  <td class="storytd storycontenttd">
 						 		  <!-- froala align 적용 되게 하려면 content 표시할 div에 fr-view class를 반영 해줘야함 -->
-						 		  <div class = "fr-view storycontent">${story.content}</div>
-								  <hr>
-								</td>
-				    			</tr>
+						 		  <c:if test="${!empty story.content}">
+						 		   <div class = "fr-view storycontent" style="border-left: 4px solid black padding:0.5em">
+						 		   ${story.content}
+						 		   </div>
+						 		  </c:if>
+						 		  <c:if test="${empty story.content}">
+						 		  <div class = "fr-view storycontent">
+						 		  </div>
+						 		  </c:if>
+<!-- 								</td> -->
+<!-- 				    			</tr> -->
+									<br>
 				    			<c:if test="${story.accCnt eq 0}">
-				    				<tr class = "storytr">
-				    				<td colspan = "2" class = "storytd">
+<!-- 				    				<tr class = "storytr"> -->
+<!-- 				    				<td colspan = "2" class = "storytd"> -->
 				    					<font class="accountText" size="2">
 				    					<span class = "glyphicon glyphicon-usd"></span>
 				    					 총액 | KRW 0원
 				    					</font> 
-				    				</td>
-				    				</tr>
+<!-- 				    				</td> -->
+<!-- 				    				</tr> -->
+										<br>
 				    			</c:if>
 			    				<c:if test="${story.accCnt ne 0}">
 					    			<c:forEach var="account" items="${accountList}">
 					    				<c:if test="${account.story_idx eq story.story_idx}">
-							    			<tr class "storytr">
-							     			<td colspan="2" class = "storytd">
+<!-- 							    			<tr class "storytr"> -->
+<!-- 							     			<td colspan="2" class = "storytd"> -->
 							     			<c:if test="${account.curr_idx_name ne 'USD'}">
 							     			    <fmt:parseNumber var = "caledOriginCost" value= "${account.origin_cost}" integerOnly="true"></fmt:parseNumber>
-												<font class ="accountText" size="2">
-												<span class = "glyphicon glyphicon-usd"></span>
-												 ${account.category_name } | ${account.curr_idx_name} ${caledOriginCost}
-												</font> 
+												<font class ="accountText" size="2"><span class = "glyphicon glyphicon-usd"></span>${account.accType.getName() } | ${account.curr_idx_name} ${caledOriginCost}</font> 
 											</c:if>
 											<c:if test="${account.curr_idx_name eq 'USD'}">
-												<font class ="accountText" size="2">
-												<span class = "glyphicon glyphicon-usd"></span>
-												 ${account.category_name } | ${account.curr_idx_name} ${account.origin_cost}
-												 </font>
+												<font class ="accountText" size="2"><span class = "glyphicon glyphicon-usd"></span>${account.accType.getName() } | ${account.curr_idx_name} ${account.origin_cost}</font>
 											</c:if>
-								 		    </td>
-											</tr>
+<!-- 								 		    </td> -->
+<!-- 											</tr> -->
+											<br>
 										</c:if>
 									</c:forEach>
 								</c:if>
+								</td>
+								</tr>
 								<tr class = "storytr">
 								<td colspan="2" class="storytd">
 								<hr>
@@ -948,13 +1003,12 @@ var up_cnt = 0;
 								</font>
 								</td>
 								</tr>
-						
 								<tr class = "storytr">
 								<td colspan="1" class = "storytd">
 									<textarea id = "CommContent${story.story_idx}" class ="commContent" rows="2" cols="80" placeholder="댓글을 입력하세요"></textarea>
 								</td>	
 								<td class="storytd" colspan="1" style="padding-bottom:20px;">
-								 <button id = "saveComm${story.story_idx}" type="button" class="btn btn-secondary saveCommBtn" onclick="CommSave(${story.story_idx},${story.ttb_idx},${story.plan_idx})">등록</button>
+								 <button class = "savecomm" id = "saveComm${story.story_idx}" type="button" class="btn btn-secondary saveCommBtn" onclick="CommSave(${story.story_idx},${story.ttb_idx},${story.plan_idx})">등록</button>
 								</td>
 								</tr>
 								<tr class="storytr">
