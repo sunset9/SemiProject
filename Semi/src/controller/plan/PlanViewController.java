@@ -13,8 +13,7 @@ import javax.servlet.http.HttpServletResponse;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
-import dao.plan.PlanDao;
-import dto.Account.Account;
+import dto.Account.AccType;
 import dto.plan.Plan;
 import dto.timetable.Location;
 import dto.timetable.Timetable;
@@ -120,7 +119,7 @@ public class PlanViewController extends HttpServlet {
 		
 		// 가계부 정보 가져오기
 		EnumMap<AccType, Integer> accEnumMap = new EnumMap<AccType, Integer>(AccType.class);
-		
+	
 		accEnumMap.put(AccType.airfare, pService.getAccountAccTpeCost(planParam, AccType.airfare));
 		accEnumMap.put(AccType.traffic, pService.getAccountAccTpeCost(planParam, AccType.traffic));
 		accEnumMap.put(AccType.stay, pService.getAccountAccTpeCost(planParam, AccType.stay));

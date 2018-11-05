@@ -606,7 +606,6 @@ public class PlanDaoImpl implements PlanDao{
 //		
 		return cName;
 	}
-	
 
 	@Override
 	public int sumAccTypeCost(Plan plan, AccType accType) {

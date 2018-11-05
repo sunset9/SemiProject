@@ -672,13 +672,12 @@ function mover(obj) {
 		        </div>
 		    </div>
 		</div>
-
+		<hr>
 		<div id="accTypeCost">
 		
 		</div>
-		
-	
-	<div id='gcw_mainF89vAYf4k' class='gcw_mainF89vAYf4k'></div>
+		<hr>
+	<div id='gcw_mainF89vAYf4k' class='gcw_mainF89vAYf4k' style="border-radius: 10px;"></div>
 		<script>
 			function reloadF89vAYf4k(){
 				var sc = document.getElementById('scF89vAYf4k');
@@ -702,8 +701,10 @@ function mover(obj) {
 	</div><br> <!-- 가게부 end -->
 	
 	<!-- 일정 수정 모드-->
-	<button id="planWriteModeBtn" onclick="changeViewMode()">
-		<span class='glyphicon glyphicon-pencil'></span>일정 수정하기</button>
+	<c:if test="${writtenUserView.user_idx eq loginedUserView.user_idx}">
+		<button id="planWriteModeBtn" onclick="changeViewMode()">
+			<span class='glyphicon glyphicon-pencil'></span>일정 수정하기</button>
+	</c:if>
 </div>
 </nav>
 
