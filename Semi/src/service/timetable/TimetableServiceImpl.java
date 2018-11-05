@@ -36,12 +36,16 @@ public class TimetableServiceImpl implements TimetableService{
 		
 		// String 형태의 json 파라미터 얻기
 		String events = req.getParameter("events");
-
+		System.out.println("-----------events목록 (타임테이블 서비스)");
+		System.out.println(events);
+		
 		if(events!=null & !"".equals(events)) {
 			// JSON String -> Timetable DTO 배열
 			Timetable[] ttbs = gson.fromJson(events, Timetable[].class);
 			// Timetable 배열 -> 리스트로 변환 (loc_idx 비어있음)
 			ttbList = Arrays.asList(ttbs);
+			System.out.println("-----파싱한 ttb 목록---");
+			System.out.println(ttbList);
 			
 			// JSON String -> Location DTO 배열
 			Location[] locs = gson.fromJson(events, Location[].class);
@@ -162,9 +166,9 @@ public class TimetableServiceImpl implements TimetableService{
 		return ttbList;
 	}
 	
-	// 타임테이블 정보 저장하기(수정)
-	public void update(Plan plan, Map<Timetable, Location> ttbLoc) {
-		List<Timetable> ttbList= getCompletedTimetable(ttbLoc);
+	// 타임테이블 정보 저장하기(수정), 업데이트한 타임테이블 목록 반환
+	public List<Timetable> update(Plan plan, Map<Timetable, Location> ttbLoc) {
+		List<Timetable> ttbList = getCompletedTimetable(ttbLoc);
 		
 //		System.out.println(ttbList);
 		
@@ -181,8 +185,7 @@ public class TimetableServiceImpl implements TimetableService{
 			}
 		}
 		
-		// 삭제된 타임테이블에 걸려있는 스토리 삭제
-		new StoryServiceImpl().deleteList(plan, ttbList);
+		return ttbList;
 		
 	}
 

@@ -45,6 +45,7 @@ ul.sub li a {
 
 #listTable{
 	text-align: center;
+	width: 500px;
 	margin : 0 auto;
 }
 
@@ -55,6 +56,10 @@ th{
 #searchBox{
 	text-align: center;
 	
+}
+
+#userdata{
+	border: 1px solid black;
 }
 
 </style>
@@ -83,29 +88,29 @@ th{
 <hr><br>
 
 <div id ="listTable">
-<table class="table table-hover table-striped table-condensed">
-<thead>
+<div id="userdata">
+<table class="table">
 
-<tr>
-<th>전체 유저</th>
-<th>여행자 수</th>
-<th>여행작가 수</th>
-<th>관리자 수</th>
-</tr>
-
-</thead>
 <tbody>
 
 <tr>
-<td>${userCnt }</td>
-<td>${touristCnt }</td>
-<td>${authorCnt }</td>
-<td>${managerCnt }</td>
+<td>총 회원수</td><td>${userCnt }</td></tr>
+
+<tr>
+<td>여행자 등급 회원 수 </td><td>${touristCnt }</td></tr>
+
+<tr>
+<td>여행 작가 등급 회원 수 </td><td>${authorCnt }</td>
+</tr>
+
+<tr>
+<td>관리자 수</td><td>${managerCnt }</td>
 </tr>
 
 </tbody>
 
 </table>
+</div>
 </div><br><br><br><br><hr>
 
 <div id ="searchBox" class="col-xs-2, form-inline" >

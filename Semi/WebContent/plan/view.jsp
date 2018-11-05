@@ -106,10 +106,24 @@
 	  color: #fff;
 	}
 	
-	/* 수정 모드로 버튼*/
+	/* 일정 수정하기 버튼*/
 	#planWriteModeBtn{
 		margin-bottom: 5px;
 		background: #eee;
+		border: none;
+		border-radius: 6px;
+		height: 38px;
+		width: 100%;
+	}
+	
+	#planWriteModeBtn span {
+		right: 4px;
+	    top: 3px;
+	    color: #444;
+	}
+	
+	#accTypeCost p{
+		margin: 0;
 	}
 	
 </style>
@@ -129,16 +143,7 @@ var isModify = 0;
 
 var is_diplayStory = false;
 
-var cost = [
-		"${airfare}",
-		"${traffic}",
-		"${stay}",
-		"${admission}",
-		"${food}",
-		"${play}",
-		"${shop}",
-		"${etc}"
-	];
+var accTypeCost = [];
 
 </script>
 
@@ -183,6 +188,9 @@ $(document).ready(function() {
 		setCookie("isCookieTabClear", "false");
 		$("#deleteBookmark").submit();
 	});
+	
+	// 가계부 그려주기
+	displayAcc();
 	
 // 	가계부 그래프 팝업 동작
 	$("#btnAccGraph").click(function(){
@@ -282,14 +290,14 @@ $(document).ready(function() {
 				    "line-style":"dotted"
 				  },
 				  "series":[
-						{ "values":[cost[0]], "background-color":"#cc0000","text":"항공료"},
-					    { "values":[cost[1]], "background-color":"#ff6600", "text":"교통"},
-					    { "values":[cost[2]], "background-color":"#ffcc00", "text":"숙박"},
-					    { "values":[cost[3]], "background-color":"#88cc00", "text":"입장료"},
-					    { "values":[cost[4]], "background-color":"#66ccff", "text":"음식" },
-					    { "values":[cost[5]], "background-color":"#0066ff", "text":"오락" },
-					    { "values":[cost[6]], "background-color":"#6600ff", "text":"쇼핑" },
-					    { "values":[cost[7]], "background-color":"#9999ff", "text":"기타" }
+						{ "values":[accTypeCost.airfare], "background-color":"#cc0000","text":"항공료"},
+					    { "values":[accTypeCost.traffic], "background-color":"#ff6600", "text":"교통"},
+					    { "values":[accTypeCost.stay], "background-color":"#ffcc00", "text":"숙박"},
+					    { "values":[accTypeCost.admission], "background-color":"#88cc00", "text":"입장료"},
+					    { "values":[accTypeCost.food], "background-color":"#66ccff", "text":"음식" },
+					    { "values":[accTypeCost.play], "background-color":"#0066ff", "text":"오락" },
+					    { "values":[accTypeCost.shop], "background-color":"#6600ff", "text":"쇼핑" },
+					    { "values":[accTypeCost.etc], "background-color":"#9999ff", "text":"기타" }
 					  ]
 				};
 				 
@@ -443,7 +451,40 @@ function displayStoryView(){
 	});
 }	
 
+// 가계부 가격들 보여주기
+function displayAcc(accCostJson){
+	var accTotal = 0;
+	var accCalcedTotal = 0;
+	
+	// 서버에서 받아온 경우 . 일반적인 경우
+	if(accCostJson == null || accCostJson ==""){
+		accTypeCost = JSON.parse('${accTypeCost}');
+		accTotal = ${acc_total };
+		accCalcedTotal = ${accCalcedTotal };
+		
+	}else{ // ajax 통신을 통해 그려주는 경우
+		accTypeCost = JSON.parse(accCostJson.accTypeCost);
+		accTotal = accCostJson.acc_total;
+		accCalcedTotal = accCostJson.accCalcedTotal;
+	}
+	
+	// display
+	$("#accTypeCost").html('');
+	$("#accTypeCost").append("<p>항공료 : " + accTypeCost.airfare + "</p>");
+	$("#accTypeCost").append("<p>교통 : " + accTypeCost.traffic + "</p>");
+	$("#accTypeCost").append("<p>숙박 : " + accTypeCost.stay + "</p>");
+	$("#accTypeCost").append("<p>입장료 : " + accTypeCost.admission + "</p>");
+	$("#accTypeCost").append("<p>음식 : " + accTypeCost.food + "</p>");
+	$("#accTypeCost").append("<p>오락 : " + accTypeCost.play + "</p>");
+	$("#accTypeCost").append("<p>쇼핑 : " + accTypeCost.shop + "</p>");
+	$("#accTypeCost").append("<p>기타 : " + accTypeCost.etc + "</p>");
+	$("#accTypeCost").append("<p>총합 : " + accTotal + "</p>");
+	$("#accTypeCost").append("<p>환율 : " + accCalcedTotal + "</p>");
+}
+
+var eventMini; // 수정모드를 위한 event 값 전송에 사용하는 전역변수
 function viewMini(event){
+	eventMini = event;
 	// ajax로 story 정보 가져옴 (content 정보)
 	$.ajax({
 		url: "/story/mini/view"
@@ -456,26 +497,24 @@ function viewMini(event){
 		}
 		, dataType: "json"
 		, success: function(obj){
-			
 			var story = JSON.parse(obj.story);
 			var accountList = JSON.parse(obj.accountList);
 			
-//			console.log(story);
-//			console.log(accountList);
-			
 			// miniView modal에 값 채워줌
-			$("#miniModalTitle").text(event.title); // 타이틀 = 장소이름
-			$("#miniModalPlace").text(event.title); // 장소 이름
-			$("#miniModalAddress").text(event.address);  // 주소
-			$("#miniModalImg").attr("src", event.photo_url); // 이미지
+			$("#miniViewTitle").text(event.title); // 타이틀 = 장소이름
+			$("#miniViewPlace").text(event.title); // 장소 이름
+			$("#miniViewAddress").text(event.address);  // 주소
+			$("#miniViewImg").attr("src", event.photo_url); // 이미지
 			
-			$("#miniModalContent").html(story.content); // 스토리 내용
+			$("#miniViewContent").html(story.content); // 스토리 내용
 			var obj = document.getElementById("miniModalAccount");
 			
+			var accTypeName = {'airfare':'항공료', 'traffic':'교통', 'stay':'숙박',
+					'admission':'입장료', 'food':'음식', 'play':'오락', 'shop':'쇼핑', 'etc':'기타'};
 			for (var i=0; i<accountList.length;i++){
 				var append = $( 
 						'<tr name="account"> <td style="padding-right: 15px" colspan="2"> <font size="2">'
-						+ accountList[i].category_name
+						+ accTypeName[accountList[i].accType]
 						+' | '
 						+ accountList[i].curr_idx_name
 						+' '
@@ -493,7 +532,7 @@ function viewMini(event){
 			// 모달 창 닫힌 경우
 			$("#miniViewModal").on('hidden.bs.modal', function () {
 				// 기존 스토리내용 삭제
-				$(this).find($("#miniModalContent")).html('');
+				$(this).find($("#miniViewContent")).html('');
 			});
 		}
 		, error: function(){
@@ -633,49 +672,38 @@ function mover(obj) {
 		        </div>
 		    </div>
 		</div>
-		<hr>
-		항공료 : ${airfare } 원<br> 
-		교통 : ${traffic } 원<br>
-		숙박 : ${stay } 원<br>
-		입장료 : ${admission } 원<br>
-		음식 : ${food } 원<br>
-		오락 : ${play } 원<br>
-		쇼핑 : ${shop } 원<br>
-		기타 : ${etc } 원<br><br>
-		<b>총합 : ${acc_total } 원</b><br><br>
-		<hr>
-		<b style="font-size:30px">환율
-<%-- 		 : ${accCaledTotal } 원 --%>
-		</b><br>
+
+		<div id="accTypeCost">
+		
+		</div>
+		
 	
-		<div id='gcw_mainF89vAYf4k' class='gcw_mainF89vAYf4k' style="border-radius: 10px;"></div>
-	<!-- 		<a id='gcw_siteF89vAYf4k' href='https://freecurrencyrates.com/en/'>FreeCurrencyRates.com</a> -->
-			<script>
-				function reloadF89vAYf4k(){
-					var sc = document.getElementById('scF89vAYf4k');
-					
-					if (sc) {
-						sc.parentNode.removeChild(sc);
-					}
-					
-					sc = document.createElement('script');
-					sc.type = 'text/javascript';
-					sc.charset = 'UTF-8';
-					sc.async = true;
-					sc.id='scF89vAYf4k';
-					sc.src = 'https://freecurrencyrates.com/en/widget-vertical?iso=USDEURGBPJPYCNYXUL&df=2&p=F89vAYf4k&v=fits&source=fcr&width=245&width_title=0&firstrowvalue=1&thm=A6C9E2,FCFDFD,4297D7,5C9CCC,FFFFFF,C5DBEC,FCFDFD,2E6E9E,000000&title=Currency%20Converter&tzo=-540';
-					
-					var div = document.getElementById('gcw_mainF89vAYf4k');
-					div.parentNode.insertBefore(sc, div);
-					}
-					reloadF89vAYf4k();
-			</script><br>
-		</div><br> <!-- 가게부 end -->
+	<div id='gcw_mainF89vAYf4k' class='gcw_mainF89vAYf4k'></div>
+		<script>
+			function reloadF89vAYf4k(){
+				var sc = document.getElementById('scF89vAYf4k');
+				
+				if (sc) {
+					sc.parentNode.removeChild(sc);
+				}
+				
+				sc = document.createElement('script');
+				sc.type = 'text/javascript';
+				sc.charset = 'UTF-8';
+				sc.async = true;
+				sc.id='scF89vAYf4k';
+				sc.src = 'https://freecurrencyrates.com/en/widget-vertical?iso=USDEURGBPJPYCNYXUL&df=2&p=F89vAYf4k&v=fits&source=fcr&width=245&width_title=0&firstrowvalue=1&thm=4FB99F,FFFFFF,4FB99F,B5E1D6,FFFFFF,C5DBEC,FFFFFF,4FB99F,000000&title=Currency%20Converter&tzo=-540';
+				// 1: 테두리 , 2: 배경 , 
+				var div = document.getElementById('gcw_mainF89vAYf4k');
+				div.parentNode.insertBefore(sc, div);
+				}
+				reloadF89vAYf4k();
+		</script>
+	</div><br> <!-- 가게부 end -->
 	
 	<!-- 일정 수정 모드-->
-	<c:if test="${writtenUserView.user_idx eq loginedUserView.user_idx}">
-		<button style="background-color: #ED553B;" id="planWriteModeBtn" onclick="changeViewMode()" >수정 모드로</button>
-	</c:if>
+	<button id="planWriteModeBtn" onclick="changeViewMode()">
+		<span class='glyphicon glyphicon-pencil'></span>일정 수정하기</button>
 </div>
 </nav>
 
@@ -684,8 +712,8 @@ function mover(obj) {
 <div id="planMainSection" >
 	<!-- 일정 / 스토리 탭  -->
 	<ul id="tab-main" >
-		<li rel="tab-ttb">일정</li>
-		<li rel="tab-story">스토리</li>
+		<li rel="tab-ttb"><img id="ttb-icon" src="/resources/img/timetable-tab.png">일정</li>
+		<li rel="tab-story"><img id="story-icon" src="/resources/img/story-tab.png">스토리</li>
 	</ul>
 	
 	<div class="tab-container">

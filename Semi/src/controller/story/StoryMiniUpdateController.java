@@ -15,6 +15,7 @@ import com.google.gson.GsonBuilder;
 import com.google.gson.JsonObject;
 
 import dto.Account.Account;
+import dto.plan.Plan;
 import dto.story.Story;
 import dto.timetable.Location;
 import dto.timetable.Timetable;
@@ -31,6 +32,7 @@ import service.timetable.TimetableServiceImpl;
 public class StoryMiniUpdateController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
+	PlanService pService = new PlanServiceImpl();
 	StoryService sService = new StoryServiceImpl();
 	TimetableService ttbService = new TimetableServiceImpl();
 	AccountService aService = new AccountServiceImpl();
@@ -41,6 +43,7 @@ public class StoryMiniUpdateController extends HttpServlet {
 		resp.setContentType("text/html;charset=utf-8");
 		AccountService aService = new AccountServiceImpl();
 		// 요청 파라미터 추출
+		Plan planParam = pService.getParam(req); 
 		Story storyParam = sService.getParam(req);
 		Map<Timetable, Location> ttbLocParam = ttbService.getMiniParam(req);
 		
@@ -58,11 +61,15 @@ public class StoryMiniUpdateController extends HttpServlet {
 		// 해당 타임테이블 저장
 		ttbService.writeTtb(ttb_idx, ttbLocParam);
 		
-		// 미니뷰 업데이트 성공 시 ajax응답 - 저장한 타임테이블 idx값 넘겨줌
+		// 미니뷰 업데이트 성공 시 ajax응답
 		Gson gson = new Gson();
 		
 		JsonObject obj = new JsonObject();
+		// 저장한 타임테이블의 idx값 전송
 		obj.addProperty("ttb_idx", ttb_idx);
+		
+		// 가계부 정보 넘겨줌
+		
 		
 		String jsonStr = gson.toJson(obj);
 		

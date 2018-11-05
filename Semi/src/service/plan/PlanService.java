@@ -1,9 +1,11 @@
 package service.plan;
 
+import java.util.EnumMap;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
+import dto.Account.AccType;
 import dto.Account.Account;
 import dto.plan.Plan;
 import dto.user.User;
@@ -56,15 +58,10 @@ public interface PlanService {
 	//plan_idx 가져오기 
 	public int getPlan_idx();
 	
-	//카테고리별 총 가격 가져오기
-	int getAccountAirfareCost(Plan plan);
-	int getAccountTrafficCost(Plan plan);
-	int getAccountStayCost(Plan plan);
-	int getAccountAdmissionCost(Plan plan);
-	int getAccountFoodCost(Plan plan);
-	int getAccountPlayCost(Plan plan);
-	int getAccountShopCost(Plan plan);
-	int getAccountEtcCost(Plan plan);
-	
+
 	String[] getCountryName(Plan plan);
+	int getAccountAccTpeCost(Plan plan, AccType accType);
+	
+	// 해당 플랜의 총 지출 비용
+	int getAccountTotal(EnumMap<AccType, Integer> accEnumMap);
 }

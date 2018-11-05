@@ -74,8 +74,7 @@ public class ContentsServiceImpl implements ContentsService {
 	// 추천 게시물 불러오기
 	@Override
 	public List<Plan> getRecomList() {
-		planDao.selectRecomList();
-		return null;
+		return planDao.selectRecomList();
 	}
 
 	// 최신 게시물 불러오기
