@@ -65,4 +65,6 @@ public interface PlanService {
 	int getAccountPlayCost(Plan plan);
 	int getAccountShopCost(Plan plan);
 	int getAccountEtcCost(Plan plan);
+	
+	String[] getCountryName(Plan plan);
 }

@@ -635,42 +635,49 @@ window.onbeforeunload = function(){
 		<input id="fileBtn" type="file" name="uploadFile"/>
 	</form>
 	<!-- 플래너 대문 정보(공개유무, 수정버튼, 일정제목 등 UI) -->
-	<div id="editTitle" style="text-align:center;">
-	
-		<form action="/plan/update" method="post" id="planForm">
-		
-		<select name="editOpened" class ="planInfo">
-			<c:if test="${planView.opened eq 1 }">
-				<option value="1" selected="selected">공개</option>
-				<option value="0">비공개</option>
-			</c:if>
-			<c:if test="${planView.opened eq 0 }">
-				<option value="1" >공개</option>
-				<option value="0" selected="selected">비공개</option>
-			</c:if>
-		</select>
-		
-			<div>
-				<input type="hidden" name="isSendWriteMode" value="false">
-				<input type="hidden" name="plan_idx" value="${planView.plan_idx}" />
-				<input type="hidden" name="user_idx" value="${planView.user_idx}" />
-				
-				제목 : <input name="editTitleView" class="planInfo" type="text" value="${planView.title }" /><br><br>
-				출발일 : <input name="editStartDate" class ="planInfo" type="date" value="${planView.start_date }"/>
-				도착일 : <input name="editEndDate" class ="planInfo" type="date" value="${planView.end_date }"/><br><br>
-				<select name="editTraveled" class ="planInfo" >
-					<c:if test="${planView.traveled eq 1 }">
-						<option value="1" selected="selected">여행 전</option>
-						<option value="0">여행 후</option>
-					</c:if>
-					<c:if test="${planView.traveled eq 0 }">
-						<option value="1" >여행 전</option>
-						<option value="0" selected="selected">여행 후</option>
-					</c:if>
-				</select>
-			</div>
+	<div id="editTitle" >
+		<div style="text-align:right;margin:0px auto;width: 400px;">
+			<form action="/plan/update" method="post" id="planForm">
+			<b id="bannerText">공개유무 : </b>
+			<select id="editInput" name="editOpened" class ="planInfo" >
+				<c:if test="${planView.opened eq 1 }">
+					<option value="1" selected="selected">공개</option>
+					<option value="0">비공개</option>
+				</c:if>
+				<c:if test="${planView.opened eq 0 }">
+					<option value="1" >공개</option>
+					<option value="0" selected="selected">비공개</option>
+				</c:if>
+			</select><br>
 			
-		</form>
+	<!-- 			<div> -->
+					<input type="hidden" name="isSendWriteMode" value="false">
+					<input type="hidden" name="plan_idx" value="${planView.plan_idx}" />
+					<input type="hidden" name="user_idx" value="${planView.user_idx}" />
+					
+					<b id="bannerText">글제목 : </b>
+					<input id="editInput" name="editTitleView" class="planInfo" type="text" value="${planView.title }"/><br>
+					
+					<b id="bannerText">출발일 : </b>
+					<input id="editInput" name="editStartDate" class ="planInfo" type="date" value="${planView.start_date }"/><br>
+					
+					<b id="bannerText">도착일 : </b>
+					<input id="editInput" name="editEndDate" class ="planInfo" type="date" value="${planView.end_date }"/><br>
+					
+					<b id="bannerText">여행전후 : </b>
+					<select id="editInput" name="editTraveled" class ="planInfo" >
+						<c:if test="${planView.traveled eq 1 }">
+							<option value="1" selected="selected">여행 전</option>
+							<option value="0">여행 후</option>
+						</c:if>
+						<c:if test="${planView.traveled eq 0 }">
+							<option value="1" >여행 전</option>
+							<option value="0" selected="selected">여행 후</option>
+						</c:if>
+					</select>
+	<!-- 			</div> -->
+			</form>
+		</div>
 	</div>
 		<br>
 </div><br>

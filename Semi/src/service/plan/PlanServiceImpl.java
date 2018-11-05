@@ -62,7 +62,6 @@ public class PlanServiceImpl implements PlanService{
 		Plan plan = new Plan();
 		
 		//요청파라미터 받기
-		System.out.println("plan_idx"+req.getParameter("plan_idx"));
 		int param = Integer.parseInt(req.getParameter("plan_idx"));
 		plan.setPlan_idx(param);
 //		//null이나 ""이 아니면 int로 변환하여 DTO에 저장
@@ -96,7 +95,7 @@ public class PlanServiceImpl implements PlanService{
 		
 		plan.setStart_date(dateStart);
 		plan.setEnd_date(dateEnd);
-		System.out.println(req.getParameter("editOpened"));
+		
 		//1 : 여행전, 0 : 여행후
 		plan.setTraveled(Integer.parseInt(req.getParameter("editTraveled")));
 		
@@ -139,8 +138,6 @@ public class PlanServiceImpl implements PlanService{
 	// 일정 기본 정보 가져오기
 	@Override
 	public Plan getPlanInfo(int plan_idx) {
-		//조회수 증가
-		//plandao.updateHit(plan);
 		
 		//일정 정보 불러오기(제목 등)
 		return plandao.selectPlanInfoByPlanIdx(plan_idx);
@@ -251,5 +248,10 @@ public class PlanServiceImpl implements PlanService{
 	public int getAccountEtcCost(Plan plan) {
 		// TODO Auto-generated method stub
 		return plandao.sumEtcByPlanIdx(plan);
+	}
+	
+	@Override
+	public String[] getCountryName(Plan plan) {
+		return plandao.rownumCountryName(plan);
 	}
 }

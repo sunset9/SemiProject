@@ -12,11 +12,12 @@ import javax.servlet.http.HttpServletResponse;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
+import dao.plan.PlanDao;
 import dto.Account.Account;
-import dto.user.Bookmark;
 import dto.plan.Plan;
 import dto.timetable.Location;
 import dto.timetable.Timetable;
+import dto.user.Bookmark;
 import dto.user.User;
 import service.bookmark.BookmarkService;
 import service.bookmark.BookmarkServiceImpl;
@@ -58,10 +59,14 @@ public class PlanViewController extends HttpServlet {
         planParam.setPlan_idx(Integer.parseInt(req.getParameter("plan_idx")));
 //		---------------------플래너 파라미터 가져오기
 		// 요청파라미터(plan_idx) -> Plan 모델 
-		System.out.println("Session 값 : " + planParam);
+//		System.out.println("Session 값 : " + planParam);
 		
 		// 일정 기본 정보 가져오기
 		Plan planView = pService.getPlanInfo(planParam);
+		// 일정 마지막날, 시간순서로 빠른 2곳 나라이름 띄워주기
+		String [] cName = pService.getCountryName(planView);
+		req.setAttribute("cName1", cName[0]);
+		req.setAttribute("cName2", cName[1]);
 		//planView MODEL 전달
 		req.setAttribute("planView", planView);
 		System.out.println(planView);
@@ -122,7 +127,7 @@ public class PlanViewController extends HttpServlet {
 		int play = pService.getAccountPlayCost(planParam);
 		int shop = pService.getAccountShopCost(planParam);
 		int etc = pService.getAccountEtcCost(planParam);
-//		
+		
 		req.setAttribute("airfare", airfare);
 		req.setAttribute("traffic", traffic);
 		req.setAttribute("stay", stay);
@@ -133,7 +138,7 @@ public class PlanViewController extends HttpServlet {
 		req.setAttribute("etc", etc);
 		
 		//총합 1의 자리 수 반올림
-		int acc_total = (int)accView.getCaled_cost();
+		int acc_total = airfare + traffic + stay + admission + food + play + shop + etc;
 		req.setAttribute("acc_total", acc_total);
 		
 		int accCaledTotal = acc_total;
