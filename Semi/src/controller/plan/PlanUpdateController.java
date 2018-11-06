@@ -67,8 +67,10 @@ public class PlanUpdateController extends HttpServlet {
 			
 //			배너 업데이트
 			Plan planView = pService.getPlanInfo(planParam);
-			
+			System.out.println("::::::::::::::::"+req.getParameter("bannerURL"));
 			if(req.getParameter("bannerURL") != null && !"".equals((String)req.getParameter("bannerURL"))) {
+				
+				System.out.println("123131232");
 				String path = (String) req.getParameter("bannerURL");
 				planView.setBannerURL(path);
 				// DB에서 유저의 banner 수정 
