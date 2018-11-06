@@ -719,12 +719,12 @@ function mdown(obj){
  	<!-- 가계부 DIV -->
 	<div id="accountView">
 			<!-- 가계부 그래프 -->
-		<br>	
 			<a href="#layer2" id="btnAccGraph">
 			<span class='glyphicon glyphicon-zoom-in'></span>
 			<span id="AccGraph" class = "glyphicon glyphicon-signal"></span>
 			</a>
 		<br>		
+
 <!-- 		<a href="#layer2" id="btnAccGraph" >가계부 그래프</a> -->
 		
 		<div class="dim-layer">
