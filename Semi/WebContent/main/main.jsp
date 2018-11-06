@@ -68,15 +68,30 @@ function openrecomContents2(){
 	height: 200px;
 	position: relative;
 	margin: auto;
+	overflow:hidden;
 }
 
 .newConImg, .recomImg {
 	text-align: center;
 	position: absolute;
+	-webkit-transform:scale(1);
+    -moz-transform:scale(1);
+    -ms-transform:scale(1); 
+    -o-transform:scale(1);  
+    transform:scale(1);
+    -webkit-transition:.3s;
+    -moz-transition:.3s;
+    -ms-transition:.3s;
+    -o-transition:.3s;
+    transition:.3s;
 }
 
-.recomImg:hover {
-	transform: scale(0.98);
+.newConImg:hover, .recomImg:hover {
+    -webkit-transform:scale(1.2);
+    -moz-transform:scale(1.2);
+    -ms-transform:scale(1.2);   
+    -o-transform:scale(1.2);
+    transform: scale(1.2);
 }
 
 .newConP2, .recomP2 {
