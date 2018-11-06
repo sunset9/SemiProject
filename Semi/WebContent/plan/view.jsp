@@ -125,17 +125,15 @@
 	
 	/* 가계부 가격 정보 */
 	#accTypeCost {
-		margin-top: 8px;
-		margin-bottom: 10px;
 		text-align: left;
-		padding-left: 53px;
-	    padding-right: 27px;
-        height: 207px;
+	    height: 210px;
+	    width: 73%;
+	    margin: 8px auto;
 	}
 	/* 가계부 카테고리*/
 	#accTypeCost p{
-		margin: 0;
-		width: 130px;
+	    margin: 0;
+	    width: 100%;
 	    float: left;
 	}
 	/* 가계부 가격*/
@@ -543,8 +541,8 @@ function displayAcc(accCostJson){
 // 	$("#accTypeCost").append("쇼핑 : <b style=\"color:#4FB99F;font-size:20px\">" + accTypeCost.shop + "</b>원<br>");
 // 	$("#accTypeCost").append("기타 : <b style=\"color:#4FB99F;font-size:20px\">" + accTypeCost.etc + "</b>원<br>");
 // 	$("#accTypeCost").append("총합 : <b style=\"color:#4FB99F;font-size:20px\">" + accTotal + "</b>원<br>");
-// 	$("#accTypeCost").append("환율 : <b style=\"color:#4FB99F;font-size:20px\">" + accCalcedTotal + "</b>원<br>");
-	
+
+	$("#accTypeCost").append("<p><span class='accType'>항공료</span>  <span><b>" + accTypeCost.airfare + "</b>원</span></p>");
 	$("#accTypeCost").append("<p><span class='accType'>교통</span>  <span><b>" + accTypeCost.traffic + "</b>원</span></p>");
 	$("#accTypeCost").append("<p><span class='accType'>숙박</span>  <span><b>" + accTypeCost.stay + "</b>원</span></p>");
 	$("#accTypeCost").append("<p><span class='accType'>입장료</span>  <span><b>" + accTypeCost.admission + "</b>원</span></p>");
@@ -553,7 +551,6 @@ function displayAcc(accCostJson){
 	$("#accTypeCost").append("<p><span class='accType'>쇼핑</span>  <span><b>" + accTypeCost.shop + "</b>원</span></p>");
 	$("#accTypeCost").append("<p><span class='accType'>기타</span>  <span><b>" + accTypeCost.etc + "</b>원</span></p>");
 	$("#accTypeCost").append("<p><span class='accType'>총합</span>  <span><b>" + accTotal + "</b>원</p>");
-	$("#accTypeCost").append("<p><span class='accType'>환율</span>  <span><b>" + accCalcedTotal + "</b>원</span></p>");
 }
 
 var eventMini; // 수정모드를 위한 event 값 전송에 사용하는 전역변수
