@@ -608,13 +608,13 @@ public class PlanDaoImpl implements PlanDao{
 	}
 
 	@Override
-	public int sumAccTypeCost(Plan plan, AccType accType) {
+	public double sumAccTypeCost(Plan plan, AccType accType) {
 		String sql = "SELECT sum(caled_cost)"
 				+ " FROM account"
 				+ "	WHERE acc_cat_idx=?"
 				+ " AND plan_idx=?";
 		
-		int sumCost = 0;
+		double sumCost = 0;
 		
 		try {
 			ps = conn.prepareStatement(sql);
@@ -623,7 +623,7 @@ public class PlanDaoImpl implements PlanDao{
 			rs = ps.executeQuery();
 			rs.next();
 			
-			sumCost = rs.getInt(1);
+			sumCost = rs.getDouble(1);
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {
