@@ -169,7 +169,7 @@ body {
 }
 
 /* The Modal (background) */
-.newPlanModal, .loginWindowModal, .findPwModal, .joinModal {
+.newPlanModal, .loginWindowModal, .findPwModal {
 	display: none; /* Hidden by default */
 	position: fixed; /* Stay in place */
 	z-index: 1; /* Sit on top */
@@ -183,9 +183,23 @@ body {
 	background-color: rgba(0, 0, 0, 0.4); /* Black w/ opacity */
 }
 
+.joinModal{
+	display: none; /* Hidden by default */
+	position: fixed; /* Stay in place */
+	z-index: 1; /* Sit on top */
+	padding-top: 100px; /* Location of the box */
+	left: 0;
+	top: 0;
+	width: 100%; /* Full width */
+	height: 100%; /* Full height */
+	overflow: auto; /* Enable scroll if needed */
+	background-color: rgb(0, 0, 0); /* Fallback color */
+	background-color: rgba(0, 0, 0, 0.8); /* Black w/ opacity */
+
+}
+
 /* Modal Content */
-.newPlanmodal-content, .loginWindowModal-content, .findPwModal-contents,
-	.joinModal-contents {
+.newPlanmodal-content, .loginWindowModal-content, .findPwModal-contents {
 	position: relative;
 	background-color: white;
 	margin: auto;
@@ -194,6 +208,20 @@ body {
 	width: 370px;
 	height: 420px;
 	border-radius: 7px;
+}
+
+.joinModal-contents{
+	
+	background-color: white;
+	margin: auto;
+	padding: 10px;
+	margin-top: 60px;
+    margin-bottom: 60px;
+	border: 1px solid #888;
+	width: 420px;
+	height: 300px;
+	border-radius: 7px;
+	
 }
 
 /* The Close Button */
@@ -292,11 +320,17 @@ body {
 	bottom: 25px;
 	right: 69px;
 	width: 110px;
-
+}
 .contentsubli{
     padding-top: 16px;
 }
 
+.jmlabel {
+	width:95px;
+}
+.jmTitle {
+	font-size: 30px;
+}
 </style>
 
 <script type="text/javascript">
@@ -741,37 +775,33 @@ body {
 
 			<!-- 회원가입 모달 시작 -->
 			<div id="joinModal" class="joinModal">
-
 				<!-- 회원가입 modal content  -->
 				<div class="joinModal-contents">
 					<span class="jClose">&times;</span>
-					<form id="joinForm" action="/user/join" method="post"
-						onsubmit="return sendJoinForm();">
-						<div id="sign_up">
-							<div class="header">
-								<h3>회원가입</h3>
-								<br>
-							</div>
-							<div class="body">
-								<div class="signUp">
-									<label>이메일 : </label> <input type="email" id="userid"
-										name="userid" placeholder="이메일"> <input type="button"
-										value="중복확인" onclick="checkUserId();" /><br> <input
-										type="text" id="afterIdCheck" style="border: 0;" /><br> <label>비밀번호
-										: </label> <input type="password" id="userpw" name="userpw"
-										placeholder="비밀번호"><br> <label>비밀번호 확인 :
-									</label> <input type="password" id="pwCheck" name="pwCheck"
-										placeholder="비밀번호 확인"><br> <label>닉네임 : </label>
-									<input type="text" id="usernickname" name="usernickname"
-										placeholder="닉네임"><br> <input type="hidden"
-										id="snsIdx" name="snsIdx" value="1" />
-								</div>
-								<div class="signUpBtn">
-									<button type="submit" class="signUpBtn" id="joinBtn"
-										disabled="disabled" style="color: gray;">가입하기</button>
-								</div>
-							</div>
-						</div>
+					<span class="jmTitle">회원가입</span>
+					<form id="joinForm" action="/user/join" method="post" onsubmit="return sendJoinForm();">
+						<p>
+						<label class="jmlabel" style="width:95px;">이메일  </label> 
+						<input class="jmEmailInput" type="email" id="userid" name="userid" placeholder="이메일"> 
+						<input class="jmCheckBtn" type="button" value="중복확인" onclick="checkUserId();" />
+						</p>
+						<p>
+						<input class="jmAfterIdCheck" type="text" id="afterIdCheck" style="border: 0;" /> 
+						</p>
+						<p>
+						<label class="jmlabel">비밀번호  </label> 
+						<input class="jmPwInput" type="password" id="userpw" name="userpw" placeholder="비밀번호"> 
+						</p>
+						<p>
+						<label class="jmlabel">비밀번호 확인  </label> 
+						<input class="jmPwCheckInput" type="password" id="pwCheck" name="pwCheck" placeholder="비밀번호 확인">
+						</p>
+						<p>
+						<label class="jmlabel">닉네임  </label>
+						<input class="jmNickInput" type="text" id="usernickname" name="usernickname" placeholder="닉네임"> 
+						</p>
+						<input type="hidden" id="snsIdx" name="snsIdx" value="1" />
+						<button class="jmJoinSubBtn" type="submit" class="signUpBtn" id="joinBtn" disabled="disabled" style="color: gray;">가입하기</button>
 					</form>
 				</div>
 			</div>
