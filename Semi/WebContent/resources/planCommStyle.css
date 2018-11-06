@@ -19,8 +19,15 @@
     border-radius: 10px;
     background-color: rgba( 0, 0, 0, 0.3 );
 }
+/* 배너 사진 교체 버튼 */
+#fileModify {
+	float:left;
+	color:#ffffff;
+	font-size:35px;
+	cursor:pointer;
+}
 
-/* 수정 버튼 */
+/* 수정모드 버튼 */
 #btnModify {
 	float:right;
 	font-color:#fff;
@@ -38,6 +45,7 @@
 #AccGraph {
 	font-color:#fff;
 	font-size:135px;
+	color: white;
 	cursor:pointer;
 }
 /* 북마크 제거 아이콘 */
@@ -63,7 +71,6 @@
 	border-radius: 10px;
 	text-align:center;
 	background-color: #F0F0F0;
-/* 	background-color: rgba( 79, 251, 159, 0.05 ); */
 }
 
 /* 게시자 정보 텍스트 */
@@ -80,13 +87,12 @@
 
 /* 좌측 가계부 정보 */
 #accountView {
-	
+	padding: 20px;
 	height: 100%;
 	width: 100%;
 	border-radius: 10px;
 	text-align:center;
 	background-color: #F0F0F0;
-/* 	background-color: rgba( 79, 251, 159, 0.05 ); */
 }
 
 /* 우측의 메인 기능 있는 공간 */
