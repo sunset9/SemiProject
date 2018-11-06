@@ -54,8 +54,10 @@
 
 /*퀵메뉴 수직선 (따로적용해야 하는 값들)*/
 #vl_slidemennu{
-	margin-top: -20px;
+	border-left: 4px solid #4fb99fab;
+	margin-top: -25px;
 	margin-left: -13px;
+	
 }
 
 hr{
@@ -64,6 +66,16 @@ hr{
     margin-left: 8px;
     margin-top: 5px;
     margin-bottom: 5px;
+}
+
+.st_a:link {
+	text-decoration: none;
+}
+.st_a:visited {
+	text-decoration: none;
+}
+.st_a:hover {
+	text-decoration: none;
 }
 
 /*말풍선*/
@@ -94,9 +106,12 @@ hr{
 	border-color: transparent #f9f9f9;
 	display: block;
 	width: 0;
+	z-index: 1;
 	left: -11px;
 	top: 16px;
 }
+
+
 
 /*비행기이미지*/
 .Dayimage{
@@ -984,12 +999,15 @@ function st_mleave_gray(obj) {
 					    				<c:if test="${account.story_idx eq story.story_idx}">
 <!-- 							    			<tr class "storytr"> -->
 <!-- 							     			<td colspan="2" class = "storytd"> -->
+							     			
 							     			<c:if test="${account.curr_idx_name ne 'USD'}">
 							     			    <fmt:parseNumber var = "caledOriginCost" value= "${account.origin_cost}" integerOnly="true"></fmt:parseNumber>
-												<font class ="accountText" size="2"><span class = "glyphicon glyphicon-usd"></span>${account.accType.getName() } | ${account.curr_idx_name} ${caledOriginCost}</font> 
+							     			    <fmt:formatNumber var = "cost" value="${caledOriginCost}" pattern="#,###" />
+												<font class ="accountText" size="2"><span class = "glyphicon glyphicon-usd"></span>${account.accType.getName() } | ${account.curr_idx_name} <c:out value="${cost}"></c:out></font> 
 											</c:if>
 											<c:if test="${account.curr_idx_name eq 'USD'}">
-												<font class ="accountText" size="2"><span class = "glyphicon glyphicon-usd"></span>${account.accType.getName() } | ${account.curr_idx_name} ${account.origin_cost}</font>
+											<fmt:formatNumber var = "cost" value="${account.origin_cost}" pattern="#,###.##" />
+												<font class ="accountText" size="2"><span class = "glyphicon glyphicon-usd"></span>${account.accType.getName() } | ${account.curr_idx_name} <c:out value="${cost}"></c:out></font>
 											</c:if>
 <!-- 								 		    </td> -->
 <!-- 											</tr> -->
@@ -1054,7 +1072,7 @@ function st_mleave_gray(obj) {
   	<ul style="list-style:none;">
   		<c:forEach var = "day" begin="1" end="${diffDays}" step="1">
   		<c:set var = "name" value="DayDiv${day}"/>
-  			<a href="#${name}" onmouseover="st_mover($(this))" onmouseleave="st_mleave($(this))" onmousedown="st_mdown($(this))"><li> Day ${day} </li></a>
+  			<a href="#${name}" class="st_a" onmouseover="st_mover($(this))" onmouseleave="st_mleave($(this))" onmousedown="st_mdown($(this))"><li> Day ${day} </li></a>
   		</c:forEach>
 	</ul>
   </div>
