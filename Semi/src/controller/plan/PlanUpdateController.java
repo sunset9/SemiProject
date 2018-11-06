@@ -68,14 +68,12 @@ public class PlanUpdateController extends HttpServlet {
 //			배너 업데이트
 			Plan planView = pService.getPlanInfo(planParam);
 			
-			String path = (String) req.getParameter("bannerURL");
-			
-			planView.setBannerURL(path);
-			
-			// DB에서 유저의 banner 수정 
-			pDao.bannerUpdate(planView);
-			
-			System.out.println(planView);
+			if(req.getParameter("bannerURL") != null && !"".equals((String)req.getParameter("bannerURL"))) {
+				String path = (String) req.getParameter("bannerURL");
+				planView.setBannerURL(path);
+				// DB에서 유저의 banner 수정 
+				pDao.bannerUpdate(planView);
+			}
 			
 			req.getSession().setAttribute("planView", planView);
 			
