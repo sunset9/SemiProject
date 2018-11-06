@@ -211,10 +211,6 @@ $(document).ready(function(){
 	$('.fileBtn').change(function(){
 		$('.uploadForm').submit();
 	});
-	
-	$('.profileImage').hover(function(){
-		$('.createDiv').appendchild('프로필변경');
-	});
 });
 
 function deletePlan(plan_idx){
@@ -408,7 +404,7 @@ function deleteCheck(){
 	        <div id="planBox" data-plan_idx="${plan.plan_idx }">
 	        <a href="/plan?plan_idx=${plan.plan_idx }">
 
-	          <div><img src="${plan.bannerURL }" style="width: 100%; border-radius:6px;"></div>
+	          <div><img src="${plan.bannerURL }" style="width: 100%; height:240px;"></div>
 	          <div style="color:black;"> Title : ${plan.title}</div>
 
 	
@@ -431,7 +427,7 @@ function deleteCheck(){
 			<div id="bookmarkBox" data-book_idx="${bList.book_idx }">
 			<a href="/plan?plan_idx=${bList.plan_idx }">
 
-				<div><img src="${bList.bannerURL }" style="width: 100%; border-radius:6px;"></div>
+				<div><img src="${bList.bannerURL }" style="width: 100%; height:240px;"></div>
 				<div style="color:black;"> Title : ${bList.title} <br> NickName : ${bList.writeNick }</div>
 				</a>
 				<div>
@@ -554,7 +550,7 @@ function deleteCheck(){
 		<c:forEach items="${plannerList }" var="plan"> 
 			<div id="planBox" data-plan_idx="${plan.plan_idx }">
 			<a href="/plan?plan_idx=${plan.plan_idx }">
-				<div><img src="${plan.bannerURL }" style="width: 100%; border-radius:6px;"></div>
+				<div><img src="${plan.bannerURL }" style="width: 100%; height:240px;"></div>
 				<div style="color:black;"> Title : ${plan.title}</div>
 			
 			</a></div>
@@ -574,7 +570,7 @@ function deleteCheck(){
 		<c:forEach items="${bookMarkList }" var="bList"> 
 			<div id="bookmarkBox" data-book_idx="${bList.book_idx }">
 			<a href="/plan?plan_idx=${bList.plan_idx }">
-				<div><img src="${bList.bannerURL }" style="width: 100%; border-radius:6px;" /></div>
+				<div><img src="${bList.bannerURL }" style="width: 100%; height:240px;" /></div>
 				<div style="color:black;"> Title : ${bList.title} <br> NickName : ${bList.writeNick }</div>
 				</a><div>
 					<button id ="planDelete" class="btn btn-default" onclick="deleteBook(${bList.book_idx })" >삭제</button>
