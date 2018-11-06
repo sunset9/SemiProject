@@ -582,6 +582,7 @@ public class PlanDaoImpl implements PlanDao{
 				+ "order by rownum desc";
 		
 		String [] cName = {"", ""};
+    
 		try {
 			ps = conn.prepareStatement(sql);
 			
