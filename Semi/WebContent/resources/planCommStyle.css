@@ -36,9 +36,10 @@
 }
 /* 가계부 그래프 아이콘 */
 #AccGraph {
-	font-color:#fff;
-	font-size:135px;
+	font-size:125px;
 	cursor:pointer;
+	margin-bottom: 10px;
+	right: 25px;
 }
 /* 북마크 제거 아이콘 */
 #minusBookmark {
@@ -50,7 +51,7 @@
 
 /* 좌측 정보목록*/
 #planInfoNav {
-	width: 250px; 
+	width: 245px; 
 	border-radius: 10px; 
 	float: left;
 }
@@ -62,14 +63,28 @@
 	padding: 10px;
 	border-radius: 10px;
 	text-align:center;
-	background-color: #F0F0F0;
+	background-color: #F1F1F1;
 /* 	background-color: rgba( 79, 251, 159, 0.05 ); */
 }
 
 /* 게시자 정보 텍스트 */
-#userInfoText {
+.userInfoText {
+	margin: 2px 0px 0px 0px;
+}
+.userInfoText b{
+/* 	color:#4FB99F; */
+/* 	font-size:16px; */
+}
+.userInfoText:first-of-type{
+    margin-top: 5px;
+    margin-bottom: 17px;
+}
+/* 닉네임 텍스트 */
+#userInfoNick{
 	color:#4FB99F;
-	font-size:20px;
+	font-size: 20px;
+	margin-top: 25px;
+	margin-bottom: 5px;
 }
 
 /* 게시자 프로파일 이미지*/
@@ -85,7 +100,7 @@
 	width: 100%;
 	border-radius: 10px;
 	text-align:center;
-	background-color: #F0F0F0;
+	background-color: #F1F1F1;
 /* 	background-color: rgba( 79, 251, 159, 0.05 ); */
 }
 

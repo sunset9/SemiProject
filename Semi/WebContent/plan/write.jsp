@@ -778,11 +778,11 @@ window.onbeforeunload = function(){
 		<div class="profileImage">
 			<img id="userInfoProfileImg" src="${writtenUserView.profile }"/>
 		</div>
-		<br>
-		<b id="userInfoText">${writtenUserView.nickname }</b>님 <br>
-		포스팅 : <b id="userInfoText">${writtenUserView.totalPlanCnt }</b>개 <br>
-		등급 : <b id="userInfoText">${writtenUserView.grade }</b><br>
-		<b id="userInfoText"><fmt:formatNumber value='${writtenUserView.totalDist }' pattern="0.##"/></b> km<br>
+		
+		<p class="userInfoText"><b id="userInfoNick">${writtenUserView.nickname }</b>님 </p>
+		<p class="userInfoText">포스팅 : <b>${writtenUserView.totalPlanCnt }</b>개 </p>
+		<p class="userInfoText">등급 : <b>${writtenUserView.grade }</b></p>
+		<p class="userInfoText"><b><fmt:formatNumber value='${writtenUserView.totalDist }' pattern="0.##"/></b> km</p>
 	</div><br>
 	
 	<!-- 일정 읽기 모드-->
