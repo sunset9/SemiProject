@@ -348,7 +348,7 @@ function mdown(obj){
 
 //마우스 떠날때 색바꾸기
 function mleave(obj) {
-	obj.css("color", "#777777");
+	obj.css("color", "#ffffff");
 }
 	
 //마우스떠날때 색 gray로바꾸기
@@ -510,10 +510,13 @@ $(document).ready(function() {
 		activeStoreBtn(true);
 	});
 	
+	$("#fileModify").click(function(){
+		$("#fileBtn").click();
+	});
+	
 	$("#fileBtn").change(function(){
 		$("#uploadForm").submit();
-	})
-	
+	});
 }); // $(document).ready() End
 
 // 탭 변경해주기
@@ -708,21 +711,25 @@ window.onbeforeunload = function(){
 	}
 };
 
+
 </script>
 
 <!-- 일정 기본 정보 -->
 <header>
 <!-- 플래너 배너 -->	
 <div id="planInfoHeader" style="background-image:url('${planView.bannerURL }');">
+	<div id="editTitle" >
+	
 	<form id="uploadForm" action="/plan/banner" method="post" enctype="multipart/form-data">
 		<input type="hidden" name="plan_idx" value="${planView.plan_idx}" />
 		<input type="hidden" name="user_idx" value="${planView.user_idx}" />
 		
-		<input id="fileBtn" type="file" name="uploadFile"/>
-		<button></button>
+		<input id="fileBtn" type="file" name="uploadFile" style="display:none"/>
+		<span id="fileModify" class = "glyphicon glyphicon-picture"   
+			  onmouseover="mover($(this))" onmouseleave="mleave($(this))" onmousedown="mdown($(this))">
+		</span>
 	</form>
 	<!-- 플래너 대문 정보(공개유무, 수정버튼, 일정제목 등 UI) -->
-	<div id="editTitle" >
 		<div style="text-align:right;margin:0px auto;width:400px;">
 			<form action="/plan/update" method="post" id="planForm">
 			<b id="editBannerText">공개유무 : </b>

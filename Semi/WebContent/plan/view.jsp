@@ -659,13 +659,11 @@ function mdown(obj){
  	<!-- 가계부 DIV -->
 	<div id="accountView">
 			<!-- 가계부 그래프 -->
-		<br>	
 			<a href="#layer2" id="btnAccGraph">
 			<span id="AccGraph" class = "glyphicon glyphicon-signal"   
 				  onmouseover="mover($(this))" onmouseleave="mleave($(this))" onmousedown="mdown($(this))">
 				</span>
-			</a>
-		<br>		
+			</a>	
 <!-- 		<a href="#layer2" id="btnAccGraph" >가계부 그래프</a> -->
 		
 		<div class="dim-layer">
