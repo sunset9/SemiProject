@@ -218,13 +218,25 @@ $(document).ready(function(){
 });
 
 function deletePlan(plan_idx){
-	$(location).attr("href", "/plan/delete?plan_idx="+plan_idx);
+	
+	var ret = confirm("일정을 삭제하시겠습니까?");
+		console.log(ret);
+		
+	if (ret){
+		$(location).attr("href", "/plan/delete?plan_idx="+plan_idx);
+	}
 }
 function updatePlan(plan_idx){
 	$(location).attr("href", "/plan/update?plan_idx="+plan_idx);
 }
 function deleteBook(book_idx){
-	$(location).attr("href", "/bookmark/delete?book_idx="+book_idx);
+	
+	var ret = confirm("북마크를 취소하시겠습니까?");
+	console.log(ret);
+	
+	if (ret){
+		$(location).attr("href", "/bookmark/delete?book_idx="+book_idx);
+	}
 }
 </script>
 <!-- 비밀번호 변경하기 버튼 눌렀을때 -->
@@ -395,8 +407,10 @@ function deleteCheck(){
 	      <c:forEach items="${plannerList }" var="plan"> 
 	        <div id="planBox" data-plan_idx="${plan.plan_idx }">
 	        <a href="/plan?plan_idx=${plan.plan_idx }">
+
 	          <div><img src="${plan.bannerURL }" style="width: 100%; border-radius:6px;"></div>
 	          <div style="color:black;"> Title : ${plan.title}</div>
+
 	
 	        </a>
 	          <div>
@@ -416,11 +430,13 @@ function deleteCheck(){
 		<c:forEach items="${bookMarkList }" var="bList"> 
 			<div id="bookmarkBox" data-book_idx="${bList.book_idx }">
 			<a href="/plan?plan_idx=${bList.plan_idx }">
+
 				<div><img src="${bList.bannerURL }" style="width: 100%; border-radius:6px;"></div>
 				<div style="color:black;"> Title : ${bList.title} <br> NickName : ${bList.writeNick }</div>
 				</a>
 				<div>
 					<button id ="bookDelete" class="btn btn-default" onclick="deleteBook(${bList.book_idx })" >삭제</button>
+
 				</div>
 			</div>
 		</c:forEach>

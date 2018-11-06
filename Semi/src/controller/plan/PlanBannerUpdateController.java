@@ -21,9 +21,7 @@ import dto.user.UploadFile;
 import service.plan.PlanService;
 import service.plan.PlanServiceImpl;
 
-/**
- * Servlet implementation class PlanBannerUpdateController
- */
+
 @WebServlet("/plan/banner")
 public class PlanBannerUpdateController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
