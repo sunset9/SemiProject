@@ -106,6 +106,70 @@
 	  color: #fff;
 	}
 	
+	/* 가계부 그래프 아이콘 */
+	#btnAccGraph {
+		text-decoration:none;
+		color: #cdcdcd;
+	}
+	
+	#btnAccGraph .glyphicon-zoom-in {
+		font-size: 32px;
+	    left: 22px;
+	    top: -58px;
+	    
+	}
+	
+	#btnAccGraph:hover{
+		color:#4FB99F;
+	}
+	
+	/* 가계부 가격 정보 */
+	#accTypeCost {
+		margin-top: 8px;
+		margin-bottom: 10px;
+		text-align: left;
+		padding-left: 53px;
+	    padding-right: 27px;
+        height: 207px;
+	}
+	/* 가계부 카테고리*/
+	#accTypeCost p{
+		margin: 0;
+		width: 130px;
+	    float: left;
+	}
+	/* 가계부 가격*/
+	#accTypeCost p b{
+/* 		color:#4FB99F; */
+		font-size:16px;
+		margin-right: 3px;
+	}
+
+	#accTypeCost span.accType{
+	    display: block;
+    	overflow: hidden;
+    	float: left;
+   	    width: 57px;
+	}
+	
+	#accTypeCost span:not(.accType){
+	    display: block;
+    	overflow: hidden;
+    	float: right;
+   	 	text-align: right;
+	}
+	
+	/* 환율 변환기*/
+	.curr-converter {
+		border-radius: 10px;
+	    margin-bottom: 3px !important;
+	    transform: scale(0.94);
+    }
+    /* 환율 변환기 제목*/
+    .gcw_headerF89vAYf4k{
+    	border-radius: 7px 7px 0px 0px;
+    }
+	
 	/* 일정 수정하기 버튼*/
 	#planWriteModeBtn{
 		margin-bottom: 5px;
@@ -123,10 +187,6 @@
 		right: 4px;
 	    top: 3px;
 	    color: #444;
-	}
-	
-	#accTypeCost p{
-		margin: 0;
 	}
 	
 </style>
@@ -157,6 +217,7 @@ var check=0;
 	console.log("view.jsp isModify : " + isModify);
 	
 $(document).ready(function() {
+	console.log($(".userInfoText:first-child"));
 	// isCookieTabClear 플래그가 true 이고
 	// 새로고침 된게 아닌 경우 (performance.navigation.type == 1 : 새로고침)
 	if(getCookie("isCookieTabClear") == 'true' && performance.navigation.type != 1){
@@ -473,26 +534,26 @@ function displayAcc(accCostJson){
 	
 	// display
 	$("#accTypeCost").html('');
-	$("#accTypeCost").append("항공료 : <b style=\"color:#4FB99F;font-size:20px\">" + accTypeCost.airfare + "</b>원<br>");
-	$("#accTypeCost").append("교통 : <b style=\"color:#4FB99F;font-size:20px\">" + accTypeCost.traffic + "</b>원<br>");
-	$("#accTypeCost").append("숙박 : <b style=\"color:#4FB99F;font-size:20px\">" + accTypeCost.stay + "</b>원<br>");
-	$("#accTypeCost").append("입장료 : <b style=\"color:#4FB99F;font-size:20px\">" + accTypeCost.admission + "</b>원<br>");
-	$("#accTypeCost").append("음식 : <b style=\"color:#4FB99F;font-size:20px\">" + accTypeCost.food + "</b>원<br>");
-	$("#accTypeCost").append("오락 : <b style=\"color:#4FB99F;font-size:20px\">" + accTypeCost.play + "</b>원<br>");
-	$("#accTypeCost").append("쇼핑 : <b style=\"color:#4FB99F;font-size:20px\">" + accTypeCost.shop + "</b>원<br>");
-	$("#accTypeCost").append("기타 : <b style=\"color:#4FB99F;font-size:20px\">" + accTypeCost.etc + "</b>원<br>");
-	$("#accTypeCost").append("총합 : <b style=\"color:#4FB99F;font-size:20px\">" + accTotal + "</b>원<br>");
-	$("#accTypeCost").append("환율 : <b style=\"color:#4FB99F;font-size:20px\">" + accCalcedTotal + "</b>원<br>");
+// 	$("#accTypeCost").append("항공료 : <b style=\"color:#4FB99F;font-size:20px\">" + accTypeCost.airfare + "</b>원<br>");
+// 	$("#accTypeCost").append("교통 : <b style=\"color:#4FB99F;font-size:20px\">" + accTypeCost.traffic + "</b>원<br>");
+// 	$("#accTypeCost").append("숙박 : <b style=\"color:#4FB99F;font-size:20px\">" + accTypeCost.stay + "</b>원<br>");
+// 	$("#accTypeCost").append("입장료 : <b style=\"color:#4FB99F;font-size:20px\">" + accTypeCost.admission + "</b>원<br>");
+// 	$("#accTypeCost").append("음식 : <b style=\"color:#4FB99F;font-size:20px\">" + accTypeCost.food + "</b>원<br>");
+// 	$("#accTypeCost").append("오락 : <b style=\"color:#4FB99F;font-size:20px\">" + accTypeCost.play + "</b>원<br>");
+// 	$("#accTypeCost").append("쇼핑 : <b style=\"color:#4FB99F;font-size:20px\">" + accTypeCost.shop + "</b>원<br>");
+// 	$("#accTypeCost").append("기타 : <b style=\"color:#4FB99F;font-size:20px\">" + accTypeCost.etc + "</b>원<br>");
+// 	$("#accTypeCost").append("총합 : <b style=\"color:#4FB99F;font-size:20px\">" + accTotal + "</b>원<br>");
+// 	$("#accTypeCost").append("환율 : <b style=\"color:#4FB99F;font-size:20px\">" + accCalcedTotal + "</b>원<br>");
 	
-// 	$("#accTypeCost").append("<p>교통 : " + accTypeCost.traffic + "원</p>");
-// 	$("#accTypeCost").append("<p>숙박 : " + accTypeCost.stay + "원</p>");
-// 	$("#accTypeCost").append("<p>입장료 : " + accTypeCost.admission + "원</p>");
-// 	$("#accTypeCost").append("<p>음식 : " + accTypeCost.food + "원</p>");
-// 	$("#accTypeCost").append("<p>오락 : " + accTypeCost.play + "원</p>");
-// 	$("#accTypeCost").append("<p>쇼핑 : " + accTypeCost.shop + "원</p>");
-// 	$("#accTypeCost").append("<p>기타 : " + accTypeCost.etc + "원</p>");
-// 	$("#accTypeCost").append("<p>총합 : " + accTotal + "원</p>");
-// 	$("#accTypeCost").append("<p>환율 : " + accCalcedTotal + "</p>");
+	$("#accTypeCost").append("<p><span class='accType'>교통</span>  <span><b>" + accTypeCost.traffic + "</b>원</span></p>");
+	$("#accTypeCost").append("<p><span class='accType'>숙박</span>  <span><b>" + accTypeCost.stay + "</b>원</span></p>");
+	$("#accTypeCost").append("<p><span class='accType'>입장료</span>  <span><b>" + accTypeCost.admission + "</b>원</span></p>");
+	$("#accTypeCost").append("<p><span class='accType'>음식</span>  <span><b>" + accTypeCost.food + "</b>원</span></p>");
+	$("#accTypeCost").append("<p><span class='accType'>오락</span>  <span><b>" + accTypeCost.play + "</b>원</span></p>");
+	$("#accTypeCost").append("<p><span class='accType'>쇼핑</span>  <span><b>" + accTypeCost.shop + "</b>원</span></p>");
+	$("#accTypeCost").append("<p><span class='accType'>기타</span>  <span><b>" + accTypeCost.etc + "</b>원</span></p>");
+	$("#accTypeCost").append("<p><span class='accType'>총합</span>  <span><b>" + accTotal + "</b>원</p>");
+	$("#accTypeCost").append("<p><span class='accType'>환율</span>  <span><b>" + accCalcedTotal + "</b>원</span></p>");
 }
 
 var eventMini; // 수정모드를 위한 event 값 전송에 사용하는 전역변수
@@ -649,21 +710,21 @@ function mdown(obj){
 			<img id="userInfoProfileImg" src="${writtenUserView.profile }"/>
 		</div>
 		
-		<br>
-		<b id="userInfoText">${writtenUserView.nickname }</b>님 <br>
-		포스팅 : <b id="userInfoText">${writtenUserView.totalPlanCnt }</b>개 <br>
-		등급 : <b id="userInfoText">${writtenUserView.grade }</b><br>
-		<b id="userInfoText"><fmt:formatNumber value='${writtenUserView.totalDist }' pattern="0.##"/></b> km<br>
+		<p class="userInfoText"><b id="userInfoNick">${writtenUserView.nickname }</b>님 </p>
+		<p class="userInfoText">포스팅 : <b>${writtenUserView.totalPlanCnt }</b>개 </p>
+		<p class="userInfoText">등급 : <b>${writtenUserView.grade }</b></p>
+		<p class="userInfoText"><b><fmt:formatNumber value='${writtenUserView.totalDist }' pattern="0.##"/></b> km</p>
 	</div><br>
 	
  	<!-- 가계부 DIV -->
 	<div id="accountView">
 			<!-- 가계부 그래프 -->
 			<a href="#layer2" id="btnAccGraph">
-			<span id="AccGraph" class = "glyphicon glyphicon-signal"   
-				  onmouseover="mover($(this))" onmouseleave="mleave($(this))" onmousedown="mdown($(this))">
-				</span>
-			</a>	
+			<span class='glyphicon glyphicon-zoom-in'></span>
+			<span id="AccGraph" class = "glyphicon glyphicon-signal"></span>
+			</a>
+		<br>		
+
 <!-- 		<a href="#layer2" id="btnAccGraph" >가계부 그래프</a> -->
 		
 		<div class="dim-layer">
@@ -687,31 +748,30 @@ function mdown(obj){
 		        </div>
 		    </div>
 		</div>
-		<hr>
-		<div id="accTypeCost">
 		
+		<div id="accTypeCost">
 		</div>
-		<hr>
-	<div id='gcw_mainF89vAYf4k' class='gcw_mainF89vAYf4k' style="border-radius: 10px;"></div>
-		<script>
-			function reloadF89vAYf4k(){
-				var sc = document.getElementById('scF89vAYf4k');
-				
-				if (sc) {
-					sc.parentNode.removeChild(sc);
-				}
-				
-				sc = document.createElement('script');
-				sc.type = 'text/javascript';
-				sc.charset = 'UTF-8';
-				sc.async = true;
-				sc.id='scF89vAYf4k';
-				sc.src = 'https://freecurrencyrates.com/en/widget-vertical?iso=USDEURGBPJPYCNYXUL&df=2&p=F89vAYf4k&v=fits&source=fcr&width=245&width_title=0&firstrowvalue=1&thm=4FB99F,FFFFFF,4FB99F,B5E1D6,FFFFFF,C5DBEC,FFFFFF,4FB99F,000000&title=Currency%20Converter&tzo=-540';
-				// 1: 테두리 , 2: 배경 , 
-				var div = document.getElementById('gcw_mainF89vAYf4k');
-				div.parentNode.insertBefore(sc, div);
-				}
-				reloadF89vAYf4k();
+		
+		<div id='gcw_mainF89vAYf4k' class='gcw_mainF89vAYf4k curr-converter' style="border-radius: 10px;"></div>
+			<script>
+				function reloadF89vAYf4k(){
+					var sc = document.getElementById('scF89vAYf4k');
+					
+					if (sc) {
+						sc.parentNode.removeChild(sc);
+					}
+					
+					sc = document.createElement('script');
+					sc.type = 'text/javascript';
+					sc.charset = 'UTF-8';
+					sc.async = true;
+					sc.id='scF89vAYf4k';
+					sc.src = 'https://freecurrencyrates.com/en/widget-vertical?iso=USDEURGBPJPYCNYXUL&df=2&p=F89vAYf4k&v=fits&source=fcr&width=245&width_title=0&firstrowvalue=1&thm=4FB99F,f0f0f0,B5E1D6,B5E1D6,FFFFFF,C5DBEC,FFFFFF,4FB99F,000000&title=Currency%20Converter&tzo=-540';
+					// 1: 테두리 , 2: 배경 , 3: 제목 테두리, 4:제목 배경
+					var div = document.getElementById('gcw_mainF89vAYf4k');
+					div.parentNode.insertBefore(sc, div);
+					}
+					reloadF89vAYf4k();
 		</script>
 	</div><br> <!-- 가게부 end -->
 	
