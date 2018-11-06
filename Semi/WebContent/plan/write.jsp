@@ -214,6 +214,74 @@
 	.jconfirm .jconfirm-box .jconfirm-buttons button.btn-blue:hover {
     	background-color: #429480;
     }
+    
+    /*공개 비공개 글씨*/
+    #planInfoIsOpen{
+    }
+    
+    /*공개 비공개*/
+    #editPlanInfoIsOpen{
+	  	border-radius: 5px;
+	    width: 200px;
+	    display: inline;
+	    margin-right: 80px;
+	    margin-bottom: 5px;
+    }
+    
+     /*글제목 글씨*/
+    #bannerTitle{
+    }
+  	 /*글제목 에딧박스*/
+    #editBannerTitle{
+	  	border-radius: 5px;
+	    width: 200px;
+	    display: inline;
+	    margin-right: 80px;
+	    margin-bottom: 5px;
+    }
+    
+    /*출발일 글씨*/
+    #bannerStartDate{
+    }
+    
+    /*출발일 date*/
+    #editBannerStartDate{
+	  	border-radius: 5px;
+	    width: 170px;
+	    display: inline;
+	    margin-right: 8px;
+	    margin-bottom: 5px;
+    
+    }
+    
+    
+    /*도착일 글씨*/
+    #bannerEndDate{
+  
+    
+    }
+    
+    /*도착일 date*/
+    #editBannerEndDate{
+	  	border-radius: 5px;
+	    width: 170px;
+	    display: inline;
+	    margin-right: 80px;
+	    margin-bottom: 5px;
+    }
+    
+    /*여행 전후 글씨*/
+    #bannerBeforeAfter{
+    
+    }
+    /*여행전후 셀렉트*/
+    #editBannerBeforeAfter{
+	  	border-radius: 5px;
+	    width: 200px;
+	    display: inline;
+	    margin-right: 80px;
+    }
+    
 </style>
 
 <script>
@@ -636,7 +704,12 @@ function viewMini(event){
 	 	        }else{
 	 		        $(obj).find(".w-min_accType").val(accountList[i].accType);
 	 		        $(obj).find(".w-min_currSymbol").val(accountList[i].curr_idx);
-	 				$(obj).find(".w-min_cost").val(accountList[i].origin_cost);
+	 		    	var cost = accountList[i].origin_cost;
+	 		    	if(accountList[i].curr_idx == 1){
+			       		$(obj).find(".w-min_cost").val(numberWithCommas(cost));	
+			       	}else{
+			       		$(obj).find(".w-min_cost").val(numberWithCommas(parseInt(cost)));	
+			       	}
 	 	        }
 
 	 	        if (i == size-1){
@@ -711,7 +784,10 @@ window.onbeforeunload = function(){
 	}
 };
 
-
+/*콤마찍기*/
+function numberWithCommas(x) {
+    return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+}
 </script>
 
 <!-- 일정 기본 정보 -->
@@ -732,8 +808,9 @@ window.onbeforeunload = function(){
 	<!-- 플래너 대문 정보(공개유무, 수정버튼, 일정제목 등 UI) -->
 		<div style="text-align:right;margin:0px auto;width:400px;">
 			<form action="/plan/update" method="post" id="planForm">
-			<b id="editBannerText">공개유무 : </b>
-			<select name="editOpened" class ="planInfo" style="padding: 10px 40px;border-radius: 10px;">
+			<b id="planInfoIsOpen">공개유무 : </b>
+			<select id = "editPlanInfoIsOpen"name="editOpened" class ="form-control planInfo">
+			
 				<c:if test="${planView.opened eq 1 }">
 					<option value="1" selected="selected">공개</option>
 					<option value="0">비공개</option>
@@ -749,17 +826,14 @@ window.onbeforeunload = function(){
 					<input type="hidden" name="plan_idx" value="${planView.plan_idx}" />
 					<input type="hidden" name="user_idx" value="${planView.user_idx}" />
 					
-					<b id="editBannerText">글제목 : </b>
-					<input name="editTitleView" class="planInfo" type="text" value="${planView.title }" style="padding: 10px 40px;border-radius: 10px;"/><br>
+					<span id="bannerTitle">글제목 : </span> <input id="editBannerTitle" name="editTitleView" class="form-control planInfo" type="text" value="${planView.title }"/><br>
 					
-					<b id="editBannerText">출발일 : </b>
-					<input name="editStartDate" class ="planInfo" type="date" value="${planView.start_date }" style="padding: 10px 40px;border-radius: 10px;"/><br>
+					<span id="bannerStartDate">출발일 : </span> <input id = "editBannerStartDate"name="editStartDate" class ="form-control planInfo" type="date" value="${planView.start_date }"/>
 					
-					<b id="editBannerText">도착일 : </b>
-					<input name="editEndDate" class ="planInfo" type="date" value="${planView.end_date }" style="padding: 10px 40px;border-radius: 10px;"/><br>
+					<span id="bannerEndDate">도착일 : </span> <input id ="editBannerEndDate" name="editEndDate" class ="form-control planInfo" type="date" value="${planView.end_date }"/><br>
 					
-					<b id="editBannerText">여행전후 : </b>
-					<select name="editTraveled" class ="planInfo" style="padding: 10px 40px;border-radius: 10px;">
+					<span id="bannerBeforeAfter">여행전후 : </span>
+					<select id ="editBannerBeforeAfter" name="editTraveled" class ="form-control planInfo">
 						<c:if test="${planView.traveled eq 1 }">
 							<option value="1" selected="selected">여행 전</option>
 							<option value="0">여행 후</option>

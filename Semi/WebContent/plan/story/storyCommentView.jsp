@@ -19,7 +19,7 @@
 			<td class="storytd" colspan="1" rowspan="2" style="padding:20px"><font size ="1"> ${comment.create_date} </font></td>
 			<td class="storytd" colspan="1" rowspan="2">
 			<c:if test="${user.user_idx eq comment.user_idx}">
-				<span class="glyphicon glyphicon-remove-sign commentRemoveBtn" onmousedown="mdown($(this))" onmouseleave="mleave($(this))" onmouseover="mover($(this))" onclick="removeComm(${comment.comm_idx},${comment.story_idx},${comment.plan_idx})"></span>
+				<span class="glyphicon glyphicon-remove-sign commentRemoveBtn" onmousedown="st_mdown($(this))" onmouseleave="st_mleave($(this))" onmouseover="st_mover($(this))" onclick="removeComm(${comment.comm_idx},${comment.story_idx},${comment.plan_idx})"></span>
 			</c:if>
 			</td>
 		</tr>

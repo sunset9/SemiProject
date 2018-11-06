@@ -54,7 +54,7 @@
 
 /*퀵메뉴 수직선 (따로적용해야 하는 값들)*/
 #vl_slidemennu{
-	border-left: 4px solid #4fb99fab;
+	border-left: 4px solid #4fb99ff0;
 	margin-top: -25px;
 	margin-left: -13px;
 	
@@ -152,7 +152,7 @@ hr{
 
 /* 장소 마커*/
 .placemarker{
-	color: #4fb99fab;
+	color: #4fb99ff0;
 }
 
 /*스토리본문쪽*/
@@ -181,7 +181,7 @@ hr{
 
 /*스토리없을때 장소마커*/
 .noStoryplacemarker{
-	color: #4fb99fab;
+	color: #4fb99ff0;
 }
 
 /*스토리 없을때 +버튼*/
@@ -222,7 +222,7 @@ hr{
 
 /*댓글저장*/
 .savecomm{
-	background: #87cebd;
+	background: #4fb99ff0;
     border-radius: 6px;
     margin-left: 296px;
     margin-top: 5px;
@@ -416,7 +416,13 @@ var up_cnt = 0;
 			        	//가계부가 있다면 해당 값 넣어주기
 				        $(obj).find(".up_accType").val(accTypeList[i]);
 				        $(obj).find(".up_currSymbol").val(accCurrNameList[i]);
-						$(obj).find(".up_cost").val(accCostList[i]);
+				        var cost = accCostList[i];
+				       	if(accCurrNameList[i] == 1){
+				       		$(obj).find(".up_cost").val(numberWithCommas(cost));	
+				       	}else{
+				       		$(obj).find(".up_cost").val(numberWithCommas(parseInt(cost)));	
+				       	}
+		 		        
 			        }
 						
 			        //현재 가계부가 추가된것중 마지막 가계부일때
@@ -685,7 +691,9 @@ var up_cnt = 0;
  		};
  		
  		var jsonData = JSON.stringify(commJson);
- 		
+ 			
+		var commCntid = '#commCnt'+ story_idx;
+	
 		$.ajax({
 			type : "post"
 			, url : "/story/comment/write"
@@ -693,6 +701,11 @@ var up_cnt = 0;
 			, success : function (res) {
 				$(commentViewId).html(res);
 				$(commentViewId).css("display","block");
+				
+				var commCnt = $(commCntid).text();
+				commCnt = commCnt.replace(/[^0-9]/g,'');
+				commCnt = commCnt*1+1;
+				$(commCntid).text('덧글 '+commCnt+'개');
 			}
 			, error: function (e) {
 				console.log(e);
@@ -709,6 +722,7 @@ var up_cnt = 0;
  	function removeComm(comm_idx,story_idx,plan_idx) {
  		
  		var commentViewId = "#CommentView"+story_idx;
+ 		var commCntid = '#commCnt'+ story_idx;
  		
  		$.ajax({
  			type : "post"
@@ -716,6 +730,10 @@ var up_cnt = 0;
  				, data : {"comm_idx":comm_idx, "story_idx":story_idx, "plan_idx":plan_idx}
  			, success : function (res) {
  				$(commentViewId).html(res);
+ 				var commCnt = $(commCntid).text();
+				commCnt = commCnt.replace(/[^0-9]/g,'');
+				commCnt = commCnt*1-1;
+				$(commCntid).text('덧글 '+commCnt+'개');
  			}
  			, error: function (e) {
  				console.log(e);
@@ -910,7 +928,7 @@ var up_cnt = 0;
 	}
 
 function st_mover(obj) {
-	 obj.css( "color", "#4FB99F" );
+	 obj.css( "color", "##4fb99ff0" );
 }
 
 //마우스 클릭시 색바꾸기
@@ -927,7 +945,7 @@ function st_mleave(obj) {
 function st_mleave_gray(obj) {
 	obj.css("color", "#777777");
 }
-	
+
 </script>	
 
 
@@ -956,7 +974,7 @@ function st_mleave_gray(obj) {
 				    		<table class="bubble">
 				    			<tr class = "storytr">
 				     			<td colspan="2" class ="storytd">
-								  <font size="5"><span class = "glyphicon glyphicon-remove removeStory" onclick="storyDelete(${story.story_idx})"  onmouseover="st_mover($(this))" onmouseleave="mleave($(this))" onmousedown="mdown($(this))"></span>
+								  <font size="5"><span class = "glyphicon glyphicon-remove removeStory" onclick="storyDelete(${story.story_idx})"  onmouseover="st_mover($(this))" onmouseleave="st_mleave($(this))" onmousedown="st_mdown($(this))"></span>
 								  <span class = "glyphicon glyphicon-pencil updateStory"   
 									  onmouseover="st_mover($(this))" onmouseleave="st_mleave($(this))" onmousedown="st_mdown($(this))" 
 									  data-toggle="modal" data-target="#myModal_update" 
@@ -1021,7 +1039,7 @@ function st_mleave_gray(obj) {
 								<td colspan="2" class="storytd">
 								<hr>
 								<font class ="commentCntText" size="2">
-									<span class = "commentCnt"  onclick="CommentViewClick(${story.story_idx},${ttb.plan_idx})" onmousedown="st_mdown($(this))" onmouseleave="st_mleave($(this))" onmouseover="st_mover($(this))">덧글 ${story.commCnt}개</span>
+									<span id ="commCnt${story.story_idx}" class = "commentCnt"  onclick="CommentViewClick(${story.story_idx},${ttb.plan_idx})" onmousedown="st_mdown($(this))" onmouseleave="st_mleave($(this))" onmouseover="st_mover($(this))">덧글 ${story.commCnt}개</span>
 								</font>
 								</td>
 								</tr>
