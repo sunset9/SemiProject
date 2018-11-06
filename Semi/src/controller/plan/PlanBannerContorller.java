@@ -42,8 +42,10 @@ public class PlanBannerContorller extends HttpServlet {
 				policy
 				);
 		
-		int plan_idx = (int)request.getSession().getAttribute("plan_idx");
-		int user_idx = (int)request.getSession().getAttribute("user_idx");
+		int plan_idx = Integer.parseInt(mul.getParameter("plan_idx"));
+		int user_idx = Integer.parseInt(mul.getParameter("user_idx"));
+//				(int)request.getSession().getAttribute("plan_idx");
+//		= (int)request.getSession().getAttribute("user_idx");
 		
 		request.setAttribute("plan_idx", plan_idx);
 		request.setAttribute("user_idx", user_idx);
