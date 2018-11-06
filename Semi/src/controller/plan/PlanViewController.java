@@ -47,21 +47,9 @@ public class PlanViewController extends HttpServlet {
 		GsonBuilder gsonBuilder = new GsonBuilder();
         gsonBuilder.setDateFormat("yyyy-MM-dd HH:mm");
         Gson gson = gsonBuilder.create();
-        
-        // view로 들어오는 파라미터값 확인
-//        if( req.getParameter("plan_idx") != null && !"".equals(req.getParameter("plan_idx"))) {
-////        	req.getSession().setAttribute("plan_idx", planParam.getPlan_idx());
-//        	
-//        } else {
-//        	planParam = pService.getSessionPlan(req);
-//        }
 
         Plan planParam = pService.getParam(req);
         
-//		---------------------플래너 파라미터 가져오기
-		// 요청파라미터(plan_idx) -> Plan 모델 
-//		System.out.println("Session 값 : " + planParam);
-		
 		// 일정 기본 정보 가져오기
 		Plan planView = pService.getPlanInfo(planParam);
 		// 일정 마지막날, 시간순서로 빠른 2곳 나라이름 띄워주기
@@ -77,7 +65,6 @@ public class PlanViewController extends HttpServlet {
 		writtenUserView = uService.getUseraddedInfo(writtenUserView);
 		//userView MODEL 전달
 		req.setAttribute("writtenUserView", writtenUserView);
-		
 		
 //		---------------------로그인 유저 파라미터 가져오기
 		// 요청파라미터(user_idx) -> Plan 모델
@@ -106,12 +93,6 @@ public class PlanViewController extends HttpServlet {
 		req.setAttribute("ttbList", ttbListStr);
 		req.setAttribute("locList", locListStr);
 		
-		// 스토리 리스트 가져오기
-		//List<Story> storyList = sService.getStoryList(plan);
-
-		// 스토리 댓글 리스트 가져오기
-		//List<Comment> commList = sService.getCommentList(storyList);
-		
 		Bookmark book = bService.getBookmarkInfo(planParam);
 		
 		req.setAttribute("bookmark", book);
@@ -138,5 +119,10 @@ public class PlanViewController extends HttpServlet {
 		
 		// view 폼 띄우기
 		req.getRequestDispatcher("/plan/view.jsp").forward(req, resp);
+	}
+	
+	@Override
+	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+		doGet(req, resp);
 	}
 }

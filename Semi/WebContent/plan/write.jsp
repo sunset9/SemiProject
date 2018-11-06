@@ -358,6 +358,8 @@ var fileURL = "";
 //저장하기
 function store(miniTimetables){
 	// 탭 바뀌지 않게 하기
+
+	
 	setCookie("isCookieTabClear", "false");
 	
 	activeStoreBtn(false);
@@ -390,17 +392,16 @@ function store(miniTimetables){
 	// submit
 	console.log("---store()----")
 	console.log(timetables);
-	
 	var succ = false;
 	$.ajax({
 		url: "/plan/update"
 		, type: "post"
 		, async: false
 		, dataType: "html"
+
 		, data: {
 			plan_idx: '${planView.plan_idx}'
 			, user_idx: '${planView.user_idx}'
-			, fileURL: fileURL
 			, bannerURL: fileURL
 			, editOpened: $('.planInfo[name=editOpened]').val()
 			, editTraveled: $('.planInfo[name=editTraveled]').val()
@@ -411,16 +412,23 @@ function store(miniTimetables){
 		}
 		, success: function(){
 			// 저장 후 수정모드 유지 변수가 false이면, 읽기 모드로 보냄
+	
+			
 			if(!isStayWriteMode){
 				window.location = "/plan?plan_idx=" + ${planView.plan_idx};
 			}
+			
 			isStayWriteMode = false; 
 			succ = true;
+		
 		}
 		, error: function(){
 			succ = false;
 		}
 	});
+	
+	$("#uploadForm").submit();
+	
 	return succ;
 }
 
@@ -834,15 +842,14 @@ function numberWithCommas(x) {
 	</div>
 	<div id="editTitle" >
 	
-<!-- 		<form id="uploadForm" action="/plan/banner" method="post" enctype="multipart/form-data"> -->
-			<input type="hidden" name="plan_idx" value="${planView.plan_idx}" />
-			<input type="hidden" name="user_idx" value="${planView.user_idx}" />
-			
-			<input id="fileBtn" type="file" name="uploadFile" style="display:none"/>
+			<form id="uploadForm" action="/plan/banner" method="post" enctype="multipart/form-data">
+				<input type="hidden" name="plan_idx" value="${planView.plan_idx}" />
+				<input type="hidden" name="user_idx" value="${planView.user_idx}" />
+				<input id="fileBtn" type="file" name="uploadFile" style="display:none"/>
+			</form>
 			<span id="fileModify" class = "glyphicon glyphicon-picture"   
 				  onmouseover="mover($(this))" onmouseleave="mleave($(this))" onmousedown="mdown($(this))">
 			</span>
-<!-- 		</form> -->
 	<!-- 플래너 대문 정보(공개유무, 수정버튼, 일정제목 등 UI) -->
 		<div style="text-align:right;margin:0px auto;width:400px;">
 			<form action="/plan/update" method="post" id="planForm">
