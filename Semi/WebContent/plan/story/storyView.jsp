@@ -942,8 +942,8 @@ function st_mleave(obj) {
 }
 	
 //마우스떠날때 색 gray로바꾸기
-function st_mleave_gray(obj) {
-	obj.css("color", "#777777");
+function st_mleave_navi(obj) {
+	obj.css("color", "#112F41");
 }
 
 </script>	
@@ -1090,7 +1090,7 @@ function st_mleave_gray(obj) {
   	<ul style="list-style:none;">
   		<c:forEach var = "day" begin="1" end="${diffDays}" step="1">
   		<c:set var = "name" value="DayDiv${day}"/>
-  			<a href="#${name}" class="st_a" onmouseover="st_mover($(this))" onmouseleave="st_mleave($(this))" onmousedown="st_mdown($(this))"><li> Day ${day} </li></a>
+  			<a href="#${name}" class="st_a" onmouseover="st_mover($(this))" onmouseleave="st_mleave_navi($(this))" onmousedown="st_mdown($(this))"><li> Day ${day} </li></a>
   		</c:forEach>
 	</ul>
   </div>
