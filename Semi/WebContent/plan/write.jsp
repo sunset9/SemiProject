@@ -112,6 +112,17 @@
     	height: 94px;
  		margin-bottom: 2px;
  		background-color: white;
+ 		
+ 		-webkit-transform:scale(1);
+	    -moz-transform:scale(1);
+	    -ms-transform:scale(1); 
+	    -o-transform:scale(1);  
+	    transform:scale(1);
+	    -webkit-transition:.1s;
+	    -moz-transition:.1s;
+	    -ms-transition:.1s;
+	    -o-transition:.1s;
+	    transition:.1s;
 	}
 	
 	div.searchRes:hover {
@@ -131,6 +142,7 @@
 		object-fit: cover;
 		width: auto;
 		height: 100%;
+		
 	}
 	
 	.searchResInfo {
@@ -240,10 +252,10 @@
         width: 570px;
 		margin-right: auto;
 	    margin-left: auto;
-	    margin-top: 3px;
+	    margin-top: 8px;
 	    margin-bottom: 60px;
-	    height: 83px;
-	    font-size: 60px;
+        height: 73px;
+    	font-size: 56px;
 		text-align: center;
     }
     
