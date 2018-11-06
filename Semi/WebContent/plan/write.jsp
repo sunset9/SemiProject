@@ -617,7 +617,6 @@ $(document).ready(function() {
 		  };
 	 	reader.readAsDataURL(file);
 	 	fileURL = "/upload/banner/"+file.name;
-		console.log(fileURL);
 	 	activeStoreBtn(true);
 	});
 }); // $(document).ready() End
