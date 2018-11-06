@@ -581,7 +581,7 @@ public class PlanDaoImpl implements PlanDao{
 				+ "where rownum <=2 "
 				+ "order by rownum desc";
 		
-		String [] cName = {"없음", "없음"};
+		String [] cName = {"", ""};
 		try {
 			ps = conn.prepareStatement(sql);
 			
