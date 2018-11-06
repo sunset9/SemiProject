@@ -195,7 +195,6 @@ function displayMiniWrite(writeHtml){
 			
 // 	 		var size = document.getElementsByName("min_accountViewName").length;
 	 		var size = $('[name=w-min_accountViewName]').length;
-	 		console.log(size);
 	  		for(var i = 0; i < size; i++){
 	  			var obj = $("[name=w-min_accountViewName]")[i];
 	
