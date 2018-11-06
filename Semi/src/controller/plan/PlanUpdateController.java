@@ -10,6 +10,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import dao.plan.PlanDao;
+import dao.plan.PlanDaoImpl;
 import dto.plan.Plan;
 import dto.timetable.Location;
 import dto.timetable.Timetable;
@@ -30,6 +32,7 @@ public class PlanUpdateController extends HttpServlet {
 	TimetableService ttbService = new TimetableServiceImpl();
 	StoryService sService = new StoryServiceImpl();
 	AccountService aService = new AccountServiceImpl();
+	PlanDao pDao = new PlanDaoImpl();
 	
 	@Override
 		protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -59,9 +62,23 @@ public class PlanUpdateController extends HttpServlet {
 			// 타임테이블, 위치정보 정보 업데이트
 			ttbService.update(planParam, ttbLocParam);
 			
-			
 			// 일정 정보 업데이트
 			pService.update(planParam);
+			
+//			배너 업데이트
+			Plan planView = pService.getPlanInfo(planParam);
+			
+			String path = (String) req.getParameter("bannerURL");
+			
+			planView.setBannerURL(path);
+			
+			// DB에서 유저의 banner 수정 
+			pDao.bannerUpdate(planView);
+			
+			System.out.println(planView);
+			
+			req.getSession().setAttribute("planView", planView);
+			
 //			System.out.println(req.getSession().getAttribute("plan_idx"));
       
 			// 저장시 넘어온 파라미터 값으로

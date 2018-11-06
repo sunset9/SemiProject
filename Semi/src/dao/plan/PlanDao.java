@@ -50,7 +50,7 @@ public interface PlanDao {
 	public int getPlannerSeqNextval();
 	
 	//카테고리별 총 가격
-	int sumAccTypeCost(Plan plan, AccType accType);
+	double sumAccTypeCost(Plan plan, AccType accType);
 	
 	// 전체 게시물 수 조회
 	public int selectCntAll( int searchType, String search) ;

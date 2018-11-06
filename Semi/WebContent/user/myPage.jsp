@@ -49,40 +49,47 @@
     font-size: 17px;
 }
 
+#myInfo {
+	overflow: hidden;
+    width: 828px;
+    height: 100%;
+    float: right;
+    padding: 89px 80px 90px 30px;
+}
+
 .grade {
-	position: absolute;
 	font-size:20px;
-	top:100px;
-	left:360px;
+    display: block;
+    width: 50%;
 }
 
 .planCnt {
-	position: absolute;
 	font-size:20px;
-	top:145px;
-	left:360px;
+    display: block;
+    width: 50%;
 } 
 
 .nickname {
 	font-size: 25px;
-	position: absolute;
-	top:185px;
-	left:359px;
+    display: block;
+    width: 50%;
+    margin-bottom: 55px;
 }
 
 .totalDistance {
-	position: absolute;
-	font-size:20px;
-	top:192px;
-	right:280px;
+	font-size: 20px;
+    display: block;
+    /* width: 50%; */
+    float: right;
+    position: relative;
+    bottom: 48px;
 }
 
-
 .smallText2 {
-	position: absolute;
 	font-size:40px;
-	top:169px;
-	right:170px;	
+	position: relative;
+    top: 4px;
+    left: 2px;	
 }
 
 .tabCommon { float: left; margin-left:30px; margin-right:30px; }
@@ -337,15 +344,18 @@ function deleteCheck(){
 		</form>
 		<button id="UserUpdateModalBtn">정보수정</button>	
 
-	
-		<!-- 사용자명, 등급, 포스팅개수 -->
-		<span class="nickname">${user.nickname} 님의 여행기</span>
-		<span class="grade">등급 : ${user.grade}</span>
-		<span class="planCnt">포스팅 : ${user.totalPlanCnt} 개</span>
-	
-		<!-- 총여행거리 -->
-		<span class="totalDistance">총 여행거리 : </span>
-		<span class="smallText2"><fmt:formatNumber value='${user.totalDist}' pattern="0.##"/>km</span>
+		<div id='myInfo'>
+			<!-- 사용자명, 등급, 포스팅개수 -->
+			<span class="nickname">${user.nickname} 님의 여행기</span>
+			<span class="grade">등급 : ${user.grade}</span>
+			<span class="planCnt">포스팅 : ${user.totalPlanCnt} 개</span>
+		
+			<!-- 총여행거리 -->
+			<span class="totalDistance">총 여행거리 :
+				<span class="smallText2"><fmt:formatNumber value='${user.totalDist}' pattern="0.##"/>km</span>
+			</span>
+		</div>
+		
 	</div>
 
 <!-- 아이디 로그인 유저의 정보수정 The Modal -->

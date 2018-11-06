@@ -217,6 +217,7 @@
     
     /*공개 비공개 글씨*/
     #planInfoIsOpen{
+    	color: #FFF;
     }
     
     /*공개 비공개*/
@@ -224,24 +225,32 @@
 	  	border-radius: 5px;
 	    width: 200px;
 	    display: inline;
-	    margin-right: 80px;
+	    margin-right: 190px;
 	    margin-bottom: 5px;
     }
     
      /*글제목 글씨*/
     #bannerTitle{
+       	color: #FFF;
+	    margin-bottom: 46px;
+	    margin-right: 240px;
+	    font-size: 25px;
     }
   	 /*글제목 에딧박스*/
     #editBannerTitle{
-	  	border-radius: 5px;
-	    width: 200px;
-	    display: inline;
-	    margin-right: 80px;
-	    margin-bottom: 5px;
+		border-radius: 5px;
+	    width: 528px;
+	    margin-right: 142px;
+	    margin-bottom: 60px;
+	    height: 83px;
+	    margin-top: 3px;
+	    font-size: 70px;
+
     }
     
     /*출발일 글씨*/
     #bannerStartDate{
+       	color: #FFF;
     }
     
     /*출발일 date*/
@@ -257,8 +266,7 @@
     
     /*도착일 글씨*/
     #bannerEndDate{
-  
-    
+       	color: #FFF;
     }
     
     /*도착일 date*/
@@ -272,6 +280,7 @@
     
     /*여행 전후 글씨*/
     #bannerBeforeAfter{
+       	color: #FFF;
     
     }
     /*여행전후 셀렉트*/
@@ -279,7 +288,15 @@
 	  	border-radius: 5px;
 	    width: 200px;
 	    display: inline;
-	    margin-right: 80px;
+	    margin-right: 190px;
+    }
+    
+    /*일정정보폼*/
+    #planForm{
+	    width: 800px;
+	    padding-top: 9px;
+	    padding-right: 263px;
+	    margin-right: 61px;
     }
     
 </style>
@@ -334,6 +351,8 @@ var isModify = 1;
 var isStayWriteMode = false;
 
 var isAlreadyAlert = false;
+
+var fileURL = "";
 </script>
 <script>
 //저장하기
@@ -381,7 +400,8 @@ function store(miniTimetables){
 		, data: {
 			plan_idx: '${planView.plan_idx}'
 			, user_idx: '${planView.user_idx}'
-			, uploadFile: '${planView.bannerURL}'
+			, fileURL: fileURL
+			, bannerURL: fileURL
 			, editOpened: $('.planInfo[name=editOpened]').val()
 			, editTraveled: $('.planInfo[name=editTraveled]').val()
 			, editTitleView: $('.planInfo[name=editTitleView]').val()
@@ -596,7 +616,8 @@ $(document).ready(function() {
 		    bannerImg.append(img);
 		  };
 	 	reader.readAsDataURL(file);
-		
+	 	fileURL = "/upload/banner/"+file.name;
+		console.log(fileURL);
 	 	activeStoreBtn(true);
 	});
 }); // $(document).ready() End
@@ -813,7 +834,7 @@ function numberWithCommas(x) {
 	</div>
 	<div id="editTitle" >
 	
-		<form id="uploadForm" action="/plan/banner" method="post" enctype="multipart/form-data">
+<!-- 		<form id="uploadForm" action="/plan/banner" method="post" enctype="multipart/form-data"> -->
 			<input type="hidden" name="plan_idx" value="${planView.plan_idx}" />
 			<input type="hidden" name="user_idx" value="${planView.user_idx}" />
 			
@@ -821,10 +842,12 @@ function numberWithCommas(x) {
 			<span id="fileModify" class = "glyphicon glyphicon-picture"   
 				  onmouseover="mover($(this))" onmouseleave="mleave($(this))" onmousedown="mdown($(this))">
 			</span>
-		</form>
+<!-- 		</form> -->
 	<!-- 플래너 대문 정보(공개유무, 수정버튼, 일정제목 등 UI) -->
 		<div style="text-align:right;margin:0px auto;width:400px;">
 			<form action="/plan/update" method="post" id="planForm">
+			
+			<span id="bannerTitle">여행제목</span><br><input id="editBannerTitle" name="editTitleView" class="form-control planInfo" type="text" value="${planView.title }"/><br>
 			<b id="planInfoIsOpen">공개유무 : </b>
 			<select id = "editPlanInfoIsOpen"name="editOpened" class ="form-control planInfo">
 			
@@ -843,7 +866,7 @@ function numberWithCommas(x) {
 					<input type="hidden" name="plan_idx" value="${planView.plan_idx}" />
 					<input type="hidden" name="user_idx" value="${planView.user_idx}" />
 					
-					<span id="bannerTitle">글제목 : </span> <input id="editBannerTitle" name="editTitleView" class="form-control planInfo" type="text" value="${planView.title }"/><br>
+					
 					
 					<span id="bannerStartDate">출발일 : </span> <input id = "editBannerStartDate"name="editStartDate" class ="form-control planInfo" type="date" value="${planView.start_date }"/>
 					

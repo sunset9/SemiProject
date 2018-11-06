@@ -28,6 +28,15 @@
 <link rel="stylesheet" href="/resources/planCommStyle.css">
 
 <style type="text/css">
+
+	
+	#titleView {
+	  margin-top: 73px;
+	  font-size: 70px;
+	}
+	#planRouteView {
+		margin-top: 62px;
+	}
 	/* 가계부 그래프 팝업 */
 	.pop-layer .pop-container {
 	  padding: 20px 25px;
@@ -126,9 +135,9 @@
 	/* 가계부 가격 정보 */
 	#accTypeCost {
 		text-align: left;
-	    height: 210px;
-	    width: 73%;
+	    width: 75%;
 	    margin: 8px auto;
+        overflow: hidden;
 	}
 	/* 가계부 카테고리*/
 	#accTypeCost p{
@@ -147,7 +156,7 @@
 	    display: block;
     	overflow: hidden;
     	float: left;
-   	    width: 57px;
+   	    width: 43px;
 	}
 	
 	#accTypeCost span:not(.accType){
@@ -207,7 +216,28 @@ var is_diplayStory = false;
 var accTypeCost = [];
 
 </script>
+<script>
+//숫자만 입력
+function Numberchk() { 
+	if (event.keyCode < 46 || event.keyCode > 57) event.returnValue = false; 
+} 
 
+//콤마찍기
+function vComma(obj) { 
+	var str    = "" + obj.value.replace(/,/gi,''); // 콤마 제거 
+	var regx    = new RegExp(/(-?\d+)(\d{3})/); 
+	var bExists = str.indexOf(".",0); 
+	var strArr  = str.split('.'); 
+	
+	while(regx.test(strArr[0])){ 
+		strArr[0] = strArr[0].replace(regx,"$1,$2"); 
+	} 
+	if (bExists > -1) 
+		obj.value = strArr[0] + "." + strArr[1]; 
+	else 
+		obj.value = strArr[0]; 
+} 
+</script>
 <script type="text/javascript">
 
 // 읽기모드일때, 검색창 on/off
@@ -530,15 +560,15 @@ function displayAcc(accCostJson){
 	// display
 	$("#accTypeCost").html('');
 
-	$("#accTypeCost").append("<p><span class='accType'>항공료</span>  <span><b>" + accTypeCost.airfare + "</b>원</span></p>");
-	$("#accTypeCost").append("<p><span class='accType'>교통</span>  <span><b>" + accTypeCost.traffic + "</b>원</span></p>");
-	$("#accTypeCost").append("<p><span class='accType'>숙박</span>  <span><b>" + accTypeCost.stay + "</b>원</span></p>");
-	$("#accTypeCost").append("<p><span class='accType'>입장료</span>  <span><b>" + accTypeCost.admission + "</b>원</span></p>");
-	$("#accTypeCost").append("<p><span class='accType'>음식</span>  <span><b>" + accTypeCost.food + "</b>원</span></p>");
-	$("#accTypeCost").append("<p><span class='accType'>오락</span>  <span><b>" + accTypeCost.play + "</b>원</span></p>");
-	$("#accTypeCost").append("<p><span class='accType'>쇼핑</span>  <span><b>" + accTypeCost.shop + "</b>원</span></p>");
-	$("#accTypeCost").append("<p><span class='accType'>기타</span>  <span><b>" + accTypeCost.etc + "</b>원</span></p>");
-	$("#accTypeCost").append("<p><span class='accType'>총합</span>  <span><b>" + accTotal + "</b>원</p>");
+	$("#accTypeCost").append("<p><span class='accType'>항공료</span>  <span><b>" + numberWithCommas(accTypeCost.airfare) + "</b>원</span></p>");
+	$("#accTypeCost").append("<p><span class='accType'>교통</span>  <span><b>" + numberWithCommas(accTypeCost.traffic) + "</b>원</span></p>");
+	$("#accTypeCost").append("<p><span class='accType'>숙박</span>  <span><b>" +  numberWithCommas(accTypeCost.stay) + "</b>원</span></p>");
+	$("#accTypeCost").append("<p><span class='accType'>입장료</span>  <span><b>" + numberWithCommas(accTypeCost.admission) + "</b>원</span></p>");
+	$("#accTypeCost").append("<p><span class='accType'>음식</span>  <span><b>" + numberWithCommas(accTypeCost.food) + "</b>원</span></p>");
+	$("#accTypeCost").append("<p><span class='accType'>오락</span>  <span><b>" + numberWithCommas(accTypeCost.play) + "</b>원</span></p>");
+	$("#accTypeCost").append("<p><span class='accType'>쇼핑</span>  <span><b>" + numberWithCommas(accTypeCost.shop) + "</b>원</span></p>");
+	$("#accTypeCost").append("<p><span class='accType'>기타</span>  <span><b>" + numberWithCommas(accTypeCost.etc) + "</b>원</span></p>");
+	$("#accTypeCost").append("<p><span class='accType'>총합</span>  <span><b>" + numberWithCommas(accTotal) + "</b>원</p>");
 }
 
 var eventMini; // 수정모드를 위한 event 값 전송에 사용하는 전역변수
@@ -692,9 +722,9 @@ function numberWithCommas(x) {
 	</c:if>
 <!-- 	</div> -->
 <!-- 	<div id="viewTitle" > -->
-		<h1 id="titleView" style="font-size:100px;">${planView.title }</h1>
-		<h4 id="planRouteView" style="font-size:25px;"> ${cName1 } ${cName2 }</h4> 
-		<h4 id="dateView" style="font-size:25px;">${planView.start_date } ~ ${planView.end_date }</h4>
+		<h1 id="titleView">${planView.title }</h1>
+		<h4 id="planRouteView" style="font-size:20px;"> ${cName1 } ${cName2 }</h4> 
+		<h4 id="dateView" style="font-size:20px;">${planView.start_date } ~ ${planView.end_date }</h4>
 		<h4 id="traveledView" style="font-size:15px;">
 			<c:if test="${planView.traveled eq 1 }">여행 전</c:if>
 			<c:if test="${planView.traveled eq 0 }">여행 후</c:if>

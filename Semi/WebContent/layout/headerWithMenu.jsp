@@ -79,7 +79,8 @@ body {
 	heigt: 50px;
 	border: 1px solid rgba( 227, 228, 229, 0.5 );
 	position: absolute;
-	background-color: rgba( 227, 228, 229, 0.5 );
+/* 	background-color: rgba( 227, 228, 229, 0.5 ); */
+	background: rgba(243, 243, 243, 1);
 	top:79px;
 	border-radius: 7px;
 }
@@ -109,10 +110,13 @@ body {
 	color: #686868;	
 }
 
-.menuLi:hover {
-	text-decoration: none;
-	color: black;
+.menuLi ul:hover {
+/*  	text-decoration: none;  */
+/*  	color: black;  */
 }
+
+
+
 
 /* 모든콘텐츠 */
 .dropdown>ul>li:nth-child(1) {
@@ -142,10 +146,22 @@ body {
 
 
 .dropdown>ul>li>ul {
-	position: absolute;
-	list-style-type: none;
-	padding-left: 0px;
-	display: none;
+    position: absolute;
+    list-style-type: none;
+    background: rgba(243, 243, 243, 1);
+    display: none;
+    height: auto;
+    position: absolute;
+    width: 135px;
+    padding-left: 25px;
+    padding-bottom: 18px;
+    border-radius: 0px 0px 7px 7px;
+    margin-top: 1px;
+    margin-left: -26px;
+    z-index: 200;
+    border-left: 1px solid rgba( 227, 228, 229, 0.5 );
+    border-bottom: 1px solid rgba( 227, 228, 229, 0.5 );
+    border-right: 1px solid rgba( 227, 228, 229, 0.5 );
 }
 
 .dropdown>ul>li:hover>ul {
@@ -205,6 +221,7 @@ body {
 	font-size: 15px; */
 	
 }
+
 
 .loginWindowModalclose{
 	position: absolute;
@@ -275,6 +292,9 @@ body {
 	bottom: 25px;
 	right: 69px;
 	width: 110px;
+
+.contentsubli{
+    padding-top: 16px;
 }
 
 </style>
@@ -592,8 +612,8 @@ body {
 				<ul>
 					<li><a class="menuLi" href="/contents/all">모든 콘텐츠</a>
 						<ul>
-							<li><a class="menuLi" href="/contents/recommend">추천 콘텐츠</a></li>
-							<li><a class="menuLi" href="/contents/newest">최신 콘텐츠</a></li>
+							<li class ="contentsubli"><a class="menuLi" href="/contents/recommend">추천 콘텐츠</a></li>
+							<li class ="contentsubli"><a class="menuLi" href="/contents/newest">최신 콘텐츠</a></li>
 						</ul>
 					</li>
 					<li>
