@@ -63,7 +63,7 @@ function openrecomContents2(){
 }
 
 .newConDivInner, .recomDivInner{
-	border: 1px solid gray;
+	border: 1px solid #babbbc;
 	width: 330px;
 	height: 200px;
 	position: relative;
@@ -124,12 +124,17 @@ img {
 .btnNewPlan {
    position: absolute;    
    display: inline-block;
-   color: black;
+   color: white;
    top: 180px;  
    right: 100px; 
    width: 250px;
    height: 60px;
-	
+   border-radius: 6px;
+   border: 1px solid #4FB99F;
+   background-color: #4FB99F;
+   font-size: 20px;
+   
+   
 }
 
 
@@ -203,7 +208,7 @@ img {
 	<!-- 비로그인 상태일때 -->
 	<c:if test="${not login}">
 		<button id="btnModal" class="btnNewPlan" style="display: none;">새 일정 만들기</button>
-		<button id="btnModal2" onclick="alert('로그인이 필요합니다.');">새 일정 만들기</button>
+		<button id="btnModal2" class="btnNewPlan" onclick="alert('로그인이 필요합니다.');">새 일정 만들기</button>
 	</c:if>
 </div>
 

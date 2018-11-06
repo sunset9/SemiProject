@@ -45,7 +45,7 @@ th{
 				<c:if test="${plan.opened eq 0 && plan.user_idx eq user.user_idx}">
 					<a href="/plan?plan_idx=${plan.plan_idx }">
 				</c:if>
-						<div><img src="/upload/banner/${plan.bannerURL }" style="width: 100%;"></div>
+						<div><img src="${plan.bannerURL }" style="width: 100%;"></div>
 						<div> Title : ${plan.title} <br> NickName : ${plan.nick }</div>
 						</a>
 			</div>
