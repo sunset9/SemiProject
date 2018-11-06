@@ -225,7 +225,6 @@
 	  	border-radius: 5px;
 	    width: 200px;
 	    display: inline;
-	    margin-right: 190px;
 	    margin-bottom: 5px;
     }
     
@@ -233,19 +232,19 @@
     #bannerTitle{
        	color: #FFF;
 	    margin-bottom: 46px;
-	    margin-right: 240px;
 	    font-size: 25px;
     }
   	 /*글제목 에딧박스*/
     #editBannerTitle{
 		border-radius: 5px;
-	    width: 528px;
-	    margin-right: 142px;
+        width: 570px;
+		margin-right: auto;
+	    margin-left: auto;
+	    margin-top: 3px;
 	    margin-bottom: 60px;
 	    height: 83px;
-	    margin-top: 3px;
-	    font-size: 70px;
-
+	    font-size: 60px;
+		text-align: center;
     }
     
     /*출발일 글씨*/
@@ -274,7 +273,6 @@
 	  	border-radius: 5px;
 	    width: 170px;
 	    display: inline;
-	    margin-right: 80px;
 	    margin-bottom: 5px;
     }
     
@@ -288,15 +286,15 @@
 	  	border-radius: 5px;
 	    width: 200px;
 	    display: inline;
-	    margin-right: 190px;
     }
     
     /*일정정보폼*/
     #planForm{
 	    width: 800px;
 	    padding-top: 9px;
-	    padding-right: 263px;
 	    margin-right: 61px;
+	    margin-right: auto;
+	    margin-left: auto;
     }
     
 </style>
@@ -617,7 +615,6 @@ $(document).ready(function() {
 		  };
 	 	reader.readAsDataURL(file);
 	 	fileURL = "/upload/banner/"+file.name;
-		console.log(fileURL);
 	 	activeStoreBtn(true);
 	});
 }); // $(document).ready() End
@@ -844,7 +841,7 @@ function numberWithCommas(x) {
 			</span>
 <!-- 		</form> -->
 	<!-- 플래너 대문 정보(공개유무, 수정버튼, 일정제목 등 UI) -->
-		<div style="text-align:right;margin:0px auto;width:400px;">
+		<div style="text-align:center;margin:0px auto;width:100%;">
 			<form action="/plan/update" method="post" id="planForm">
 			
 			<span id="bannerTitle">여행제목</span><br><input id="editBannerTitle" name="editTitleView" class="form-control planInfo" type="text" value="${planView.title }"/><br>

@@ -419,7 +419,7 @@ public class PlanDaoImpl implements PlanDao{
 			ps.setString(5, param.getTitle());
 			ps.setInt(6, param.getTraveled());
 			ps.setInt(7, param.getOpened());
-			ps.setString(8, "/image/basicBanner.png");
+			ps.setString(8, "/image/basicBanner.jpg");
 			
 			ps.executeUpdate();
 			
