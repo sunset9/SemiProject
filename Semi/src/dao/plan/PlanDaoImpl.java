@@ -810,8 +810,6 @@ public class PlanDaoImpl implements PlanDao{
 	public void bannerUpdate(Plan plan) {
 		String sql = "update planner set bannerurl = ? where plan_idx= ?";
 		
-		System.out.println("UserDaoImpl : "+plan.getBannerURL());
-		
 		//DB 객체
 		PreparedStatement ps = null;
 
