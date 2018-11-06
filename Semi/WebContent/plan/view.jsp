@@ -265,6 +265,9 @@ $(document).ready(function() {
 	
 // 	가계부 그래프 팝업 동작
 	$("#btnAccGraph").click(function(){
+// 		그래프 스팬 누르면 바로 전체그래프 보여줌
+		$("#hrefTotal").click();
+		
 	    var $el = $($(this).attr('href'));        //레이어의 id를 $el 변수에 저장
 	    var isDim = $el.prev().hasClass('dimBg');   //dimmed 레이어를 감지하기 위한 boolean 변수
 
@@ -296,7 +299,8 @@ $(document).ready(function() {
 	    });
 	});
 	
-	$("#totalGraph").click(function() {
+	$("#hrefTotal").click(function() {
+
 		document.getElementById("idTotal").style.display= "block";
 		document.getElementById("idDaily").style.display= "none";
 		
@@ -380,7 +384,7 @@ $(document).ready(function() {
 				});
 	});
 	
-	$("#dailyGraph").click(function() {
+	$("#hrefDaily").click(function() {
 		document.getElementById("idTotal").style.display= "none";
 		document.getElementById("idDaily").style.display= "block";
 		
@@ -445,15 +449,15 @@ $(document).ready(function() {
 			    "line-style":"dotted"
 			  },
 			  "series":[
-				{ "values":[cost[0]], "background-color":"#cc0000","text":"항공료"},
-			    { "values":[cost[1]], "background-color":"#ff6600", "text":"교통"},
-			    { "values":[cost[2]], "background-color":"#ffcc00", "text":"숙박"},
-			    { "values":[cost[3]], "background-color":"#88cc00", "text":"입장료"},
-			    { "values":[cost[4]], "background-color":"#66ccff", "text":"음식" },
-			    { "values":[cost[5]], "background-color":"#0066ff", "text":"오락" },
-			    { "values":[cost[6]], "background-color":"#6600ff", "text":"쇼핑" },
-			    { "values":[cost[7]], "background-color":"#9999ff", "text":"기타" }
-			  ]
+					{ "values":[accTypeCost.airfare], "background-color":"#cc0000","text":"항공료"},
+				    { "values":[accTypeCost.traffic], "background-color":"#ff6600", "text":"교통"},
+				    { "values":[accTypeCost.stay], "background-color":"#ffcc00", "text":"숙박"},
+				    { "values":[accTypeCost.admission], "background-color":"#88cc00", "text":"입장료"},
+				    { "values":[accTypeCost.food], "background-color":"#66ccff", "text":"음식" },
+				    { "values":[accTypeCost.play], "background-color":"#0066ff", "text":"오락" },
+				    { "values":[accTypeCost.shop], "background-color":"#6600ff", "text":"쇼핑" },
+				    { "values":[accTypeCost.etc], "background-color":"#9999ff", "text":"기타" }
+				  ]
 			};
 			 
 			zingchart.render({ 
@@ -678,7 +682,8 @@ function numberWithCommas(x) {
 	</c:if>
 	<!-- 다르면 북마크 버튼을 보여준다 -->
 	<c:if test="${writtenUserView.user_idx ne loginedUserView.user_idx}">
-		
+<%-- 		${writtenUserView }<br> --%>
+<%-- 		${loginedUserView } --%>
 		<c:if test="${bookmark.user_idx ne loginedUserView.user_idx}">
 			<form action="/bookmark/insert" method="post" id="addBookmark">
 				<input type="hidden" name="plan_idx" value="${planView.plan_idx}" />
@@ -689,6 +694,8 @@ function numberWithCommas(x) {
 		</c:if>
 		
 		<c:if test="${bookmark.user_idx eq loginedUserView.user_idx}">
+<%-- 		${bookmark }<br> --%>
+<%-- 		${loginedUserView } --%>
 			<form action="/bookmark/delete" method="post" id="deleteBookmark">
 				<input type="hidden" name="book_idx" value="${bookmark.book_idx}" />
 				<input type="hidden" name="plan_idx" value="${planView.plan_idx}" />
@@ -697,7 +704,6 @@ function numberWithCommas(x) {
 				</span>
 			</form>
 		</c:if>
-		
 	</c:if>
 <!-- 	</div> -->
 <!-- 	<div id="viewTitle" > -->
@@ -735,9 +741,7 @@ function numberWithCommas(x) {
 			<span class='glyphicon glyphicon-zoom-in'></span>
 			<span id="AccGraph" class = "glyphicon glyphicon-signal"></span>
 			</a>
-		<br>		
-
-<!-- 		<a href="#layer2" id="btnAccGraph" >가계부 그래프</a> -->
+		<br>
 		
 		<div class="dim-layer">
 		    <div class="dimBg"></div>
@@ -745,13 +749,13 @@ function numberWithCommas(x) {
 		        <div class="pop-container">
 		            <div class="pop-conts">
 		                <div>
-		                	<button id="totalGraph">전체</button> <button id="dailyGraph">일일</button>
+		                	<a href="#totalGraph" id="hrefTotal" >전체</a> <a href="#dailyGraph" id="hrefDaily">일일</a>
 		                </div>
 		                <div id="idTotal">
 	                		<div id="total"></div>
 	                	</div>
 	                	<div id="idDaily">
-	                		<div id='daily'></div>
+	                		<div id="daily"></div>
 	                	</div>
 		                <div class="btn-r">
 		                    <a href="#" class="btn-layerClose">X</a>

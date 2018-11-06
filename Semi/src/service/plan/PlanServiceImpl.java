@@ -46,8 +46,13 @@ public class PlanServiceImpl implements PlanService{
 		//요청파라미터 정보를 저장할 DTO객체
 		User user = new User();
 		
+		int param = -1;
 		//요청파라미터 받기
-		int param = (int)req.getSession().getAttribute("user_idx");
+//		로그인인지 아닌지 확인, 로그인이 아니면 user_idx = 0
+		if( req.getSession().getAttribute("user_idx") != null) {
+			param = (int)req.getSession().getAttribute("user_idx");
+		}
+		
 		user.setUser_idx(param);
 //			//null이나 ""이 아니면 int로 변환하여 DTO에 저장
 //			if( param != null && !"".equals(param) ) {
