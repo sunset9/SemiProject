@@ -144,6 +144,9 @@ body {
 	right:80px;
 }
 
+.contentsubli:first-child {
+	margin-top: 11px;
+}
 
 .dropdown>ul>li>ul {
     position: absolute;
@@ -169,7 +172,7 @@ body {
 }
 
 /* The Modal (background) */
-.newPlanModal, .loginWindowModal, .findPwModal, .joinModal {
+.newPlanModal, .loginWindowModal, .findPwModal {
 	display: none; /* Hidden by default */
 	position: fixed; /* Stay in place */
 	z-index: 1; /* Sit on top */
@@ -183,9 +186,23 @@ body {
 	background-color: rgba(0, 0, 0, 0.4); /* Black w/ opacity */
 }
 
+.joinModal{
+	display: none; /* Hidden by default */
+	position: fixed; /* Stay in place */
+	z-index: 1; /* Sit on top */
+	padding-top: 100px; /* Location of the box */
+	left: 0;
+	top: 0;
+	width: 100%; /* Full width */
+	height: 100%; /* Full height */
+	overflow: auto; /* Enable scroll if needed */
+	background-color: rgb(0, 0, 0); /* Fallback color */
+	background-color: rgba(0, 0, 0, 0.8); /* Black w/ opacity */
+
+}
+
 /* Modal Content */
-.newPlanmodal-content, .loginWindowModal-content, .findPwModal-contents,
-	.joinModal-contents {
+.loginWindowModal-content, .findPwModal-contents{
 	position: relative;
 	background-color: white;
 	margin: auto;
@@ -194,6 +211,35 @@ body {
 	width: 370px;
 	height: 420px;
 	border-radius: 7px;
+}
+
+.newPlanmodal-content {
+	position: relative;
+	background-color: white;
+	margin: auto;
+	padding: 10px;
+	border: 1px solid #888;
+	width: 370px;
+	height: auto;
+	border-radius: 7px;
+}
+.joinModal-contents {
+	position: relative;
+	background-color: white;
+	margin: auto;
+	padding: 10px;
+	border: 1px solid #888;
+	width: 405px;
+	height: 350px;
+	border-radius: 7px;
+
+}
+.joinModal-contents h1{
+   display: block;
+   position: initial;
+   font-size: 40px;
+   color: black;  
+   margin-top: 9px;
 }
 
 /* The Close Button */
@@ -219,10 +265,33 @@ body {
 	width: 180px;
 	height: 30px;
 	font-size: 15px; */
+	margin-bottom: 11px;
 	
 }
-
-
+.findPwModal-contents {
+	position: relative;
+    background-color: white;
+    margin: auto;
+    padding: 18px 28px;
+    border: 1px solid #888;
+    width: 435px;
+    height: 322px;
+    border-radius: 7px;
+}
+.findPwModal-contents h1{
+   display: block;
+   position: initial;
+   font-size: 40px;
+   color: black;  
+   margin-top: 3px;
+}
+.findPwModal-contents hr {
+    margin-top: 11px;
+}
+.findPwModal-contents input[type='submit'] {
+    margin-top: 17px;
+    width: 100%;
+}
 .loginWindowModalclose{
 	position: absolute;
 	top: 10px;
@@ -292,11 +361,30 @@ body {
 	bottom: 25px;
 	right: 69px;
 	width: 110px;
-
+}
 .contentsubli{
     padding-top: 16px;
 }
 
+.jmlabel {
+	width:95px;
+}
+
+.jmJoinSubBtn {
+	width: -webkit-fill-available;
+}
+
+.newPlanmodal-content select {
+	margin-top: 10px;
+    margin-bottom: 10px;
+    height: 33px;
+    width: -webkit-fill-available;
+}
+
+.npmTitle{
+    height: 34px;
+    width: -webkit-fill-available;
+}
 </style>
 
 <script type="text/javascript">
@@ -573,8 +661,8 @@ body {
 <body>
 	<div class="wholeHeader" style="position: relative; height: 160px; ">
 		<!-- header시작 -->
-		<a href="/main"><img src="/image/logo.png"
-			style="position:absolute; display: inline; width: 100px; height: 50px; top:3px;" /></a>
+		<a href="/main"><img src="/resources/img/main/KakaoTalk_Photo_2018-11-06-16-30-19.png"
+			style="position:absolute; display: inline; width: 160px; height: 80px; top:3px;" /></a>
 		<!-- 로그인 상태일때 -->
 		<c:if test="${login}">
 			<form action="/contents/all" method="get" style="display: inline;">
@@ -643,20 +731,27 @@ body {
 		<div class="newPlanmodal-content">
 			<span class="newPlanModalclose">&times;</span>
 			<div>
-				<h2>새 일정 만들기</h2>
+				<h2 style="margin-top: 0; margin-bottom: 0;">새 일정 만들기</h2>
 			</div>
 			<hr>
 			<form action="/plan/create" method="post">
 				<div>
-					<input type="text" id="editTitleView" name="editTitleView"
-						placeholder="여행 제목" /><br> <input type="date"
-						id="editStartDate" name="editStartDate" value="" /> <input
-						type="date" id="editEndDate" name="editEndDate" value="" /> <input
-						type="hidden" id="editOpened" name="editOpened" value="0" /><br>
-					<select name="editTraveled">
+					<div>
+					<input type="text" class="npmTitle" id="editTitleView" name="editTitleView" placeholder="여행 제목" />
+					</div>
+					<div>
+					<select name="editTraveled" style="width: -webkit-fill-available;">
 						<option value="1">여행 전</option>
 						<option value="0">여행 후</option>
-					</select> <input type="submit" value="새 일정 추가" />
+					</select> 
+					</div>
+					<p>
+					<input type="date" id="editStartDate" name="editStartDate" value="" /> 
+					<input type="date" id="editEndDate" name="editEndDate" value="" /> 
+					</p>
+					<input type="hidden" id="editOpened" name="editOpened" value="0" /><br>
+					<!-- <input class="form-control" type="submit" value="새 일정 추가" /> -->
+					<button class="btn btn-default" style="width: -webkit-fill-available;">새 일정 추가</button>
 				</div>
 			</form>
 		</div>
@@ -730,48 +825,46 @@ body {
 					<h1>비밀번호 찾기</h1>
 					<hr>
 					<form action="/user/findPw" method="post">
-						<input type="email" name="email" placeholder="이메일을 입력해주세요." /> <input
-							type="submit" value="입력" />
+						<input type="email" class="form-control" name="email" placeholder="이메일을 입력해주세요." /> 
+						<p>임시 비밀번호를 보내드립니다.</p>
+						<p>가입시 입력하신 이메일 주소를 입력해주세요.</p>
+						<input type="submit" class="btn btn-default" value="이메일로 전송" />
 					</form>
-					<p>임시 비밀번호를 보내드립니다.</p>
-					<p>가입시 입력하신 이메일 주소를 입력해주세요.</p>
 				</div>
 			</div>
 			<!-- 비밀번호 찾기 모달 끝 -->
 
 			<!-- 회원가입 모달 시작 -->
 			<div id="joinModal" class="joinModal">
-
 				<!-- 회원가입 modal content  -->
 				<div class="joinModal-contents">
 					<span class="jClose">&times;</span>
-					<form id="joinForm" action="/user/join" method="post"
-						onsubmit="return sendJoinForm();">
-						<div id="sign_up">
-							<div class="header">
-								<h3>회원가입</h3>
-								<br>
-							</div>
-							<div class="body">
-								<div class="signUp">
-									<label>이메일 : </label> <input type="email" id="userid"
-										name="userid" placeholder="이메일"> <input type="button"
-										value="중복확인" onclick="checkUserId();" /><br> <input
-										type="text" id="afterIdCheck" style="border: 0;" /><br> <label>비밀번호
-										: </label> <input type="password" id="userpw" name="userpw"
-										placeholder="비밀번호"><br> <label>비밀번호 확인 :
-									</label> <input type="password" id="pwCheck" name="pwCheck"
-										placeholder="비밀번호 확인"><br> <label>닉네임 : </label>
-									<input type="text" id="usernickname" name="usernickname"
-										placeholder="닉네임"><br> <input type="hidden"
-										id="snsIdx" name="snsIdx" value="1" />
-								</div>
-								<div class="signUpBtn">
-									<button type="submit" class="signUpBtn" id="joinBtn"
-										disabled="disabled" style="color: gray;">가입하기</button>
-								</div>
-							</div>
-						</div>
+					<!-- <span class="jmTitle">회원가입</span> -->
+					<h1>회원가입</h1>
+					<hr>
+					<form id="joinForm" action="/user/join" method="post" onsubmit="return sendJoinForm();">
+						<p>
+						<label class="jmlabel" style="width:95px;">이메일  </label> 
+						<input class="jmEmailInput" type="email" id="userid" name="userid" placeholder="이메일"> 
+						<input class="jmCheckBtn btn btn-default" type="button" value="중복확인" onclick="checkUserId();" />
+						</p>
+						<p>
+						<input class="jmAfterIdCheck" type="text" id="afterIdCheck" style="border: 0;" /> 
+						</p>
+						<p>
+						<label class="jmlabel">비밀번호  </label> 
+						<input class="jmPwInput" type="password" id="userpw" name="userpw" placeholder="비밀번호"> 
+						</p>
+						<p>
+						<label class="jmlabel">비밀번호 확인  </label> 
+						<input class="jmPwCheckInput" type="password" id="pwCheck" name="pwCheck" placeholder="비밀번호 확인">
+						</p>
+						<p>
+						<label class="jmlabel">닉네임  </label>
+						<input class="jmNickInput" type="text" id="usernickname" name="usernickname" placeholder="닉네임"> 
+						</p>
+						<input type="hidden" id="snsIdx" name="snsIdx" value="1" />
+						<button class="jmJoinSubBtn btn btn-default" type="submit" class="signUpBtn" id="joinBtn" disabled="disabled" style="color: gray;">가입하기</button>
 					</form>
 				</div>
 			</div>

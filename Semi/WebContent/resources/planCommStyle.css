@@ -10,6 +10,7 @@
 #planInfoBanner img{
 	width: 100%;
 	height: 100%;
+	border-radius: 10px;
 }
 
 /* 플래너 대문 정보*/
@@ -67,27 +68,6 @@
 	font-size:35px;
 	cursor:pointer;
 }
-/* 북마크 추가 아이콘 */
-#plusBookmark {
-	float:right;
-	font-color:#fff;
-	font-size:35px;
-	cursor:pointer;
-}
-/* 가계부 그래프 아이콘 */
-#AccGraph {
-	font-size:125px;
-	cursor:pointer;
-	margin-bottom: 10px;
-	right: 25px;
-}
-/* 북마크 제거 아이콘 */
-#minusBookmark {
-	float:right;
-	font-color:#fff;
-	font-size:35px;
-	cursor:pointer;
-}
 
 /* 좌측 정보목록*/
 #planInfoNav {
@@ -135,7 +115,7 @@
 
 /* 좌측 가계부 정보 */
 #accountView {
-	padding: 20px;
+	padding: 20px 20px 12px 20px;
 	height: 100%;
 	width: 100%;
 	border-radius: 10px;

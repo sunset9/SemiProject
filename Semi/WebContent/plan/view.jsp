@@ -37,6 +37,43 @@
 	#planRouteView {
 		margin-top: 62px;
 	}
+	
+	/* 북마크 추가 아이콘 */
+	#plusBookmark {
+		float:right;
+		font-size:45px;
+		cursor:pointer;
+		position: absolute;
+	    right: 14px;
+	    color: #FFF;
+	}
+	
+	#plusBookmark:hover {
+		color: #4FB99F;
+	}
+	
+	/* 북마크 제거 아이콘 */
+	#minusBookmark {
+		float:right;
+		color: #4FB99F;
+		font-size:45px;
+		cursor:pointer;
+		position: absolute;
+	    right: 14px;
+	}
+	
+	#minusBookmark:hover {
+		color: #fff;
+	}
+	
+	/* 가계부 그래프 아이콘 */
+	#AccGraph {
+		font-size:125px;
+		cursor:pointer;
+		margin-bottom: 10px;
+		right: 25px;
+	}
+	
 	/* 가계부 그래프 팝업 */
 	.pop-layer .pop-container {
 	  padding: 20px 25px;
@@ -708,8 +745,7 @@ function numberWithCommas(x) {
 		<c:if test="${bookmark.user_idx ne loginedUserView.user_idx}">
 			<form action="/bookmark/insert" method="post" id="addBookmark">
 				<input type="hidden" name="plan_idx" value="${planView.plan_idx}" />
-				<span id="plusBookmark" class = "glyphicon glyphicon-bookmark"   
-				  onmouseover="mover($(this))" onmouseleave="mleave($(this))" onmousedown="mdown($(this))">
+				<span id="plusBookmark" class = "glyphicon glyphicon-bookmark">
 				</span>
 			</form>
 		</c:if>
@@ -720,9 +756,7 @@ function numberWithCommas(x) {
 			<form action="/bookmark/delete" method="post" id="deleteBookmark">
 				<input type="hidden" name="book_idx" value="${bookmark.book_idx}" />
 				<input type="hidden" name="plan_idx" value="${planView.plan_idx}" />
-				<span id="minusBookmark" class = "glyphicon glyphicon-remove"   
-				  onmouseover="mover($(this))" onmouseleave="mleave($(this))" onmousedown="mdown($(this))">
-				</span>
+				<span id="minusBookmark" class = "glyphicon glyphicon-bookmark" ></span>
 			</form>
 		</c:if>
 	</c:if>

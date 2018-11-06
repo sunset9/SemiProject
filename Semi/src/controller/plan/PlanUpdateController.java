@@ -57,8 +57,6 @@ public class PlanUpdateController extends HttpServlet {
 			Plan planParam = pService.getParamEdit(req);
 			
 			Plan planView = pService.getPlanInfo(planParam);
-			
-//	
 				// 플랜 정보 파라미터 받기 
 				// 요청파라미터 -> 타임테이블, 위치정보 Map 타입
 				Map<Timetable, Location> ttbLocParam = ttbService.getParam(req);
@@ -87,7 +85,5 @@ public class PlanUpdateController extends HttpServlet {
 				System.out.println(planView);
 				req.getSession().setAttribute("planView", planView);
 				req.getSession().setAttribute("plan_idx", planView.getPlan_idx());
-				
-
-		}
+    }
 }
