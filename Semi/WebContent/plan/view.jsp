@@ -136,7 +136,7 @@
 	#accTypeCost {
 		text-align: left;
 	    height: 210px;
-	    width: 73%;
+	    width: 75%;
 	    margin: 8px auto;
 	}
 	/* 가계부 카테고리*/
@@ -156,7 +156,7 @@
 	    display: block;
     	overflow: hidden;
     	float: left;
-   	    width: 57px;
+   	    width: 43px;
 	}
 	
 	#accTypeCost span:not(.accType){
@@ -539,15 +539,15 @@ function displayAcc(accCostJson){
 	// display
 	$("#accTypeCost").html('');
 
-	$("#accTypeCost").append("<p><span class='accType'>항공료</span>  <span><b>" + accTypeCost.airfare + "</b>원</span></p>");
-	$("#accTypeCost").append("<p><span class='accType'>교통</span>  <span><b>" + accTypeCost.traffic + "</b>원</span></p>");
-	$("#accTypeCost").append("<p><span class='accType'>숙박</span>  <span><b>" + accTypeCost.stay + "</b>원</span></p>");
-	$("#accTypeCost").append("<p><span class='accType'>입장료</span>  <span><b>" + accTypeCost.admission + "</b>원</span></p>");
-	$("#accTypeCost").append("<p><span class='accType'>음식</span>  <span><b>" + accTypeCost.food + "</b>원</span></p>");
-	$("#accTypeCost").append("<p><span class='accType'>오락</span>  <span><b>" + accTypeCost.play + "</b>원</span></p>");
-	$("#accTypeCost").append("<p><span class='accType'>쇼핑</span>  <span><b>" + accTypeCost.shop + "</b>원</span></p>");
-	$("#accTypeCost").append("<p><span class='accType'>기타</span>  <span><b>" + accTypeCost.etc + "</b>원</span></p>");
-	$("#accTypeCost").append("<p><span class='accType'>총합</span>  <span><b>" + accTotal + "</b>원</p>");
+	$("#accTypeCost").append("<p><span class='accType'>항공료</span>  <span><b>" + numberWithCommas(accTypeCost.airfare) + "</b>원</span></p>");
+	$("#accTypeCost").append("<p><span class='accType'>교통</span>  <span><b>" + numberWithCommas(accTypeCost.traffic) + "</b>원</span></p>");
+	$("#accTypeCost").append("<p><span class='accType'>숙박</span>  <span><b>" +  numberWithCommas(accTypeCost.stay) + "</b>원</span></p>");
+	$("#accTypeCost").append("<p><span class='accType'>입장료</span>  <span><b>" + numberWithCommas(accTypeCost.admission) + "</b>원</span></p>");
+	$("#accTypeCost").append("<p><span class='accType'>음식</span>  <span><b>" + numberWithCommas(accTypeCost.food) + "</b>원</span></p>");
+	$("#accTypeCost").append("<p><span class='accType'>오락</span>  <span><b>" + numberWithCommas(accTypeCost.play) + "</b>원</span></p>");
+	$("#accTypeCost").append("<p><span class='accType'>쇼핑</span>  <span><b>" + numberWithCommas(accTypeCost.shop) + "</b>원</span></p>");
+	$("#accTypeCost").append("<p><span class='accType'>기타</span>  <span><b>" + numberWithCommas(accTypeCost.etc) + "</b>원</span></p>");
+	$("#accTypeCost").append("<p><span class='accType'>총합</span>  <span><b>" + numberWithCommas(accTotal) + "</b>원</p>");
 }
 
 var eventMini; // 수정모드를 위한 event 값 전송에 사용하는 전역변수
