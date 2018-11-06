@@ -113,9 +113,10 @@ $(document).ready(function(){
 		var obj = document.getElementById("miniModalAccount");
 		$(obj).html("");
 	})
-	
+	console.log(2);
 	// 수정버튼 클릭 리스너
 	$('#miniEditModeBtn').on('click',function(){
+		console.log(1);
 		$.ajax({
 			url: "/story/mini/modeChange"
 			, type: "GET"
@@ -142,7 +143,6 @@ function displayMiniWrite(writeHtml){
 	$("#miniViewModal").modal('hide');
 	// 다시 fade 효과 추가해놓음
 	$("#miniViewModal").addClass('fade');
-	
 	
 	// ajax로 story 정보 가져옴 (content 정보)
 	$.ajax({
@@ -193,7 +193,6 @@ function displayMiniWrite(writeHtml){
 	 				}
 	 		}
 			
-// 	 		var size = document.getElementsByName("min_accountViewName").length;
 	 		var size = $('[name=w-min_accountViewName]').length;
 	  		for(var i = 0; i < size; i++){
 	  			var obj = $("[name=w-min_accountViewName]")[i];
@@ -207,15 +206,23 @@ function displayMiniWrite(writeHtml){
 	 					ch = true;
 	 				}
 	 	        }
-		        
+	 	       console.log(4);
 	 	        if (ch == false) {
 	 			   $(obj).find(".w-min_accType").val('airfare');
 	 		        $(obj).find(".w-min_currSymbol").val(1);
 	 				$(obj).find(".w-min_cost").val("");
+	 				console.log(3);
 	 	        }else{
 	 		        $(obj).find(".w-min_accType").val(accountList[i].accType);
 	 		        $(obj).find(".w-min_currSymbol").val(accountList[i].curr_idx);
-	 				$(obj).find(".w-min_cost").val(accountList[i].origin_cost);
+	 		      	var cost = accountList[i].origin_cost;
+	 		    	if(accountList[i].curr_idx == 1){
+			       		$(obj).find(".w-min_cost").val(numberWithCommas(cost));	
+			       	}else{
+			       		$(obj).find(".w-min_cost").val(numberWithCommas(parseInt(cost)));	
+			       	}
+	 		        
+	 		        
 	 	        }
 	
 	 	        if (i == size-1){
@@ -244,6 +251,8 @@ function displayMiniWrite(writeHtml){
 		}
 	}); // ajax end
 } // displayMiniWrite() end
+
+
 </script>
 </head>
 <body>

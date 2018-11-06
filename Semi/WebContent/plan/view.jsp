@@ -571,13 +571,22 @@ function viewMini(event){
 			var accTypeName = {'airfare':'항공료', 'traffic':'교통', 'stay':'숙박',
 					'admission':'입장료', 'food':'음식', 'play':'오락', 'shop':'쇼핑', 'etc':'기타'};
 			for (var i=0; i<accountList.length;i++){
+				
+				/*비용콤마찍기*/
+				var cost = accountList[i].origin_cost;
+				if(accountList[i].curr_idx_name == 'USD'){
+					var originCost = numberWithCommas(cost);
+				}else{
+					var originCost = numberWithCommas(parseInt(cost));
+				}
+				
 				var append = $( 
 						'<tr name="account"> <td style="padding-right: 15px" colspan="2"> <font size="2">'
 						+ accTypeName[accountList[i].accType]
 						+' | '
 						+ accountList[i].curr_idx_name
 						+' '
-						+ accountList[i].origin_cost
+						+ originCost
 						+'</font></td></tr>' 
 						);
 				$(obj).append(append);
@@ -626,6 +635,12 @@ function mdown(obj){
 	function mleave_gray(obj) {
 		obj.css("color", "#777777");
 }
+
+/*콤마찍기*/
+function numberWithCommas(x) {
+    return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+}
+
 </script>
 
     
