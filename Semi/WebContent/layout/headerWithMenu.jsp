@@ -184,7 +184,7 @@ body {
 }
 
 /* Modal Content */
-.newPlanmodal-content, .loginWindowModal-content, .findPwModal-contents,
+.newPlanmodal-content, .loginWindowModal-content,
 	.joinModal-contents {
 	position: relative;
 	background-color: white;
@@ -219,10 +219,33 @@ body {
 	width: 180px;
 	height: 30px;
 	font-size: 15px; */
+	margin-bottom: 11px;
 	
 }
-
-
+.findPwModal-contents {
+	position: relative;
+    background-color: white;
+    margin: auto;
+    padding: 18px 28px;
+    border: 1px solid #888;
+    width: 435px;
+    height: 322px;
+    border-radius: 7px;
+}
+.findPwModal-contents h1{
+   display: block;
+   position: initial;
+   font-size: 40px;
+   color: black;  
+   margin-top: 9px;
+}
+.findPwModal-contents hr {
+    margin-top: 11px;
+}
+.findPwModal-contents input[type='submit'] {
+    margin-top: 17px;
+    width: 100%;
+}
 .loginWindowModalclose{
 	position: absolute;
 	top: 10px;
@@ -730,11 +753,11 @@ body {
 					<h1>비밀번호 찾기</h1>
 					<hr>
 					<form action="/user/findPw" method="post">
-						<input type="email" name="email" placeholder="이메일을 입력해주세요." /> <input
-							type="submit" value="입력" />
+						<input type="email" class="form-control" name="email" placeholder="이메일을 입력해주세요." /> 
+						<p>임시 비밀번호를 보내드립니다.</p>
+						<p>가입시 입력하신 이메일 주소를 입력해주세요.</p>
+						<input type="submit" class="btn btn-default" value="이메일로 전송" />
 					</form>
-					<p>임시 비밀번호를 보내드립니다.</p>
-					<p>가입시 입력하신 이메일 주소를 입력해주세요.</p>
 				</div>
 			</div>
 			<!-- 비밀번호 찾기 모달 끝 -->
