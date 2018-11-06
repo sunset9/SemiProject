@@ -28,6 +28,15 @@
 <link rel="stylesheet" href="/resources/planCommStyle.css">
 
 <style type="text/css">
+
+	
+	#titleView {
+	  margin-top: 73px;
+	  font-size: 70px;
+	}
+	#planRouteView {
+		margin-top: 62px;
+	}
 	/* 가계부 그래프 팝업 */
 	.pop-layer .pop-container {
 	  padding: 20px 25px;
@@ -692,9 +701,9 @@ function numberWithCommas(x) {
 	</c:if>
 <!-- 	</div> -->
 <!-- 	<div id="viewTitle" > -->
-		<h1 id="titleView" style="font-size:100px;">${planView.title }</h1>
-		<h4 id="planRouteView" style="font-size:25px;"> ${cName1 } ${cName2 }</h4> 
-		<h4 id="dateView" style="font-size:25px;">${planView.start_date } ~ ${planView.end_date }</h4>
+		<h1 id="titleView">${planView.title }</h1>
+		<h4 id="planRouteView" style="font-size:20px;"> ${cName1 } ${cName2 }</h4> 
+		<h4 id="dateView" style="font-size:20px;">${planView.start_date } ~ ${planView.end_date }</h4>
 		<h4 id="traveledView" style="font-size:15px;">
 			<c:if test="${planView.traveled eq 1 }">여행 전</c:if>
 			<c:if test="${planView.traveled eq 0 }">여행 후</c:if>

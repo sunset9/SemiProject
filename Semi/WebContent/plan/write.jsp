@@ -217,6 +217,7 @@
     
     /*공개 비공개 글씨*/
     #planInfoIsOpen{
+    	color: #FFF;
     }
     
     /*공개 비공개*/
@@ -224,24 +225,26 @@
 	  	border-radius: 5px;
 	    width: 200px;
 	    display: inline;
-	    margin-right: 80px;
+	    margin-right: 190px;
 	    margin-bottom: 5px;
     }
     
      /*글제목 글씨*/
     #bannerTitle{
+       	color: #FFF;
     }
   	 /*글제목 에딧박스*/
     #editBannerTitle{
 	  	border-radius: 5px;
 	    width: 200px;
 	    display: inline;
-	    margin-right: 80px;
+	    margin-right: 190px;
 	    margin-bottom: 5px;
     }
     
     /*출발일 글씨*/
     #bannerStartDate{
+       	color: #FFF;
     }
     
     /*출발일 date*/
@@ -257,8 +260,7 @@
     
     /*도착일 글씨*/
     #bannerEndDate{
-  
-    
+       	color: #FFF;
     }
     
     /*도착일 date*/
@@ -272,6 +274,7 @@
     
     /*여행 전후 글씨*/
     #bannerBeforeAfter{
+       	color: #FFF;
     
     }
     /*여행전후 셀렉트*/
@@ -279,7 +282,14 @@
 	  	border-radius: 5px;
 	    width: 200px;
 	    display: inline;
-	    margin-right: 80px;
+	    margin-right: 190px;
+    }
+    
+    #planForm{
+	    width: 700px;
+	    padding-top: 80px;
+	    padding-right: 165px;
+	    margin-right: 61px;
     }
     
 </style>

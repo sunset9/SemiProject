@@ -21,7 +21,7 @@
 	font-weight: bolder;
 }
 
-span:hover {
+div.footer span:hover {
 	color : blue;
 }
 
