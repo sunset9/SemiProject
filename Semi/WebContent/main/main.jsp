@@ -75,6 +75,10 @@ function openrecomContents2(){
 	position: absolute;
 }
 
+.recomImg:hover {
+	transform: scale(0.98);
+}
+
 .newConP2, .recomP2 {
 	text-align: center;
 	background-color: rgba( 255, 255, 255, 0.5 );

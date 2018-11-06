@@ -186,12 +186,14 @@ body {
 /* Modal Content */
 .newPlanmodal-content, .loginWindowModal-content, .findPwModal-contents,
 	.joinModal-contents {
-	background-color: #fefefe;
+	position: relative;
+	background-color: white;
 	margin: auto;
-	padding: 20px;
+	padding: 10px;
 	border: 1px solid #888;
-	width: 400px;
-	height: 400px;
+	width: 370px;
+	height: 420px;
+	border-radius: 7px;
 }
 
 /* The Close Button */
@@ -219,6 +221,77 @@ body {
 	font-size: 15px; */
 	
 }
+
+
+.loginWindowModalclose{
+	position: absolute;
+	top: 10px;
+	right: 10px;
+}
+.googleBtnDesign {
+	position: absolute;
+	top: 15px;
+	left: 40px;
+}
+.kakaoBtnDesign {
+	position: absolute;
+	top: 72px;
+	left: 40px;
+}
+.facebookBtnDesign {
+	position: absolute;
+	top: 132px;
+	left: 40px;
+}
+
+
+.emailLabelDesign {
+	position: absolute;
+	top: 217px;
+	left: 60px;
+}
+.emailInputDesign {
+	position: absolute;
+	top: 215px;
+	left: 120px;
+}
+
+.passwordLabelDesign {
+	position: absolute;
+	top: 257px;
+	left: 60px;
+}
+.passwordInputDesign{
+	position: absolute;
+	top: 257px;
+	left: 120px;
+}
+
+
+.afterLoginCheckDesign {
+	position: absolute;
+	top: 286px;
+	left: 83px;
+	width: 260px;
+	background-color: ();
+}
+.LoginSubmitBtnDesign {
+	position: absolute;
+	bottom: 70px;
+	left: 60px;
+	width: 240px;
+}
+.joinlogo {
+	position: absolute;
+	bottom: 25px;
+	left :60px;
+	width: 110px;
+}
+.findPw {
+	position: absolute;
+	bottom: 25px;
+	right: 69px;
+	width: 110px;
 
 .contentsubli{
     padding-top: 16px;
@@ -595,7 +668,7 @@ body {
 		<div class="loginWindowModal-content">
 			<span class="loginWindowModalclose">&times;</span>
 			<!-- 구글 로그인 -->
-			<input type="image" src="/resources/img/user/google_btn.png"
+			<input class="googleBtnDesign" type="image" src="/resources/img/user/google_btn.png"
 				onclick="startGoogleLogin();" style="width: 280px; height: 65px;" />
 			<form action="/user/socialLogin" method="post" id="googleLogin">
 				<input type="hidden" id="googleid" name="id" value="" /> <input
@@ -603,9 +676,9 @@ body {
 					type="hidden" id="googleprofileImage" name="profileImage" value="" />
 				<input type="hidden" id="googlesnsIdx" name="snsIdx" value="3" />
 			</form>
-
+		
 			<!-- 카카오톡으로 로그인 -->
-			<input type="image" src="/resources/img/user/kakao_btn.png"
+			<input class="kakaoBtnDesign" type="image" src="/resources/img/user/kakao_btn.png"
 				onclick="loginWithKakao();" style="width: 280px; height: 65px;" />
 			<form id="kakaoForm" action="/user/socialLogin" method="post">
 				<input type="hidden" id="kakaoid" name="id" value="" /> <input
@@ -615,7 +688,7 @@ body {
 			</form>
 
 			<!-- 페이스북 로그인 -->
-			<input type="image" src="/resources/img/user/facebook_btn.png"
+			<input class="facebookBtnDesign" type="image" src="/resources/img/user/facebook_btn.png"
 				onclick="startFacebookLogin();" style="width: 280px; height: 66px;">
 			<form action="/user/socialLogin" method="post" id="facebookLogin">
 				<input type="hidden" id="facebookid" name="id" value="" /> <input
@@ -624,22 +697,27 @@ body {
 					value="" /> <input type="hidden" id="facebooksnsIdx" name="snsIdx"
 					value="2" />
 			</form>
-
+			
 			<!-- email로 로그인 -->
 			<div>
 				<form action="/user/login" method="post" id="mainLoginForm">
-					<label for="userid">이메일 </label> <input type="email"
-						id="useridforemail" name="userid" /><br> <label for="userpw">비밀번호</label>
-					<input type="password" id="userpwforemail" name="userpw" /><br>
+					<label class="emailLabelDesign" for="userid">이메일 </label> 
+					<input class="emailInputDesign" type="email" id="useridforemail" name="userid" /><br> 
+					
+					<label class="passwordLabelDesign" for="userpw">비밀번호</label>
+					<input class="passwordInputDesign" type="password" id="userpwforemail" name="userpw" /><br>
+					
 					<input type="hidden" id="snsIdxforemail" name="snsIdx" value="1" />
-					<input type="text" id="afterLoginCheck" style="border: 0;" /><br>
-					<input type="button" value="로그인" onclick="checkLoginInfo();" />
+					
+					<input class="afterLoginCheckDesign" type="text" id="afterLoginCheck" style="border: 0;" disabled/><br>
+					
+					<input class="LoginSubmitBtnDesign btn btn-default" type="button" value="로그인" onclick="checkLoginInfo();" />
 				</form>
 				<!-- 회원가입 open the modal btn -->
-				<button id="joinModalBtn" class="joinlogo">회원가입</button>
+				<button id="joinModalBtn" class="joinlogo btn btn-default">회원가입</button>
 
 				<!-- 비밀번호 찾기 open the modal btn -->
-				<button id="findPwModalBtn" class="findPw">비밀번호 찾기</button>
+				<button id="findPwModalBtn" class="findPw btn btn-default">비밀번호 찾기</button>
 			</div>
 
 			<!-- 비밀번호 찾기 모달 시작 -->
@@ -716,38 +794,39 @@ body {
 		// Get the <span> element that closes the modal
 		var newPlanspan = document.getElementsByClassName("newPlanModalclose")[0];
 
-		// When the user clicks the button, open the modal 
-		newPlanbtn.onclick = function() {
-			if ($("#planSaveBtn").length == 0) {
-				// 모달 창 띄우기
-				newPlanModal.style.display = "block";
-			} else {
-				// 저장버튼 활성화 상태이면 탭 안넘어가도록 경고창
-				if ($("#planSaveBtn").attr('disabled') == null) {
-					// 진행 확인 창 띄움
-					$.confirm({
-						title : '계속하시겠습니까?',
-						content : '저장하시지 않으면 작성 중인 정보를 잃습니다.',
-						buttons : {
-							cancle : { // 취소 버튼
-								text : '취소',
-								btnClass : 'btn-blue'
-							},
-							계속 : function() { // 계속 버튼
-								isAlreadyAlert = true;
-								// 모달 창 띄우기
-								newPlanModal.style.display = "block";
-							}
-						}
-					});
-				} else { // 저장버튼 비활성화 상태면 그냥 진행
+		if(newPlanbtn != null){
+			// When the user clicks the button, open the modal 
+			newPlanbtn.onclick = function() {
+				if ($("#planSaveBtn").length == 0) {
 					// 모달 창 띄우기
 					newPlanModal.style.display = "block";
+				} else {
+					// 저장버튼 활성화 상태이면 탭 안넘어가도록 경고창
+					if ($("#planSaveBtn").attr('disabled') == null) {
+						// 진행 확인 창 띄움
+						$.confirm({
+							title : '계속하시겠습니까?',
+							content : '저장하시지 않으면 작성 중인 정보를 잃습니다.',
+							buttons : {
+								cancle : { // 취소 버튼
+									text : '취소',
+									btnClass : 'btn-blue'
+								},
+								계속 : function() { // 계속 버튼
+									isAlreadyAlert = true;
+									// 모달 창 띄우기
+									newPlanModal.style.display = "block";
+								}
+							}
+						});
+					} else { // 저장버튼 비활성화 상태면 그냥 진행
+						// 모달 창 띄우기
+						newPlanModal.style.display = "block";
+					}
 				}
+	
 			}
-
 		}
-
 		// When the user clicks on <span> (x), close the modal
 		newPlanspan.onclick = function() {
 			newPlanModal.style.display = "none";
@@ -819,12 +898,13 @@ body {
 		// Get the <span> element that closes the modal
 		var loginWindowModalclose = document
 				.getElementsByClassName("loginWindowModalclose")[0];
-
-		// When the user clicks on the button, open the modal 
-		MainLoginBtnOnNotLoginBtn.onclick = function() {
-			loginWindowModal.style.display = "block";
+		if(MainLoginBtnOnNotLoginBtn != null){
+			// When the user clicks on the button, open the modal 
+			MainLoginBtnOnNotLoginBtn.onclick = function() {
+				loginWindowModal.style.display = "block";
+			}
 		}
-
+		
 		// When the user clicks on <span> (x), close the modal
 		loginWindowModalclose.onclick = function() {
 			loginWindowModal.style.display = "none";
