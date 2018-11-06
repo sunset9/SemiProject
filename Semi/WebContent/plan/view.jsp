@@ -632,8 +632,11 @@ function mdown(obj){
 <!-- 일정 기본 정보 -->
 <header>
 <!-- 플래너 배너 -->
-<div id="planInfoHeader" style="background-image:url('${planView.bannerURL }');">
-
+<div id="planInfoHeader">
+	<div id="planInfoBanner">
+		<img src='${planView.bannerURL }'>
+	</div>
+	
 	<div id="viewTitle" ><br>
 	<!-- 게시자와 열람자가 같은 유저면 수정버튼을 -->
 	<c:if test="${writtenUserView.user_idx eq loginedUserView.user_idx}">
