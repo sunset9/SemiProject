@@ -50,7 +50,7 @@ public class PlanCreateController extends HttpServlet {
 		
 		// 요청 파라미터 처리
 		Plan param = pService.getParamCreate(req);
-		//System.out.println("플랜 라이트 컨트롤러 : "+ param);
+		System.out.println("플랜 크리에이트 컨트롤러 : "+ param);
 		
 		// user_idx 구하기
 		User cUser = (User) req.getSession().getAttribute("user");
