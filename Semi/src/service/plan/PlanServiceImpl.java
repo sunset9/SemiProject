@@ -137,7 +137,7 @@ public class PlanServiceImpl implements PlanService{
 			plan.setEnd_date(dateEnd);
 			plan.setTraveled(Integer.parseInt(req.getParameter("editTraveled")));
 			plan.setOpened(Integer.parseInt(req.getParameter("editOpened")));
-			plan.setBannerURL("/image/basicBanner.png");
+//			plan.setBannerURL("/image/basicBanner.jpg");
 
 			return plan;
 		}
