@@ -783,7 +783,7 @@ public class UserDaoImpl implements UserDao{
 		sql += "SELECT * FROM( " ;
 		sql += 	"    SELECT rownum rnum, U.* FROM ( " ;
 		sql += 	"SELECT user_idx, id, nickname, profile, grade, ";
-		sql	+= "( SELECT sns_name FROM snstype S WHERE S.sns_idx = UI.sns_idx) sns_name ,create_date  ";
+		sql	+= "( SELECT sns_name FROM snstype S WHERE S.sns_idx = UI.sns_idx) sns_name ,create_date ,status ";
 		sql	+= "FROM userinfo UI  ORDER BY user_idx DESC " ;
 		sql += 	"       ) U  " ;
 		
