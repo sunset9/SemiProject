@@ -22,7 +22,7 @@ public interface AdminPlanService {
 	// 일정 제목으로 조회하기
 	public List<Plan> selectPlanByTitle(Plan plan);
 	
-	// 로그인 체그
+	// 로그인 체크
 	public boolean loginCheck(HttpServletRequest req);
 	
 	// 현재 페이지 얻어오기 

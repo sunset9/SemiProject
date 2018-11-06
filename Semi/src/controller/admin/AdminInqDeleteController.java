@@ -11,8 +11,6 @@ import javax.servlet.http.HttpServletResponse;
 import dto.board.InqFile;
 import dto.board.Inquiry;
 import dto.board.Reply;
-import service.admin.AdminService;
-import service.admin.AdminServiceImpl;
 import service.board.AdminInquiryService;
 import service.board.AdminInquiryServiceImpl;
 
