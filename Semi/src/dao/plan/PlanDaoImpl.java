@@ -583,6 +583,7 @@ public class PlanDaoImpl implements PlanDao{
 		
 		String [] cName = {"", ""};
     
+		
 		try {
 			ps = conn.prepareStatement(sql);
 			
