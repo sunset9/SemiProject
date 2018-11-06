@@ -118,7 +118,7 @@ public class PlanViewController extends HttpServlet {
 //		--------------------------------------------
 		
 		// 가계부 정보 가져오기
-		EnumMap<AccType, Integer> accEnumMap = new EnumMap<AccType, Integer>(AccType.class);
+		EnumMap<AccType, Double> accEnumMap = new EnumMap<AccType, Double>(AccType.class);
 	
 		// 카테고리 별
 		accEnumMap.put(AccType.airfare, pService.getAccountAccTpeCost(planParam, AccType.airfare));
@@ -133,7 +133,7 @@ public class PlanViewController extends HttpServlet {
 		req.setAttribute("accTypeCost", new Gson().toJson(accEnumMap));
 		
 		// 총합
-		int acc_total = pService.getAccountTotal(accEnumMap);
+		double acc_total = pService.getAccountTotal(accEnumMap);
 		req.setAttribute("acc_total", acc_total);
 		
 		// view 폼 띄우기

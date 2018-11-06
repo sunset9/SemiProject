@@ -135,9 +135,9 @@
 	/* 가계부 가격 정보 */
 	#accTypeCost {
 		text-align: left;
-	    height: 210px;
 	    width: 75%;
 	    margin: 8px auto;
+        overflow: hidden;
 	}
 	/* 가계부 카테고리*/
 	#accTypeCost p{
@@ -216,7 +216,28 @@ var is_diplayStory = false;
 var accTypeCost = [];
 
 </script>
+<script>
+//숫자만 입력
+function Numberchk() { 
+	if (event.keyCode < 46 || event.keyCode > 57) event.returnValue = false; 
+} 
 
+//콤마찍기
+function vComma(obj) { 
+	var str    = "" + obj.value.replace(/,/gi,''); // 콤마 제거 
+	var regx    = new RegExp(/(-?\d+)(\d{3})/); 
+	var bExists = str.indexOf(".",0); 
+	var strArr  = str.split('.'); 
+	
+	while(regx.test(strArr[0])){ 
+		strArr[0] = strArr[0].replace(regx,"$1,$2"); 
+	} 
+	if (bExists > -1) 
+		obj.value = strArr[0] + "." + strArr[1]; 
+	else 
+		obj.value = strArr[0]; 
+} 
+</script>
 <script type="text/javascript">
 
 // 읽기모드일때, 검색창 on/off
