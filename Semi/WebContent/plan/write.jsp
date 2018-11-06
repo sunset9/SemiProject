@@ -344,6 +344,8 @@ var isModify = 1;
 var isStayWriteMode = false;
 
 var isAlreadyAlert = false;
+
+var fileURL = "";
 </script>
 <script>
 //저장하기
@@ -391,7 +393,8 @@ function store(miniTimetables){
 		, data: {
 			plan_idx: '${planView.plan_idx}'
 			, user_idx: '${planView.user_idx}'
-			, uploadFile: '${planView.bannerURL}'
+			, fileURL: fileURL
+			, bannerURL: fileURL
 			, editOpened: $('.planInfo[name=editOpened]').val()
 			, editTraveled: $('.planInfo[name=editTraveled]').val()
 			, editTitleView: $('.planInfo[name=editTitleView]').val()
@@ -606,7 +609,8 @@ $(document).ready(function() {
 		    bannerImg.append(img);
 		  };
 	 	reader.readAsDataURL(file);
-		
+	 	fileURL = "/upload/banner/"+file.name;
+		console.log(fileURL);
 	 	activeStoreBtn(true);
 	});
 }); // $(document).ready() End
@@ -823,7 +827,7 @@ function numberWithCommas(x) {
 	</div>
 	<div id="editTitle" >
 	
-		<form id="uploadForm" action="/plan/banner" method="post" enctype="multipart/form-data">
+<!-- 		<form id="uploadForm" action="/plan/banner" method="post" enctype="multipart/form-data"> -->
 			<input type="hidden" name="plan_idx" value="${planView.plan_idx}" />
 			<input type="hidden" name="user_idx" value="${planView.user_idx}" />
 			
@@ -831,7 +835,7 @@ function numberWithCommas(x) {
 			<span id="fileModify" class = "glyphicon glyphicon-picture"   
 				  onmouseover="mover($(this))" onmouseleave="mleave($(this))" onmousedown="mdown($(this))">
 			</span>
-		</form>
+<!-- 		</form> -->
 	<!-- 플래너 대문 정보(공개유무, 수정버튼, 일정제목 등 UI) -->
 		<div style="text-align:right;margin:0px auto;width:400px;">
 			<form action="/plan/update" method="post" id="planForm">
