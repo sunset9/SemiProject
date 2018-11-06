@@ -15,9 +15,9 @@ import com.google.gson.GsonBuilder;
 
 import dto.Account.Account;
 import dto.plan.Plan;
-import dto.user.User;
 import dto.timetable.Location;
 import dto.timetable.Timetable;
+import dto.user.User;
 import service.plan.PlanService;
 import service.plan.PlanServiceImpl;
 import service.timetable.TimetableService;
@@ -44,10 +44,10 @@ public class PlanCreateController extends HttpServlet {
 		GsonBuilder gsonBuilder = new GsonBuilder();
         gsonBuilder.setDateFormat("yyyy-MM-dd HH:mm");
         Gson gson = gsonBuilder.create();
-
-//				// 요청 파라미터 받아오기
-		Map<Timetable, Location> ttLoc = ttbService.getParam(req);
 		
+//		// 요청 파라미터 받아오기
+        Map<Timetable, Location> ttLoc = ttbService.getParam(req);
+
 		// 요청 파라미터 처리
 		Plan param = pService.getParamCreate(req);
 		System.out.println("플랜 크리에이트 컨트롤러 : "+ param);
@@ -182,10 +182,11 @@ public class PlanCreateController extends HttpServlet {
 		GsonBuilder gsonBuilder = new GsonBuilder();
         gsonBuilder.setDateFormat("yyyy-MM-dd HH:mm");
         Gson gson = gsonBuilder.create();
-
-//				// 요청 파라미터 받아오기
-		Map<Timetable, Location> ttLoc = ttbService.getParam(req);
 		
+//		// 요청 파라미터 받아오기
+        Map<Timetable, Location> ttLoc = ttbService.getParam(req);
+
+
 		// 요청 파라미터 처리
 		Plan param = pService.getParamCreate(req);
 		//System.out.println("플랜 라이트 컨트롤러 : "+ param);

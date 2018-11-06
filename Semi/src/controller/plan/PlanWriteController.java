@@ -45,8 +45,6 @@ public class PlanWriteController extends HttpServlet {
         gsonBuilder.setDateFormat("yyyy-MM-dd HH:mm");
         Gson gson = gsonBuilder.create();
 
-//				// 요청 파라미터 받아오기
-		//Plan plan = pService.getParam4Edit(req);
 		Map<Timetable, Location> ttLoc = ttbService.getParam(req);
 		
 		// user_idx 구하기
@@ -64,7 +62,7 @@ public class PlanWriteController extends HttpServlet {
 			
 			Plan planView = pService.getPlanInfo(param);
 			System.out.println("플랜라이트 컨트롤러 : "+planView);
-
+			
 			// planView MODEL 전달
 			req.setAttribute("planView", planView);
 	
@@ -111,7 +109,7 @@ public class PlanWriteController extends HttpServlet {
 			
 		} else if(cUser == null) {
 			System.out.println("소셜 로그인 유저");
-
+			
 			Plan planView = pService.getPlanInfo(param);
 			System.out.println("플랜라이트 컨트롤러 : "+planView);
 
@@ -124,7 +122,6 @@ public class PlanWriteController extends HttpServlet {
 			//userView MODEL 전달
 			req.setAttribute("writtenUserView", writtenUserView);
 			System.out.println("planWriteController writtenUserView : "+writtenUserView);
-			
 			
 //			---------------------로그인 유저 파라미터 가져오기
 			// 요청파라미터(user_idx) -> Plan 모델
@@ -191,7 +188,6 @@ public class PlanWriteController extends HttpServlet {
 			
 			Plan planView = pService.getPlanInfo(param);
 			System.out.println("플랜라이트 컨트롤러 : "+planView);
-
 			// planView MODEL 전달
 			req.setAttribute("planView", planView);
 	
@@ -287,8 +283,6 @@ public class PlanWriteController extends HttpServlet {
 			//accView MODEL 전달
 			req.setAttribute("accView", accView);
 			
-			//plan_idx 세션에 추가 
-			//req.getSession().setAttribute("plan_idx", param);
 		}
 		// 뷰 지정
 		req.getRequestDispatcher("/plan/write.jsp")

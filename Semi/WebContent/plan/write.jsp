@@ -309,6 +309,16 @@
 	    margin-left: auto;
     }
     
+    /* 배너쪽 사진 아이콘 */
+	#fileModify {
+		text-decoration:none;
+		color: #ffffff;
+	}
+	
+	#fileModify:hover{
+		color:#4FB99F;
+	}
+    
 </style>
 
 <script>
@@ -856,8 +866,7 @@ function numberWithCommas(x) {
 				<input type="hidden" name="user_idx" value="${planView.user_idx}" />
 				<input id="fileBtn" type="file" name="uploadFile" style="display:none"/>
 			</form>
-			<span id="fileModify" class = "glyphicon glyphicon-picture"   
-				  onmouseover="mover($(this))" onmouseleave="mleave($(this))" onmousedown="mdown($(this))">
+			<span id="fileModify" class = "glyphicon glyphicon-picture" >
 			</span>
 	<!-- 플래너 대문 정보(공개유무, 수정버튼, 일정제목 등 UI) -->
 		<div style="text-align:center;margin:0px auto;width:100%;">

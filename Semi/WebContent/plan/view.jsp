@@ -169,6 +169,16 @@
 		color:#4FB99F;
 	}
 	
+	/* 배너쪽 수정 아이콘 */
+	#btnModify {
+		text-decoration:none;
+		color: #ffffff;
+	}
+	
+	#btnModify:hover{
+		color:#4FB99F;
+	}
+	
 	/* 가계부 가격 정보 */
 	#accTypeCost {
 		text-align: left;
@@ -733,31 +743,32 @@ function numberWithCommas(x) {
 			<input type="hidden" name="editStartDate" value="${planView.start_date}" />
 			<input type="hidden" name="editEndDate" value="${planView.end_date}" />
 			<input type="hidden" name="editTraveled" value="${planView.traveled}" />
-	    	<span id="btnModify" class = "glyphicon glyphicon-pencil"   
-				  onmouseover="mover($(this))" onmouseleave="mleave($(this))" onmousedown="mdown($(this))">
+	    	<span id="btnModify" class = "glyphicon glyphicon-pencil" >
 			</span>
 	    </form>
 	</c:if>
 	<!-- 다르면 북마크 버튼을 보여준다 -->
-	<c:if test="${writtenUserView.user_idx ne loginedUserView.user_idx}">
-<%-- 		${writtenUserView }<br> --%>
-<%-- 		${loginedUserView } --%>
-		<c:if test="${bookmark.user_idx ne loginedUserView.user_idx}">
-			<form action="/bookmark/insert" method="post" id="addBookmark">
-				<input type="hidden" name="plan_idx" value="${planView.plan_idx}" />
-				<span id="plusBookmark" class = "glyphicon glyphicon-bookmark">
-				</span>
-			</form>
-		</c:if>
-		
-		<c:if test="${bookmark.user_idx eq loginedUserView.user_idx}">
-<%-- 		${bookmark }<br> --%>
-<%-- 		${loginedUserView } --%>
-			<form action="/bookmark/delete" method="post" id="deleteBookmark">
-				<input type="hidden" name="book_idx" value="${bookmark.book_idx}" />
-				<input type="hidden" name="plan_idx" value="${planView.plan_idx}" />
-				<span id="minusBookmark" class = "glyphicon glyphicon-bookmark" ></span>
-			</form>
+	<c:if test="${loginedUserView.user_idx ne 0}">
+		<c:if test="${writtenUserView.user_idx ne loginedUserView.user_idx}">
+	<%-- 		${writtenUserView }<br> --%>
+	<%-- 		${loginedUserView } --%>
+			<c:if test="${bookmark.user_idx ne loginedUserView.user_idx}">
+				<form action="/bookmark/insert" method="post" id="addBookmark">
+					<input type="hidden" name="plan_idx" value="${planView.plan_idx}" />
+					<span id="plusBookmark" class = "glyphicon glyphicon-bookmark">
+					</span>
+				</form>
+			</c:if>
+			
+			<c:if test="${bookmark.user_idx eq loginedUserView.user_idx}">
+	<%-- 		${bookmark }<br> --%>
+	<%-- 		${loginedUserView } --%>
+				<form action="/bookmark/delete" method="post" id="deleteBookmark">
+					<input type="hidden" name="book_idx" value="${bookmark.book_idx}" />
+					<input type="hidden" name="plan_idx" value="${planView.plan_idx}" />
+					<span id="minusBookmark" class = "glyphicon glyphicon-bookmark" ></span>
+				</form>
+			</c:if>
 		</c:if>
 	</c:if>
 <!-- 	</div> -->
