@@ -202,7 +202,7 @@ body {
 }
 
 /* Modal Content */
-.newPlanmodal-content, .loginWindowModal-content, .findPwModal-contents {
+.loginWindowModal-content, .findPwModal-contents{
 	position: relative;
 	background-color: white;
 	margin: auto;
@@ -213,18 +213,33 @@ body {
 	border-radius: 7px;
 }
 
-.joinModal-contents{
-	
+.newPlanmodal-content {
+	position: relative;
 	background-color: white;
 	margin: auto;
 	padding: 10px;
-	margin-top: 60px;
-    margin-bottom: 60px;
 	border: 1px solid #888;
-	width: 420px;
-	height: 300px;
+	width: 370px;
+	height: auto;
 	border-radius: 7px;
-	
+}
+.joinModal-contents {
+	position: relative;
+	background-color: white;
+	margin: auto;
+	padding: 10px;
+	border: 1px solid #888;
+	width: 405px;
+	height: 350px;
+	border-radius: 7px;
+
+}
+.joinModal-contents h1{
+   display: block;
+   position: initial;
+   font-size: 40px;
+   color: black;  
+   margin-top: 9px;
 }
 
 /* The Close Button */
@@ -268,7 +283,7 @@ body {
    position: initial;
    font-size: 40px;
    color: black;  
-   margin-top: 9px;
+   margin-top: 3px;
 }
 .findPwModal-contents hr {
     margin-top: 11px;
@@ -354,8 +369,21 @@ body {
 .jmlabel {
 	width:95px;
 }
-.jmTitle {
-	font-size: 30px;
+
+.jmJoinSubBtn {
+	width: -webkit-fill-available;
+}
+
+.newPlanmodal-content select {
+	margin-top: 10px;
+    margin-bottom: 10px;
+    height: 33px;
+    width: -webkit-fill-available;
+}
+
+.npmTitle{
+    height: 34px;
+    width: -webkit-fill-available;
 }
 </style>
 
@@ -633,8 +661,8 @@ body {
 <body>
 	<div class="wholeHeader" style="position: relative; height: 160px; ">
 		<!-- header시작 -->
-		<a href="/main"><img src="/image/logo.png"
-			style="position:absolute; display: inline; width: 100px; height: 50px; top:3px;" /></a>
+		<a href="/main"><img src="/resources/img/main/KakaoTalk_Photo_2018-11-06-16-30-19.png"
+			style="position:absolute; display: inline; width: 160px; height: 80px; top:3px;" /></a>
 		<!-- 로그인 상태일때 -->
 		<c:if test="${login}">
 			<form action="/contents/all" method="get" style="display: inline;">
@@ -703,20 +731,27 @@ body {
 		<div class="newPlanmodal-content">
 			<span class="newPlanModalclose">&times;</span>
 			<div>
-				<h2>새 일정 만들기</h2>
+				<h2 style="margin-top: 0; margin-bottom: 0;">새 일정 만들기</h2>
 			</div>
 			<hr>
 			<form action="/plan/create" method="post">
 				<div>
-					<input type="text" id="editTitleView" name="editTitleView"
-						placeholder="여행 제목" /><br> <input type="date"
-						id="editStartDate" name="editStartDate" value="" /> <input
-						type="date" id="editEndDate" name="editEndDate" value="" /> <input
-						type="hidden" id="editOpened" name="editOpened" value="0" /><br>
-					<select name="editTraveled">
+					<div>
+					<input type="text" class="npmTitle" id="editTitleView" name="editTitleView" placeholder="여행 제목" />
+					</div>
+					<div>
+					<select name="editTraveled" style="width: -webkit-fill-available;">
 						<option value="1">여행 전</option>
 						<option value="0">여행 후</option>
-					</select> <input type="submit" value="새 일정 추가" />
+					</select> 
+					</div>
+					<p>
+					<input type="date" id="editStartDate" name="editStartDate" value="" /> 
+					<input type="date" id="editEndDate" name="editEndDate" value="" /> 
+					</p>
+					<input type="hidden" id="editOpened" name="editOpened" value="0" /><br>
+					<!-- <input class="form-control" type="submit" value="새 일정 추가" /> -->
+					<button class="btn btn-default" style="width: -webkit-fill-available;">새 일정 추가</button>
 				</div>
 			</form>
 		</div>
@@ -804,12 +839,14 @@ body {
 				<!-- 회원가입 modal content  -->
 				<div class="joinModal-contents">
 					<span class="jClose">&times;</span>
-					<span class="jmTitle">회원가입</span>
+					<!-- <span class="jmTitle">회원가입</span> -->
+					<h1>회원가입</h1>
+					<hr>
 					<form id="joinForm" action="/user/join" method="post" onsubmit="return sendJoinForm();">
 						<p>
 						<label class="jmlabel" style="width:95px;">이메일  </label> 
 						<input class="jmEmailInput" type="email" id="userid" name="userid" placeholder="이메일"> 
-						<input class="jmCheckBtn" type="button" value="중복확인" onclick="checkUserId();" />
+						<input class="jmCheckBtn btn btn-default" type="button" value="중복확인" onclick="checkUserId();" />
 						</p>
 						<p>
 						<input class="jmAfterIdCheck" type="text" id="afterIdCheck" style="border: 0;" /> 
@@ -827,7 +864,7 @@ body {
 						<input class="jmNickInput" type="text" id="usernickname" name="usernickname" placeholder="닉네임"> 
 						</p>
 						<input type="hidden" id="snsIdx" name="snsIdx" value="1" />
-						<button class="jmJoinSubBtn" type="submit" class="signUpBtn" id="joinBtn" disabled="disabled" style="color: gray;">가입하기</button>
+						<button class="jmJoinSubBtn btn btn-default" type="submit" class="signUpBtn" id="joinBtn" disabled="disabled" style="color: gray;">가입하기</button>
 					</form>
 				</div>
 			</div>
