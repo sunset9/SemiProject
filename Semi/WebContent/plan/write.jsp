@@ -232,14 +232,20 @@
      /*글제목 글씨*/
     #bannerTitle{
        	color: #FFF;
+	    margin-bottom: 46px;
+	    margin-right: 240px;
+	    font-size: 25px;
     }
   	 /*글제목 에딧박스*/
     #editBannerTitle{
-	  	border-radius: 5px;
-	    width: 200px;
-	    display: inline;
-	    margin-right: 190px;
-	    margin-bottom: 5px;
+		border-radius: 5px;
+	    width: 528px;
+	    margin-right: 142px;
+	    margin-bottom: 60px;
+	    height: 83px;
+	    margin-top: 3px;
+	    font-size: 70px;
+
     }
     
     /*출발일 글씨*/
@@ -285,10 +291,11 @@
 	    margin-right: 190px;
     }
     
+    /*일정정보폼*/
     #planForm{
-	    width: 700px;
-	    padding-top: 80px;
-	    padding-right: 165px;
+	    width: 800px;
+	    padding-top: 9px;
+	    padding-right: 263px;
 	    margin-right: 61px;
     }
     
@@ -839,6 +846,8 @@ function numberWithCommas(x) {
 	<!-- 플래너 대문 정보(공개유무, 수정버튼, 일정제목 등 UI) -->
 		<div style="text-align:right;margin:0px auto;width:400px;">
 			<form action="/plan/update" method="post" id="planForm">
+			
+			<span id="bannerTitle">여행제목</span><br><input id="editBannerTitle" name="editTitleView" class="form-control planInfo" type="text" value="${planView.title }"/><br>
 			<b id="planInfoIsOpen">공개유무 : </b>
 			<select id = "editPlanInfoIsOpen"name="editOpened" class ="form-control planInfo">
 			
@@ -857,7 +866,7 @@ function numberWithCommas(x) {
 					<input type="hidden" name="plan_idx" value="${planView.plan_idx}" />
 					<input type="hidden" name="user_idx" value="${planView.user_idx}" />
 					
-					<span id="bannerTitle">글제목 : </span> <input id="editBannerTitle" name="editTitleView" class="form-control planInfo" type="text" value="${planView.title }"/><br>
+					
 					
 					<span id="bannerStartDate">출발일 : </span> <input id = "editBannerStartDate"name="editStartDate" class ="form-control planInfo" type="date" value="${planView.start_date }"/>
 					
