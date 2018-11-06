@@ -1030,11 +1030,11 @@ public class PlanDaoImpl implements PlanDao{
 	// 최신 게시물 리스트 조회 
 	@Override
 	public List<Plan> selectNewList() {
-		// grade가 '여행작가'인 유저의 글중 최신글부터 나열한 리스트
+		// grade가 '여행작가'인 유저의 공개된 글 중 최신글부터 나열한 리스트
 		String sql = "";
 		sql += "SELECT P.plan_idx, U.user_idx, U.nickname, P.start_date, P.end_date, P.title, P.traveled, P.opened, P.bannerURL, P.create_date";
 		sql += " FROM planner P JOIN userinfo U on P.user_idx = U.user_idx";
-		sql += " WHERE U.grade = '여행작가' ORDER BY P.create_date desc";
+		sql += " WHERE U.grade = '여행작가' AND OPENED = 1 ORDER BY P.create_date desc";
 		
 		// DB 객체 생성
 		PreparedStatement ps = null;

@@ -11,9 +11,96 @@
 	margin-right:10px;
 }
 
-.profileBox { margin: 50px; }
+.profileBox { 
+	position: relative; 
+	height: 300px;
+	background-color: rgba( 227, 228, 229, 0.5 );
+	margin-bottom:20px;
+	border-radius: 8px;
+}
+
+.createDiv {
+	position: absolute;
+	border: 1px solid white;
+	top:135px;
+	left:170px;
+	width:100px;
+	border-radius: 7px;
+}
+
+.profileBox>img { 
+	width:140px; 
+	height:140px;
+	position: absolute;
+	top:40px;
+	left:150px;
+}
+
+#UserUpdateModalBtn {
+	position: absolute;
+	top:190px;
+	left:150px;
+    color: white;
+    width: 140px;
+    height: 40px;
+    border-radius: 6px;
+    border: 1px solid #4FB99F;
+    background-color: #4FB99F;
+    font-size: 17px;
+}
+
+.grade {
+	position: absolute;
+	font-size:20px;
+	top:100px;
+	left:360px;
+}
+
+.planCnt {
+	position: absolute;
+	font-size:20px;
+	top:145px;
+	left:360px;
+} 
+
+.nickname {
+	font-size: 25px;
+	position: absolute;
+	top:185px;
+	left:359px;
+}
+
+.totalDistance {
+	position: absolute;
+	font-size:20px;
+	top:192px;
+	right:280px;
+}
+
+
+.smallText2 {
+	position: absolute;
+	font-size:40px;
+	top:169px;
+	right:170px;	
+}
 
 .tabCommon { float: left; margin-left:30px; margin-right:30px; }
+
+
+.tab>button {
+	border: none;
+	font-size: 20px;
+	margin-bottom:10px;
+	width:120px;
+	color: #686868;
+}
+
+.tab>button:hover {
+	font-size: 25px;
+	color: black;
+	background-color: rgba( 227, 228, 229, 0.1 );
+}
 
 .listBox{
 	display: grid; 
@@ -21,26 +108,24 @@
 }
 
 #planBox,#bookmarkBox{
-	border: 1px solid black; 
+	
 	padding:10px;
 	margin : 3px;
+	border: 1px solid #d8d8d8;
+	border-radius: 6px;
 }
 
 #wrap, #wrap2 {
 	width: 400px;
 	overflow: hidden;
 	height: auto;
-	border: 1px solid black;	
 	padding: 10px;
+	position: relative;
 }
+
 
 #header {height: 40px;}
 
-#left {
-/* 	width: 406px;
- 	height: 150px;
-	float: left;	
- */}
 
 .filebox label { 
 	display: inline-block; 
@@ -83,13 +168,14 @@
 
 /* Modal Content/Box */
 .UserUpdateModal-content, .sUserUpdateModal-content {
-    background-color: #fefefe;
+    background-color: white;
     margin: 8% auto; /* 8% from the top and centered */
     padding: 20px;
     border: 1px solid #888;
     width: 445px; /* Could be more or less, depending on screen size */
     overflow: hidden;
     height: auto;
+    border-radius: 7px;
 }
 
 /* The Close Button */
@@ -109,6 +195,11 @@
     cursor: pointer;
 }
 
+#UserUpdateForm>input {
+	position:absolute;
+}
+
+
 </style>
 <script type="text/javascript">
 
@@ -121,6 +212,9 @@ $(document).ready(function(){
 		$('.uploadForm').submit();
 	});
 	
+	$('.profileImage').hover(function(){
+		$('.createDiv').appendchild('프로필변경');
+	});
 });
 
 function deletePlan(plan_idx){
@@ -197,6 +291,11 @@ function deleteCheck(){
 				}	
 			}
 		} else if(UserUpdateForm.currPw.value == ""){
+			if(UserUpdateForm.nickname.value.length>10){
+				alert("닉네임은 10자 이하로만 가능합니다.");
+				UserUpdateForm.nickname.focus();
+				return false;
+			}
 			$("#UserUpdateForm").submit();
 		}
 	}
@@ -232,37 +331,26 @@ function deleteCheck(){
 
 <!-- 아이디로 로그인한 유저의 마이페이지 -->
 <c:if test="${user.sns_idx == 1 || socialUser.sns_idx == 1}">
-<!-- 유저 정보 -->
-<div class="profileBox">
-	<!-- 프로필사진, 정보수정 버튼 -->
-	<div class="profile common">
-		<div id="right">
-			<div><img src="${user.profile}" class="profileImage" name="image" style="border-radius:10px; width:110px; height:100px;"/></div><br>
-			<div>
-				<form action="/user/file" method="post" enctype="multipart/form-data" class="uploadForm">
-					<input type="file" name="uploadFile" class="fileBtn" style="display: none;"/>
-					<input type="submit" value="업로드" class="submitBtn" style="display: none;"/>
-				</form>
-			</div>
-		</div>
-		<div class="updateBtn">
-			<button id="UserUpdateModalBtn">정보수정</button>	
-		</div>
-	</div>
-	
-	<!-- 사용자명, 등급, 포스팅개수 -->
-	<div class="profile common">
-		<div class="nickname">${user.nickname}님의 여행기</div>
-		<div class="grade">등급 : ${user.grade}</div>
-		<div class="planCnt">포스팅 : ${user.totalPlanCnt} 개</div>
-	</div>
-	
-	<!-- 총여행거리 -->
-	<div class="profile common">
+	<!-- 유저 정보 -->
+	<div class="profileBox">
+		<!-- 프로필사진, 정보수정 버튼 -->
+		<img src="${user.profile}" class="profileImage img-circle" name="image"/>		
+		<form action="/user/file" method="post" enctype="multipart/form-data" class="uploadForm">
+			<input type="file" name="uploadFile" class="fileBtn" style="display: none;"/>
+			<input type="submit" value="업로드" class="submitBtn" style="display: none;"/>
+		</form>
+		<button id="UserUpdateModalBtn">정보수정</button>	
 
-		<div class="totalDistance">총 여행거리 : <fmt:formatNumber value='${user.totalDist}' pattern="0.##"/>km</div>
+	
+		<!-- 사용자명, 등급, 포스팅개수 -->
+		<span class="nickname">${user.nickname} 님의 여행기</span>
+		<span class="grade">등급 : ${user.grade}</span>
+		<span class="planCnt">포스팅 : ${user.totalPlanCnt} 개</span>
+	
+		<!-- 총여행거리 -->
+		<span class="totalDistance">총 여행거리 : </span>
+		<span class="smallText2"><fmt:formatNumber value='${user.totalDist}' pattern="0.##"/>km</span>
 	</div>
-</div>
 
 <!-- 아이디 로그인 유저의 정보수정 The Modal -->
 <div id="UserUpdateModal" class="UserUpdateModal">
@@ -281,7 +369,7 @@ function deleteCheck(){
 					<label>내등급 : </label>
 					<input type="text" name="grade" value="${user.grade}" disabled/><br>
 					<label>닉네임 : </label>
-					<input type="text" name="nickname" value="${user.nickname}"/><br>
+					<input type="text" name="nickname" id="nickname" value="${user.nickname}"/><br>
 					<div id="pwRegion">
 						<label>비밀번호 : </label>
 						<input type="button" class="changePw" name="changePw" value="변경하기" /><br>
@@ -309,24 +397,25 @@ function deleteCheck(){
 <div>
 	<!-- 탭 버튼 -->
 	<div class="tab">
-		<button onclick="openList('planList')">내 일정</button>
-		<button onclick="openList('bookmarkList')">북마크</button>
+		<button onclick="openList('planList')">내 일정</button>|
+		<button onclick="openList('bookmarkList')">북마크</button>|
 		<button onclick="openList('inquiryList')">내 문의</button>
 	</div>
 	
 	<div id="planList" class="list">
-		<h3>여기는 내 일정 리스트</h3>
 	    <div id="planList" class="listBox">
 	      <c:forEach items="${plannerList }" var="plan"> 
 	        <div id="planBox" data-plan_idx="${plan.plan_idx }">
 	        <a href="/plan?plan_idx=${plan.plan_idx }">
-	          <div><img src="/upload/banner/${plan.bannerURL}" style="width: 100%;"></div>
-	          <div> Title : ${plan.title}</div>
+
+	          <div><img src="${plan.bannerURL }" style="width: 100%; border-radius:6px;"></div>
+	          <div style="color:black;"> Title : ${plan.title}</div>
+
 	
 	        </a>
 	          <div>
-	              <button id ="planDelete" onclick="deletePlan(${plan.plan_idx })">삭제</button>
-	              <button id ="planUpdate" onclick="updatePlan(${plan.plan_idx })">수정</button>
+	              <button id ="planDelete" class="btn btn-default" onclick="deletePlan(${plan.plan_idx })">삭제</button>
+	              <button id ="planUpdate" class="btn btn-default" onclick="updatePlan(${plan.plan_idx })">수정</button>
 	          </div>
 	        </div>
 	      </c:forEach>
@@ -337,18 +426,17 @@ function deleteCheck(){
 
 	
 	<div id="bookmarkList" class="list" style="display:none">
-	<div><h3>여기는 북마크 리스트</h3></div>
-	
-			<div id="planList" class="listBox" >
-
+		<div id="planList" class="listBox" >
 		<c:forEach items="${bookMarkList }" var="bList"> 
 			<div id="bookmarkBox" data-book_idx="${bList.book_idx }">
 			<a href="/plan?plan_idx=${bList.plan_idx }">
-				<div><img src="/upload/banner/${bList.bannerURL }" style="width: 100%;">
-				 Title : ${bList.title} <br> NickName : ${bList.writeNick  }</div>
+
+				<div><img src="${bList.bannerURL }" style="width: 100%; border-radius:6px;"></div>
+				<div style="color:black;"> Title : ${bList.title} <br> NickName : ${bList.writeNick }</div>
 				</a>
 				<div>
-					<button id ="bookDelete" onclick="deleteBook(${bList.book_idx})" >삭제</button>
+					<button id ="bookDelete" class="btn btn-default" onclick="deleteBook(${bList.book_idx })" >삭제</button>
+
 				</div>
 			</div>
 		</c:forEach>
@@ -358,7 +446,6 @@ function deleteCheck(){
 	</div>
 	
 	<div id="inquiryList" class="list" style="display:none">
-		<div><h3>내가 한 문의</h3></div>
 		<div id ="listTable">
 			<table class="table table-hover table-striped table-condensed">
 			<thead>
@@ -409,33 +496,21 @@ function deleteCheck(){
 <!-- 유저 정보 -->
 <div class="profileBox">
 	<!-- 프로필사진, 정보수정 버튼 -->
-	<div class="profile common">
-		<div id="right">
-			<div><img src="${socialUser.profile}" class="profileImage" name="image" style="border-radius:10px; width:110px; height:100px;"/></div><br>
-			<div>
-				<form action="/user/file" method="post" enctype="multipart/form-data" class="uploadForm">
-					<input type="file" name="uploadFile" class="fileBtn" style="display: none;"/>
-					<input type="submit" value="업로드" class="submitBtn" style="display: none;"/>
-				</form>
-			</div>
-		</div>
-		<div class="updateBtn">
-			<button id="sUserUpdateModalBtn">정보수정</button>	
-		</div>
-	</div>
-	
-	
+	<img src="${socialUser.profile}" class="profileImage img-circle" name="image"/>
+	<form action="/user/file" method="post" enctype="multipart/form-data" class="uploadForm">
+		<input type="file" name="uploadFile" class="fileBtn" style="display: none;"/>
+		<input type="submit" value="업로드" class="submitBtn" style="display: none;"/>
+	</form>
+	<button id="sUserUpdateModalBtn">정보수정</button>	
+
 	<!-- 사용자명, 등급, 포스팅개수 -->
-	<div class="profile common">
-		<div class="nickname">${socialUser.nickname}님의 여행기</div>
-		<div class="grade">등급 : ${socialUser.grade}</div>
-		<div class="planCnt">포스팅 : ${user.totalPlanCnt} 개</div>
-	</div>
-	
+	<span class="nickname">${socialUser.nickname} 님의 여행기</span>
+	<span class="grade">등급 : ${socialUser.grade}</span>
+	<span class="planCnt">포스팅 : ${user.totalPlanCnt} 개</span>
+
 	<!-- 총여행거리 -->
-	<div class="profile common">
-		<div class="totalDistance">총 여행거리 : <fmt:formatNumber value='${user.totalDist}' pattern="0.##"/>km</div>
-	</div>
+	<span class="totalDistance">총 여행거리 : </span>
+	<span class="smallText2"><fmt:formatNumber value='${user.totalDist}' pattern="0.##"/>km</span>
 </div>
 <hr>
 
@@ -445,7 +520,7 @@ function deleteCheck(){
 	<div class="sUserUpdateModal-content">
 		<div id="wrap2">
 		<span class="sUserUpdateModalClose">&times;</span>
-		<form action="/socialUser/update" method="post">
+		<form action="/socialUser/update" method="post" id="UserUpdateForm">
 			<div id="header"><h2>프로필 수정</h2></div>
 			<hr>
 			<div id="container">
@@ -455,7 +530,7 @@ function deleteCheck(){
 					<label>내등급 : </label>
 					<input type="text" name="grade" value="${socialUser.grade}" disabled/><br>
 					<label>닉네임 : </label>
-					<input type="text" name="nickname" value="${socialUser.nickname}"/><br>
+					<input type="text" name="nickname" id="nickname" value="${socialUser.nickname}"/><br>
 				</div>
 			</div>
 				<button type="submit">저장하기</button>
@@ -475,18 +550,17 @@ function deleteCheck(){
 	</div>
 	
 	<div id="planList" class="list">
-	<h3>여기는 내 일정 리스트</h3>
 	<div id="planList" class="listBox">
 		<c:forEach items="${plannerList }" var="plan"> 
 			<div id="planBox" data-plan_idx="${plan.plan_idx }">
 			<a href="/plan?plan_idx=${plan.plan_idx }">
-				<div><img src="/upload/banner/${plan.bannerURL }" style="width: 100%;"></div>
-				<div> Title : ${plan.title}</div>
+				<div><img src="${plan.bannerURL }" style="width: 100%; border-radius:6px;"></div>
+				<div style="color:black;"> Title : ${plan.title}</div>
 			
 			</a></div>
 			<div>
-					<button id ="planDelete">삭제</button>
-					<button id ="planUpdate" >수정</button>
+					<button id ="planDelete" class="btn btn-default">삭제</button>
+					<button id ="planUpdate" class="btn btn-default">수정</button>
 			</div>
 		</c:forEach>
 	</div>
@@ -495,17 +569,15 @@ function deleteCheck(){
 	</div>
 	
 	<div id="bookmarkList" class="list" style="display:none">
-		<div><h3>여기는 북마크 리스트</h3></div>
-	
 			<div id="planList" class="listBox" >
 
 		<c:forEach items="${bookMarkList }" var="bList"> 
 			<div id="bookmarkBox" data-book_idx="${bList.book_idx }">
 			<a href="/plan?plan_idx=${bList.plan_idx }">
-				<div><img src="/upload/banner/${bList.bannerURL }" style="width: 100%;"></div>
-				<div> Title : ${bList.title} <br> NickName : ${bList.writeNick }</div>
+				<div><img src="${bList.bannerURL }" style="width: 100%; border-radius:6px;" /></div>
+				<div style="color:black;"> Title : ${bList.title} <br> NickName : ${bList.writeNick }</div>
 				</a><div>
-					<button id ="planDelete"  onclick="deleteBook(${bList.book_idx })" >삭제</button>
+					<button id ="planDelete" class="btn btn-default" onclick="deleteBook(${bList.book_idx })" >삭제</button>
 				</div>
 			</div>
 		</c:forEach>
@@ -514,7 +586,6 @@ function deleteCheck(){
 	</div>
 	
 	<div id="inquiryList" class="list" style="display:none">
-		<div><h3>내가 한 문의</h3></div>
 		<div id ="listTable">
 			<table class="table table-hover table-striped table-condensed">
 			<thead>
