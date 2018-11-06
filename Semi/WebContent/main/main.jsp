@@ -240,8 +240,10 @@ img {
 		<c:forEach var="rList" items="${recomPlanList}" begin="0" end="2">
 			<div class="recomDiv" style="margin-top: 15px; margin-bottom: 10px;">
 				<div class="recomDivInner">
+				<a href ="/plan?plan_idx=${rList.plan_idx }">
 					<img class="recomImg" src="${rList.bannerURL}" style="width: 100%; height: 100%;" /><br>
 					<p class="recomP2">${rList.nick}<br>${rList.title}</p>
+					</a>
 				</div>
 			</div>
 		</c:forEach>
@@ -251,8 +253,10 @@ img {
 		<c:forEach var="rList" items="${recomPlanList}" begin="3" end="5">
 			<div class="recomDiv">
 				<div class="recomDivInner">
+				<a href ="/plan?plan_idx=${nList.plan_idx }">
 					<img class="recomImg" src="${rList.bannerURL}" style="width: 100%; height: 100%;" /><br>
 					<p class="recomP2">${rList.nick}<br>${rList.title}</p>
+					</a>
 				</div>
 			</div>
 		</c:forEach>
@@ -268,8 +272,10 @@ img {
 		<c:forEach var="nList" items="${newestPlanList}" begin="0" end="2">
 			<div class="newConDiv" style="margin-top: 15px; margin-bottom: 10px;">
 				<div class="newConDivInner">
+					<a href ="/plan?plan_idx=${nList.plan_idx }">
 					<img class="newConImg" src="${nList.bannerURL}" style="width: 100%; height: 100%;" /><br>
 					<p class="newConP2">${nList.nick}<br>${nList.title}</p>
+					</a>
 				</div>
 			</div>
 		</c:forEach>
@@ -279,8 +285,10 @@ img {
 		<c:forEach var="nList" items="${newestPlanList}" begin="3" end="5">
 			<div class="newConDiv">
 				<div class="newConDivInner">
+				<a href ="/plan?plan_idx=${nList.plan_idx }">
 					<img class="newConImg" src="${nList.bannerURL}" style="width: 100%; height: 100%;" /><br>
 					<p class="newConP2">${nList.nick}<br>${nList.title}</p>
+					</a>
 				</div>
 			</div>
 		</c:forEach>

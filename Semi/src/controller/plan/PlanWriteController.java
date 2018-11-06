@@ -25,9 +25,6 @@ import service.timetable.TimetableServiceImpl;
 import service.user.UserService;
 import service.user.UserServiceImpl;
 
-/**
- * Servlet implementation class PlanSaveController
- */
 @WebServlet("/plan/write")
 public class PlanWriteController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
