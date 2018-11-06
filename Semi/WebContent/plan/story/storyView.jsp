@@ -147,7 +147,7 @@ hr{
 
 /*장소이름*/
 .storyPlaceName{
-	color: #777777;
+	color: #3e3e3e;
 }
 
 /* 장소 마커*/
@@ -160,7 +160,7 @@ hr{
 	overflow: auto;
     height: auto;
     width: 100%;
-    color: #112F41;
+    color: #3e3e3e;
     padding-top: 0px;
     margin-left: 14px;
 }
@@ -175,7 +175,7 @@ hr{
 
 /*스토리없을때 장소이름*/
 .noStoryplaceName{
-	color: #777777;
+	color: #3e3e3e;
 	width: 750px;
 }
 
