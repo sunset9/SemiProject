@@ -172,7 +172,7 @@ public class TimetableServiceImpl implements TimetableService{
 		
 //		System.out.println(ttbList);
 		
-		// 기존에 있던 타임테이블 모두 삭제
+		// 넘어온 리스트에 없는 타임테이블들 삭제
 		deleteTimetableList(plan, ttbList);
 		
 		for(Timetable ttb: ttbList) {

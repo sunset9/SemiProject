@@ -62,8 +62,8 @@ public interface PlanService {
 	String[] getCountryName(Plan plan);
 	
 	//카테고리별 총 가격 가져오기
-	double getAccountAccTpeCost(Plan plan, AccType accType);
+	long getAccountAccTpeCost(Plan plan, AccType accType);
 	
 	// 해당 플랜의 총 지출 비용
-	double getAccountTotal(EnumMap<AccType, Double> accEnumMap);
+	long getAccountTotal(EnumMap<AccType, Long> accEnumMap);
 }

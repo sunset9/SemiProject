@@ -211,15 +211,15 @@ public class PlanServiceImpl implements PlanService{
 
 	// 카테고리 별 총합
 	@Override
-	public double getAccountAccTpeCost(Plan plan, AccType accType) {
+	public long getAccountAccTpeCost(Plan plan, AccType accType) {
 		return plandao.sumAccTypeCost(plan, accType);
 	}
 
 	// 한 일정의 가계부 비용 총합
 	@Override
-	public double getAccountTotal(EnumMap<AccType, Double> accEnumMap) {
-		double total = 0;
-		for(double cost : accEnumMap.values()) {
+	public long getAccountTotal(EnumMap<AccType, Long> accEnumMap) {
+		long total = 0;
+		for(long cost : accEnumMap.values()) {
 			total += cost;
 		}
 		return total;
