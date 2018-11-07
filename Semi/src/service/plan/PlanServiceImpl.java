@@ -206,8 +206,8 @@ public class PlanServiceImpl implements PlanService{
 
 	//plan_idx 가져오기 
 	@Override
-	public int getPlan_idx() {
-		return plandao.getPlan_idx();
+	public int getPlan_idx(User cUser) {
+		return plandao.getPlan_idx(cUser);
 	}
 
 	// 카테고리 별 총합

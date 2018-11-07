@@ -24,17 +24,44 @@ function checkField(){
 		alert("일정의 title을 입력해주세요.");
 		newPlanForm.editTitleViewInmain.focus();
 		return false;
-	}	
+	}
+	if(newPlanForm.editStartDateInmain.value == ""){
+		alert("출발일을 선택해주세요.");
+		newPlanForm.editStartDateInmain.focus();
+		return false;
+	}
+	if(newPlanForm.editEndDateInmain.value == ""){
+		alert("도착일을 선택해주세요.");
+		newPlanForm.editEndDateInmain.focus();
+		return false;
+	}
+	if(newPlanForm.editTitleViewInmain.value != "" && newPlanForm.editStartDateInmain.value != "" 
+			&& newPlanForm.editEndDateInmain.value != ""){
+		$('#newPlanForm').submit();
+	}
 }
 
 function checkDate(){
 	if(newPlanForm.editTraveled.value == "1"){
-		if(newPlanForm.editStartDateInmain.value )
-		
+		if(newPlanForm.editStartDateInmain.value < getTodayDate()){
+			alert("[여행전] 일정의 출발일은 오늘 날짜보다 빠를 수 없습니다.");
+		}
 	}
+	
 	
 }
 
+function setDisabledDate(){
+	if(newPlanForm.editTraveled.value == "1"){
+		$('#editStartDateInmain').attr("min",getTodayDate());
+	} else{
+		$('#editStartDateInmain').removeAttr("min");
+	}
+}
+
+function setEndDateDis(){
+	$('#editEndDateInmain').attr("min",newPlanForm.editStartDateInmain.value);
+}
 
 function getTodayDate(){
 	var today = new Date();
@@ -315,18 +342,19 @@ img {
 				<input type="text" class="npmTitle" id="editTitleViewInmain" name="editTitleView" placeholder="여행 제목" />
 			</div>
 			<div>
-				<select name="editTraveled" id="editTraveled" style="width: -webkit-fill-available;" onblur="checkDate();">
+				<select name="editTraveled" id="editTraveled" style="width: -webkit-fill-available;" >
 					<option value="1">여행 전</option>
 					<option value="0">여행 후</option>
 				</select> 
 			</div>
 			<p>
-				<input type="date" id="editStartDateInmain" name="editStartDate" value="" onblur="getDate();" /> 
-				<input type="date" id="editEndDateInmain" name="editEndDate" value="" /> 
+				<input type="date" id="editStartDateInmain" name="editStartDate" value="" onclick="setDisabledDate();" onblur="setEndDateDis();" /> 
+				<input type="date" id="editEndDateInmain" name="editEndDate" value=""  /> 
 			</p>
 			<input type="hidden" id="editOpenedInmain" name="editOpened" value="0" /><br>
 			<!-- <input class="form-control" type="submit" value="새 일정 추가" /> -->
-			<button class="btn btn-default" style="width: -webkit-fill-available;" onclick="checkField();">새 일정 추가</button>
+			<!-- <button class="btn btn-default" style="width: -webkit-fill-available;" onclick="checkField();">새 일정 추가</button> -->
+			<input type="button" class="btn btn-default" style="width: -webkit-fill-available;" onclick="checkField();" value="새 일정 추가"/>
 		</div>
 	</form>
 </div>

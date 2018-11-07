@@ -44,7 +44,7 @@ public interface PlanDao {
 	public void insertPlan(Plan param, User user);
 	
 	//plan_idx 가져오기
-	public int getPlan_idx();
+	public int getPlan_idx(User user);
 
 	//planner_seq.nextval 가져오기
 	public int getPlannerSeqNextval();
