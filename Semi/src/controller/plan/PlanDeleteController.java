@@ -26,6 +26,7 @@ public class PlanDeleteController extends HttpServlet {
 	
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+		System.out.println("planDeleteController parameter : "+req.getParameter("plan_idx"));
 		doPost(req,resp);
 	}
 	@Override

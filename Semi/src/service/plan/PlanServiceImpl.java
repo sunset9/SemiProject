@@ -68,6 +68,8 @@ public class PlanServiceImpl implements PlanService{
 		//요청파라미터 정보를 저장할 DTO객체
 		Plan plan = new Plan();
 		
+		System.out.println("planServiceImpl getParameter : "+req.getParameter("plan_idx"));
+		
 		//요청파라미터 받기
 		int param = Integer.parseInt(req.getParameter("plan_idx"));
 		plan.setPlan_idx(param);

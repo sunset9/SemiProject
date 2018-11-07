@@ -44,6 +44,8 @@ public class PlanUpdateController extends HttpServlet {
 	
 	@Override
 		protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+		
+		
 			// 업데이트 뷰 폼 띄워주기 
 			req.getRequestDispatcher("/plan/view.jsp").forward(req, resp);
 		}

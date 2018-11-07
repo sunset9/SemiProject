@@ -18,6 +18,15 @@ function openNewContents2(){
 function openrecomContents2(){
 	$(".recomContents2").toggle();
 }
+
+function checkField(){
+	if(newPlanForm.editTitleViewInmain.value == ""){
+		alert("일정의 title을 입력해주세요.");
+		newPlanForm.editTitleViewInmain.focus();
+		return false;
+	}
+	
+}
 </script>
 <style>
 /* The Modal (background) */
@@ -25,6 +34,7 @@ function openrecomContents2(){
 	display: none; /* Hidden by default */
 	position: fixed; /* Stay in place */
 	z-index: 1; /* Sit on top */
+	padding-top: 100px; /* Location of the box */
 	left: 0;
 	top: 0;
 	width: 100%; /* Full width */
@@ -34,13 +44,15 @@ function openrecomContents2(){
 	background-color: rgba(0, 0, 0, 0.4); /* Black w/ opacity */
 }
 
-/* Modal Content/Box */
 .modal-content {
-	background-color: #fefefe;
-	margin: 15% auto; /* 15% from the top and centered */
-	padding: 20px;
+	position: relative;
+	background-color: white;
+	margin: auto;
+	padding: 10px;
 	border: 1px solid #888;
-	width: 25%; /* Could be more or less, depending on screen size */
+	width: 370px;
+	height: auto;
+	border-radius: 7px;
 }
 /* The Close Button */
 .close {
@@ -149,11 +161,27 @@ img {
    width: 250px;
    height: 60px;
    border-radius: 6px;
-   border: 1px solid #4FB99F;
+   border: 1px solid #5cd6b9 ;
+   background: linear-gradient( to bottom, #5cd6b9 ,#5aceb2, #4FB99F);
    background-color: #4FB99F;
-   font-size: 20px;
-   
-   
+   font-size: 18px;
+   text-shadow:#999999 1px 1px 1px;
+}
+
+.btnNewPlan:hover {
+   position: absolute;    
+   display: inline-block;
+   color: white;
+   top: 180px;  
+   right: 100px; 
+   width: 250px;
+   height: 60px;
+   border-radius: 6px;
+   border: none;
+   background: linear-gradient( to bottom, #4dd1af ,#44ba9c, #42b598);
+   background-color: #4FB99F;
+   font-size: 18px;
+   text-shadow:#999999 1px 1px 1px;
 }
 
 
@@ -203,6 +231,20 @@ img {
    background-image: -ms-linear-gradient(top, #ebebeb 0%, #ebebeb 100%);
    color: #424242;
    }
+   
+.modal-content select {
+	margin-top: 10px;
+    margin-bottom: 10px;
+    height: 33px;
+    width: -webkit-fill-available;
+
+}
+
+.npmTitle{
+    height: 34px;
+    width: -webkit-fill-available;
+}
+
 </style>
 
 </head>
@@ -221,7 +263,7 @@ img {
 	<!-- 로그인 상태일때 -->
 	<c:if test="${login}">
 		<button id="btnModal" class="btnNewPlan" >새 일정 만들기</button>
-		<button id="btnModal2" style="display: none;">새 일정 만들기</button>
+		<button id="btnModal2" class="btnNewPlan" style="display: none;">새 일정 만들기</button>
 	</c:if>
 	
 	<!-- 비로그인 상태일때 -->
@@ -238,20 +280,27 @@ img {
 <!-- Modal content -->
 <div class="modal-content">
 	<span class="close">&times;</span>
-	<div><h2>새 일정 만들기</h2></div>
+	<div><h2  style="margin-top: 0; margin-bottom: 0;">새 일정 만들기</h2></div>
 	<hr>
-	<form action="/plan/create" method="post">
-	<div>
-		<input type="text" id="editTitleViewInMain" name="editTitleView" placeholder="여행 제목" /><br>
-		<input type="date" id="editStartDateInMain" name="editStartDate" value="" />
-		<input type="date" id="editEndDateInMain" name="editEndDate" value="" />
-		<input type="hidden" id="editOpenedInMain" name="editOpened" value="0" /><br>
-		<select name="editTraveled">
-			<option value="1">여행 전</option>
-			<option value="0">여행 후</option>
-		</select>
-		<input type="submit" value="새 일정 추가" />
-	</div>
+	<form action="/plan/create" method="post" id="newPlanForm">
+		<div>
+			<div>
+				<input type="text" class="npmTitle" id="editTitleViewInmain" name="editTitleView" placeholder="여행 제목" />
+			</div>
+			<div>
+				<select name="editTraveled" style="width: -webkit-fill-available;">
+					<option value="1">여행 전</option>
+					<option value="0">여행 후</option>
+				</select> 
+			</div>
+			<p>
+				<input type="date" id="editStartDateInmain" name="editStartDate" value="" /> 
+				<input type="date" id="editEndDateInmain" name="editEndDate" value="" /> 
+			</p>
+			<input type="hidden" id="editOpenedInmain" name="editOpened" value="0" /><br>
+			<!-- <input class="form-control" type="submit" value="새 일정 추가" /> -->
+			<button class="btn btn-default" style="width: -webkit-fill-available;" onclick="checkField();">새 일정 추가</button>
+		</div>
 	</form>
 </div>
 </div>
