@@ -24,9 +24,36 @@ function checkField(){
 		alert("일정의 title을 입력해주세요.");
 		newPlanForm.editTitleViewInmain.focus();
 		return false;
+	}	
+}
+
+function checkDate(){
+	if(newPlanForm.editTraveled.value == "1"){
+		if(newPlanForm.editStartDateInmain.value )
+		
 	}
 	
 }
+
+
+function getTodayDate(){
+	var today = new Date();
+	var dd = today.getDate();
+	var mm = today.getMonth()+1; //January is 0!
+	var yyyy = today.getFullYear();
+
+	if(dd<10) {
+	    dd='0'+dd
+	} 
+
+	if(mm<10) {
+	    mm='0'+mm
+	} 
+
+	today = yyyy+'-'+mm+'-'+dd;
+	return today;
+}
+
 </script>
 <style>
 /* The Modal (background) */
@@ -288,13 +315,13 @@ img {
 				<input type="text" class="npmTitle" id="editTitleViewInmain" name="editTitleView" placeholder="여행 제목" />
 			</div>
 			<div>
-				<select name="editTraveled" style="width: -webkit-fill-available;">
+				<select name="editTraveled" id="editTraveled" style="width: -webkit-fill-available;" onblur="checkDate();">
 					<option value="1">여행 전</option>
 					<option value="0">여행 후</option>
 				</select> 
 			</div>
 			<p>
-				<input type="date" id="editStartDateInmain" name="editStartDate" value="" /> 
+				<input type="date" id="editStartDateInmain" name="editStartDate" value="" onblur="getDate();" /> 
 				<input type="date" id="editEndDateInmain" name="editEndDate" value="" /> 
 			</p>
 			<input type="hidden" id="editOpenedInmain" name="editOpened" value="0" /><br>
