@@ -317,10 +317,16 @@
 	    margin-left: auto;
     }
     
-    /* 배너쪽 사진 아이콘 */
+    /* 배너 사진 교체 버튼 */
 	#fileModify {
+		float:left;
 		text-decoration:none;
 		color: #ffffff;
+		font-size:35px;
+		cursor:pointer;
+	    position: relative;
+	    right: 135px;
+	    top: -10px;
 	}
 	
 	#fileModify:hover{

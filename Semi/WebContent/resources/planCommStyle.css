@@ -53,14 +53,6 @@
 	font-size: 25px;
 }
 
-/* 배너 사진 교체 버튼 */
-#fileModify {
-	float:left;
-	color:#ffffff;
-	font-size:35px;
-	cursor:pointer;
-}
-
 /* 수정모드 버튼 */
 #btnModify {
 	float:right;
