@@ -23,30 +23,14 @@ public class Plan {
 	private String bannerURL;
 // 유저 nickname 
 	private String nick;
-	
-	public String getNick() {
-		return nick;
-	}
-
-	public void setNick(String nick) {
-		this.nick = nick;
-	}
-
-	public String getBannerURL() {
-		return bannerURL;
-	}
-
-	public void setBannerURL(String bannerURL) {
-		this.bannerURL = bannerURL;
-	}
+// 임시 토큰
+	private int planToken;
 
 	@Override
 	public String toString() {
 		return "Plan [plan_idx=" + plan_idx + ", user_idx=" + user_idx + ", start_date=" + start_date + ", end_date="
-				+ end_date + ", title=" + title + ", traveled=" + traveled + ", opened=" + opened
-				+ ", create_date=" + create_date + ", bannerURL=" + bannerURL
-				+ ", nick=" + nick + "]";
-
+				+ end_date + ", title=" + title + ", traveled=" + traveled + ", opened=" + opened + ", create_date="
+				+ create_date + ", bannerURL=" + bannerURL + ", nick=" + nick + ", planToken=" + planToken + "]";
 	}
 
 	public int getPlan_idx() {
@@ -93,8 +77,8 @@ public class Plan {
 		return traveled;
 	}
 
-	public void setTraveled(int travled) {
-		this.traveled = travled;
+	public void setTraveled(int traveled) {
+		this.traveled = traveled;
 	}
 
 	public int getOpened() {
@@ -112,6 +96,31 @@ public class Plan {
 	public void setCreate_date(Date create_date) {
 		this.create_date = create_date;
 	}
+
+	public String getBannerURL() {
+		return bannerURL;
+	}
+
+	public void setBannerURL(String bannerURL) {
+		this.bannerURL = bannerURL;
+	}
+
+	public String getNick() {
+		return nick;
+	}
+
+	public void setNick(String nick) {
+		this.nick = nick;
+	}
+
+	public int getPlanToken() {
+		return planToken;
+	}
+
+	public void setPlanToken(int planToken) {
+		this.planToken = planToken;
+	}
+	
 	
 	
 }

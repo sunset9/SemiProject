@@ -58,7 +58,7 @@ public interface PlanService {
 	public void createPlan(Plan param, User user_idx);
 
 	//plan_idx 가져오기 
-	public int getPlan_idx();
+	public int getPlan_idx(User user);
 	
 	//여행경로 2개 가져오기
 	String[] getCountryName(Plan plan);

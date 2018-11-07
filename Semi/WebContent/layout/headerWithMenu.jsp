@@ -665,6 +665,75 @@ body {
 			}
 		});
 	}
+	
+	function checkField1(){
+		if(newPlanFormInHeader.editTitleView.value == ""){
+			alert("일정의 title을 입력해주세요.");
+			newPlanFormInHeader.editTitleView.focus();
+			return false;
+		}
+		if(newPlanFormInHeader.editStartDate.value == ""){
+			alert("출발일을 선택해주세요.");
+			newPlanFormInHeader.editStartDate.focus();
+			return false;
+		}
+		if(newPlanFormInHeader.editEndDate.value == ""){
+			alert("도착일을 선택해주세요.");
+			newPlanFormInHeader.editEndDate.focus();
+			return false;
+		}
+		if(newPlanFormInHeader.editTitleView.value != "" && newPlanFormInHeader.editStartDate.value != "" 
+				&& newPlanFormInHeader.editEndDate.value != ""){
+			$('#newPlanFormInHeader').submit();
+		}
+	}
+
+	function checkDate1(){
+		if(newPlanFormInHeader.editTraveledInHeader.value == "1"){
+			if(newPlanFormInHeader.editStartDate.value < getTodayDate1()){
+				alert("[여행전] 일정의 출발일은 오늘 날짜보다 빠를 수 없습니다.");
+			}
+		}
+		
+		
+	}
+
+	function setDisabledDate1(){
+		if(newPlanFormInHeader.editTraveledInHeader.value == "1"){
+			$('#editStartDate').attr("min",getTodayDate1());
+		} else{
+			$('#editStartDate').removeAttr("min");
+		}
+	}
+
+	function setEndDateDis1(){
+		$('#editEndDate').attr("min",newPlanFormInHeader.editStartDate.value);
+	}
+	
+	function getTodayDate1(){
+		var today = new Date();
+		var dd = today.getDate();
+		var mm = today.getMonth()+1; //January is 0!
+		var yyyy = today.getFullYear();
+
+		if(dd<10) {
+		    dd='0'+dd
+		} 
+
+		if(mm<10) {
+		    mm='0'+mm
+		} 
+
+		today = yyyy+'-'+mm+'-'+dd;
+		return today;
+	}
+	
+	function press(){ 
+		if(window.event.keyCode == 13){ //javascript에서는 13이 enter키를 의미함 
+			checkLoginInfo();
+		} 
+	}
+
 </script>
 </head>
 <body>
@@ -743,24 +812,25 @@ body {
 				<h2 style="margin-top: 0; margin-bottom: 0;">새 일정 만들기</h2>
 			</div>
 			<hr>
-			<form action="/plan/create" method="post">
+			<form action="/plan/create" method="post" id="newPlanFormInHeader">
 				<div>
 					<div>
 					<input type="text" class="npmTitle" id="editTitleView" name="editTitleView" placeholder="여행 제목" />
 					</div>
 					<div>
-					<select name="editTraveled" style="width: -webkit-fill-available;">
+					<select name="editTraveled" id="editTraveledInHeader" style="width: -webkit-fill-available;">
 						<option value="1">여행 전</option>
 						<option value="0">여행 후</option>
 					</select> 
 					</div>
 					<p>
-					<input type="date" id="editStartDate" name="editStartDate" value="" /> 
+					<input type="date" id="editStartDate" name="editStartDate" value="" onclick="setDisabledDate1();" onblur="setEndDateDis1();"/> 
 					<input type="date" id="editEndDate" name="editEndDate" value="" /> 
 					</p>
 					<input type="hidden" id="editOpened" name="editOpened" value="0" /><br>
 					<!-- <input class="form-control" type="submit" value="새 일정 추가" /> -->
-					<button class="btn btn-default" style="width: -webkit-fill-available;">새 일정 추가</button>
+					<!-- <button class="btn btn-default" style="width: -webkit-fill-available;">새 일정 추가</button> -->
+					<input type="button" class="btn btn-default" style="width: -webkit-fill-available;" onclick="checkField1();" value="새 일정 추가"/>
 				</div>
 			</form>
 		</div>
@@ -809,7 +879,7 @@ body {
 					<input class="emailInputDesign" type="email" id="useridforemail" name="userid" /><br> 
 					
 					<label class="passwordLabelDesign" for="userpw">비밀번호</label>
-					<input class="passwordInputDesign" type="password" id="userpwforemail" name="userpw" /><br>
+					<input class="passwordInputDesign" type="password" id="userpwforemail" name="userpw" onkeyup="press();"/><br>
 					
 					<input type="hidden" id="snsIdxforemail" name="snsIdx" value="1" />
 					

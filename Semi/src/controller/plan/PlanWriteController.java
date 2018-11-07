@@ -35,7 +35,6 @@ public class PlanWriteController extends HttpServlet {
 	
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-
 		System.out.println();
 		System.out.println("----- PlanWriteController -----");
 
@@ -178,7 +177,7 @@ public class PlanWriteController extends HttpServlet {
 		User cUser = (User) req.getSession().getAttribute("user");
 		User cUserSocial = (User) req.getSession().getAttribute("socialUser");
 		
-		int plan_idxx = pService.getPlan_idx();
+		int plan_idxx = pService.getPlan_idx(cUser);
 //		System.out.println("플랜 라이트 컨트롤러 plan_idx : "+plan_idx);
 		Plan param = pService.getParam(req);
 		System.out.println("플랜 라이트 컨트롤러 : "+ param);
