@@ -439,8 +439,9 @@ public class PlanDaoImpl implements PlanDao{
 
 	//plan_idx 가져오기
 	@Override
-	public int getPlan_idx() {
+	public int getPlan_idx(User cUser) {
 		String sql = "SELECT MAX(PLAN_IDX) FROM PLANNER";
+		sql += " WHERE user_idx = "+cUser.getUser_idx();
 		
 		//DB 객체
 		PreparedStatement ps = null;

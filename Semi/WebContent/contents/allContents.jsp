@@ -18,13 +18,53 @@ th{
 	display: grid; 
 	grid-template-columns:33% 33% 33%;
 }
+/*  #planBox{ */
+/*  	background-color: #fff;  */
+/*  	border: 1px solid black;   */
+/*  	padding:10px;  */
+/*  	margin : 3px;  */
+/*  }  */
 
-#planBox{
-	border: 1px solid black; 
-	padding:10px;
-	margin : 3px;
+ #planBox{ 
+ 	border: 1px solid #babbbc; 
+ 	width: 330px; 
+ 	height: 200px; 
+ 	position: relative; 
+ 	margin: auto; 
+ 	overflow:hidden; 
+ 	margin-top: 20px;
+ } 
+
+.allConPageImg{
+	text-align: center;
+	position: absolute;
+	-webkit-transform:scale(1);
+    -moz-transform:scale(1);
+    -ms-transform:scale(1); 
+    -o-transform:scale(1);  
+    transform:scale(1);
+    -webkit-transition:.3s;
+    -moz-transition:.3s;
+    -ms-transition:.3s;
+    -o-transition:.3s;
+    transition:.3s;
 }
+.allConPageImg:hover{
+  	-webkit-transform:scale(1.2);
+    -moz-transform:scale(1.2);
+    -ms-transform:scale(1.2);   
+    -o-transform:scale(1.2);
+    transform: scale(1.2);
+ }
 
+.allConSpan{
+	text-align: center;
+	background-color: rgba( 255, 255, 255, 0.5 );
+	font-color: gray;
+	position: absolute;
+	width: 100%;
+	top: 80%;
+}
 
 </style>
 
@@ -34,7 +74,7 @@ th{
 <div id="planList" class="list" >
 
 		<c:forEach items="${planList }" var="plan"> 
-			<div id="planBox" data-plan_idx="${plan.plan_idx }">
+			<div id="planBox" data-plan_idx="${plan.plan_idx }" onmouseover="planBoxOver($(this))" onmouseleave="planBoxLeave($(this))">
 			
 				<c:if test="${plan.opened eq 0 && plan.user_idx ne user.user_idx}">
 					<a href="/contents/all" onclick="alert('비공개 게시글입니다.');">
@@ -45,8 +85,10 @@ th{
 				<c:if test="${plan.opened eq 0 && plan.user_idx eq user.user_idx}">
 					<a href="/plan?plan_idx=${plan.plan_idx }">
 				</c:if>
-						<div><img src="${plan.bannerURL }" style="width: 100%; height: 200px;"></div>
-						<div> Title : ${plan.title} <br> NickName : ${plan.nick }</div>
+
+						<div><img class="allConPageImg" src="${plan.bannerURL }" style="width: 100%; height: 100%"></div>
+						<span class="allConSpan"> ${plan.title} <br> ${plan.nick }</span>
+
 						</a>
 			</div>
 			

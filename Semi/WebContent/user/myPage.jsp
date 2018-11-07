@@ -117,12 +117,14 @@
 	margin-bottom:10px;
 	width:120px;
 	color: #686868;
+	background: rgba(255,255,255,0);
+	
 }
 
 .tab>button:hover {
-	font-size: 25px;
+	transform:scale(1.2,1.2);
 	color: black;
-	background-color: rgba( 227, 228, 229, 0.1 );
+	background-color: rgba( 227, 228, 229, 0);
 }
 
 .listBox{
@@ -439,7 +441,7 @@ function deleteCheck(){
 <!-- 일정, 북마크 리스트 -->
 <div>
 	<!-- 탭 버튼 -->
-	<div class="tab">
+	<div class="tab" style="height: 50px;">
 		<button onclick="openList('planList')">내 일정</button>|
 		<button onclick="openList('bookmarkList')">북마크</button>|
 		<button onclick="openList('inquiryList')">내 문의</button>
@@ -586,7 +588,7 @@ function deleteCheck(){
 <!-- 일정, 북마크 리스트 -->
 <div>
 	<!-- 탭 버튼 -->
-	<div class="tab">
+	<div class="tab" style="height: 50px">
 		<button onclick="openList('planList')">내 일정</button>
 		<button onclick="openList('bookmarkList')">북마크</button>
 		<button onclick="openList('inquiryList')">내 문의</button>

@@ -292,8 +292,6 @@ public class AccountDaoImpl implements AccountDao {
 				+ " 	ON A.story_idx = S.story_idx"
 				+ " 	WHERE A.plan_idx = ? )";
 		
-		System.out.println("----account Dao");
-		System.out.println(sql);
 		
 		try {
 			conn.setAutoCommit(false);

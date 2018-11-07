@@ -4,11 +4,16 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
+import com.oreilly.servlet.MultipartRequest;
+import com.oreilly.servlet.multipart.DefaultFileRenamePolicy;
+import com.oreilly.servlet.multipart.FileRenamePolicy;
 
 import dao.plan.PlanDao;
 import dao.plan.PlanDaoImpl;
@@ -48,36 +53,48 @@ public class PlanUpdateController extends HttpServlet {
 			System.out.println("----- PlanUpdateController -----");
 			req.setCharacterEncoding("utf-8");
 
-			Plan planParam = pService.getParamEdit(req);
+			ServletContext context = getServletContext();
+			String saveDirectory = context.getRealPath("upload/banner");
+			System.out.println(saveDirectory);
+//					
+			int maxPostSize = 10 * 1024 * 1024; //10MB
+//					
+			String encoding = "UTF-8";
+//					
+			FileRenamePolicy policy = new DefaultFileRenamePolicy();
+//					
+			MultipartRequest mul = new MultipartRequest(
+					req,
+					saveDirectory,
+					maxPostSize,
+					encoding,
+					policy
+			);
 			
+			
+			// 플랜 정보 파라미터 받기 
+			Plan planParam = pService.getParamEdit(mul);
+			// 요청파라미터 -> 타임테이블, 위치정보 Map 타입
+			Map<Timetable, Location> ttbLocParam = ttbService.getParam(mul);
+//			System.out.println(ttbLocParam);
+
 			Plan planView = pService.getPlanInfo(planParam);
-				// 플랜 정보 파라미터 받기 
-				// 요청파라미터 -> 타임테이블, 위치정보 Map 타입
-				Map<Timetable, Location> ttbLocParam = ttbService.getParam(req);
-				System.out.println(ttbLocParam);
-				
-				// 업데이트 하려는 타임테이블 리스트로 받기 
-				List<Timetable> updateTtbList = ttbService.getCompletedTimetable(ttbLocParam); 
-				// 삭제된 타임테이블에 해당하는 가계부 정보 삭제
-				aService.deleteList(planParam, updateTtbList);
-				// 삭제된 타임테이블에 해당하는 스토리 삭제
-				sService.deleteList(planParam, updateTtbList);
-				// 타임테이블, 위치정보 정보 업데이트
-				ttbService.update(planParam, ttbLocParam);
-				
-				// 일정 정보 업데이트
-				pService.update(planParam);
-				//----------------------------------------------------------------------------------------
-				
-				//배너 업데이트
-				if(req.getParameter("bannerURL") != null && !"".equals((String)req.getParameter("bannerURL"))) {
-					String path = (String) req.getParameter("bannerURL");
-					planView.setBannerURL(path);
-					// DB에서 유저의 banner 수정 
-					pDao.bannerUpdate(planView);
-				}
-				System.out.println(planView);
-				req.getSession().setAttribute("planView", planView);
-				req.getSession().setAttribute("plan_idx", planView.getPlan_idx());
+//			System.out.println(planView);
+			
+			// 업데이트 하려는 타임테이블 리스트로 받기 
+			List<Timetable> updateTtbList = ttbService.getCompletedTimetable(ttbLocParam); 
+			// 삭제된 타임테이블에 해당하는 가계부 정보 삭제
+			aService.deleteList(planParam, updateTtbList);
+			// 삭제된 타임테이블에 해당하는 스토리 삭제
+			sService.deleteList(planParam, updateTtbList);
+			// 타임테이블, 위치정보 정보 업데이트
+			ttbService.update(planParam, ttbLocParam);
+			
+			// 일정 정보 업데이트
+			pService.update(planParam);
+			
+			// 배너 정보 업데이트
+			pService.updateBanner(mul, planView);
+			
     }
 }
