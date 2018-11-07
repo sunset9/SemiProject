@@ -447,13 +447,14 @@ function deleteCheck(){
 		<button onclick="openList('inquiryList')">내 문의</button>
 	</div>
 	
+	<!-- 일정 리스트 -->
 	<div id="planList" class="list">
 	    <div id="planList" class="listBox">
 	      <c:forEach items="${plannerList }" var="plan"> 
 	        <div id="planBox" data-plan_idx="${plan.plan_idx }">
 	        <a href="/plan?plan_idx=${plan.plan_idx }">
 	          <div><img src="${plan.bannerURL }" style="width: 100%; height:240px;"></div>
-	          <div style="color:black;"> Title : ${plan.title}</div>
+	          <div style="color:black;">${plan.title}</div>
 	        </a>
 	          <div>
 	              <button id ="planDelete" class="btn btn-default" onclick="deletePlan(${plan.plan_idx })">삭제</button>
@@ -466,14 +467,14 @@ function deleteCheck(){
 </div>
 		
 
-	
+	<!-- 북마크 리스트 -->
 	<div id="bookmarkList" class="list" style="display:none">
 		<div id="planList" class="listBox" >
 		<c:forEach items="${bookMarkList }" var="bList"> 
 			<div id="bookmarkBox" data-book_idx="${bList.book_idx }">
 			<a href="/plan?plan_idx=${bList.plan_idx }">
 				<div><img src="${bList.bannerURL }" style="width: 100%; height:240px;"></div>
-				<div style="color:black;"> Title : ${bList.title} <br> NickName : ${bList.writeNick }</div>
+				<div style="color:black;">${bList.title} <br> NickName : ${bList.writeNick }</div>
 				</a>
 				<div>
 					<button id ="bookDelete" class="btn btn-default" onclick="deleteBook(${bList.book_idx})" >삭제</button>
@@ -594,13 +595,14 @@ function deleteCheck(){
 		<button onclick="openList('inquiryList')">내 문의</button>
 	</div>
 	
+	<!-- 일정 리스트 -->
 	<div id="planList" class="list">
 		<div id="planList" class="listBox">
 			<c:forEach items="${plannerList }" var="plan"> 
 				<div id="planBox" data-plan_idx="${plan.plan_idx }">
 					<a href="/plan?plan_idx=${plan.plan_idx }">
 						<div><img src="${plan.bannerURL }" style="width: 100%; height:240px;"></div>
-						<div style="color:black;"> Title : ${plan.title}</div>
+						<div style="color:black;">${plan.title}</div>
 					</a>
 					<div>
 						<button id ="planDelete" class="btn btn-default" onclick="deletePlan(${plan.plan_idx })">삭제</button>
@@ -612,20 +614,19 @@ function deleteCheck(){
 	</div>
 </div>
 	
+	<!-- 북마크 리스트 -->
 	<div id="bookmarkList" class="list" style="display:none">
-			<div id="planList" class="listBox" >
-
-		<c:forEach items="${bookMarkList }" var="bList"> 
-			<div id="bookmarkBox" data-book_idx="${bList.book_idx }">
-			<a href="/plan?plan_idx=${bList.plan_idx }">
-				<div><img src="${bList.bannerURL }" style="width: 100%; height:240px;" /></div>
-				<div style="color:black;"> Title : ${bList.title} <br> NickName : ${bList.writeNick }</div>
-				</a><div>
-					<button id ="planDelete" class="btn btn-default" onclick="deleteBook(${bList.book_idx })" >삭제</button>
+		<div id="planList" class="listBox" >
+			<c:forEach items="${bookMarkList }" var="bList"> 
+				<div id="bookmarkBox" data-book_idx="${bList.book_idx }">
+				<a href="/plan?plan_idx=${bList.plan_idx }">
+					<div><img src="${bList.bannerURL }" style="width: 100%; height:240px;" /></div>
+					<div style="color:black;">${bList.title} <br> NickName : ${bList.writeNick }</div>
+					</a><div>
+						<button id ="planDelete" class="btn btn-default" onclick="deleteBook(${bList.book_idx })" >삭제</button>
+					</div>
 				</div>
-			</div>
-		</c:forEach>
-		
+			</c:forEach>
 		</div>
 	</div>
 	
