@@ -159,7 +159,7 @@ hr{
 .storycontent{
 	overflow: auto;
     height: auto;
-    width: 100%;
+    width: 200%;
     color: #3e3e3e;
     padding-top: 0px;
     margin-left: 14px;

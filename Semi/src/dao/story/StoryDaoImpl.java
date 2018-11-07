@@ -442,7 +442,7 @@ public class StoryDaoImpl implements StoryDao{
 	@Override
 	public List<Comment> selectCommentByPlanIdx(Plan plan) {
 		
-		String sql = "select * from STORY_COMMENT where plan_idx = ?";
+		String sql = "select * from STORY_COMMENT where plan_idx = ? order by create_date";
 		List<Comment> CommentList = new ArrayList<>();
 		try {
 			ps = conn.prepareStatement(sql);
