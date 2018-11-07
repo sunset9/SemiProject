@@ -20,9 +20,45 @@ th{
 }
 
 #planBox{
-	border: 1px solid black; 
-	padding:10px;
-	margin : 3px;
+	border: 1px solid #babbbc; 
+ 	width: 330px; 
+ 	height: 200px; 
+ 	position: relative; 
+ 	margin: auto; 
+ 	overflow:hidden; 
+ 	margin-top: 20px;
+}
+
+.newConPageImg{
+	text-align: center;
+	position: absolute;
+	-webkit-transform:scale(1);
+    -moz-transform:scale(1);
+    -ms-transform:scale(1); 
+    -o-transform:scale(1);  
+    transform:scale(1);
+    -webkit-transition:.3s;
+    -moz-transition:.3s;
+    -ms-transition:.3s;
+    -o-transition:.3s;
+    transition:.3s;
+}
+
+.newConPageImg:hover{
+	-webkit-transform:scale(1.2);
+    -moz-transform:scale(1.2);
+    -ms-transform:scale(1.2);   
+    -o-transform:scale(1.2);
+    transform: scale(1.2);
+}
+
+.newConSpan{
+	text-align: center;
+	background-color: rgba( 255, 255, 255, 0.5 );
+	font-color: gray;
+	position: absolute;
+	width: 100%;
+	top: 80%;
 }
 
 
@@ -36,8 +72,8 @@ th{
 		<c:forEach items="${planList }" var="plan"> 
 			<div id="planBox" data-plan_idx="${plan.plan_idx }">
 				<a href="/plan?plan_idx=${plan.plan_idx }" >
-				<div><img src="${plan.bannerURL }" style="width: 100%;"></div>
-				<div> Title : ${plan.title}  NickName : ${plan.nick }</div>
+				<div><img class="newConPageImg" src="${plan.bannerURL }" style="width: 100%; height: 100%"></div>
+				<span class="newConSpan"> ${plan.title} <br> ${plan.nick }</span>
 				</a>
 			</div>
 		</c:forEach>

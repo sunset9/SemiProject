@@ -103,11 +103,20 @@ body {
 .dropdown>ul>li>a {
 	font-size:large;
 	color: #686868;	
+	text-decoration: none;
 }
-
+.dropdown>ul>li:hover>a {
+	transform:scale(1.2,1.2);
+	color: #5cd6b9;	
+}
 .dropdown>ul>li>ul>li>a {
 	font-size:large;
 	color: #686868;	
+	text-decoration: none;
+}
+.dropdown>ul>li>ul>li:hover>a {
+	transform:scale(1.2,1.2);
+	color: #5cd6b9;	
 }
 
 .menuLi ul:hover {
@@ -342,7 +351,7 @@ body {
 	top: 286px;
 	left: 83px;
 	width: 260px;
-	background-color: ();
+	background-color: rgba(255,255,255,0);
 }
 .LoginSubmitBtnDesign {
 	position: absolute;
@@ -661,7 +670,7 @@ body {
 <body>
 	<div class="wholeHeader" style="position: relative; height: 160px; ">
 		<!-- header시작 -->
-		<a href="/main"><img src="/resources/img/main/KakaoTalk_Photo_2018-11-06-16-30-19.png"
+		<a href="/main"><img src="/image/logo.png"
 			style="position:absolute; display: inline; width: 160px; height: 80px; top:3px;" /></a>
 		<!-- 로그인 상태일때 -->
 		<c:if test="${login}">
