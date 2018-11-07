@@ -177,14 +177,18 @@ public class PlanWriteController extends HttpServlet {
 		User cUser = (User) req.getSession().getAttribute("user");
 		User cUserSocial = (User) req.getSession().getAttribute("socialUser");
 		
-		int plan_idxx = pService.getPlan_idx(cUser);
-//		System.out.println("플랜 라이트 컨트롤러 plan_idx : "+plan_idx);
-		Plan param = pService.getParam(req);
-		System.out.println("플랜 라이트 컨트롤러 : "+ param);
+		int plan_idx = 0;
+////		System.out.println("플랜 라이트 컨트롤러 plan_idx : "+plan_idx);
+//		Plan param = pService.getParam(req);
+//		System.out.println("플랜 라이트 컨트롤러 : "+ param);
 		
 		if(cUserSocial == null) {
 			System.out.println("아이디 로그인 유저");
-			
+			plan_idx = pService.getPlan_idx(cUser);
+//			System.out.println("플랜 라이트 컨트롤러 plan_idx : "+plan_idx);
+			Plan param = pService.getParam(req);
+			System.out.println("플랜 라이트 컨트롤러 : "+ param);
+
 			Plan planView = pService.getPlanInfo(param);
 			System.out.println("플랜라이트 컨트롤러 : "+planView);
 			// planView MODEL 전달
@@ -236,6 +240,12 @@ public class PlanWriteController extends HttpServlet {
 		} else if(cUser == null) {
 			System.out.println("소셜 로그인 유저");
 
+			plan_idx = pService.getPlan_idx(cUserSocial);
+//			System.out.println("플랜 라이트 컨트롤러 plan_idx : "+plan_idx);
+			Plan param = pService.getParam(req);
+			System.out.println("플랜 라이트 컨트롤러 : "+ param);
+
+			
 			Plan planView = pService.getPlanInfo(param);
 			System.out.println("플랜라이트 컨트롤러 : "+planView);
 
