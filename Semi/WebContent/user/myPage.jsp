@@ -36,7 +36,7 @@
 	left:150px;
 }
 
-#UserUpdateModalBtn {
+#UserUpdateModalBtn, #sUserUpdateModalBtn {
 	position: absolute;
 	top:190px;
 	left:150px;
@@ -44,9 +44,25 @@
     width: 140px;
     height: 40px;
     border-radius: 6px;
-    border: 1px solid #4FB99F;
+    border: 1px solid #5cd6b9;
+    background: linear-gradient( to bottom, #5cd6b9 ,#5aceb2, #4FB99F);
     background-color: #4FB99F;
     font-size: 17px;
+}
+
+#UserUpdateModalBtn:hover, #sUserUpdateModalBtn:hover {
+	position: absolute;
+	top:190px;
+	left:150px;
+    color: white;
+    width: 140px;
+    height: 40px;
+    border-radius: 6px;
+    border: 1px solid #5cd6b9;
+    background: linear-gradient( to bottom, #5cd6b9 ,#5aceb2, #4FB99F);
+    background-color: #4FB99F;
+    font-size: 17px;
+    background: linear-gradient( to bottom, #4dd1af ,#44ba9c, #42b598);
 }
 
 #myInfo {
@@ -122,14 +138,25 @@
 	border-radius: 6px;
 }
 
-#wrap, #wrap2 {
-	width: 400px;
+#wrap {
+	width: 310px;
 	overflow: hidden;
 	height: auto;
 	padding: 10px;
 	position: relative;
 }
 
+#wrap label {
+	width: 88px;
+}
+
+#wrap2 {
+	width: 300px;
+	overflow: hidden;
+	height: auto;
+	padding: 10px;
+	position: relative;
+}
 
 #header {height: 40px;}
 
@@ -179,7 +206,7 @@
     margin: 8% auto; /* 8% from the top and centered */
     padding: 20px;
     border: 1px solid #888;
-    width: 445px; /* Could be more or less, depending on screen size */
+    width: 350px; /* Could be more or less, depending on screen size */
     overflow: hidden;
     height: auto;
     border-radius: 7px;
@@ -203,7 +230,9 @@
 }
 
 #UserUpdateForm>input {
-	position:absolute;
+	width: 290px;
+	margin-bottom: 10px;
+    margin-top: 10px;
 }
 
 
@@ -230,7 +259,7 @@ function deletePlan(plan_idx){
 	}
 }
 function updatePlan(plan_idx){
-	$(location).attr("href", "/plan/update?plan_idx="+plan_idx);
+	$(location).attr("href", "/plan/write?plan_idx="+plan_idx);
 }
 function deleteBook(book_idx){
 	
@@ -315,11 +344,11 @@ function deleteCheck(){
 			},
 			success : function(result){
 				if(result == 2){
-					$("#afterCheckCurrPw").val("현재 비밀번호와 불일치");
+					$("#afterCheckCurrPw").val("현재 비밀번호와 일치하지않습니다.");
 					$("#afterCheckCurrPw").css("color", "red");
 					$("#userUpdateSubmit").prop("disabled",true);
 				} else {
-					$("#afterCheckCurrPw").val("현재 비밀번호와 일치");
+					$("#afterCheckCurrPw").val("현재 비밀번호와 일치합니다.");
 					$("#afterCheckCurrPw").css("color", "blue");
 					$("#userUpdateSubmit").prop("disabled",false);
 				}
@@ -367,33 +396,41 @@ function deleteCheck(){
 		<span class="UserUpdateModalClose">&times;</span>
 		<div id="header"><h2>프로필 수정</h2></div>
 		<hr>
-		<div id="container">
-			<div id="left">
 				<form action="/user/update" method="post" id="UserUpdateForm">
-					<label>아이디 : </label>
+				<p>	
+					<label>아이디  </label>
 					<input type="text" id="UserIdForUpdate" name="userid" value="${user.id}" readonly/><br>
-					<label>내등급 : </label>
+				</p>
+				<p>
+					<label>내등급  </label>
 					<input type="text" name="grade" value="${user.grade}" disabled/><br>
-					<label>닉네임 : </label>
+				</p>
+				<p>
+					<label>닉네임  </label>
 					<input type="text" name="nickname" id="nickname" value="${user.nickname}"/><br>
-					<div id="pwRegion">
-						<label>비밀번호 : </label>
-						<input type="button" class="changePw" name="changePw" value="변경하기" /><br>
+				</p>
+					<div id="pwRegion" style="margin-bottom: 10px;">
+						<label>비밀번호  </label>
+						<input type="button" class="changePw btn btn-default" name="changePw" value="변경하기" /><br>
 					</div>
 					<div id="morePwRegion">
-						<label>현재 비밀번호 : </label>
+					<p>
+						<label>현재 비밀번호  </label>
 						<input type="password" id="currPw" name="currPw"/><br>
-						<input type="text" id="afterCheckCurrPw" /><br>
-						<label>새 비밀번호 : </label>
+					</p>
+						<input type="text" id="afterCheckCurrPw" style="width:262px; border:none;" disabled/><br>
+					<p>
+						<label>새 비밀번호  </label>
 						<input type="password" id="newPw" name="newPw" onfocus="checkCurrPw();"/><br>
-						<label>비밀번호 확인 : </label>
+					</p>
+					<p>
+						<label>비밀번호 확인  </label>
 						<input type="password" id="newPwCheck" name="newPwCheck" /><br>
+					</p>
 					</div>
-					<input type="button" id="userUpdateSubmit" value="저장하기" onclick="sendUpdateForm();" />
+					<input type="button" id="userUpdateSubmit" class="btn btn-default" value="저장하기" onclick="sendUpdateForm();" />
 				</form>
-				<button onclick="deleteCheck();">회원탈퇴하기</button>
-			</div>
-		</div>
+				<button onclick="deleteCheck();" class="btn btn-default" style="width: 290px;">회원탈퇴하기</button>
 	</div>
 	</div>
 </div>
@@ -413,11 +450,8 @@ function deleteCheck(){
 	      <c:forEach items="${plannerList }" var="plan"> 
 	        <div id="planBox" data-plan_idx="${plan.plan_idx }">
 	        <a href="/plan?plan_idx=${plan.plan_idx }">
-
 	          <div><img src="${plan.bannerURL }" style="width: 100%; height:240px;"></div>
 	          <div style="color:black;"> Title : ${plan.title}</div>
-
-	
 	        </a>
 	          <div>
 	              <button id ="planDelete" class="btn btn-default" onclick="deletePlan(${plan.plan_idx })">삭제</button>
@@ -436,13 +470,11 @@ function deleteCheck(){
 		<c:forEach items="${bookMarkList }" var="bList"> 
 			<div id="bookmarkBox" data-book_idx="${bList.book_idx }">
 			<a href="/plan?plan_idx=${bList.plan_idx }">
-
 				<div><img src="${bList.bannerURL }" style="width: 100%; height:240px;"></div>
 				<div style="color:black;"> Title : ${bList.title} <br> NickName : ${bList.writeNick }</div>
 				</a>
 				<div>
-					<button id ="bookDelete" class="btn btn-default" onclick="deleteBook(${bList.book_idx })" >삭제</button>
-
+					<button id ="bookDelete" class="btn btn-default" onclick="deleteBook(${bList.book_idx})" >삭제</button>
 				</div>
 			</div>
 		</c:forEach>
@@ -510,13 +542,16 @@ function deleteCheck(){
 	<button id="sUserUpdateModalBtn">정보수정</button>	
 
 	<!-- 사용자명, 등급, 포스팅개수 -->
-	<span class="nickname">${socialUser.nickname} 님의 여행기</span>
-	<span class="grade">등급 : ${socialUser.grade}</span>
-	<span class="planCnt">포스팅 : ${user.totalPlanCnt} 개</span>
-
-	<!-- 총여행거리 -->
-	<span class="totalDistance">총 여행거리 : </span>
-	<span class="smallText2"><fmt:formatNumber value='${user.totalDist}' pattern="0.##"/>km</span>
+	<div id='myInfo'>
+		<span class="nickname">${socialUser.nickname} 님의 여행기</span>
+		<span class="grade">등급 : ${socialUser.grade}</span>
+		<span class="planCnt">포스팅 : ${socialUser.totalPlanCnt} 개</span>
+	
+		<!-- 총여행거리 -->
+		<span class="totalDistance">총 여행거리 : 		
+			<span class="smallText2"><fmt:formatNumber value='${socialUser.totalDist}' pattern="0.##"/>km</span>
+		</span>
+	</div>
 </div>
 <hr>
 
@@ -526,22 +561,24 @@ function deleteCheck(){
 	<div class="sUserUpdateModal-content">
 		<div id="wrap2">
 		<span class="sUserUpdateModalClose">&times;</span>
+		<div id="header"><h2>프로필 수정</h2></div>
+		<hr>
 		<form action="/socialUser/update" method="post" id="UserUpdateForm">
-			<div id="header"><h2>프로필 수정</h2></div>
-			<hr>
-			<div id="container">
-				<div id="left">
-					<label>아이디 : </label>
-					<input type="text" id="sUserId" name="userid" value="${socialUser.id}" readonly/><br>
-					<label>내등급 : </label>
-					<input type="text" name="grade" value="${socialUser.grade}" disabled/><br>
-					<label>닉네임 : </label>
-					<input type="text" name="nickname" id="nickname" value="${socialUser.nickname}"/><br>
-				</div>
-			</div>
-				<button type="submit">저장하기</button>
+			<p>
+				<label>아이디   </label>
+				<input type="text" id="sUserId" name="userid" value="${socialUser.id}" readonly style="width: 225px;"/><br>
+			</p>
+			<p>
+				<label>내등급   </label>
+				<input type="text" name="grade" value="${socialUser.grade}" disabled style="width: 225px;"/><br>
+			</p>
+			<p>
+				<label>닉네임   </label>
+				<input type="text" name="nickname" id="nickname" value="${socialUser.nickname}" style="width: 225px;"/><br>
+			</p>
+			<button type="submit" class="btn btn-default" style="width: -webkit-fill-available; margin-bottom:10px;">저장하기</button>
 		</form>
-		<button onclick="deleteCheck();">회원탈퇴하기</button>
+		<button onclick="deleteCheck();" class="btn btn-default" style="width: -webkit-fill-available;">회원탈퇴하기</button>
 		</div>
 	</div>
 </div>
@@ -556,23 +593,22 @@ function deleteCheck(){
 	</div>
 	
 	<div id="planList" class="list">
-	<div id="planList" class="listBox">
-		<c:forEach items="${plannerList }" var="plan"> 
-			<div id="planBox" data-plan_idx="${plan.plan_idx }">
-			<a href="/plan?plan_idx=${plan.plan_idx }">
-				<div><img src="${plan.bannerURL }" style="width: 100%; height:240px;"></div>
-				<div style="color:black;"> Title : ${plan.title}</div>
-			
-			</a></div>
-			<div>
-					<button id ="planDelete" class="btn btn-default">삭제</button>
-					<button id ="planUpdate" class="btn btn-default">수정</button>
-			</div>
-		</c:forEach>
+		<div id="planList" class="listBox">
+			<c:forEach items="${plannerList }" var="plan"> 
+				<div id="planBox" data-plan_idx="${plan.plan_idx }">
+					<a href="/plan?plan_idx=${plan.plan_idx }">
+						<div><img src="${plan.bannerURL }" style="width: 100%; height:240px;"></div>
+						<div style="color:black;"> Title : ${plan.title}</div>
+					</a>
+					<div>
+						<button id ="planDelete" class="btn btn-default" onclick="deletePlan(${plan.plan_idx })">삭제</button>
+						<button id ="planUpdate" class="btn btn-default" onclick="updatePlan(${plan.plan_idx })">수정</button>
+					</div>
+				</div>
+			</c:forEach>
+		</div>
 	</div>
-	</div>
-	
-	</div>
+</div>
 	
 	<div id="bookmarkList" class="list" style="display:none">
 			<div id="planList" class="listBox" >
@@ -657,12 +693,17 @@ function deleteCheck(){
 var UserUpdateModal = document.getElementById('UserUpdateModal');
 var UserUpdateModalBtn = document.getElementById("UserUpdateModalBtn");
 var UserUpdateModalClose = document.getElementsByClassName("UserUpdateModalClose")[0];
-UserUpdateModalBtn.onclick = function() {
-	UserUpdateModal.style.display = "block";
+if(UserUpdateModalBtn != null){
+	UserUpdateModalBtn.onclick = function() {
+		UserUpdateModal.style.display = "block";
+	}
 }
-UserUpdateModalClose.onclick = function() {
-	UserUpdateModal.style.display = "none";
+if(UserUpdateModalClose != null){
+	UserUpdateModalClose.onclick = function() {
+		UserUpdateModal.style.display = "none";
+	}	
 }
+
 window.onclick = function(event) {
     if (event.target == UserUpdateModal) {
     	UserUpdateModal.style.display = "none";
@@ -675,11 +716,17 @@ window.onclick = function(event) {
 var sUserUpdateModal = document.getElementById('sUserUpdateModal');
 var sUserUpdateModalBtn = document.getElementById("sUserUpdateModalBtn");
 var sUserUpdateModalClose = document.getElementsByClassName("sUserUpdateModalClose")[0];
-sUserUpdateModalBtn.onclick = function() {
-	sUserUpdateModal.style.display = "block";
+
+if(sUserUpdateModalBtn != null){
+	sUserUpdateModalBtn.onclick = function() {
+		sUserUpdateModal.style.display = "block";
+	}	
 }
-sUserUpdateModalClose.onclick = function() {
-	sUserUpdateModal.style.display = "none";
+
+if(sUserUpdateModalClose != null){
+	sUserUpdateModalClose.onclick = function() {
+		sUserUpdateModal.style.display = "none";
+	}	
 }
 window.onclick = function(event) {
     if (event.target == sUserUpdateModal) {

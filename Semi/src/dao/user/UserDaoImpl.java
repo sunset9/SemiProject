@@ -543,6 +543,7 @@ public class UserDaoImpl implements UserDao{
 				b.setBannerURL(rs.getString("BANNERURL"));
 				
 				list.add(b);
+				//System.out.println("UserDaoImpl 에 북마크 리스트 : "+list);
 			}
 			
 		} catch (SQLException e) {
