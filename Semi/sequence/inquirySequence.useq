@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<sequence-diagram version="1.2.2" icons="true" generate-combined-fragments="true">  
+  <object id="1" language="java" name="controller.inquiry.InqDeleteController" project="Semi" 
+    file="/Semi/src/controller/inquiry/InqDeleteController.java" binary="false" label="inqDeleteController" type="class" 
+    autoSize="true">    
+    <position height="-1" width="-1" x="157" y="0"/>    
+    <execution id="2">      
+      <position height="200" width="0" x="0" y="182"/>    
+    </execution>  
+  </object>  
+  <object id="5" language="java" name="service.board.InquiryServiceImpl" project="Semi" 
+    file="/Semi/src/service/board/InquiryServiceImpl.java" binary="false" label="inquiryServiceImpl" type="class" 
+    autoSize="true">    
+    <position height="0" width="0" x="0" y="0"/>    
+    <execution id="4">      
+      <position height="152" width="0" x="0" y="206"/>    
+    </execution>  
+  </object>  
+  <object id="10" language="java" name="dao.board.InqFileDaoImpl" project="Semi" 
+    file="/Semi/src/dao/board/InqFileDaoImpl.java" binary="false" label="inqFileDaoImpl" type="class" autoSize="true">    
+    <position height="0" width="0" x="0" y="0"/>    
+    <execution id="9">      
+      <position height="24" width="0" x="0" y="310"/>    
+    </execution>  
+  </object>  
+  <object id="11" language="java" name="dao.board.InquiryDaoImpl" project="Semi" 
+    file="/Semi/src/dao/board/InquiryDaoImpl.java" binary="false" label="inquiryDaoImpl" type="class" autoSize="true">    
+    <position height="0" width="0" x="0" y="0"/>    
+    <execution id="7">      
+      <position height="24" width="0" x="0" y="249"/>    
+    </execution>  
+  </object>  
+  <message id="3" operation="delete(dto.board.Inquiry):void" asynchronous="false">    
+    <end type="SOURCE" refId="2"/>    
+    <end type="TARGET" refId="4"/>  
+  </message>  
+  <message id="6" operation="delete(dto.board.Inquiry):void" asynchronous="false">    
+    <end type="SOURCE" refId="4"/>    
+    <end type="TARGET" refId="7"/>  
+  </message>  
+  <message id="8" operation="delete(dto.board.Inquiry):void" asynchronous="false">    
+    <end type="SOURCE" refId="4"/>    
+    <end type="TARGET" refId="9"/>  
+  </message>
+</sequence-diagram>

@@ -38,7 +38,7 @@ public class RecommContentsController extends HttpServlet {
 		String search = conService.getSearch(req);
 
 		// 검색한 게시물 수 얻기
-		int totalCount = conService.getTotalCount(searchType, search);
+		int totalCount = conService.getRecomTotalCount(searchType, search);
 
 		// 페이징 객체 생성
 		Paging paging = new Paging(totalCount, curPage, 9);

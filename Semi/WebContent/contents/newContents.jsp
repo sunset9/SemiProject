@@ -36,7 +36,7 @@ th{
 		<c:forEach items="${planList }" var="plan"> 
 			<div id="planBox" data-plan_idx="${plan.plan_idx }">
 				<a href="/plan?plan_idx=${plan.plan_idx }" >
-				<div><img src="${plan.bannerURL }" style="width: 100%;"></div>
+				<div><img src="${plan.bannerURL }" style="width: 100%; height: 200px;"></div>
 				<div> Title : ${plan.title}  NickName : ${plan.nick }</div>
 				</a>
 			</div>

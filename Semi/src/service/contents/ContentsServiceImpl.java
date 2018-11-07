@@ -47,10 +47,23 @@ public class ContentsServiceImpl implements ContentsService {
 		return search;
 	}
 
+	//최신 게시물 수 얻어오기
+	// newContents
+	@Override
+	public int getNewTotalCount(int searchType, String search) {
+		return planDao.selectNewCntAll(searchType, search);
+	}
+	
 	//전체 게시물 수 얻어오기
 	@Override
 	public int getTotalCount(int searchType, String search) {
 		return planDao.selectCntAll(searchType, search);
+	}
+	
+	//추천 게시물 수 얻어오기
+	@Override
+	public int getRecomTotalCount(int searchType, String search) {
+		return planDao.selectRecomCntAll(searchType, search);
 	}
 
 	//페이징 된 리스트 불러오기

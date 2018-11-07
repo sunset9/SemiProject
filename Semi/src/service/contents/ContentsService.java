@@ -21,6 +21,12 @@ public interface ContentsService {
 
 	// 전체 게시물 수 얻어오기
 	public int getTotalCount(int searchType, String search);
+	
+	// 최신 게시물 전체 수 얻어오기
+	public int getNewTotalCount(int searchType, String search);
+	
+	// 최신 게시물 전체 수 얻어오기
+	public int getRecomTotalCount(int searchType, String search);
 
 	// 페이징 된 리스트 불러오기
 	public List<Plan> getPagingList(Paging paging);

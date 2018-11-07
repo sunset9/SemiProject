@@ -39,8 +39,7 @@ public class AdminCommentListController extends HttpServlet {
 		// 검색어 얻어오기 
 		String search = adminStoryService.getSearch(req);
 				
-		System.out.println("search : " +search);
-		
+//		System.out.println("search : " +search);
 
 		// 전체 페이지 얻어오기 
 		int totalCount = adminStoryService.getTotalCount(search);

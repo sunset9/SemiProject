@@ -86,8 +86,8 @@ public class AdminPlanServiceImpl implements AdminPlanService{
 	}
 	
 	@Override
-	public List<Plan> getPagingList(Paging paging) {
-		return planDao.selectPagingList(paging);
+	public List<Plan> getAllPagingList(Paging paging) {
+		return planDao.selectAllPagingList(paging);
 	}
 	
 	
