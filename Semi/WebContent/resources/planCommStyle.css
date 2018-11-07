@@ -64,9 +64,9 @@
 /* 수정모드 버튼 */
 #btnModify {
 	float:right;
-	font-color:#fff;
 	font-size:35px;
 	cursor:pointer;
+    right: 12px;
 }
 
 /* 좌측 정보목록*/

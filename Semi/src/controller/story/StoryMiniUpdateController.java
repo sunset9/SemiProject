@@ -32,7 +32,6 @@ import service.timetable.TimetableServiceImpl;
 public class StoryMiniUpdateController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
-	PlanService pService = new PlanServiceImpl();
 	StoryService sService = new StoryServiceImpl();
 	TimetableService ttbService = new TimetableServiceImpl();
 	AccountService aService = new AccountServiceImpl();
@@ -43,7 +42,6 @@ public class StoryMiniUpdateController extends HttpServlet {
 		resp.setContentType("text/html;charset=utf-8");
 		AccountService aService = new AccountServiceImpl();
 		// 요청 파라미터 추출
-		Plan planParam = pService.getParam(req); 
 		Story storyParam = sService.getParam(req);
 		Map<Timetable, Location> ttbLocParam = ttbService.getMiniParam(req);
 		

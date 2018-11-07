@@ -182,7 +182,7 @@
 	/* 가계부 가격 정보 */
 	#accTypeCost {
 		text-align: left;
-	    width: 75%;
+	    width: 82%;
 	    margin: 8px auto;
         overflow: hidden;
 	}

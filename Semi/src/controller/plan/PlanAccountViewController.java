@@ -33,7 +33,7 @@ public class PlanAccountViewController extends HttpServlet {
 		Plan planParam = pService.getParam(req);
 		
 		// 가계부 정보 가져오기
-		EnumMap<AccType, Double> accEnumMap = new EnumMap<AccType, Double>(AccType.class);
+		EnumMap<AccType, Long> accEnumMap = new EnumMap<AccType, Long>(AccType.class);
 		
 		accEnumMap.put(AccType.airfare, pService.getAccountAccTpeCost(planParam, AccType.airfare));
 		accEnumMap.put(AccType.traffic, pService.getAccountAccTpeCost(planParam, AccType.traffic));
@@ -44,9 +44,9 @@ public class PlanAccountViewController extends HttpServlet {
 		accEnumMap.put(AccType.shop, pService.getAccountAccTpeCost(planParam, AccType.shop));
 		accEnumMap.put(AccType.etc, pService.getAccountAccTpeCost(planParam, AccType.etc));
 		
-		double acc_total = pService.getAccountTotal(accEnumMap);
+		long acc_total = pService.getAccountTotal(accEnumMap);
 		
-		double accCalcedTotal = acc_total;
+		long accCalcedTotal = acc_total;
 		
 		JsonObject obj = new JsonObject();
 		obj.addProperty("accTypeCost", new Gson().toJson(accEnumMap));

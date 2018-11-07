@@ -27,7 +27,6 @@ import service.stroy.StoryServiceImpl;
 public class StoryMiniViewController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
-	PlanService pService = new PlanServiceImpl();
 	StoryService sService = new StoryServiceImpl();
 	AccountService aService = new AccountServiceImpl();
 	
@@ -43,8 +42,7 @@ public class StoryMiniViewController extends HttpServlet {
 		Story story = sService.getStory(param);
 		
 		//스토리 하나당 accountList 가져오는 부분
-		List<Account> accountList = new ArrayList<Account>();
-		accountList = aService.getStoryAccountList(story);
+		List<Account> accountList = aService.getStoryAccountList(story);
 		
 		
 		// json 형식으로 변환
