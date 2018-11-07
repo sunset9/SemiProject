@@ -897,6 +897,9 @@ body {
 		var newPlanspan = document.getElementsByClassName("newPlanModalclose")[0];
 
 		if(newPlanbtn != null){
+			// 탭(일정, 스토리) 정보 초기화
+			setCookie("isCookieTabClear", "true");
+			
 			// When the user clicks the button, open the modal 
 			newPlanbtn.onclick = function() {
 				if ($("#planSaveBtn").length == 0) {

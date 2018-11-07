@@ -22,6 +22,9 @@
 
 <link rel="stylesheet" href="/resources/planCommStyle.css">
 
+<!-- jQuery Form Plugin -->
+<script src="http://malsup.github.com/min/jquery.form.min.js"></script> 
+
 <!-- 공개유무 슬라이드 버튼 -->
 <style type="text/css">
 	.switch {
@@ -383,16 +386,14 @@ var fileURL = "";
 //저장하기
 function store(miniTimetables){
 	// 탭 바뀌지 않게 하기
-
-	
 	setCookie("isCookieTabClear", "false");
 	
 	activeStoreBtn(false);
 	
 	// 캘린더에 있는 모든 이벤트 정보 가져오기
 	var events = $("#calendar").fullCalendar('clientEvents');
-	console.log("저장할 때 events목록");
-	console.log(events);
+// 	console.log("저장할 때 events목록");
+// 	console.log(events);
 	
 	var timetables = [];
 	if(miniTimetables != null) {
@@ -406,56 +407,44 @@ function store(miniTimetables){
 			timetables.push(timetable);
 		});
 	}
-
-	
-	// --- json list 로 묶어서 넘겨주기
-	// input 태그 생성
-	$("#planForm").append("<input type='hidden' name='events'>");
-	// 생성된 태그의 value값 설정 , timetable json 마샬링해서 지정
-	$("input[name='events']:last-child").val();
 	
 	// submit
-	console.log("---store()----")
-	console.log(timetables);
+// 	console.log("---store()----")
+// 	console.log(timetables);
+	
 	var succ = false;
-	$.ajax({
-		url: "/plan/update"
-		, type: "post"
-		, async: false
-		, dataType: "html"
-
+	
+	// submit 시 가로채서 ajax 통신으로 변환
+	$("#planForm").ajaxForm({
+// 		url: "/plan/update"
+// 		, type: "post"
+		async: false
+		, dataType: "text"
 		, data: {
-			plan_idx: '${planView.plan_idx}'
-			, user_idx: '${planView.user_idx}'
+			events: JSON.stringify(timetables)
 			, bannerURL: fileURL
-			, editOpened: $('.planInfo[name=editOpened]').val()
-			, editTraveled: $('.planInfo[name=editTraveled]').val()
-			, editTitleView: $('.planInfo[name=editTitleView]').val()
-			, editStartDate: $('.planInfo[name=editStartDate]').val()
-			, editEndDate: $('.planInfo[name=editEndDate]').val()
-			, events: JSON.stringify(timetables)
 		}
 		, success: function(){
 			// 저장 후 수정모드 유지 변수가 false이면, 읽기 모드로 보냄
-	
-			
 			if(!isStayWriteMode){
 				window.location = "/plan?plan_idx=" + ${planView.plan_idx};
 			}
-			
 			isStayWriteMode = false; 
 			succ = true;
-		
 		}
-		, error: function(){
+		, error: function(e){
 			succ = false;
 		}
 	});
-	
-	$("#uploadForm").submit();
+
+	$("#planForm").submit();
 	
 	return succ;
 }
+
+$(document).ready(function(){
+
+})
 
 //마우스오버시 색바꾸기
 function mover(obj) {
@@ -485,8 +474,9 @@ $(document).ready(function() {
 	// isCookieTabClear 플래그가 true 이고
 	// 새로고침 된게 아닌 경우 = 다른 페이지에서 넘어온 경우 (performance.navigation.type == 1 : 새로고침)
 	if(getCookie("isCookieTabClear") == 'true' && performance.navigation.type != 1){
-		deleteCookie('tab');
+		setCookie('tab','');
 	}
+	
 	// 한 번 탭 변경하지 않고 넘어갔으면 그 다음엔 탭 정보 저장 쿠키 다시 삭제하게
 	setCookie("isCookieTabClear", "true");
 	
@@ -580,7 +570,7 @@ $(document).ready(function() {
 	
 	// 처음 탭 선택하여 띄워주기
     // 쿠키값이 없거나 tab-ttb 인 경우
-	if(getCookie('tab')==null || getCookie('tab')=='tab-ttb'){
+	if(getCookie('tab')==null || getCookie('tab')=='' ||getCookie('tab')=='tab-ttb'){
 		$("#tab-main li").removeClass("active");
 	    $("#tab-main li[rel='tab-ttb']").addClass("active");
 		$(".tab-content").css('display', 'none');
@@ -620,6 +610,7 @@ $(document).ready(function() {
 			    }
 			});
 		} else { // 저장버튼 비활성화 상태면 그냥 진행
+			isStayWriteMode = true; // 수정모드 유지
 			changeTab(clickTab); // 탭 변경
 		}
 		
@@ -866,53 +857,48 @@ function numberWithCommas(x) {
 	</div>
 	<div id="editTitle" >
 	
-			<form id="uploadForm" action="/plan/banner" method="post" enctype="multipart/form-data">
-				<input type="hidden" name="plan_idx" value="${planView.plan_idx}" />
-				<input type="hidden" name="user_idx" value="${planView.user_idx}" />
-				<input id="fileBtn" type="file" name="uploadFile" style="display:none"/>
-			</form>
-			<span id="fileModify" class = "glyphicon glyphicon-picture" >
-			</span>
 	<!-- 플래너 대문 정보(공개유무, 수정버튼, 일정제목 등 UI) -->
 		<div style="text-align:center;margin:0px auto;width:100%;">
-			<form action="/plan/update" method="post" id="planForm">
+			<form action="/plan/update" method="post" id="planForm" enctype="multipart/form-data">
 			
-			<span id="bannerTitle">여행제목</span><br><input id="editBannerTitle" name="editTitleView" class="form-control planInfo" type="text" value="${planView.title }"/><br>
-			<b id="planInfoIsOpen">공개유무 : </b>
-			<select id = "editPlanInfoIsOpen"name="editOpened" class ="form-control planInfo">
-			
-				<c:if test="${planView.opened eq 1 }">
-					<option value="1" selected="selected">공개</option>
-					<option value="0">비공개</option>
-				</c:if>
-				<c:if test="${planView.opened eq 0 }">
-					<option value="1" >공개</option>
-					<option value="0" selected="selected">비공개</option>
-				</c:if>
-			</select><br>
-			
-	<!-- 			<div> -->
-					<input type="hidden" name="isSendWriteMode" value="false">
-					<input type="hidden" name="plan_idx" value="${planView.plan_idx}" />
-					<input type="hidden" name="user_idx" value="${planView.user_idx}" />
-					
-					
-					
-					<span id="bannerStartDate">출발일 : </span> <input id = "editBannerStartDate"name="editStartDate" class ="form-control planInfo" type="date" value="${planView.start_date }"/>
-					
-					<span id="bannerEndDate">도착일 : </span> <input id ="editBannerEndDate" name="editEndDate" class ="form-control planInfo" type="date" value="${planView.end_date }"/><br>
-					
-					<span id="bannerBeforeAfter">여행전후 : </span>
-					<select id ="editBannerBeforeAfter" name="editTraveled" class ="form-control planInfo">
-						<c:if test="${planView.traveled eq 1 }">
-							<option value="1" selected="selected">여행 전</option>
-							<option value="0">여행 후</option>
-						</c:if>
-						<c:if test="${planView.traveled eq 0 }">
-							<option value="1" >여행 전</option>
-							<option value="0" selected="selected">여행 후</option>
-						</c:if>
-					</select>
+				<input id="fileBtn" type="file" name="uploadFile" style="display:none"/>
+				<span id="fileModify" class = "glyphicon glyphicon-picture" ></span>
+				
+				
+				<span id="bannerTitle">여행제목</span><br><input id="editBannerTitle" name="editTitleView" class="form-control planInfo" type="text" value="${planView.title }"/><br>
+				<b id="planInfoIsOpen">공개유무 : </b>
+				<select id = "editPlanInfoIsOpen"name="editOpened" class ="form-control planInfo">
+				
+					<c:if test="${planView.opened eq 1 }">
+						<option value="1" selected="selected">공개</option>
+						<option value="0">비공개</option>
+					</c:if>
+					<c:if test="${planView.opened eq 0 }">
+						<option value="1" >공개</option>
+						<option value="0" selected="selected">비공개</option>
+					</c:if>
+				</select><br>
+				
+		<!-- 			<div> -->
+				<input type="hidden" name="isSendWriteMode" value="false">
+				<input type="hidden" name="plan_idx" value="${planView.plan_idx}" />
+				<input type="hidden" name="user_idx" value="${planView.user_idx}" />
+				
+				<span id="bannerStartDate">출발일 : </span> <input id = "editBannerStartDate"name="editStartDate" class ="form-control planInfo" type="date" value="${planView.start_date }"/>
+				
+				<span id="bannerEndDate">도착일 : </span> <input id ="editBannerEndDate" name="editEndDate" class ="form-control planInfo" type="date" value="${planView.end_date }"/><br>
+				
+				<span id="bannerBeforeAfter">여행전후 : </span>
+				<select id ="editBannerBeforeAfter" name="editTraveled" class ="form-control planInfo">
+					<c:if test="${planView.traveled eq 1 }">
+						<option value="1" selected="selected">여행 전</option>
+						<option value="0">여행 후</option>
+					</c:if>
+					<c:if test="${planView.traveled eq 0 }">
+						<option value="1" >여행 전</option>
+						<option value="0" selected="selected">여행 후</option>
+					</c:if>
+				</select>
 	<!-- 			</div> -->
 			</form>
 		</div>
@@ -939,7 +925,7 @@ function numberWithCommas(x) {
 	<!-- 일정 읽기 모드-->
 	<button id="planViewModeBtn" onclick="changeViewMode()">일정 보기</button>
 	<!-- 일정 저장 -->
-	<button id="planSaveBtn" onclick="store();"disabled="true">저장 </button>
+	<button id="planSaveBtn" onclick="store();" disabled="true">저장 </button>
 	
 	<!-- 검색 INPUT DIV -->
 	<div id="googleSearch" class="tab-content tab-ttb">

@@ -5,6 +5,8 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
+import com.oreilly.servlet.MultipartRequest;
+
 import dao.timetable.TimetableDao;
 import dto.timetable.Location;
 import dto.plan.Plan;
@@ -15,6 +17,7 @@ public interface TimetableService {
 	
 	// 요청 파라미터 추출
 	Map<Timetable, Location> getParam(HttpServletRequest req);
+	Map<Timetable, Location> getParam(MultipartRequest mul);
 	
 	// 미니뷰용 파라미터 추출(저장하려는 미니뷰에 해당하는 타임테이블 하나)
 	Map<Timetable, Location> getMiniParam(HttpServletRequest req);

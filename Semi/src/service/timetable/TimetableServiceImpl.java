@@ -10,6 +10,7 @@ import javax.servlet.http.HttpServletRequest;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.oreilly.servlet.MultipartRequest;
 
 import dao.timetable.TimetableDao;
 import dao.timetable.TimetableDaoImpl;
@@ -23,8 +24,52 @@ public class TimetableServiceImpl implements TimetableService{
 
 	TimetableDao ttbDao = new TimetableDaoImpl();
 	
-	// 요청 파라미터 -> Timetable, Location 정보 추출
-	public Map<Timetable, Location> getParam(HttpServletRequest req) {
+	// 요청 파라미터 -> Timetable, Location 정보 추출 
+		public Map<Timetable, Location> getParam(HttpServletRequest req) {
+			Map<Timetable, Location> ttbLoc = new HashMap<>();
+			List<Timetable> ttbList = new ArrayList<>();
+			List<Location> locList = new ArrayList<>();
+			
+			// gson 객체생성
+			GsonBuilder gsonBuilder = new GsonBuilder();
+			gsonBuilder.setDateFormat("yyyy-MM-dd HH:mm");
+			Gson gson = gsonBuilder.create();
+			
+			// String 형태의 json 파라미터 얻기
+			String events = req.getParameter("events");
+			System.out.println("-----------events목록 (타임테이블 서비스)");
+			System.out.println(events);
+			
+			if(events!=null & !"".equals(events)) {
+				// JSON String -> Timetable DTO 배열
+				Timetable[] ttbs = gson.fromJson(events, Timetable[].class);
+				// Timetable 배열 -> 리스트로 변환 (loc_idx 비어있음)
+				ttbList = Arrays.asList(ttbs);
+				System.out.println("-----파싱한 ttb 목록---");
+				System.out.println(ttbList);
+				
+				// JSON String -> Location DTO 배열
+				Location[] locs = gson.fromJson(events, Location[].class);
+				// Location 리스트
+				locList = Arrays.asList(locs);
+			}
+			
+			// Timetable 과  Location 리스트의 개수가 같아야함
+			if(ttbList.size() != locList.size()) {
+				System.out.println("[ERR] 파라미터 추출에 실패하였습니다.");
+				return null;
+			}
+			
+			// Map형식으로 Timetable과 Location 정보 저장
+			for(int i = 0; i<ttbList.size(); i++) {
+				ttbLoc.put(ttbList.get(i), locList.get(i));
+			}
+			
+			return ttbLoc;
+		}
+		
+	// 요청 파라미터 -> Timetable, Location 정보 추출 (저장용, multipart 타입)
+	public Map<Timetable, Location> getParam(MultipartRequest mul) {
 		Map<Timetable, Location> ttbLoc = new HashMap<>();
 		List<Timetable> ttbList = new ArrayList<>();
 		List<Location> locList = new ArrayList<>();
@@ -35,7 +80,7 @@ public class TimetableServiceImpl implements TimetableService{
 		Gson gson = gsonBuilder.create();
 		
 		// String 형태의 json 파라미터 얻기
-		String events = req.getParameter("events");
+		String events = mul.getParameter("events");
 		System.out.println("-----------events목록 (타임테이블 서비스)");
 		System.out.println(events);
 		
