@@ -19,6 +19,7 @@
 .st_cost{
 	text-align:right;
 	width: 300px;
+	
 }
 
 .modal-content{
@@ -76,6 +77,7 @@ button.close:focus, button.close:hover{
 
 
 </style>
+
 <div class="modal fade" id="myModal" role="dialog">
     <div class="modal-dialog">
       <!-- Modal content-->
@@ -130,7 +132,7 @@ button.close:focus, button.close:hover{
 								</select>
 								</td>
 								<td class="storytd" style="padding-left: 0px">
-									<input type="text" size="33" name = "st_cost" class="form-control st_cost" onkeypress="Numberchk()" onkeyup="vComma(this)"/>
+									<input type="text" size="33" name = "st_cost" class="form-control st_cost" onkeypress="Numberchk()" onkeyup="vComma(this)" onkeydown="fn_press_han(this)"/>
 								</td>
 								<td class="storytd">
 									<span class="glyphicon glyphicon-plus accountPlus" onclick = "appendAccount()" onmouseover="st_mover($(this))" 

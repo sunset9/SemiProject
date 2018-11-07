@@ -127,7 +127,7 @@ button.close:focus, button.close:hover{
 						</select>
 					</td>
 					<td class="storytd" style="padding-left: 0px">
-					<input type="text" size="33" name = "up_cost" class="form-control up_cost" onkeypress="Numberchk()" onkeyup="vComma(this)"/>
+					<input type="text" size="33" name = "up_cost" class="form-control up_cost" onkeypress="Numberchk()" onkeyup="vComma(this)" onkeydown="fn_press_han(this)"/>
 					</td>
 					<td class="storytd" style="padding: inherit;">
 						<span class="glyphicon glyphicon-plus accountPlus" onclick = "UpappendAccount()" onmouseover="st_mover($(this))" 

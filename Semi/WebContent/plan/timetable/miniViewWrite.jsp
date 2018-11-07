@@ -473,7 +473,7 @@ function miniRemoveAccount() {
 								</select>
 								</td>
 								<td>
-									<input type="text" size="40" name = "w-min_cost" class="form-control w-min_cost" onkeypress="Numberchk()" onkeyup="vComma(this)" style = "text-align:right;"/>
+									<input type="text" size="40" name = "w-min_cost" class="form-control w-min_cost" onkeypress="Numberchk()" onkeyup="vComma(this)" onkeydown="fn_press_han(this)" style = "text-align:right;"/>
 								</td>
 								<td>
 									<span class="glyphicon glyphicon-plus w-accountPlus" onclick = "miniAppendAccount()"></span>
