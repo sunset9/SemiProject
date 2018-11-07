@@ -71,8 +71,10 @@ th{
 		<c:forEach items="${planList }" var="plan"> 
 			<div id="planBox" data-plan_idx="${plan.plan_idx }">
 				<a href="/plan?plan_idx=${plan.plan_idx }" >
+
 				<div><img class="recomConPageImg" src="${plan.bannerURL }" style="width: 100%; height: 100%"></div>
 				<span class="recomConSpan"> ${plan.title} <br> ${plan.nick }</span>
+
 				</a>
 			</div>
 		</c:forEach>

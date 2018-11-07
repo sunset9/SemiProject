@@ -54,6 +54,12 @@ public interface PlanDao {
 	
 	// 전체 게시물 수 조회
 	public int selectCntAll( int searchType, String search) ;
+	
+	// 최신 게시물 수 조회
+	public int selectNewCntAll( int searchType, String search) ;
+	
+	// 추천 게시물 수 조회
+	public int selectRecomCntAll( int searchType, String search) ;
 
 	// 페이징 된 plan 리스트 조회
 	public List<Plan> selectPagingList(Paging paging);
@@ -72,6 +78,12 @@ public interface PlanDao {
 	
 	// 추천 게시물 리스트 조회
 	public List<Plan> selectRecomList();
+	
+	// 비공개글 포함한 전체 게시물 수 조회
+	public int selectAllCntAll( int searchType, String search) ;
+	
+	// 비공개 개시물 포함한 게시물 리스트 조회 -> 관리자가 사용 
+	public List<Plan> selectAllPagingList(Paging paging);
 	
 	String[] rownumCountryName(Plan plan);
 }

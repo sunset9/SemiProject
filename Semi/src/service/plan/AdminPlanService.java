@@ -34,8 +34,8 @@ public interface AdminPlanService {
 	// 전체 페이지 얻어오기 
 	public int getTotalCount(int searchType, String search );
 	
-	// 게시글 리스트 조회 
-	public List<Plan> getPagingList(Paging paging);
+	// 모든 게시글 리스트 조회 -> 비공개글 포함 
+	public List<Plan> getAllPagingList(Paging paging);
 	
 	
 }

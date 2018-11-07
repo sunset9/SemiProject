@@ -57,7 +57,7 @@ public class AdminPlanListController extends HttpServlet {
 		paging.setSearchType(searchType);
 		
 		// 게시글 리스트 조회 
-		List<Plan> list = adminPlanService.getPagingList(paging);
+		List<Plan> list = adminPlanService.getAllPagingList(paging);
 		System.out.println("controller list!: "+list);
 		
 		// 요청에 조회 결과 담기 

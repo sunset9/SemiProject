@@ -85,8 +85,10 @@ th{
 				<c:if test="${plan.opened eq 0 && plan.user_idx eq user.user_idx}">
 					<a href="/plan?plan_idx=${plan.plan_idx }">
 				</c:if>
+
 						<div><img class="allConPageImg" src="${plan.bannerURL }" style="width: 100%; height: 100%"></div>
 						<span class="allConSpan"> ${plan.title} <br> ${plan.nick }</span>
+
 						</a>
 			</div>
 			

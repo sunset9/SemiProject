@@ -113,7 +113,11 @@ th{
 		<c:forEach items="${planList }" var="plan"> 
 			<div id="planBox" data-plan_idx="${plan.plan_idx }">
 				<div><a href="/plan?plan_idx=${plan.plan_idx }" target="_blank">새창으로 확인</a></div>
-				<div><img src="/upload/banner/${plan.bannerURL }" style="width: 100%;"></div>
+				<div>
+					
+				<img src="${plan.bannerURL }" style="width: 100%; height: 150px;">
+				
+				</div>
 				<div> Title : ${plan.title} <br> NickName : ${plan.nick }</div>
 				<div>
 					<button id ="planDelete"  onclick="deletePlan(${plan.plan_idx})">삭제</button>
@@ -183,9 +187,6 @@ th{
     </li>
     </c:if>
   </ul>
-    <div id="btnDeleteBox">
-	<button id="btnDelete">삭제</button>
-  </div><br>
   
   <div id ="searchBox" class="col-xs-2, form-inline" >
 <form action="/admin/plan/list" method="get" >	
