@@ -74,7 +74,7 @@ th{
 <div id="planList" class="list" >
 
 		<c:forEach items="${planList }" var="plan"> 
-			<div id="planBox" data-plan_idx="${plan.plan_idx }" onmouseover="planBoxOver($(this))" onmouseleave="planBoxLeave($(this))">
+			<div id="planBox" data-plan_idx="${plan.plan_idx }">
 			
 				<c:if test="${plan.opened eq 0 && plan.user_idx ne user.user_idx}">
 					<a href="/contents/all" onclick="alert('비공개 게시글입니다.');">
