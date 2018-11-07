@@ -285,7 +285,7 @@ function displayMiniWrite(writeHtml){
 			</tr>
 			<tr>
 				<td colspan="2" >
-					<div id="miniViewContent"></div>
+					<div id="miniViewContent" class="fr-view"></div>
 				</td>
 			</tr>
 			<tr>
