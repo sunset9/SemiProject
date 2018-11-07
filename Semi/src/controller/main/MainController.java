@@ -50,12 +50,4 @@ public class MainController extends HttpServlet {
 		System.out.println("--------------- MainController 끝 ---------------");
 	}
 
-//	@Override
-//	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-//		// 한글 인코딩
-//		req.setCharacterEncoding("UTF-8");
-		
-//		resp.sendRedirect("/plan/write");
-//	}
-
 }

@@ -113,7 +113,7 @@ $(document).ready(function(){
 		var obj = document.getElementById("miniModalAccount");
 		$(obj).html("");
 	})
-	console.log(2);
+	
 	// 수정버튼 클릭 리스너
 	$('#miniEditModeBtn').on('click',function(){
 		console.log(1);

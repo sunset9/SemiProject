@@ -5,6 +5,8 @@ import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
+import com.oreilly.servlet.MultipartRequest;
+
 import dto.Account.AccType;
 import dto.Account.Account;
 import dto.plan.Plan;
@@ -28,12 +30,12 @@ public interface PlanService {
 	Plan getSessionPlan(HttpServletRequest req);
 	
 	// 요청파라미터(user_idx) -> Plan 모델 
-		User getSessionUser(HttpServletRequest req);
+	User getSessionUser(HttpServletRequest req);
 		
 	// 요청파라미터 처리(main 새일정만들기에서 넘어온 파라미터)
 	Plan getParamCreate(HttpServletRequest req);
 	
-	Plan getParamEdit(HttpServletRequest req);
+	Plan getParamEdit(MultipartRequest mul);
 	
 	Plan getParam(HttpServletRequest req);
 		
@@ -66,4 +68,7 @@ public interface PlanService {
 	
 	// 해당 플랜의 총 지출 비용
 	long getAccountTotal(EnumMap<AccType, Long> accEnumMap);
+
+	// 배너 정보 업데이트
+	void updateBanner(MultipartRequest mul, Plan planView);
 }

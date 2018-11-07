@@ -9,6 +9,8 @@ import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
+import com.oreilly.servlet.MultipartRequest;
+
 import dao.account.AccountDao;
 import dao.account.AccountDaoImpl;
 import dao.plan.PlanDao;
@@ -83,20 +85,20 @@ public class PlanServiceImpl implements PlanService{
 	}
 	
 	@Override
-	public Plan getParamEdit(HttpServletRequest req) {
+	public Plan getParamEdit(MultipartRequest mul) {
 		Plan plan = new Plan();
 		Date dateStart = new Date();
 		Date dateEnd = new Date();
 		
-		int plan_idx = Integer.parseInt(req.getParameter("plan_idx"));
-		int user_idx = Integer.parseInt(req.getParameter("user_idx"));
+		int plan_idx = Integer.parseInt(mul.getParameter("plan_idx"));
+		int user_idx = Integer.parseInt(mul.getParameter("user_idx"));
 		plan.setPlan_idx(plan_idx);
 		plan.setUser_idx(user_idx);
-		plan.setTitle(req.getParameter("editTitleView"));
+		plan.setTitle(mul.getParameter("editTitleView"));
 		
 		try {
-			dateStart = new SimpleDateFormat("yyyy-MM-dd").parse(req.getParameter("editStartDate"));
-			dateEnd = new SimpleDateFormat("yyyy-MM-dd").parse(req.getParameter("editEndDate"));
+			dateStart = new SimpleDateFormat("yyyy-MM-dd").parse(mul.getParameter("editStartDate"));
+			dateEnd = new SimpleDateFormat("yyyy-MM-dd").parse(mul.getParameter("editEndDate"));
 		} catch (ParseException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -106,10 +108,10 @@ public class PlanServiceImpl implements PlanService{
 		plan.setEnd_date(dateEnd);
 		
 		//1 : 여행전, 0 : 여행후
-		plan.setTraveled(Integer.parseInt(req.getParameter("editTraveled")));
+		plan.setTraveled(Integer.parseInt(mul.getParameter("editTraveled")));
 		
-		if( req.getParameter("editOpened").equals("1") && req.getParameter("editOpened") != null) {
-			plan.setOpened(Integer.parseInt(req.getParameter("editOpened")));
+		if( mul.getParameter("editOpened").equals("1") && mul.getParameter("editOpened") != null) {
+			plan.setOpened(Integer.parseInt(mul.getParameter("editOpened")));
 		} else {
 			plan.setOpened(0);
 		}
@@ -229,5 +231,17 @@ public class PlanServiceImpl implements PlanService{
 	@Override
 	public String[] getCountryName(Plan plan) {
 		return plandao.rownumCountryName(plan);
+	}
+
+	@Override
+	public void updateBanner(MultipartRequest mul, Plan planView) {
+		//배너 업데이트
+		if(mul.getParameter("bannerURL") != null && !"".equals((String)mul.getParameter("bannerURL"))) {
+			String path = (String) mul.getParameter("bannerURL");
+			planView.setBannerURL(path);
+			// DB에서 유저의 banner 수정 
+			plandao.bannerUpdate(planView);
+		}
+		
 	}
 }

@@ -292,10 +292,11 @@ var check=0;
 	console.log("view.jsp isModify : " + isModify);
 	
 $(document).ready(function() {
-	console.log($(".userInfoText:first-child"));
+	console.log(getCookie("isCookieTabClear"));
 	// isCookieTabClear 플래그가 true 이고
 	// 새로고침 된게 아닌 경우 (performance.navigation.type == 1 : 새로고침)
 	if(getCookie("isCookieTabClear") == 'true' && performance.navigation.type != 1){
+		// 탭 초기화
 		deleteCookie('tab');
 	}
 	setCookie("isCookieTabClear", "true");

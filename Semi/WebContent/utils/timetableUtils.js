@@ -297,9 +297,9 @@ function getTimetablesFromBrowser(){
 function getTimetablesFromServer(){
 	var timetables=[];
 	
-	console.log("---- 서버에서 받은 타임테이블 목록들(ttb, loc) ----")
-	console.log(ttbList);
-	console.log(locList);
+//	console.log("---- 서버에서 받은 타임테이블 목록들(ttb, loc) ----")
+//	console.log(ttbList);
+//	console.log(locList);
 	
 	for(var i = 0; i<ttbList.length; i++){
 		var timetable = {
