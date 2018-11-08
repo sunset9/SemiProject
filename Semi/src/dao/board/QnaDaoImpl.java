@@ -28,6 +28,7 @@ public class QnaDaoImpl implements QnaDao {
 		sql += "SELECT * FROM( ";
 		sql += "SELECT rownum rnum, Q.* FROM ( ";
 		sql += "SELECT  qna_idx, (SELECT nickname FROM userinfo U WHERE U.user_idx = qna.user_idx) nick,hit, ";
+		sql += " (SELECT qfile_idx FROM qna_file F WHERE F.qna_idx = qna.qna_idx) file_idx, ";
 		sql	+= "title, content,create_date FROM qna  ORDER BY hit DESC ) Q ";
 		
 			
@@ -60,6 +61,7 @@ public class QnaDaoImpl implements QnaDao {
 					qna.setWriter(rs.getString("nick"));
 					qna.setTitle(rs.getString("title"));
 					qna.setHit(rs.getInt("hit"));
+					qna.setqFile_idx(rs.getInt("file_idx"));
 					qna.setCreate_date(rs.getDate("create_date"));
 						
 					// 조회 결과 List에 넣기

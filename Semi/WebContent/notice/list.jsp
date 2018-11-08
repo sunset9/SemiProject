@@ -81,7 +81,8 @@ tr td{
 <c:forEach items ="${noticeList }" var = "notice">
 <tr>
 <td>${notice.rnum }</td>
-<td><a href="/notice/view?notice_idx=${notice.notice_idx }">${notice.title }</a></td>
+<td><a href="/notice/view?notice_idx=${notice.notice_idx }">${notice.title }
+<c:if test="${notice.nFile_idx ne 0 }">&nbsp;&nbsp;<span class="glyphicon glyphicon-floppy-disk"></span></c:if></a></td>
 <td>${notice.writer }</td>
 <td>${notice.hit }</td>
 <td>${notice.create_date }</td>

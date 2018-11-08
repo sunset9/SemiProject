@@ -82,7 +82,7 @@ tr td{
 <c:forEach items ="${qnaList }" var = "qna">
 <tr>
 <td>${qna.rnum }</td>
-<td><a href="/qna/view?qna_idx=${qna.qna_idx }">${qna.title }</a></td>
+<td><a href="/qna/view?qna_idx=${qna.qna_idx }">${qna.title }<c:if test="${qna.qFile_idx ne 0 }">&nbsp;&nbsp;<span class="glyphicon glyphicon-floppy-disk"></span></c:if></a></td>
 <td>${qna.writer }</td>
 <td>${qna.hit }</td>
 <td>${qna.create_date }</td>

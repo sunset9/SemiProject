@@ -102,7 +102,9 @@ tr td{
 <c:forEach items ="${inquirylist }" var = "inq">
 <tr>
 <td >${inq.rnum }</td>
-<td><a href="/inquiry/view?inq_idx=${inq.inq_idx }">${inq.title }</a></td>
+<td><a href="/inquiry/view?inq_idx=${inq.inq_idx }">${inq.title }
+<c:if test="${inq.iFile_idx ne 0 }">&nbsp;&nbsp;<span class="glyphicon glyphicon-floppy-disk"></span></c:if>
+</a></td>
 <td>${inq.writer }</td>
 <td>
 

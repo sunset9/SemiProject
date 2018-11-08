@@ -28,6 +28,7 @@ public class NoticeDaoImpl implements NoticeDao {
 		sql += "SELECT * FROM(";
 		sql += "SELECT rownum rnum, N.* FROM ( ";
 		sql += "SELECT notice_idx, (SELECT nickname FROM userinfo U WHERE U.user_idx = NO.user_idx) nick,hit, ";
+		sql += " (SELECT nfile_idx FROM notice_file NF WHERE NF.notice_idx = NO.notice_idx) file_idx, ";
 		sql += "title, content,create_date";
 		sql += " FROM notice NO ORDER BY notice_idx DESC ) N ";
 		
@@ -62,6 +63,7 @@ public class NoticeDaoImpl implements NoticeDao {
 				noti.setTitle(rs.getString("title"));
 				noti.setContent(rs.getString("content"));
 				noti.setHit(rs.getInt("hit"));
+				noti.setnFile_idx(rs.getInt("file_idx"));
 				noti.setCreate_date(rs.getDate("create_date"));
 				
 				list.add(noti);

@@ -11,6 +11,14 @@ public class Qna {
 	private String content;
 	private String writer;
 	private int hit;
+	private int qFile_idx;
+	
+	public int getqFile_idx() {
+		return qFile_idx;
+	}
+	public void setqFile_idx(int qFile_idx) {
+		this.qFile_idx = qFile_idx;
+	}
 	private Date create_date;
 	
 	
@@ -23,7 +31,8 @@ public class Qna {
 	@Override
 	public String toString() {
 		return "Qna [rnum=" + rnum + ", qna_idx=" + qna_idx + ", user_idx=" + user_idx + ", title=" + title
-				+ ", content=" + content + ", writer=" + writer + ", hit=" + hit + ", create_date=" + create_date + "]";
+				+ ", content=" + content + ", writer=" + writer + ", hit=" + hit + ", qFile_idx=" + qFile_idx
+				+ ", create_date=" + create_date + "]";
 	}
 	public int getQna_idx() {
 		return qna_idx;

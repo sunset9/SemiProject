@@ -12,6 +12,14 @@ public class Inquiry {
 	private String content;
 	private int answer;
 	private int hit;
+	private int iFile_idx;
+	
+	public int getiFile_idx() {
+		return iFile_idx;
+	}
+	public void setiFile_idx(int iFile_idx) {
+		this.iFile_idx = iFile_idx;
+	}
 	private Date create_date;
 	
 	
@@ -72,8 +80,8 @@ public class Inquiry {
 	@Override
 	public String toString() {
 		return "Inquiry [rnum=" + rnum + ", inq_idx=" + inq_idx + ", user_idx=" + user_idx + ", writer=" + writer
-				+ ", title=" + title + ", content=" + content + ", answer=" + answer + ", hit=" + hit + ", create_date="
-				+ create_date + "]";
+				+ ", title=" + title + ", content=" + content + ", answer=" + answer + ", hit=" + hit + ", iFile_idx="
+				+ iFile_idx + ", create_date=" + create_date + "]";
 	}
 	
 

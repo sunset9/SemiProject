@@ -11,11 +11,18 @@ public class Notice {
 	private String content;
 	private String writer;
 	private int hit;
+	private int nFile_idx;
 	private Date create_date;
 	
 	
 	public int getRnum() {
 		return rnum;
+	}
+	public int getnFile_idx() {
+		return nFile_idx;
+	}
+	public void setnFile_idx(int nFile_idx) {
+		this.nFile_idx = nFile_idx;
 	}
 	public void setRnum(int rnum) {
 		this.rnum = rnum;
@@ -23,7 +30,8 @@ public class Notice {
 	@Override
 	public String toString() {
 		return "Notice [rnum=" + rnum + ", notice_idx=" + notice_idx + ", user_idx=" + user_idx + ", title=" + title
-				+ ", content=" + content + ", writer=" + writer + ", hit=" + hit + ", create_date=" + create_date + "]";
+				+ ", content=" + content + ", writer=" + writer + ", hit=" + hit + ", nFile_idx=" + nFile_idx
+				+ ", create_date=" + create_date + "]";
 	}
 	public int getNotice_idx() {
 		return notice_idx;
