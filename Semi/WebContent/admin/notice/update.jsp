@@ -18,7 +18,7 @@ $(document).ready(function () {
 		submitContents($("#btnUpdate"));
 		
 		//submit
-		$("form").submit();
+		$("#adminNoticeUpdateForm").submit();
 		
 	});
 	
@@ -49,7 +49,7 @@ $(document).ready(function () {
 <hr>
 
 <div>
-<form action="/admin/notice/update"  method="post" enctype="multipart/form-data">
+<form action="/admin/notice/update"  method="post" enctype="multipart/form-data" id="adminNoticeUpdateForm">
 <input type="hidden" name = "notice_idx" value= "${notice.notice_idx }"/>
 <table class="table table-bordered"> 
 <tr><td class ="info">아이디</td><td>${userid }</td></tr>
