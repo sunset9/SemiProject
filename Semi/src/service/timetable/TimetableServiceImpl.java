@@ -211,11 +211,11 @@ public class TimetableServiceImpl implements TimetableService{
 		return ttbList;
 	}
 	
-	// 타임테이블 정보 저장하기(수정), 업데이트한 타임테이블 목록 반환
+	// 타임테이블 정보 저장,수정하기
 	public void update(Plan plan, Map<Timetable, Location> ttbLoc) {
-		List<Timetable> ttbList = getCompletedTimetable(ttbLoc);
 		
-//		System.out.println(ttbList);
+		// Timetable 객체에 알맞는 loc_idx 부여
+		List<Timetable> ttbList = getCompletedTimetable(ttbLoc);
 		
 		// 넘어온 리스트에 없는 타임테이블들 삭제
 		deleteTimetableList(plan, ttbList);

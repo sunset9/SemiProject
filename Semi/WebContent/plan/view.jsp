@@ -623,6 +623,7 @@ function displayAcc(accCostJson){
 }
 
 var eventMini; // 수정모드를 위한 event 값 전송에 사용하는 전역변수
+// 미니뷰 view
 function viewMini(event){
 	eventMini = event;
 	// ajax로 story 정보 가져옴 (content 정보)
@@ -652,7 +653,7 @@ function viewMini(event){
 			var accTypeName = {'airfare':'항공료', 'traffic':'교통', 'stay':'숙박',
 					'admission':'입장료', 'food':'음식', 'play':'오락', 'shop':'쇼핑', 'etc':'기타'};
 			for (var i=0; i<accountList.length;i++){
-				
+
 				/*비용콤마찍기*/
 				var cost = accountList[i].origin_cost;
 				if(accountList[i].curr_idx_name == 'USD'){
