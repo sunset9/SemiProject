@@ -102,8 +102,8 @@
 	  position: absolute;
 	  top: 50%;
 	  left: 50%;
-	  width: 800px;
-	  height: 800px;
+	  width: 700px;
+	  height: 600px;
 	  background-color: #fff;
 	  border: 5px solid #3571B5;
 	  z-index: 10;
@@ -443,7 +443,7 @@ $(document).ready(function() {
 				zingchart.render({ 
 					id : 'total', 
 					data : myConfig, 
-					height: 600, 
+					height: 500, 
 					width: "100%" 
 				});
 	});
