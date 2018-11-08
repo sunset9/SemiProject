@@ -191,13 +191,13 @@ th{
 
 <tr>
 <th></th>
-<th>사용자 번호</th>
+<th>회원 번호</th>
 <th>아이디</th>
 <th>닉네임</th>
 <th>로그인 타입</th>
 <th>등급</th>
 <th>가입일</th>
-<th>프로필</th>
+<th>회원상태</th>
 <th>삭제</th>
 </tr>
 
@@ -218,9 +218,21 @@ th{
 	</select>
 </td>
 <td>${user.create_date }</td>
-<td>${user.profile }</td>
+<td>
+	<c:if test="${user.status eq 1}">
+		회원
+	</c:if>
+	<c:if test="${user.status eq 0}">
+		탈퇴회원
+	</c:if>
+</td>
 
-<td><button id="userDelete" onclick="userDelete(${user.user_idx });">삭제</button></td>
+<td>
+
+ <c:if test="${user.status eq 1}">
+<button id="userDelete" onclick="userDelete(${user.user_idx });">삭제</button>
+</c:if> 
+</td>
 </tr>
 </c:forEach>
 </tbody>

@@ -785,7 +785,7 @@ public class UserDaoImpl implements UserDao{
 		sql += 	"    SELECT rownum rnum, U.* FROM ( " ;
 		sql += 	"SELECT user_idx, id, nickname, profile, grade, ";
 		sql	+= "( SELECT sns_name FROM snstype S WHERE S.sns_idx = UI.sns_idx) sns_name ,create_date ,status ";
-		sql	+= "FROM userinfo UI  ORDER BY user_idx DESC " ;
+		sql	+= "FROM userinfo UI  ORDER BY status DESC, user_idx DESC   " ;
 		sql += 	"       ) U  " ;
 		
 		if(paging.getSearchType()==1) {
@@ -847,7 +847,10 @@ public class UserDaoImpl implements UserDao{
 
 	@Override
 	public void deleteUserList(String names) {
-		String sql = "DELETE FROM userinfo WHERE user_idx IN("+names+")";
+		String sql= "UPDATE userinfo SET ";
+				sql+= "PROFILE = '/upload/user/basicProfile.png', ";
+				sql+= "status = 0 ";
+				sql+= "WHERE user_idx IN("+names+")";
 		
 		//DB 객체
 		PreparedStatement ps = null;
