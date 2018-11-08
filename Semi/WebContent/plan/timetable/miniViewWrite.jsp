@@ -225,6 +225,17 @@ $(document).ready(function(){
 			activeStoreBtn(false);
 		}
 		
+		var Len = $("select[name='w-min_accType']").length;
+		
+		for(var i = 0; i<Len; i++){
+			var costHan=$("input[name='w-min_cost']")[i].value;
+			check = /[ㄱ-ㅎ|ㅏ-ㅣ|가-힣]/;
+			if(check.test(costHan)) {
+				alert("비용란에는 숫자만 쓸 수 있습니다.");
+				return;
+			}
+		}
+		
 		// submit 할 객체들 json형태로 받기
 		var ttbJson = JSON.parse($('input[name=ttbJson]').val());
 		var storyJson = JSON.parse($('input[name=JSON]').val());
