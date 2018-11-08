@@ -192,6 +192,10 @@
 	margin-top: -68px;
 }
 
+#bookmarkList .upDelBtn{
+	margin-top: -92px;
+}
+
 #wrap {
 	width: 310px;
 	overflow: hidden;
