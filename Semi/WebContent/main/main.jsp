@@ -314,7 +314,7 @@ img {
 <div class="mainImgContainer">
 	<h1>Logo</h1>
 	<h4>Make your own trip.</h4>
-	<img src="/resources/img/main/main_img14.jpeg" class="mainImage" />
+	<img src="/resources/img/main/main_img12.jpeg" class="mainImage" />
 	<!-- Trigger/Open The Modal -->
 	<!-- 로그인 상태일때 -->
 	<c:if test="${login}">
