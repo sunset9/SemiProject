@@ -265,7 +265,6 @@ function getDiffDay(ttbStartDate, planStartDate ){
 // 브라우저에 띄워진 모든 타임테이블 리스트 가져오기
 function getTimetablesFromBrowser(){
 	var events = $("#calendar").fullCalendar('clientEvents');
-	console.log(events);
 	var timetables = [];
 	
 	events.forEach(function(event){ // 모든 리스트 돌면서 timetable json 하나씩 생성
