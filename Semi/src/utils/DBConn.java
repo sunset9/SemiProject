@@ -7,7 +7,7 @@ import java.sql.SQLException;
 public class DBConn {
 	// DB 연결 정보
 	private static final String DRIVER = "oracle.jdbc.driver.OracleDriver";
-	private static final String URL = "jdbc:oracle:thin:@localhost:1521:XE";
+	private static final String URL = "jdbc:oracle:thin:@192.168.30.115:1521:XE";
 	private static final String USERNAME = "scott";
 	private static final String PASSWORD = "tiger";
 
