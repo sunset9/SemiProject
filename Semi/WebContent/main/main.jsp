@@ -183,23 +183,26 @@ function getTodayDate(){
 }
 
 
-h1 {
+#mainText {
    position: absolute;    
    display: inline-block;
-   font-size: 50px; /*or whatever you want*/
-   color: black;  
+  font-size: 66px;
+    font: bold;
+    font-weight: 900;
+    color: white;
    top: 140px; 
    left: 140px;
 }
 
 
-h4 {
+#mainText2 {
    position: absolute;    
    display: inline-block;
-   font-size: 20px; /*or whatever you want*/
-   color: black;
+   font-size: 23px;
+    color: white;
+    font-weight: 900;
    top: 230px;  
-   left: 145px; 
+   left: 142px; 
 } 
 
 img {
@@ -217,11 +220,12 @@ img {
    width: 250px;
    height: 60px;
    border-radius: 6px;
-   border: 1px solid #5cd6b9 ;
-   background: linear-gradient( to bottom, #5cd6b9 ,#5aceb2, #4FB99F);
+   border: 1px solid #f9de90 ;
+   background: linear-gradient( to bottom, #f9de90 ,#f3ce67, #FFCB37);
    background-color: #4FB99F;
    font-size: 18px;
    text-shadow:#999999 1px 1px 1px;
+   font-weight: 900;
 }
 
 .btnNewPlan:hover {
@@ -234,7 +238,7 @@ img {
    height: 60px;
    border-radius: 6px;
    border: none;
-   background: linear-gradient( to bottom, #4dd1af ,#44ba9c, #42b598);
+   background: linear-gradient( to bottom, #f9de90 ,#f3ce67, #FFCB37);
    background-color: #4FB99F;
    font-size: 18px;
    text-shadow:#999999 1px 1px 1px;
@@ -312,8 +316,8 @@ img {
  -->
 
 <div class="mainImgContainer">
-	<h1>Logo</h1>
-	<h4>Make your own trip.</h4>
+	<h1 id="mainText">Logo</h1>
+	<h4 id="mainText2">Make your own trip.</h4>
 	<img src="/resources/img/main/main_img12.jpeg" class="mainImage" />
 	<!-- Trigger/Open The Modal -->
 	<!-- 로그인 상태일때 -->
