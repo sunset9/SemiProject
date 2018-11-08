@@ -167,42 +167,42 @@ button.close:focus, button.close:hover{
     $.FroalaEditor.COMMANDS.imageAlign.options.justify = 'Center';
     $('.st_content').froalaEditor({
         // Set the image upload URL.
-        enter: $.FroalaEditor.ENTER_DIV,
-        //모달 사용할때 발생하는 문제 : image edit menu가 안뜸, -> 해결법 : zIndex를 높여라
-        zIndex: 2501,
+        enter: $.FroalaEditor.ENTER_DIV, //엔터값 <div>로 설정
+        zIndex: 2501,//모달 사용할때 발생하는 문제 : image edit menu가 안뜰경우 -> 해결법 : zIndex 설정
+        //화면사이즈별 toolbar버튼 옵션
         toolbarButtons: ['fontFamily','bold', 'italic', 'underline','align','|','insertLink','insertImage','|', 'undo', 'redo'],
         toolbarButtonsXS: ['fontFamily','bold', 'italic', 'underline','align','|','insertLink','insertImage','|', 'undo', 'redo'],
         toolbarButtonsSM: ['fontFamily','bold', 'italic', 'underline','align','|','insertLink','insertImage','|', 'undo', 'redo'],
         toolbarButtonsMD: ['fontFamily','bold', 'italic', 'underline','align','|','insertLink','insertImage','|', 'undo', 'redo'],
-        imageUploadURL: '/story/upload_image',
+        imageUploadURL: '/story/upload_image', //이미지저장할 경로
         imageUploadParams: {
           id: 'my_editor'
         },
-	    imageEditButtons : ['imageAlign', 'imageRemove', 'imageLink','imageSize','imageDisplay'],
-	    heightMin: 300,
-        heightMax: 300,
-        width: '530',
-      }).on('froalaEditor.image.error', function (e, editor, error, response) {
+	    imageEditButtons : ['imageAlign', 'imageRemove', 'imageLink','imageSize','imageDisplay'], //이미지 edit 툴바 버튼
+	    heightMin: 300, //프로알라의 최소높이
+        heightMax: 300, //프로알라의 최대높이
+        width: '530', //프로알라의 너비
+      }).on('froalaEditor.image.error', function (e, editor, error, response) { //이미지업로드 실패
     	  console.log(error);
     	  console.log(response);
-    	}).on('froalaEditor.image.removed', function (e, editor, $img) {
+    	}).on('froalaEditor.image.removed', function (e, editor, $img) { //이미지 삭제 
             $.ajax({
                 // Request method.
                 method: "POST",
        
                 // Request URL.
-                url: "/story/image_delete",
+                url: "/story/image_delete", //이미지삭제 경로
        
                 // Request params.
                 data: {
                   src: $img.attr('src')
                 }
               })
-              .done (function (data) {
+              .done (function (data) { //이미지 삭제 성공
                 console.log ('image was deleted');
                 console.log($img.attr('src'));
               })
-              .fail (function () {
+              .fail (function () { //이미지 삭제 실패
                 console.log ('image delete problem');
               })
             });

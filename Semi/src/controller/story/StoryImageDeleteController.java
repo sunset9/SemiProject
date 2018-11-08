@@ -19,22 +19,18 @@ public class StoryImageDeleteController extends HttpServlet {
        
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
-	
-		System.out.println(request.getParameter("src"));
-		
 		ServletContext context = getServletContext();
 		
+		//파일경로
 		String filePath = context.getRealPath("upload/story")+"\\";
-//		String filePath = context.getRealPath("upload/story");
 		
-		System.out.println("filepath:"+filePath);
+		//파일이름 구하기
 	    String[] fileName = request.getParameter("src").split("/");
 	    
+	    //삭제할 파일 경로 + 파일이름
 	    filePath += fileName[5];
 	    	
 	    File f = new File(filePath); // 파일 객체생성
-	    
-	    System.out.println("file:"+f);
 	    
 	    if( f.exists()) f.delete(); // 파일이 존재하면 파일을 삭제한다.
 

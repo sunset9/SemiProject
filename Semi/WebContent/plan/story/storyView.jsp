@@ -350,7 +350,7 @@ var up_cnt = 0;
 				$(".up_modalPlaceName").text(place_name);
 				$(".up_story_idx").val(story_idx);	
 				$(".up_ttb_idx").val(ttb_idx);
-				$('.up_content').froalaEditor('html.set', content);
+				$('.up_content').froalaEditor('html.set', content); //프로알라안에 html 넣어주기
 				$(".up_plan_idx").val(planidx);	
 				
 				var accountStoryidx = [];
@@ -544,13 +544,13 @@ var up_cnt = 0;
 					alert("비용란에는 숫자만 쓸 수 있습니다.");
 					return;
 				}
-			}
+			}	
 			
 			
  			//업데이트할 스토리 정보 
  			var storyJSON = {
  					story_idx : $(".up_story_idx").val() 
- 					, content  : $('.up_content').froalaEditor('html.get')
+ 					, content  : $('.up_content').froalaEditor('html.get') //프로알라의 html 가져오기
  					, plan_idx :$(".up_plan_idx").val()
  					, ttb_idx : $(".up_ttb_idx").val()
  				};
