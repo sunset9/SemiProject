@@ -744,15 +744,21 @@ body {
 		<!-- 로그인 상태일때 -->
 		<c:if test="${login}">
 			<form action="/contents/all" method="get" style="display: inline;">
-				<select name="searchType" style="position:absolute; top:12px; right: 387px; width:70px; height:33px;">
+				<select name="searchType" style="position:absolute; top:12px; right:374px; width:70px; height:33px;">
 					<option value="1">제목</option>
 					<option value="2">닉네임</option>
 				</select> 
-				<input type="text" name="search" style="position:absolute; top:12px; right: 210px; height:34px; border-radius:6px;"/>
-				<button type="submit" class="btn btn-default" style="position:absolute; top:11px; right: 150px;">검색</button>
+				<input type="text" name="search" style="position:absolute; top:12px; right: 201px; height:34px; border-radius:6px;"/>
+				<button type="submit" class="btn btn-default" style="position:absolute; top:11px; right: 147px;">검색</button>
 			</form>
 			<button id="newPlan" class="btn btn-default" style="position: absolute; top: 11px; right: 80px;">새일정</button>
 			<button onclick='location.href="/user/logout";' class="btn btn-default" style="position: absolute; top: 11px; right: 0px;">로그아웃</button>
+			<c:if test="${user.sns_idx == 1 || socialUser.sns_idx == 1}">
+				<span style="position: absolute; top: 24px; right: 450px;">${user.nickname} 님</span>
+			</c:if>
+			<c:if test="${socialUser.sns_idx != 1 && user.sns_idx != 1}">
+				<span style="position: absolute; top: 24px; right: 450px;">${socialUser.nickname}  님</span>
+			</c:if>
 		</c:if>
 		<!-- 비로그인 상태일때 -->
 		<c:if test="${not login}">
