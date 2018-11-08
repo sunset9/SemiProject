@@ -11,13 +11,15 @@
 <!-- jQuery UI 라이브러리 js파일 -->
 <script src="http://code.jquery.com/ui/1.8.18/jquery-ui.min.js"></script>
 <script type="text/javascript">
+/* 메인 - 추천콘텐츠 더보기 버튼 */
+function openrecomContents2(){
+	location.href = "/contents/recommend";
+}
+/* 최신콘텐츠 더보기 버튼 */
 function openNewContents2(){
-	$(".newContents2").toggle();
+	location.href = "/contents/newest";
 }
 
-function openrecomContents2(){
-	$(".recomContents2").toggle();
-}
 
 function checkField(){
 	if(newPlanForm.editTitleViewInmain.value == ""){
@@ -310,7 +312,7 @@ img {
  -->
 
 <div class="mainImgContainer">
-	<h1>Web Title</h1>
+	<h1>Logo</h1>
 	<h4>Make your own trip.</h4>
 	<img src="/resources/img/main/main_img14.jpeg" class="mainImage" />
 	<!-- Trigger/Open The Modal -->
@@ -334,7 +336,7 @@ img {
 <!-- Modal content -->
 <div class="modal-content">
 	<span class="close">&times;</span>
-	<div><h2  style="margin-top: 0; margin-bottom: 0;">새 일정 만들기</h2></div>
+	<div><h2  style="margin-top: 12px; margin-bottom: 0;">새 일정 만들기</h2></div>
 	<hr>
 	<form action="/plan/create" method="post" id="newPlanForm">
 		<div>
@@ -376,19 +378,6 @@ img {
 			</div>
 		</c:forEach>
 	</div>
-	
-	<div class="recomContents2" style="height: 260px; display: none;">
-		<c:forEach var="rList" items="${recomPlanList}" begin="3" end="5">
-			<div class="recomDiv">
-				<div class="recomDivInner">
-				<a href ="/plan?plan_idx=${nList.plan_idx }">
-					<img class="recomImg" src="${rList.bannerURL}" style="width: 100%; height: 100%;" /><br>
-					<p class="recomP2">${rList.nick}<br>${rList.title}</p>
-					</a>
-				</div>
-			</div>
-		</c:forEach>
-	</div>
 </div>
 
 
@@ -408,20 +397,8 @@ img {
 			</div>
 		</c:forEach>
 	</div>
-	
-	<div class="newContents2" style="display: none; height: 260px;">
-		<c:forEach var="nList" items="${newestPlanList}" begin="3" end="5">
-			<div class="newConDiv">
-				<div class="newConDivInner">
-				<a href ="/plan?plan_idx=${nList.plan_idx }">
-					<img class="newConImg" src="${nList.bannerURL}" style="width: 100%; height: 100%;" /><br>
-					<p class="newConP2">${nList.nick}<br>${nList.title}</p>
-					</a>
-				</div>
-			</div>
-		</c:forEach>
-	</div>
 </div>
+
 <script type="text/javascript">
 // Get the modal
 var modal = document.getElementById('myModal');

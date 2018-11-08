@@ -589,8 +589,8 @@ body {
 			joinForm.userpw.focus();
 			return false;
 		}
-		if (joinForm.userpw.value.length < 3) {
-			alert("비밀번호는 3자 이상 입력해주세요.");
+		if (joinForm.userpw.value.length < 10) {
+			alert("비밀번호는 10자 이상 입력해주세요.");
 			joinForm.userpw.focus();
 			joinForm.userpw.select(); //드래그로 선택됨
 			return false;
@@ -809,7 +809,7 @@ body {
 		<div class="newPlanmodal-content">
 			<span class="newPlanModalclose">&times;</span>
 			<div>
-				<h2 style="margin-top: 0; margin-bottom: 0;">새 일정 만들기</h2>
+				<h2 style="margin-top: 12px; margin-bottom: 0;">새 일정 만들기</h2>
 			</div>
 			<hr>
 			<form action="/plan/create" method="post" id="newPlanFormInHeader">
