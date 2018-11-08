@@ -65,7 +65,7 @@
 	overflow-y: auto; 
 	height: 230px;
 	margin-top: 26px;
-	padding: 6px;
+	padding: 12px 16px;
 }
 
 #miniModalAccount{
