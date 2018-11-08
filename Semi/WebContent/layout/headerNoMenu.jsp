@@ -665,6 +665,7 @@ body {
 			style="position:absolute; display: inline; width: 160px; height: 80px; top:3px;" /></a>
 		<!-- 로그인 상태일때 -->
 		<c:if test="${login}">
+			<span>${user.nickname }님</span>
 			<form action="/contents/all" method="get" style="display: inline;">
 				<select name="searchType" style="position:absolute; top:12px; right: 387px; width:70px; height:33px;">
 					<option value="1">제목</option>
@@ -675,7 +676,9 @@ body {
 			</form>
 			<button id="newPlan" class="btn btn-default" style="position: absolute; top: 11px; right: 80px;">새일정</button>
 			<button onclick='location.href="/user/logout";' class="btn btn-default" style="position: absolute; top: 11px; right: 0px;">로그아웃</button>
+		
 		</c:if>
+		
 		<!-- 비로그인 상태일때 -->
 		<c:if test="${not login}">
 			<form action="/contents/all" method="get" style="display: inline;">

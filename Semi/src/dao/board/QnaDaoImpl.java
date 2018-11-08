@@ -206,7 +206,7 @@ public class QnaDaoImpl implements QnaDao {
 		System.out.println("dao에서 qna : "+  qna);
 		String sql ="";
 		sql+="INSERT INTO qna (qna_idx, title, user_idx,content,hit)"; 
-		sql+=	"VALUES(qna_seq.nextval,?,?,?,0)";
+		sql+=	"VALUES(?,?,?,?,0)";
 						
 		try {
 			conn.setAutoCommit(false);
@@ -215,9 +215,10 @@ public class QnaDaoImpl implements QnaDao {
 			ps = conn.prepareStatement(sql);
 			
 			//DB 작업 
-			ps.setString(1, qna.getTitle());
-			ps.setInt(2, qna.getUser_idx());
-			ps.setString(3, qna.getContent());
+			ps.setInt(1, qna.getQna_idx());
+			ps.setString(2, qna.getTitle());
+			ps.setInt(3, qna.getUser_idx());
+			ps.setString(4, qna.getContent());
 					
 			ps.executeUpdate();
 							

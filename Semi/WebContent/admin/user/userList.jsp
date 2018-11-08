@@ -51,23 +51,28 @@ $(document).ready(function() {
 
 function userDelete(user_idx) {
 // 	console.log("실행쓰?")
-	$.ajax ( {
-		type : "POST"
-		, url:"/admin/user/delete"
-		, dataType: "json"
-		, data:{user_idx:user_idx }
-		, success: function(d) {
-			
-			if(d.success) {
-				$("tr[data-user_idx="+user_idx+"]").html($("<td colspan='9'>").text("삭제되었습니다."));
-// 				$("[data-user_idx='"+user_idx+"']").remove();
+
+	var ret = confirm(user_idx+"사용자를 삭제하시겠습니까?");
+	console.log(ret);
+	if (ret){
+		$.ajax ( {
+			type : "POST"
+			, url:"/admin/user/delete"
+			, dataType: "json"
+			, data:{user_idx:user_idx }
+			, success: function(d) {
+				
+				if(d.success) {
+					$("tr[data-user_idx="+user_idx+"]").html($("<td colspan='9'>").text("삭제되었습니다."));
+	// 				$("[data-user_idx='"+user_idx+"']").remove();
+				}
 			}
-		}
-		,error: function() {
-			console.log("실패")
-		}
-		
-	});
+			,error: function() {
+				console.log("실패")
+			}
+			
+		});
+	}
 };
 
 function gradeChange(user_idx,grade) {
@@ -112,7 +117,7 @@ function gradeChange(user_idx,grade) {
 <style>
 .wrapper {
 	border: 1px solid black;
-	width: 1000px;
+	width: 1200px;
 	margin :0 auto;
 	display :grid;
 	grid-template-columns : repeat(12, 1fr);

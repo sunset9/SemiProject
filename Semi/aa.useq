@@ -1,8 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<sequence-diagram version="1.2.2" icons="true" generate-combined-fragments="true">  
-  <object id="1" language="java" name="controller.inquiry.InqDeleteController" project="Semi" 
-    file="/Semi/src/controller/inquiry/InqDeleteController.java" binary="false" label="inqDeleteController" type="class" 
-    autoSize="true">    
-    <position height="-1" width="-1" x="504" y="0"/>  
-  </object>
-</sequence-diagram>
