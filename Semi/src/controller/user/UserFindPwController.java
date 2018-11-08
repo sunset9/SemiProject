@@ -51,7 +51,7 @@ public class UserFindPwController extends HttpServlet {
 			// 입력받은 이메일로 임시 비밀번호 전송
 			uService.gmailSend(email, tempPw);
 			
-			resp.sendRedirect("/user/login");
+			resp.sendRedirect("/main");
 		} else {
 			resp.sendRedirect("/user/findPwFailed");
 		}
