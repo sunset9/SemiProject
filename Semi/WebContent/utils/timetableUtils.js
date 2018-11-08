@@ -6,8 +6,8 @@ function initFullCalendar(planStartDate, planEndDate, isFirst){
 	if(isFirst){
 		timetables = getTimetablesFromServer();
 	}else{
-		// 기존 타임테이블 폼 삭제
 		timetables = getTimetablesFromBrowser();
+		// 기존 타임테이블 폼 삭제
 		$('#calendar').fullCalendar('destroy');
 	}
 	

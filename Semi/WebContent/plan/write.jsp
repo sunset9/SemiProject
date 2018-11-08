@@ -541,9 +541,13 @@ $(document).ready(function() {
 		}
 		
 		// 바뀐 시작일이 기존 시작일보다 큰 경우(미래인 경우) 
-		var alertStartDate = moment(changedStartDate) > moment(planStartDate);
+		var alertStartDate = moment(changedStartDate) > moment(beforeStartDate);
 		// 바뀐 종료일이 기족 종료일보다 작은 경우(과거인 경우)
-		var alertEndDate = moment(changedEndDate) <  moment(planEndDate);
+		var alertEndDate = moment(changedEndDate) <  moment(beforeEndDate);
+		
+		console.log(moment(changedEndDate));
+		console.log(moment(beforeEndDate));
+		
 		if( alertStartDate || alertEndDate ){
 			// 경고창 띄워주기
 			$.ajax({
@@ -565,6 +569,8 @@ $(document).ready(function() {
 							deleteTimetableByDate(changedStartDate, changedEndDate);
 							// 캘린더 다시 그려주기
 							initFullCalendar(changedStartDate, changedEndDate, false);
+							$('#calendar').fullCalendar('option', 'editable', true); // 수정 가능하게
+							$('#calendar').fullCalendar('option', 'droppable', true); // 드롭할 수 있게
 						});
 						// 취소버튼 누르면
 						$("#btnCancelOnDateChange").on("click", function(){
@@ -581,10 +587,10 @@ $(document).ready(function() {
 		} else{
 			// 캘린더 다시 그려주기
 			initFullCalendar(changedStartDate, changedEndDate, false);
+			// 새로 캘린더 그려서 읽기모드로 세팅 -> 수정  모드로 변경
+			$('#calendar').fullCalendar('option', 'editable', true); // 수정 가능하게
+			$('#calendar').fullCalendar('option', 'droppable', true); // 드롭할 수 있게
 		} 
-		// 새로 캘린더 그려서 읽기모드로 세팅 -> 수정  모드로 변경
-		$('#calendar').fullCalendar('option', 'editable', true); // 수정 가능하게
-		$('#calendar').fullCalendar('option', 'droppable', true); // 드롭할 수 있게
 	});
 	
 	// 처음 탭 선택하여 띄워주기
