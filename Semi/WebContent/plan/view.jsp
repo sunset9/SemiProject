@@ -369,13 +369,12 @@ $(document).ready(function() {
 	
 	$("#hrefTotal").click(function() {
 
-		document.getElementById("idTotal").style.display= "block";
-		document.getElementById("idDaily").style.display= "none";
+// 		document.getElementById("idTotal").style.display= "block";
 		
 		var myConfig = {
 				  "type":"pie",
 				  "title":{
-				    "text":"전체"
+				    "text":"가계부"
 				  },
 				  "legend":{
 				    "x":"75%",
@@ -384,7 +383,7 @@ $(document).ready(function() {
 				    "border-color":"gray",
 				    "border-radius":"5px",
 				    "header":{
-				      "text":"전체",
+				      "text":"가계부",
 				      "font-family":"Georgia",
 				      "font-size":12,
 				      "font-color":"#3333cc",
@@ -450,90 +449,6 @@ $(document).ready(function() {
 					height: 600, 
 					width: "100%" 
 				});
-	});
-	
-	$("#hrefDaily").click(function() {
-		document.getElementById("idTotal").style.display= "none";
-		document.getElementById("idDaily").style.display= "block";
-		
-		var myConfig = {
-			  "type":"pie",
-			  "title":{
-			    "text":"일일"
-			  },
-			  "legend":{
-			    "x":"75%",
-			    "y":"25%",
-			    "border-width":1,
-			    "border-color":"gray",
-			    "border-radius":"5px",
-			    "header":{
-			      "text":"일일",
-			      "font-family":"Georgia",
-			      "font-size":12,
-			      "font-color":"#3333cc",
-			      "font-weight":"normal"
-			    },
-			    "marker":{
-			      "type":"circle"
-			    },
-			    "toggle-action":"remove",
-			    "minimize":true,
-			    "icon":{
-			      "line-color":"#9999ff"
-			    },
-			    "max-items":8,
-			    "overflow":"scroll"
-			  },
-			  "plotarea":{
-			    "margin-right":"30%",
-			    "margin-top":"15%"
-			  },
-			  "plot":{
-			    "value-box":{
-			      "text":"%v",
-			      "font-size":12,
-			      "font-family":"Georgia",
-			      "font-weight":"normal",
-			          "placement":"out",
-			          "font-color":"gray",
-			    },
-			    "tooltip":{
-			      "text":"%t: %v (%npv%)",
-			      "font-color":"black",
-			      "font-family":"Georgia",
-			      "text-alpha":1,
-			      "background-color":"white",
-			      "alpha":0.7,
-			      "border-width":1,
-			      "border-color":"#cccccc",
-			      "line-style":"dotted",
-			      "border-radius":"10px",
-			      "padding":"10%",
-			      "placement":"node:center"
-			    },
-			    "border-width":1,
-			    "border-color":"#cccccc",
-			    "line-style":"dotted"
-			  },
-			  "series":[
-					{ "values":[accTypeCost.airfare], "background-color":"#cc0000","text":"항공료"},
-				    { "values":[accTypeCost.traffic], "background-color":"#ff6600", "text":"교통"},
-				    { "values":[accTypeCost.stay], "background-color":"#ffcc00", "text":"숙박"},
-				    { "values":[accTypeCost.admission], "background-color":"#88cc00", "text":"입장료"},
-				    { "values":[accTypeCost.food], "background-color":"#66ccff", "text":"음식" },
-				    { "values":[accTypeCost.play], "background-color":"#0066ff", "text":"오락" },
-				    { "values":[accTypeCost.shop], "background-color":"#6600ff", "text":"쇼핑" },
-				    { "values":[accTypeCost.etc], "background-color":"#9999ff", "text":"기타" }
-				  ]
-			};
-			 
-			zingchart.render({ 
-				id : 'daily', 
-				data : myConfig, 
-				height: 600, 
-				width: "100%" 
-			});
 	});
 	
 	// 처음 탭 선택하여 띄워주기
@@ -820,13 +735,10 @@ function numberWithCommas(x) {
 		        <div class="pop-container">
 		            <div class="pop-conts">
 		                <div>
-		                	<a href="#totalGraph" id="hrefTotal" >전체</a> <a href="#dailyGraph" id="hrefDaily">일일</a>
+		                	<a href="#totalGraph" id="hrefTotal" ></a>
 		                </div>
 		                <div id="idTotal">
 	                		<div id="total"></div>
-	                	</div>
-	                	<div id="idDaily">
-	                		<div id="daily"></div>
 	                	</div>
 		                <div class="btn-r">
 		                    <a href="#" class="btn-layerClose">X</a>
