@@ -55,7 +55,7 @@ $(document).ready(function() {
 
 </script>
 
-<<script type="text/javascript">
+<script type="text/javascript">
 function deleteComm(comm_idx) {
 // 	console.log("실행쓰?")
 	$.ajax ( {
@@ -82,19 +82,19 @@ function deleteComm(comm_idx) {
 <style>
 .wrapper {
 	border: 1px solid black;
-	width: 1000px;
-	margin :0 auto;
+	width: 1500px;
+	margin :auto;
 	display :grid;
 	grid-template-columns : repeat(12, 1fr);
 /* 	grid-template-rows : 700px; */
 }
 .menu {
 	background-color: #ccc;
-	grid-column:span 3;
+	grid-column:span 2;
 }
 
 .content{
-	grid-column:span 9;
+	grid-column:span 10;
 }
 
 ul.sub li{

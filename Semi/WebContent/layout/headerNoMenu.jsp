@@ -665,7 +665,7 @@ body {
 			style="position:absolute; display: inline; width: 160px; height: 80px; top:3px;" /></a>
 		<!-- 로그인 상태일때 -->
 		<c:if test="${login}">
-			<span>${user.nickname }님</span>
+	
 			<form action="/contents/all" method="get" style="display: inline;">
 				<select name="searchType" style="position:absolute; top:12px; right: 387px; width:70px; height:33px;">
 					<option value="1">제목</option>
