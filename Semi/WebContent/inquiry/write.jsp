@@ -10,6 +10,20 @@
 <script type="text/javascript">
 $(document).ready(function () {
 	$("#btnWrite").click(function () {
+		// 유효성 검사
+		if($("#title").val() == ""){
+			alert("제목을 입력하세요.");
+			title.focus(); //포커싱
+			return;
+		}
+		// 에디터 내용 적용하기 
+		oEditors.getById["content"].exec("UPDATE_CONTENTS_FIELD",[]);
+
+		if ($("#content").val()=='<p><br></p>'){
+			alert("내용을 입력하세요.");
+			oEditors.getById["content"].exec("FOCUS"); //포커싱
+			return;
+		}
 		// 스마트 에디터 내용으로 <textarea>적용 
 		submitContents($("#btnWrite"));
 		
@@ -106,7 +120,7 @@ table{
 	<table >
 	<tr style="border-top-style: hidden;"><td class ="winfo" style="border-top-left-radius:10px;">아이디</td><td>${socialUser.id}</td></tr>
 	<tr><td class ="winfo">닉네임</td><td>${socialUser.nickname }</td></tr>
-	<tr><td class ="winfo">제목</td><td><input type="text"name ="title" style="width:100%"/></td></tr>
+	<tr><td class ="winfo">제목</td><td><input type="text" id="title"name ="title" style="width:100%"/></td></tr>
 	<tr><td class ="winfo" style="border-bottom-left-radius:10px;">본문</td><td><textarea id="content" name ="content"></textarea></td></tr>
 	</table>
 </c:if>
