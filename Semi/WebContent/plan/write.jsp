@@ -470,10 +470,6 @@ function store(miniTimetables){
 	return succ;
 }
 
-$(document).ready(function(){
-
-})
-
 //마우스오버시 색바꾸기
 function mover(obj) {
 	 obj.css( "color", "#4FB99F" );
@@ -504,7 +500,6 @@ $(document).ready(function() {
 	if(getCookie("isCookieTabClear") == 'true' && performance.navigation.type != 1){
 		setCookie('tab','');
 	}
-	
 	// 한 번 탭 변경하지 않고 넘어갔으면 그 다음엔 탭 정보 저장 쿠키 다시 삭제하게
 	setCookie("isCookieTabClear", "true");
 	
@@ -641,7 +636,7 @@ $(document).ready(function() {
 			    }
 			});
 		} else { // 저장버튼 비활성화 상태면 그냥 진행
-			isStayWriteMode = true; // 수정모드 유지
+// 			isStayWriteMode = true; // 수정모드 유지
 			changeTab(clickTab); // 탭 변경
 		}
 		

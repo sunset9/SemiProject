@@ -289,17 +289,15 @@ function vComma(obj) {
 
 // 읽기모드일때, 검색창 on/off
 var check=0;
-	console.log("view.jsp isModify : " + isModify);
 	
 $(document).ready(function() {
 	// isCookieTabClear 플래그가 true 이고
 	// 새로고침 된게 아닌 경우 (performance.navigation.type == 1 : 새로고침)
 	if(getCookie("isCookieTabClear") == 'true' && performance.navigation.type != 1){
 		// 탭 초기화
-		deleteCookie('tab');
+		setCookie('tab','');
 	}
 	setCookie("isCookieTabClear", "true");
-	
 	
 	// 브라우저에 timetable 그려주기
 	initFullCalendar(planStartDate, planEndDate, true);
@@ -310,7 +308,6 @@ $(document).ready(function() {
 	$("#btnModify").click(function() {
 		// 탭 유지하면서 화면 전환
 		setCookie("isCookieTabClear", "false");
-		
 		$("#Modify").submit();
 	});
 	
@@ -453,7 +450,7 @@ $(document).ready(function() {
 	
 	// 처음 탭 선택하여 띄워주기
  	// 쿠키값이 없거나 tab-ttb 인 경우
-	if(getCookie('tab')==null || getCookie('tab')=='tab-ttb'){
+	if(getCookie('tab')==null || getCookie('tab')=='' || getCookie('tab')=='tab-ttb'){
 		$("#tab-main li").removeClass("active");
 	    $("#tab-main li[rel='tab-ttb']").addClass("active");
 		$("#tab-story").css('display', 'none');
