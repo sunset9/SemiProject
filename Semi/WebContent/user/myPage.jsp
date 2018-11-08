@@ -133,11 +133,63 @@
 }
 
 #planBox,#bookmarkBox{
-	
 	padding:10px;
 	margin : 3px;
 	border: 1px solid #d8d8d8;
 	border-radius: 6px;
+}
+
+#planBox>a>div, #bookmarkBox>a>div {
+	overflow: hidden;
+}
+
+.myPagePlanImg {
+	width: 100%;
+	height:240px;
+    -webkit-transform:scale(1);
+    -moz-transform:scale(1);
+    -ms-transform:scale(1); 
+    -o-transform:scale(1);  
+    transform:scale(1);
+    -webkit-transition:.3s;
+    -moz-transition:.3s;
+    -ms-transition:.3s;
+    -o-transition:.3s;
+    transition:.3s;
+}
+
+.myPagePlanImg:hover {
+    -webkit-transform:scale(1.2);
+    -moz-transform:scale(1.2);
+    -ms-transform:scale(1.2);   
+    -o-transform:scale(1.2);
+    transform:scale(1.2);
+}
+.myPagePlanTitle{
+	color: white;
+    font-size: 24px;
+    font-weight: bold;
+    background: #0000006e;
+    height: 81px;
+    width: 354.8px;
+    position: relative;
+    bottom: 157px;
+    text-align: center;
+    vertical-align: middle;
+    padding-top: 30px;
+}
+
+#bookmarkList .myPagePlanTitle{
+	height:107px;
+}
+
+#bookMarkNick {
+	font-size: initial;
+	font-weight: initial;
+
+}
+.upDelBtn{
+	margin-top: -68px;
 }
 
 #wrap {
@@ -452,14 +504,14 @@ function deleteCheck(){
 	    <div id="planList" class="listBox">
 	      <c:forEach items="${plannerList }" var="plan"> 
 	        <div id="planBox" data-plan_idx="${plan.plan_idx }">
-	        <a href="/plan?plan_idx=${plan.plan_idx }">
-	          <div><img src="${plan.bannerURL }" style="width: 100%; height:240px;"></div>
-	          <div style="color:black;">${plan.title}</div>
-	        </a>
-	          <div>
+		        <a href="/plan?plan_idx=${plan.plan_idx }" style="text-decoration:none">
+		          <div><img src="${plan.bannerURL }" class="myPagePlanImg"></div>
+		          <div class="myPagePlanTitle" >${plan.title}</div>
+		        </a>
+	            <div class="upDelBtn">
 	              <button id ="planDelete" class="btn btn-default" onclick="deletePlan(${plan.plan_idx })">삭제</button>
 	              <button id ="planUpdate" class="btn btn-default" onclick="updatePlan(${plan.plan_idx })">수정</button>
-	          </div>
+	            </div>
 	        </div>
 	      </c:forEach>
 	    </div>
@@ -472,11 +524,13 @@ function deleteCheck(){
 		<div id="planList" class="listBox" >
 		<c:forEach items="${bookMarkList }" var="bList"> 
 			<div id="bookmarkBox" data-book_idx="${bList.book_idx }">
-			<a href="/plan?plan_idx=${bList.plan_idx }">
-				<div><img src="${bList.bannerURL }" style="width: 100%; height:240px;"></div>
-				<div style="color:black;">${bList.title} <br> NickName : ${bList.writeNick }</div>
+			<a href="/plan?plan_idx=${bList.plan_idx }" style="text-decoration:none">
+				<div><img src="${bList.bannerURL }" class="myPagePlanImg"></div>
+				<div class="myPagePlanTitle" >
+					${bList.title} <p id="bookMarkNick"> ${bList.writeNick }</p>
+				</div>
 				</a>
-				<div>
+				<div class="upDelBtn">
 					<button id ="bookDelete" class="btn btn-default" onclick="deleteBook(${bList.book_idx})" >삭제</button>
 				</div>
 			</div>

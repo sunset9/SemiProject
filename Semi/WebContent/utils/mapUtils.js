@@ -66,24 +66,24 @@ function viewMap(timetable, timetables){
 	// 기존에 있던 마커들 삭제
 	removeMarkerAll();
 	
-	var locations = [];
+	var locations = []; // 그려주려는 위치정보 배열
 	var bounds  = new google.maps.LatLngBounds();
 	var minZoomLv = 16; // 최대 줌 레벨
-	var diffDay = 0;
-	var isExistSameDayTtb = false;
-    var labelIdx = 1;
+	var diffDay = 0; // 일차
+	var isExistSameDayTtb = false; // 같은 날의 일정이 있는지 
+    var labelIdx = 1; // 마커 이미지 선택
     
-	if(timetable!='all'){
+	if(timetable!='all'){ // 모두 그려주는게 아닌 경우, 선택한 타임테이블의 시작 날짜 구하기
 		var ttbStartDate = moment(timetable.start).format('YYYY-MM-DD');
 	}
 	
 	// 선택한 일정과 같은 날에 있는 일정의 위도, 경도 정 보 저장
 	timetables.forEach(function(ttb){
-		// 모든 타임테이블의 경로를 보여주는게 아닌 경우만 계산
-		if(timetable != 'all'){ 
+		
+		if(timetable != 'all'){  // 모든 타임테이블의 경로를 보여주는게 아닌 경우만 계산
 			diffDay = getDiffDay(moment(ttb.start), ttbStartDate);
 		}
-		if(diffDay == 0){ 
+		if(diffDay == 0){ // 같은 날에 있는 일정인 경우
 			isExistSameDayTtb = true;
 			var loc = new google.maps.LatLng(ttb.lat, ttb.lng);
 			locations.push(loc);
@@ -100,8 +100,8 @@ function viewMap(timetable, timetables){
 	locations.forEach(function(loc){
 		// 아이콘 정의
 		var icon = {
-				url: '/resources/img/mapMarker/' + (labelIdx++) +'g.png', // url
-				scaledSize: new google.maps.Size(30, 32), // scaled size
+				url: '/resources/img/mapMarker/' + (labelIdx++) +'g.png', //마커 이미지 url
+				scaledSize: new google.maps.Size(30, 32), // 비율
 				origin: new google.maps.Point(0, 0), // origin
 				anchor: new google.maps.Point(13, 15) // anchor
 		};
