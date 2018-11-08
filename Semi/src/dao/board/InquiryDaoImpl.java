@@ -64,6 +64,7 @@ public class InquiryDaoImpl implements InquiryDao {
 		sql += "SELECT * FROM( ";
 		sql += "SELECT rownum rnum, I.* FROM ( ";
 		sql += "SELECT  inq_idx, (SELECT nickname FROM userinfo U WHERE U.user_idx = INQ.user_idx) nick,hit, ";
+		sql += " (SELECT count(ifile_idx) FROM inquiry_file IF WHERE IF.inq_idx = INQ.inq_idx ) file_idx, ";
 		sql	+= "title, content,create_date,answer FROM inquiry INQ ORDER BY inq_idx DESC ) I ";
 		
 		
@@ -102,6 +103,7 @@ public class InquiryDaoImpl implements InquiryDao {
 				inq.setTitle(rs.getString("title"));
 				inq.setAnswer(rs.getInt("answer"));
 				inq.setHit(rs.getInt("hit"));
+				inq.setiFile_idx(rs.getInt("file_idx"));
 				inq.setCreate_date(rs.getDate("create_date"));
 				
 				// 조회 결과 List에 넣기
