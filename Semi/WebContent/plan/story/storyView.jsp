@@ -451,11 +451,23 @@ var up_cnt = 0;
 	//스토리저장
 	$(".storySaveBtn").click(function() {
 		
+		
 			var cost = $("input[name='st_cost']")[0].value
 			var content = $(".st_content").val();
 			if ((content == null || content == "") && (cost = null || cost == "")){
 				alert("스토리의 본문내용 혹은 가계부를 써주세요");
 				return;
+			}
+			
+			var Len = $("select[name='st_accType']").length;
+			
+			for(var i = 0; i<Len; i++){
+				var costHan=$("input[name='st_cost']")[i].value;
+				check = /[ㄱ-ㅎ|ㅏ-ㅣ|가-힣]/;
+				if(check.test(costHan)) {
+					alert("비용란에는 숫자만 쓸 수 있습니다.");
+					return;
+				}
 			}
 			
 			//storyJSON으로 저장할 값 넣어주기
@@ -523,10 +535,22 @@ var up_cnt = 0;
 				return;
 			}
  			
+			var Len = $("select[name='up_accType']").length;
+			
+			for(var i = 0; i<Len; i++){
+				var costHan=$("input[name='up_cost']")[i].value;
+				check = /[ㄱ-ㅎ|ㅏ-ㅣ|가-힣]/;
+				if(check.test(costHan)) {
+					alert("비용란에는 숫자만 쓸 수 있습니다.");
+					return;
+				}
+			}
+			
+			
  			//업데이트할 스토리 정보 
  			var storyJSON = {
  					story_idx : $(".up_story_idx").val() 
- 					, content  : $(".up_content").val()
+ 					, content  : $('.up_content').froalaEditor('html.get')
  					, plan_idx :$(".up_plan_idx").val()
  					, ttb_idx : $(".up_ttb_idx").val()
  				};

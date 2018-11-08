@@ -48,7 +48,6 @@ public class StoryUpdateController extends HttpServlet {
 			
 			story = sService.getParam(req);
 			
-		
 			sService.update(story);
 
 			req.setAttribute("plan_idx", story.getPlan_idx());
@@ -60,6 +59,8 @@ public class StoryUpdateController extends HttpServlet {
 			String[] accType = req.getParameterValues("accType");
 			String[] currSymbol = req.getParameterValues("currSymbol");
 			String[] cost = req.getParameterValues("cost");
+			
+			
 			
 			//환율정보가져오기
 			double USD_rate = Double.parseDouble(req.getParameter("USD_rate"));
