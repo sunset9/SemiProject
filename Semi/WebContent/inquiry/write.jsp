@@ -14,7 +14,7 @@ $(document).ready(function () {
 		submitContents($("#btnWrite"));
 		
 		//submit
-		$("form").submit();
+		$("#inquiryForm").submit();
 		
 	});
 	
@@ -92,15 +92,24 @@ table{
 <hr>
 
 <div>
-<form action="/inquiry/write" method="post" enctype="multipart/form-data">
+<form action="/inquiry/write" method="post" enctype="multipart/form-data" id="inquiryForm">
 <div class="inqContent">
-<table >
-<tr style="border-top-style: hidden;"><td class ="winfo" style="border-top-left-radius:10px;">아이디</td><td>${user.id}</td></tr>
-<tr><td class ="winfo">닉네임</td><td>${user.nickname }</td></tr>
-<tr><td class ="winfo">제목</td><td><input type="text"name ="title" style="width:100%"/></td></tr>
-<tr><td class ="winfo" style="border-bottom-left-radius:10px;">본문</td><td><textarea id="content" name ="content"></textarea></td></tr>
-
-</table>
+<c:if test="${user.sns_idx == 1 || socialUser.sns_idx == 1}">
+	<table >
+	<tr style="border-top-style: hidden;"><td class ="winfo" style="border-top-left-radius:10px;">아이디</td><td>${user.id}</td></tr>
+	<tr><td class ="winfo">닉네임</td><td>${user.nickname }</td></tr>
+	<tr><td class ="winfo">제목</td><td><input type="text"name ="title" style="width:100%"/></td></tr>
+	<tr><td class ="winfo" style="border-bottom-left-radius:10px;">본문</td><td><textarea id="content" name ="content"></textarea></td></tr>
+	</table>
+</c:if>
+<c:if test="${socialUser.sns_idx != 1 && user.sns_idx != 1}">
+	<table >
+	<tr style="border-top-style: hidden;"><td class ="winfo" style="border-top-left-radius:10px;">아이디</td><td>${socialUser.id}</td></tr>
+	<tr><td class ="winfo">닉네임</td><td>${socialUser.nickname }</td></tr>
+	<tr><td class ="winfo">제목</td><td><input type="text"name ="title" style="width:100%"/></td></tr>
+	<tr><td class ="winfo" style="border-bottom-left-radius:10px;">본문</td><td><textarea id="content" name ="content"></textarea></td></tr>
+	</table>
+</c:if>
 </div>
 <label>첨부파일 : <input type ="file" name ="file"/></label>
 

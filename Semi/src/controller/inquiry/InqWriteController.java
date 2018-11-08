@@ -13,6 +13,7 @@ import dao.board.InqFileDao;
 import dao.board.InqFileDaoImpl;
 import dto.board.InqFile;
 import dto.board.Inquiry;
+import dto.user.User;
 import service.board.InquiryService;
 import service.board.InquiryServiceImpl;
 
@@ -34,6 +35,13 @@ public class InqWriteController extends HttpServlet {
 //		if( req.getSession().getAttribute("login")==null) {
 //			resp.sendRedirect("/main");
 //		}
+		//현재 유저 불러오기
+		User cUser = (User) req.getSession().getAttribute("user");
+		System.out.println("문의사항 현재 세션에 있는 유저 : "+cUser);
+		User cUserSocial = (User) req.getSession().getAttribute("socialUser");
+		System.out.println("문의사항 현재 세션에 있는 유저 : "+cUserSocial);
+		
+		
 		
 		// VIEW 페이지 지정
 		req.getRequestDispatcher("/inquiry/write.jsp").forward(req, resp);
