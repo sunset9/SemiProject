@@ -33,6 +33,8 @@ public class QnaViewController extends HttpServlet {
 		QnaFile qnaFile = new QnaFile();
 		qnaFile = qnaService.viewFile(qna);
 		
+		System.out.println(qnaFile);
+		
 		// 파일 요청에 담아 보내깅 
 		req.setAttribute("qnaFile", qnaFile);
 		

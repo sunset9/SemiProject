@@ -107,6 +107,10 @@ th{
 <td>관리자 수</td><td>${managerCnt }</td>
 </tr>
 
+<!-- <tr> -->
+<%-- <td>탈퇴한 수</td><td>${managerCnt }</td> --%>
+<!-- </tr> -->
+
 </tbody>
 
 </table>

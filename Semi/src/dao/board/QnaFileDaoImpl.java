@@ -67,6 +67,7 @@ public class QnaFileDaoImpl implements  QnaFileDao {
 	@Override
 	public QnaFile selectFilebyQna(Qna qna) {
 		// 게시글에 관련된 첨부파일 조회
+		System.out.println("qna file dao :" +qna);
 				String sql ="";
 				sql+="SELECT * FROM qna_file ";
 				sql+="WHERE qna_idx= ? " ;

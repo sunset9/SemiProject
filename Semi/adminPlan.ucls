@@ -1,118 +1,88 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <class-diagram version="1.2.2" icons="true" always-add-relationships="false" generalizations="true" realizations="true" 
   associations="true" dependencies="false" nesting-relationships="true" router="FAN">  
-  <class id="1" language="java" name="controller.notice.NoticeViewController" project="Semi" 
-    file="/Semi/src/controller/notice/NoticeViewController.java" binary="false" corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="567" y="643"/>    
+  <class id="1" language="java" name="controller.admin.AdminPlanDeleteController" project="Semi" 
+    file="/Semi/src/controller/admin/AdminPlanDeleteController.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="455" y="168"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
       <attributes public="true" package="true" protected="true" private="true" static="true"/>      
       <operations public="true" package="true" protected="true" private="true" static="true"/>    
     </display>  
   </class>  
-  <class id="2" language="java" name="controller.notice.NoticeListController" project="Semi" 
-    file="/Semi/src/controller/notice/NoticeListController.java" binary="false" corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="480" y="288"/>    
+  <class id="2" language="java" name="controller.admin.AdminPlanListController" project="Semi" 
+    file="/Semi/src/controller/admin/AdminPlanListController.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="181" y="340"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
       <attributes public="true" package="true" protected="true" private="true" static="true"/>      
       <operations public="true" package="true" protected="true" private="true" static="true"/>    
     </display>  
   </class>  
-  <class id="3" language="java" name="dao.board.NoticeDaoImpl" project="Semi" 
-    file="/Semi/src/dao/board/NoticeDaoImpl.java" binary="false" corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="1026" y="91"/>    
-    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
-      sort-features="false" accessors="true" visibility="true">      
-      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
-      <operations public="true" package="true" protected="true" private="true" static="true"/>    
-    </display>  
-  </class>  
-  <interface id="4" language="java" name="dao.board.NoticeDao" project="Semi" file="/Semi/src/dao/board/NoticeDao.java" 
+  <class id="3" language="java" name="dao.plan.PlanDaoImpl" project="Semi" file="/Semi/src/dao/plan/PlanDaoImpl.java" 
     binary="false" corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="1462" y="419"/>    
-    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
-      sort-features="false" accessors="true" visibility="true">      
-      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
-      <operations public="true" package="true" protected="true" private="true" static="true"/>    
-    </display>  
-  </interface>  
-  <interface id="5" language="java" name="dao.board.NoticeFileDao" project="Semi" 
-    file="/Semi/src/dao/board/NoticeFileDao.java" binary="false" corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="1391" y="692"/>    
-    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
-      sort-features="false" accessors="true" visibility="true">      
-      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
-      <operations public="true" package="true" protected="true" private="true" static="true"/>    
-    </display>  
-  </interface>  
-  <class id="6" language="java" name="dao.board.NoticeFileDaoImpl" project="Semi" 
-    file="/Semi/src/dao/board/NoticeFileDaoImpl.java" binary="false" corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="1733" y="690"/>    
+    <position height="-1" width="-1" x="798" y="751"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
       <attributes public="true" package="true" protected="true" private="true" static="true"/>      
       <operations public="true" package="true" protected="true" private="true" static="true"/>    
     </display>  
   </class>  
-  <class id="7" language="java" name="service.board.NoticeServiceImpl" project="Semi" 
-    file="/Semi/src/service/board/NoticeServiceImpl.java" binary="false" corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="1006" y="679"/>    
-    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
-      sort-features="false" accessors="true" visibility="true">      
-      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
-      <operations public="true" package="true" protected="true" private="true" static="true"/>    
-    </display>  
-  </class>  
-  <interface id="8" language="java" name="service.board.NoticeService" project="Semi" 
-    file="/Semi/src/service/board/NoticeService.java" binary="false" corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="1003" y="408"/>    
+  <interface id="4" language="java" name="dao.plan.PlanDao" project="Semi" file="/Semi/src/dao/plan/PlanDao.java" 
+    binary="false" corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="1171" y="499"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
       <attributes public="true" package="true" protected="true" private="true" static="true"/>      
       <operations public="true" package="true" protected="true" private="true" static="true"/>    
     </display>  
   </interface>  
-  <realization id="9">    
-    <end type="SOURCE" refId="7"/>    
-    <end type="TARGET" refId="8"/>  
-  </realization>  
-  <realization id="10">    
+  <interface id="5" language="java" name="service.plan.AdminPlanService" project="Semi" 
+    file="/Semi/src/service/plan/AdminPlanService.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="434" y="568"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </interface>  
+  <class id="6" language="java" name="service.plan.AdminPlanServiceImpl" project="Semi" 
+    file="/Semi/src/service/plan/AdminPlanServiceImpl.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="781" y="204"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <realization id="7">    
     <end type="SOURCE" refId="6"/>    
     <end type="TARGET" refId="5"/>  
   </realization>  
-  <realization id="11">    
+  <realization id="8">    
     <end type="SOURCE" refId="3"/>    
     <end type="TARGET" refId="4"/>  
   </realization>  
+  <association id="9">    
+    <end type="SOURCE" refId="1" navigable="false">      
+      <attribute id="10" name="adminPlanService"/>      
+      <multiplicity id="11" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="5" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
   <association id="12">    
-    <end type="SOURCE" refId="7" navigable="false">      
-      <attribute id="13" name="noticeDao"/>      
+    <end type="SOURCE" refId="6" navigable="false">      
+      <attribute id="13" name="planDao"/>      
       <multiplicity id="14" minimum="0" maximum="1"/>    
     </end>    
     <end type="TARGET" refId="4" navigable="true"/>    
     <display labels="true" multiplicity="true"/>  
   </association>  
   <association id="15">    
-    <end type="SOURCE" refId="1" navigable="false">      
-      <attribute id="16" name="noticeService"/>      
-      <multiplicity id="17" minimum="0" maximum="1"/>    
-    </end>    
-    <end type="TARGET" refId="8" navigable="true"/>    
-    <display labels="true" multiplicity="true"/>  
-  </association>  
-  <association id="18">    
     <end type="SOURCE" refId="2" navigable="false">      
-      <attribute id="19" name="noticeService"/>      
-      <multiplicity id="20" minimum="0" maximum="1"/>    
-    </end>    
-    <end type="TARGET" refId="8" navigable="true"/>    
-    <display labels="true" multiplicity="true"/>  
-  </association>  
-  <association id="21">    
-    <end type="SOURCE" refId="7" navigable="false">      
-      <attribute id="22" name="fileDao"/>      
-      <multiplicity id="23" minimum="0" maximum="1"/>    
+      <attribute id="16" name="adminPlanService"/>      
+      <multiplicity id="17" minimum="0" maximum="1"/>    
     </end>    
     <end type="TARGET" refId="5" navigable="true"/>    
     <display labels="true" multiplicity="true"/>  
