@@ -306,21 +306,21 @@ function deleteCheck(){
 				return false;
 			}
 			
-			if(UserUpdateForm.currPw.value.length<10){
-				alert("비밀번호는 10자 이상 입력해주세요.");
+			if(UserUpdateForm.currPw.value.length<5){
+				alert("비밀번호는 5자 이상 입력해주세요.");
 				UserUpdateForm.newPw.focus();
 				return false;
 			}
 			
-			if(UserUpdateForm.newPw.value.length<10){
-				alert("비밀번호는 10자 이상 입력해주세요.");
+			if(UserUpdateForm.newPw.value.length<5){
+				alert("비밀번호는 5자 이상 입력해주세요.");
 				UserUpdateForm.newPw.focus();
 				return false;
 			}
 			if(UserUpdateForm.currPw.value != "" &&
 					UserUpdateForm.newPw.value != "" &&
 					UserUpdateForm.newPwCheck.value != ""){
-				if (UserUpdateForm.afterCheckCurrPw.value == "현재 비밀번호와 일치"){	
+				if (UserUpdateForm.afterCheckCurrPw.value == "현재 비밀번호와 일치합니다."){	
 					$("#UserUpdateForm").submit();
 				}	
 			}
@@ -346,7 +346,7 @@ function deleteCheck(){
 			},
 			success : function(result){
 				if(result == 2){
-					$("#afterCheckCurrPw").val("현재 비밀번호와 일치하지않습니다.");
+					$("#afterCheckCurrPw").val("현재 비밀번호와 일치하지 않습니다.");
 					$("#afterCheckCurrPw").css("color", "red");
 					$("#userUpdateSubmit").prop("disabled",true);
 				} else {

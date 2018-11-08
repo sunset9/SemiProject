@@ -46,7 +46,7 @@ public class UserLoginController extends HttpServlet {
 				
 				//유저 정보 얻어오기
 				User user = userService.getUserByid(param);
-				System.out.println("loginController user : "+user);
+				//System.out.println("loginController user : "+user);
 				
 				HttpSession session = req.getSession();
 	

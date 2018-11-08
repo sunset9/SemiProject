@@ -34,11 +34,11 @@ public class MainController extends HttpServlet {
 		System.out.println("--------------- MainController 시작 ---------------");
 		// 추천콘텐츠 리스트 가져오기(공개된 글만)
 		List<Plan> recomPlanList = conService.getRecomList();
-		System.out.println("MainController recomPlanList : "+recomPlanList);
+		//System.out.println("MainController recomPlanList : "+recomPlanList);
 		
 		// 최신콘텐츠 리스트 가져오기(공개된 글만)
 		List<Plan> newestPlanList = conService.getNewList();
-		System.out.println("MainController newestPlanList : "+newestPlanList);
+		//System.out.println("MainController newestPlanList : "+newestPlanList);
 		
 		// 리스트 정보 저장하기
 		req.setAttribute("recomPlanList", recomPlanList);
