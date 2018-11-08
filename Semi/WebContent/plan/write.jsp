@@ -83,6 +83,15 @@
 	  border-radius: 50%;
 	}
 	
+	#btnOkOnDateChange {
+		background-image: linear-gradient(to bottom, #50b69c 0,#429480 100%);
+   		border-color: #28715e;
+	}
+	
+	#btnOkOnDateChange:hover {
+		background: #429480;
+    	border-color: #28715e;
+	}
 	 
 	/* 검색, 검색 결과 */ 
 	#googleSearch{
@@ -544,9 +553,6 @@ $(document).ready(function() {
 		var alertStartDate = moment(changedStartDate) > moment(beforeStartDate);
 		// 바뀐 종료일이 기족 종료일보다 작은 경우(과거인 경우)
 		var alertEndDate = moment(changedEndDate) <  moment(beforeEndDate);
-		
-		console.log(moment(changedEndDate));
-		console.log(moment(beforeEndDate));
 		
 		if( alertStartDate || alertEndDate ){
 			// 경고창 띄워주기
