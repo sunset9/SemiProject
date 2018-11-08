@@ -265,7 +265,7 @@ function getDiffDay(ttbStartDate, planStartDate ){
 // 브라우저에 띄워진 모든 타임테이블 리스트 가져오기
 function getTimetablesFromBrowser(){
 	var events = $("#calendar").fullCalendar('clientEvents');
-//	console.log(events);
+	console.log(events);
 	var timetables = [];
 	
 	events.forEach(function(event){ // 모든 리스트 돌면서 timetable json 하나씩 생성
@@ -338,8 +338,8 @@ function getSortedTtb(timetables){
 function deleteTimetableByDate(changedStartDate, changedEndDate){
 	var timetables = getTimetablesFromBrowser();
 	timetables.forEach(function(ttb){
-	   if( moment(changedStartDate) > moment(ttb.start) 
-			   || moment(changedEndDate) < moment(ttb.end) ){
+	   if( moment(changedStartDate).format("YYYY-MM-DD") > moment(ttb.start).format("YYYY-MM-DD") 
+			   || moment(changedEndDate).format("YYYY-MM-DD") < moment(ttb.end).format("YYYY-MM-DD") ){
 	      $('#calendar').fullCalendar('removeEvents', ttb.id);
 	   } 
 	});
