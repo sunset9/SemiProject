@@ -775,7 +775,12 @@ function numberWithCommas(x) {
 <!-- 	</div> -->
 <!-- 	<div id="viewTitle" > -->
 		<h1 id="titleView">${planView.title }</h1>
-		<h4 id="planRouteView" style="font-size:20px;"> ${cName1 } ${cName2 }</h4> 
+		<c:if test = "${cName1 eq cName2 }">
+		<h4 id="planRouteView" style="font-size:20px;"> ${cName1 }</h4>
+		</c:if>
+		<c:if test = "${cName1 ne cName2 }">
+		<h4 id="planRouteView" style="font-size:20px;"> ${cName1 } ${cName2 }</h4>
+		 </c:if>
 		<h4 id="dateView" style="font-size:20px;">${planView.start_date } ~ ${planView.end_date }</h4>
 		<h4 id="traveledView" style="font-size:15px;">
 			<c:if test="${planView.traveled eq 1 }">여행 전</c:if>
