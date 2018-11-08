@@ -36,6 +36,7 @@ public class UserDaoImpl implements UserDao{
 			sql += " AND id = ?";
 			sql += " AND password = ?";
 		}
+		sql += " AND status = 1";
 		
 		//DB 객체
 		PreparedStatement ps = null; 
@@ -1105,6 +1106,56 @@ public class UserDaoImpl implements UserDao{
 		}
 					
 		
+	}
+	
+	//status 확인
+	@Override
+	public int checkStatus(User user) {
+		String sql = "";
+		sql += "SELECT COUNT(*) FROM userinfo";
+		sql += " WHERE 1=1";
+		sql += " AND id = ?";
+		sql += " AND password = ?";
+		sql += " AND status = 1";
+		
+		//위 쿼리에 해당하면 아이디, 비번 맞고 현재 존재하는 회원
+		
+
+		//DB 객체
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+
+		int cnt = -1;
+
+		try {
+			// DB작업
+			ps = conn.prepareStatement(sql);
+			if (user.getId() != null) {
+				ps.setString(1, user.getId());
+			}
+			rs = ps.executeQuery();
+
+			rs.next();
+
+			//System.out.println("UserDaoImpl checkid() : "+rs.getInt(1));
+			cnt = rs.getInt(1);
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				// DB객체 닫기
+				if (rs != null)
+					rs.close();
+				if (ps != null)
+					ps.close();
+
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+
+		return cnt;
 	}
 
 

@@ -43,6 +43,9 @@ public interface UserService {
 	//이메일 중복확인
 	public boolean checkid(User user);
 	
+	//status 확인 
+	public boolean checkStatus(User user);
+	
 	//유저정보수정 
 	public void updateUserInfo(Map<String, String> param);
 	

@@ -38,6 +38,9 @@ public interface UserDao {
 	//회원 아이디 중복 조회
 	public int checkid(User user);
 	
+	//status 확인 
+	public int checkStatus(User user);
+	
 	//닉네임 수정
 	public void changeNick(User user);
 	

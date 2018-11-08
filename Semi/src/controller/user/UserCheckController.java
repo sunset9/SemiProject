@@ -57,15 +57,20 @@ public class UserCheckController extends HttpServlet {
 		
 		boolean checkPw = uService.checkPw(inputUser); //true는 비번맞음, false면 비번틀림
 		
+		boolean checkStatus = uService.checkStatus(inputUser);
+		
 		if(checkId == true) {
 			//아이디 존재하지 않음, 로그인 실패
 			resp.getWriter().write('1');
 		} else if (checkId == false && checkPw == false){
 			//아이디는 존재하지만 비밀번호가 틀릴때
 			resp.getWriter().write('2');
-		} else if (checkId == false && checkPw == true) {
+		} else if (checkId == false && checkPw == true && checkStatus == true) {
 			//아이디가 존재하며 비밀번호도 맞을때 -> 로그인 성공!
 			resp.getWriter().write('3');
+		} else if (checkId == false && checkPw == true && checkStatus == false) {
+			//아이디가 존재하고, 비밀번호도 맞는데 status는 0일때 -> 존재하지 않는 회원
+			resp.getWriter().write('4');
 		}
 		
 		

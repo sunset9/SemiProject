@@ -661,6 +661,9 @@ body {
 					/* 아이디가 존재하며 비밀번호도 맞을때 -> 로그인 성공! */
 					/* $("#afterLoginCheck").val("로그인 성공"); */
 					$("#mainLoginForm").submit();
+				} else if (result == 4) {
+					$("#afterLoginCheck").val("존재하지 않는 email입니다.");
+					$("#afterLoginCheck").css("color", "red");
 				}
 			}
 		});

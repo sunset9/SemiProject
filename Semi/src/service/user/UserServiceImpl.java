@@ -164,6 +164,18 @@ public class UserServiceImpl implements UserService {
 		}
 	}
 
+	//status 확인
+		@Override
+		public boolean checkStatus(User user) {
+			if(userDao.checkStatus(user) == 1) {
+				//존재하는 회원
+				return true;
+			} else {
+				//존재하지 않는 회원
+				return false;
+			}
+		}
+	
 	//닉네임 변경
 	@Override
 	public void changeNick(Map<String, String> param) {
@@ -356,5 +368,7 @@ public class UserServiceImpl implements UserService {
 		
 		return user;
 	}
+
+
 
 }
