@@ -12,7 +12,7 @@ public class DBConn {
 	private static final String PASSWORD = "tiger";
 
 	// DB 연결 객체
-	private static Connection conn = null; //연결객체
+	private static Connection conn = null; //연결객체	
 	
 	// private 생성자
 	private DBConn() { }
