@@ -97,7 +97,7 @@ function getTodayDate(){
 	height: 100%; /* Full height */
 	overflow: auto; /* Enable scroll if needed */
 	background-color: rgb(0, 0, 0); /* Fallback color */
-	background-color: rgba(0, 0, 0, 0.4); /* Black w/ opacity */
+	background-color: rgba(0, 0, 0, 0); /* Black w/ opacity */
 }
 
 .modal-content {
@@ -109,6 +109,9 @@ function getTodayDate(){
 	width: 370px;
 	height: auto;
 	border-radius: 7px;
+	top: 132px;
+    right: -315px;
+    
 }
 /* The Close Button */
 .close {

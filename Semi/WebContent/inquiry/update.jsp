@@ -15,7 +15,7 @@ $(document).ready(function () {
 		submitContents($("#btnUpdate"));
 		
 		//submit
-		$("form").submit();
+		$("#inquiryUpdateForm").submit();
 		
 	});
 	
@@ -109,7 +109,7 @@ table{
 <hr>
 
 <div>
-<form action="/inquiry/update"  method="post" enctype="multipart/form-data">
+<form action="/inquiry/update"  method="post" enctype="multipart/form-data" id="inquiryUpdateForm">
 <input type="hidden" name = "inq_idx" value= "${inquiry.inq_idx }"/>
 <div class="inqContent">
 <table > 
