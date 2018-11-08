@@ -21,6 +21,9 @@
 			<c:if test="${user.user_idx eq comment.user_idx}">
 				<span class="glyphicon glyphicon-remove-sign commentRemoveBtn" onmousedown="st_mdown($(this))" onmouseleave="st_mleave($(this))" onmouseover="st_mover($(this))" onclick="removeComm(${comment.comm_idx},${comment.story_idx},${comment.plan_idx})"></span>
 			</c:if>
+			<c:if test="${user.grade eq '관리자'}">
+				<span class="glyphicon glyphicon-remove-sign commentRemoveBtn" onmousedown="st_mdown($(this))" onmouseleave="st_mleave($(this))" onmouseover="st_mover($(this))" onclick="removeComm(${comment.comm_idx},${comment.story_idx},${comment.plan_idx})"></span>
+			</c:if>
 			</td>
 		</tr>
 		<tr class="storytr">
