@@ -68,7 +68,7 @@ function viewMap(timetable, timetables){
 	
 	var locations = [];
 	var bounds  = new google.maps.LatLngBounds();
-	var minZoomLv = 16;
+	var minZoomLv = 16; // 최대 줌 레벨
 	var diffDay = 0;
 	var isExistSameDayTtb = false;
     var labelIdx = 1;
@@ -103,7 +103,7 @@ function viewMap(timetable, timetables){
 				url: '/resources/img/mapMarker/' + (labelIdx++) +'g.png', // url
 				scaledSize: new google.maps.Size(30, 32), // scaled size
 				origin: new google.maps.Point(0, 0), // origin
-				anchor: new google.maps.Point(8, 15) // anchor
+				anchor: new google.maps.Point(13, 15) // anchor
 		};
 		
 		var marker = new google.maps.Marker({
@@ -136,7 +136,7 @@ function viewMap(timetable, timetables){
 	// 경로 그리기
 	route = new google.maps.Polyline({
 		path: locations,
-		strokeColor: '#4FB99F',
+		strokeColor: '#068587',
 		strokeOpacity: 1.0,
 		strokeWeight: 2
 	});
@@ -311,22 +311,22 @@ function viewDetails(placeRes, status, prediction){
 		// 드래그 가능하게 설정
 		resDiv.draggable({
 			zIndex: 999,
-			revert: true,		// will cause the event to go back to its
+			revert: true,	
 			revertDuration: 0,  //  되돌려지는 시간
 			scroll: true // true: 드래그 요소 창 밖으로 끌면 자동으로 스크롤생기면서 아래로내릴 수 있음
 		});
 		
-		// json data 설정
+		// JSON data 설정
 		resDiv.data('event', {
-			id: 0
-			, plan_idx: plan_idx
-			, title: placeRes.name
-			, address: placeRes.formatted_address
-			, country_name: country_name
-			, lat: placeRes.geometry.location.lat()
-			, lng: placeRes.geometry.location.lng()
-			, photo_url: photo_url
-			, place_id: placeRes.place_id
+			id: 0 
+			, plan_idx: plan_idx // 일정 IDX
+			, title: placeRes.name // 장소 이름
+			, address: placeRes.formatted_address // 장소 주소
+			, country_name: country_name // 장소 나라이름
+			, lat: placeRes.geometry.location.lat() // 위도
+			, lng: placeRes.geometry.location.lng() // 경도
+			, photo_url: photo_url // 장소 사진 URL
+			, place_id: placeRes.place_id // 장소정보(location) IDX
 			, stick: true // 드롭한 이벤트 고정 (false: 다음 등의 버튼 누르면 사라짐)
 		});
 		

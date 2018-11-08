@@ -1,4 +1,6 @@
-var i = 0;
+//새로운 일정 id값 지정을 위한 변수
+var id_idx = -1;
+
 function initFullCalendar(planStartDate, planEndDate, isFirst){
 	var timetables;
 	if(isFirst){
@@ -8,9 +10,6 @@ function initFullCalendar(planStartDate, planEndDate, isFirst){
 		timetables = getTimetablesFromBrowser();
 		$('#calendar').fullCalendar('destroy');
 	}
-	
-	//새로운 일정 id값 지정을 위한 변수
-	var id_idx = -1;
 	
 	// 타임테이블 init
 	$('#calendar').fullCalendar({
