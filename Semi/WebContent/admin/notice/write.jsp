@@ -34,7 +34,7 @@ $(document).ready(function () {
 		submitContents($("#btnWrite"));
 		
 		//submit
-		$("form").submit();
+		$("#adminNoticeForm").submit();
 		
 	});
 	
@@ -58,7 +58,7 @@ $(document).ready(function () {
 <hr>
 
 <div>
-<form action="/admin/notice/write" method="post" enctype="multipart/form-data">
+<form action="/admin/notice/write" method="post" enctype="multipart/form-data" id="adminNoticeForm">
 <table class="table table-bordered">
 <tr><td class="bg-success">아이디</td><td>${user.id}</td></tr>
 <tr><td class ="bg-success">닉네임</td><td>${user.nickname }</td></tr>

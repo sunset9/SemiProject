@@ -29,7 +29,7 @@ $(document).ready(function () {
 		submitContents($("#btnWrite"));
 		
 		//submit
-		$("form").submit();
+		$("#adminQnaForm").submit();
 		
 	});
 	
@@ -53,7 +53,7 @@ $(document).ready(function () {
 <hr>
 
 <div>
-<form action="/admin/qna/write" method="post" enctype="multipart/form-data">
+<form action="/admin/qna/write" method="post" enctype="multipart/form-data" id="adminQnaForm">
 
 <table class="table table-bordered">
 <tr><td class="bg-success">아이디</td><td>${user.id}</td></tr>
