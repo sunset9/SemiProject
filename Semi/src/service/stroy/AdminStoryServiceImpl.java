@@ -20,7 +20,9 @@ public class AdminStoryServiceImpl implements AdminStoryService {
 
 	@Override
 	public int getCurPage(HttpServletRequest req) {
+		
 		String curPage = req.getParameter("curPage");
+		System.out.println("curpage"+curPage);
 		
 		// null이나 공백이 아닐 때 변수값 반환하기
 		if( curPage != null && !"".equals(curPage)) {

@@ -45,7 +45,7 @@ public class AdminCommentListController extends HttpServlet {
 		int totalCount = adminStoryService.getTotalCount(search);
 				
 		// 페이징 객체 생성 
-		Paging paging = new Paging(totalCount, curPage);
+		Paging paging = new Paging(totalCount, curPage,10);
 				
 		// 페이징 객체에 검색어 적용 
 		paging.setSearch(search);
