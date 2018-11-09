@@ -82,7 +82,7 @@ function deleteComm(comm_idx) {
 <style>
 .wrapper {
 	border: 1px solid black;
-	width: 1500px;
+	width: 1200px;
 	margin :auto;
 	display :grid;
 	grid-template-columns : repeat(12, 1fr);
