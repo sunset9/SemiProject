@@ -36,7 +36,6 @@ public class UserDaoImpl implements UserDao{
 			sql += " AND id = ?";
 			sql += " AND password = ?";
 		}
-		sql += " AND status = 1";
 		
 		//DB 객체
 		PreparedStatement ps = null; 
@@ -1116,7 +1115,6 @@ public class UserDaoImpl implements UserDao{
 		sql += " WHERE 1=1";
 		sql += " AND id = ?";
 		sql += " AND password = ?";
-		
 		
 		//위 쿼리에 해당하면 아이디, 비번 맞고 현재 존재하는 회원
 		
