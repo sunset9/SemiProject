@@ -640,8 +640,56 @@ public class StoryDaoImpl implements StoryDao{
 
 	@Override
 	public int selectCmtCnt(String search) {
+		String sql="";
+		sql +=  "SELECT COUNT (*) FROM (";
+		sql += "SELECT * FROM( ";
+		sql += "SELECT rownum rnum, CL.* FROM ( ";
+		sql+= "SELECT S.comm_idx, S.plan_idx, S.ttb_idx,S.story_idx, ";
+		sql+= "		(SELECT nickname FROM userinfo U WHERE U.user_idx=S.user_idx) nick ,";
+		sql+= "		S.story_comm, l.place_name, S.create_date FROM story_comment S";
+		sql+= "			INNER JOIN timetable T";
+		sql+= "    			ON s.plan_idx = t.plan_idx "; 
+		sql+= "    			AND s.ttb_idx = t.ttb_idx";  
+		sql+= "			INNER JOIN location L";  
+		sql+= "    		ON t.loc_idx = l.loc_idx ORDER BY create_date DESC ) CL";
 		
-		return 10;
+		   if(search!=null && !"".equals(search)) {
+			    
+			  sql+= " WHERE story_comm";
+   		      sql+= " LIKE '%"+search+"%'";
+			
+		   }
+		   
+		   sql+= " ORDER BY rnum";
+		   sql+= ") )";
+		   
+		// DB 객체 생성
+			PreparedStatement ps = null;
+			ResultSet rs = null;
+			// 조회 결과 저장할 변수 생성 =
+			int cnt = 0;
+			
+			try {
+				ps = conn.prepareStatement(sql);
+				rs = ps.executeQuery();
+				
+				rs.next();
+				
+				// 조회 결과중 첫 번째 컬럼값 가져오기
+				cnt = rs.getInt(1);
+				
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}finally {
+				try {
+					if(ps!=null)	ps.close();
+					if(rs!=null)	rs.close();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+			}
+			return cnt;
+		
 	}
 
 	@Override
