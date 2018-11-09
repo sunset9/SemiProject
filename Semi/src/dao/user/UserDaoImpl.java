@@ -1116,7 +1116,7 @@ public class UserDaoImpl implements UserDao{
 		sql += " WHERE 1=1";
 		sql += " AND id = ?";
 		sql += " AND password = ?";
-		sql += " AND status = 1";
+		
 		
 		//위 쿼리에 해당하면 아이디, 비번 맞고 현재 존재하는 회원
 		
@@ -1132,6 +1132,7 @@ public class UserDaoImpl implements UserDao{
 			ps = conn.prepareStatement(sql);
 			if (user.getId() != null) {
 				ps.setString(1, user.getId());
+				ps.setString(2, user.getPassword());
 			}
 			rs = ps.executeQuery();
 
