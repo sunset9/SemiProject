@@ -8,12 +8,12 @@
 <script type="text/javascript">
 
 $(document).ready(function() {
-	$("table").on("click","tbody tr",function(){
-		var notice_idx = $(this).children("td").eq(1).text();
+// 	$("table").on("click","tbody tr",function(){
+// 		var notice_idx = $(this).children("td").eq(1).text();
 		
-		$(location).attr("href","/admin/notice/view?notice_idx="+notice_idx);
+// 		$(location).attr("href","/admin/notice/view?notice_idx="+notice_idx);
 		
-	});
+// 	});
 	$("#btnSearch").click(function() {
 		$(location).attr("href","/admin/notice/list?search="+$("#search").val());
 	});

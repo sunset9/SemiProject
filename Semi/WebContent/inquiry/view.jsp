@@ -11,6 +11,7 @@ $(document).ready(function() {
 	$("#btnList").click(function() {
 		history.back();
 	});
+	
 	$("#btnUpdate").click(function() {
 		$(location).attr("href","/inquiry/update?inq_idx=${inquiry.inq_idx}");
 	});

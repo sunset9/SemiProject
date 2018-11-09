@@ -39,6 +39,9 @@ function checkField(){
 	}
 	if(newPlanForm.editTitleViewInmain.value != "" && newPlanForm.editStartDateInmain.value != "" 
 			&& newPlanForm.editEndDateInmain.value != ""){
+		// 탭(일정, 스토리) 정보 초기화
+		setCookie("isCookieTabClear", "true");
+		
 		$('#newPlanForm').submit();
 	}
 }

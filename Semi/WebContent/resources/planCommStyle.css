@@ -208,7 +208,9 @@ section {
 /* -------------------------------------------- */
 /* 탭관련 */
 #tab-main {
+	
     margin: 0;
+    margin-top: 20px;
     padding: 0;
     float: left;
     list-style: none;
