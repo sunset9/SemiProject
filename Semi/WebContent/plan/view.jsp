@@ -296,7 +296,7 @@ $(document).ready(function() {
 	if(getCookie("isCookieTabClear") == 'true' && performance.navigation.type != 1){
 		// 탭 초기화
 		setCookie('tab','');
-	}
+	} 
 	setCookie("isCookieTabClear", "true");
 	
 	// 브라우저에 timetable 그려주기

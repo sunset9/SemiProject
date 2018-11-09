@@ -41,7 +41,7 @@ public class BookmarkDeleteController extends HttpServlet {
 		bService.deleteBookmark(book);
 		System.out.println(book);
 		
-//		resp.sendRedirect("/plan?plan_idx="+req.getParameter("plan_idx"));
-		resp.sendRedirect("/user/myPage");
+		resp.sendRedirect("/plan?plan_idx="+req.getParameter("plan_idx"));
+//		resp.sendRedirect("/user/myPage");
 	}
 }
